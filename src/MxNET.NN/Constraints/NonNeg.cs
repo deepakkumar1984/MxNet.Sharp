@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.NN.Backend;
+using MxNet.DotNet;
 
 namespace SiaDNN.Constraints
 {

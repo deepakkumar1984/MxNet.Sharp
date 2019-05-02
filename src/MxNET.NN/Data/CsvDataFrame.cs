@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
-using MxNet.NN.Backend;
+using MxNet.DotNet;
 
 namespace MxNet.NN.Data
 {

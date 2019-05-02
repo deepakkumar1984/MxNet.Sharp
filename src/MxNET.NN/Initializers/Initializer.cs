@@ -1,4 +1,4 @@
-﻿using MxNet.NN.Backend;
+﻿using MxNet.DotNet;
 using System;
 
 // ReSharper disable once CheckNamespace

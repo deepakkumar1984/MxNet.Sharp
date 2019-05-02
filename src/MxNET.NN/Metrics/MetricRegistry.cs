@@ -14,6 +14,9 @@ namespace MxNet.NN.Metrics
                 case MetricType.Accuracy:
                     metric = new Accuracy();
                     break;
+                case MetricType.BinaryAccuracy:
+                    metric = new BinaryAccuracy();
+                    break;
                 case MetricType.MeanSquaredError:
                     metric = new MSE();
                     break;

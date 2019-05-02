@@ -50,6 +50,7 @@ namespace MxNet.NN
     {
         None,
         Accuracy,
+        BinaryAccuracy,
         MeanSquaredError,
         MeanAbsoluteError,
         MeanAbsolutePercentageError,

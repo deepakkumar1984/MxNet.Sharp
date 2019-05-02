@@ -1,6 +1,6 @@
 ﻿using SiaDNN.Constraints;
 using SiaDNN.Initializers;
-using MxNet.NN.Backend;
+using MxNet.DotNet;
 using MxNet.NN.Regularizers;
 using System;
 using System.Collections.Generic;
@@ -85,7 +85,7 @@ namespace MxNet.NN.Layers
 
             return Operators.Convolution(ID, x, Symbol.Variable(weightName), Symbol.Variable(biasName), new Shape(KernalSize.Item1, KernalSize.Item2, KernalSize.Item3), Filters, 
                                         new Shape(Strides.Item1, Strides.Item2, Strides.Item3), new Shape(DialationRate.Item1, DialationRate.Item2, DialationRate.Item3), pad, 
-                                        1, 1024, false, ConvolutionCudnnTune.None, !GlobalParam.UseCudnn, DataFormat);
+                                        1, 1024, false, ConvolutionCudnnTune.None, !Global.UseCudnn, DataFormat);
         }
     }
 }

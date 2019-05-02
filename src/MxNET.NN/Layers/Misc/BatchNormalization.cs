@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SiaDNN.Constraints;
 using SiaDNN.Initializers;
-using MxNet.NN.Backend;
+using MxNet.DotNet;
 using MxNet.NN.Regularizers;
 
 namespace MxNet.NN.Layers.Misc
@@ -75,7 +75,7 @@ namespace MxNet.NN.Layers.Misc
             RegularizerParams.Add(gamma, GammaRegularizer);
 
             return Operators.BatchNorm(ID, x, Symbol.Variable(gamma), Symbol.Variable(beta), Symbol.Variable(movingMean), Symbol.Variable(movingVar),
-                                        Epsilon, Momentum, Center, Scale, false, Axis, !GlobalParam.UseCudnn);
+                                        Epsilon, Momentum, Center, Scale, false, Axis, !Global.UseCudnn);
         }
     }
 }

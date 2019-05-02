@@ -1,4 +1,4 @@
-﻿using MxNet.NN.Backend;
+﻿using MxNet.DotNet;
 using System;
 using System.Collections.Generic;
 
@@ -9,25 +9,24 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
             Context context = Context.Cpu();
-            MxNet.NN.GlobalParam.Device = context;
+            Global.Device = context;
 
-            Symbol x = Symbol.Variable("x");
-            Symbol w = Symbol.Variable("w");
+            Symbol a = Symbol.Variable("a");
             Symbol b = Symbol.Variable("b");
+            
 
-            Symbol y = w * x;
+            Symbol y = 2 * a  + b;
 
             var dict = new SortedDictionary<string, NDArray>();
             y.InferArgsMap(context, dict, dict);
 
-            dict["x"] = new NDArray(new float[] { 3 }, new Shape(1));
-            dict["w"] = new NDArray(new float[] { 2 }, new Shape(1));
-            dict["b"] = new NDArray(new float[] { 1 }, new Shape(1));
+            dict["a"] = new NDArray(new float[] { 1, 2 }, new Shape(2));
+            dict["b"] = new NDArray(new float[] { 2, 3 }, new Shape(2));
 
             var exec = y.SimpleBind(MxNet.NN.GlobalParam.Device, dict);
             
             exec.Forward(true);
-            exec.Backward();
+            exec.Backward(exec.Outputs);
             
             var y_data = exec.Outputs[0];
             Console.ReadLine();

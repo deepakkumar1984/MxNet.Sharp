@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.NN.Backend;
+using MxNet.DotNet;
 
 namespace MxNet.NN.Layers
 {
@@ -29,7 +29,7 @@ namespace MxNet.NN.Layers
                 pad = new Shape(Padding.Value);
             }
 
-            return Operators.Pooling(ID, x, new Shape(PoolSize), PoolingPoolType.Max, false, GlobalParam.UseCudnn, 
+            return Operators.Pooling(ID, x, new Shape(PoolSize), PoolingPoolType.Max, false, Global.UseCudnn, 
                                     PoolingPoolingConvention.Valid, new Shape(Strides), pad);
         }
     }

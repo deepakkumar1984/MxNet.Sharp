@@ -1,4 +1,4 @@
-﻿using MxNet.NN.Backend;
+﻿using MxNet.DotNet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +12,7 @@ namespace MxNet.NN
         public void Fit(DataIter train, uint epochs=1, uint batchSize=32, DataIter validation = null, bool shuffle = false)
         {
             var args = new SortedDictionary<string, NDArray>();
+            var argGrads = new SortedDictionary<string, NDArray>();
             string labelName = "label";
             var label = Symbol.Variable(labelName);
             
@@ -22,12 +23,13 @@ namespace MxNet.NN
             args["X"] = new NDArray(new Shape(inputShape.ToArray()));
             args[labelName] = new NDArray(new Shape(batchSize));
             
-            CompiledModel.InferArgsMap(GlobalParam.Device, args, args);
+            CompiledModel.InferArgsMap(Global.Device, args, args);
             
             var defaultInitializer = new SiaDNN.Initializers.GlorotUniform();
 
             foreach (var arg in args)
             {
+                argGrads.Add(arg.Key, new NDArray(arg.Value.GetShape()));
                 if (ParamInitializers.ContainsKey(arg.Key))
                 {
                     ParamInitializers[arg.Key].Operator(arg.Key, arg.Value);
@@ -40,7 +42,7 @@ namespace MxNet.NN
 
             ModelOptimizer.SetParam("rescale_grad", 1.0 / batchSize);
 
-            using (var exec = CompiledModel.SimpleBind(GlobalParam.Device, args))
+            using (var exec = CompiledModel.SimpleBind(Global.Device, args, argGrads))
             {
                 var argNames = CompiledModel.ListArguments();
 
@@ -66,8 +68,7 @@ namespace MxNet.NN
                         
                         // Compute gradients
                         exec.Forward(true);
-                        
-                        exec.Backward();
+                        exec.Backward(exec.Outputs);
                         // Update parameters
                         for (var i = 0; i < argNames.Count; ++i)
                         {
@@ -99,14 +100,14 @@ namespace MxNet.NN
                     }
 
 
-                    var duration = sw.ElapsedMilliseconds / 1000.0;
+                    var duration = sw.ElapsedMilliseconds == 0 ? 1 : sw.ElapsedMilliseconds;
                     if (validation == null)
                     {
-                        Logging.LG($"Epoch: {iter} {Convert.ToInt32(samples / duration)} samples/sec Train_Metric: {TrainMetric.Get()}");
+                        Logging.LG($"Epoch: {iter} {Convert.ToInt32(samples * 1000 / duration)} samples/sec Train_Metric: {TrainMetric.Get()}");
                     }
                     else
                     {
-                        Logging.LG($"Epoch: {iter} {Convert.ToInt32(samples / duration)} samples/sec, Train_Metric: {TrainMetric.Get()},  Val_Metric: {Metric.Get()}");
+                        Logging.LG($"Epoch: {iter} {Convert.ToInt32(samples * 1000 / duration)} samples/sec, Train_Metric: {TrainMetric.Get()},  Val_Metric: {Metric.Get()}");
                     }
                 }
             }

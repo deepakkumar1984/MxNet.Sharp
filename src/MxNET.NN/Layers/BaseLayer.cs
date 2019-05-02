@@ -1,6 +1,6 @@
 ﻿using SiaDNN.Constraints;
 using SiaDNN.Initializers;
-using MxNet.NN.Backend;
+using MxNet.DotNet;
 using MxNet.NN.Regularizers;
 using System;
 using System.Collections.Generic;

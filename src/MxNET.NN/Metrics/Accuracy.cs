@@ -1,4 +1,4 @@
-﻿using MxNet.NN.Backend;
+﻿using MxNet.DotNet;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,11 +22,6 @@ namespace MxNet.NN.Metrics
             if (preds == null)
                 throw new ArgumentNullException(nameof(preds));
 
-            //Logging.CHECK_EQ(labels.GetShape().Count, preds.GetShape().Count);
-
-            var len = labels.GetShape()[0];
-            var predData = new float[len];
-            var labelData = new float[len];
             var p = preds.ArgmaxChannel();
             this.SumMetric += NDArray.Mean(NDArray.BroadcastEqual(p, labels)).AsArray()[0];
             this.NumInst += 1;

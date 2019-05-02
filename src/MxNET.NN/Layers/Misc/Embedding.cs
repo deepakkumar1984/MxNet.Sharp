@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SiaDNN.Constraints;
 using SiaDNN.Initializers;
-using MxNet.NN.Backend;
+using MxNet.DotNet;
 using MxNet.NN.Regularizers;
 
 namespace MxNet.NN.Layers.Misc
