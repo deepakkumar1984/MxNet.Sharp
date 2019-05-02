@@ -17,7 +17,7 @@ namespace MxNet.NN.Layers
 
         public Symbol Build(Symbol data)
         {
-            return Operators.transpose(ID, data);
+            return ops.Transpose(data);
         }
         
     }

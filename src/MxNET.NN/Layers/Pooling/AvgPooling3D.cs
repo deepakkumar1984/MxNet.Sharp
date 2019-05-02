@@ -29,8 +29,8 @@ namespace MxNet.NN.Layers
                 pad = new Shape(Padding.Value);
             }
 
-            return Operators.Pooling(ID, x, new Shape(PoolSize.Item1, PoolSize.Item2, PoolSize.Item3), PoolingPoolType.Avg, false, Global.UseCudnn, 
-                                    PoolingPoolingConvention.Valid, new Shape(Strides.Item1, Strides.Item2, Strides.Item3), pad);
+            return ops.NN.Pooling(x, new Shape(PoolSize.Item1, PoolSize.Item2, PoolSize.Item3), PoolingPoolType.Avg, false, Global.UseCudnn, 
+                                    PoolingPoolingConvention.Valid, new Shape(Strides.Item1, Strides.Item2, Strides.Item3), pad, 0, true, ConvolutionLayout.None, ID);
         }
     }
 }

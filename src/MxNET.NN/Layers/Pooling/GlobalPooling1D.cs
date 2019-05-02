@@ -17,8 +17,8 @@ namespace MxNet.NN.Layers
 
         public Symbol Build(Symbol x)
         {
-            return Operators.Pooling(ID, x, new Shape(), PoolingType, true, Global.UseCudnn, 
-                                    PoolingPoolingConvention.Valid, new Shape(), new Shape());
+            return ops.NN.Pooling(x, new Shape(), PoolingType, true, Global.UseCudnn, 
+                                    PoolingPoolingConvention.Valid, new Shape(), new Shape(), 0, true, ConvolutionLayout.None, ID);
         }
     }
 }

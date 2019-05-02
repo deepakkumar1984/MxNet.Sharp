@@ -15,7 +15,7 @@ namespace MxNet.NN.Layers
 
         public Symbol Build(Symbol data)
         {
-            return Operators.Flatten(ID, data);
+            return ops.NN.Flatten(data, ID);
         }
         
     }

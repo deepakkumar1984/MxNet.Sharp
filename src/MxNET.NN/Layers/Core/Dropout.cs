@@ -19,7 +19,7 @@ namespace MxNet.NN.Layers
 
         public Symbol Build(Symbol data)
         {
-            return Operators.Dropout(ID, data, Rate, Mode);
+            return ops.NN.Dropout(data, Rate, Mode, ID);
         }
         
     }

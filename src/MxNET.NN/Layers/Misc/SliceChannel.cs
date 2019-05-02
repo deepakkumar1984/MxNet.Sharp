@@ -23,7 +23,7 @@ namespace MxNet.NN.Layers
 
         public Symbol Build(Symbol x)
         {
-            return Operators.SliceChannel(ID, x, NumOutputs, Axis, Squeeze);
+            return ops.NN.SliceChannel(x, NumOutputs, Axis, Squeeze, ID);
         }
     }
 }

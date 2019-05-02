@@ -74,8 +74,8 @@ namespace MxNet.NN.Layers.Misc
             RegularizerParams.Add(beta, BetaRegularizer);
             RegularizerParams.Add(gamma, GammaRegularizer);
 
-            return Operators.BatchNorm(ID, x, Symbol.Variable(gamma), Symbol.Variable(beta), Symbol.Variable(movingMean), Symbol.Variable(movingVar),
-                                        Epsilon, Momentum, Center, Scale, false, Axis, !Global.UseCudnn);
+            return ops.NN.BatchNorm(x, Symbol.Variable(gamma), Symbol.Variable(beta), Symbol.Variable(movingMean), Symbol.Variable(movingVar),
+                                        Epsilon, Momentum, Center, Scale, false, Axis, !Global.UseCudnn, ID);
         }
     }
 }

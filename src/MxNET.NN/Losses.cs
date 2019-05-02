@@ -7,6 +7,7 @@ namespace MxNet.NN
 {
     public class Losses
     {
+        private static SymbolOps K = new SymbolOps();
         public static Symbol Get(LossType lossType, Symbol preds, Symbol labels)
         {
             switch (lossType)
@@ -50,27 +51,27 @@ namespace MxNet.NN
 
         private static Symbol MeanAbsolutePercentageError(Symbol preds, Symbol labels)
         {
-            Symbol loss = OperatorSupply.Mean(OperatorSupply.Abs(labels - preds) / OperatorSupply.Clip(OperatorSupply.Abs(labels), float.Epsilon, 0));
+            Symbol loss = K.Mean(K.Abs(labels - preds) / K.Clip(K.Abs(labels), float.Epsilon, 0));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("MeanAbsolutePercentageError");
         }
 
         private static Symbol MeanAbsoluteLogError(Symbol preds, Symbol labels)
         {
-            Symbol first_log = OperatorSupply.Log(OperatorSupply.Clip(preds, float.Epsilon, 0) + 1);
-            Symbol second_log = OperatorSupply.Log(OperatorSupply.Clip(labels, float.Epsilon, 0) + 1);
-            Symbol loss = OperatorSupply.Mean(OperatorSupply.Square(first_log - second_log));
+            Symbol first_log = K.Log(K.Clip(preds, float.Epsilon, 0) + 1);
+            Symbol second_log = K.Log(K.Clip(labels, float.Epsilon, 0) + 1);
+            Symbol loss = K.Mean(K.Square(first_log - second_log));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("MeanAbsoluteLogError");
         }
 
         private static Symbol SquaredHinge(Symbol preds, Symbol labels)
         {
-            Symbol loss = OperatorSupply.Mean(OperatorSupply.Square(OperatorSupply.MaximumScalar(1 - (labels * preds), 0)));
+            Symbol loss = K.Mean(K.Square(K.Maximum(1 - (labels * preds), 0)));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("SquaredHinge");
         }
 
         private static Symbol Hinge(Symbol preds, Symbol labels)
         {
-            Symbol loss = OperatorSupply.Mean(OperatorSupply.MaximumScalar(1 - (labels * preds), 0));
+            Symbol loss = K.Mean(K.Maximum(1 - (labels * preds), 0));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("Hinge");
         }
 
@@ -91,15 +92,15 @@ namespace MxNet.NN
 
         private static Symbol KullbackLeiblerDivergence(Symbol preds, Symbol labels)
         {
-            Symbol y_true = OperatorSupply.Clip(labels, float.Epsilon, 1);
-            Symbol y_pred = OperatorSupply.Clip(preds, float.Epsilon, 1);
-            Symbol loss = OperatorSupply.Sum(y_true * OperatorSupply.Log(y_true / y_pred));
+            Symbol y_true = K.Clip(labels, float.Epsilon, 1);
+            Symbol y_pred = K.Clip(preds, float.Epsilon, 1);
+            Symbol loss = K.Sum(y_true * K.Log(y_true / y_pred));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("KullbackLeiblerDivergence");
         }
 
         private static Symbol Poisson(Symbol preds, Symbol labels)
         {
-            Symbol loss = OperatorSupply.Mean(preds - labels * OperatorSupply.Log(preds + float.Epsilon));
+            Symbol loss = K.Mean(preds - labels * K.Log(preds + float.Epsilon));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("Poisson");
         }
     }

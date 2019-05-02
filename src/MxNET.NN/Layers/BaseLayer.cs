@@ -10,6 +10,7 @@ namespace MxNet.NN.Layers
 {
     public abstract class BaseLayer
     {
+        internal SymbolOps ops = new SymbolOps();
         public string Name { get; set; }
 
         public string ID { get; set; }

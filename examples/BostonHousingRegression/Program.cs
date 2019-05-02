@@ -30,7 +30,7 @@ namespace BostonHousingRegression
             DataFrameIter val = new DataFrameIter(valX, valY);
 
             //Build Model
-            var model = new Sequential(13);
+            var model = new Module(13);
             model.Add(new Dense(13, ActivationType.ReLU));
             model.Add(new Dense(20, ActivationType.ReLU));
             model.Add(new Dropout(0.25f));

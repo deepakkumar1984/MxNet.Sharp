@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace MxNet.NN
 {
-    public partial class Sequential
+    public partial class Module
     {
         public void Fit(DataIter train, uint epochs=1, uint batchSize=32, DataIter validation = null, bool shuffle = false)
         {
@@ -23,7 +23,7 @@ namespace MxNet.NN
             args["X"] = new NDArray(new Shape(inputShape.ToArray()));
             args[labelName] = new NDArray(new Shape(batchSize));
             
-            CompiledModel.InferArgsMap(Global.Device, args, args);
+            Model.InferArgsMap(Global.Device, args, args);
             
             var defaultInitializer = new SiaDNN.Initializers.GlorotUniform();
 
@@ -42,9 +42,9 @@ namespace MxNet.NN
 
             ModelOptimizer.SetParam("rescale_grad", 1.0 / batchSize);
 
-            using (var exec = CompiledModel.SimpleBind(Global.Device, args, argGrads))
+            using (var exec = Model.SimpleBind(Global.Device, args, argGrads))
             {
-                var argNames = CompiledModel.ListArguments();
+                var argNames = Model.ListArguments();
 
                 // Start training
                 var sw = new Stopwatch();

@@ -62,11 +62,11 @@ namespace MxNet.NN.Layers
 
             if (Activation != null)
             {
-                return Activation.Build(Operators.FullyConnected(ID, data, Symbol.Variable(weightName), Symbol.Variable(biasName), Dim));
+                return Activation.Build(ops.NN.FullyConnected(data, Symbol.Variable(weightName), Symbol.Variable(biasName), Dim));
             }
             else
             {
-                return Operators.FullyConnected(ID, data, Symbol.Variable(weightName), Symbol.Variable(biasName), Dim);
+                return ops.NN.FullyConnected(data, Symbol.Variable(weightName), Symbol.Variable(biasName), Dim);
             }
         }
     }

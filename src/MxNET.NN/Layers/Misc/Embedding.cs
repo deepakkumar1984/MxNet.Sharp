@@ -36,7 +36,7 @@ namespace MxNet.NN.Layers.Misc
             InitParams.Add(weightName, EmbeddingsInitializer);
             ConstraintParams.Add(weightName, EmbeddingsConstraint);
             RegularizerParams.Add(weightName, EmbeddingsRegularizer);
-            return Operators.Embedding(ID, x, Symbol.Variable(weightName), InputDim, OutputDim);
+            return ops.NN.Embedding(x, Symbol.Variable(weightName), InputDim, OutputDim, EmbeddingDtype.Float32, ID);
         }
     }
 }

@@ -38,7 +38,7 @@ namespace MxNet.NN.Layers
 
         public BaseRegularizer BiasRegularizer { get; set; }
 
-        public Conv2D(uint filters, Tuple<uint, uint> kernalSize, Tuple<uint, uint> strides = null, uint? padding=null, ConvolutionLayout dataFormat = ConvolutionLayout.NCHW, Tuple<uint, uint> dialationRate = null, 
+        public Conv2D(uint filters, Tuple<uint, uint> kernalSize, Tuple<uint, uint> strides = null, uint? padding=null, ConvolutionLayout dataFormat = ConvolutionLayout.None, Tuple<uint, uint> dialationRate = null, 
                     ActivationType activation = ActivationType.Linear, BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null,
                     BaseConstraint kernalConstraint = null, bool useBias = true, BaseInitializer biasInitializer = null, BaseRegularizer biasRegularizer = null,
                     BaseConstraint biasConstraint = null)
@@ -83,9 +83,9 @@ namespace MxNet.NN.Layers
             RegularizerParams.Add(weightName, KernalRegularizer);
             RegularizerParams.Add(biasName, BiasRegularizer);
 
-            return Operators.Convolution(ID, x, Symbol.Variable(weightName), Symbol.Variable(biasName), new Shape(KernalSize.Item1, KernalSize.Item2), Filters, 
+            return ops.NN.Convolution(x, Symbol.Variable(weightName), Symbol.Variable(biasName), new Shape(KernalSize.Item1, KernalSize.Item2), Filters, 
                                         new Shape(Strides.Item1, Strides.Item2), new Shape(DialationRate.Item1, DialationRate.Item2), pad, 
-                                        1, 1024, false, ConvolutionCudnnTune.None, !Global.UseCudnn, DataFormat);
+                                        1, 1024, false, ConvolutionCudnnTune.None, !Global.UseCudnn, DataFormat, ID);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace MxNet.NN.Layers
 
         public Symbol Build(Symbol data)
         {
-            return Operators.Reshape(ID, data, TargetShape, Reverse);
+            return ops.NN.Reshape(data, TargetShape, Reverse, ID);
         }
         
     }

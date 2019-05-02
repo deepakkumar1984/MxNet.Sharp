@@ -24,7 +24,7 @@ namespace MNIST
 
             var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize);
             
-            var model = new Sequential(1, 28, 28);
+            var model = new Module(1, 28, 28);
             //model.Add(new Dense(inputDim, ActivationType.ReLU, new GlorotUniform()));
             //model.Add(new Dense(128, ActivationType.ReLU, new GlorotUniform()));
             //model.Add(new Dense(labelCount));

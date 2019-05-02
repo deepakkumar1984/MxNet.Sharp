@@ -83,9 +83,9 @@ namespace MxNet.NN.Layers
             RegularizerParams.Add(weightName, KernalRegularizer);
             RegularizerParams.Add(biasName, BiasRegularizer);
 
-            return Operators.Convolution(ID, x, Symbol.Variable(weightName),
+            return ops.NN.Convolution(x, Symbol.Variable(weightName),
                                             Symbol.Variable(biasName), new Shape(KernalSize), Filters, new Shape(Strides),
-                                            new Shape(DialationRate), pad, 1, 1024, false, ConvolutionCudnnTune.None, !Global.UseCudnn, DataFormat);
+                                            new Shape(DialationRate), pad, 1, 1024, false, ConvolutionCudnnTune.None, !Global.UseCudnn, DataFormat, ID);
         }
     }
 }
