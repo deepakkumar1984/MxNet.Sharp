@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using SiaDNN.Initializers;
+using MxNetLib;
 
 namespace MxNet.NN
 {

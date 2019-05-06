@@ -1,6 +1,6 @@
 ﻿using SiaDNN.Initializers;
 using MxNet.NN;
-using MxNet.DotNet;
+using MxNetLib;
 using MxNet.NN.Data;
 using MxNet.NN.Layers;
 using System;
@@ -11,7 +11,7 @@ namespace MNIST
     {
         static void Main(string[] args)
         {
-            Global.Device = Context.Cpu();
+            MXNet.SetDevice(DeviceType.CPU);
 
             int inputDim = 28 * 28;
             int labelCount = 10;

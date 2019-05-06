@@ -131,6 +131,13 @@ namespace MxNet.DotNet
             return outputs;
         }
 
+        public NDArray InvokeSingle()
+        {
+            var outputs = new List<NDArray>();
+            this.Invoke(outputs);
+            return outputs[0];
+        }
+
         public void Invoke(NDArray output)
         {
             if (output == null)
@@ -222,6 +229,16 @@ namespace MxNet.DotNet
             return this;
         }
 
+        public Operator SetInput(Symbol[] symbols)
+        {
+            foreach (var item in symbols)
+            {
+                this._InputSymbols.Add(item.GetHandle());
+            }
+            
+            return this;
+        }
+
         public Operator SetInput(string name, NDArray ndarray)
         {
             this._InputKeys.Add(name);
@@ -229,8 +246,23 @@ namespace MxNet.DotNet
             return this;
         }
 
+        public Operator SetInput(NDArray[] ndlist)
+        {
+            foreach (var item in ndlist)
+            {
+                this._InputSymbols.Add(item.GetHandle());
+            }
+
+            return this;
+        }
+
         public Operator SetParam(string key, object value)
         {
+            if (value == null)
+            {
+                return this;
+            }
+
             this._Params[key] = value.ToValueString();
             return this;
         }

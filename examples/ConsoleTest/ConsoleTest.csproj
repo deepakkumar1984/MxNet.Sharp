@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MxNET.NN\MxNet.NN.csproj" />
+    <ProjectReference Include="..\..\src\MxNet.DotNet\MxNet.DotNet.csproj" />
   </ItemGroup>
 
 </Project>

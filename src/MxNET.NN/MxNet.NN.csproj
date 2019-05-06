@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MxNet.DotNet\MxNet.DotNet.csproj" />
+    <ProjectReference Include="..\library\MxNetLib\MxNetLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

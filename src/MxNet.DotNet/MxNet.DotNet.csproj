@@ -22,6 +22,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Sym\NN\**" />
+    <EmbeddedResource Remove="Sym\NN\**" />
+    <None Remove="Sym\NN\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Ops\" />
   </ItemGroup>
 

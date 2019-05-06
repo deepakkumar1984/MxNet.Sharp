@@ -81,6 +81,11 @@ namespace MxNet.DotNet
 
         public MXDataIter SetParam(string name, object value)
         {
+            if (value == null)
+            {
+                return this;
+            }
+
             this._Params[name] = value.ToValueString();
             return this;
         }

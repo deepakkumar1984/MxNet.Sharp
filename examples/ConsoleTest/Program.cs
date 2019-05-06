@@ -1,7 +1,7 @@
 ﻿using MxNet.DotNet;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 namespace ConsoleTest
 {
     class Program
@@ -10,27 +10,25 @@ namespace ConsoleTest
         {
             Context context = Context.Cpu();
             Global.Device = context;
-            MXNet mx = new MXNet();
+            //NDArray x_t = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3));
+            NDArray w_t = nd.RandomUniform(new Shape(3, 3));
+            //var y_t = x_t * w_t;
+            Symbol x = new Symbol("x");
+            Symbol w = new Symbol("w");
+
+            var y = sym.Mean(sym.Sqrt(w * x + 2), new Shape(1));
             
-
-            Symbol a = Symbol.Variable("a");
-            Symbol b = Symbol.Variable("b");
-
-
-            //Symbol y = 2 * a  + b;
-            var y = mx.sym.Minimum(a, 3);
-            var dict = new SortedDictionary<string, NDArray>();
-            y.InferArgsMap(context, dict, dict);
-
-            dict["a"] = new NDArray(new float[] { 1, 2, 3, 4, 5, 6 }, new Shape(3, 2));
-            dict["b"] = new NDArray(new float[] { 6, 5, 4, 3, 2, 1 }, new Shape(2, 3));
-
-            var exec = y.SimpleBind(Global.Device, dict);
+            Dictionary<string, NDArray> param = new Dictionary<string, NDArray>();
+            y.InferArgsMap(context, param, param);
             
+            param["x"] = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3));
+            param["w"] = nd.Ones(new Shape(3, 3));
+
+            var exec= y.SimpleBind(context, param);
             exec.Forward(true);
-            exec.Backward(exec.Outputs);
+            exec.Backward();
             
-            var y_data = exec.Outputs[0];
+
             Console.ReadLine();
         }
     }

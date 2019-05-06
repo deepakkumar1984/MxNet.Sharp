@@ -6,6 +6,5 @@ namespace MxNet.DotNet
 {
     public partial class SymbolOps
     {
-        public NeuralNet NN = new NeuralNet();
     }
 }
