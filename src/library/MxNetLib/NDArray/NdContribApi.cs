@@ -33,7 +33,7 @@ namespace MxNetLib
             return new Operator("_contrib_AdaptiveAvgPooling2D")
             .SetParam("output_size", output_size)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -64,7 +64,7 @@ namespace MxNetLib
             .SetParam("scale_height", scale_height)
             .SetParam("scale_width", scale_width)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -95,7 +95,7 @@ namespace MxNetLib
             .SetParam("axis", axis)
             .SetInput("data", data)
             .SetInput("index", index)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribBoxNmsInFormatConvert = new List<string>() { "center", "corner" };
@@ -186,7 +186,7 @@ namespace MxNetLib
             .SetParam("in_format", Util.EnumToString<ContribBoxNmsInFormat>(in_format, ContribBoxNmsInFormatConvert))
             .SetParam("out_format", Util.EnumToString<ContribBoxNmsOutFormat>(out_format, ContribBoxNmsOutFormatConvert))
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribBoxIouFormatConvert = new List<string>() { "center", "corner" };
@@ -221,7 +221,7 @@ namespace MxNetLib
             .SetParam("format", Util.EnumToString<ContribBoxIouFormat>(format, ContribBoxIouFormatConvert))
             .SetInput("lhs", lhs)
             .SetInput("rhs", rhs)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -262,7 +262,7 @@ namespace MxNetLib
             .SetParam("threshold", threshold)
             .SetParam("topk", topk)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -325,7 +325,7 @@ namespace MxNetLib
             .SetParam("max_num_vertices", max_num_vertices)
             .SetInput("csr_matrix", csr_matrix)
             .SetInput(seed_arrays)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -395,7 +395,7 @@ namespace MxNetLib
             .SetInput("csr_matrix", csr_matrix)
             .SetInput("probability", probability)
             .SetInput(seed_arrays)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -439,7 +439,7 @@ namespace MxNetLib
             .SetParam("return_mapping", return_mapping)
             .SetInput("graph", graph)
             .SetInput(data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -477,7 +477,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("u", u)
             .SetInput("v", v)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -507,7 +507,7 @@ namespace MxNetLib
         {
             return new Operator("_contrib_dgl_adjacency")
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -557,7 +557,7 @@ namespace MxNetLib
             .SetParam("return_mapping", return_mapping)
             .SetParam("graph_sizes", graph_sizes)
             .SetInput(graph_data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -577,7 +577,7 @@ namespace MxNetLib
             return new Operator("_contrib_gradientmultiplier")
             .SetParam("scalar", scalar)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -622,7 +622,7 @@ namespace MxNetLib
             .SetInput("old_tensor", old_tensor)
             .SetInput("index_vector", index_vector)
             .SetInput("new_tensor", new_tensor)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -642,7 +642,7 @@ namespace MxNetLib
             return new Operator("_contrib_getnnz")
             .SetParam("axis", axis)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -685,7 +685,7 @@ namespace MxNetLib
             .SetInput("weight", weight)
             .SetInput("grad", grad)
             .SetInput("history", history)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -723,7 +723,7 @@ namespace MxNetLib
             .SetParam("b", b)
             .SetParam("c", c)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -765,7 +765,7 @@ namespace MxNetLib
             .SetParam("position_sensitive", position_sensitive)
             .SetInput("data", data)
             .SetInput("rois", rois)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -849,7 +849,7 @@ namespace MxNetLib
             .SetInput("beta", beta)
             .SetInput("moving_mean", moving_mean)
             .SetInput("moving_var", moving_var)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -867,7 +867,7 @@ namespace MxNetLib
         {
             return new Operator("_contrib_div_sqrt_dim")
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribDequantizeOutTypeConvert = new List<string>() { "float32" };
@@ -903,7 +903,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("min_range", min_range)
             .SetInput("max_range", max_range)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribQuantizeOutTypeConvert = new List<string>() { "int8", "uint8" };
@@ -946,7 +946,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("min_range", min_range)
             .SetInput("max_range", max_range)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribQuantizeV2OutTypeConvert = new List<string>() { "auto", "int8", "uint8" };
@@ -992,7 +992,7 @@ namespace MxNetLib
             .SetParam("min_calib_range", min_calib_range)
             .SetParam("max_calib_range", max_calib_range)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribQuantizedActActTypeConvert = new List<string>() { "relu", "sigmoid", "softrelu", "softsign", "tanh" };
@@ -1019,7 +1019,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("min_data", min_data)
             .SetInput("max_data", max_data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1046,7 +1046,7 @@ namespace MxNetLib
             .SetParam("num_args", num_args)
             .SetParam("dim", dim)
             .SetInput(data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribQuantizedConvCudnnTuneConvert = new List<string>() { "fastest", "limited_workspace", "off" };
@@ -1111,7 +1111,7 @@ namespace MxNetLib
             .SetInput("max_weight", max_weight)
             .SetInput("min_bias", min_bias)
             .SetInput("max_bias", max_bias)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1127,7 +1127,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("min_data", min_data)
             .SetInput("max_data", max_data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1170,7 +1170,7 @@ namespace MxNetLib
             .SetInput("max_weight", max_weight)
             .SetInput("min_bias", min_bias)
             .SetInput("max_bias", max_bias)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribQuantizedPoolingPoolTypeConvert = new List<string>() { "avg", "lp", "max", "sum" };
@@ -1221,7 +1221,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("min_data", min_data)
             .SetInput("max_data", max_data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribRequantizeOutTypeConvert = new List<string>() { "auto", "int8", "uint8" };
@@ -1253,7 +1253,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("min_range", min_range)
             .SetInput("max_range", max_range)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1328,7 +1328,7 @@ namespace MxNetLib
             .SetParam("sparse_grad", sparse_grad)
             .SetInput("data", data)
             .SetInput("weight", weight)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1371,7 +1371,7 @@ namespace MxNetLib
             .SetInput("data", data)
             .SetInput("h", h)
             .SetInput("s", s)
-            .InvokeSingle();
+            .Invoke();
         }
 
         private static readonly List<string> ContribDeformableconvolutionLayoutConvert = new List<string>() { "NCDHW", "NCHW", "NCW" };
@@ -1458,7 +1458,7 @@ namespace MxNetLib
             .SetInput("offset", offset)
             .SetInput("weight", weight)
             .SetInput("bias", bias)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1491,7 +1491,7 @@ namespace MxNetLib
             .SetParam("sample_per_part", sample_per_part)
             .SetParam("trans_std", trans_std)
             .SetParam("no_trans", no_trans)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1519,7 +1519,7 @@ namespace MxNetLib
             return new Operator("_contrib_fft")
             .SetParam("compute_size", compute_size)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1548,7 +1548,7 @@ namespace MxNetLib
             return new Operator("_contrib_ifft")
             .SetParam("compute_size", compute_size)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1585,7 +1585,7 @@ namespace MxNetLib
             .SetInput("cls_prob", cls_prob)
             .SetInput("bbox_pred", bbox_pred)
             .SetInput("im_info", im_info)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1617,7 +1617,7 @@ namespace MxNetLib
             .SetInput("cls_prob", cls_prob)
             .SetInput("loc_pred", loc_pred)
             .SetInput("anchor", anchor)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1644,7 +1644,7 @@ namespace MxNetLib
             .SetParam("steps", steps)
             .SetParam("offsets", offsets)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1674,7 +1674,7 @@ namespace MxNetLib
             .SetInput("anchor", anchor)
             .SetInput("label", label)
             .SetInput("cls_pred", cls_pred)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1711,7 +1711,7 @@ namespace MxNetLib
             .SetInput("cls_prob", cls_prob)
             .SetInput("bbox_pred", bbox_pred)
             .SetInput("im_info", im_info)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -1733,7 +1733,7 @@ namespace MxNetLib
             .SetParam("output_dim", output_dim)
             .SetParam("pooled_size", pooled_size)
             .SetParam("group_size", group_size)
-            .InvokeSingle();
+            .Invoke();
         }
 
 

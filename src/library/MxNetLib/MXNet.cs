@@ -1,6 +1,8 @@
 ﻿using MxNetLib.Interop;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 // ReSharper disable once CheckNamespace
 namespace MxNetLib
@@ -8,6 +10,7 @@ namespace MxNetLib
 
     public sealed partial class MXNet
     {
+        private static readonly string[] DllWhiteList = new[] { "libgcc_s_seh-1.dll", "libgfortran-3.dll", "libquadmath-0.dll", "libopenblas.dll", "libmxnet.dll" };
 
         #region Methods
         public static Context Device { get; set; }
@@ -36,6 +39,21 @@ namespace MxNetLib
                 {
                     Device = Context.Gpu();
                 }
+            }
+        }
+
+        public static void SetMxNetPath(string mxnetFolder)
+        {
+            Environment.SetEnvironmentVariable("MXNET_LIBRARY_PATH", mxnetFolder);
+            var dlls = Directory.EnumerateFiles(mxnetFolder).Select(Path.GetFileName).ToList();
+            
+            foreach (var dllName in DllWhiteList)
+            {
+                if (dlls.Contains(dllName))
+                {
+                    NativeMethods.LoadLibrary(Path.Combine(mxnetFolder, dllName));
+                }
+
             }
         }
 

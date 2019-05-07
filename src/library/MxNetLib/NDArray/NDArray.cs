@@ -152,6 +152,14 @@ namespace MxNetLib
             }
         }
 
+        public uint Dimension
+        {
+            get
+            {
+                return Shape.Dimension;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -254,7 +262,44 @@ namespace MxNetLib
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, null), NativeMethods.OK);
         }
 
-        public void Set(mx_float scalar)
+        public static void Load(string filename, out Dictionary<string, NDArray> data)
+        {
+            data = new Dictionary<string, NDArray>();
+            uint outSize;
+            IntPtr outArrPtr;
+            uint outNameSize;
+            IntPtr outNamesPtr;
+
+            NativeMethods.MXNDArrayLoad(filename, out outSize, out outArrPtr, out outNameSize, out outNamesPtr);
+            NDArrayHandle[] outArr = new NDArrayHandle[outSize];
+            Marshal.Copy(outArrPtr, outArr, 0, (int)outSize);
+
+
+            if (outNameSize == 0)
+            {
+                for (int i = 0; i < outArr.Length; i++)
+                {
+                    data.Add(i.ToString(), new NDArray(outArr[i]));
+                }
+
+            }
+            else
+            {
+                IntPtr[] outNames = new IntPtr[outNameSize];
+                Marshal.Copy(outNamesPtr, outNames, 0, (int)outNameSize);
+
+                for (int i = 0; i < outArr.Length; i++)
+                {
+                    var key = Marshal.PtrToStringAnsi(outNames[i]);
+                    if (!string.IsNullOrEmpty(key))
+                    {
+                        data.Add(key, new NDArray(outArr[i]));
+                    }
+                }
+            }
+        }
+
+        public void Constant(mx_float scalar)
         {
             using (var op = new Operator("_set_value"))
                 op.Set(scalar).Invoke(this);
@@ -311,6 +356,18 @@ namespace MxNetLib
             datagch.Free();
         }
 
+        public void SampleGaussian(float mu = 0, float sigma = 1)
+        {
+            using (var op = new Operator("_random_normal"))
+                op.Set(mu, sigma).Invoke(this);
+        }
+
+        public void SampleUniform(float low = 0f, float high = 1f)
+        {
+            using (var op = new Operator("_random_uniform"))
+                op.Set(low, high).Invoke(this);
+        }
+
         public float[] AsArray()
         {
             ulong size = this.Size;
@@ -320,6 +377,23 @@ namespace MxNetLib
             datagch.Free();
             return data;
         }
+
+        public float[] Values
+        {
+            get
+            {
+                return AsArray();
+            }
+        }
+
+        public float Value
+        {
+            get
+            {
+                return AsArray()[0];
+            }
+        }
+
 
         public static void WaitAll()
         {
@@ -418,17 +492,10 @@ namespace MxNetLib
 
         public NDArray Reshape(Shape shape = null, bool reverse = false)
         {
-            if (shape == null)
-                shape = new Shape();
-            NDArray ret = new NDArray();
-
-            new Operator("Reshape")
-            .SetParam("shape", shape)
-            .SetParam("reverse", reverse)
-            .SetInput("data", this)
-            .Invoke(ret);
-
-            return ret;
+            NDArrayHandle handle;
+            var dims = shape.Data.Select(s => (int)s);
+            NativeMethods.MXNDArrayReshape(this.GetHandle(), (int)shape.Dimension, dims.ToArray(), out handle);
+            return new NDArray(handle);
         }
 
         #endregion

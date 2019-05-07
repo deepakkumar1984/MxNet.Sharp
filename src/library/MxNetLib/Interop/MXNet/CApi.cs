@@ -38,6 +38,9 @@ namespace MxNetLib.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNotifyShutdown();
 
+        [DllImport("Kernel32.dll")]
+        public static extern ExecutorHandle LoadLibrary(string path);
+
         #endregion
 
         #region Part 1: NDArray creation and deletion
@@ -144,6 +147,12 @@ namespace MxNetLib.Interop
                                                 mx_uint slice_end,
                                                 out NDArrayHandle @out);
 
+        [DllImport("libmxnet.dll", EntryPoint = "MXNDArrayReshape", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int MXNDArrayReshape(NDArrayHandle handle,
+            int ndim,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)] int[] dims,
+            out IntPtr @out);
+
         /// <summary>
         /// Perform a synchronize copy from a continugous CPU memory region.
         /// <para>This function will call WaitToWrite before the copy is performed. This is useful to copy data from existing memory region that are not wrapped by NDArray(thus dependency not being tracked).</para>
@@ -221,7 +230,7 @@ namespace MxNetLib.Interop
                                                     int num_inputs,
                                                     NDArrayHandle[] inputs,
                                                     ref int num_outputs,
-                                                    ref NDArrayHandle[] outputs,
+                                                    ref NDArrayHandle outputs,
                                                     int num_params,
                                                     [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_keys,
                                                     [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_vals);

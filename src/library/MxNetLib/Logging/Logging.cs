@@ -67,7 +67,8 @@ namespace MxNetLib
                 message = $"Check failed: {x} {OperatorSymbols[(int)Operator.Equal]} {y} {Marshal.PtrToStringAnsi(error) ?? ""}";
             else
                 message = $"Check failed: {x} {OperatorSymbols[(int)Operator.Equal]} {y} {msg}";
-            //LOG_FATAL(message);
+
+            LOG_FATAL(message);
         }
 
         public static void CHECK_EQ(ulong x, ulong y, string msg = "")

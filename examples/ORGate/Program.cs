@@ -14,11 +14,10 @@ namespace ORGate
             MXNet.SetDevice(DeviceType.CPU);
             uint batchSize = 2;
             var x = Symbol.Variable("x");
-            var y = 2 * x;
             var trainx = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }, new Shape(4, 2));
             var trainy = new NDArray(new float[] { 0, 1, 1, 0 }, new Shape(4, 1));
             NDArrayIter dataIter = new NDArrayIter(trainx, trainy);
-            
+
             var fc1 = sym.FullyConnected(x, Symbol.Variable("fc1_w"),null, 64, no_bias: true, symbol_name: "fc1");
             var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), null, 32, no_bias: true, symbol_name: "fc2"), "relu2");
             var fc3 = sym.Relu(sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), null, 1, no_bias: true, symbol_name: "fc3"), "relu3");
@@ -34,11 +33,10 @@ namespace ORGate
                 if (item.Key == "x" || item.Key == "label")
                     continue;
 
-                //NDArray.SampleUniform(0, 1, item.Value);
-                nd.RandomUniform(shape: item.Value.Shape).CopyTo(item.Value);
+                item.Value.SampleUniform();
             }
             
-            var opt = new AdaDelta();
+            var opt = new Signum();
             BaseMetric metric = new BinaryAccuracy();
             using (var exec = output.SimpleBind(MXNet.Device, parameters))
             {

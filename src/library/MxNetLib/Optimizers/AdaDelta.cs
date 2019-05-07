@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public class AdaDelta : BaseCls
+    public class AdaDelta : BaseOptimizer
     {
         private readonly Dictionary<int, NDArray> accumulators;
 
@@ -42,11 +42,11 @@ namespace MxNetLib.Optimizers
                 delta_accumulators[index] = nd.Zeros(param.Shape);
             }
 
-            accumulators[index] = nd.Square(grad);// (Rho * accumulators[index]) + ((1 - Rho) * nd.Square(grad));
-            //var update = grad * nd.Sqrt(delta_accumulators[index] + Epsilon) / nd.Sqrt(accumulators[index] + Epsilon);
-            //param = param - (LearningRate * update);
+            accumulators[index] = (Rho * accumulators[index]) + ((1 - Rho) * nd.Square(grad));
+            var update = grad * nd.Sqrt(delta_accumulators[index] + Epsilon) / nd.Sqrt(accumulators[index] + Epsilon);
+            param = param - (LearningRate * update);
 
-            //delta_accumulators[index] = Rho * delta_accumulators[index] + (1 - Rho) * nd.Square(update);
+            delta_accumulators[index] = Rho * delta_accumulators[index] + (1 - Rho) * nd.Square(update);
         }
     }
 }

@@ -124,14 +124,7 @@ namespace MxNetLib
             return new Symbol(symbolHandle);
         }
 
-        public List<NDArray> Invoke()
-        {
-            var outputs = new List<NDArray>();
-            this.Invoke(outputs);
-            return outputs;
-        }
-
-        public NDArray InvokeSingle()
+        public NDArray Invoke()
         {
             NDArray output = new NDArray();
             this.Invoke(output);
@@ -149,53 +142,49 @@ namespace MxNetLib
 
         public void Invoke(List<NDArray> outputs)
         {
-            if (outputs == null)
-                throw new ArgumentNullException(nameof(outputs));
+            List<string> paramKeys = new List<string>();
+            List<string> paramValues = new List<string>();
 
-            if (this._InputKeys.Count > 0)
-                Logging.CHECK_EQ(this._InputKeys.Count, this._InputSymbols.Count);
-
-            var keys = this._Params.Keys.ToArray();
-            var paramKeys = new string[keys.Length];
-            var paramValues = new string[keys.Length];
-            for (var index = 0; index < keys.Length; index++)
+            foreach (var data in _Params)
             {
-                var key = keys[index];
-                paramKeys[index] = key;
-                paramValues[index] = this._Params[key];
+                paramKeys.Add(data.Key);
+                paramValues.Add(data.Value);
             }
 
-            var num_inputs = this._InputNdarrays.Count;
-            var num_outputs = outputs.Count;
+            int numInputs = _InputNdarrays.Count;
+            int numOutputs = outputs.Count;
 
-            var output_handles = outputs.Select(array => array.NativePtr).ToArray();
-            NDArrayHandle[] outputsReceiver = null;
-            if (num_outputs > 0)
-                outputsReceiver = output_handles;
-
-            //Logging.CHECK_EQ(NativeMethods.MXImperativeInvoke(this._Handle,
-            //                                                  num_inputs,
-            //                                                  this._InputNdarrays.ToArray(),
-            //                                                  ref num_outputs,
-            //                                                  ref outputsReceiver,
-            //                                                  paramKeys.Length,
-            //                                                  paramKeys,
-            //                                                  paramValues), NativeMethods.OK);
-            NativeMethods.MXImperativeInvoke(this._Handle,
-                                                              num_inputs,
-                                                              this._InputNdarrays.ToArray(),
-                                                              ref num_outputs,
-                                                              ref outputsReceiver,
-                                                              paramKeys.Length,
-                                                              paramKeys,
-                                                              paramValues);
-            var error = NativeMethods.MXGetLastError();
-            var innerMessage = Marshal.PtrToStringAnsi(error);
+            NDArrayHandle[] outputHandles = outputs.Select(s => s.GetHandle()).ToArray();
+            IntPtr outputsReceiver = IntPtr.Zero;
+            GCHandle? gcHandle = null;
             if (outputs.Count > 0)
+            {
+                gcHandle = GCHandle.Alloc(outputHandles, GCHandleType.Pinned);
+                outputsReceiver = gcHandle.Value.AddrOfPinnedObject();
+
+            }
+
+            NDArrayHandle[] outputsReceivers = new NDArrayHandle[] { outputsReceiver };
+
+            NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs, ref outputsReceiver,
+                paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray());
+
+            if (outputs.Count > 0)
+            {
+                gcHandle?.Free();
                 return;
+            }
 
+            outputHandles = new NDArrayHandle[numOutputs];
 
-            outputs.AddRange(outputsReceiver.Select(ptr => new NDArray(ptr)));
+            Marshal.Copy(outputsReceiver, outputHandles, 0, numOutputs);
+
+            foreach (IntPtr outputHandle in outputHandles)
+            {
+                outputs.Add(new NDArray(outputHandle));
+            }
+
+            gcHandle?.Free();
         }
 
         public void PushInput(Symbol symbol)

@@ -54,7 +54,7 @@ namespace MxNetLib
             .SetParam("width", width)
             .SetParam("height", height)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -117,7 +117,7 @@ namespace MxNetLib
         {
             return new Operator("_image_to_tensor")
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -198,7 +198,7 @@ namespace MxNetLib
             .SetParam("mean", mean)
             .SetParam("std", std)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -212,7 +212,7 @@ namespace MxNetLib
         {
             return new Operator("_image_flip_left_right")
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -226,7 +226,7 @@ namespace MxNetLib
         {
             return new Operator("_image_random_flip_left_right")
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -240,7 +240,7 @@ namespace MxNetLib
         {
             return new Operator("_image_flip_top_bottom")
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -254,7 +254,7 @@ namespace MxNetLib
         {
             return new Operator("_image_random_flip_top_bottom")
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -272,7 +272,7 @@ namespace MxNetLib
             .SetParam("min_factor", min_factor)
             .SetParam("max_factor", max_factor)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -290,7 +290,7 @@ namespace MxNetLib
             .SetParam("min_factor", min_factor)
             .SetParam("max_factor", max_factor)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -308,7 +308,7 @@ namespace MxNetLib
             .SetParam("min_factor", min_factor)
             .SetParam("max_factor", max_factor)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -326,7 +326,7 @@ namespace MxNetLib
             .SetParam("min_factor", min_factor)
             .SetParam("max_factor", max_factor)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -348,7 +348,7 @@ namespace MxNetLib
             .SetParam("saturation", saturation)
             .SetParam("hue", hue)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -364,7 +364,7 @@ namespace MxNetLib
             return new Operator("_image_adjust_lighting")
             .SetParam("alpha", alpha)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -380,7 +380,7 @@ namespace MxNetLib
             return new Operator("_image_random_lighting")
             .SetParam("alpha_std", alpha_std)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
 
         ///<summary>
@@ -435,7 +435,7 @@ namespace MxNetLib
             .SetParam("keep_ratio", keep_ratio)
             .SetParam("interp", interp)
             .SetInput("data", data)
-            .InvokeSingle();
+            .Invoke();
         }
     }
 }

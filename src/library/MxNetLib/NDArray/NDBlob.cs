@@ -20,6 +20,11 @@ namespace MxNetLib
             this.NativePtr = handle;
         }
 
+        ~NDBlob()
+        {
+            DisposeUnmanaged();
+        }
+
         #endregion
 
         #region Properties
@@ -34,7 +39,7 @@ namespace MxNetLib
 
         protected override void DisposeUnmanaged()
         {
-            base.DisposeUnmanaged();
+            base.Dispose();
             NativeMethods.MXNDArrayFree(this.NativePtr);
         }
 

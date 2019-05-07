@@ -10,13 +10,12 @@ namespace ConsoleTest
         {
             MXNet.SetDevice(DeviceType.CPU);
             NDArray x = new NDArray(new Shape(32, 32));
-            nd.RandomNormal(shape: x.Shape).CopyTo(x);
 
             for (int i = 1; i <= 100000; i++)
             {
+                x.SampleUniform();
                 x = nd.Square(x);
                 Console.WriteLine(i);
-                x.WaitToRead();
             }
 
             Console.ReadLine();
