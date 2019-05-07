@@ -22,9 +22,9 @@ namespace MxNetLib.Metrics
             if (preds == null)
                 throw new ArgumentNullException(nameof(preds));
 
-            var result = nd.Mean(nd.Square(nd.Log(preds - labels))).AsArray();
+            var result = nd.Mean(nd.Square(nd.Log(preds - labels))).Value;
 
-            this.Values.Add(result.Length > 0 ? result[0] : 0);
+            this.Values.Add(result);
         }
 
         #endregion

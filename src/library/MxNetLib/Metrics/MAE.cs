@@ -22,8 +22,8 @@ namespace MxNetLib.Metrics
             if (preds == null)
                 throw new ArgumentNullException(nameof(preds));
 
-            var result = nd.Mean(nd.Abs(preds - labels)).AsArray();
-            this.Values.Add(result.Length > 0 ? result[0] : 0);
+            var result = nd.Mean(nd.Abs(preds - labels)).Value;
+            this.Values.Add(result);
         }
 
         #endregion

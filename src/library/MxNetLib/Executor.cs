@@ -136,6 +136,14 @@ namespace MxNetLib
             get;
         }
 
+        public NDArray Output
+        {
+            get
+            {
+                return Outputs.First();
+            }
+        }
+
         public IList<NDArray> ArgmentArrays
         {
             get;

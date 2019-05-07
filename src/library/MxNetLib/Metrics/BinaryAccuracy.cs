@@ -23,7 +23,7 @@ namespace MxNetLib.Metrics
                 throw new ArgumentNullException(nameof(preds));
 
             var p = nd.Round(preds);
-            this.Values.Add(nd.Mean(nd.BroadcastEqual(p, labels)).AsArray()[0]);
+            this.Values.Add(nd.Mean(nd.BroadcastEqual(p, labels)).Value);
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace ORGate
     {
         static void Main(string[] args)
         {
-            MXNet.SetDevice(DeviceType.CPU);
+            MXNet.SetDevice(DeviceType.GPU);
             uint batchSize = 2;
             var x = Symbol.Variable("x");
             var trainx = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }, new Shape(4, 2));

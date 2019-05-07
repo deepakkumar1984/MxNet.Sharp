@@ -38,6 +38,8 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
+            else
+                context = MXNet.Device;
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateNone(out var @out), NativeMethods.OK);
 
@@ -49,6 +51,9 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
+            else
+                context = MXNet.Device;
+
             if (handle == NDArrayHandle.Zero)
                 throw new ArgumentException("Can not pass IntPtr.Zero", nameof(handle));
 
@@ -60,6 +65,9 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
+            else
+                context = MXNet.Device;
+
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
 
@@ -68,7 +76,7 @@ namespace MxNetLib
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(arg,
                                                            (uint)arg.Length,
-                                                           (int)context.GetDeviceType(),
+                                                           context.GetDeviceType(),
                                                            context.GetDeviceId(),
                                                            delayAlloc.ToInt32(),
                                                            out var @out), NativeMethods.OK);
@@ -80,12 +88,15 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
+            else
+                context = MXNet.Device;
+
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data,
                                                            shape.Dimension,
-                                                           (int)context.GetDeviceType(),
+                                                           context.GetDeviceType(),
                                                            context.GetDeviceId(),
                                                            delayAlloc.ToInt32(),
                                                            out var @out), NativeMethods.OK);
@@ -97,6 +108,7 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
+
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
             if (shape == null)
@@ -104,12 +116,12 @@ namespace MxNetLib
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data,
                                                            (uint)shape.Dimension,
-                                                           (int)context.GetDeviceType(),
+                                                           context.GetDeviceType(),
                                                            context.GetDeviceId(),
                                                            false.ToInt32(),
                                                            out var @out), NativeMethods.OK);
 
-            NativeMethods.MXNDArraySyncCopyFromCPU(@out, data, shape.Size);
+            NativeMethods.MXNDArraySyncCopyFromCPU(@out, data, (uint)shape.Size);
 
             this.NativePtr = @out;
             this._Blob = new NDBlob(@out);
@@ -124,12 +136,15 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
+            else
+                context = MXNet.Device;
+
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateNone(out var @out), NativeMethods.OK);
 
-            NativeMethods.MXNDArraySyncCopyFromCPU(@out, data.ToArray(), (size_t)data.Count);
+            NativeMethods.MXNDArraySyncCopyFromCPU(@out, data.ToArray(), (uint)data.Count);
 
             this.NativePtr = @out;
             this._Blob = new NDBlob(@out);
@@ -329,7 +344,7 @@ namespace MxNetLib
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, data, size);
+            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, data, (uint)size);
         }
 
         public void SyncCopyFromCPU(mx_float[] data)
@@ -337,7 +352,7 @@ namespace MxNetLib
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, data, (size_t)data.Length);
+            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, data, (uint)data.Length);
         }
 
         public void SyncCopyToCPU(mx_float[] data)
@@ -368,7 +383,7 @@ namespace MxNetLib
                 op.Set(low, high).Invoke(this);
         }
 
-        public float[] AsArray()
+        public Array AsArray()
         {
             ulong size = this.Size;
             var data = new float[size];
@@ -382,7 +397,7 @@ namespace MxNetLib
         {
             get
             {
-                return AsArray();
+                return AsArray().Cast<float>().ToArray();
             }
         }
 
@@ -390,7 +405,7 @@ namespace MxNetLib
         {
             get
             {
-                return AsArray()[0];
+                return AsArray().Cast<float>().ToList()[0];
             }
         }
 
@@ -502,35 +517,13 @@ namespace MxNetLib
 
         public override string ToString()
         {
-            var shape = this.GetShape();
-            var array = new float[this.Size];
-            IntPtr pointer = GCHandle.Alloc(array, GCHandleType.Pinned).AddrOfPinnedObject();
-            using (var tmp = new NDArray(shape))
-            {
-                var cpuArray = tmp;
-                if (this.GetContext().GetDeviceType() != DeviceType.GPU)
-                {
-                    cpuArray = this;
-                    NativeMethods.MXNDArraySyncCopyToCPU(cpuArray._Blob.Handle, pointer, Size);
-                }
-                else
-                {
-                    this.WaitToRead();
-                    this.CopyTo(cpuArray);
-                }
+            var @out = new StringBuilder();
+            @out.Append('[');
+            var data = AsArray().Cast<float>().ToList();
+            @out.Append(string.Join(", ", data.Select(f => f.ToString(CultureInfo.InvariantCulture))));
+            @out.Append(']');
 
-                
-                var @out = new StringBuilder();
-                @out.Append('[');
-                cpuArray.WaitToRead();
-                //var data = cpuArray.GetData();
-                
-                Marshal.Copy(pointer, array, 0, array.Length);
-                @out.Append(string.Join(", ", array.Select(f => f.ToString(CultureInfo.InvariantCulture))));
-                @out.Append(']');
-
-                return @out.ToString();
-            }
+            return @out.ToString();
         }
 
         protected override void DisposeUnmanaged()

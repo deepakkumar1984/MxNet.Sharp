@@ -11,11 +11,12 @@ namespace MNIST
     {
         static void Main(string[] args)
         {
-            MXNet.SetDevice(DeviceType.CPU);
+            Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
+            MXNet.SetDevice(DeviceType.GPU);
 
             int inputDim = 28 * 28;
             int labelCount = 10;
-            uint batchSize = 128;
+            uint batchSize = 32;
 
             string trainImagePath = "./mnist_data/train-images-idx3-ubyte";
             string trainLabelPath = "./mnist_data/train-labels-idx1-ubyte";
@@ -25,9 +26,9 @@ namespace MNIST
             var (train, val) = MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize);
 
             var x = Symbol.Variable("x");
-            x = sym.Flatten(x, "flatten");
-            var fc1 = sym.Relu(sym.FullyConnected(x, Symbol.Variable("fc1_w"), Symbol.Variable("fc1_b"), 128, no_bias: false, symbol_name: "fc1"), "relu1");
-            var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), Symbol.Variable("fc2_b"), 64, no_bias: false, symbol_name: "fc2"), "relu2");
+            //x = sym.Reshape(x, new Shape(batchSize, (uint)inputDim), false, "flatten");
+            var fc1 = sym.Relu(sym.FullyConnected(x, Symbol.Variable("fc1_w"), null, 128, no_bias: true, symbol_name: "fc1"), "relu1");
+            var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), null, 128, no_bias: true, symbol_name: "fc2"), "relu2");
             var fc3 = sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), null, labelCount, no_bias: true, symbol_name: "fc3");
             var output = sym.SoftmaxOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
 
@@ -43,15 +44,16 @@ namespace MNIST
 
                 if (item.Key.EndsWith("_w"))
                 {
-                    item.Value.SampleUniform(-0.01f, 0.01f);
+                    item.Value.SampleUniform(-0.1f, 0.1f);
                 }
+                else
                 {
                     item.Value.Constant(0);
                 }
             }
 
-            var opt = new RMSProp(0.01f);
-            BaseMetric metric = new Accuracy();
+            var opt = new SGD(0.1f);
+            Accuracy metric = new Accuracy();
 
             train.SetBatch(batchSize);
             var argNames = output.ListArguments();
@@ -68,7 +70,7 @@ namespace MNIST
                         batch = train.GetDataBatch();
                         batch.Data.CopyTo(parameters["x"]);
                         batch.Label.CopyTo(parameters["label"]);
-
+                        
                         exec.Forward(true);
                         exec.Backward();
 
@@ -81,7 +83,6 @@ namespace MNIST
                         }
 
                         metric.Update(batch.Label, exec.Outputs.First());
-                        batch = null;
                     }
 
                     Console.WriteLine("Iteration: {0}, Metric: {1}", iter, metric.Get());
@@ -112,14 +113,14 @@ namespace MNIST
                 .SetParam("image", trainImagesPath)
                 .SetParam("label", trainLabelPath)
                 .SetParam("batch_size", batch_size)
-                .SetParam("flat", 1)
+                .SetParam("flat", "1")
                 .CreateDataIter();
 
             var valIter = new MXDataIter("MNISTIter")
                 .SetParam("image", valImagesPath)
                 .SetParam("label", valLabelPath)
                 .SetParam("batch_size", batch_size)
-                .SetParam("flat", 1)
+                .SetParam("flat", "1")
                 .CreateDataIter();
 
             return ValueTuple.Create(trainIter, valIter);

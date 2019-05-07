@@ -3572,7 +3572,7 @@ namespace MxNetLib
         /// <param name="out_grad">Multiplies gradient with output gradient element-wise.</param>
         /// <param name="smooth_alpha">Constant for computing a label smoothed version of cross-entropyfor the backwards pass.  This constant gets subtracted from theone-hot encoding of the gold label and distributed uniformly toall other labels.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol SoftmaxOutput(Symbol data, Symbol label, float grad_scale = 1f, float ignore_label = -1f, bool multi_output = false, bool use_ignore = false, bool preserve_shape = false, SoftmaxoutputNormalization normalization = SoftmaxoutputNormalization.Null, bool out_grad = false, float smooth_alpha = 0f, string symbol_name = "")
+        public static Symbol SoftmaxOutput(Symbol data, Symbol label, float grad_scale = 1f, float ignore_label = -1f, bool multi_output = false, bool use_ignore = false, bool preserve_shape = false, SoftmaxoutputNormalization normalization = SoftmaxoutputNormalization.Valid, bool out_grad = false, float smooth_alpha = 0f, string symbol_name = "")
         {
             return new Operator("SoftmaxOutput")
             .SetParam("grad_scale", grad_scale)

@@ -162,9 +162,7 @@ namespace MxNetLib.Interop
         /// <param name="size">the memory size we want to copy from.</param>
         /// <returns></returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySyncCopyFromCPU(NDArrayHandle handle,
-                                                          mx_float[] data,
-                                                          size_t size);
+        public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.R4)] float[] data, uint size);
 
         /// <summary>
         /// Perform a synchronize copyto a continugous CPU memory region.
@@ -769,12 +767,12 @@ namespace MxNetLib.Interop
         /// <param name="@out">the returning handle</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayCreate(mx_uint[] shape,
-                                                 mx_uint ndim,
-                                                 int dev_type,
-                                                 int dev_id,
-                                                 int delay_alloc,
-                                                 out NDArrayHandle @out);
+        public static extern int MXNDArrayCreate(
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U4)]uint[] shape,
+            uint ndim, DeviceType devType,
+            int devId,
+            int delayAlloc,
+            out IntPtr @out);
 
 
         #endregion
