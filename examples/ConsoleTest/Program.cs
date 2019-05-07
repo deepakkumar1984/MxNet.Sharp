@@ -1,4 +1,5 @@
 ﻿using MxNetLib;
+using MxNetLib.Metrics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace ConsoleTest
         {
             MXNet.SetDevice(DeviceType.GPU);
             NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(9));
-            NDArray y = new NDArray(new float[] { -1, -2, -3, -4, -5, -6, -7, -8, -9 }, new Shape(3, 3)).Reshape(new Shape(9));
+            NDArray y = new NDArray(new float[] { -1, -2, 3, 4, -5, -6, -7, -8 }, new Shape(9));
+            //var acc = new Accuracy();
+            //acc.Update(x, y);
             var eq = nd.Equal(x, y);
             for (int i = 1; i <= 100000; i++)
             {

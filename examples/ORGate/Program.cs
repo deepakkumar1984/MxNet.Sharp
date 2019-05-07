@@ -11,7 +11,7 @@ namespace ORGate
     {
         static void Main(string[] args)
         {
-            MXNet.SetDevice(DeviceType.GPU);
+            MXNet.SetDevice(DeviceType.CPU);
             uint batchSize = 2;
             var x = Symbol.Variable("x");
             var trainx = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }, new Shape(4, 2));
@@ -64,7 +64,7 @@ namespace ORGate
                             opt.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
                         }
 
-                        metric.Update(batch.Label, exec.Outputs.First());
+                        metric.Update(parameters["label"], exec.Output);
                     }
 
                     Console.WriteLine("Iteration: {0}, Metric: {1}", iter, metric.Get());

@@ -23,19 +23,9 @@ namespace MxNetLib.Metrics
                 throw new ArgumentNullException(nameof(preds));
 
             var p = nd.Argmax(preds, 1);
-            
-            NDArray.WaitAll();
-            var eq = nd.Equal(labels, p);
-            List<int> data = new List<int>();
-            for (int i = 0; i < p.Values.Length; i++)
-            {
-                if (p.Values[i] == labels.Values[i])
-                    data.Add(1);
-                else
-                    data.Add(0);
-            }
+            var eq = nd.Equal(p, labels);
 
-            this.Values.Add((float)data.Average());
+            this.Values.Add(eq.Values.Average());
         }
 
         #endregion

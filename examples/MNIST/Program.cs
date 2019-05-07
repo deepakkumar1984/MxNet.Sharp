@@ -11,7 +11,7 @@ namespace MNIST
     {
         static void Main(string[] args)
         {
-            Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
+            //Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
             MXNet.SetDevice(DeviceType.GPU);
 
             int inputDim = 28 * 28;
@@ -26,8 +26,8 @@ namespace MNIST
             var (train, val) = MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize);
 
             var x = Symbol.Variable("x");
-            //x = sym.Reshape(x, new Shape(batchSize, (uint)inputDim), false, "flatten");
-            var fc1 = sym.Relu(sym.FullyConnected(x, Symbol.Variable("fc1_w"), null, 128, no_bias: true, symbol_name: "fc1"), "relu1");
+            var flat = sym.Flatten(x, "flatten");
+            var fc1 = sym.Relu(sym.FullyConnected(flat, Symbol.Variable("fc1_w"), null, 128, no_bias: true, symbol_name: "fc1"), "relu1");
             var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), null, 128, no_bias: true, symbol_name: "fc2"), "relu2");
             var fc3 = sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), null, labelCount, no_bias: true, symbol_name: "fc3");
             var output = sym.SoftmaxOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
@@ -70,10 +70,10 @@ namespace MNIST
                         batch = train.GetDataBatch();
                         batch.Data.CopyTo(parameters["x"]);
                         batch.Label.CopyTo(parameters["label"]);
-                        
                         exec.Forward(true);
                         exec.Backward();
 
+                        metric.Update(parameters["label"], exec.Output);
                         for (var i = 0; i < argNames.Count; ++i)
                         {
                             if (argNames[i] == "x" || argNames[i] == "label")
@@ -81,8 +81,6 @@ namespace MNIST
 
                             opt.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
                         }
-
-                        metric.Update(batch.Label, exec.Outputs.First());
                     }
 
                     Console.WriteLine("Iteration: {0}, Metric: {1}", iter, metric.Get());

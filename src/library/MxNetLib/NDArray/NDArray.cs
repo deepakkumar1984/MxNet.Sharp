@@ -30,6 +30,13 @@ namespace MxNetLib
             }
         }
 
+        public DType DataType
+        {
+            get
+            {
+                return DType.GetType(GetDType());
+            }
+        }
         #endregion
 
         #region Constructors
@@ -196,6 +203,13 @@ namespace MxNetLib
             using (var op = new Operator("_copyto"))
                 op.Set(this).Invoke(other);
             return other;
+        }
+
+        public NDArray ChangeContext(Context ctx)
+        {
+            NDArray result = new NDArray(Shape, true, ctx);
+            CopyTo(result);
+            return result;
         }
 
         public Context GetContext()

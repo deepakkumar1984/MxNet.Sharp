@@ -36,9 +36,7 @@ namespace MxNetLib
                 if (device == DeviceType.CPU)
                     Device = Context.Cpu();
                 else if (device == DeviceType.GPU)
-                {
                     Device = Context.Gpu();
-                }
             }
         }
 

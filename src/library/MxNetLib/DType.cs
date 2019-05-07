@@ -45,5 +45,11 @@ namespace MxNetLib
         {
             return Name;
         }
+
+        public static DType GetType(int index)
+        {
+            return IndexToDTypeMap[index];
+        }
+
     }
 }
