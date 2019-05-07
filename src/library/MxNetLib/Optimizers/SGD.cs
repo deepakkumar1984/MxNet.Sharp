@@ -29,7 +29,7 @@ namespace MxNetLib.Optimizers
             if (!moments.ContainsKey(index))
                 moments[index] = nd.Zeros(param.Shape);
 
-            nd.SgdMomUpdate(param, grad, moments[index], LearningRate, Momentum, DecayRate, 1 / iteration);
+            nd.SgdMomUpdate(param, grad, moments[index], LearningRate, Momentum, DecayRate);
         }
     }
 }

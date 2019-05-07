@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MxNET.NN\MxNet.NN.csproj" />
+    <ProjectReference Include="..\..\src\library\MxNetLib\MxNetLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

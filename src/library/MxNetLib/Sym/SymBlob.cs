@@ -41,7 +41,7 @@ namespace MxNetLib
 
         protected override void DisposeUnmanaged()
         {
-            base.DisposeUnmanaged();
+            base.Dispose();
 
             if (this.NativePtr != IntPtr.Zero)
                 NativeMethods.MXSymbolFree(this.NativePtr);
