@@ -22,8 +22,8 @@ namespace MxNetLib.Metrics
             if (preds == null)
                 throw new ArgumentNullException(nameof(preds));
 
-            var p = NDArray.Round(preds);
-            this.Values.Add(NDArray.Mean(NDArray.BroadcastEqual(p, labels)).AsArray()[0]);
+            var p = nd.Round(preds);
+            this.Values.Add(nd.Mean(nd.BroadcastEqual(p, labels)).AsArray()[0]);
         }
 
         #endregion

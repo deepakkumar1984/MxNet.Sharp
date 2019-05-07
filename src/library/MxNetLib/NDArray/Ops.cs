@@ -1963,7 +1963,7 @@ namespace MxNetLib
         /// <returns>returns new symbol</returns>
         public static NDArray AdamUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, float lr, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, bool lazy_update = true)
         {
-            return new Operator("adam_update")
+            new Operator("adam_update")
             .SetParam("lr", lr)
             .SetParam("beta1", beta1)
             .SetParam("beta2", beta2)
@@ -1976,7 +1976,9 @@ namespace MxNetLib
             .SetInput("grad", grad)
             .SetInput("mean", mean)
             .SetInput("var", var)
-            .InvokeSingle();
+            .Invoke(weight);
+
+            return weight;
         }
 
         ///<summary>
@@ -5056,7 +5058,7 @@ namespace MxNetLib
             return new Operator("elemwise_mul")
             .SetInput("lhs", lhs)
             .SetInput("rhs", rhs)
-            .InvokeSingle();
+            .Invoke()[0];
         }
 
         ///<summary>

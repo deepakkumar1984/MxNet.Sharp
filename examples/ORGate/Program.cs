@@ -1,5 +1,6 @@
 ﻿using MxNetLib;
 using MxNetLib.Metrics;
+using MxNetLib.Optimizers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,15 @@ namespace ORGate
         static void Main(string[] args)
         {
             MXNet.SetDevice(DeviceType.CPU);
-            uint batchSize = 1;
+            uint batchSize = 2;
             var x = Symbol.Variable("x");
             var y = 2 * x;
             var trainx = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }, new Shape(4, 2));
             var trainy = new NDArray(new float[] { 0, 1, 1, 0 }, new Shape(4, 1));
             NDArrayIter dataIter = new NDArrayIter(trainx, trainy);
             
-            var fc1 = sym.FullyConnected(x, Symbol.Variable("fc1_w"),null, 128, no_bias: true, symbol_name: "fc1");
-            var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), null, 64, no_bias: true, symbol_name: "fc2"), "relu2");
+            var fc1 = sym.FullyConnected(x, Symbol.Variable("fc1_w"),null, 64, no_bias: true, symbol_name: "fc1");
+            var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), null, 32, no_bias: true, symbol_name: "fc2"), "relu2");
             var fc3 = sym.Relu(sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), null, 1, no_bias: true, symbol_name: "fc3"), "relu3");
             var output = sym.LogisticRegressionOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
 
@@ -37,22 +38,21 @@ namespace ORGate
                 nd.RandomUniform(shape: item.Value.Shape).CopyTo(item.Value);
             }
             
-            var opt = new SGDOptimizer();
-            
+            var opt = new AdaDelta();
             BaseMetric metric = new BinaryAccuracy();
             using (var exec = output.SimpleBind(MXNet.Device, parameters))
             {
                 dataIter.SetBatch(batchSize);
                 var argNames = output.ListArguments();
-                for (int iter = 0; iter < 10000; iter++)
+                DataBatch batch;
+                for (int iter = 1; iter <= 10000; iter++)
                 {
-                    
                     dataIter.Reset();
                     metric.Reset();
 
                     while (dataIter.Next())
                     {
-                        var batch = dataIter.GetDataBatch();
+                        batch = dataIter.GetDataBatch();
                         batch.Data.CopyTo(parameters["x"]);
                         batch.Label.CopyTo(parameters["label"]);
                         exec.Forward(true);
@@ -63,7 +63,7 @@ namespace ORGate
                             if (argNames[i] == "x" || argNames[i] == "label")
                                 continue;
 
-                            opt.Update(iter++, exec.ArgmentArrays[i], exec.GradientArrays[i]);
+                            opt.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
                         }
 
                         metric.Update(batch.Label, exec.Outputs.First());
@@ -72,9 +72,6 @@ namespace ORGate
                     Console.WriteLine("Iteration: {0}, Metric: {1}", iter, metric.Get());
                 }
             }
-            
-
-            
 
             //Pred data
             //DataFrame train_x = new DataFrame(2);

@@ -75,8 +75,9 @@ namespace MxNetLib
             using (var tmp2 = grad * grad)
             using (var tmp3 = tmp2 * (1.0f - rho))
             {
-                accG.Multiply(rho);
-                accG.Add(tmp3);
+                accG = accG * rho + tmp3;
+                //accG.Multiply(rho);
+                //accG.Add(tmp3);
 
                 using (var tmp4 = accDelta + epsilon)
                 using (var tmp5 = accG + epsilon)
@@ -87,11 +88,13 @@ namespace MxNetLib
                 using (var tmp11 = delta * delta)
                 using (var tmp13 = tmp11 * (1.0f - wd))
                 {
-                    accDelta.Multiply(rho);
-                    accDelta.Add(tmp13);
+                    accDelta = accDelta * rho + tmp13;
+                    //accDelta.Multiply(rho);
+                    //accDelta.Add(tmp13);
 
-                    weight.Multiply(1.0f - wd);
-                    weight.Subtract(delta);
+                    weight = weight * (1 - wd) - delta;
+                    //weight.Multiply(1.0f - wd);
+                    //weight.Subtract(delta);
                 }
             }
         }

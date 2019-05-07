@@ -156,15 +156,6 @@ namespace MxNetLib
 
         #region Methods
 
-        public NDArray ArgmaxChannel()
-        {
-            var ret = new NDArray();
-            using (var op = new Operator("argmax_channel"))
-                op.Set(this).Invoke(ret);
-
-            return ret;
-        }
-
         public NDArray Copy()
         {
             var ret = new NDArray(this.GetShape());
@@ -239,18 +230,6 @@ namespace MxNetLib
             }
 
             return arrayMap;
-        }
-
-        public static void SampleGaussian(mx_float mu, mx_float sigma, NDArray @out)
-        {
-            using (var op = new Operator("_random_normal"))
-                op.Set(mu, sigma).Invoke(@out);
-        }
-
-        public static void SampleUniform(mx_float begin, mx_float end, NDArray @out)
-        {
-            using (var op = new Operator("_random_uniform"))
-                op.Set(begin, end).Invoke(@out);
         }
 
         public static void Save(string fileName, IDictionary<string, NDArray> arrayMap)
@@ -342,7 +321,6 @@ namespace MxNetLib
             return data;
         }
 
-
         public static void WaitAll()
         {
             Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitAll(), NativeMethods.OK);
@@ -358,104 +336,68 @@ namespace MxNetLib
             Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitToWrite(this._Blob.Handle), NativeMethods.OK);
         }
 
-        #region Operators
-
-        public void Add(mx_float scalar)
-        {
-            using (var op = new Operator("_plus_scalar"))
-                op.Set(this, scalar).Invoke(this);
-        }
-
-        public void Add(NDArray rhs)
-        {
-            using (var op = new Operator("_plus"))
-                op.Set(this, rhs).Invoke(this);
-        }
-
-        public void Subtract(mx_float scalar)
-        {
-            using (var op = new Operator("_minus_scalar"))
-                op.Set(this, scalar).Invoke(this);
-        }
-
-        public void Subtract(NDArray rhs)
-        {
-            using (var op = new Operator("_minus"))
-                op.Set(this, rhs).Invoke(this);
-        }
-
-        public void Multiply(mx_float scalar)
-        {
-            using (var op = new Operator("_mul_scalar"))
-                op.Set(this, scalar).Invoke(this);
-        }
-
-        public void Multiply(NDArray rhs)
-        {
-            using (var op = new Operator("_mul"))
-                op.Set(this, rhs).Invoke(this);
-        }
-
-        public void Divide(mx_float scalar)
-        {
-            using (var op = new Operator("_div_scalar"))
-                op.Set(this, scalar).Invoke(this);
-        }
-
-        public void Divide(NDArray rhs)
-        {
-            using (var op = new Operator("_div"))
-                op.Set(this, rhs).Invoke(this);
-        }
-
-        public void Remainder(mx_float scalar)
-        {
-            using (var op = new Operator("_mod_scalar"))
-                op.Set(this, scalar).Invoke(this);
-        }
-
-        public void Remainder(NDArray rhs)
-        {
-            using (var op = new Operator("_mod"))
-                op.Set(this, rhs).Invoke(this);
-        }
-
-        #endregion
-
         #region Overrides
 
         #region Operators
 
+        public static NDArray operator +(NDArray lhs, NDArray rhs)
+        {
+            return nd.ElemwiseAdd(lhs, rhs);
+        }
+
         public static NDArray operator +(NDArray lhs, mx_float scalar)
         {
-            var ret = new NDArray();
-            using (var op = new Operator("_plus_scalar"))
-                op.Set(lhs, scalar).Invoke(ret);
-            return ret;
+            return nd.PlusScalar(lhs, scalar);
+        }
+
+        public static NDArray operator +(mx_float scalar, NDArray rhs)
+        {
+            return nd.PlusScalar(rhs, scalar);
+        }
+
+        public static NDArray operator -(NDArray lhs, NDArray rhs)
+        {
+            return nd.ElemwiseSub(lhs, rhs);
         }
 
         public static NDArray operator -(NDArray lhs, mx_float scalar)
         {
-            var ret = new NDArray();
-            using (var op = new Operator("_minus_scalar"))
-                op.Set(lhs, scalar).Invoke(ret);
-            return ret;
+            return nd.MinusScalar(lhs, scalar);
+        }
+
+        public static NDArray operator -(mx_float scalar, NDArray rhs)
+        {
+            return nd.RminusScalar(rhs, scalar);
+        }
+
+        public static NDArray operator *(NDArray lhs, NDArray rhs)
+        {
+            return nd.ElemwiseMul(lhs, rhs);
         }
 
         public static NDArray operator *(NDArray lhs, mx_float scalar)
         {
-            var ret = new NDArray();
-            using (var op = new Operator("_mul_scalar"))
-                op.Set(lhs, scalar).Invoke(ret);
-            return ret;
+            return nd.MulScalar(lhs, scalar);
+        }
+
+        public static NDArray operator *(mx_float scalar, NDArray rhs)
+        {
+            return nd.MulScalar(rhs, scalar);
+        }
+
+        public static NDArray operator /(NDArray lhs, NDArray rhs)
+        {
+            return nd.ElemwiseDiv(lhs, rhs);
         }
 
         public static NDArray operator /(NDArray lhs, mx_float scalar)
         {
-            var ret = new NDArray();
-            using (var op = new Operator("_div_scalar"))
-                op.Set(lhs, scalar).Invoke(ret);
-            return ret;
+            return nd.DivScalar(lhs, scalar);
+        }
+
+        public static NDArray operator /(mx_float scalar, NDArray rhs)
+        {
+            return nd.RdivScalar(rhs, scalar);
         }
 
         public static NDArray operator %(NDArray lhs, mx_float scalar)
@@ -466,92 +408,11 @@ namespace MxNetLib
             return ret;
         }
 
-        public static NDArray operator +(NDArray lhs, NDArray rhs)
-        {
-            var ret = new NDArray();
-            using (var op = new Operator("_plus"))
-                op.Set(lhs, rhs).Invoke(ret);
-            return ret;
-        }
-
-        public static NDArray operator -(NDArray lhs, NDArray rhs)
-        {
-            var ret = new NDArray();
-            using (var op = new Operator("_minus"))
-                op.Set(lhs, rhs).Invoke(ret);
-            return ret;
-        }
-
-        public static NDArray operator *(NDArray lhs, NDArray rhs)
-        {
-            var ret = new NDArray();
-            using (var op = new Operator("_mul"))
-                op.Set(lhs, rhs).Invoke(ret);
-            return ret;
-        }
-
-        public static NDArray operator /(NDArray lhs, NDArray rhs)
-        {
-            var ret = new NDArray();
-            using (var op = new Operator("_div"))
-                op.Set(lhs, rhs).Invoke(ret);
-            return ret;
-        }
-
         public static NDArray operator %(NDArray lhs, NDArray rhs)
         {
             var ret = new NDArray();
             using (var op = new Operator("_mod"))
                 op.Set(lhs, rhs).Invoke(ret);
-            return ret;
-        }
-
-        public static NDArray BroadcastEqual(NDArray lhs, NDArray rhs)
-        {
-            var ret = new NDArray();
-
-            new Operator("broadcast_equal")
-            .SetInput("lhs", lhs)
-            .SetInput("rhs", rhs)
-            .Invoke(ret);
-
-            return ret;
-        }
-
-        public static NDArray Mean(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
-        {
-            var ret = new NDArray();
-
-            if (axis == null)
-                axis = new Shape();
-
-            new Operator("mean")
-            .SetParam("axis", axis)
-            .SetParam("keepdims", keepdims)
-            .SetParam("exclude", exclude)
-            .SetInput("data", data)
-            .Invoke(ret);
-
-            return ret;
-        }
-
-        public static NDArray Abs(NDArray data)
-        {
-            var ret = new NDArray();
-            new Operator("abs")
-            .SetInput("data", data)
-            .Invoke(ret);
-
-            return ret;
-        }
-
-        public NDArray Flatten()
-        {
-            NDArray ret = new NDArray();
-            new Operator("Flatten")
-            .SetInput("data", this)
-            .Invoke(ret);
-
             return ret;
         }
 
@@ -571,8 +432,6 @@ namespace MxNetLib
         }
 
         #endregion
-
-
 
         public override string ToString()
         {

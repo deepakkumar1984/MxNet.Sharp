@@ -62,7 +62,7 @@ namespace MxNetLib
             var history = this._History[index];
             using (var tmp1 = grad * grad)
             {
-                history.Add(tmp1);
+                history = history + tmp1;
 
                 using (var tmp2 = history + eps)
                 using (var tmp3 = Sqrt(tmp2))
@@ -70,7 +70,7 @@ namespace MxNetLib
                 using (var tmp5 = grad / tmp3)
                 using (var tmp6 = tmp5 + tmp4)
                 using (var tmp7 = tmp6 * lr)
-                    weight.Subtract(tmp7);
+                    weight = weight - tmp7;
             }
         }
 
