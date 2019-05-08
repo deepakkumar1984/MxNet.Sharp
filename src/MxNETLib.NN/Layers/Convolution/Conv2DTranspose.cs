@@ -1,14 +1,14 @@
-﻿using SiaDNN.Constraints;
-using SiaDNN.Initializers;
-using MxNet.DotNet;
-using MxNet.NN.Regularizers;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Regularizers;
+using MxNetLib.NN.Constraints;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class Conv2DTranspose : BaseLayer, ILayer
+    public class Conv2DTranspose : BaseLayer
     {
         public uint Filters { get; set; }
 
@@ -17,8 +17,6 @@ namespace MxNet.NN.Layers
         public Tuple<uint, uint> Strides { get; set; }
 
         public uint? Padding { get; set; }
-
-        public DeconvolutionLayout DataFormat { get; set; }
 
         public ActivationType Activation { get; set; }
 
@@ -39,8 +37,7 @@ namespace MxNet.NN.Layers
         public BaseRegularizer BiasRegularizer { get; set; }
 
         public Conv2DTranspose(uint filters, Tuple<uint, uint> kernalSize, Tuple<uint, uint> strides = null, uint? padding = null,
-                                DeconvolutionLayout dataFormat = DeconvolutionLayout.None, Tuple<uint, uint> dialationRate = null, 
-                                ActivationType activation = ActivationType.Linear, BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null,
+                                Tuple<uint, uint> dialationRate = null,  ActivationType activation = ActivationType.Linear, BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null,
                                 BaseConstraint kernalConstraint = null, bool useBias = true, BaseInitializer biasInitializer =null, BaseRegularizer biasRegularizer = null,
                                 BaseConstraint biasConstraint = null)
             : base("conv2dtranspose")
@@ -49,7 +46,6 @@ namespace MxNet.NN.Layers
             KernalSize = kernalSize ?? Tuple.Create<uint, uint>(1, 1);
             Strides = strides ?? Tuple.Create<uint, uint>(1, 1);
             Padding = padding;
-            DataFormat = dataFormat;
             DialationRate = dialationRate ?? Tuple.Create<uint, uint>(1, 1);
             Activation = activation;
             UseBias = useBias;
@@ -61,7 +57,7 @@ namespace MxNet.NN.Layers
             BiasRegularizer = biasRegularizer;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             var biasName = UUID.GetID(ID + "_b");
             var weightName = UUID.GetID(ID + "_w");
@@ -84,9 +80,9 @@ namespace MxNet.NN.Layers
             RegularizerParams.Add(weightName, KernalRegularizer);
             RegularizerParams.Add(biasName, BiasRegularizer);
 
-            return ops.NN.Deconvolution(x, Symbol.Variable(weightName), Symbol.Variable(biasName), new Shape(KernalSize.Item1, KernalSize.Item2),
+            return sym.Deconvolution(x, Symbol.Variable(weightName), Symbol.Variable(biasName), new Shape(KernalSize.Item1, KernalSize.Item2),
                                     Filters, new Shape(Strides.Item1, Strides.Item2), new Shape(DialationRate.Item1, DialationRate.Item2), pad,
-                                    new Shape(), new Shape(), 1, 512, !UseBias, DeconvolutionCudnnTune.None, Global.UseCudnn, DataFormat, ID);
+                                    new Shape(), new Shape(), 1, 512, !UseBias, DeconvolutionCudnnTune.Off, false, null, ID);
         }
     }
 }

@@ -1,11 +1,11 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
 
-namespace MxNet.NN
+namespace MxNetLib.NN
 {
     public partial class Module
     {
@@ -23,26 +23,24 @@ namespace MxNet.NN
             args["X"] = new NDArray(new Shape(inputShape.ToArray()));
             args[labelName] = new NDArray(new Shape(batchSize));
             
-            Model.InferArgsMap(Global.Device, args, args);
+            Model.InferArgsMap(MXNet.Device, args, args);
             
-            var defaultInitializer = new SiaDNN.Initializers.GlorotUniform();
+            var defaultInitializer = new Initializers.GlorotUniform();
 
             foreach (var arg in args)
             {
                 argGrads.Add(arg.Key, new NDArray(arg.Value.GetShape()));
                 if (ParamInitializers.ContainsKey(arg.Key))
                 {
-                    ParamInitializers[arg.Key].Operator(arg.Key, arg.Value);
+                    ParamInitializers[arg.Key].Generate(arg.Value);
                 }
                 else
                 {
-                    defaultInitializer.Operator(arg.Key, arg.Value);
+                    defaultInitializer.Generate(arg.Value);
                 }
             }
 
-            ModelOptimizer.SetParam("rescale_grad", 1.0 / batchSize);
-
-            using (var exec = Model.SimpleBind(Global.Device, args, argGrads))
+            using (var exec = Model.SimpleBind(MXNet.Device, args, argGrads))
             {
                 var argNames = Model.ListArguments();
 
@@ -68,17 +66,18 @@ namespace MxNet.NN
                         
                         // Compute gradients
                         exec.Forward(true);
-                        exec.Backward(exec.Outputs);
+                        exec.Backward();
+
+                        TrainMetric.Update(args[labelName], exec.Output);
+
                         // Update parameters
                         for (var i = 0; i < argNames.Count; ++i)
                         {
                             if (argNames[i] == "X" || argNames[i] == labelName)
                                 continue;
 
-                            ModelOptimizer.Update(i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
+                            ModelOptimizer.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
                         }
-
-                        TrainMetric.Update(dataBatch.Label, exec.Outputs[0]);
                     }
                     
                     sw.Stop();
@@ -95,10 +94,9 @@ namespace MxNet.NN
 
                             // Forward pass is enough as no gradient is needed when evaluating
                             exec.Forward(false);
-                            Metric.Update(dataBatch.Label, exec.Outputs[0]);
+                            Metric.Update(args[labelName], exec.Output);
                         }
                     }
-
 
                     var duration = sw.ElapsedMilliseconds == 0 ? 1 : sw.ElapsedMilliseconds;
                     if (validation == null)

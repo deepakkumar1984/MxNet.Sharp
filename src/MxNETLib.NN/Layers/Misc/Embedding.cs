@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SiaDNN.Constraints;
-using SiaDNN.Initializers;
-using MxNet.DotNet;
-using MxNet.NN.Regularizers;
+using MxNetLib;
+using MxNetLib.NN.Constraints;
+using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Regularizers;
 
-namespace MxNet.NN.Layers.Misc
+namespace MxNetLib.NN.Layers.Misc
 {
-    public class Embedding : BaseLayer, ILayer
+    public class Embedding : BaseLayer
     {
         public int InputDim { get; set; }
 
@@ -30,13 +30,13 @@ namespace MxNet.NN.Layers.Misc
             EmbeddingsRegularizer = embeddingsRegularizer;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             var weightName = UUID.GetID(ID + "_w");
             InitParams.Add(weightName, EmbeddingsInitializer);
             ConstraintParams.Add(weightName, EmbeddingsConstraint);
             RegularizerParams.Add(weightName, EmbeddingsRegularizer);
-            return ops.NN.Embedding(x, Symbol.Variable(weightName), InputDim, OutputDim, EmbeddingDtype.Float32, ID);
+            return sym.Embedding(x, Symbol.Variable(weightName), InputDim, OutputDim, symbol_name: ID);
         }
     }
 }

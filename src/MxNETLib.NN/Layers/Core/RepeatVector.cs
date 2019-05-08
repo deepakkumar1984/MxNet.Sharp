@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class RepeatVector : BaseLayer, ILayer
+    public class RepeatVector : BaseLayer
     {
         public int NumTimes { get; set; }
 
@@ -18,7 +18,7 @@ namespace MxNet.NN.Layers
             NumTimes = numTimes;
         }
 
-        public Symbol Build(Symbol data)
+        public override Symbol Build(Symbol data)
         {
             return new Operator("repeat").SetInput("data", data).SetParam("repeats", NumTimes).CreateSymbol(ID);
         }

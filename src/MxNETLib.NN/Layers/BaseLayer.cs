@@ -1,16 +1,15 @@
-﻿using SiaDNN.Constraints;
-using SiaDNN.Initializers;
-using MxNet.DotNet;
-using MxNet.NN.Regularizers;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Constraints;
+using MxNetLib.NN.Regularizers;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
     public abstract class BaseLayer
     {
-        internal SymbolOps ops = new SymbolOps();
         public string Name { get; set; }
 
         public string ID { get; set; }
@@ -27,5 +26,7 @@ namespace MxNet.NN.Layers
             ConstraintParams = new Dictionary<string, BaseConstraint>();
             RegularizerParams = new Dictionary<string, BaseRegularizer>();
         }
+
+        public abstract Symbol Build(Symbol x);
     }
 }

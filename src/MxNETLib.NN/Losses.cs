@@ -1,13 +1,12 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN
+namespace MxNetLib.NN
 {
     public class Losses
     {
-        private static SymbolOps K = new SymbolOps();
         public static Symbol Get(LossType lossType, Symbol preds, Symbol labels)
         {
             switch (lossType)
@@ -24,10 +23,10 @@ namespace MxNet.NN
                     return SquaredHinge(preds, labels);
                 case LossType.Hinge:
                     return Hinge(preds, labels);
-                case LossType.BinaryCrossEntropy:
-                    return BinaryCrossEntropy(preds, labels);
-                case LossType.CategorialCrossEntropy:
-                    return CategorialCrossEntropy(preds, labels);
+                case LossType.SigmoidBinaryCrossEntropy:
+                    return SigmoidBinaryCrossEntropy(preds, labels);
+                case LossType.SoftmaxCategorialCrossEntropy:
+                    return SoftmaxCategorialCrossEntropy(preds, labels);
                 case LossType.CTC:
                     return CTC(preds, labels);
                 case LossType.KullbackLeiblerDivergence:
@@ -41,66 +40,66 @@ namespace MxNet.NN
 
         private static Symbol MeanSquaredError(Symbol preds, Symbol labels)
         {
-            return new Operator("LinearRegressionOutput").SetInput("data", preds).SetInput("label", labels).CreateSymbol();
+            return sym.LinearRegressionOutput(preds, labels);
         }
 
         private static Symbol MeanAbsoluteError(Symbol preds, Symbol labels)
         {
-            return new Operator("MAERegressionOutput").SetInput("data", preds).SetInput("label", labels).CreateSymbol("MeanAbsoluteError");
+            return sym.MAERegressionOutput(preds, labels);
         }
 
         private static Symbol MeanAbsolutePercentageError(Symbol preds, Symbol labels)
         {
-            Symbol loss = K.Mean(K.Abs(labels - preds) / K.Clip(K.Abs(labels), float.Epsilon, 0));
+            Symbol loss = sym.Mean(sym.Abs(labels - preds) / sym.Clip(sym.Abs(labels), float.Epsilon, 0));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("MeanAbsolutePercentageError");
         }
 
         private static Symbol MeanAbsoluteLogError(Symbol preds, Symbol labels)
         {
-            Symbol first_log = K.Log(K.Clip(preds, float.Epsilon, 0) + 1);
-            Symbol second_log = K.Log(K.Clip(labels, float.Epsilon, 0) + 1);
-            Symbol loss = K.Mean(K.Square(first_log - second_log));
+            Symbol first_log = sym.Log(sym.Clip(preds, float.Epsilon, 0) + 1);
+            Symbol second_log = sym.Log(sym.Clip(labels, float.Epsilon, 0) + 1);
+            Symbol loss = sym.Mean(sym.Square(first_log - second_log));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("MeanAbsoluteLogError");
         }
 
         private static Symbol SquaredHinge(Symbol preds, Symbol labels)
         {
-            Symbol loss = K.Mean(K.Square(K.Maximum(1 - (labels * preds), 0)));
+            Symbol loss = sym.Mean(sym.Square(sym.MaximumScalar(1 - (labels * preds), 0)));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("SquaredHinge");
         }
 
         private static Symbol Hinge(Symbol preds, Symbol labels)
         {
-            Symbol loss = K.Mean(K.Maximum(1 - (labels * preds), 0));
+            Symbol loss = sym.Mean(sym.MaximumScalar(1 - (labels * preds), 0));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("Hinge");
         }
 
-        private static Symbol BinaryCrossEntropy(Symbol preds, Symbol labels)
+        private static Symbol SigmoidBinaryCrossEntropy(Symbol preds, Symbol labels)
         {
-            return new Operator("LogisticRegressionOutput").SetInput("data", preds).SetInput("label", labels).CreateSymbol("BinaryCrossEntropy");
+            return sym.LogisticRegressionOutput(preds, labels);
         }
 
-        private static Symbol CategorialCrossEntropy(Symbol preds, Symbol labels)
+        private static Symbol SoftmaxCategorialCrossEntropy(Symbol preds, Symbol labels)
         {
-            return new Operator("SoftmaxOutput").SetInput("data", preds).SetInput("label", labels).CreateSymbol();
+            return sym.SoftmaxOutput(preds, labels);
         }
 
         private static Symbol CTC(Symbol preds, Symbol labels)
         {
-            return new Operator("ctc_loss").SetInput("data", preds).SetInput("label", labels).CreateSymbol("CTC");
+            return sym.CTCLoss(preds, labels, null, null);
         }
 
         private static Symbol KullbackLeiblerDivergence(Symbol preds, Symbol labels)
         {
-            Symbol y_true = K.Clip(labels, float.Epsilon, 1);
-            Symbol y_pred = K.Clip(preds, float.Epsilon, 1);
-            Symbol loss = K.Sum(y_true * K.Log(y_true / y_pred));
+            Symbol y_true = sym.Clip(labels, float.Epsilon, 1);
+            Symbol y_pred = sym.Clip(preds, float.Epsilon, 1);
+            Symbol loss = sym.Sum(y_true * sym.Log(y_true / y_pred));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("KullbackLeiblerDivergence");
         }
 
         private static Symbol Poisson(Symbol preds, Symbol labels)
         {
-            Symbol loss = K.Mean(preds - labels * K.Log(preds + float.Epsilon));
+            Symbol loss = sym.Mean(preds - labels * sym.Log(preds + float.Epsilon));
             return new Operator("MakeLoss").SetInput("data", loss).CreateSymbol("Poisson");
         }
     }

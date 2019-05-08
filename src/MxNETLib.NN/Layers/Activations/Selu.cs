@@ -1,11 +1,11 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN.Layers.Activations
+namespace MxNetLib.NN.Layers.Activations
 {
-    public class Selu : BaseLayer, ILayer
+    public class Selu : BaseLayer
     {
         public float Alpha { get; set; }
 
@@ -15,7 +15,7 @@ namespace MxNet.NN.Layers.Activations
             Alpha = alpha;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             return new Operator("LeakyReLU").SetParam("act_type", "selu")
                                             .SetInput("data", x)

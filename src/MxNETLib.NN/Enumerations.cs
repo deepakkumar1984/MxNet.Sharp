@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN
+namespace MxNetLib.NN
 {
     public enum ActivationType
     {
@@ -40,20 +40,10 @@ namespace MxNet.NN
         MeanAbsoluteLogError,
         SquaredHinge,
         Hinge,
-        BinaryCrossEntropy,
-        CategorialCrossEntropy,
+        SigmoidBinaryCrossEntropy,
+        SoftmaxCategorialCrossEntropy,
         CTC,
         KullbackLeiblerDivergence,
         Poisson
-    }
-    public enum MetricType
-    {
-        None,
-        Accuracy,
-        BinaryAccuracy,
-        MeanSquaredError,
-        MeanAbsoluteError,
-        MeanAbsolutePercentageError,
-        MeanSquareLogError
     }
 }

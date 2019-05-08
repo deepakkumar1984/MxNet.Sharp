@@ -1,11 +1,11 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN.Layers.Activations
+namespace MxNetLib.NN.Layers.Activations
 {
-    public class Sigmoid : BaseLayer, ILayer
+    public class Sigmoid : BaseLayer
     {
         public Sigmoid()
             : base("sigmoid")
@@ -13,7 +13,7 @@ namespace MxNet.NN.Layers.Activations
 
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             return new Operator("Activation").SetParam("act_type", "sigmoid")
                                             .SetInput("data", x)

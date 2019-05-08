@@ -1,11 +1,11 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN.Layers.Activations
+namespace MxNetLib.NN.Layers.Activations
 {
-    public class RReLU : BaseLayer, ILayer
+    public class RReLU : BaseLayer
     {
         public float LowerBound { get; set; }
 
@@ -18,7 +18,7 @@ namespace MxNet.NN.Layers.Activations
             UpperBound = upper_bound;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             return new Operator("LeakyReLU").SetParam("act_type", "rrelu")
                                             .SetInput("data", x)

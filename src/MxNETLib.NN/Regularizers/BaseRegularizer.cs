@@ -1,9 +1,9 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN.Regularizers
+namespace MxNetLib.NN.Regularizers
 {
     public abstract class BaseRegularizer
     {

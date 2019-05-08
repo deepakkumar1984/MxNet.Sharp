@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Data
+namespace MxNetLib.NN.Data
 {
     public class CsvDataFrame : DataFrame
     {

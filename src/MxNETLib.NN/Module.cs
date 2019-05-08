@@ -1,17 +1,17 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using Newtonsoft.Json;
-using MxNet.NN.EventArgs;
-using MxNet.NN.Layers;
-using MxNet.NN.Metrics;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
-using SiaDNN.Initializers;
-using MxNetLib;
+using MxNetLib.Optimizers;
+using MxNetLib.Metrics;
+using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Layers;
+using MxNetLib.NN.EventArgs;
 
-namespace MxNet.NN
+namespace MxNetLib.NN
 {
     public partial class Module
     {
@@ -40,7 +40,7 @@ namespace MxNet.NN
         /// </summary>
         public event EventHandler<TrainingEndEventArgs> TrainingEnd;
 
-        private List<ILayer> layers = new List<ILayer>();
+        private List<BaseLayer> layers = new List<BaseLayer>();
 
         public uint[] InputShape { get; set; }
 
@@ -49,7 +49,7 @@ namespace MxNet.NN
         [JsonIgnore]
         public Symbol Model = null;
 
-        public ILayer[] Layers
+        public BaseLayer[] Layers
         {
             get => layers.ToArray();
         }
@@ -79,7 +79,7 @@ namespace MxNet.NN
             Model = Symbol.Variable("X");
         }
 
-        public void Add(ILayer l)
+        public void Add(BaseLayer l)
         {
             layers.Add(l);
         }

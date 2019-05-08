@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class Permute : BaseLayer, ILayer
+    public class Permute : BaseLayer
     {
         /// <summary>
         /// 
@@ -15,9 +15,9 @@ namespace MxNet.NN.Layers
         {
         }
 
-        public Symbol Build(Symbol data)
+        public override Symbol Build(Symbol data)
         {
-            return ops.Transpose(data);
+            return sym.Transpose(data);
         }
         
     }

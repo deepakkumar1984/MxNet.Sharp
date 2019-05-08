@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class Flatten : BaseLayer, ILayer
+    public class Flatten : BaseLayer
     {
         public Flatten()
             :base("flatten")
@@ -13,9 +13,9 @@ namespace MxNet.NN.Layers
 
         }
 
-        public Symbol Build(Symbol data)
+        public override Symbol Build(Symbol data)
         {
-            return ops.NN.Flatten(data, ID);
+            return sym.Flatten(data, ID);
         }
         
     }

@@ -527,6 +527,11 @@ namespace MxNetLib
             return new NDArray(handle);
         }
 
+        public NDArray Ravel()
+        {
+            return Reshape(new Shape((uint)Size));
+        }
+
         #endregion
 
         public override string ToString()

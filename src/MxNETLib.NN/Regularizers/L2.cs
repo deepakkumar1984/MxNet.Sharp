@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Regularizers
+namespace MxNetLib.NN.Regularizers
 {
     public class L2 : L1L2
     {

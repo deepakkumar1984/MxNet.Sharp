@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MxNET.NN\MxNet.NN.csproj" />
+    <ProjectReference Include="..\..\src\MxNETLib.NN\MxNetLib.NN.csproj" />
   </ItemGroup>
 
   <ItemGroup>

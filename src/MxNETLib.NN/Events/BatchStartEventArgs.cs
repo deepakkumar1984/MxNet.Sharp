@@ -1,4 +1,4 @@
-﻿namespace MxNet.NN.EventArgs
+﻿namespace MxNetLib.NN.EventArgs
 {
     public class BatchStartEventArgs : System.EventArgs
     {

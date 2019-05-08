@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class Dropout : BaseLayer, ILayer
+    public class Dropout : BaseLayer
     {
         public float Rate { get; set; }
 
@@ -17,9 +17,9 @@ namespace MxNet.NN.Layers
 
         }
 
-        public Symbol Build(Symbol data)
+        public override Symbol Build(Symbol data)
         {
-            return ops.NN.Dropout(data, Rate, Mode, ID);
+            return sym.Dropout(data, Rate, Mode, symbol_name: ID);
         }
         
     }

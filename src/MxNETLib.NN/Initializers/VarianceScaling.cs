@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace SiaDNN.Initializers
+namespace MxNetLib.NN.Initializers
 {
     public class VarianceScaling : BaseInitializer
     {
-        public string Name { get; set; } = "variance_scaling";
-
         public float Scale { get; set; }
 
         public string Mode { get; set; }
@@ -16,6 +14,7 @@ namespace SiaDNN.Initializers
         public string Distribution { get; set; }
 
         public VarianceScaling(float scale = 1f, string mode = "fan_in", string distribution = "normal")
+            : base("variance_scaling")
         {
             if (scale < 1f)
             {
@@ -30,10 +29,10 @@ namespace SiaDNN.Initializers
             Distribution = distribution;
         }
 
-        public override void Operator(string name, NDArray array)
+        public override void Generate(NDArray x)
         {
-            var shape = new Shape(array.GetShape());
             var hwScale = 1.0f;
+            var shape = x.Shape;
             if (shape.Dimension > 2)
             {
                 for (uint i = 2; i < shape.Dimension; ++i)
@@ -61,11 +60,11 @@ namespace SiaDNN.Initializers
             {
                 case "uniform":
                     float limit = (float)Math.Sqrt(3f * Scale);
-                    NDArray.SampleUniform(-limit, limit, array);
+                    x.SampleUniform(-limit, limit);
                     break;
                 case "normal":
                     float stddev = (float)Math.Sqrt(Scale) / 0.87962566103423978f;
-                    NDArray.SampleGaussian(0, stddev, array);
+                    x.SampleGaussian(0, stddev);
                     break;
             }
         }

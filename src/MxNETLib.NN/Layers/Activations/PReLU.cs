@@ -1,18 +1,18 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN.Layers.Activations
+namespace MxNetLib.NN.Layers.Activations
 {
-    public class PReLU : BaseLayer, ILayer
+    public class PReLU : BaseLayer
     {
         public PReLU()
             : base("prelu")
         {
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             return new Operator("LeakyReLU").SetParam("act_type", "prelu")
                                             .SetInput("data", x)

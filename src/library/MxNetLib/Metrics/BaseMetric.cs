@@ -52,6 +52,18 @@ namespace MxNetLib.Metrics
             return Values.Average();
         }
 
+        public bool Improvement()
+        {
+            var prev = Values.Count > 2 ? Values[Values.Count - 2] : float.MaxValue;
+            var currect = Values.Last();
+            if(currect < prev)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public abstract void Update(NDArray labels, NDArray preds);
 
         #region Helpers

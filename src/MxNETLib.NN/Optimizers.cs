@@ -1,75 +1,41 @@
-﻿using MxNet.DotNet;
-using MxNet.NN;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MxNetLib.Optimizers;
 
-namespace MxNet.NN
+namespace MxNetLib.NN
 {
     public class Optimizers
     {
         public static BaseOptimizer SGD(float lr = 0.01f, float momentum = 1e-7f, float decay = 0)
         {
-            var opt = OptimizerRegistry.Find("sgd");
-            opt.SetParam("lr", lr);
-            opt.SetParam("wd", decay);
-            opt.SetParam("momentum", momentum);
-
-            return opt;
+            return new SGD(lr, momentum, decay);
         }
 
         public static BaseOptimizer Signum(float lr = 0.01f, float decay = 0, float momentum = 1e-7f)
         {
-            var opt = OptimizerRegistry.Find("signum");
-            opt.SetParam("lr", lr);
-            opt.SetParam("wd", decay);
-            opt.SetParam("momentum", momentum);
-
-            return opt;
+            return new Signum(lr, decay, momentum);
         }
 
         public static BaseOptimizer RMSprop(float lr = 0.01f, float rho = 0.95f, float epsilon = 1e-7f, float decay = 0)
         {
-            var opt = OptimizerRegistry.Find("rmsprop");
-            opt.SetParam("lr", lr);
-            opt.SetParam("wd", decay);
-            opt.SetParam("gamma1", rho);
-            opt.SetParam("epsilon", epsilon);
-
-            return opt;
+            return new RMSProp(lr, rho, decay, epsilon);
         }
 
         public static BaseOptimizer Adagrad(float lr = 0.01f, float epsilon = 1e-7f, float decay = 0)
         {
-            var opt = OptimizerRegistry.Find("adagrad");
-            opt.SetParam("lr", lr);
-            opt.SetParam("wd", decay);
-            opt.SetParam("eps", epsilon);
-
-            return opt;
+            return new Adagrad(lr, decay, epsilon);
         }
 
         public static BaseOptimizer Adadelta(float lr = 1.0f, float rho = 0.95f, float epsilon = 1e-7f, float decay = 0)
         {
-            var opt = OptimizerRegistry.Find("adadelta");
-            opt.SetParam("lr", lr);
-            opt.SetParam("wd", decay);
-            opt.SetParam("rho", rho);
-            opt.SetParam("epsilon", epsilon);
-
-            return opt;
+            return new AdaDelta(lr, rho, decay, epsilon);
         }
 
-        public static BaseOptimizer Adam(float lr = 0.001f, float beta_1 = 0.9f, float beta_2 = 0.999f, float decay = 0, bool amsgrad = false, float epsilon = 1e-7f)
+        public static BaseOptimizer Adam(float lr = 0.001f, float beta_1 = 0.9f, float beta_2 = 0.999f, float decay = 0,  float epsilon = 1e-7f)
         {
-            var opt = OptimizerRegistry.Find("adam");
-            opt.SetParam("lr", lr);
-            opt.SetParam("wd", decay);
-            opt.SetParam("beta1", beta_1);
-            opt.SetParam("beta2", beta_2);
-            opt.SetParam("epsilon", epsilon);
-
-            return opt;
+            return new Adam(lr, beta_1, beta_2, decay, epsilon);
         }
 
         internal static BaseOptimizer Get(OptimizerType optimizerType)

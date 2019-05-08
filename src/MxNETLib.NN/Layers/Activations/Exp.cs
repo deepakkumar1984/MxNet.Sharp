@@ -1,18 +1,18 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN.Layers.Activations
+namespace MxNetLib.NN.Layers.Activations
 {
-    public class Exp : BaseLayer, ILayer
+    public class Exp : BaseLayer
     {
         public Exp()
             : base("exp")
         {
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             return new Operator("exp").SetInput("data", x)
                                             .CreateSymbol(ID);

@@ -22,6 +22,7 @@ namespace MxNetLib.Metrics
             if (preds == null)
                 throw new ArgumentNullException(nameof(preds));
 
+            preds = preds.Ravel();
             var result = nd.Mean(nd.Abs(preds - labels)).Value;
             this.Values.Add(result);
         }

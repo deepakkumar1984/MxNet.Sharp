@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SiaDNN.Initializers
+namespace MxNetLib.NN.Initializers
 {
     public class HeNormal : VarianceScaling
     {

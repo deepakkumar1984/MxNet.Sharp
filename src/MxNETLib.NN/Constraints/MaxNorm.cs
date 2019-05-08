@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace SiaDNN.Constraints
+namespace MxNetLib.NN.Constraints
 {
     public class MaxNorm : BaseConstraint
     {
@@ -18,8 +18,8 @@ namespace SiaDNN.Constraints
 
         public override NDArray Call(NDArray w)
         {
-            var norms = NDArray.Sqrt(NDArray.Square(w));
-            var desired = NDArray.Clip(norms, 0, MaxValue);
+            var norms = nd.Sqrt(nd.Square(w));
+            var desired = nd.Clip(norms, 0, MaxValue);
             w *= (desired / (norms + float.Epsilon));
             return w;
         }

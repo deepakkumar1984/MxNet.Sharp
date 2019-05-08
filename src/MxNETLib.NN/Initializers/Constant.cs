@@ -1,30 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace SiaDNN.Initializers
+namespace MxNetLib.NN.Initializers
 {
     public class Constant : BaseInitializer
     {
-        public string Name
-        {
-            get
-            {
-                return "constant";
-            }
-        }
-
         public float Value { get; set; }
 
-        public Constant(float value)
+        public Constant(float value) : base("constant")
         {
             Value = value;
         }
 
-        public override void Operator(string name, NDArray array)
+        public override void Generate(NDArray x)
         {
-            array.Set(this.Value);
+            x.Constant(this.Value);
         }
 
     }

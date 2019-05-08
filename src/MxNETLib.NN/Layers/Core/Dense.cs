@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 using Newtonsoft.Json;
-using SiaDNN.Initializers;
-using MxNet.NN.Layers.Activations;
-using SiaDNN.Constraints;
-using MxNet.NN.Regularizers;
+using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Layers.Activations;
+using MxNetLib.NN.Regularizers;
+using MxNetLib.NN.Constraints;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class Dense : BaseLayer, ILayer
+    public class Dense : BaseLayer
     {
         public int Dim { get; set; }
 
-        public ILayer Activation { get; set; }
+        public BaseLayer Activation { get; set; }
 
         public bool UseBias { get; set; }
 
@@ -46,27 +46,32 @@ namespace MxNet.NN.Layers
             BiasRegularizer = biasRegularizer;
         }
 
-        public Symbol Build(Symbol data)
+        public override Symbol Build(Symbol data)
         {
             var weightName = UUID.GetID(ID + "_w");
             var biasName = UUID.GetID(ID + "_b");
 
+            var bias = UseBias ? Symbol.Variable(biasName) : null;
+
             InitParams.Add(weightName, KernalInitializer);
-            InitParams.Add(biasName, BiasInitializer);
+            if(UseBias)
+                InitParams.Add(biasName, BiasInitializer);
 
             ConstraintParams.Add(weightName, KernalConstraint);
-            ConstraintParams.Add(biasName, BiasConstraint);
+            if(UseBias)
+                ConstraintParams.Add(biasName, BiasConstraint);
 
             RegularizerParams.Add(weightName, KernalRegularizer);
-            RegularizerParams.Add(biasName, BiasRegularizer);
+            if(UseBias)
+                RegularizerParams.Add(biasName, BiasRegularizer);
 
             if (Activation != null)
             {
-                return Activation.Build(ops.NN.FullyConnected(data, Symbol.Variable(weightName), Symbol.Variable(biasName), Dim));
+                return Activation.Build(sym.FullyConnected(data, Symbol.Variable(weightName), bias, Dim, !UseBias, true, ID));
             }
             else
             {
-                return ops.NN.FullyConnected(data, Symbol.Variable(weightName), Symbol.Variable(biasName), Dim);
+                return sym.FullyConnected(data, Symbol.Variable(weightName), bias, Dim, !UseBias, true, ID);
             }
         }
     }

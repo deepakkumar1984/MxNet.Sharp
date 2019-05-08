@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace SiaDNN.Initializers
+namespace MxNetLib.NN.Initializers
 {
     public class RandomNormal : BaseInitializer
     {
-        public string Name
-        {
-            get
-            {
-                return "random_normal";
-            }
-        }
-
         public float Mean { get; set; }
 
         public float StdDev { get; set; }
 
-        public RandomNormal(float mean = 0f, float stddev = 0.05f)
+        public RandomNormal(float mean = 0f, float stddev = 0.05f) : base("random_normal")
         {
             Mean = mean;
             StdDev = stddev;
         }
 
-        public override void Operator(string name, NDArray array)
+        public override void Generate(NDArray x)
         {
-            NDArray.SampleGaussian(Mean, StdDev, array);
+            x.SampleGaussian(Mean, StdDev);
         }
 
     }

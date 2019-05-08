@@ -1,14 +1,14 @@
-﻿using SiaDNN.Constraints;
-using SiaDNN.Initializers;
-using MxNet.DotNet;
-using MxNet.NN.Regularizers;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Regularizers;
+using MxNetLib.NN.Constraints;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class Conv1D : BaseLayer,  ILayer
+    public class Conv1D : BaseLayer
     {
         public uint Filters { get; set; }
 
@@ -17,8 +17,6 @@ namespace MxNet.NN.Layers
         public uint Strides { get; set; }
 
         public uint? Padding { get; set; }
-
-        public ConvolutionLayout DataFormat { get; set; }
 
         public uint DialationRate { get; set; }
 
@@ -38,7 +36,7 @@ namespace MxNet.NN.Layers
 
         public BaseRegularizer BiasRegularizer { get; set; }
 
-        public Conv1D(uint filters, uint kernalSize, uint strides = 1, uint? padding=null, ConvolutionLayout dataFormat = ConvolutionLayout.None, 
+        public Conv1D(uint filters, uint kernalSize, uint strides = 1, uint? padding=null, 
                         uint dialationRate = 1, ActivationType activation = ActivationType.Linear, BaseInitializer kernalInitializer = null,
                         BaseRegularizer kernalRegularizer = null, BaseConstraint kernalConstraint = null, bool useBias = true, 
                         BaseInitializer biasInitializer = null, BaseRegularizer biasRegularizer = null, BaseConstraint biasConstraint = null)
@@ -48,7 +46,6 @@ namespace MxNet.NN.Layers
             KernalSize = kernalSize;
             Strides = strides;
             Padding = padding;
-            DataFormat = dataFormat;
             DialationRate = dialationRate;
             Activation = activation;
             UseBias = useBias;
@@ -60,7 +57,7 @@ namespace MxNet.NN.Layers
             BiasRegularizer = biasRegularizer;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             var biasName = UUID.GetID(ID + "_b");
             var weightName = UUID.GetID(ID + "_w");
@@ -83,9 +80,9 @@ namespace MxNet.NN.Layers
             RegularizerParams.Add(weightName, KernalRegularizer);
             RegularizerParams.Add(biasName, BiasRegularizer);
 
-            return ops.NN.Convolution(x, Symbol.Variable(weightName),
+            return sym.Convolution(x, Symbol.Variable(weightName),
                                             Symbol.Variable(biasName), new Shape(KernalSize), Filters, new Shape(Strides),
-                                            new Shape(DialationRate), pad, 1, 1024, false, ConvolutionCudnnTune.None, !Global.UseCudnn, DataFormat, ID);
+                                            new Shape(DialationRate), pad, 1, 1024, false, ConvolutionCudnnTune.Off, false, null, ID);
         }
     }
 }

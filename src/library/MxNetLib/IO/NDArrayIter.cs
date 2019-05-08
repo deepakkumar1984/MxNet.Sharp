@@ -30,7 +30,7 @@ namespace MxNetLib
         {
             uint start = (uint)cursor;
             uint end = (uint)cursor + BatchSize;
-            if(end >= num_data)
+            if(end > num_data)
             {
                 end = num_data;
             }
@@ -42,7 +42,7 @@ namespace MxNetLib
         {
             uint start = (uint)cursor;
             uint end = (uint)cursor + BatchSize;
-            if (end >= num_data)
+            if (end > num_data)
             {
                 end = num_data;
             }
@@ -65,7 +65,7 @@ namespace MxNetLib
                 end = num_data;
             }
 
-            return _label.Slice(start, end).Reshape(new Shape(BatchSize));
+            return _label.Slice(start, end).Ravel();
         }
 
         public override int GetPadNum()

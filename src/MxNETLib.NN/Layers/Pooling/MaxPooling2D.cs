@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class MaxPooling2D : BaseLayer, ILayer
+    public class MaxPooling2D : BaseLayer
     {
         public Tuple<uint, uint> PoolSize { get; set; }
 
@@ -21,7 +21,7 @@ namespace MxNet.NN.Layers
             Padding = padding;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             Shape pad = new Shape(); ;
             if (Padding.HasValue)
@@ -29,8 +29,8 @@ namespace MxNet.NN.Layers
                 pad = new Shape(Padding.Value);
             }
 
-            return ops.NN.Pooling(x, new Shape(PoolSize.Item1, PoolSize.Item2), PoolingPoolType.Max, false, Global.UseCudnn, 
-                                    PoolingPoolingConvention.Valid, new Shape(Strides.Item1, Strides.Item2), pad, 0, true, ConvolutionLayout.None, ID);
+            return sym.Pooling(x, new Shape(PoolSize.Item1, PoolSize.Item2), PoolingPoolType.Max, false, false, 
+                                    PoolingPoolingConvention.Valid, new Shape(Strides.Item1, Strides.Item2), pad, 0, false, null, ID);
         }
     }
 }

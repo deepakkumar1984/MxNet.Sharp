@@ -1,4 +1,4 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.IO;
 using CsvHelper;
 
-namespace MxNet.NN.Data
+namespace MxNetLib.NN.Data
 {
     public class DataFrame
     {
@@ -30,7 +30,7 @@ namespace MxNet.NN.Data
             _cols = cols;
         }
 
-        public void AddData(params float[] data)
+        public void Load(params float[] data)
         {
             DataList.AddRange(data);
         }

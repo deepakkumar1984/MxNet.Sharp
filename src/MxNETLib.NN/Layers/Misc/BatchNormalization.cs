@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SiaDNN.Constraints;
-using SiaDNN.Initializers;
-using MxNet.DotNet;
-using MxNet.NN.Regularizers;
+using MxNetLib;
+using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Constraints;
+using MxNetLib.NN.Regularizers;
 
-namespace MxNet.NN.Layers.Misc
+namespace MxNetLib.NN.Layers.Misc
 {
-    public class BatchNormalization : BaseLayer, ILayer
+    public class BatchNormalization : BaseLayer
     {
         public int Axis { get; set; }
 
@@ -56,7 +56,7 @@ namespace MxNet.NN.Layers.Misc
             GammaRegularizer = gammaRegularizer;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             var beta = UUID.GetID(ID + "_beta");
             var gamma = UUID.GetID(ID + "_beta");
@@ -74,8 +74,8 @@ namespace MxNet.NN.Layers.Misc
             RegularizerParams.Add(beta, BetaRegularizer);
             RegularizerParams.Add(gamma, GammaRegularizer);
 
-            return ops.NN.BatchNorm(x, Symbol.Variable(gamma), Symbol.Variable(beta), Symbol.Variable(movingMean), Symbol.Variable(movingVar),
-                                        Epsilon, Momentum, Center, Scale, false, Axis, !Global.UseCudnn, ID);
+            return sym.BatchNorm(x, Symbol.Variable(gamma), Symbol.Variable(beta), Symbol.Variable(movingMean), Symbol.Variable(movingVar),
+                                        Epsilon, Momentum, Center, Scale, false, Axis, false, ID);
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace SiaDNN.Constraints
+namespace MxNetLib.NN.Constraints
 {
     public class NonNeg : BaseConstraint
     {
@@ -13,7 +13,7 @@ namespace SiaDNN.Constraints
 
         public override NDArray Call(NDArray w)
         {
-            w *= NDArray.Cast(NDArray.GreaterEqual(w, 0), DType.Float32);
+            w *= nd.Cast(nd.GreaterEqualScalar(w, 0), DType.Float32);
             return w;
         }
     }

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class Reshape : BaseLayer, ILayer
+    public class Reshape : BaseLayer
     {
         /// <summary>
         /// Target new shape. One and only one dim can be 0, in which case it will be inferred from the rest of dims
@@ -29,9 +29,9 @@ namespace MxNet.NN.Layers
             Reverse = reverse;
         }
 
-        public Symbol Build(Symbol data)
+        public override Symbol Build(Symbol data)
         {
-            return ops.NN.Reshape(data, TargetShape, Reverse, ID);
+            return sym.Reshape(data, TargetShape, Reverse, ID);
         }
         
     }

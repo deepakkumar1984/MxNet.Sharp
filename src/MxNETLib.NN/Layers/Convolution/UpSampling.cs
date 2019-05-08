@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class UpSampling : BaseLayer, ILayer
+    public class UpSampling : BaseLayer
     {
         public int Scale { get; set; }
 
@@ -15,7 +15,7 @@ namespace MxNet.NN.Layers
             Scale = scale;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
             return new Operator("UpSampling").SetInput("data", x).SetParam("scale", Scale).CreateSymbol(ID);
         }

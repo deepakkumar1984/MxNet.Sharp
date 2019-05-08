@@ -1,9 +1,9 @@
-﻿using MxNet.DotNet;
+﻿using MxNetLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SiaDNN.Constraints
+namespace MxNetLib.NN.Constraints
 {
     public abstract class BaseConstraint
     {

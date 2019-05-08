@@ -4,10 +4,11 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Platforms>AnyCPU;x64</Platforms>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\library\MxNetLib\MxNetLib.csproj" />
+    <ProjectReference Include="..\..\src\MxNETLib.NN\MxNetLib.NN.csproj" />
   </ItemGroup>
 
 </Project>

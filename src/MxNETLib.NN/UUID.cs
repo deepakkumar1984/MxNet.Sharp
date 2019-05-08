@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN
+namespace MxNetLib.NN
 {
     public class UUID
     {

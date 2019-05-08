@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NN.Layers.Activations
+namespace MxNetLib.NN.Layers.Activations
 {
     internal class ActivationRegistry
     {
-        internal static ILayer Get(ActivationType activationType)
+        internal static BaseLayer Get(ActivationType activationType)
         {
-            ILayer act = null;
+            BaseLayer act = null;
 
             switch (activationType)
             {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace SiaDNN.Constraints
+namespace MxNetLib.NN.Constraints
 {
     public class UnitNorm : BaseConstraint
     {
@@ -16,7 +16,7 @@ namespace SiaDNN.Constraints
 
         public override NDArray Call(NDArray w)
         {
-            w = w / NDArray.Sqrt(NDArray.Sum(w, new Shape(Axis), true));
+            w = w / nd.Sqrt(nd.Sum(w, new Shape(Axis), true));
             return w;
         }
     }

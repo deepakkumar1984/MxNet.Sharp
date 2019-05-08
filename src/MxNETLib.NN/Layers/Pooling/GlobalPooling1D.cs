@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Layers
+namespace MxNetLib.NN.Layers
 {
-    public class GlobalPooling1D : BaseLayer, ILayer
+    public class GlobalPooling1D : BaseLayer
     {
         public PoolingPoolType PoolingType { get; set; }
 
@@ -15,10 +15,10 @@ namespace MxNet.NN.Layers
             PoolingType = poolingType;
         }
 
-        public Symbol Build(Symbol x)
+        public override Symbol Build(Symbol x)
         {
-            return ops.NN.Pooling(x, new Shape(), PoolingType, true, Global.UseCudnn, 
-                                    PoolingPoolingConvention.Valid, new Shape(), new Shape(), 0, true, ConvolutionLayout.None, ID);
+            return sym.Pooling(x, new Shape(), PoolingType, true, false, 
+                                    PoolingPoolingConvention.Valid, new Shape(), new Shape(), 0, true, null, ID);
         }
     }
 }

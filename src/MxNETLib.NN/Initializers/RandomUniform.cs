@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace SiaDNN.Initializers
+namespace MxNetLib.NN.Initializers
 {
     public class RandomUniform : BaseInitializer
     {
-        public string Name
-        {
-            get
-            {
-                return "random_uniform";
-            }
-        }
-
         public float MinVal { get; set; }
 
         public float MaxVal { get; set; }
 
-        public RandomUniform(float minval = 0f, float maxval = 0.05f)
+        public RandomUniform(float minval = 0f, float maxval = 0.05f) : base("random_uniform")
         {
             MinVal = minval;
             MaxVal = maxval;
         }
 
-        public override void Operator(string name, NDArray array)
+        public override void Generate(NDArray x)
         {
-            NDArray.SampleUniform(MinVal, MaxVal, array);
+            x.SampleUniform(MinVal, MaxVal);
         }
 
     }

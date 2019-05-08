@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MxNet.DotNet;
+using MxNetLib;
 
-namespace MxNet.NN.Regularizers
+namespace MxNetLib.NN.Regularizers
 {
     public class L1L2 : BaseRegularizer
     {
@@ -18,12 +18,12 @@ namespace MxNet.NN.Regularizers
             NDArray regularizer = new NDArray();
             if(L1 > 0)
             {
-                regularizer += NDArray.Sum(NDArray.Abs(x) * L1);
+                regularizer += nd.Sum(nd.Abs(x) * L1);
             }
 
             if (L2 > 0)
             {
-                regularizer += NDArray.Sum(NDArray.Square(x) * L2);
+                regularizer += nd.Sum(nd.Square(x) * L2);
             }
 
             return regularizer;
