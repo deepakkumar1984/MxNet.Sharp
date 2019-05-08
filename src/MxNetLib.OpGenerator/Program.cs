@@ -9,47 +9,6 @@ namespace MxNetLib.OpGenerator
         {
             OpWrapperGenerator opWrapperGenerator = new OpWrapperGenerator();
             opWrapperGenerator.LoadMxOps();
-            //var (symbol, ndArray, enums) = opWrapperGenerator.ParseAllOps();
-
-            //symbol = symbol.Replace("\n", "\r\n");
-            //ndArray = ndArray.Replace("\n", "\r\n");
-            //enums = enums.Replace("\n", "\r\n");
-
-            //string strSymbol = @"using System;
-            //                    using System.Collections.Generic;
-            //                    using System.Linq;
-            //                    using System.Text;
-            //                    using System.Threading.Tasks;
-            //                    // ReSharper disable UnusedMember.Global
-
-            //                    namespace mxnet.csharp
-            //                    {
-            //                        public partial class Symbol
-            //                        {
-            //                    " + symbol +
-            //                        @"}
-            //                    }
-            //                    ";
-            //File.WriteAllText(@"..\..\..\..\mxnet.csharp\OperatorWarpSymbol.cs", strSymbol);
-
-
-            //string strNdArray = @"using System;
-            //                        using System.Collections.Generic;
-            //                        using System.Linq;
-            //                        using System.Text;
-            //                        using System.Threading.Tasks;
-            //                        // ReSharper disable UnusedMember.Global
-
-            //                        namespace mxnet.csharp
-            //                        {
-            //                            public partial class NdArray
-            //                            {
-            //                        " + ndArray +
-            //                                                       @"}
-            //                        }
-            //                        ";
-            //File.WriteAllText(@"..\..\..\..\mxnet.csharp\OperatorWarpNdArray.cs", strNdArray);
-
 
             string strEnum = opWrapperGenerator.GenerateEnum();
             File.WriteAllText(@"..\..\..\Generated\MxOpEnumerations.cs", strEnum);

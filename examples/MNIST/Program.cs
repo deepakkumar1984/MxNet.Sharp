@@ -92,15 +92,15 @@ namespace MNIST
 
             var model = new Module(1, 28, 28);
 
-            //model.Add(new Flatten());
-            //model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
-            //model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
-            //model.Add(new Dense(labelCount));
+            model.Add(new Flatten());
+            model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
+            model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
+            model.Add(new Dense(labelCount));
 
             model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.Tanh));
             model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
-            //model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.Tanh));
-            //model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
+            model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.Tanh));
+            model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
             model.Add(new Flatten());
             model.Add(new Dropout(0.5f));
             model.Add(new Dense(128, ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));

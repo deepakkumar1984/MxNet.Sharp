@@ -23,16 +23,17 @@ namespace MxNetLib.OpGenerator
                  (?<=[^A-Z])(?=[A-Z]) |
                  (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
-        private readonly string _name;
-        private readonly string _description;
-        private readonly List<MxOpArg> _args;
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+        private List<MxOpArg> Args { get; set; }
         private List<MxOpArg> argsLocal;
         private readonly List<MxOpArg> _argCss;
         public string ClsName;
 
         public MxOp(string name, string description, List<MxOpArg> args)
         {
-            this._name = name;
+            this.Name = name;
             if(name.StartsWith("_image"))
             {
                 ClsName = "Image";
@@ -46,7 +47,7 @@ namespace MxNetLib.OpGenerator
                 ClsName = "";
             }
 
-            this._description = description;
+            this.Description = description;
             argsLocal = new List<MxOpArg>();
             var nameArg = new MxOpArg(name,
                 "symbol_name",
@@ -55,8 +56,8 @@ namespace MxNetLib.OpGenerator
             nameArg.HasDefault = true;
             nameArg.DefaultString = "\"\"";
             argsLocal.AddRange(args);
-            this._args = args.ToList();
-            _args.Add(nameArg);
+            this.Args = args.ToList();
+            Args.Add(nameArg);
             this._argCss = args.Where(w => !w.HasDefault).Concat(args.Where(w => w.HasDefault)).ToList();
             this._argCss.Add(nameArg);
         }
@@ -115,7 +116,7 @@ namespace MxNetLib.OpGenerator
             }
 
             //comments 
-            ret += $"/// <summary>\n/// {_description.Replace("\n", "")}\n/// </summary>\n";
+            ret += $"/// <summary>\n/// {Description.Replace("\n", "")}\n/// </summary>\n";
 
             foreach (var arg in argsLocal)
             {
@@ -123,7 +124,7 @@ namespace MxNetLib.OpGenerator
             }
 
             ret += $" /// <returns>returns new symbol</returns>\n";
-            ret += $"public static {ndArrayOrSymbol} {ConvertName(_name)}(";
+            ret += $"public static {ndArrayOrSymbol} {ConvertName(Name)}(";
 
             foreach (var arg in argsLocal)
             {
@@ -159,7 +160,7 @@ namespace MxNetLib.OpGenerator
                 ret += arg.DefaultStringWithObject;
             }
 
-            ret += $"\nreturn new Operator(\"{_name}\")\n";
+            ret += $"\nreturn new Operator(\"{Name}\")\n";
 
             foreach (var arg in _argCss)
             {
@@ -181,7 +182,7 @@ namespace MxNetLib.OpGenerator
             }
 
 
-            foreach (var arg in _args)
+            foreach (var arg in Args)
             {
                 if (arg.TypeName != "NdArrayOrSymbol")
                 {
@@ -190,7 +191,7 @@ namespace MxNetLib.OpGenerator
                 ret += $".SetInput(\"{arg.OrginName}\", {arg.Name})\n";
             }
 
-            foreach (var arg in _args)
+            foreach (var arg in Args)
             {
                 if (arg.TypeName != "NdArrayOrSymbol[]")
                 {
@@ -249,7 +250,7 @@ namespace MxNetLib.OpGenerator
         {
             string enumret = "";
 
-            foreach (var arg in _args.Where(w => w.IsEnum))
+            foreach (var arg in Args.Where(w => w.IsEnum))
             {
                 enumret += GetSummary(arg.Description);
                 enumret += arg.Enum.GetDefinitionString() + "\n";
@@ -284,7 +285,7 @@ namespace MxNetLib.OpGenerator
             }
 
             //comments 
-            ret += GetSummary(_description);
+            ret += GetSummary(Description);
 
             foreach (var arg in argsLocal)
             {
@@ -292,7 +293,7 @@ namespace MxNetLib.OpGenerator
             }
 
             ret += $" /// <returns>returns new symbol</returns>\n";
-            ret += $"public static {ndArrayOrSymbol} {ConvertName(_name)}(";
+            ret += $"public static {ndArrayOrSymbol} {ConvertName(Name)}(";
 
             foreach (var arg in _argCss)
             {
@@ -333,9 +334,9 @@ namespace MxNetLib.OpGenerator
                 ret += arg.DefaultStringWithObject;
             }
 
-            ret += $"\nreturn new Operator(\"{_name}\")\n";
+            ret += $"\nreturn new Operator(\"{Name}\")\n";
 
-            foreach (var arg in _args)
+            foreach (var arg in Args)
             {
                 if (arg.TypeName == "NdArrayOrSymbol" ||
                     arg.TypeName == "NdArrayOrSymbol[]" ||
@@ -355,7 +356,7 @@ namespace MxNetLib.OpGenerator
             }
 
 
-            foreach (var arg in _args)
+            foreach (var arg in Args)
             {
                 if (arg.TypeName != "NdArrayOrSymbol")
                 {
@@ -364,7 +365,7 @@ namespace MxNetLib.OpGenerator
                 ret += $".SetInput(\"{arg.OrginName}\", {arg.Name})\n";
             }
 
-            foreach (var arg in _args)
+            foreach (var arg in Args)
             {
                 if (arg.TypeName != "NdArrayOrSymbol[]")
                 {

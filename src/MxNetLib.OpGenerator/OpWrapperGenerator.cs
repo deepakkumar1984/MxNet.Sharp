@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -181,6 +182,12 @@ namespace MxNetLib.OpGenerator
             }
 
             return finalClass.Replace("[ClassData]", stringBuilder);
+        }
+
+        public void SaveJson(string filePath)
+        {
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(ops);
+            File.WriteAllText(filePath, json);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.202
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7F9899A6-10C3-44BE-8696-EAEA7C2D596B}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MxNetLib.NN", "src\MxNETLib.NN\MxNetLib.NN.csproj", "{ADB0F6E6-5875-4681-AF38-1703A1257A4D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MxNetLib.OpGenerator", "src\MxNetLib.OpGenerator\MxNetLib.OpGenerator.csproj", "{7B131000-BB76-460C-948B-F5A557B6EB6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{E14006BF-4543-41FD-A2DE-821DB4211935}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
