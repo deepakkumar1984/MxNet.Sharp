@@ -21,8 +21,8 @@ namespace MxNetLib.NN.Initializers
                 throw new ArgumentException("Scale must be positive value");
             }
 
-            ParamValidator.Validate("mode", mode, "fan_in", "fan_out", "fan_avg");
-            ParamValidator.Validate("distribution", distribution, "normal", "uniform");
+            Util.ValidateParam("mode", mode, "fan_in", "fan_out", "fan_avg");
+            Util.ValidateParam("distribution", distribution, "normal", "uniform");
 
             Scale = scale;
             Mode = mode;

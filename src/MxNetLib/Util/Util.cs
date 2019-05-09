@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MxNetLib
@@ -16,6 +17,15 @@ namespace MxNetLib
 
             return null;
 
+        }
+
+        public static void ValidateParam(string name, string value, params string[] validValues)
+        {
+            if (!validValues.Contains(value))
+            {
+                string message = "Invalid value for " + name + ". Valid values are " + string.Join(", ", validValues);
+                throw new Exception(message);
+            }
         }
     }
 }

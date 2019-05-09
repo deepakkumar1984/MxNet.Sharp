@@ -7,6 +7,7 @@ using System.Linq;
 using MxNetLib.NN;
 using MxNetLib.NN.Layers;
 using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Data;
 
 namespace MNIST
 {
@@ -26,7 +27,7 @@ namespace MNIST
             string valImagePath = "./mnist_data/t10k-images-idx3-ubyte";
             string valLabelPath = "./mnist_data/t10k-labels-idx1-ubyte";
 
-            var (train, val) = MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize);
+            var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 0);
 
             //var x = Symbol.Variable("x");
             //var flat = sym.Flatten(x, "flatten");
@@ -92,10 +93,10 @@ namespace MNIST
 
             var model = new Module(1, 28, 28);
 
-            model.Add(new Flatten());
-            model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
-            model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
-            model.Add(new Dense(labelCount));
+            //model.Add(new Flatten());
+            //model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
+            //model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
+            //model.Add(new Dense(labelCount));
 
             model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.Tanh));
             model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
@@ -108,25 +109,6 @@ namespace MNIST
 
             model.Compile(Optimizers.SGD(0.1f), LossType.SoftmaxCategorialCrossEntropy, MetricType.Accuracy);
             model.Fit(train, 10, batchSize, val);
-        }
-
-        public static ValueTuple<DataIter, DataIter> MNIST(string trainImagesPath, string trainLabelPath, string valImagesPath, string valLabelPath, uint batch_size = 32)
-        {
-            var trainIter = new MXDataIter("MNISTIter")
-                .SetParam("image", trainImagesPath)
-                .SetParam("label", trainLabelPath)
-                .SetParam("batch_size", batch_size)
-                //.SetParam("flat", "1")
-                .CreateDataIter();
-
-            var valIter = new MXDataIter("MNISTIter")
-                .SetParam("image", valImagesPath)
-                .SetParam("label", valLabelPath)
-                .SetParam("batch_size", batch_size)
-                //.SetParam("flat", "1")
-                .CreateDataIter();
-
-            return ValueTuple.Create(trainIter, valIter);
         }
     }
 }

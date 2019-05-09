@@ -7,7 +7,7 @@ namespace MxNetLib.NN.Layers.Recurrent
 {
     public class RNN : BaseLayer
     {
-       public RNN() : base("rnn")
+        public RNN() : base("rnn")
         {
 
         }

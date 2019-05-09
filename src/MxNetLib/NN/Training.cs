@@ -5,26 +5,26 @@ using System.Diagnostics;
 using System.Text;
 using System.Linq;
 
-namespace MxNetLib
+namespace MxNetLib.NN
 {
     public partial class Module
     {
-        public void Fit(DataIter train, uint epochs=1, uint batchSize=32, DataIter validation = null, bool shuffle = false)
+        public void Fit(DataIter train, uint epochs = 1, uint batchSize = 32, DataIter validation = null, bool shuffle = false)
         {
             var args = new SortedDictionary<string, NDArray>();
             var argGrads = new SortedDictionary<string, NDArray>();
             string labelName = "label";
             var label = Symbol.Variable(labelName);
-            
+
             List<uint> inputShape = new List<uint>();
             inputShape.Add(batchSize);
             inputShape.AddRange(InputShape);
-            
+
             args["X"] = new NDArray(new Shape(inputShape.ToArray()));
             args[labelName] = new NDArray(new Shape(batchSize));
-            
+
             Model.InferArgsMap(MXNet.Device, args, args);
-            
+
             var defaultInitializer = new Initializers.GlorotUniform();
 
             foreach (var arg in args)
@@ -59,11 +59,11 @@ namespace MxNetLib
                     {
                         samples += batchSize;
                         var dataBatch = train.GetDataBatch();
-                        
+
                         // Set data and label
                         dataBatch.Data.CopyTo(args["X"]);
                         dataBatch.Label.CopyTo(args[labelName]);
-                        
+
                         // Compute gradients
                         exec.Forward(true);
                         exec.Backward();
@@ -79,7 +79,7 @@ namespace MxNetLib
                             ModelOptimizer.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
                         }
                     }
-                    
+
                     sw.Stop();
 
                     if (validation != null)

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MxNETLib.NN\MxNetLib.NN.csproj" />
+    <ProjectReference Include="..\..\src\MxNetLib\MxNetLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>

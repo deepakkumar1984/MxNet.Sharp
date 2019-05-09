@@ -7,13 +7,14 @@ namespace MxNetLib.NN.Data
 {
     public class DataSetParser
     {
-        public static ValueTuple<DataIter, DataIter> MNIST(string trainImagesPath, string trainLabelPath, string valImagesPath, string valLabelPath, uint batch_size=32)
+        public static ValueTuple<DataIter, DataIter> MNIST(string trainImagesPath, string trainLabelPath, string valImagesPath, string valLabelPath, uint batch_size=32, int flat = 0)
         {
             var trainIter = new MXDataIter("MNISTIter")
                 .SetParam("image", trainImagesPath)
                 .SetParam("label", trainLabelPath)
                 .SetParam("batch_size", batch_size)
                 .SetParam("dtype", "float32")
+                .SetParam("flat", flat.ToString())
                 .CreateDataIter();
 
             var valIter = new MXDataIter("MNISTIter")
@@ -21,6 +22,7 @@ namespace MxNetLib.NN.Data
                 .SetParam("label", valLabelPath)
                 .SetParam("batch_size", batch_size)
                 .SetParam("dtype", "float32")
+                .SetParam("flat", flat.ToString())
                 .CreateDataIter();
 
             return ValueTuple.Create(trainIter, valIter);
