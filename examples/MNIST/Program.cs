@@ -33,11 +33,11 @@ namespace MNIST
             ImageDataFrame frame = new ImageDataFrame(1, 28, 28);
             frame.LoadImages("test_4.png");
 
-            //NDArray test = frame.ToVariable().Reshape(new Shape(1, 784));
-            //model.Fit(train, 1, batchSize, val);
+            NDArray test = frame.ToVariable().Reshape(new Shape(1, 784));
+            model.Fit(train, 1, batchSize, val);
 
-            //var prediction = model.Predict(test);
-            //var num = nd.Argmax(prediction, 1);
+            var prediction = model.Predict(test);
+            var num = nd.Argmax(prediction, 1);
 
             string modelFolder = "../../../model";
             model.SaveModel(modelFolder);

@@ -132,11 +132,16 @@ namespace MxNetLib.NN
 
             var shape = x.GetShape().ToList();
             predictArgs["X"] = new NDArray(new Shape(shape));
-            predictArgs["label"] = new NDArray(new Shape(1));
+            predictArgs["label"] = new NDArray(new Shape(shape[0]));
 
             Model.InferArgsMap(MXNet.Device, predictArgs, predictArgs);
+            foreach (var item in args)
+            {
+                if (item.Key == "X" || item.Key == "label")
+                    continue;
 
-            var defaultInitializer = new Initializers.GlorotUniform();
+                predictArgs[item.Key] = item.Value;
+            }
 
             using (var exec = Model.SimpleBind(MXNet.Device, predictArgs))
             {
