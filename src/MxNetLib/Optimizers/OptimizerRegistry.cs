@@ -3,10 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MxNetLib.Optimizers;
+using MxNetLib.NN;
 
-namespace MxNetLib.NN
+namespace MxNetLib
 {
-    public class Optimizers
+    public class OptimizerRegistry
     {
         public static BaseOptimizer SGD(float lr = 0.01f, float momentum = 1e-7f, float decay = 0)
         {

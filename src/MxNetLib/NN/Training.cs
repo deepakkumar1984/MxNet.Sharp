@@ -4,16 +4,26 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
+using MxNetLib.NN.Initializers;
+using System.IO;
+using OpenCvSharp;
+using MxNetLib.NN.Data;
 
 namespace MxNetLib.NN
 {
     public partial class Module
     {
+        private BaseInitializer defaultInitializer = new Initializers.GlorotUniform();
+
+        public void SetDefaultInitializer(BaseInitializer instance)
+        {
+            defaultInitializer = instance;
+        }
+
         public void Fit(DataIter train, uint epochs = 1, uint batchSize = 32, DataIter validation = null, bool shuffle = false)
         {
-            var args = new SortedDictionary<string, NDArray>();
-            var argGrads = new SortedDictionary<string, NDArray>();
             string labelName = "label";
+
             var label = Symbol.Variable(labelName);
 
             List<uint> inputShape = new List<uint>();
@@ -29,7 +39,6 @@ namespace MxNetLib.NN
 
             foreach (var arg in args)
             {
-                argGrads.Add(arg.Key, new NDArray(arg.Value.GetShape()));
                 if (ParamInitializers.ContainsKey(arg.Key))
                 {
                     ParamInitializers[arg.Key].Generate(arg.Value);
@@ -40,7 +49,7 @@ namespace MxNetLib.NN
                 }
             }
 
-            using (var exec = Model.SimpleBind(MXNet.Device, args, argGrads))
+            using (var exec = Model.SimpleBind(MXNet.Device, args))
             {
                 var argNames = Model.ListArguments();
 
@@ -105,12 +114,39 @@ namespace MxNetLib.NN
                     }
                     else
                     {
-                        Logging.LG($"Epoch: {iter} {Convert.ToInt32(samples * 1000 / duration)} samples/sec, Train_Metric: {TrainMetric.Get()},  Val_Metric: {Metric.Get()}");
+                        Logging.LG($"Epoch: {iter} {Convert.ToInt32(samples * 1000 / duration)} samples/sec, Train_Metric: {TrainMetric.Get()}, Val_Metric: {Metric.Get()}");
                     }
                 }
             }
 
             MXNet.MXNotifyShutdown();
         }
+
+        public NDArray Predict(NDArray x)
+        {
+            NDArray result = null;
+            NDArrayIter dataIter = new NDArrayIter(x, null);
+            
+            List<uint> inputShape = new List<uint>();
+            SortedDictionary<string, NDArray> predictArgs = new SortedDictionary<string, NDArray>();
+
+            var shape = x.GetShape().ToList();
+            predictArgs["X"] = new NDArray(new Shape(shape));
+            predictArgs["label"] = new NDArray(new Shape(1));
+
+            Model.InferArgsMap(MXNet.Device, predictArgs, predictArgs);
+
+            var defaultInitializer = new Initializers.GlorotUniform();
+
+            using (var exec = Model.SimpleBind(MXNet.Device, predictArgs))
+            {
+                dataIter.GetData().CopyTo(predictArgs["X"]);
+                exec.Forward(false);
+                result = exec.Output;
+            }
+
+            return result;
+        }
+
     }
 }

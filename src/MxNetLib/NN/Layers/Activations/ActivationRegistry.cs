@@ -6,7 +6,7 @@ namespace MxNetLib.NN.Layers.Activations
 {
     internal class ActivationRegistry
     {
-        internal static BaseLayer Get(ActivationType activationType)
+        internal static BaseLayer Get(string activationType)
         {
             BaseLayer act = null;
 

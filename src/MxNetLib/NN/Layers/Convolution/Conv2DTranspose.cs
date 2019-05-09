@@ -5,6 +5,7 @@ using System.Text;
 using MxNetLib.NN.Initializers;
 using MxNetLib.NN.Regularizers;
 using MxNetLib.NN.Constraints;
+using MxNetLib.NN.Layers.Activations;
 
 namespace MxNetLib.NN.Layers
 {
@@ -18,7 +19,7 @@ namespace MxNetLib.NN.Layers
 
         public uint? Padding { get; set; }
 
-        public ActivationType Activation { get; set; }
+        public string Activation { get; set; }
 
         public Tuple<uint, uint> DialationRate { get; set; }
 
@@ -37,7 +38,7 @@ namespace MxNetLib.NN.Layers
         public BaseRegularizer BiasRegularizer { get; set; }
 
         public Conv2DTranspose(uint filters, Tuple<uint, uint> kernalSize, Tuple<uint, uint> strides = null, uint? padding = null,
-                                Tuple<uint, uint> dialationRate = null,  ActivationType activation = ActivationType.Linear, BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null,
+                                Tuple<uint, uint> dialationRate = null,  string activation = ActivationType.Linear, BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null,
                                 BaseConstraint kernalConstraint = null, bool useBias = true, BaseInitializer biasInitializer =null, BaseRegularizer biasRegularizer = null,
                                 BaseConstraint biasConstraint = null)
             : base("conv2dtranspose")
@@ -61,6 +62,7 @@ namespace MxNetLib.NN.Layers
         {
             var biasName = UUID.GetID(ID + "_b");
             var weightName = UUID.GetID(ID + "_w");
+            var bias = UseBias ? Symbol.Variable(biasName) : null;
             Shape pad = null;
             if (Padding.HasValue)
             {
@@ -71,18 +73,29 @@ namespace MxNetLib.NN.Layers
                 pad = new Shape();
             }
 
-            InitParams.Add(biasName, BiasInitializer);
+            if (UseBias)
+                InitParams.Add(biasName, BiasInitializer);
             InitParams.Add(weightName, KernalInitializer);
 
             ConstraintParams.Add(weightName, KernalConstraint);
-            ConstraintParams.Add(biasName, BiasConstraint);
+            if (UseBias)
+                ConstraintParams.Add(biasName, BiasConstraint);
 
             RegularizerParams.Add(weightName, KernalRegularizer);
-            RegularizerParams.Add(biasName, BiasRegularizer);
+            if (UseBias)
+                RegularizerParams.Add(biasName, BiasRegularizer);
 
-            return sym.Deconvolution(x, Symbol.Variable(weightName), Symbol.Variable(biasName), new Shape(KernalSize.Item1, KernalSize.Item2),
+            var conv = sym.Deconvolution(x, Symbol.Variable(weightName), new Shape(KernalSize.Item1, KernalSize.Item2),
                                     Filters, new Shape(Strides.Item1, Strides.Item2), new Shape(DialationRate.Item1, DialationRate.Item2), pad,
-                                    new Shape(), new Shape(), 1, 512, !UseBias, DeconvolutionCudnnTune.Off, false, null, ID);
+                                    new Shape(), new Shape(), bias, !UseBias, 1, 512, DeconvolutionCudnnTune.Off, false, null, ID);
+
+            if (Activation != ActivationType.Linear)
+            {
+                var act = ActivationRegistry.Get(Activation);
+                conv = act.Build(conv);
+            }
+
+            return conv;
         }
     }
 }

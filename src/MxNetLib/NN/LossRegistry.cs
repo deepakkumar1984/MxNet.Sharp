@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MxNetLib.NN
 {
-    public class Losses
+    public class LossRegistry
     {
         public static Symbol Get(LossType lossType, Symbol preds, Symbol labels)
         {

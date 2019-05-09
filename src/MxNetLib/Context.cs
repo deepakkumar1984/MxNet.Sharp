@@ -47,6 +47,18 @@ namespace MxNetLib
 
         #endregion
 
+        public override string ToString()
+        {
+            if(GetDeviceType() == DeviceType.GPU)
+            {
+                return string.Format("GPU: {0}", GetDeviceId());
+            }
+            else
+            {
+                return string.Format("CPU: {0}", GetDeviceId());
+            }
+        }
+
     }
 
 }

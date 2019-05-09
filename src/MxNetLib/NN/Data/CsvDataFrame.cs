@@ -21,6 +21,7 @@ namespace MxNetLib.NN.Data
         private Encoding _encoding;
 
         public CsvDataFrame(string path , bool hasHeaders = false, string delimiter = ",", Encoding encoding = null)
+            : base(2)
         {
             _path = path;
             _hasHeaders = hasHeaders;
@@ -43,16 +44,16 @@ namespace MxNetLib.NN.Data
                 if(_hasHeaders)
                 {
                     string[] columnNames = csv.Parser.Read();
-                    _cols = (uint)columnNames.Length;
+                    Shape[1] = (uint)columnNames.Length;
                     Columns = columnNames.ToList();
                 }
 
                 while (csv.Read())
                 {
                     string[] rowData = csv.Parser.Context.Record;
-                    if (_cols == 0)
+                    if (Shape[1] == 0)
                     {
-                        _cols = (uint)rowData.Length;
+                        Shape[1] = (uint)rowData.Length;
                     }
 
                     foreach (string item in rowData)
@@ -61,6 +62,8 @@ namespace MxNetLib.NN.Data
                     }
                 }
             }
+
+            Shape[0] = (uint)DataList.Count / Shape[1];
 
             GenerateVariable();
         }

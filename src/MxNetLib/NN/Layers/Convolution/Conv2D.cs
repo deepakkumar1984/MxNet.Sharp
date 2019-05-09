@@ -1,6 +1,7 @@
 ﻿using MxNetLib;
 using MxNetLib.NN.Constraints;
 using MxNetLib.NN.Initializers;
+using MxNetLib.NN.Layers.Activations;
 using MxNetLib.NN.Regularizers;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace MxNetLib.NN.Layers
 
         public Tuple<uint, uint> DialationRate { get; set; }
 
-        public ActivationType Activation { get; set; }
+        public string Activation { get; set; }
 
         public bool UseBias { get; set; }
 
@@ -37,7 +38,7 @@ namespace MxNetLib.NN.Layers
         public BaseRegularizer BiasRegularizer { get; set; }
 
         public Conv2D(uint filters, Tuple<uint, uint> kernalSize, Tuple<uint, uint> strides = null, uint? padding=null, Tuple<uint, uint> dialationRate = null, 
-                    ActivationType activation = ActivationType.Linear, BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null,
+                    string activation = ActivationType.Linear, BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null,
                     BaseConstraint kernalConstraint = null, bool useBias = true, BaseInitializer biasInitializer = null, BaseRegularizer biasRegularizer = null,
                     BaseConstraint biasConstraint = null)
             : base("conv2d")
@@ -84,9 +85,17 @@ namespace MxNetLib.NN.Layers
             if(UseBias)
                 RegularizerParams.Add(biasName, BiasRegularizer);
 
-            return sym.Convolution(x, Symbol.Variable(weightName), bias, new Shape(KernalSize.Item1, KernalSize.Item2), Filters, 
-                                        new Shape(Strides.Item1, Strides.Item2), new Shape(DialationRate.Item1, DialationRate.Item2), pad, 
-                                        1, 1024, !UseBias, ConvolutionCudnnTune.Off, false, null, ID);
+            var conv = sym.Convolution(x, Symbol.Variable(weightName), new Shape(KernalSize.Item1, KernalSize.Item2), Filters, 
+                                        new Shape(Strides.Item1, Strides.Item2), new Shape(DialationRate.Item1, DialationRate.Item2), pad, bias,
+                                        !UseBias, 1, 1024, ConvolutionCudnnTune.Off, false, null, ID);
+
+            if(Activation != ActivationType.Linear)
+            {
+                var act = ActivationRegistry.Get(Activation);
+                conv = act.Build(conv);
+            }
+
+            return conv;
         }
     }
 }

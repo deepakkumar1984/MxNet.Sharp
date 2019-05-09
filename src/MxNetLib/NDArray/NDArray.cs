@@ -45,8 +45,6 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
-            else
-                context = MXNet.Device;
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateNone(out var @out), NativeMethods.OK);
 
@@ -58,8 +56,6 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
-            else
-                context = MXNet.Device;
 
             if (handle == NDArrayHandle.Zero)
                 throw new ArgumentException("Can not pass IntPtr.Zero", nameof(handle));
@@ -72,8 +68,6 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
-            else
-                context = MXNet.Device;
 
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
@@ -95,8 +89,6 @@ namespace MxNetLib
         {
             if (ctx != null)
                 context = ctx;
-            else
-                context = MXNet.Device;
 
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
@@ -140,21 +132,9 @@ namespace MxNetLib
         }
 
         public NDArray(IList<mx_float> data, Context ctx = null)
+            : this(data, new Shape((uint)data.Count), ctx)
         {
-            if (ctx != null)
-                context = ctx;
-            else
-                context = MXNet.Device;
-
-            if (data == null)
-                throw new ArgumentNullException(nameof(data));
-
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateNone(out var @out), NativeMethods.OK);
-
-            NativeMethods.MXNDArraySyncCopyFromCPU(@out, data.ToArray(), (uint)data.Count);
-
-            this.NativePtr = @out;
-            this._Blob = new NDBlob(@out);
+            
         }
 
         #endregion
@@ -275,12 +255,21 @@ namespace MxNetLib
 
             var args = new NDArrayHandle[tmp.Length];
             var keys = new string[tmp.Length];
-            for (var i = 0; i < tmp.Length; i++)
+
+            int i = 0;
+            foreach (var item in arrayMap)
             {
-                var kv = arrayMap[keys[i]];
-                args[i] = kv.GetHandle();
-                keys[i] = keys[i];
+                args[i] = item.Value.GetHandle();
+                keys[i] = item.Key;
+                i++; ;
             }
+
+            //for (var i = 0; i < tmp.Length; i++)
+            //{
+            //    var kv = arrayMap[keys[i]];
+            //    args[i] = kv.GetHandle();
+            //    keys[i] = keys[i];
+            //}
 
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, keys), NativeMethods.OK);
         }
@@ -534,16 +523,16 @@ namespace MxNetLib
 
         #endregion
 
-        public override string ToString()
-        {
-            var @out = new StringBuilder();
-            @out.Append('[');
-            var data = AsArray().Cast<float>().ToList();
-            @out.Append(string.Join(", ", data.Select(f => f.ToString(CultureInfo.InvariantCulture))));
-            @out.Append(']');
+        //public override string ToString()
+        //{
+        //    var @out = new StringBuilder();
+        //    @out.Append('[');
+        //    var data = AsArray().Cast<float>().ToList();
+        //    @out.Append(string.Join(", ", data.Select(f => f.ToString(CultureInfo.InvariantCulture))));
+        //    @out.Append(']');
 
-            return @out.ToString();
-        }
+        //    return @out.ToString();
+        //}
 
         protected override void DisposeUnmanaged()
         {

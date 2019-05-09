@@ -15,9 +15,7 @@ namespace MxNetLib.NN.Layers.Activations
 
         public override Symbol Build(Symbol x)
         {
-            return new Operator("Activation").SetParam("act_type", "relu")
-                                            .SetInput("data", x)
-                                            .CreateSymbol();
+            return sym.Relu(x, ID);
         }
     }
 }

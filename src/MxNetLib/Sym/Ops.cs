@@ -863,7 +863,7 @@ namespace MxNetLib
         /// <param name="cudnn_off">Turn off cudnn for this layer.</param>
         /// <param name="layout">Set layout for input, output and weight. Empty for    default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.NHWC and NDHWC are only supported on GPU.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Convolution(Symbol data, Symbol weight, Symbol bias, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, uint num_group = 1, ulong workspace = 1024, bool no_bias = false, ConvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionLayout? layout = null, string symbol_name = "")
+        public static Symbol Convolution(Symbol data, Symbol weight, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, Symbol bias = null, bool no_bias = true, uint num_group = 1, ulong workspace = 1024, ConvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionLayout? layout = null, string symbol_name = "")
         {
             if (stride == null) { stride = new Shape(); }
             if (dilate == null) { dilate = new Shape(); }
@@ -981,7 +981,7 @@ namespace MxNetLib
         /// <param name="cudnn_off">Turn off cudnn for this layer.</param>
         /// <param name="layout">Set layout for input, output and weight. Empty for default layout, NCW for 1d, NCHW for 2d and NCDHW for 3d.NHWC and NDHWC are only supported on GPU.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Deconvolution(Symbol data, Symbol weight, Symbol bias, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, Shape adj = null, Shape target_shape = null, uint num_group = 1, ulong workspace = 512, bool no_bias = true, DeconvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, DeconvolutionLayout? layout = null, string symbol_name = "")
+        public static Symbol Deconvolution(Symbol data, Symbol weight, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, Shape adj = null, Shape target_shape = null, Symbol bias=null, bool no_bias = true, uint num_group = 1, ulong workspace = 512, DeconvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, DeconvolutionLayout? layout = null, string symbol_name = "")
         {
             if (stride == null) { stride = new Shape(); }
             if (dilate == null) { dilate = new Shape(); }
@@ -1105,7 +1105,7 @@ namespace MxNetLib
         /// <param name="no_bias">Whether to disable bias parameter.</param>
         /// <param name="flatten">Whether to collapse all but the first axis of the input data tensor.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol FullyConnected(Symbol data, Symbol weight, Symbol bias, int num_hidden, bool no_bias = false, bool flatten = true, string symbol_name = "")
+        public static Symbol FullyConnected(Symbol data, Symbol weight, int num_hidden, Symbol bias = null, bool no_bias = true, bool flatten = true, string symbol_name = "")
         {
             return new Operator("FullyConnected")
             .SetParam("num_hidden", num_hidden)

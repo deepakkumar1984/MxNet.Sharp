@@ -17,98 +17,79 @@ namespace MNIST
         {
             //Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
             MXNet.SetDevice(DeviceType.CPU);
-
-            int inputDim = 28 * 28;
-            int labelCount = 10;
-            uint batchSize = 128;
+            uint batchSize = 200;
 
             string trainImagePath = "./mnist_data/train-images-idx3-ubyte";
             string trainLabelPath = "./mnist_data/train-labels-idx1-ubyte";
             string valImagePath = "./mnist_data/t10k-images-idx3-ubyte";
             string valLabelPath = "./mnist_data/t10k-labels-idx1-ubyte";
 
-            var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 0);
+            var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 1);
+            var model = new Module();
+            BuildNNModel(model);
+            //BuildSymbolModel(model);
+            //BuildConvNNModel(model);
 
-            //var x = Symbol.Variable("x");
-            //var flat = sym.Flatten(x, "flatten");
-            //var fc1 = sym.Relu(sym.FullyConnected(flat, Symbol.Variable("fc1_w"), null, 128, no_bias: true, symbol_name: "fc1"), "relu1");
-            //var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), null, 128, no_bias: true, symbol_name: "fc2"), "relu2");
-            //var fc3 = sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), null, labelCount, no_bias: true, symbol_name: "fc3");
-            //var output = sym.SoftmaxOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
+            ImageDataFrame frame = new ImageDataFrame(1, 28, 28);
+            frame.LoadImages("test_4.png");
 
-            //Dictionary<string, NDArray> parameters = new Dictionary<string, NDArray>();
-            //parameters["x"] = new NDArray(new Shape(batchSize, (uint)inputDim));
-            //parameters["label"] = new NDArray(new Shape(batchSize));
-            //output.InferArgsMap(MXNet.Device, parameters, parameters);
+            //NDArray test = frame.ToVariable().Reshape(new Shape(1, 784));
+            //model.Fit(train, 1, batchSize, val);
 
-            //foreach (var item in parameters.ToList())
-            //{
-            //    if (item.Key == "x" || item.Key == "label")
-            //        continue;
+            //var prediction = model.Predict(test);
+            //var num = nd.Argmax(prediction, 1);
 
-            //    if (item.Key.EndsWith("_w"))
-            //    {
-            //        item.Value.SampleUniform(-0.1f, 0.1f);
-            //    }
-            //    else
-            //    {
-            //        item.Value.Constant(0);
-            //    }
-            //}
+            string modelFolder = "../../../model";
+            model.SaveModel(modelFolder);
+            model.SaveCheckpoint(modelFolder);
 
-            //var opt = new SGD(0.1f);
-            //Accuracy metric = new Accuracy();
+            var loadedModel = Module.LoadModel(modelFolder);
+            loadedModel.LoadCheckpoint(modelFolder);
+        }
 
-            //train.SetBatch(batchSize);
-            //var argNames = output.ListArguments();
-            //DataBatch batch;
-            //using (var exec = output.SimpleBind(MXNet.Device, parameters))
-            //{
-            //    for (int iter = 1; iter <= 10; iter++)
-            //    {
-            //        train.Reset();
-            //        metric.Reset();
+        private static void BuildSymbolModel(Module model)
+        {
+            model.SetInput(784);
+            var x = Symbol.Variable("X");
+            var fc1 = sym.Relu(sym.FullyConnected(x, Symbol.Variable("fc1_w"), 128));
+            var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), 128));
+            var fc3 = sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), 10);
+            var output = sym.SoftmaxOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
 
-            //        while (train.Next())
-            //        {
-            //            batch = train.GetDataBatch();
-            //            batch.Data.CopyTo(parameters["x"]);
-            //            batch.Label.CopyTo(parameters["label"]);
-            //            exec.Forward(true);
-            //            exec.Backward();
+            model.SetDefaultInitializer(new RandomUniform(-1, 1));
+            model.Compile(output, OptimizerRegistry.SGD(), MetricType.Accuracy);
+        }
 
-            //            metric.Update(parameters["label"], exec.Output);
-            //            for (var i = 0; i < argNames.Count; ++i)
-            //            {
-            //                if (argNames[i] == "x" || argNames[i] == "label")
-            //                    continue;
+        private static void BuildNNModel(Module model)
+        {
+            //FC model 
+            model.SetInput(784);
 
-            //                opt.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
-            //            }
-            //        }
-
-            //        Console.WriteLine("Iteration: {0}, Metric: {1}", iter, metric.Get());
-            //    }
-            //}
-
-            var model = new Module(1, 28, 28);
-
-            //model.Add(new Flatten());
-            //model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
-            //model.Add(new Dense(128, ActivationType.ReLU, new RandomUniform(-1, 1)));
-            //model.Add(new Dense(labelCount));
-
-            model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.Tanh));
-            model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
-            model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.Tanh));
-            model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
-            model.Add(new Flatten());
-            model.Add(new Dropout(0.5f));
+            model.Add(new Dense(128, ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));
             model.Add(new Dense(128, ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));
             model.Add(new Dense(10));
 
-            model.Compile(Optimizers.SGD(0.1f), LossType.SoftmaxCategorialCrossEntropy, MetricType.Accuracy);
-            model.Fit(train, 10, batchSize, val);
+            model.Compile(OptimizerRegistry.SGD(), LossType.SoftmaxCategorialCrossEntropy, MetricType.Accuracy);
+        }
+
+        private static void BuildConvNNModel(Module model)
+        {
+            //LeCunn model 
+            model.SetInput(1, 28, 28);
+
+            model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));
+            model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
+
+            model.Add(new Conv2D(20, Tuple.Create<uint, uint>(5, 5), activation: ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));
+            model.Add(new MaxPooling2D(Tuple.Create<uint, uint>(2, 2), Tuple.Create<uint, uint>(2, 2)));
+
+            model.Add(new Flatten());
+            model.Add(new Dropout(0.5f));
+            model.Add(new Dense(128, ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));
+
+            model.Add(new Dense(10));
+
+            model.Compile(OptimizerRegistry.SGD(), LossType.SoftmaxCategorialCrossEntropy, MetricType.Accuracy);
         }
     }
 }

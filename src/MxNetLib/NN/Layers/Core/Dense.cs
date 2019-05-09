@@ -14,7 +14,7 @@ namespace MxNetLib.NN.Layers
     {
         public int Dim { get; set; }
 
-        public BaseLayer Activation { get; set; }
+        public string Activation { get; set; }
 
         public bool UseBias { get; set; }
 
@@ -30,13 +30,13 @@ namespace MxNetLib.NN.Layers
 
         public BaseRegularizer BiasRegularizer { get; set; }
 
-        public Dense(int dim, ActivationType activation = ActivationType.Linear, 
+        public Dense(int dim, string activation = ActivationType.Linear, 
                     BaseInitializer kernalInitializer = null, BaseRegularizer kernalRegularizer = null, BaseConstraint kernalConstraint = null,
                     bool useBias = false, BaseInitializer biasInitializer = null, BaseRegularizer biasRegularizer=null, BaseConstraint biasConstraint = null)
             : base("dense")
         {
             Dim = dim;
-            Activation = ActivationRegistry.Get(activation);
+            Activation = activation;
             UseBias = useBias;
             KernalInitializer = kernalInitializer ?? new GlorotUniform();
             BiasInitializer = biasInitializer ?? new Zeros();
@@ -65,14 +65,14 @@ namespace MxNetLib.NN.Layers
             if(UseBias)
                 RegularizerParams.Add(biasName, BiasRegularizer);
 
-            if (Activation != null)
+            var l = sym.FullyConnected(data, Symbol.Variable(weightName), Dim, bias, !UseBias, true, ID);
+            if (Activation != ActivationType.Linear)
             {
-                return Activation.Build(sym.FullyConnected(data, Symbol.Variable(weightName), bias, Dim, !UseBias, true, ID));
+                var act = ActivationRegistry.Get(Activation);
+                l = act.Build(l);
             }
-            else
-            {
-                return sym.FullyConnected(data, Symbol.Variable(weightName), bias, Dim, !UseBias, true, ID);
-            }
+
+            return l;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace MxNetLib.NN.Data
     {
         public List<float> DataList = new List<float>();
 
-        internal uint _cols = 0;
+        internal uint[] Shape;
 
         internal NDArray variable;
 
@@ -21,13 +21,9 @@ namespace MxNetLib.NN.Data
 
         }
 
-        public DataFrame(uint cols)
-            :base()
+        internal DataFrame(int dims)
         {
-            if (cols == 0)
-                throw new ArgumentException("0 columns in 2D array is not acceptable");
-
-            _cols = cols;
+            Shape = new uint[dims];
         }
 
         public void Load(params float[] data)
@@ -35,20 +31,12 @@ namespace MxNetLib.NN.Data
             DataList.AddRange(data);
         }
 
-        internal void GenerateVariable()
+        internal virtual void GenerateVariable()
         {
             if (DataList.Count == 0)
                 throw new Exception("No data to generate variable. Please add data using AddData method");
 
-            uint rows = (uint)DataList.Count / _cols;
-            if (_cols == 1)
-            {
-                variable = new NDArray(DataList.ToArray(), new Shape(rows));
-            }
-            else
-            {
-                variable = new NDArray(DataList.ToArray(), new Shape(rows, _cols));
-            }
+            variable = new NDArray(DataList.ToArray(), new Shape(Shape));
         }
 
         public NDArray ToVariable()

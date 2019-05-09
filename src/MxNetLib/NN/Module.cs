@@ -9,7 +9,7 @@ using MxNetLib.Optimizers;
 using MxNetLib.Metrics;
 using MxNetLib.NN.Initializers;
 using MxNetLib.NN.Layers;
-using MxNetLib.NN.EventArgs;
+using MxNetLib.EventArgs;
 
 namespace MxNetLib.NN
 {
@@ -40,18 +40,14 @@ namespace MxNetLib.NN
         /// </summary>
         public event EventHandler<TrainingEndEventArgs> TrainingEnd;
 
-        private List<BaseLayer> layers = new List<BaseLayer>();
-
         public uint[] InputShape { get; set; }
-
-        public Shape OutputShape { get; set; }
 
         [JsonIgnore]
         public Symbol Model = null;
 
-        public BaseLayer[] Layers
+        public List<BaseLayer> Layers
         {
-            get => layers.ToArray();
+            get; set;
         }
 
         [JsonIgnore]
@@ -71,28 +67,34 @@ namespace MxNetLib.NN
 
         private Dictionary<string, BaseInitializer> ParamInitializers = new Dictionary<string, BaseInitializer>();
 
-        private Dictionary<string, Symbol> trainableParams = new Dictionary<string, Symbol>();
+        private IDictionary<string, NDArray> args;
 
         public Module(params uint[] inputShape)
         {
+            Layers = new List<BaseLayer>();
+            args = new SortedDictionary<string, NDArray>();
+            SetInput(inputShape);
+        }
+
+        public void SetInput(params uint[] inputShape)
+        {
             InputShape = inputShape;
-            Model = Symbol.Variable("X");
         }
 
         public void Add(BaseLayer l)
         {
-            layers.Add(l);
+            Layers.Add(l);
         }
 
         public void Compile(BaseOptimizer optimizer, LossType loss, MetricType metric = MetricType.None)
         {
-            trainableParams.Clear();
             Metric = MetricRegistry.Get(metric);
             TrainMetric = MetricRegistry.Get(metric);
-
+            Model = new Symbol(IntPtr.Zero);
+            Model = Symbol.Variable("X");
             ModelOptimizer = optimizer;
 
-            foreach (var layer in layers)
+            foreach (var layer in Layers)
             {
                 Model = layer.Build(Model);
                 foreach (var item in ((BaseLayer)layer).InitParams)
@@ -101,44 +103,70 @@ namespace MxNetLib.NN
                 }
             }
 
-            Model = Losses.Get(loss, Model, Symbol.Variable("label"));
+            Model = LossRegistry.Get(loss, Model, Symbol.Variable("label"));
         }
 
-        public void Compile(Symbol model, BaseOptimizer optimizer, LossType loss, MetricType metric = MetricType.None)
+        public void Compile(Symbol model, BaseOptimizer optimizer, MetricType metric)
         {
-            trainableParams.Clear();
             Metric = MetricRegistry.Get(metric);
             TrainMetric = MetricRegistry.Get(metric);
-
             ModelOptimizer = optimizer;
-
-            Model = model;
-
-            Model = Losses.Get(loss, Model, Symbol.Variable("label"));
+            Model = new Symbol(model.NativePtr);
         }
 
-        public void Compile(OptimizerType optimizer, LossType loss, MetricType metric = MetricType.None)
+        public void Compile(OptimizerType optimizer, LossType loss, MetricType metric)
         {
-            BaseOptimizer opt = Optimizers.Get(optimizer);
+            BaseOptimizer opt = OptimizerRegistry.Get(optimizer);
             Compile(opt, loss, metric);
         }
 
-        public void Compile(Symbol model, OptimizerType optimizer, LossType loss, MetricType metric = MetricType.None)
+        public void Compile(Symbol model, OptimizerType optimizer, MetricType metric)
         {
-            BaseOptimizer opt = Optimizers.Get(optimizer);
-            Compile(model, opt, loss, metric);
+            BaseOptimizer opt = OptimizerRegistry.Get(optimizer);
+            Compile(model, opt, metric);
         }
 
-        public void SaveModel(string folder, bool saveSymbol = false)
+        public void SaveModel(string folder, bool saveSymbol = true, string moduleFileName = "module", string symbolFileName = "symbol")
         {
-            string sequential = JsonConvert.SerializeObject(this, Formatting.Indented);
-            File.WriteAllText(folder + "/seq.json", sequential);
-
+            string sequential = JsonConvert.SerializeObject(this, Formatting.Indented,
+                                            new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+            string modulePath = string.Format("{0}/{1}.json", folder, moduleFileName);
+            string symbolPath = string.Format("{0}/{1}.json", folder, symbolFileName);
+            File.WriteAllText(modulePath, sequential);
+            
             if (saveSymbol)
             {
-                string symbol = Model.ToJSON();
-                File.WriteAllText(folder + "/sym.json", symbol);
+                Model.Save(symbolPath);
             }
+        }
+
+        public static Module LoadModel(string folder, bool loadSymbol = true, string moduleFileName = "module", string symbolFileName = "symbol")
+        {
+            string modulePath = string.Format("{0}/{1}.json", folder, moduleFileName);
+            string symbolPath = string.Format("{0}/{1}.json", folder, symbolFileName);
+
+            string seq_json = File.ReadAllText(modulePath);
+            Module model = JsonConvert.DeserializeObject<Module>(seq_json,   
+                                                new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Auto });
+
+            if (loadSymbol && File.Exists(symbolPath))
+            {
+                model.Model = Symbol.Load(symbolPath);
+            }
+
+            return model;
+        }
+
+        public void SaveCheckpoint(string folder, int iter = 0)
+        {
+            string paramFilePath = string.Format("{0}/chkpt_{1}.params", folder, iter);
+            NDArray.Save(paramFilePath, args);
+        }
+
+        public void LoadCheckpoint(string folder, int iter = 0)
+        {
+            string paramFilePath = string.Format("{0}/chkpt_{1}.params", folder, iter);
+            args = NDArray.LoadToMap(paramFilePath);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MxNetLib
         ///<summary>
         ///<para> </para>
         ///</summary>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray CustomFunction()
         {
             return new Operator("_CustomFunction")
@@ -25,7 +25,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">input data list</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray CachedOp(NDArray[] data)
         {
             return new Operator("_CachedOp")
@@ -40,8 +40,8 @@ namespace MxNetLib
         /// <param name="buf">Buffer containing binary encoded image</param>
         /// <param name="flag">Convert decoded image to grayscale (0) or color (1).</param>
         /// <param name="to_rgb">Whether to convert decoded image to mxnet's default RGB format (instead of opencv's default BGR).</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray Cvimdecode(Symbol buf, int flag = 1, bool to_rgb = true)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray Cvimdecode(NDArray buf, int flag = 1, bool to_rgb = true)
         {
             return new Operator("_cvimdecode")
             .SetParam("buf", buf)
@@ -57,7 +57,7 @@ namespace MxNetLib
         /// <param name="filename">Name of the image file to be loaded.</param>
         /// <param name="flag">Convert decoded image to grayscale (0) or color (1).</param>
         /// <param name="to_rgb">Whether to convert decoded image to mxnet's default RGB format (instead of opencv's default BGR).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Cvimread(string filename, int flag = 1, bool to_rgb = true)
         {
             return new Operator("_cvimread")
@@ -75,8 +75,8 @@ namespace MxNetLib
         /// <param name="w">Width of resized image.</param>
         /// <param name="h">Height of resized image.</param>
         /// <param name="interp">Interpolation method (default=cv2.INTER_LINEAR).</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray Cvimresize(Symbol data, int w, int h, int interp = 1)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray Cvimresize(NDArray data, int w, int h, int interp = 1)
         {
             return new Operator("_cvimresize")
             .SetParam("data", data)
@@ -97,8 +97,8 @@ namespace MxNetLib
         /// <param name="right">Right margin.</param>
         /// <param name="type">Filling type (default=cv2.BORDER_CONSTANT).</param>
         /// <param name="values">Fill with value(RGB[A] or gray), up to 4 channels.</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray CvcopyMakeBorder(Symbol data, int top, int bot, int left, int right, int type = 0, Tuple<double> values = null)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray CvcopyMakeBorder(NDArray data, int top, int bot, int left, int right, int type = 0, Tuple<double> values = null)
         {
             if (values == null) { values = new Tuple<double>(); }
 
@@ -117,8 +117,8 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">input data</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray Copyto(Symbol data)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray Copyto(NDArray data)
         {
             return new Operator("_copyto")
             .SetParam("data", data)
@@ -128,7 +128,7 @@ namespace MxNetLib
         ///<summary>
         ///<para>Place holder for variable who cannot perform gradient</para>
         ///</summary>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray NoGradient()
         {
             return new Operator("_NoGradient")
@@ -193,7 +193,7 @@ namespace MxNetLib
         /// <param name="fix_gamma">Fix gamma while training</param>
         /// <param name="use_global_stats">Whether use global moving statistics instead of local batch-norm. This will force change batch-norm into a scale shift operator.</param>
         /// <param name="output_mean_var">Output All,normal mean and var</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BatchNormV1(NDArray data, NDArray gamma, NDArray beta, float eps = 0.001f, float momentum = 0.9f, bool fix_gamma = true, bool use_global_stats = false, bool output_mean_var = false)
         {
             return new Operator("BatchNorm_v1")
@@ -249,7 +249,7 @@ namespace MxNetLib
         /// <param name="wd">Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</param>
         /// <param name="eta">Learning rate schedule multiplier</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MpAdamwUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, NDArray weight32, NDArray rescale_grad, float lr, float eta, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f, float wd = 0f, float clip_gradient = -1f)
         {
             return new Operator("_mp_adamw_update")
@@ -307,7 +307,7 @@ namespace MxNetLib
         /// <param name="wd">Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</param>
         /// <param name="eta">Learning rate schedule multiplier</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray AdamwUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, NDArray rescale_grad, float lr, float eta, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f, float wd = 0f, float clip_gradient = -1f)
         {
             return new Operator("_adamw_update")
@@ -364,7 +364,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\contrib\krprod.cc:L108</para>
         ///</summary>
         /// <param name="args">Positional input matrices</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray KhatriRao(NDArray[] args)
         {
             return new Operator("khatri_rao")
@@ -385,8 +385,8 @@ namespace MxNetLib
         /// <param name="in_state_locs">The locations of loop states among the inputs.</param>
         /// <param name="in_data_locs">The locations of input data among the inputs.</param>
         /// <param name="remain_locs">The locations of remaining data among the inputs.</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray Foreach(Symbol fn, NDArray[] data, int num_args, int num_outputs, int num_out_data, Tuple<double> in_state_locs, Tuple<double> in_data_locs, Tuple<double> remain_locs)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray Foreach(NDArray fn, NDArray[] data, int num_args, int num_outputs, int num_out_data, Tuple<double> in_state_locs, Tuple<double> in_data_locs, Tuple<double> remain_locs)
         {
             return new Operator("_foreach")
             .SetParam("fn", fn)
@@ -408,15 +408,15 @@ namespace MxNetLib
         /// <param name="cond">Input graph for the loop condition.</param>
         /// <param name="func">Input graph for the loop body.</param>
         /// <param name="data">The input arrays that include data arrays and states.</param>
-        /// <param name="num_args">Number of input arguments, including cond and func as two symbol inputs.</param>
+        /// <param name="num_args">Number of input arguments, including cond and func as two NDArray inputs.</param>
         /// <param name="num_outputs">The number of outputs of the subgraph.</param>
         /// <param name="num_out_data">The number of outputs from the function body.</param>
         /// <param name="max_iterations">Maximum number of iterations.</param>
         /// <param name="cond_input_locs">The locations of cond's inputs in the given inputs.</param>
         /// <param name="func_input_locs">The locations of func's inputs in the given inputs.</param>
         /// <param name="func_var_locs">The locations of loop_vars among func's inputs.</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray WhileLoop(Symbol cond, Symbol func, NDArray[] data, int num_args, int num_outputs, int num_out_data, int max_iterations, Tuple<double> cond_input_locs, Tuple<double> func_input_locs, Tuple<double> func_var_locs)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray WhileLoop(NDArray cond, NDArray func, NDArray[] data, int num_args, int num_outputs, int num_out_data, int max_iterations, Tuple<double> cond_input_locs, Tuple<double> func_input_locs, Tuple<double> func_var_locs)
         {
             return new Operator("_while_loop")
             .SetParam("cond", cond)
@@ -441,13 +441,13 @@ namespace MxNetLib
         /// <param name="then_branch">Input graph for the then branch.</param>
         /// <param name="else_branch">Input graph for the else branch.</param>
         /// <param name="data">The input arrays that include data arrays and states.</param>
-        /// <param name="num_args">Number of input arguments, including cond, then and else as three symbol inputs.</param>
+        /// <param name="num_args">Number of input arguments, including cond, then and else as three NDArray inputs.</param>
         /// <param name="num_outputs">The number of outputs of the subgraph.</param>
         /// <param name="cond_input_locs">The locations of cond's inputs in the given inputs.</param>
         /// <param name="then_input_locs">The locations of then's inputs in the given inputs.</param>
         /// <param name="else_input_locs">The locations of else's inputs in the given inputs.</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray Cond(Symbol cond, Symbol then_branch, Symbol else_branch, NDArray[] data, int num_args, int num_outputs, Tuple<double> cond_input_locs, Tuple<double> then_input_locs, Tuple<double> else_input_locs)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray Cond(NDArray cond, NDArray then_branch, NDArray else_branch, NDArray[] data, int num_args, int num_outputs, Tuple<double> cond_input_locs, Tuple<double> then_input_locs, Tuple<double> else_input_locs)
         {
             return new Operator("_cond")
             .SetParam("cond", cond)
@@ -475,7 +475,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Input data for the custom operator.</param>
         /// <param name="op_type">Name of the custom operator. This is the name that is passed to `mx.operator.register` to register the operator.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Custom(NDArray[] data, string op_type)
         {
             return new Operator("Custom")
@@ -491,7 +491,7 @@ namespace MxNetLib
         /// <param name="sparseness_target">The sparseness target</param>
         /// <param name="penalty">The tradeoff parameter for the sparseness penalty</param>
         /// <param name="momentum">The momentum for running average</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray IdentityAttachKLSparseReg(NDArray data, float sparseness_target = 0.1f, float penalty = 0.001f, float momentum = 0.9f)
         {
             return new Operator("IdentityAttachKLSparseReg")
@@ -530,7 +530,7 @@ namespace MxNetLib
         /// <param name="slope">Init slope for the activation. (For leaky and elu only)</param>
         /// <param name="lower_bound">Lower bound of random slope. (For rrelu only)</param>
         /// <param name="upper_bound">Upper bound of random slope. (For rrelu only)</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LeakyReLU(NDArray data, NDArray gamma, LeakyreluActType act_type = LeakyreluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f, float upper_bound = 0.334f)
         {
             return new Operator("LeakyReLU")
@@ -578,7 +578,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Input data</param>
         /// <param name="label">Input label</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SoftmaxCrossEntropy(NDArray data, NDArray label)
         {
             return new Operator("softmax_cross_entropy")
@@ -605,7 +605,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <param name="act_type">Activation function to be applied.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Activation(NDArray data, ActivationActType act_type)
         {
             return new Operator("Activation")
@@ -680,7 +680,7 @@ namespace MxNetLib
         /// <param name="output_mean_var">Output the mean and inverse std </param>
         /// <param name="axis">Specify which shape axis the channel is specified</param>
         /// <param name="cudnn_off">Do not select CUDNN operator, if available</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BatchNorm(NDArray data, NDArray gamma, NDArray beta, NDArray moving_mean, NDArray moving_var, double eps = 0.001, float momentum = 0.9f, bool fix_gamma = true, bool use_global_stats = false, bool output_mean_var = false, int axis = 1, bool cudnn_off = false)
         {
             return new Operator("BatchNorm")
@@ -743,7 +743,7 @@ namespace MxNetLib
         /// <param name="data">List of arrays to concatenate</param>
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Concat(NDArray[] data, int num_args, int dim = 1)
         {
             return new Operator("Concat")
@@ -759,7 +759,7 @@ namespace MxNetLib
         /// <param name="data">List of arrays to concatenate</param>
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RnnParamConcat(NDArray[] data, int num_args, int dim = 1)
         {
             return new Operator("_rnn_param_concat")
@@ -862,7 +862,7 @@ namespace MxNetLib
         /// <param name="cudnn_tune">Whether to pick convolution algo by running performance test.</param>
         /// <param name="cudnn_off">Turn off cudnn for this layer.</param>
         /// <param name="layout">Set layout for input, output and weight. Empty for    default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.NHWC and NDHWC are only supported on GPU.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Convolution(NDArray data, NDArray weight, NDArray bias, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, uint num_group = 1, ulong workspace = 1024, bool no_bias = false, ConvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionLayout? layout = null)
         {
             if (stride == null) { stride = new Shape(); }
@@ -945,7 +945,7 @@ namespace MxNetLib
         /// <param name="use_data_lengths">Whether the data lenghts are decided by `data_lengths`. If false, the lengths are equal to the max sequence length.</param>
         /// <param name="use_label_lengths">Whether the label lenghts are decided by `label_lengths`, or derived from `padding_mask`. If false, the lengths are derived from the first occurrence of the value of `padding_mask`. The value of `padding_mask` is ``0`` when first CTC label is reserved for blank, and ``-1`` when last label is reserved for blank. See `blank_label`.</param>
         /// <param name="blank_label">Set the label that is reserved for blank label.If "first", 0-th label is reserved, and label values for tokens in the vocabulary are between ``1`` and ``alphabet_size-1``, and the padding mask is ``-1``. If "last", last label value ``alphabet_size-1`` is reserved for blank label instead, and label values for tokens in the vocabulary are between ``0`` and ``alphabet_size-2``, and the padding mask is ``0``.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray CTCLoss(NDArray data, NDArray label, NDArray data_lengths, NDArray label_lengths, bool use_data_lengths = false, bool use_label_lengths = false, CtclossBlankLabel blank_label = CtclossBlankLabel.First)
         {
             return new Operator("CTCLoss")
@@ -980,7 +980,7 @@ namespace MxNetLib
         /// <param name="cudnn_tune">Whether to pick convolution algorithm by running performance test.</param>
         /// <param name="cudnn_off">Turn off cudnn for this layer.</param>
         /// <param name="layout">Set layout for input, output and weight. Empty for default layout, NCW for 1d, NCHW for 2d and NCDHW for 3d.NHWC and NDHWC are only supported on GPU.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Deconvolution(NDArray data, NDArray weight, NDArray bias, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, Shape adj = null, Shape target_shape = null, uint num_group = 1, ulong workspace = 512, bool no_bias = true, DeconvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, DeconvolutionLayout? layout = null)
         {
             if (stride == null) { stride = new Shape(); }
@@ -1025,8 +1025,8 @@ namespace MxNetLib
         ///<para>  random.seed(998)</para>
         ///<para>  input_array = array([[3., 0.5,  -0.5,  2., 7.],</para>
         ///<para>                      [2., -0.4,   7.,  3., 0.2]])</para>
-        ///<para>  a = symbol.Variable('a')</para>
-        ///<para>  dropout = symbol.Dropout(a, p = 0.2)</para>
+        ///<para>  a = NDArray.Variable('a')</para>
+        ///<para>  dropout = NDArray.Dropout(a, p = 0.2)</para>
         ///<para>  executor = dropout.simple_bind(a = input_array.shape)</para>
         ///<para> </para>
         ///<para>  ## If training</para>
@@ -1049,7 +1049,7 @@ namespace MxNetLib
         /// <param name="mode">Whether to only turn on dropout during training or to also turn on for inference.</param>
         /// <param name="axes">Axes for variational dropout kernel.</param>
         /// <param name="cudnn_off">Whether to turn off cudnn in dropout operator. This option is ignored if axes is specified.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Dropout(NDArray data, float p = 0.5f, DropoutMode mode = DropoutMode.Training, Shape axes = null, bool? cudnn_off = false)
         {
             if (axes == null) { axes = new Shape(); }
@@ -1104,7 +1104,7 @@ namespace MxNetLib
         /// <param name="num_hidden">Number of hidden nodes of the output.</param>
         /// <param name="no_bias">Whether to disable bias parameter.</param>
         /// <param name="flatten">Whether to collapse all but the first axis of the input data tensor.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray FullyConnected(NDArray data, NDArray weight, NDArray bias, int num_hidden, bool no_bias = false, bool flatten = true)
         {
             return new Operator("FullyConnected")
@@ -1153,7 +1153,7 @@ namespace MxNetLib
         /// <param name="axis">The axis to perform layer normalization. Usually, this should be be axis of the channel dimension. Negative values means indexing from right to left.</param>
         /// <param name="eps">An `epsilon` parameter to prevent division by 0.</param>
         /// <param name="output_mean_var">Output the mean and std calculated along the given axis.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LayerNorm(NDArray data, NDArray gamma, NDArray beta, int axis = -1, float eps = 1e-05f, bool output_mean_var = false)
         {
             return new Operator("LayerNorm")
@@ -1191,7 +1191,7 @@ namespace MxNetLib
         /// <param name="beta">The power parameter :math:`eta` in the LRN expression.</param>
         /// <param name="knorm">The parameter :math:`k` in the LRN expression.</param>
         /// <param name="nsize">normalization window width in elements.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LRN(NDArray data, uint nsize, float alpha = 0.0001f, float beta = 0.75f, float knorm = 2f)
         {
             return new Operator("LRN")
@@ -1271,7 +1271,7 @@ namespace MxNetLib
         /// <param name="p_value">Value of p for Lp pooling, can be 1 or 2, required for Lp Pooling.</param>
         /// <param name="count_include_pad">Only used for AvgPool, specify whether to count padding elements for averagecalculation. For example, with a 5*5 kernel on a 3*3 corner of a image,the sum of the 9 valid elements will be divided by 25 if this is set to true,or it will be divided by 9 if this is set to false. Defaults to true.</param>
         /// <param name="layout">Set layout for input and output. Empty for    default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Pooling(NDArray data, Shape kernel = null, PoolingPoolType pool_type = PoolingPoolType.Max, bool global_pool = false, bool cudnn_off = false, PoolingPoolingConvention pooling_convention = PoolingPoolingConvention.Valid, Shape stride = null, Shape pad = null, int? p_value = null, bool? count_include_pad = null, PoolingLayout? layout = null)
         {
             if (kernel == null) { kernel = new Shape(); }
@@ -1324,7 +1324,7 @@ namespace MxNetLib
         /// <param name="axis">The axis along which to compute softmax.</param>
         /// <param name="temperature">Temperature parameter in softmax</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to the same as input's dtype if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Softmax(NDArray data, int axis = -1, double? temperature = null, DType dtype = null)
         {
             return new Operator("softmax")
@@ -1367,7 +1367,7 @@ namespace MxNetLib
         /// <param name="axis">The axis along which to compute softmax.</param>
         /// <param name="temperature">Temperature parameter in softmax</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to the same as input's dtype if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Softmin(NDArray data, int axis = -1, double? temperature = null, DType dtype = null)
         {
             return new Operator("softmin")
@@ -1400,7 +1400,7 @@ namespace MxNetLib
         /// <param name="axis">The axis along which to compute softmax.</param>
         /// <param name="temperature">Temperature parameter in softmax</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to the same as input's dtype if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogSoftmax(NDArray data, int axis = -1, double? temperature = null, DType dtype = null)
         {
             return new Operator("log_softmax")
@@ -1442,7 +1442,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <param name="mode">Specifies how to compute the softmax. If set to ``instance``, it computes softmax for each instance. If set to ``channel``, It computes cross channel softmax for each position of each instance.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SoftmaxActivation(NDArray data, SoftmaxactivationMode mode = SoftmaxactivationMode.Instance)
         {
             return new Operator("SoftmaxActivation")
@@ -1463,7 +1463,7 @@ namespace MxNetLib
         /// <param name="multi_input_mode">How to handle multiple input. concat means concatenate upsampled images along the channel dimension. sum means add all images together, only available for nearest neighbor upsampling.</param>
         /// <param name="num_args">Number of inputs to be upsampled. For nearest neighbor upsampling, this can be 1-N; the size of output will be(scale*h_0,scale*w_0) and all other inputs will be upsampled to thesame size. For bilinear upsampling this must be 2; 1 input and 1 weight.</param>
         /// <param name="workspace">Tmp workspace for deconvolution (MB)</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray UpSampling(NDArray[] data, int scale, UpsamplingSampleType sample_type, int num_args, int num_filter = 0, UpsamplingMultiInputMode multi_input_mode = UpsamplingMultiInputMode.Concat, ulong workspace = 512)
         {
             return new Operator("UpSampling")
@@ -1501,7 +1501,7 @@ namespace MxNetLib
         /// <param name="wd">Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</param>
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SignsgdUpdate(NDArray weight, NDArray grad, float lr, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f)
         {
             return new Operator("signsgd_update")
@@ -1544,7 +1544,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="wd_lh">The amount of weight decay that does not go into gradient/momentum calculationsotherwise do weight decay algorithmically only.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SignumUpdate(NDArray weight, NDArray grad, NDArray mom, float lr, float momentum = 0f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, float wd_lh = 0f)
         {
             return new Operator("signum_update")
@@ -1577,7 +1577,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MultiSgdUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
             return new Operator("multi_sgd_update")
@@ -1620,7 +1620,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MultiSgdMomUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
             return new Operator("multi_sgd_mom_update")
@@ -1651,7 +1651,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MultiMpSgdUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
             return new Operator("multi_mp_sgd_update")
@@ -1694,7 +1694,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MultiMpSgdMomUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
             return new Operator("multi_mp_sgd_mom_update")
@@ -1732,7 +1732,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="lazy_update">If true, lazy updates are applied if gradient's stype is row_sparse.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SgdUpdate(NDArray weight, NDArray grad, float lr, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, bool lazy_update = true)
         {
             NDArray output = new NDArray();
@@ -1789,7 +1789,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="lazy_update">If true, lazy updates are applied if gradient's stype is row_sparse and both weight and momentum have the same stype</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SgdMomUpdate(NDArray weight, NDArray grad, NDArray mom, float lr, float momentum = 0f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, bool lazy_update = true)
         {
 
@@ -1819,7 +1819,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="lazy_update">If true, lazy updates are applied if gradient's stype is row_sparse.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MpSgdUpdate(NDArray weight, NDArray grad, NDArray weight32, float lr, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, bool lazy_update = true)
         {
             return new Operator("mp_sgd_update")
@@ -1847,7 +1847,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="lazy_update">If true, lazy updates are applied if gradient's stype is row_sparse and both weight and momentum have the same stype</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MpSgdMomUpdate(NDArray weight, NDArray grad, NDArray mom, NDArray weight32, float lr, float momentum = 0f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, bool lazy_update = true)
         {
             return new Operator("mp_sgd_mom_update")
@@ -1895,7 +1895,7 @@ namespace MxNetLib
         /// <param name="wd">Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</param>
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_grad">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray FtmlUpdate(NDArray weight, NDArray grad, NDArray d, NDArray v, NDArray z, float lr, int t, float beta1 = 0.6f, float beta2 = 0.999f, double epsilon = 1e-08, float wd = 0f, float rescale_grad = 1f, float clip_grad = -1f)
         {
             return new Operator("ftml_update")
@@ -1960,7 +1960,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="lazy_update">If true, lazy updates are applied if gradient's stype is row_sparse and all of w, m and v have the same stype</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray AdamUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, float lr, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, bool lazy_update = true)
         {
             new Operator("adam_update")
@@ -2029,7 +2029,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="clip_weights">Clip weights to the range of [-clip_weights, clip_weights] If clip_weights <= 0, weight clipping is turned off. weights = max(min(weights, clip_weights), -clip_weights).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RmspropUpdate(NDArray weight, NDArray grad, NDArray n, float lr, float gamma1 = 0.95f, float epsilon = 1e-08f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, float clip_weights = -1f)
         {
             return new Operator("rmsprop_update")
@@ -2086,7 +2086,7 @@ namespace MxNetLib
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="clip_weights">Clip weights to the range of [-clip_weights, clip_weights] If clip_weights <= 0, weight clipping is turned off. weights = max(min(weights, clip_weights), -clip_weights).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RmspropalexUpdate(NDArray weight, NDArray grad, NDArray n, NDArray g, NDArray delta, float lr, float gamma1 = 0.95f, float gamma2 = 0.9f, float epsilon = 1e-08f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, float clip_weights = -1f)
         {
             return new Operator("rmspropalex_update")
@@ -2141,7 +2141,7 @@ namespace MxNetLib
         /// <param name="wd">Weight decay augments the objective function with a regularization term that penalizes large weights. The penalty scales with the square of the magnitude of each weight.</param>
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray FtrlUpdate(NDArray weight, NDArray grad, NDArray z, NDArray n, float lr, float lamda1 = 0.01f, float beta = 1f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f)
         {
             return new Operator("ftrl_update")
@@ -2184,7 +2184,7 @@ namespace MxNetLib
         /// <param name="wd">weight decay</param>
         /// <param name="rescale_grad">Rescale gradient to grad = rescale_grad*grad.</param>
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SparseAdagradUpdate(NDArray weight, NDArray grad, NDArray history, float lr, float epsilon = 1e-07f, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f)
         {
             return new Operator("_sparse_adagrad_update")
@@ -2290,7 +2290,7 @@ namespace MxNetLib
         /// <param name="mode">Padding type to use. "constant" pads with `constant_value` "edge" pads using the edge values of the input array "reflect" pads by reflecting values with respect to the edges.</param>
         /// <param name="pad_width">Widths of the padding regions applied to the edges of each axis. It is a tuple of integer padding widths for each axis of the format ``(before_1, after_1, ... , before_N, after_N)``. It should be of length ``2*N`` where ``N`` is the number of dimensions of the array.This is equivalent to pad_width in numpy.pad, but flattened.</param>
         /// <param name="constant_value">The value used for padding when `mode` is "constant".</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Pad(NDArray data, PadMode mode, Shape pad_width, double constant_value = 0)
         {
             return new Operator("Pad")
@@ -2332,7 +2332,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\matrix_op.cc:L315</para>
         ///</summary>
         /// <param name="data">Input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Flatten(NDArray data)
         {
             return new Operator("Flatten")
@@ -2374,7 +2374,7 @@ namespace MxNetLib
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
         /// <param name="high">Upper bounds of the distributions.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleUniform(NDArray low, NDArray high, Shape shape = null, DType dtype = null)
         {
             return new Operator("_sample_uniform")
@@ -2419,7 +2419,7 @@ namespace MxNetLib
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
         /// <param name="sigma">Standard deviations of the distributions.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleNormal(NDArray mu, NDArray sigma, Shape shape = null, DType dtype = null)
         {
             return new Operator("_sample_normal")
@@ -2464,7 +2464,7 @@ namespace MxNetLib
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
         /// <param name="beta">Beta (scale) parameters of the distributions.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleGamma(NDArray alpha, NDArray beta, Shape shape = null, DType dtype = null)
         {
             return new Operator("_sample_gamma")
@@ -2507,7 +2507,7 @@ namespace MxNetLib
         /// <param name="lam">Lambda (rate) parameters of the distributions.</param>
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleExponential(NDArray lam, Shape shape = null, DType dtype = null)
         {
             return new Operator("_sample_exponential")
@@ -2551,7 +2551,7 @@ namespace MxNetLib
         /// <param name="lam">Lambda (rate) parameters of the distributions.</param>
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SamplePoisson(NDArray lam, Shape shape = null, DType dtype = null)
         {
             return new Operator("_sample_poisson")
@@ -2597,7 +2597,7 @@ namespace MxNetLib
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
         /// <param name="p">Failure probabilities in each experiment.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleNegativeBinomial(NDArray k, NDArray p, Shape shape = null, DType dtype = null)
         {
             return new Operator("_sample_negative_binomial")
@@ -2644,7 +2644,7 @@ namespace MxNetLib
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
         /// <param name="alpha">Alpha (dispersion) parameters of the distributions.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleGeneralizedNegativeBinomial(NDArray mu, NDArray alpha, Shape shape = null, DType dtype = null)
         {
             return new Operator("_sample_generalized_negative_binomial")
@@ -2690,7 +2690,7 @@ namespace MxNetLib
         /// <param name="shape">Shape to be sampled from each random distribution.</param>
         /// <param name="get_prob">Whether to also return the log probability of sampled result. This is usually used for differentiating through stochastic variables, e.g. in reinforcement learning.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleMultinomial(NDArray data, Shape shape = null, bool get_prob = false, DType dtype = null)
         {
             if (shape == null) { shape = new Shape(); }
@@ -2726,7 +2726,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomUniform(float low = 0f, float high = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_uniform")
@@ -2759,7 +2759,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomNormal(float loc = 0f, float scale = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_normal")
@@ -2789,7 +2789,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomGamma(float alpha = 1f, float beta = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_gamma")
@@ -2818,7 +2818,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomExponential(float lam = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_exponential")
@@ -2847,7 +2847,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomPoisson(float lam = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_poisson")
@@ -2878,7 +2878,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomNegativeBinomial(int k = 1, float p = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_negative_binomial")
@@ -2911,7 +2911,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to float32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomGeneralizedNegativeBinomial(float mu = 1f, float alpha = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_generalized_negative_binomial")
@@ -2943,7 +2943,7 @@ namespace MxNetLib
         /// <param name="shape">Shape of the output.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to int32 if not defined (dtype=None).</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomRandint(Tuple<double> low, Tuple<double> high, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             return new Operator("_random_randint")
@@ -2973,7 +2973,7 @@ namespace MxNetLib
         /// <param name="low">Lower bound of the distribution.</param>
         /// <param name="high">Upper bound of the distribution.</param>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomUniformLike(NDArray data, float low = 0f, float high = 1f)
         {
             return new Operator("_random_uniform_like")
@@ -3000,7 +3000,7 @@ namespace MxNetLib
         /// <param name="loc">Mean of the distribution.</param>
         /// <param name="scale">Standard deviation of the distribution.</param>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomNormalLike(NDArray data, float loc = 0f, float scale = 1f)
         {
             return new Operator("_random_normal_like")
@@ -3026,7 +3026,7 @@ namespace MxNetLib
         /// <param name="alpha">Alpha parameter (shape) of the gamma distribution.</param>
         /// <param name="beta">Beta parameter (scale) of the gamma distribution.</param>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomGammaLike(NDArray data, float alpha = 1f, float beta = 1f)
         {
             return new Operator("_random_gamma_like")
@@ -3051,7 +3051,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lam">Lambda parameter (rate) of the exponential distribution.</param>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomExponentialLike(NDArray data, float lam = 1f)
         {
             return new Operator("_random_exponential_like")
@@ -3076,7 +3076,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lam">Lambda parameter (rate) of the Poisson distribution.</param>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomPoissonLike(NDArray data, float lam = 1f)
         {
             return new Operator("_random_poisson_like")
@@ -3103,7 +3103,7 @@ namespace MxNetLib
         /// <param name="k">Limit of unsuccessful experiments.</param>
         /// <param name="p">Failure probability in each experiment.</param>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomNegativeBinomialLike(NDArray data, int k = 1, float p = 1f)
         {
             return new Operator("_random_negative_binomial_like")
@@ -3133,7 +3133,7 @@ namespace MxNetLib
         /// <param name="mu">Mean of the negative binomial distribution.</param>
         /// <param name="alpha">Alpha (dispersion) parameter of the negative binomial distribution.</param>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RandomGeneralizedNegativeBinomialLike(NDArray data, float mu = 1f, float alpha = 1f)
         {
             return new Operator("_random_generalized_negative_binomial_like")
@@ -3153,7 +3153,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">Data to be shuffled.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Shuffle(NDArray data)
         {
             return new Operator("_shuffle")
@@ -3190,7 +3190,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="range_max">The number of possible classes.</param>
         /// <param name="shape">2-D shape of the output, where shape[0] is the batch size, and shape[1] is the number of candidates to sample for each batch.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SampleUniqueZipfian(int range_max, Shape shape = null)
         {
             return new Operator("_sample_unique_zipfian")
@@ -3226,7 +3226,7 @@ namespace MxNetLib
         /// <param name="data">Input data to the function.</param>
         /// <param name="label">Input label to the function.</param>
         /// <param name="grad_scale">Scale the gradient by a float factor</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinearRegressionOutput(NDArray data, NDArray label, float grad_scale = 1f)
         {
             return new Operator("LinearRegressionOutput")
@@ -3264,7 +3264,7 @@ namespace MxNetLib
         /// <param name="data">Input data to the function.</param>
         /// <param name="label">Input label to the function.</param>
         /// <param name="grad_scale">Scale the gradient by a float factor</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MAERegressionOutput(NDArray data, NDArray label, float grad_scale = 1f)
         {
             return new Operator("MAERegressionOutput")
@@ -3306,7 +3306,7 @@ namespace MxNetLib
         /// <param name="data">Input data to the function.</param>
         /// <param name="label">Input label to the function.</param>
         /// <param name="grad_scale">Scale the gradient by a float factor</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogisticRegressionOutput(NDArray data, NDArray label, float grad_scale = 1f)
         {
             return new Operator("LogisticRegressionOutput")
@@ -3384,12 +3384,12 @@ namespace MxNetLib
         /// <param name="bidirectional">whether to use bidirectional recurrent layers</param>
         /// <param name="mode">the type of RNN to compute</param>
         /// <param name="p">drop rate of the dropout on the outputs of each RNN layer, except the last layer.</param>
-        /// <param name="state_outputs">Whether to have the states as symbol outputs.</param>
+        /// <param name="state_outputs">Whether to have the states as NDArray outputs.</param>
         /// <param name="projection_size">size of project size</param>
         /// <param name="lstm_state_clip_min">Minimum clip value of LSTM states. This option must be used together with lstm_state_clip_max.</param>
         /// <param name="lstm_state_clip_max">Maximum clip value of LSTM states. This option must be used together with lstm_state_clip_min.</param>
         /// <param name="lstm_state_clip_nan">Whether to stop NaN from propagating in state by clipping it to min/max. If clipping range is not specified, this option is ignored.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RNN(NDArray data, NDArray parameters, NDArray state, NDArray state_cell, uint state_size, uint num_layers, RNNMode mode, bool bidirectional = false, float p = 0f, bool state_outputs = false, int? projection_size = null, double? lstm_state_clip_min = null, double? lstm_state_clip_max = null, bool lstm_state_clip_nan = false)
         {
             return new Operator("RNN")
@@ -3477,7 +3477,7 @@ namespace MxNetLib
         /// <param name="num_outputs">Number of splits. Note that this should evenly divide the length of the `axis`.</param>
         /// <param name="axis">Axis along which to split.</param>
         /// <param name="squeeze_axis">If true, Removes the axis with length 1 from the shapes of the output arrays. **Note** that setting `squeeze_axis` to ``true`` removes axis with length 1 only along the `axis` which it is split. Also `squeeze_axis` can be set to ``true`` only if ``input.shape[axis] == num_outputs``.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SliceChannel(NDArray data, int num_outputs, int axis = 1, bool squeeze_axis = false)
         {
             return new Operator("SliceChannel")
@@ -3579,7 +3579,7 @@ namespace MxNetLib
         /// <param name="normalization">Normalizes the gradient.</param>
         /// <param name="out_grad">Multiplies gradient with output gradient element-wise.</param>
         /// <param name="smooth_alpha">Constant for computing a label smoothed version of cross-entropyfor the backwards pass.  This constant gets subtracted from theone-hot encoding of the gold label and distributed uniformly toall other labels.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SoftmaxOutput(NDArray data, NDArray label, float grad_scale = 1f, float ignore_label = -1f, bool multi_output = false, bool use_ignore = false, bool preserve_shape = false, SoftmaxoutputNormalization normalization = SoftmaxoutputNormalization.Null, bool out_grad = false, float smooth_alpha = 0f)
         {
             return new Operator("SoftmaxOutput")
@@ -3622,7 +3622,7 @@ namespace MxNetLib
         /// <param name="data">Input array.</param>
         /// <param name="dim1">the first axis to be swapped.</param>
         /// <param name="dim2">the second axis to be swapped.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SwapAxis(NDArray data, uint dim1 = 0, uint dim2 = 0)
         {
             return new Operator("SwapAxis")
@@ -3660,7 +3660,7 @@ namespace MxNetLib
         /// <param name="data">The input</param>
         /// <param name="axis">The axis along which to perform the reduction. Negative values means indexing from right to left. ``Requires axis to be set as int, because global reduction is not supported yet.``</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axis is left in the result as dimension with size one.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Argmax(NDArray data, int? axis = null, bool keepdims = false)
         {
             return new Operator("argmax")
@@ -3698,7 +3698,7 @@ namespace MxNetLib
         /// <param name="data">The input</param>
         /// <param name="axis">The axis along which to perform the reduction. Negative values means indexing from right to left. ``Requires axis to be set as int, because global reduction is not supported yet.``</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axis is left in the result as dimension with size one.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Argmin(NDArray data, int? axis = null, bool keepdims = false)
         {
             return new Operator("argmin")
@@ -3728,7 +3728,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\broadcast_reduce_op_index.cc:L97</para>
         ///</summary>
         /// <param name="data">The input array</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ArgmaxChannel(NDArray data)
         {
             return new Operator("argmax_channel")
@@ -3788,7 +3788,7 @@ namespace MxNetLib
         /// <param name="axis">int or None. The axis to picking the elements. Negative values means indexing from right to left. If is `None`, the elements in the index w.r.t the flattened input will be picked.</param>
         /// <param name="keepdims">If true, the axis where we pick the elements is left in the result as dimension with size one.</param>
         /// <param name="mode">Specify how out-of-bound indices behave. Default is "clip". "clip" means clip to the range. So, if all indices mentioned are too large, they are replaced by the index that addresses the last element along an axis.  "wrap" means to wrap around.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Pick(NDArray data, NDArray index, int? axis = -1, bool keepdims = false, PickMode mode = PickMode.Clip)
         {
             return new Operator("pick")
@@ -3843,7 +3843,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Sum(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("sum")
@@ -3863,7 +3863,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Mean(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("mean")
@@ -3883,7 +3883,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Prod(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("prod")
@@ -3905,7 +3905,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Nansum(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("nansum")
@@ -3927,7 +3927,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Nanprod(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("nanprod")
@@ -3947,7 +3947,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Max(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("max")
@@ -3967,7 +3967,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Min(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("min")
@@ -4005,7 +4005,7 @@ namespace MxNetLib
         /// <param name="data">The input</param>
         /// <param name="axis">The axes to perform the broadcasting.</param>
         /// <param name="size">Target sizes of the broadcasting axes.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastAxis(NDArray data, Shape axis = null, Shape size = null)
         {
             if (axis == null) { axis = new Shape(); }
@@ -4042,7 +4042,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">The input</param>
         /// <param name="shape">The shape of the desired array. We can set the dim to zero if it's same as the original. E.g `A = broadcast_to(B, shape=(10, 0, 0))` has the same meaning as `A = broadcast_axis(B, axis=0, size=10)`.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastTo(NDArray data, Shape shape = null)
         {
             if (shape == null) { shape = new Shape(); }
@@ -4078,7 +4078,7 @@ namespace MxNetLib
         /// <param name="rhs">Second input.</param>
         /// <param name="lhs_axes">Axes to perform broadcast on in the first input array</param>
         /// <param name="rhs_axes">Axes to copy from the second input array</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastLike(NDArray lhs, NDArray rhs, Shape lhs_axes = null, Shape rhs_axes = null)
         {
             return new Operator("broadcast_like")
@@ -4127,7 +4127,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a 2-tuple, it specifies the axes that hold 2-D matrices,      and the matrix norms of these matrices are computed.</param>
         /// <param name="out_dtype">The data type of the output.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axis is left in the result as dimension with size one.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Norm(NDArray data, int ord = 2, Shape axis = null, NormOutDtype? out_dtype = null, bool keepdims = false)
         {
             return new Operator("norm")
@@ -4183,7 +4183,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">The input.</param>
         /// <param name="stype">Output storage type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray CastStorage(NDArray data, CastStorageStype stype)
         {
             return new Operator("cast_storage")
@@ -4225,7 +4225,7 @@ namespace MxNetLib
         /// <param name="condition">condition array</param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Where(NDArray condition, NDArray x, NDArray y)
         {
             return new Operator("where")
@@ -4296,7 +4296,7 @@ namespace MxNetLib
         /// <param name="k">Diagonal in question. The default is 0. Use k>0 for diagonals above the main diagonal, and k<0 for diagonals below the main diagonal. If input has shape (S0 S1) k must be between -S0 and S1</param>
         /// <param name="axis1">The first axis of the sub-arrays of interest. Ignored when the input is a 1-D array.</param>
         /// <param name="axis2">The second axis of the sub-arrays of interest. Ignored when the input is a 1-D array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Diag(NDArray data, int k = 0, int axis1 = 0, int axis2 = 1)
         {
             return new Operator("diag")
@@ -4362,7 +4362,7 @@ namespace MxNetLib
         /// <param name="transpose_a">If true then transpose the first input before dot.</param>
         /// <param name="transpose_b">If true then transpose the second input before dot.</param>
         /// <param name="forward_stype">The desired storage type of the forward output given by user, if thecombination of input storage types and this hint does not matchany implemented ones, the dot operator will perform fallback operationand still produce an output of the desired storage type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Dot(NDArray lhs, NDArray rhs, bool transpose_a = false, bool transpose_b = false, DotForwardStype? forward_stype = null)
         {
             return new Operator("dot")
@@ -4396,7 +4396,7 @@ namespace MxNetLib
         /// <param name="transpose_a">If true then transpose the first input before dot.</param>
         /// <param name="transpose_b">If true then transpose the second input before dot.</param>
         /// <param name="forward_stype">The desired storage type of the forward output given by user, if thecombination of input storage types and this hint does not matchany implemented ones, the dot operator will perform fallback operationand still produce an output of the desired storage type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BatchDot(NDArray lhs, NDArray rhs, bool transpose_a = false, bool transpose_b = false, BatchDotForwardStype? forward_stype = null)
         {
             return new Operator("batch_dot")
@@ -4438,7 +4438,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastAdd(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_add")
@@ -4477,7 +4477,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastSub(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_sub")
@@ -4510,7 +4510,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastMul(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_mul")
@@ -4543,7 +4543,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastDiv(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_div")
@@ -4572,7 +4572,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastMod(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_mod")
@@ -4601,7 +4601,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastPower(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_power")
@@ -4632,7 +4632,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastMaximum(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_maximum")
@@ -4663,7 +4663,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastMinimum(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_minimum")
@@ -4700,7 +4700,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastHypot(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_hypot")
@@ -4729,7 +4729,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastEqual(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_equal")
@@ -4758,7 +4758,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastNotEqual(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_not_equal")
@@ -4787,7 +4787,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastGreater(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_greater")
@@ -4816,7 +4816,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastGreaterEqual(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_greater_equal")
@@ -4845,7 +4845,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastLesser(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_lesser")
@@ -4874,7 +4874,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastLesserEqual(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_lesser_equal")
@@ -4903,7 +4903,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastLogicalAnd(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_logical_and")
@@ -4932,7 +4932,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastLogicalOr(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_logical_or")
@@ -4961,7 +4961,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input to the function</param>
         /// <param name="rhs">Second input to the function</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BroadcastLogicalXor(NDArray lhs, NDArray rhs)
         {
             return new Operator("broadcast_logical_xor")
@@ -4987,7 +4987,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ElemwiseAdd(NDArray lhs, NDArray rhs)
         {
             return new Operator("elemwise_add")
@@ -5001,7 +5001,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray GradAdd(NDArray lhs, NDArray rhs)
         {
             return new Operator("_grad_add")
@@ -5027,7 +5027,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ElemwiseSub(NDArray lhs, NDArray rhs)
         {
             return new Operator("elemwise_sub")
@@ -5052,7 +5052,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ElemwiseMul(NDArray lhs, NDArray rhs)
         {
             return new Operator("elemwise_mul")
@@ -5070,7 +5070,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ElemwiseDiv(NDArray lhs, NDArray rhs)
         {
             return new Operator("elemwise_div")
@@ -5084,7 +5084,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Mod(NDArray lhs, NDArray rhs)
         {
             return new Operator("_mod")
@@ -5098,7 +5098,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Power(NDArray lhs, NDArray rhs)
         {
             return new Operator("_power")
@@ -5112,7 +5112,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Maximum(NDArray lhs, NDArray rhs)
         {
             return new Operator("_maximum")
@@ -5126,7 +5126,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Minimum(NDArray lhs, NDArray rhs)
         {
             return new Operator("_minimum")
@@ -5144,7 +5144,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Hypot(NDArray lhs, NDArray rhs)
         {
             return new Operator("_hypot")
@@ -5158,7 +5158,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Equal(NDArray lhs, NDArray rhs)
         {
             return new Operator("_equal")
@@ -5172,7 +5172,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray NotEqual(NDArray lhs, NDArray rhs)
         {
             return new Operator("_not_equal")
@@ -5186,7 +5186,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Greater(NDArray lhs, NDArray rhs)
         {
             return new Operator("_greater")
@@ -5200,7 +5200,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray GreaterEqual(NDArray lhs, NDArray rhs)
         {
             return new Operator("_greater_equal")
@@ -5214,7 +5214,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Lesser(NDArray lhs, NDArray rhs)
         {
             return new Operator("_lesser")
@@ -5228,7 +5228,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LesserEqual(NDArray lhs, NDArray rhs)
         {
             return new Operator("_lesser_equal")
@@ -5242,7 +5242,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogicalAnd(NDArray lhs, NDArray rhs)
         {
             return new Operator("_logical_and")
@@ -5256,7 +5256,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogicalOr(NDArray lhs, NDArray rhs)
         {
             return new Operator("_logical_or")
@@ -5270,7 +5270,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogicalXor(NDArray lhs, NDArray rhs)
         {
             return new Operator("_logical_xor")
@@ -5284,7 +5284,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray PlusScalar(NDArray data, float scalar)
         {
             return new Operator("_plus_scalar")
@@ -5298,7 +5298,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MinusScalar(NDArray data, float scalar)
         {
             return new Operator("_minus_scalar")
@@ -5312,7 +5312,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RminusScalar(NDArray data, float scalar)
         {
             return new Operator("_rminus_scalar")
@@ -5336,7 +5336,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MulScalar(NDArray data, float scalar)
         {
             return new Operator("_mul_scalar")
@@ -5360,7 +5360,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray DivScalar(NDArray data, float scalar)
         {
             return new Operator("_div_scalar")
@@ -5374,7 +5374,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RdivScalar(NDArray data, float scalar)
         {
             return new Operator("_rdiv_scalar")
@@ -5388,7 +5388,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ModScalar(NDArray data, float scalar)
         {
             return new Operator("_mod_scalar")
@@ -5402,7 +5402,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RmodScalar(NDArray data, float scalar)
         {
             return new Operator("_rmod_scalar")
@@ -5416,7 +5416,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MaximumScalar(NDArray data, float scalar)
         {
             return new Operator("_maximum_scalar")
@@ -5430,7 +5430,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MinimumScalar(NDArray data, float scalar)
         {
             return new Operator("_minimum_scalar")
@@ -5444,7 +5444,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray PowerScalar(NDArray data, float scalar)
         {
             return new Operator("_power_scalar")
@@ -5458,7 +5458,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RpowerScalar(NDArray data, float scalar)
         {
             return new Operator("_rpower_scalar")
@@ -5472,7 +5472,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray HypotScalar(NDArray data, float scalar)
         {
             return new Operator("_hypot_scalar")
@@ -5505,7 +5505,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SmoothL1(NDArray data, float scalar)
         {
             return new Operator("smooth_l1")
@@ -5519,7 +5519,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray EqualScalar(NDArray data, float scalar)
         {
             return new Operator("_equal_scalar")
@@ -5533,7 +5533,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray NotEqualScalar(NDArray data, float scalar)
         {
             return new Operator("_not_equal_scalar")
@@ -5547,7 +5547,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray GreaterScalar(NDArray data, float scalar)
         {
             return new Operator("_greater_scalar")
@@ -5561,7 +5561,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray GreaterEqualScalar(NDArray data, float scalar)
         {
             return new Operator("_greater_equal_scalar")
@@ -5575,7 +5575,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LesserScalar(NDArray data, float scalar)
         {
             return new Operator("_lesser_scalar")
@@ -5589,7 +5589,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LesserEqualScalar(NDArray data, float scalar)
         {
             return new Operator("_lesser_equal_scalar")
@@ -5603,7 +5603,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogicalAndScalar(NDArray data, float scalar)
         {
             return new Operator("_logical_and_scalar")
@@ -5617,7 +5617,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogicalOrScalar(NDArray data, float scalar)
         {
             return new Operator("_logical_or_scalar")
@@ -5631,7 +5631,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogicalXorScalar(NDArray data, float scalar)
         {
             return new Operator("_logical_xor_scalar")
@@ -5657,7 +5657,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">first input</param>
         /// <param name="rhs">second input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ScatterElemwiseDiv(NDArray lhs, NDArray rhs)
         {
             return new Operator("_scatter_elemwise_div")
@@ -5682,7 +5682,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ScatterPlusScalar(NDArray data, float scalar)
         {
             return new Operator("_scatter_plus_scalar")
@@ -5707,7 +5707,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">source input</param>
         /// <param name="scalar">scalar input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ScatterMinusScalar(NDArray data, float scalar)
         {
             return new Operator("_scatter_minus_scalar")
@@ -5736,7 +5736,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_sum.cc:L156</para>
         ///</summary>
         /// <param name="args">Positional input arguments</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray AddN(NDArray[] args)
         {
             return new Operator("add_n")
@@ -5761,7 +5761,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L85</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Relu(NDArray data)
         {
             return new Operator("relu")
@@ -5782,7 +5782,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L101</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Sigmoid(NDArray data)
         {
             return new Operator("sigmoid")
@@ -5803,7 +5803,7 @@ namespace MxNetLib
         /// <param name="data">The input array.</param>
         /// <param name="alpha">Slope of hard sigmoid</param>
         /// <param name="beta">Bias of hard sigmoid.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray HardSigmoid(NDArray data, float alpha = 0.2f, float beta = 0.5f)
         {
             return new Operator("hard_sigmoid")
@@ -5826,7 +5826,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L145</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Softsign(NDArray data)
         {
             return new Operator("softsign")
@@ -5840,7 +5840,7 @@ namespace MxNetLib
         ///<para>From:C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:200</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Copy(NDArray data)
         {
             return new Operator("_copy")
@@ -5879,7 +5879,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L281</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BlockGrad(NDArray data)
         {
             return new Operator("BlockGrad")
@@ -5890,8 +5890,8 @@ namespace MxNetLib
         ///<summary>
         ///<para>Make your own loss function in network construction.</para>
         ///<para> </para>
-        ///<para>This operator accepts a customized loss function symbol as a terminal loss and</para>
-        ///<para>the symbol should be an operator with no backward dependency.</para>
+        ///<para>This operator accepts a customized loss function NDArray as a terminal loss and</para>
+        ///<para>the NDArray should be an operator with no backward dependency.</para>
         ///<para>The output of this function is the gradient of loss with respect to the input data.</para>
         ///<para> </para>
         ///<para>For example, if you are a making a cross entropy loss function. Assume ``out`` is the</para>
@@ -5914,7 +5914,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L314</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MakeLoss(NDArray data)
         {
             return new Operator("make_loss")
@@ -5927,7 +5927,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input.</param>
         /// <param name="rhs">Second input.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray IdentityWithAttrLikeRhs(NDArray lhs, NDArray rhs)
         {
             return new Operator("_identity_with_attr_like_rhs")
@@ -5968,7 +5968,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">First input.</param>
         /// <param name="rhs">Second input.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ReshapeLike(NDArray lhs, NDArray rhs)
         {
             return new Operator("reshape_like")
@@ -5993,7 +5993,7 @@ namespace MxNetLib
         /// <param name="lhs_end">Defaults to None. The ending index along which the lhs dimensions are to be used for reshaping. Supports negative indices.</param>
         /// <param name="rhs_begin">Defaults to 0. The beginning index along which the rhs dimensions are to be used for reshaping. Supports negative indices.</param>
         /// <param name="rhs_end">Defaults to None. The ending index along which the rhs dimensions are to be used for reshaping. Supports negative indices.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ShapeArray(NDArray data, int? lhs_begin = null, int? lhs_end = null, int? rhs_begin = null, int? rhs_end = null)
         {
             return new Operator("shape_array")
@@ -6017,7 +6017,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L581</para>
         ///</summary>
         /// <param name="data">Input Array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SizeArray(NDArray data)
         {
             return new Operator("size_array")
@@ -6042,7 +6042,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">The input.</param>
         /// <param name="dtype">Output data type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Cast(NDArray data, DType dtype)
         {
             return new Operator("Cast")
@@ -6063,7 +6063,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Negative(NDArray data)
         {
             return new Operator("negative")
@@ -6085,7 +6085,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L663</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Reciprocal(NDArray data)
         {
             return new Operator("reciprocal")
@@ -6111,7 +6111,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L685</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Abs(NDArray data)
         {
             return new Operator("abs")
@@ -6137,7 +6137,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L704</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Sign(NDArray data)
         {
             return new Operator("sign")
@@ -6163,7 +6163,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L723</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Round(NDArray data)
         {
             return new Operator("round")
@@ -6193,7 +6193,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L744</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Rint(NDArray data)
         {
             return new Operator("rint")
@@ -6221,7 +6221,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L763</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Ceil(NDArray data)
         {
             return new Operator("ceil")
@@ -6249,7 +6249,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L782</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Floor(NDArray data)
         {
             return new Operator("floor")
@@ -6278,7 +6278,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L802</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Trunc(NDArray data)
         {
             return new Operator("trunc")
@@ -6305,7 +6305,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L820</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Fix(NDArray data)
         {
             return new Operator("fix")
@@ -6334,7 +6334,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L840</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Square(NDArray data)
         {
             return new Operator("square")
@@ -6363,7 +6363,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L863</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Sqrt(NDArray data)
         {
             return new Operator("sqrt")
@@ -6388,7 +6388,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L883</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Rsqrt(NDArray data)
         {
             return new Operator("rsqrt")
@@ -6417,7 +6417,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L906</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Cbrt(NDArray data)
         {
             return new Operator("cbrt")
@@ -6437,7 +6437,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L920</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Erf(NDArray data)
         {
             return new Operator("erf")
@@ -6457,7 +6457,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L936</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Erfinv(NDArray data)
         {
             return new Operator("erfinv")
@@ -6480,7 +6480,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L955</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Rcbrt(NDArray data)
         {
             return new Operator("rcbrt")
@@ -6505,7 +6505,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L978</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Exp(NDArray data)
         {
             return new Operator("exp")
@@ -6525,7 +6525,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L990</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Log(NDArray data)
         {
             return new Operator("log")
@@ -6545,7 +6545,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L1003</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Log10(NDArray data)
         {
             return new Operator("log10")
@@ -6565,7 +6565,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L1015</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Log2(NDArray data)
         {
             return new Operator("log2")
@@ -6590,7 +6590,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L1040</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Log1P(NDArray data)
         {
             return new Operator("log1p")
@@ -6614,7 +6614,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:L1058</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Expm1(NDArray data)
         {
             return new Operator("expm1")
@@ -6631,7 +6631,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Gamma(NDArray data)
         {
             return new Operator("gamma")
@@ -6648,7 +6648,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Gammaln(NDArray data)
         {
             return new Operator("gammaln")
@@ -6665,7 +6665,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LogicalNot(NDArray data)
         {
             return new Operator("logical_not")
@@ -6692,7 +6692,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L46</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Sin(NDArray data)
         {
             return new Operator("sin")
@@ -6715,7 +6715,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L63</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Cos(NDArray data)
         {
             return new Operator("cos")
@@ -6742,7 +6742,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L83</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Tan(NDArray data)
         {
             return new Operator("tan")
@@ -6770,7 +6770,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L104</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Arcsin(NDArray data)
         {
             return new Operator("arcsin")
@@ -6794,7 +6794,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L123</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Arccos(NDArray data)
         {
             return new Operator("arccos")
@@ -6821,7 +6821,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L144</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Arctan(NDArray data)
         {
             return new Operator("arctan")
@@ -6846,7 +6846,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L163</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Degrees(NDArray data)
         {
             return new Operator("degrees")
@@ -6871,7 +6871,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L182</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Radians(NDArray data)
         {
             return new Operator("radians")
@@ -6896,7 +6896,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L201</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Sinh(NDArray data)
         {
             return new Operator("sinh")
@@ -6917,7 +6917,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L216</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Cosh(NDArray data)
         {
             return new Operator("cosh")
@@ -6942,7 +6942,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L234</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Tanh(NDArray data)
         {
             return new Operator("tanh")
@@ -6965,7 +6965,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L250</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Arcsinh(NDArray data)
         {
             return new Operator("arcsinh")
@@ -6984,7 +6984,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L264</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Arccosh(NDArray data)
         {
             return new Operator("arccosh")
@@ -7007,7 +7007,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_trig.cc:L281</para>
         ///</summary>
         /// <param name="data">The input array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Arctanh(NDArray data)
         {
             return new Operator("arctanh")
@@ -7034,7 +7034,7 @@ namespace MxNetLib
         /// <param name="bins">Input ndarray</param>
         /// <param name="bin_cnt">Number of bins for uniform case</param>
         /// <param name="range">The lower and upper range of the bins. if not provided, range is simply (a.min(), a.max()). values outside the range are ignored. the first element of the range must be less than or equal to the second. range affects the automatic bin computation as well. while bin width is computed to be optimal based on the actual data within range, the bin count will fill the entire range including portions containing no data.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Histogram(NDArray data, NDArray bins, int? bin_cnt = null, Tuple<double> range = null)
         {
             return new Operator("_histogram")
@@ -7106,7 +7106,7 @@ namespace MxNetLib
         /// <param name="output_dim">Dimension of the embedding vectors.</param>
         /// <param name="dtype">Data type of weight.</param>
         /// <param name="sparse_grad">Compute row sparse gradient in the backward calculation. If set to True, the grad's storage type is row_sparse.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Embedding(NDArray data, NDArray weight, int input_dim, int output_dim, DType dtype = null, bool sparse_grad = false)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -7180,7 +7180,7 @@ namespace MxNetLib
         /// <param name="indices">The indices of the values to be extracted.</param>
         /// <param name="axis">The axis of input array to be taken.For input tensor of rank r, it could be in the range of [-r, r-1]</param>
         /// <param name="mode">Specify how out-of-bound indices bahave. Default is "clip". "clip" means clip to the range. So, if all indices mentioned are too large, they are replaced by the index that addresses the last element along an axis.  "wrap" means to wrap around.  "raise" means to raise an error, not supported yet.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Take(NDArray a, NDArray indices, int axis = 0, TakeMode mode = TakeMode.Clip)
         {
             return new Operator("take")
@@ -7217,7 +7217,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="a">The input array</param>
         /// <param name="indices">The index array</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BatchTake(NDArray a, NDArray indices)
         {
             return new Operator("batch_take")
@@ -7268,7 +7268,7 @@ namespace MxNetLib
         /// <param name="on_value">The value assigned to the locations represented by indices.</param>
         /// <param name="off_value">The value assigned to the locations not represented by indices.</param>
         /// <param name="dtype">DType of the output</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray OneHot(NDArray indices, int depth, double on_value = 1, double off_value = 0, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -7311,7 +7311,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">data</param>
         /// <param name="indices">indices</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray GatherNd(NDArray data, NDArray indices)
         {
             return new Operator("gather_nd")
@@ -7369,7 +7369,7 @@ namespace MxNetLib
         /// <param name="data">data</param>
         /// <param name="indices">indices</param>
         /// <param name="shape">Shape of output.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ScatterNd(NDArray data, NDArray indices, Shape shape)
         {
             return new Operator("scatter_nd")
@@ -7401,7 +7401,7 @@ namespace MxNetLib
         /// <param name="rhs">value to assign</param>
         /// <param name="indices">indices</param>
         /// <param name="shape">Shape of output.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ScatterSetNd(NDArray lhs, NDArray rhs, NDArray indices, Shape shape)
         {
             return new Operator("_scatter_set_nd")
@@ -7418,7 +7418,7 @@ namespace MxNetLib
         /// <param name="shape">The shape of the output</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ZerosWithoutDtype(Shape shape = null, Context ctx = null, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -7436,7 +7436,7 @@ namespace MxNetLib
         /// <param name="shape">The shape of the output</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Zeros(Shape shape = null, Context ctx = null, DType dtype = null)
         {
             if (shape == null) { shape = new Shape(); }
@@ -7457,7 +7457,7 @@ namespace MxNetLib
         /// <param name="k">Index of the diagonal. 0 (the default) refers to the main diagonal.A positive value refers to an upper diagonal.A negative value to a lower diagonal.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Eye(Tuple<double> N, int M = 0, int k = 0, Context ctx = null, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -7477,7 +7477,7 @@ namespace MxNetLib
         /// <param name="shape">The shape of the output</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Ones(Shape shape = null, Context ctx = null, DType dtype = null)
         {
             if (shape == null) { shape = new Shape(); }
@@ -7497,7 +7497,7 @@ namespace MxNetLib
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
         /// <param name="value">Value with which to fill newly created tensor</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Full(double value, Shape shape = null, Context ctx = null, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -7520,7 +7520,7 @@ namespace MxNetLib
         /// <param name="infer_range">When set to True, infer the stop position from the start, step, repeat, and output tensor size.</param>
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Arange(double start, double? stop = null, double step = 1, int repeat = 1, bool infer_range = false, Context ctx = null, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -7557,7 +7557,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ZerosLike(NDArray data)
         {
             return new Operator("zeros_like")
@@ -7580,7 +7580,7 @@ namespace MxNetLib
         ///<para> </para>
         ///</summary>
         /// <param name="data">The input</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray OnesLike(NDArray data)
         {
             return new Operator("ones_like")
@@ -7648,7 +7648,7 @@ namespace MxNetLib
         /// <param name="alpha">Scalar factor multiplied with A*B.</param>
         /// <param name="beta">Scalar factor multiplied with C.</param>
         /// <param name="axis">Axis corresponding to the matrix rows.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgGemm(NDArray A, NDArray B, NDArray C, bool transpose_a = false, bool transpose_b = false, double alpha = 1, double beta = 1, int axis = -2)
         {
             return new Operator("_linalg_gemm")
@@ -7718,7 +7718,7 @@ namespace MxNetLib
         /// <param name="transpose_b">Multiply with transposed of second input (B).</param>
         /// <param name="alpha">Scalar factor multiplied with A*B.</param>
         /// <param name="axis">Axis corresponding to the matrix row indices.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgGemm2(NDArray A, NDArray B, bool transpose_a = false, bool transpose_b = false, double alpha = 1, int axis = -2)
         {
             return new Operator("_linalg_gemm2")
@@ -7761,7 +7761,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\la_op.cc:L212</para>
         ///</summary>
         /// <param name="A">Tensor of input matrices to be decomposed</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgPotrf(NDArray A)
         {
             return new Operator("_linalg_potrf")
@@ -7808,7 +7808,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\la_op.cc:L273</para>
         ///</summary>
         /// <param name="A">Tensor of lower triangular matrices</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgPotri(NDArray A)
         {
             return new Operator("_linalg_potri")
@@ -7860,7 +7860,7 @@ namespace MxNetLib
         /// <param name="rightside">Multiply triangular matrix from the right to non-triangular one.</param>
         /// <param name="lower">True if the triangular matrix is lower triangular, false if it is upper triangular.</param>
         /// <param name="alpha">Scalar factor to be applied to the result.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgTrmm(NDArray A, NDArray B, bool transpose = false, bool rightside = false, bool lower = true, double alpha = 1)
         {
             return new Operator("_linalg_trmm")
@@ -7918,7 +7918,7 @@ namespace MxNetLib
         /// <param name="rightside">Multiply triangular matrix from the right to non-triangular one.</param>
         /// <param name="lower">True if the triangular matrix is lower triangular, false if it is upper triangular.</param>
         /// <param name="alpha">Scalar factor to be applied to the result.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgTrsm(NDArray A, NDArray B, bool transpose = false, bool rightside = false, bool lower = true, double alpha = 1)
         {
             return new Operator("_linalg_trsm")
@@ -7957,7 +7957,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\la_op.cc:L443</para>
         ///</summary>
         /// <param name="A">Tensor of square matrices</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgSumlogdiag(NDArray A)
         {
             return new Operator("_linalg_sumlogdiag")
@@ -8006,7 +8006,7 @@ namespace MxNetLib
         /// <param name="A">Tensor of input matrices</param>
         /// <param name="transpose">Use transpose of input matrix.</param>
         /// <param name="alpha">Scalar factor to be applied to the result.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgSyrk(NDArray A, bool transpose = false, double alpha = 1)
         {
             return new Operator("_linalg_syrk")
@@ -8066,7 +8066,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\la_op.cc:L567</para>
         ///</summary>
         /// <param name="A">Tensor of input matrices to be factorized</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgGelqf(NDArray A)
         {
             return new Operator("_linalg_gelqf")
@@ -8123,7 +8123,7 @@ namespace MxNetLib
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\la_op.cc:L636</para>
         ///</summary>
         /// <param name="A">Tensor of input matrices to be factorized</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray LinalgSyevd(NDArray A)
         {
             return new Operator("_linalg_syevd")
@@ -8200,7 +8200,7 @@ namespace MxNetLib
         /// <param name="data">Input data to reshape.</param>
         /// <param name="shape">The target shape</param>
         /// <param name="reverse">If true then the special values are inferred from right to left</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Reshape(NDArray data, Shape shape = null, bool reverse = false)
         {
             if (shape == null) { shape = new Shape(); }
@@ -8247,7 +8247,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Source input</param>
         /// <param name="axes">Target axis order. By default the axes will be inverted.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Transpose(NDArray data, Shape axes = null)
         {
             if (axes == null) { axes = new Shape(); }
@@ -8270,7 +8270,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Source input</param>
         /// <param name="axis">Position where new axis is to be inserted. Suppose that the input `NDArray`'s dimension is `ndim`, the range of the inserted axis is `[-ndim, ndim]`</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ExpandDims(NDArray data, int axis)
         {
             return new Operator("expand_dims")
@@ -8332,7 +8332,7 @@ namespace MxNetLib
         /// <param name="begin">starting indices for the slice operation, supports negative indices.</param>
         /// <param name="end">ending indices for the slice operation, supports negative indices.</param>
         /// <param name="step">step for the slice operation, supports negative values.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Slice(NDArray data, Shape begin, Shape end, Shape step = null)
         {
             if (step == null) { step = new Shape(); }
@@ -8361,7 +8361,7 @@ namespace MxNetLib
         /// <param name="begin">starting indices for the slice operation, supports negative indices.</param>
         /// <param name="end">ending indices for the slice operation, supports negative indices.</param>
         /// <param name="step">step for the slice operation, supports negative values.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SliceAssign(NDArray lhs, NDArray rhs, Shape begin, Shape end, Shape step = null)
         {
             if (step == null) { step = new Shape(); }
@@ -8390,7 +8390,7 @@ namespace MxNetLib
         /// <param name="begin">starting indices for the slice operation, supports negative indices.</param>
         /// <param name="end">ending indices for the slice operation, supports negative indices.</param>
         /// <param name="step">step for the slice operation, supports negative values.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SliceAssignScalar(NDArray data, Shape begin, Shape end, double scalar = 0, Shape step = null)
         {
             if (step == null) { step = new Shape(); }
@@ -8434,7 +8434,7 @@ namespace MxNetLib
         /// <param name="axis">Axis along which to be sliced, supports negative indexes.</param>
         /// <param name="begin">The beginning index along the axis to be sliced,  supports negative indexes.</param>
         /// <param name="end">The ending index along the axis to be sliced,  supports negative indexes.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SliceAxis(NDArray data, int axis, int begin, int? end)
         {
             return new Operator("slice_axis")
@@ -8503,7 +8503,7 @@ namespace MxNetLib
         /// <param name="data">Source input</param>
         /// <param name="shape_like">Shape like input</param>
         /// <param name="axes">List of axes on which input data will be sliced according to the corresponding size of the second input. By default will slice on all axes. Negative axes are supported.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SliceLike(NDArray data, NDArray shape_like, Shape axes = null)
         {
             if (axes == null) { axes = new Shape(); }
@@ -8547,7 +8547,7 @@ namespace MxNetLib
         /// <param name="data">Input array.</param>
         /// <param name="a_min">Minimum value</param>
         /// <param name="a_max">Maximum value</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Clip(NDArray data, float a_min, float a_max)
         {
             return new Operator("clip")
@@ -8588,7 +8588,7 @@ namespace MxNetLib
         /// <param name="data">Input data array</param>
         /// <param name="repeats">The number of repetitions for each element.</param>
         /// <param name="axis">The axis along which to repeat values. The negative numbers are interpreted counting from the backward. By default, use the flattened input array, and return a flat output array.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Repeat(NDArray data, int repeats, int? axis = null)
         {
             return new Operator("repeat")
@@ -8639,7 +8639,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Input data array</param>
         /// <param name="reps">The number of times for repeating the tensor a. Each dim size of reps must be a positive integer. If reps has length d, the result will have dimension of max(d, a.ndim); If a.ndim < d, a is promoted to be d-dimensional by prepending new axes. If a.ndim > d, reps is promoted to a.ndim by pre-pending 1's to it.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Tile(NDArray data, Shape reps)
         {
             return new Operator("tile")
@@ -8669,7 +8669,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Input data array</param>
         /// <param name="axis">The axis which to reverse elements.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Reverse(NDArray data, Shape axis)
         {
             return new Operator("reverse")
@@ -8699,7 +8699,7 @@ namespace MxNetLib
         /// <param name="data">List of arrays to stack</param>
         /// <param name="axis">The axis in the result array along which the input arrays are stacked.</param>
         /// <param name="num_args">Number of inputs to be stacked.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Stack(NDArray[] data, int num_args, int axis = 0)
         {
             return new Operator("stack")
@@ -8729,7 +8729,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">data to squeeze</param>
         /// <param name="axis">Selects a subset of the single-dimensional entries in the shape. If an axis is selected with shape entry greater than one, an error is raised.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Squeeze(NDArray[] data, Shape axis = null)
         {
             return new Operator("squeeze")
@@ -8777,7 +8777,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Input ndarray</param>
         /// <param name="block_size">Blocks of [block_size. block_size] are moved</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray DepthToSpace(NDArray data, int block_size)
         {
             return new Operator("depth_to_space")
@@ -8827,7 +8827,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Input ndarray</param>
         /// <param name="block_size">Blocks of [block_size. block_size] are moved</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SpaceToDepth(NDArray data, int block_size)
         {
             return new Operator("space_to_depth")
@@ -8912,7 +8912,7 @@ namespace MxNetLib
         /// <param name="axis">Axis along which to split.</param>
         /// <param name="squeeze_axis">If true, Removes the axis with length 1 from the shapes of the output arrays. **Note** that setting `squeeze_axis` to ``true`` removes axis with length 1 only along the `axis` which it is split. Also `squeeze_axis` can be set to ``true`` only if ``input.shape[axis] == num_outputs``.</param>
         /// <param name="sections">Number of sections if equally splitted. Default to 0 which means split by indices.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SplitV2(NDArray data, Shape indices, int axis = 1, bool squeeze_axis = false, int sections = 0)
         {
             return new Operator("_split_v2")
@@ -8963,7 +8963,7 @@ namespace MxNetLib
         /// <param name="ret_typ">The return type. "value" means to return the top k values, "indices" means to return the indices of the top k values, "mask" means to return a mask array containing 0 and 1. 1 means the top k values. "both" means to return a list of both values and indices of top k elements.</param>
         /// <param name="is_ascend">Whether to choose k largest or k smallest elements. Top K largest elements will be chosen if set to false.</param>
         /// <param name="dtype">DType of the output indices when ret_typ is "indices" or "both". An error will be raised if the selected data type cannot precisely represent the indices.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Topk(NDArray data, int? axis = -1, int k = 1, TopkRetTyp ret_typ = TopkRetTyp.Indices, bool is_ascend = false, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -9008,7 +9008,7 @@ namespace MxNetLib
         /// <param name="data">The input array</param>
         /// <param name="axis">Axis along which to choose sort the input tensor. If not given, the flattened array is used. Default is -1.</param>
         /// <param name="is_ascend">Whether to sort in ascending or descending order.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Sort(NDArray data, int? axis = -1, bool is_ascend = true)
         {
             return new Operator("sort")
@@ -9047,7 +9047,7 @@ namespace MxNetLib
         /// <param name="axis">Axis along which to sort the input tensor. If not given, the flattened array is used. Default is -1.</param>
         /// <param name="is_ascend">Whether to sort in ascending or descending order.</param>
         /// <param name="dtype">DType of the output indices. It is only valid when ret_typ is "indices" or "both". An error will be raised if the selected data type cannot precisely represent the indices.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Argsort(NDArray data, int? axis = -1, bool is_ascend = true, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
@@ -9075,7 +9075,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Batch of multi-indices</param>
         /// <param name="shape">Shape of the array into which the multi-indices apply.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray RavelMultiIndex(NDArray data, Shape shape = null)
         {
             return new Operator("_ravel_multi_index")
@@ -9099,7 +9099,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">Array of flat indices</param>
         /// <param name="shape">Shape of the array into which the multi-indices apply.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray UnravelIndex(NDArray data, Shape shape = null)
         {
             return new Operator("_unravel_index")
@@ -9134,7 +9134,7 @@ namespace MxNetLib
         ///</summary>
         /// <param name="data">The input array for sparse_retain operator.</param>
         /// <param name="indices">The index array of rows ids that will be retained.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SparseRetain(NDArray data, NDArray indices)
         {
             return new Operator("_sparse_retain")
@@ -9164,7 +9164,7 @@ namespace MxNetLib
         /// <param name="axis">The axis or axes along which to perform the reduction.      The default, `axis=()`, will compute over all elements into a      scalar array with shape `(1,)`.      If `axis` is int, a reduction is performed on a particular axis.      If `axis` is a tuple of ints, a reduction is performed on all the axes      specified in the tuple.      If `exclude` is true, reduction will be performed on the axes that are      NOT in axis instead.      Negative values means indexing from right to left.</param>
         /// <param name="keepdims">If this is set to `True`, the reduced axes are left in the result as dimension with size one.</param>
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SquareSum(NDArray data, Shape axis = null, bool keepdims = false, bool exclude = false)
         {
             return new Operator("_square_sum")
@@ -9254,7 +9254,7 @@ namespace MxNetLib
         /// <param name="data">Input data to the BilinearsamplerOp.</param>
         /// <param name="grid">Input grid to the BilinearsamplerOp.grid has two channels: x_src, y_src</param>
         /// <param name="cudnn_off">whether to turn cudnn off</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray BilinearSampler(NDArray data, NDArray grid, bool? cudnn_off = null)
         {
             return new Operator("BilinearSampler")
@@ -9283,7 +9283,7 @@ namespace MxNetLib
         /// <param name="cudnn_tune">Whether to pick convolution algo by running performance test.    Leads to higher startup time but may give faster speed. Options are:    'off': no tuning    'limited_workspace': run test and pick the fastest algorithm that doesn't exceed workspace limit.    'fastest': pick the fastest algorithm and ignore workspace limit.    If set to None (default), behavior is determined by environment    variable MXNET_CUDNN_AUTOTUNE_DEFAULT: 0 for off,    1 for limited workspace (default), 2 for fastest.</param>
         /// <param name="cudnn_off">Turn off cudnn for this layer.</param>
         /// <param name="layout">Set layout for input, output and weight. Empty for    default layout: NCHW for 2d and NCDHW for 3d.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ConvolutionV1(NDArray data, NDArray weight, NDArray bias, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, uint num_group = 1, ulong workspace = 1024, bool no_bias = false, ConvolutionV1CudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionV1Layout? layout = null)
         {
             if (stride == null) { stride = new Shape(); }
@@ -9352,7 +9352,7 @@ namespace MxNetLib
         /// <param name="stride2">stride2 quantize data2 within the neighborhood centered around data1</param>
         /// <param name="pad_size">pad for Correlation</param>
         /// <param name="is_multiply">operation type is either multiplication or subduction</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Correlation(NDArray data1, NDArray data2, uint kernel_size = 1, uint max_displacement = 1, uint stride1 = 1, uint stride2 = 1, uint pad_size = 0, bool is_multiply = true)
         {
             return new Operator("Correlation")
@@ -9373,19 +9373,19 @@ namespace MxNetLib
         ///<para>.. note:: `Crop` is deprecated. Use `slice` instead.</para>
         ///<para> </para>
         ///<para>Crop the 2nd and 3rd dim of input data, with the corresponding size of h_w or</para>
-        ///<para>with width and height of the second input symbol, i.e., with one input, we need h_w to</para>
-        ///<para>specify the crop height and width, otherwise the second input symbol's size will be used</para>
+        ///<para>with width and height of the second input NDArray, i.e., with one input, we need h_w to</para>
+        ///<para>specify the crop height and width, otherwise the second input NDArray's size will be used</para>
         ///<para> </para>
         ///<para> </para>
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\crop.cc:L50</para>
         ///</summary>
         /// <param name="data">Tensor or List of Tensors, the second input will be used as crop_like shape reference</param>
-        /// <param name="num_args">Number of inputs for crop, if equals one, then we will use the h_wfor crop height and width, else if equals two, then we will use the heightand width of the second input symbol, we name crop_like here</param>
+        /// <param name="num_args">Number of inputs for crop, if equals one, then we will use the h_wfor crop height and width, else if equals two, then we will use the heightand width of the second input NDArray, we name crop_like here</param>
         /// <param name="offset">crop offset coordinate: (y, x)</param>
         /// <param name="h_w">crop height and width: (h, w)</param>
         /// <param name="center_crop">If set to true, then it will use be the center_crop,or it will crop using the shape of crop_like</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray Crop(List<Symbol> data, int num_args, Shape offset = null, Shape h_w = null, bool center_crop = false)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray Crop(List<NDArray> data, int num_args, Shape offset = null, Shape h_w = null, bool center_crop = false)
         {
             if (offset == null) { offset = new Shape(); }
             if (h_w == null) { h_w = new Shape(); }
@@ -9402,7 +9402,7 @@ namespace MxNetLib
         ///<summary>
         ///<para>Special op to copy data cross device</para>
         ///</summary>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray CrossDeviceCopy()
         {
             return new Operator("_CrossDeviceCopy")
@@ -9415,7 +9415,7 @@ namespace MxNetLib
         /// <param name="data">Input data for the custom operator.</param>
         /// <param name="info"></param>
         /// <param name="need_top_grad">Whether this layer needs out grad for backward. Should be false for loss layers.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Native(NDArray[] data, IntPtr info, bool need_top_grad = true)
         {
             return new Operator("_Native")
@@ -9432,7 +9432,7 @@ namespace MxNetLib
         /// <param name="data">Input data to the function.</param>
         /// <param name="transform_type">The type of transformation. For `affine`, input data should be an affine matrix of size (batch, 6). For `warp`, input data should be an optical flow of size (batch, 2, h, w).</param>
         /// <param name="target_shape">Specifies the output shape (H, W). This is required if transformation type is `affine`. If transformation type is `warp`, this parameter is ignored.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray GridGenerator(NDArray data, GridgeneratorTransformType transform_type, Shape target_shape = null)
         {
             if (target_shape == null) { target_shape = new Shape(); }
@@ -9492,7 +9492,7 @@ namespace MxNetLib
         /// <param name="gamma">A vector of length 'channel', which multiplies the normalized input.</param>
         /// <param name="beta">A vector of length 'channel', which is added to the product of the normalized input and the weight.</param>
         /// <param name="eps">An `epsilon` parameter to prevent division by 0.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray InstanceNorm(NDArray data, NDArray gamma, NDArray beta, float eps = 0.001f)
         {
             return new Operator("InstanceNorm")
@@ -9564,7 +9564,7 @@ namespace MxNetLib
         /// <param name="data">Input array to normalize.</param>
         /// <param name="eps">A small constant for numerical stability.</param>
         /// <param name="mode">Specify the dimension along which to compute L2 norm.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray L2Normalization(NDArray data, float eps = 1e-10f, L2normalizationMode mode = L2normalizationMode.Instance)
         {
             return new Operator("L2Normalization")
@@ -9578,8 +9578,8 @@ namespace MxNetLib
         ///<summary>
         ///<para>Make your own loss function in network construction.</para>
         ///<para> </para>
-        ///<para>This operator accepts a customized loss function symbol as a terminal loss and</para>
-        ///<para>the symbol should be an operator with no backward dependency.</para>
+        ///<para>This operator accepts a customized loss function NDArray as a terminal loss and</para>
+        ///<para>the NDArray should be an operator with no backward dependency.</para>
         ///<para>The output of this function is the gradient of loss with respect to the input data.</para>
         ///<para> </para>
         ///<para>For example, if you are a making a cross entropy loss function. Assume ``out`` is the</para>
@@ -9595,7 +9595,7 @@ namespace MxNetLib
         ///<para>In addition, we can give a scale to the loss by setting ``grad_scale``,</para>
         ///<para>so that the gradient of the loss will be rescaled in the backpropagation.</para>
         ///<para> </para>
-        ///<para>.. note:: This operator should be used as a Symbol instead of NDArray.</para>
+        ///<para>.. note:: This operator should be used as a NDArray instead of NDArray.</para>
         ///<para> </para>
         ///<para> </para>
         ///<para> </para>
@@ -9605,7 +9605,7 @@ namespace MxNetLib
         /// <param name="grad_scale">Gradient scale as a supplement to unary and binary operators</param>
         /// <param name="valid_thresh">clip each element in the array to 0 when it is less than ``valid_thresh``. This is used when ``normalization`` is set to ``'valid'``.</param>
         /// <param name="normalization">If this is set to null, the output gradient will not be normalized. If this is set to batch, the output gradient will be divided by the batch size. If this is set to valid, the output gradient will be divided by the number of valid input elements.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray MakeLoss(NDArray data, float grad_scale = 1f, float valid_thresh = 0f, MakelossNormalization normalization = MakelossNormalization.Null)
         {
             return new Operator("MakeLoss")
@@ -9667,7 +9667,7 @@ namespace MxNetLib
         /// <param name="pooling_convention">Pooling convention to be applied.</param>
         /// <param name="stride">stride: for pooling (y, x) or (d, y, x)</param>
         /// <param name="pad">pad for pooling: (y, x) or (d, y, x)</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray PoolingV1(NDArray data, Shape kernel = null, PoolingV1PoolType pool_type = PoolingV1PoolType.Max, bool global_pool = false, PoolingV1PoolingConvention pooling_convention = PoolingV1PoolingConvention.Valid, Shape stride = null, Shape pad = null)
         {
             if (kernel == null) { kernel = new Shape(); }
@@ -9737,7 +9737,7 @@ namespace MxNetLib
         /// <param name="rois">Bounding box coordinates, a 2D array of [[batch_index, x1, y1, x2, y2]], where (x1, y1) and (x2, y2) are top left and bottom right corners of designated region of interest. `batch_index` indicates the index of corresponding image in the input array</param>
         /// <param name="pooled_size">ROI pooling output shape (h,w) </param>
         /// <param name="spatial_scale">Ratio of input feature map height (or w) to raw image height (or w). Equals the reciprocal of total stride in convolutional layers</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray ROIPooling(NDArray data, NDArray rois, Shape pooled_size, float spatial_scale)
         {
             return new Operator("ROIPooling")
@@ -9801,7 +9801,7 @@ namespace MxNetLib
         /// <param name="sequence_length">vector of sequence lengths of the form [batch_size]</param>
         /// <param name="use_sequence_length">If set to true, this layer takes in an extra input parameter `sequence_length` to specify variable length sequence</param>
         /// <param name="axis">The sequence axis. Only values of 0 and 1 are currently supported.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SequenceLast(NDArray data, NDArray sequence_length, bool use_sequence_length = false, int axis = 0)
         {
             return new Operator("SequenceLast")
@@ -9888,7 +9888,7 @@ namespace MxNetLib
         /// <param name="use_sequence_length">If set to true, this layer takes in an extra input parameter `sequence_length` to specify variable length sequence</param>
         /// <param name="value">The value to be used as a mask.</param>
         /// <param name="axis">The sequence axis. Only values of 0 and 1 are currently supported.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SequenceMask(NDArray data, NDArray sequence_length, bool use_sequence_length = false, float value = 0f, int axis = 0)
         {
             return new Operator("SequenceMask")
@@ -9974,7 +9974,7 @@ namespace MxNetLib
         /// <param name="sequence_length">vector of sequence lengths of the form [batch_size]</param>
         /// <param name="use_sequence_length">If set to true, this layer takes in an extra input parameter `sequence_length` to specify variable length sequence</param>
         /// <param name="axis">The sequence axis. Only 0 is currently supported.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SequenceReverse(NDArray data, NDArray sequence_length, bool use_sequence_length = false, int axis = 0)
         {
             return new Operator("SequenceReverse")
@@ -9996,7 +9996,7 @@ namespace MxNetLib
         /// <param name="transform_type">transformation type</param>
         /// <param name="sampler_type">sampling type</param>
         /// <param name="cudnn_off">whether to turn cudnn off</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SpatialTransformer(NDArray data, NDArray loc, SpatialtransformerTransformType transform_type, SpatialtransformerSamplerType sampler_type, Shape target_shape = null, bool? cudnn_off = null)
         {
             if (target_shape == null) { target_shape = new Shape(); }
@@ -10024,7 +10024,7 @@ namespace MxNetLib
         /// <param name="margin">The loss function penalizes outputs that lie outside this margin. Default margin is 1.</param>
         /// <param name="regularization_coefficient">Regularization parameter for the SVM. This balances the tradeoff between coefficient size and error.</param>
         /// <param name="use_linear">Whether to use L1-SVM objective. L2-SVM objective is used by default.</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray SVMOutput(NDArray data, NDArray label, float margin = 1f, float regularization_coefficient = 1f, bool use_linear = false)
         {
             return new Operator("SVMOutput")
@@ -10041,8 +10041,8 @@ namespace MxNetLib
         ///</summary>
         /// <param name="lhs">Left operand to the function.</param>
         /// <param name="rhs">Right operand to the function.</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray OnehotEncode(Symbol lhs, Symbol rhs)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray OnehotEncode(NDArray lhs, NDArray rhs)
         {
             return new Operator("_onehot_encode")
             .SetParam("lhs", lhs)
@@ -10056,8 +10056,8 @@ namespace MxNetLib
         /// <param name="lhs">Left operand to the function.</param>
         /// <param name="mhs">Middle operand to the function.</param>
         /// <param name="rhs">Right operand to the function.</param>
-        /// <returns>returns new symbol</returns>
-        public static NDArray FillElement0Index(Symbol lhs, Symbol mhs, Symbol rhs)
+        /// <returns>returns new NDArray</returns>
+        public static NDArray FillElement0Index(NDArray lhs, NDArray mhs, NDArray rhs)
         {
             return new Operator("fill_element_0index")
             .SetParam("lhs", lhs)
@@ -10077,7 +10077,7 @@ namespace MxNetLib
         /// <param name="y1">y1</param>
         /// <param name="c">channel</param>
         /// <param name="size">length of str_img</param>
-        /// <returns>returns new symbol</returns>
+        /// <returns>returns new NDArray</returns>
         public static NDArray Imdecode(NDArray mean, int index, int x0, int y0, int x1, int y1, int c, int size)
         {
             return new Operator("_imdecode")
