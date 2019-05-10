@@ -30,15 +30,15 @@ namespace MNIST
             //BuildSymbolModel(model);
             //BuildConvNNModel(model);
 
+            model.Fit(train, 10, batchSize, val);
+
             ImageDataFrame frame = new ImageDataFrame(1, 28, 28);
             frame.LoadImages("test_6.png", "test_4.png", "test_4.png", "test_6.png");
-
-            NDArray test = frame.ToVariable().Ravel();
-            test = test / 255;
-            model.Fit(train, 10, batchSize, val);
+            NDArray test = frame.ToVariable().Ravel() / 255;
 
             var prediction = model.Predict(test).Argmax();
             Console.WriteLine(prediction.ToString());
+
             string modelFolder = "../../../model";
             model.SaveModel(modelFolder);
             model.SaveCheckpoint(modelFolder);
