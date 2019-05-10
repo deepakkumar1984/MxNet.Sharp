@@ -8,6 +8,12 @@ mxnetlib is a CSharp binding coving all the Imperative and Symbolic API's with a
 
 Setup MxNet for Windows: https://github.com/deepakkumar1984/mxnetlib/wiki/Setup---Windows
 
+## Nuget
+
+Install the package: Install-Package MxNetLib
+
+https://www.nuget.org/packages/MxNetLib
+
 ## Symbolic Example
 ```csharp
 model.SetInput(784);
