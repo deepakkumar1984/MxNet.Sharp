@@ -4,6 +4,20 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.2</LangVersion>
     <Platforms>AnyCPU;x64</Platforms>
+    <Version>1.0.5</Version>
+    <Authors>Deepak Battini</Authors>
+    <Product />
+    <Description>C# Binding for the Apache MxNet library with some high level API defined in MxNet.NN.
+
+MxNet is a deep learning framework designed for both efficiency and flexibility. It allows you to mix symbolic and imperative programming to maximize efficiency and productivity. At its core, MXNet contains a dynamic dependency scheduler that automatically parallelizes both symbolic and imperative operations on the fly. A graph optimization layer on top of that makes symbolic execution fast and memory efficient. MXNet is portable and lightweight, scaling effectively to multiple GPUs and multiple machines.
+
+MXNet is more than a deep learning project. It is a collection of blue prints and guidelines for building deep learning systems, and interesting insights of DL systems for hackers.</Description>
+    <PackageProjectUrl>https://github.com/deepakkumar1984/mxnetlib/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/deepakkumar1984/mxnetlib/</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>deep learning, mxnet, csharp, .net, neural network</PackageTags>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,6 +46,13 @@
     <Reference Include="Microsoft.CSharp">
       <HintPath>..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.1.0\ref\netcoreapp2.1\Microsoft.CSharp.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

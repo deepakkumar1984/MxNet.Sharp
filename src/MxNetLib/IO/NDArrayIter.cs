@@ -58,6 +58,9 @@ namespace MxNetLib
 
         public override NDArray GetLabel()
         {
+            if (_label == null)
+                return null;
+
             uint start = (uint)cursor;
             uint end = (uint)cursor + BatchSize;
             if (end >= num_data)

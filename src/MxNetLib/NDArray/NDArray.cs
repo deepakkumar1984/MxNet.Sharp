@@ -141,11 +141,11 @@ namespace MxNetLib
 
         #region Properties
 
-        public size_t Size
+        public uint Size
         {
             get
             {
-                size_t ret = 1;
+                uint ret = 1;
                 var shape = this.GetShape();
                 for (var i = 0; i < shape.Count; i++)
                     ret *= shape[i];
@@ -374,6 +374,16 @@ namespace MxNetLib
             datagch.Free();
         }
 
+        public NDArray ArgmaxChannel()
+        {
+            return nd.ArgmaxChannel(this);
+        }
+
+        public NDArray Argmax(int axis = 1)
+        {
+            return nd.Argmax(this, axis);
+        }
+
         public void SampleGaussian(float mu = 0, float sigma = 1)
         {
             using (var op = new Operator("_random_normal"))
@@ -411,7 +421,6 @@ namespace MxNetLib
                 return AsArray().Cast<float>().ToList()[0];
             }
         }
-
 
         public static void WaitAll()
         {
@@ -508,7 +517,7 @@ namespace MxNetLib
             return ret;
         }
 
-        public NDArray Reshape(Shape shape = null, bool reverse = false)
+        public NDArray Reshape(Shape shape, bool reverse = false)
         {
             NDArrayHandle handle;
             var dims = shape.Data.Select(s => (int)s);
@@ -516,23 +525,44 @@ namespace MxNetLib
             return new NDArray(handle);
         }
 
+        public NDArray Reshape(params int[] shape)
+        {
+            uint[] targetShape = new mx_uint[shape.Length];
+            int prod = -1 * shape.Aggregate(1, (a, b) => a * b);
+            for (int i=0;  i<targetShape.Length;i++)
+            {
+                if (shape[i] > 0)
+                {
+                    targetShape[i] = (uint)shape[i];
+                }
+                else
+                {
+                    targetShape[i] = Size / (uint)prod;
+                }
+            }
+
+            return Reshape(new Shape(targetShape));
+        }
+
         public NDArray Ravel()
         {
-            return Reshape(new Shape((uint)Size));
+            uint n = Shape[0];
+            uint m = Size / n;
+            return Reshape(new Shape(n, m));
         }
 
         #endregion
 
-        //public override string ToString()
-        //{
-        //    var @out = new StringBuilder();
-        //    @out.Append('[');
-        //    var data = AsArray().Cast<float>().ToList();
-        //    @out.Append(string.Join(", ", data.Select(f => f.ToString(CultureInfo.InvariantCulture))));
-        //    @out.Append(']');
+        public override string ToString()
+        {
+            var @out = new StringBuilder();
+            @out.Append('[');
+            var data = AsArray().Cast<float>().ToList();
+            @out.Append(string.Join(", ", data.Select(f => f.ToString(CultureInfo.InvariantCulture))));
+            @out.Append(']');
 
-        //    return @out.ToString();
-        //}
+            return @out.ToString();
+        }
 
         protected override void DisposeUnmanaged()
         {

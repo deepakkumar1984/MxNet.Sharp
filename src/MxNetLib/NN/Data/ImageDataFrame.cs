@@ -58,8 +58,6 @@ namespace MxNetLib.NN.Data
                 var resizedim = im.Resize(new Size(width.Value, height.Value));
                 resizedim.ConvertTo(resizedim, MatType.CV_32F);
                 resizedim.GetArray(0, 0, imdata);
-                //resizedim.Release();
-                //im.Release();
             }
 
             return imdata;

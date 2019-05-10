@@ -31,20 +31,21 @@ namespace MNIST
             //BuildConvNNModel(model);
 
             ImageDataFrame frame = new ImageDataFrame(1, 28, 28);
-            frame.LoadImages("test_4.png");
+            frame.LoadImages("test_6.png", "test_4.png", "test_4.png", "test_6.png");
 
-            NDArray test = frame.ToVariable().Reshape(new Shape(1, 784));
-            model.Fit(train, 1, batchSize, val);
+            NDArray test = frame.ToVariable().Ravel();
+            test = test / 255;
+            model.Fit(train, 10, batchSize, val);
 
-            var prediction = model.Predict(test);
-            var num = nd.Argmax(prediction, 1);
-
+            var prediction = model.Predict(test).Argmax();
+            Console.WriteLine(prediction.ToString());
             string modelFolder = "../../../model";
             model.SaveModel(modelFolder);
             model.SaveCheckpoint(modelFolder);
 
             var loadedModel = Module.LoadModel(modelFolder);
             loadedModel.LoadCheckpoint(modelFolder);
+            MXNet.MXNotifyShutdown();
         }
 
         private static void BuildSymbolModel(Module model)

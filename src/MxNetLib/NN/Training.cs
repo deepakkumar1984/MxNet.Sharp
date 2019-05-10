@@ -119,38 +119,38 @@ namespace MxNetLib.NN
                 }
             }
 
-            MXNet.MXNotifyShutdown();
+            //MXNet.MXNotifyShutdown();
         }
 
-        public NDArray Predict(NDArray x)
+        public NDArray Predict(NDArray x, uint? batchSize = null)
         {
-            NDArray result = null;
+            NDArray result = new NDArray();
+            List<float> preds = new List<float>();
             NDArrayIter dataIter = new NDArrayIter(x, null);
-            
+
+            if(!batchSize.HasValue)
+                batchSize = x.Shape[0];
+
             List<uint> inputShape = new List<uint>();
-            SortedDictionary<string, NDArray> predictArgs = new SortedDictionary<string, NDArray>();
-
-            var shape = x.GetShape().ToList();
-            predictArgs["X"] = new NDArray(new Shape(shape));
-            predictArgs["label"] = new NDArray(new Shape(shape[0]));
-
-            Model.InferArgsMap(MXNet.Device, predictArgs, predictArgs);
-            foreach (var item in args)
-            {
-                if (item.Key == "X" || item.Key == "label")
-                    continue;
-
-                predictArgs[item.Key] = item.Value;
-            }
-
+            Dictionary<string, NDArray> predictArgs = new Dictionary<string, NDArray>();
+            
+            Model.InferArgsMap(MXNet.Device, predictArgs, args);
+            predictArgs["X"] = new NDArray(x.Shape);
+            predictArgs["label"] = new NDArray(new Shape(batchSize.Value));
             using (var exec = Model.SimpleBind(MXNet.Device, predictArgs))
             {
-                dataIter.GetData().CopyTo(predictArgs["X"]);
-                exec.Forward(false);
-                result = exec.Output;
+                dataIter.BatchSize = batchSize.Value;
+                dataIter.Reset();
+                while (dataIter.Next())
+                {
+                    var batch = dataIter.GetDataBatch();
+                    batch.Data.CopyTo(predictArgs["X"]);
+                    exec.Forward(false);
+                    preds.AddRange(exec.Output.Values);
+                }
             }
 
-            return result;
+            return new NDArray(preds).Reshape((int)x.Shape[0], -1);
         }
 
     }
