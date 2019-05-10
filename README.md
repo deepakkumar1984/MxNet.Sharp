@@ -6,6 +6,8 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
 
 mxnetlib is a CSharp binding coving all the Imperative and Symbolic API's with an easy to use interface. Also developed a high level interface to build and train model. 
 
+Setup MxNet for Windows: https://github.com/deepakkumar1984/mxnetlib/wiki/Setup---Windows
+
 ## Symbolic Example
 ```csharp
 model.SetInput(784);
