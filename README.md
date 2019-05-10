@@ -4,7 +4,7 @@ Apache MXNet (incubating) is a deep learning framework designed for both efficie
 
 MXNet is more than a deep learning project. It is a collection of blue prints and guidelines for building deep learning systems, and interesting insights of DL systems for hackers.
 
-mxnetlib is a CSharp binding coving all the Imprerative and Symbolic API's with an easy to use interface. Also developed a high level interface to build and train model. 
+mxnetlib is a CSharp binding coving all the Imperative and Symbolic API's with an easy to use interface. Also developed a high level interface to build and train model. 
 
 ## Symbolic Example
 ```csharp
