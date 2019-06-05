@@ -26,9 +26,9 @@ namespace MNIST
 
             var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 1);
             var model = new Module();
-            BuildNNModel(model);
+            //BuildNNModel(model);
             //BuildSymbolModel(model);
-            //BuildConvNNModel(model);
+            BuildConvNNModel(model);
 
             model.Fit(train, 10, batchSize, val);
 
