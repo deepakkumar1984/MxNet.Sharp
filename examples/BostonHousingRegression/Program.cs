@@ -103,7 +103,7 @@ namespace BostonHousingRegression
             model.Add(new Dense(32, ActivationType.ReLU));
             model.Add(new Dense(1));
 
-            model.Compile(Optimizers.Adam(), LossType.MeanSquaredError, MetricType.MeanAbsoluteError);
+            model.Compile(OptimizerRegistry.Adam(), LossType.MeanSquaredError, MetricType.MeanAbsoluteError);
             model.Fit(train, 1000, 32);
 
             Console.ReadLine();

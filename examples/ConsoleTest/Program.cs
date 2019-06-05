@@ -9,7 +9,7 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            MXNet.SetDevice(DeviceType.GPU);
+            MXNet.SetDevice(DeviceType.CPU);
             NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(9));
             NDArray y = new NDArray(new float[] { -1, -2, 3, 4, -5, -6, -7, -8 }, new Shape(9));
             //var acc = new Accuracy();
