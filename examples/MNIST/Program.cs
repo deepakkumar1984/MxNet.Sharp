@@ -16,7 +16,7 @@ namespace MNIST
         static void Main(string[] args)
         {
             //Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
-            MXNet.SetDevice(DeviceType.CPU);
+            MXNet.SetDevice(DeviceType.GPU);
             uint batchSize = 200;
 
             string trainImagePath = "./mnist_data/train-images-idx3-ubyte";
@@ -25,10 +25,11 @@ namespace MNIST
             string valLabelPath = "./mnist_data/t10k-labels-idx1-ubyte";
 
             var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 1);
+            
             var model = new Module();
-            //BuildNNModel(model);
+            BuildNNModel(model);
             //BuildSymbolModel(model);
-            BuildConvNNModel(model);
+            //BuildConvNNModel(model);
 
             model.Fit(train, 10, batchSize, val);
 
@@ -39,12 +40,12 @@ namespace MNIST
             var prediction = model.Predict(test).Argmax();
             Console.WriteLine(prediction.ToString());
 
-            string modelFolder = "../../../model";
-            model.SaveModel(modelFolder);
-            model.SaveCheckpoint(modelFolder);
+            //string modelFolder = "../../../model";
+            //model.SaveModel(modelFolder);
+            //model.SaveCheckpoint(modelFolder);
 
-            var loadedModel = Module.LoadModel(modelFolder);
-            loadedModel.LoadCheckpoint(modelFolder);
+            //var loadedModel = Module.LoadModel(modelFolder);
+            //loadedModel.LoadCheckpoint(modelFolder);
             MXNet.MXNotifyShutdown();
         }
 

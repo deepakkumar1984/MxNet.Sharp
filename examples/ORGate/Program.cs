@@ -28,8 +28,8 @@ namespace ORGate
 
             //Build Model
             Module model = new Module(2);
-            BuildSymbolModel(model);
-            //BuildNNModel(model);
+            //BuildSymbolModel(model);
+            BuildNNModel(model);
             model.Fit(train, 1000, 2);
 
             Console.ReadLine();

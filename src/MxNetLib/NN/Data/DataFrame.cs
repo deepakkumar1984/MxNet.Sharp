@@ -21,7 +21,7 @@ namespace MxNetLib.NN.Data
 
         }
 
-        internal DataFrame(int dims)
+        public DataFrame(int dims)
         {
             Shape = new uint[dims];
         }

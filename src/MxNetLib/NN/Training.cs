@@ -72,11 +72,10 @@ namespace MxNetLib.NN
                         // Set data and label
                         dataBatch.Data.CopyTo(args["X"]);
                         dataBatch.Label.CopyTo(args[labelName]);
-
+                        
                         // Compute gradients
                         exec.Forward(true);
                         exec.Backward();
-
                         TrainMetric.Update(args[labelName], exec.Output);
 
                         // Update parameters
