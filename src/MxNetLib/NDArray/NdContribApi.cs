@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MxNetLib
 {
-    public partial class NdContribApi
+    public partial class NDContribApi
     {
         ///<summary>
         ///<para> </para>

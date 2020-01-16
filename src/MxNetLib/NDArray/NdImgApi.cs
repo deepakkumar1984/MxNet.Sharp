@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MxNetLib
 {
-    public partial class NdImgApi
+    public partial class NDImgApi
     {
         ///<summary>
         ///<para>Crop an image NDArray of shape (H x W x C) or (N x H x W x C) </para>

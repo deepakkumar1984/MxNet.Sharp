@@ -8,8 +8,8 @@ namespace MxNetLib
 {
     public partial class nd
     {
-        public static NdImgApi Image = new NdImgApi();
-        public static NdContribApi Contrib = new NdContribApi();
+        public static NDImgApi Image = new NDImgApi();
+        public static NDContribApi Contrib = new NDContribApi();
 
         ///<summary>
         ///<para> </para>

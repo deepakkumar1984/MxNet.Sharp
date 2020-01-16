@@ -6,7 +6,6 @@ using System.Text;
 using System.Linq;
 using MxNetLib.NN.Initializers;
 using System.IO;
-using OpenCvSharp;
 using MxNetLib.NN.Data;
 
 namespace MxNetLib.NN
@@ -49,7 +48,7 @@ namespace MxNetLib.NN
                 }
             }
 
-            using (var exec = Model.SimpleBind(MXNet.Device, args))
+            using (var exec = Model.Bind(MXNet.Device, args.Values.ToList(), null, null,null))
             {
                 var argNames = Model.ListArguments();
 
@@ -99,7 +98,7 @@ namespace MxNetLib.NN
                             var dataBatch = validation.GetDataBatch();
                             dataBatch.Data.CopyTo(args["X"]);
                             dataBatch.Label.CopyTo(args[labelName]);
-
+                            NDArray.WaitAll();
                             // Forward pass is enough as no gradient is needed when evaluating
                             exec.Forward(false);
                             Metric.Update(args[labelName], exec.Output);
