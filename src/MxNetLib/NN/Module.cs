@@ -51,7 +51,7 @@ namespace MxNetLib.NN
         }
 
         [JsonIgnore]
-        public BaseOptimizer ModelOptimizer
+        public Optimizer ModelOptimizer
         {
             get; set;
         }
@@ -86,7 +86,7 @@ namespace MxNetLib.NN
             Layers.Add(l);
         }
 
-        public void Compile(BaseOptimizer optimizer, LossType loss, MetricType metric = MetricType.None)
+        public void Compile(Optimizer optimizer, LossType loss, MetricType metric = MetricType.None)
         {
             Metric = MetricRegistry.Get(metric);
             TrainMetric = MetricRegistry.Get(metric);
@@ -106,7 +106,7 @@ namespace MxNetLib.NN
             Model = LossRegistry.Get(loss, Model, Symbol.Variable("label"));
         }
 
-        public void Compile(Symbol model, BaseOptimizer optimizer, MetricType metric)
+        public void Compile(Symbol model, Optimizer optimizer, MetricType metric)
         {
             Metric = MetricRegistry.Get(metric);
             TrainMetric = MetricRegistry.Get(metric);
@@ -116,13 +116,13 @@ namespace MxNetLib.NN
 
         public void Compile(OptimizerType optimizer, LossType loss, MetricType metric)
         {
-            BaseOptimizer opt = OptimizerRegistry.Get(optimizer);
+            Optimizer opt = OptimizerRegistry.Get(optimizer);
             Compile(opt, loss, metric);
         }
 
         public void Compile(Symbol model, OptimizerType optimizer, MetricType metric)
         {
-            BaseOptimizer opt = OptimizerRegistry.Get(optimizer);
+            Optimizer opt = OptimizerRegistry.Get(optimizer);
             Compile(model, opt, metric);
         }
 

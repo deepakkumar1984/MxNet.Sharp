@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public abstract class BaseOptimizer
+    public abstract class Optimizer
     {
         /// <summary>
         /// Gets or sets the name of the optimizer function
@@ -47,11 +47,11 @@ namespace MxNetLib.Optimizers
         public float Epsilon { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseOptimizer"/> class.
+        /// Initializes a new instance of the <see cref="Optimizer"/> class.
         /// </summary>
         /// <param name="lr">The lr.</param>
         /// <param name="name">The name.</param>
-        public BaseOptimizer(float lr, string name)
+        public Optimizer(float lr, string name)
         {
             LearningRate = lr;
             Name = name;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public class Signum : BaseOptimizer
+    public class Signum : Optimizer
     {
         private readonly Dictionary<int, NDArray> moments;
 

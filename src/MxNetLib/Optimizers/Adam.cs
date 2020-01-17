@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public class Adam : BaseOptimizer
+    public class Adam : Optimizer
     {
         private readonly Dictionary<int, NDArray> ms;
         private readonly Dictionary<int, NDArray> vs;

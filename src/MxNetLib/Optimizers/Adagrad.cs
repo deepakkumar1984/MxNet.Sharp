@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public class Adagrad : BaseOptimizer
+    public class Adagrad : Optimizer
     {
         private readonly Dictionary<int, NDArray> accumulators;
 

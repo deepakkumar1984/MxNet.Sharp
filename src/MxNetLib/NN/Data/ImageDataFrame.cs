@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using OpenCvSharp;
 
 namespace MxNetLib.NN.Data
 {
@@ -56,7 +57,7 @@ namespace MxNetLib.NN.Data
                 var byteData = new byte[imgChannel * imgWidth * imgHeight];
                 var resizedim = im.Resize(new Size(width.Value, height.Value));
                 resizedim.ConvertTo(resizedim, MatType.CV_32F);
-                resizedim.GetArray(0, 0, imdata);
+                resizedim.GetArray<float>(out imdata);
             }
 
             return imdata;

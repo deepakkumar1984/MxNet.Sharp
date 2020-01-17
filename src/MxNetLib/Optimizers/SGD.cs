@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public class SGD : BaseOptimizer
+    public class SGD : Optimizer
     {
         private readonly Dictionary<int, NDArray> moments;
 

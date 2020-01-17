@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public class Adamax : BaseOptimizer
+    public class Adamax : Optimizer
     {
         private readonly Dictionary<int, NDArray> ms;
         private readonly Dictionary<int, NDArray> us;

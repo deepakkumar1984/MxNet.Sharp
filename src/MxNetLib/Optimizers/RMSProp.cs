@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNetLib.Optimizers
 {
-    public class RMSProp : BaseOptimizer
+    public class RMSProp : Optimizer
     {
         private readonly Dictionary<int, NDArray> accumulators;
 

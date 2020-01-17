@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MxNetLib.Gluon
 {
-    class ParameterDict
+    public class ParameterDict
     {
     }
 }

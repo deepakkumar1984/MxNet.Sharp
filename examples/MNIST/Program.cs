@@ -16,7 +16,7 @@ namespace MNIST
         static void Main(string[] args)
         {
             //Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
-            MXNet.SetDevice(DeviceType.GPU);
+            MXNet.SetDevice(DeviceType.CPU);
             uint batchSize = 200;
 
             string trainImagePath = "./mnist_data/train-images-idx3-ubyte";
@@ -27,9 +27,9 @@ namespace MNIST
             var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 1);
             
             var model = new Module();
-            BuildNNModel(model);
+            //BuildNNModel(model);
             //BuildSymbolModel(model);
-            //BuildConvNNModel(model);
+            BuildConvNNModel(model);
 
             model.Fit(train, 10, batchSize, val);
 
