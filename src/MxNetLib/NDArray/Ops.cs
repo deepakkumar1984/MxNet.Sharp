@@ -6045,7 +6045,7 @@ namespace MxNetLib
         /// <returns>returns new NDArray</returns>
         public static NDArray Cast(NDArray data, DType dtype)
         {
-            return new Operator("Cast")
+            return new Operator("cast")
             .SetParam("dtype", dtype)
             .SetInput("data", data)
             .Invoke();
@@ -7521,7 +7521,7 @@ namespace MxNetLib
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Arange(double start, double? stop = null, double step = 1, int repeat = 1, bool infer_range = false, Context ctx = null, DType dtype = null)
+        public static NDArray Arange(int start, int? stop = null, int step = 1, int repeat = 1, bool infer_range = false, Context ctx = null, DType dtype = null)
         {
             if (dtype == null) { dtype = DType.Float32; }
 

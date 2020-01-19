@@ -1,5 +1,5 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace MxNetLib
+namespace MxNet
 {
 
     public enum DeviceType
@@ -9,9 +9,7 @@ namespace MxNetLib
 
         GPU = 2,
 
-        CPUPinned = 3,
-
-        CPUShared = 5
+        CPUPinned = 3
 
     }
 

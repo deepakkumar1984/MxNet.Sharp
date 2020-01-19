@@ -14,7 +14,7 @@ using ExecutorMonitorCallback = System.IntPtr;
 using System;
 
 // ReSharper disable once CheckNamespace
-namespace MxNetLib.Interop
+namespace MxNet.Interop
 {
 
     internal sealed partial class NativeMethods
@@ -38,19 +38,8 @@ namespace MxNetLib.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNotifyShutdown();
 
-        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXStorageEmptyCache(int dev_type, int dev_id);
-
-        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXGetGPUMemoryInformation64(int dev_id, ref long free_mem, ref long total_mem);
-
-        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXGetGPUCount(ref int count);
-
         [DllImport("Kernel32.dll")]
         public static extern ExecutorHandle LoadLibrary(string path);
-
-
 
         #endregion
 
@@ -172,14 +161,8 @@ namespace MxNetLib.Interop
         /// <param name="data">the data source to copy from.</param>
         /// <param name="size">the memory size we want to copy from.</param>
         /// <returns></returns>
-        //[DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        //public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.R4)] float[] data, uint size);
-
-        //[DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        //public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)] int[] data, uint size);
-
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, IntPtr data, uint size);
+        public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.R4)] float[] data, uint size);
 
         /// <summary>
         /// Perform a synchronize copyto a continugous CPU memory region.

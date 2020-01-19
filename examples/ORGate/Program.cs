@@ -44,7 +44,7 @@ namespace ORGate
             var output = sym.LogisticRegressionOutput(fc3, Symbol.Variable("label"));
 
             model.SetDefaultInitializer(new RandomUniform(-1, 1));
-            model.Compile(output, OptimizerRegistry.Adam(), MetricType.BinaryAccuracy);
+            model.Compile(output, OptimizerRegistry.Adam(), new F1());
         }
 
         private static void BuildNNModel(Module model)
@@ -54,7 +54,7 @@ namespace ORGate
             model.Add(new Dense(dim: 1));
 
             //Train
-            model.Compile(OptimizerType.Adam, LossType.SigmoidBinaryCrossEntropy, MetricType.BinaryAccuracy);
+            model.Compile(OptimizerType.Adam, LossType.SigmoidBinaryCrossEntropy, new F1());
         }
         
     }

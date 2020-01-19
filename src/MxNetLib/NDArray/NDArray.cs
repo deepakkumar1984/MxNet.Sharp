@@ -52,7 +52,7 @@ namespace MxNetLib
             this._Blob = new NDBlob(@out);
         }
 
-        public NDArray(NDArrayHandle handle, Context ctx = null)
+        internal NDArray(NDArrayHandle handle, Context ctx = null)
         {
             if (ctx != null)
                 context = ctx;
@@ -64,7 +64,7 @@ namespace MxNetLib
             this._Blob = new NDBlob(handle);
         }
 
-        public NDArray(IList<mx_uint> shape, bool delayAlloc = true, Context ctx = null)
+        internal NDArray(IList<mx_uint> shape, bool delayAlloc = true, Context ctx = null)
         {
             if (ctx != null)
                 context = ctx;
@@ -103,7 +103,7 @@ namespace MxNetLib
             this._Blob = new NDBlob(@out);
         }
 
-        public NDArray(mx_float[] data, Shape shape, Context ctx = null)
+        public NDArray(Array data, Shape shape, Context ctx = null)
         {
             if (ctx != null)
                 context = ctx;
@@ -119,20 +119,15 @@ namespace MxNetLib
                                                            context.GetDeviceId(),
                                                            false.ToInt32(),
                                                            out var @out), NativeMethods.OK);
-
-            NativeMethods.MXNDArraySyncCopyFromCPU(@out, data, (uint)shape.Size);
+            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
+            NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint)shape.Size);
 
             this.NativePtr = @out;
             this._Blob = new NDBlob(@out);
         }
 
-        public NDArray(IList<mx_float> data, Shape shape, Context ctx = null)
-            : this(data?.ToArray(), shape, ctx)
-        {
-        }
-
-        public NDArray(IList<mx_float> data, Context ctx = null)
-            : this(data, new Shape((uint)data.Count), ctx)
+        public NDArray(Array data, Context ctx = null)
+            : this(data, new Shape((uint)data.GetLength(0)), ctx)
         {
             
         }
@@ -342,46 +337,39 @@ namespace MxNetLib
             return new NDArray(handle);
         }
 
-        public void SyncCopyFromCPU(mx_float[] data, size_t size)
+        public void SyncCopyFromCPU(Array data, size_t size)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, data, (uint)size);
+            var resize = size > 0;
+            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
+
+            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, datagch.AddrOfPinnedObject(), (uint)size);
         }
 
-        public void SyncCopyFromCPU(mx_float[] data)
+        public void SyncCopyFromCPU(Array data)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
 
-            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, data, (uint)data.Length);
+            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
+            NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, datagch.AddrOfPinnedObject(), (uint)data.Length);
         }
 
-        public void SyncCopyToCPU(mx_float[] data)
+        public void SyncCopyToCPU(Array data)
         {
             SyncCopyToCPU(data, 0);
         }
 
-        public void SyncCopyToCPU(mx_float[] data, int size = 0)
+        public void SyncCopyToCPU(Array data, int size = 0)
         {
             var resize = size > 0;
             size = resize ? size : this.GetShape().Count();
-            data = new float[size];
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyToCPU(this._Blob.Handle, datagch.AddrOfPinnedObject(), (ulong)size);
 
             datagch.Free();
-        }
-
-        public NDArray ArgmaxChannel()
-        {
-            return nd.ArgmaxChannel(this);
-        }
-
-        public NDArray Argmax(int axis = 1)
-        {
-            return nd.Argmax(this, axis);
         }
 
         public void SampleGaussian(float mu = 0, float sigma = 1)
@@ -396,30 +384,24 @@ namespace MxNetLib
                 op.Set(low, high).Invoke(this);
         }
 
-        public Array AsArray()
+        public Array AsArray<T>()
         {
             ulong size = this.Size;
-            var data = new float[size];
+            var data = new T[size];
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyToCPU(_Blob.Handle, datagch.AddrOfPinnedObject(), size);
             datagch.Free();
             return data;
         }
 
-        public float[] Values
+        public T[] GetValues<T>()
         {
-            get
-            {
-                return AsArray().Cast<float>().ToArray();
-            }
+            return AsArray<T>().Cast<T>().ToArray();
         }
 
-        public float Value
+        public T AsScalar<T>()
         {
-            get
-            {
-                return AsArray().Cast<float>().ToList()[0];
-            }
+            return AsArray<T>().Cast<T>().ToList()[0];
         }
 
         public static void WaitAll()
@@ -437,7 +419,61 @@ namespace MxNetLib
             Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitToWrite(this._Blob.Handle), NativeMethods.OK);
         }
 
-        #region Overrides
+        public NDArray AsType(DType dtype)
+        {
+            return nd.Cast(this, dtype);
+        }
+
+        public NDArray AsInContext(Context context)
+        {
+            if (this.context == context)
+                return this;
+
+            return this.ChangeContext(context);
+        }
+
+        public NumSharp.NDArray AsNumpy()
+        {
+            NumSharp.NDArray x = null;
+
+            switch (DataType.Name)
+            {
+                case "float16":
+                    x = NumSharp.np.array(AsArray<float>());
+                    break;
+                case "float32":
+                    x = NumSharp.np.array(AsArray<float>());
+                    break;
+                case "float64":
+                    x = NumSharp.np.array(AsArray<double>());
+                    break;
+                case "int8":
+                    x = NumSharp.np.array(AsArray<byte>());
+                    break;
+                case "uint8":
+                    x = NumSharp.np.array(AsArray<sbyte>());
+                    break;
+                case "int32":
+                    x = NumSharp.np.array(AsArray<int>());
+                    break;
+                case "int64":
+                    x = NumSharp.np.array(AsArray<long>());
+                    break;
+                default:
+                    break;
+            }
+
+            List<int> npShape = new List<int>();
+            foreach (var item in Shape.Data)
+            {
+                if (item == 0)
+                    continue;
+
+                npShape.Add((int)item);
+            }
+
+            return x.reshape(new NumSharp.Shape(npShape.ToArray()));
+        }
 
         #region Operators
 
@@ -528,8 +564,27 @@ namespace MxNetLib
         public NDArray Reshape(params int[] shape)
         {
             uint[] targetShape = new mx_uint[shape.Length];
-            int prod = -1 * shape.Aggregate(1, (a, b) => a * b);
+            long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
             for (int i=0;  i<targetShape.Length;i++)
+            {
+                if (shape[i] > 0)
+                {
+                    targetShape[i] = (uint)shape[i];
+                }
+                else
+                {
+                    targetShape[i] = Size / (uint)prod;
+                }
+            }
+
+            return Reshape(new Shape(targetShape));
+        }
+
+        public NDArray Reshape(params uint[] shape)
+        {
+            uint[] targetShape = new mx_uint[shape.Length];
+            long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
+            for (int i = 0; i < targetShape.Length; i++)
             {
                 if (shape[i] > 0)
                 {
@@ -553,15 +608,10 @@ namespace MxNetLib
 
         #endregion
 
+        #region Overrides
         public override string ToString()
         {
-            var @out = new StringBuilder();
-            @out.Append('[');
-            var data = AsArray().Cast<float>().ToList();
-            @out.Append(string.Join(", ", data.Select(f => f.ToString(CultureInfo.InvariantCulture))));
-            @out.Append(']');
-
-            return @out.ToString();
+            return DataType.Name + ": " + Shape.ToString();
         }
 
         protected override void DisposeUnmanaged()

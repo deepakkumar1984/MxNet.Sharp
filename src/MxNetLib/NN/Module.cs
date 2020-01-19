@@ -57,13 +57,13 @@ namespace MxNetLib.NN
         }
 
         [JsonIgnore]
-        public BaseMetric Metric { get; set; }
+        public EvalMetric Metric { get; set; }
 
         [JsonIgnore]
         public Symbol TrainingLoss { get; set; }
 
         [JsonIgnore]
-        public BaseMetric TrainMetric { get; set; }
+        public EvalMetric TrainMetric { get; set; }
 
         private Dictionary<string, BaseInitializer> ParamInitializers = new Dictionary<string, BaseInitializer>();
 
@@ -86,10 +86,10 @@ namespace MxNetLib.NN
             Layers.Add(l);
         }
 
-        public void Compile(Optimizer optimizer, LossType loss, MetricType metric = MetricType.None)
+        public void Compile(Optimizer optimizer, LossType loss, EvalMetric metric = null)
         {
-            Metric = MetricRegistry.Get(metric);
-            TrainMetric = MetricRegistry.Get(metric);
+            Metric = metric;
+            TrainMetric = metric;
             Model = new Symbol(IntPtr.Zero);
             Model = Symbol.Variable("X");
             ModelOptimizer = optimizer;
@@ -106,21 +106,21 @@ namespace MxNetLib.NN
             Model = LossRegistry.Get(loss, Model, Symbol.Variable("label"));
         }
 
-        public void Compile(Symbol model, Optimizer optimizer, MetricType metric)
+        public void Compile(Symbol model, Optimizer optimizer, EvalMetric metric)
         {
-            Metric = MetricRegistry.Get(metric);
-            TrainMetric = MetricRegistry.Get(metric);
+            Metric = metric;
+            TrainMetric = metric;
             ModelOptimizer = optimizer;
             Model = new Symbol(model.NativePtr);
         }
 
-        public void Compile(OptimizerType optimizer, LossType loss, MetricType metric)
+        public void Compile(OptimizerType optimizer, LossType loss, EvalMetric metric)
         {
             Optimizer opt = OptimizerRegistry.Get(optimizer);
             Compile(opt, loss, metric);
         }
 
-        public void Compile(Symbol model, OptimizerType optimizer, MetricType metric)
+        public void Compile(Symbol model, OptimizerType optimizer, EvalMetric metric)
         {
             Optimizer opt = OptimizerRegistry.Get(optimizer);
             Compile(model, opt, metric);

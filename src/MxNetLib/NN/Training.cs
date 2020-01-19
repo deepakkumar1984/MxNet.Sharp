@@ -48,7 +48,7 @@ namespace MxNetLib.NN
                 }
             }
 
-            using (var exec = Model.Bind(MXNet.Device, args.Values.ToList(), null, null,null))
+            using (var exec = Model.SimpleBind(MXNet.Device, args))
             {
                 var argNames = Model.ListArguments();
 
@@ -144,11 +144,11 @@ namespace MxNetLib.NN
                     var batch = dataIter.GetDataBatch();
                     batch.Data.CopyTo(predictArgs["X"]);
                     exec.Forward(false);
-                    preds.AddRange(exec.Output.Values);
+                    preds.AddRange(exec.Output.GetValues<float>());
                 }
             }
 
-            return new NDArray(preds).Reshape((int)x.Shape[0], -1);
+            return new NDArray(preds.ToArray()).Reshape((int)x.Shape[0], -1);
         }
 
     }

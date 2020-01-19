@@ -4,9 +4,9 @@ using System.Text;
 
 namespace MxNetLib.Metrics
 {
-    public class MSE : EvalMetric
+    public class RMSE : EvalMetric
     {
-        public MSE(string output_name = null, string label_name = null) : base("mse", output_name, label_name, true)
+        public RMSE(string output_name = null, string label_name = null) : base("rmse", output_name, label_name, true)
         {
         }
 
@@ -17,10 +17,10 @@ namespace MxNetLib.Metrics
             if (preds.Shape.Dimension == 1)
                 preds = preds.Reshape(preds.Shape[0], 1);
 
-            var mse = nd.Square(labels - preds).Mean();
+            var rmse = (float)Math.Sqrt(nd.Square(labels - preds).Mean());
 
-            this.sum_metric += mse;
-            this.global_sum_metric += mse;
+            this.sum_metric += rmse;
+            this.global_sum_metric += rmse;
             this.num_inst += 1;
             this.global_num_inst += 1;
         }

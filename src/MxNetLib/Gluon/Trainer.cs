@@ -15,6 +15,10 @@ namespace MxNetLib.Gluon
             {
                 throw new NotImplementedException();
             }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public Optimizer optimizer
@@ -40,8 +44,6 @@ namespace MxNetLib.Gluon
         private void _reset_kvstore() => throw new NotImplementedException();
 
         private void _init_kvstore() => throw new NotImplementedException();
-
-        public void set_learning_rate(float lr) => throw new NotImplementedException();
 
         private void _row_sparse_pull(Parameter parameter, NDArray @out, int[] row_id, bool full_idx= false) => throw new NotImplementedException();
 

@@ -65,7 +65,7 @@ namespace MxNetLib.NN.Data
 
         internal override void GenerateVariable()
         {
-            variable = new NDArray(DataList, new Shape((uint)n, (uint)imgChannel, (uint)imgWidth, (uint)imgHeight));
+            variable = new NDArray(DataList.ToArray(), new Shape((uint)n, (uint)imgChannel, (uint)imgWidth, (uint)imgHeight));
         }
     }
 }

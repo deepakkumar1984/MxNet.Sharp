@@ -1,33 +1,28 @@
-﻿using MxNetLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MxNetLib.Metrics
 {
-    public sealed class MAE : BaseMetric
+    public class MAE : EvalMetric
     {
-        #region Constructors
-
-        public MAE() : base("mae") { }
-
-        #endregion
-
-        #region Methods
+        public MAE(string output_name = null, string label_name = null) : base("mae", output_name, label_name, true)
+        {
+        }
 
         public override void Update(NDArray labels, NDArray preds)
         {
-            if (labels == null)
-                throw new ArgumentNullException(nameof(labels));
-            if (preds == null)
-                throw new ArgumentNullException(nameof(preds));
+            if (labels.Shape.Dimension == 1)
+                labels = labels.Reshape(labels.Shape[0], 1);
+            if (preds.Shape.Dimension == 1)
+                preds = preds.Reshape(preds.Shape[0], 1);
 
-            preds = preds.Ravel();
-            var result = nd.Mean(nd.Abs(preds - labels)).Value;
-            this.Values.Add(result);
+            var mae = nd.Abs(labels = preds).Mean();
+
+            this.sum_metric += mae;
+            this.global_sum_metric += mae;
+            this.num_inst += 1;
+            this.global_num_inst += 1;
         }
-
-        #endregion
-
     }
 }

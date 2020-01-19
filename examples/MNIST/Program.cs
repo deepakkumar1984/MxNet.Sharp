@@ -16,7 +16,7 @@ namespace MNIST
         static void Main(string[] args)
         {
             //Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
-            MXNet.SetDevice(DeviceType.CPU);
+            MXNet.SetDevice(DeviceType.GPU);
             uint batchSize = 200;
 
             string trainImagePath = "./mnist_data/train-images-idx3-ubyte";
@@ -24,12 +24,12 @@ namespace MNIST
             string valImagePath = "./mnist_data/t10k-images-idx3-ubyte";
             string valLabelPath = "./mnist_data/t10k-labels-idx1-ubyte";
 
-            var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 1);
+            var (train, val) = DataSetParser.MNIST(trainImagePath, trainLabelPath, valImagePath, valLabelPath, batchSize, 0);
             
             var model = new Module();
-            //BuildNNModel(model);
+            BuildNNModel(model);
             //BuildSymbolModel(model);
-            BuildConvNNModel(model);
+            //BuildConvNNModel(model);
 
             model.Fit(train, 10, batchSize, val);
 
@@ -59,7 +59,7 @@ namespace MNIST
             var output = sym.SoftmaxOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
 
             model.SetDefaultInitializer(new RandomUniform(-1, 1));
-            model.Compile(output, OptimizerRegistry.SGD(), MetricType.Accuracy);
+            model.Compile(output, OptimizerRegistry.SGD(), new F1());
         }
 
         private static void BuildNNModel(Module model)
@@ -71,7 +71,7 @@ namespace MNIST
             model.Add(new Dense(128, ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));
             model.Add(new Dense(10));
 
-            model.Compile(OptimizerRegistry.SGD(), LossType.SoftmaxCategorialCrossEntropy, MetricType.Accuracy);
+            model.Compile(OptimizerRegistry.SGD(), LossType.SoftmaxCategorialCrossEntropy, new F1());
         }
 
         private static void BuildConvNNModel(Module model)
@@ -91,7 +91,7 @@ namespace MNIST
 
             model.Add(new Dense(10));
 
-            model.Compile(OptimizerRegistry.SGD(), LossType.SoftmaxCategorialCrossEntropy, MetricType.Accuracy);
+            model.Compile(OptimizerRegistry.SGD(), LossType.SoftmaxCategorialCrossEntropy, new F1());
         }
     }
 }
