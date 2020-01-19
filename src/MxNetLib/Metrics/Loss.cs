@@ -6,7 +6,7 @@ namespace MxNetLib.Metrics
 {
     public class Loss : EvalMetric
     {
-        public Loss(string output_name = null, string label_name = null) : base("loss", output_name, label_name, true)
+        public Loss(string name = "loss", string output_name = null, string label_name = null) : base(name, output_name, label_name, true)
         {
         }
 

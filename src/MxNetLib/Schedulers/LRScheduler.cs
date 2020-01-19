@@ -1,4 +1,6 @@
-﻿// ReSharper disable once CheckNamespace
+﻿using System;
+
+// ReSharper disable once CheckNamespace
 namespace MxNetLib
 {
 
@@ -7,9 +9,9 @@ namespace MxNetLib
 
         #region Constructors
 
-        protected LRScheduler(float baseLearningRate = 0.01f)
+        protected LRScheduler(float base_lr = 0.01f, int warmup_steps = 0, float warmup_begin_lr = 0, string warmup_mode = "linear")
         {
-            this.BaseLearningRate = baseLearningRate;
+            this.BaseLearningRate = base_lr;
         }
 
         #endregion
@@ -25,13 +27,12 @@ namespace MxNetLib
         #endregion
 
         #region Methods
-
-        public void SetLearningRate(float learningRate)
+        public float GetWarmupLR(uint num_update)
         {
-            this.BaseLearningRate = learningRate;
+            throw new NotImplementedException();
         }
 
-        public abstract float GetLearningRate(uint numUpdate);
+        public abstract float Call(uint num_update);
 
         #endregion
 

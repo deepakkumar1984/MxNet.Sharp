@@ -19,18 +19,20 @@ namespace MxNetLib
 
         #region Constructors
 
-        public FactorScheduler(int step, float factor = 1, float stopFactorLearningRate = 1e-8f)
+        public FactorScheduler(int step, float factor = 1, float stop_factor_lr = 1e-8f,
+            float base_lr = 0.01F, int warmup_steps = 0, float warmup_begin_lr = 0, string warmup_mode = "linear")
+            : base(base_lr, warmup_steps, warmup_begin_lr, warmup_mode)
         {
-            this._Step = step;
-            this._Factor = factor;
-            this._StopFactorLearningRate = stopFactorLearningRate;
+            _Step = step;
+            _Factor = factor;
+            _StopFactorLearningRate = stop_factor_lr;
         }
 
         #endregion
 
         #region Methods
 
-        public override float GetLearningRate(uint numUpdate)
+        public override float Call(uint numUpdate)
         {
             while (numUpdate > (uint)(this._Count + this._Step))
             {
