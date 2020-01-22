@@ -6,12 +6,11 @@ using System.Text;
 
 namespace MxNetLib.Modules
 {
-    public class Module : BaseModule
+    public class SequentialModule : BaseModule
     {
-        public Module(Symbol symbol, string[] data_names = null, string[] label_names = null, Logger logging = null,
-                            Context context = null, int[] work_load_list = null, string[] fixed_param_names = null, string[] state_names = null,
-                            Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null) : base(logging)
+        public SequentialModule(Logger logging = null) : base(logging)
         {
+            throw new NotImplementedException();
         }
 
         public override string[] DataNames => throw new NotImplementedException();
@@ -26,12 +25,10 @@ namespace MxNetLib.Modules
 
         public override Shape[] OutputShapes => throw new NotImplementedException();
 
-        public void SaveCheckpoint(string prefix, int epoch, bool save_optimizer_states = false, bool remove_amp_cast = false) => throw new NotImplementedException();
-
-        public static Module Load(string prefix, int epoch, bool load_optimizer_states = false, string[] data_names = null, string[] label_names = null, Logger logging = null,
-                            Context context = null, int[] work_load_list = null, string[] fixed_param_names = null) => throw new NotImplementedException();
-
-        private void ResetBind() => throw new NotImplementedException();
+        public void Add(Module module, bool? take_labels = null, bool? auto_wiring = null)
+        {
+            throw new NotImplementedException();
+        }
 
         public override void Backward(NDArray[] out_grads = null)
         {
@@ -87,15 +84,5 @@ namespace MxNetLib.Modules
         {
             throw new NotImplementedException();
         }
-
-        public void Reshape(Shape[] data_shapes, Shape[] label_shapes = null) => throw new NotImplementedException();
-
-        public void BorrowOptimizer(Module shaped_module) => throw new NotImplementedException();
-
-        private void SyncParamsFromDevices() => throw new NotImplementedException();
-
-        public void SaveOptimizerStates(string fname) => throw new NotImplementedException();
-
-        public void LoadOptimizerStates(string fname) => throw new NotImplementedException();
     }
 }

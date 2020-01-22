@@ -12,27 +12,37 @@ namespace MxNetLib.Modules
     {
         private Symbol symbol;
 
-        public virtual string[] DataNames
+        public abstract string[] DataNames
         {
             get;
         }
 
-        public virtual string[] LabelNames
+        public abstract string[] OutputNames
         {
             get;
         }
 
-        public virtual Shape[] DataShapes
+        public abstract string[] LabelNames
         {
             get;
         }
 
-        public virtual Shape[] LabelShapes
+        public abstract Shape[] DataShapes
         {
             get;
         }
 
-        public Symbol Symbol
+        public abstract Shape[] LabelShapes
+        {
+            get;
+        }
+
+        public abstract Shape[] OutputShapes
+        {
+            get;
+        }
+
+        public virtual Symbol Symbol
         {
             get
             {
