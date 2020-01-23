@@ -204,8 +204,8 @@ namespace MxNetLib
         }
 
         public void InferArgsMap(Context context,
-                                 IDictionary<string, NDArray> argsMap,
-                                 IDictionary<string, NDArray> knownArgs)
+                                 NDArrayDict argsMap,
+                                 NDArrayDict knownArgs)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -224,8 +224,8 @@ namespace MxNetLib
             var argNameList = this.ListArguments();
             foreach (var argName in argNameList)
             {
-                if (knownArgs.TryGetValue(argName, out var value))
-                    argShapes[argName] = value.GetShape();
+                if (knownArgs[argName] != null)
+                    argShapes[argName] = knownArgs[argName].GetShape();
             }
 
             this.InferShape(argShapes, inShapes, auxShapes, outShapes);
@@ -234,9 +234,9 @@ namespace MxNetLib
             {
                 var shape = inShapes[i];
                 var argName = argNameList[i];
-                if (knownArgs.TryGetValue(argName, out var value))
+                if (knownArgs[argName] != null)
                 {
-                    argsMap[argName] = value;
+                    argsMap[argName] = knownArgs[argName];
                 }
                 else
                 {
@@ -334,7 +334,7 @@ namespace MxNetLib
                                         IList<NDArray> gradArrays,
                                         IList<OpReqType> gradReqs,
                                         IList<NDArray> auxArrays,
-                                        IDictionary<string, NDArray> argsMap)
+                                        NDArrayDict argsMap)
         {
             this.InferExecutorArrays(context,
                                      argArrays,
@@ -342,7 +342,7 @@ namespace MxNetLib
                                      gradReqs,
                                      auxArrays,
                                      argsMap,
-                                     new Dictionary<string, NDArray>());
+                                     new NDArrayDict());
         }
 
         public void InferExecutorArrays(Context context,
@@ -350,8 +350,8 @@ namespace MxNetLib
                                         IList<NDArray> gradArrays,
                                         IList<OpReqType> gradReqs,
                                         IList<NDArray> auxArrays,
-                                        IDictionary<string, NDArray> argsMap,
-                                        IDictionary<string, NDArray> argGradStore)
+                                        NDArrayDict argsMap,
+                                        NDArrayDict argGradStore)
         {
             this.InferExecutorArrays(context,
                                      argArrays,
@@ -368,8 +368,8 @@ namespace MxNetLib
                                         IList<NDArray> gradArrays,
                                         IList<OpReqType> gradReqs,
                                         IList<NDArray> auxArrays,
-                                        IDictionary<string, NDArray> argsMap,
-                                        IDictionary<string, NDArray> argGradStore,
+                                        NDArrayDict argsMap,
+                                        NDArrayDict argGradStore,
                                         IDictionary<string, OpReqType> gradReqType)
         {
             this.InferExecutorArrays(context,
@@ -380,7 +380,7 @@ namespace MxNetLib
                                      argsMap,
                                      argGradStore,
                                      gradReqType,
-                                     new Dictionary<string, NDArray>());
+                                     new NDArrayDict());
         }
 
         public void InferExecutorArrays(Context context,
@@ -388,10 +388,10 @@ namespace MxNetLib
                                     IList<NDArray> gradArrays,
                                     IList<OpReqType> gradReqs,
                                     IList<NDArray> auxArrays,
-                                    IDictionary<string, NDArray> argsMap,
-                                    IDictionary<string, NDArray> argGradStore,
+                                    NDArrayDict argsMap,
+                                    NDArrayDict argGradStore,
                                     IDictionary<string, OpReqType> gradReqType,
-                                    IDictionary<string, NDArray> auxMap)
+                                    NDArrayDict auxMap)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -422,8 +422,8 @@ namespace MxNetLib
 
             foreach (var argName in argNameList)
             {
-                if (argsMap.TryGetValue(argName, out var value))
-                    argShapes[argName] = value.GetShape();
+                if (argsMap[argName] != null)
+                    argShapes[argName] = argsMap[argName].GetShape();
             }
 
             this.InferShape(argShapes, inShapes, auxShapes, outShapes);
@@ -432,9 +432,9 @@ namespace MxNetLib
             {
                 var shape = inShapes[i];
                 var argName = argNameList[i];
-                if (argsMap.TryGetValue(argName, out var value1))
+                if (argsMap[argName] != null)
                 {
-                    argArrays.Add(value1);
+                    argArrays.Add(argsMap[argName]);
                 }
                 else
                 {
@@ -444,9 +444,9 @@ namespace MxNetLib
                     nd.RandomUniform(0, 1, argArr.Shape).CopyTo(argArr);
                 }
 
-                if (argGradStore.TryGetValue(argName, out var value2))
+                if (argGradStore[argName] != null)
                 {
-                    gradArrays.Add(value2);
+                    gradArrays.Add(argGradStore[argName]);
                 }
                 else
                 {
@@ -473,9 +473,9 @@ namespace MxNetLib
             {
                 var shape = auxShapes[i];
                 var auxName = auxNameList[i];
-                if (auxMap.TryGetValue(auxName, out var value))
+                if (auxMap[auxName] != null)
                 {
-                    auxArrays.Add(value);
+                    auxArrays.Add(auxMap[auxName]);
                 }
                 else
                 {
@@ -546,7 +546,7 @@ namespace MxNetLib
         }
 
         public Executor SimpleBind(Context context,
-                                   IDictionary<string, NDArray> argsMap)
+                                   NDArrayDict argsMap)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -555,12 +555,12 @@ namespace MxNetLib
 
             this.ThrowIfDisposed();
 
-            return this.SimpleBind(context, argsMap, new Dictionary<string, NDArray>());
+            return this.SimpleBind(context, argsMap, new NDArrayDict());
         }
 
         public Executor SimpleBind(Context context,
-                                   IDictionary<string, NDArray> argsMap,
-                                   IDictionary<string, NDArray> argGradStore)
+                                   NDArrayDict argsMap,
+                                   NDArrayDict argGradStore)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -575,8 +575,8 @@ namespace MxNetLib
         }
 
         public Executor SimpleBind(Context context,
-                                   IDictionary<string, NDArray> argsMap,
-                                   IDictionary<string, NDArray> argGradStore,
+                                   NDArrayDict argsMap,
+                                   NDArrayDict argGradStore,
                                    IDictionary<string, OpReqType> gradReqType)
         {
             if (context == null)
@@ -590,14 +590,14 @@ namespace MxNetLib
 
             this.ThrowIfDisposed();
 
-            return this.SimpleBind(context, argsMap, argGradStore, gradReqType, new Dictionary<string, NDArray>());
+            return this.SimpleBind(context, argsMap, argGradStore, gradReqType, new NDArrayDict());
         }
 
         public Executor SimpleBind(Context context,
-                                   IDictionary<string, NDArray> argsMap,
-                                   IDictionary<string, NDArray> argGradStore,
+                                   NDArrayDict argsMap,
+                                   NDArrayDict argGradStore,
                                    IDictionary<string, OpReqType> gradReqType,
-                                   IDictionary<string, NDArray> auxMap)
+                                   NDArrayDict auxMap)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));

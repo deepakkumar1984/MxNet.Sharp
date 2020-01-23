@@ -23,9 +23,9 @@ namespace MxNetLib.Modules
 
         public void Reshape(Shape[] data_shapes, Shape[] label_shapes) => throw new NotImplementedException();
 
-        public void SetParams(Dictionary<string, NDArray> arg_params, Dictionary<string, NDArray> aux_params, bool allow_extra= false) => throw new NotImplementedException();
+        public void SetParams(NDArrayDict arg_params, NDArrayDict aux_params, bool allow_extra= false) => throw new NotImplementedException();
 
-        public void GetParams(Dictionary<string, NDArray> arg_params, Dictionary<string, NDArray> aux_params) => throw new NotImplementedException();
+        public void GetParams(NDArrayDict arg_params, NDArrayDict aux_params) => throw new NotImplementedException();
 
         public void Forward(DataBatch data_batch, bool? is_train = null) => throw new NotImplementedException();
 

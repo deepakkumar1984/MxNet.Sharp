@@ -5,9 +5,9 @@ using System.Text;
 
 namespace MxNetLib.Callbacks
 {
-    public class LogValidationMetricsCallback : IBatchEndCallback
+    public class LogValidationMetricsCallback : IEvalEndCallback
     {
-        public void Invoke(int epoch, int nbatch, EvalMetric eval_metric, FuncArgs locals = null)
+        public void Invoke(EvalMetric eval_metric)
         {
             throw new NotImplementedException();
         }

@@ -6,6 +6,6 @@ namespace MxNetLib.Callbacks
 {
     public interface IEpochEndCallback
     {
-        void Invoke(int epoch, Symbol symbol, Dictionary<string, NDArray> arg_params, Dictionary<string, NDArray> aux_params);
+        void Invoke(int epoch, Symbol symbol, NDArrayDict arg_params, NDArrayDict aux_params);
     }
 }

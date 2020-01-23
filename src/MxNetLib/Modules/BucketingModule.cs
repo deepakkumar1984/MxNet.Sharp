@@ -66,7 +66,7 @@ namespace MxNetLib.Modules
             throw new NotImplementedException();
         }
 
-        public override (Dictionary<string, NDArray>, Dictionary<string, NDArray>) GetParams()
+        public override (NDArrayDict, NDArrayDict) GetParams()
         {
             throw new NotImplementedException();
         }
@@ -76,7 +76,7 @@ namespace MxNetLib.Modules
             throw new NotImplementedException();
         }
 
-        public override void InitParams(Initializer initializer = null, Dictionary<string, NDArray> arg_params = null, Dictionary<string, NDArray> aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
+        public override void InitParams(Initializer initializer = null, NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
         {
             throw new NotImplementedException();
         }
@@ -96,7 +96,7 @@ namespace MxNetLib.Modules
             throw new NotImplementedException();
         }
 
-        public override void SetParams(Dictionary<string, NDArray> arg_params = null, Dictionary<string, NDArray> aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
+        public override void SetParams(NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
         {
             base.SetParams(arg_params, aux_params, allow_missing, force_init, allow_extra);
         }
@@ -123,7 +123,7 @@ namespace MxNetLib.Modules
 
         public void SwitchBucket(string bucket_key, Shape[] data_shapes, Shape[] label_shapes= null) => throw new NotImplementedException();
 
-        public override void Prepare(DataBatch data_batch, Func<DataBatch, Dictionary<string, NDArray>> sparse_row_id_fn = null)
+        public override void Prepare(DataBatch data_batch, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
             base.Prepare(data_batch, sparse_row_id_fn);
         }
@@ -135,7 +135,7 @@ namespace MxNetLib.Modules
                             Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null) => throw new NotImplementedException();
 
         public static BucketingModule LoadDict(Dictionary<string, Symbol> sym_dict, Func<string, (Symbol, string[], string[])> sym_gen = null, 
-                            string default_bucket_key = null, Dictionary<string, NDArray> arg_params = null, Dictionary<string, NDArray> aux_params = null,
+                            string default_bucket_key = null, NDArrayDict arg_params = null, NDArrayDict aux_params = null,
                             Logger logging = null, Context context = null, int[] work_load_list = null, string[] fixed_param_names = null, string[] state_names = null,
                             Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null) => throw new NotImplementedException();
     }

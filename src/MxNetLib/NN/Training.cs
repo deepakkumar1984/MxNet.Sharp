@@ -130,7 +130,7 @@ namespace MxNetLib.NN
                 batchSize = x.Shape[0];
 
             List<uint> inputShape = new List<uint>();
-            Dictionary<string, NDArray> predictArgs = new Dictionary<string, NDArray>();
+            NDArrayDict predictArgs = new NDArrayDict();
             
             Model.InferArgsMap(MXNet.Device, predictArgs, args);
             predictArgs["X"] = new NDArray(x.Shape);

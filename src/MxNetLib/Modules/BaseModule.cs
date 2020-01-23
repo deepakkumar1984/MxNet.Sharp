@@ -61,17 +61,17 @@ namespace MxNetLib.Modules
         }
 
         public void Score(DataIter eval_data, EvalMetric eval_metric, int? num_batch= null, IBatchEndCallback[] batch_end_callback  = null,
-              IScoreEndCallback[] score_end_callback = null, bool reset= true, int epoch= 0, Func<DataBatch, Dictionary<string, NDArray>> sparse_row_id_fn= null)
+              IScoreEndCallback[] score_end_callback = null, bool reset= true, int epoch= 0, Func<DataBatch, NDArrayDict> sparse_row_id_fn= null)
         {
             throw new NotImplementedException();
         }
 
-        public void IterPredict(DataIter eval_data, int? num_batch = null, bool reset = true, int epoch = 0, Func<DataBatch, Dictionary<string, NDArray>> sparse_row_id_fn = null)
+        public void IterPredict(DataIter eval_data, int? num_batch = null, bool reset = true, int epoch = 0, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
             throw new NotImplementedException();
         }
 
-        public void Predict(DataIter eval_data, int? num_batch = null, bool merge_batches = true, bool reset = true, bool always_output_list = true, Func<DataBatch, Dictionary<string, NDArray>> sparse_row_id_fn = null)
+        public void Predict(DataIter eval_data, int? num_batch = null, bool merge_batches = true, bool reset = true, bool always_output_list = true, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
             throw new NotImplementedException();
         }
@@ -79,20 +79,20 @@ namespace MxNetLib.Modules
         public void Fit(DataIter train_data, DataIter eval_data= null, string eval_metric= "acc",
             IEpochEndCallback[] epoch_end_callback= null, IBatchEndCallback[] batch_end_callback= null, string kvstore = "local",
             string optimizer= "sgd", Dictionary<string, object> optimizer_params= null, IBatchEndCallback[] eval_end_callback= null,
-            IBatchEndCallback[] eval_batch_end_callback= null, Initializer initializer= null, Dictionary<string, NDArray> arg_params= null,
-            Dictionary<string, NDArray> aux_params = null, bool allow_missing= false, bool force_rebind= false, 
+            IBatchEndCallback[] eval_batch_end_callback= null, Initializer initializer= null, NDArrayDict arg_params= null,
+            NDArrayDict aux_params = null, bool allow_missing= false, bool force_rebind= false, 
             bool force_init= false, int begin_epoch= 0, int? num_epoch= null, EvalMetric validation_metric= null,
-            Monitor monitor= null, Func<DataBatch, Dictionary<string, NDArray>>  sparse_row_id_fn = null)
+            Monitor monitor= null, Func<DataBatch, NDArrayDict>  sparse_row_id_fn = null)
         {
             throw new NotImplementedException();
         }
 
-        public abstract (Dictionary<string, NDArray>, Dictionary<string, NDArray>) GetParams();
+        public abstract (NDArrayDict, NDArrayDict) GetParams();
 
-        public abstract void InitParams(Initializer initializer = null, Dictionary<string, NDArray> arg_params = null, Dictionary<string, NDArray> aux_params = null,
+        public abstract void InitParams(Initializer initializer = null, NDArrayDict arg_params = null, NDArrayDict aux_params = null,
                     bool allow_missing = false, bool force_init = false, bool allow_extra = false);
 
-        public virtual void SetParams(Dictionary<string, NDArray> arg_params = null, Dictionary<string, NDArray> aux_params = null,
+        public virtual void SetParams(NDArrayDict arg_params = null, NDArrayDict aux_params = null,
                     bool allow_missing = false, bool force_init = false, bool allow_extra = false)
         {
             InitParams(null, arg_params, aux_params, allow_missing, force_init, allow_extra);
@@ -108,7 +108,7 @@ namespace MxNetLib.Modules
 
         public abstract void InstallMonitor(Monitor mon);
 
-        public virtual void Prepare(DataBatch data_batch, Func<DataBatch, Dictionary<string, NDArray>> sparse_row_id_fn = null) => throw new NotImplementedException();
+        public virtual void Prepare(DataBatch data_batch, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null) => throw new NotImplementedException();
 
         public abstract void Forward(DataBatch data_batch, bool is_train = true);
 

@@ -794,6 +794,31 @@ namespace MxNetLib.Interop
 
         #endregion
 
+        #region Part 7: Autograd API
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradSetIsRecording(int is_recording, ref int prev);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradSetIsTraining(int train_mode, ref int prev);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradIsRecording(ref int curr);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradIsTraining(ref int curr);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradMarkVariables(int num_var, NDArrayHandle[] var_handles, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)] int[] reqs_array, NDArrayHandle[] grad_handles);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradBackwardEx(int num_output, NDArrayHandle[] output_handles, NDArrayHandle[] ograd_handles, int num_variables,
+                                                        NDArrayHandle[] var_handles, int retain_graph, int create_graph, int is_train, [Out]NDArrayHandle[] grad_handles,
+                                                        [Out][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)] int[] grad_stypes);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradGetSymbol(NDArrayHandle handle, SymbolHandle @out);
+        #endregion
+
         #endregion
 
     }

@@ -10,9 +10,10 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
             MXNet.SetDevice(DeviceType.CPU);
+            Autograd.SetTraining(true);
             NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
-            
-            x = x.AsType(DType.Int32);
+            x = nd.Square(x);
+            var a = Autograd.GetSymbol(x);
             NDArray y = nd.EqualScalar(x, 3);
             //var acc = new Accuracy();
             var data = y.GetValues<float>();

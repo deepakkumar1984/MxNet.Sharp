@@ -34,7 +34,7 @@ namespace BostonHousingRegression
             //var fc3 = sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), null, 1, no_bias: true, symbol_name: "fc3");
             //var output = sym.LinearRegressionOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
 
-            //Dictionary<string, NDArray> parameters = new Dictionary<string, NDArray>();
+            //NDArrayDict parameters = new NDArrayDict();
             //parameters["x"] = new NDArray(new Shape(batchSize, numFeatures));
             //parameters["label"] = new NDArray(new Shape(batchSize));
             //output.InferArgsMap(MXNet.Device, parameters, parameters);

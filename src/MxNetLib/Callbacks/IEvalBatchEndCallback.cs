@@ -5,8 +5,8 @@ using System.Text;
 
 namespace MxNetLib.Callbacks
 {
-    public interface IIterEndCallback
+    public interface IEvalBatchEndCallback
     {
-        void Invoke(int epoch, Symbol symbol, NDArrayDict arg_params, NDArrayDict aux_params);
+        void Invoke(int epoch, int nbatch, EvalMetric eval_metric);
     }
 }

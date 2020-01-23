@@ -27,5 +27,10 @@ namespace MxNetLib
                 throw new Exception(message);
             }
         }
+
+        public static IntPtr[] GetNDArrayHandles(NDArray[] list)
+        {
+            return list.Select(x => (x.GetHandle())).ToArray();
+        }
     }
 }

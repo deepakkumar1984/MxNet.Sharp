@@ -13,7 +13,7 @@ namespace MxNetLib.Callbacks
             throw new NotImplementedException();
         }
 
-        public void Invoke(int epoch, Symbol symbol, Dictionary<string, NDArray> arg_params, Dictionary<string, NDArray> aux_params)
+        public void Invoke(int epoch, Symbol symbol, NDArrayDict arg_params, NDArrayDict aux_params)
         {
             throw new NotImplementedException();
         }
@@ -27,7 +27,7 @@ namespace MxNetLib.Callbacks
             throw new NotImplementedException();
         }
 
-        public void Invoke(int epoch, Symbol symbol, Dictionary<string, NDArray> arg_params, Dictionary<string, NDArray> aux_params)
+        public void Invoke(int epoch, Symbol symbol, NDArrayDict arg_params, NDArrayDict aux_params)
         {
             throw new NotImplementedException();
         }

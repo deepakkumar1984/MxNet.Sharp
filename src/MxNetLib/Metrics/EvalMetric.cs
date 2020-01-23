@@ -106,6 +106,9 @@ namespace MxNetLib.Metrics
             return new List<(string, float)>() { nameValue };
         }
 
-        
+        public static implicit operator EvalMetric(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

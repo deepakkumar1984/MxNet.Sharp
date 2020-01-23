@@ -58,7 +58,7 @@ namespace MxNetLib.Modules
             throw new NotImplementedException();
         }
 
-        public override (Dictionary<string, NDArray>, Dictionary<string, NDArray>) GetParams()
+        public override (NDArrayDict, NDArrayDict) GetParams()
         {
             throw new NotImplementedException();
         }
@@ -68,7 +68,7 @@ namespace MxNetLib.Modules
             throw new NotImplementedException();
         }
 
-        public override void InitParams(Initializer initializer = null, Dictionary<string, NDArray> arg_params = null, Dictionary<string, NDArray> aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
+        public override void InitParams(Initializer initializer = null, NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
         {
             throw new NotImplementedException();
         }

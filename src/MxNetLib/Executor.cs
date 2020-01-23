@@ -163,17 +163,17 @@ namespace MxNetLib
 
         #region Methods
 
-        public IDictionary<string, NDArray> ArgmentDictionary()
+        public NDArrayDict ArgmentDictionary()
         {
             return GetDictionary(this._Symbol.ListArguments(), this.ArgmentArrays);
         }
 
-        public IDictionary<string, NDArray> GradientDictionary()
+        public NDArrayDict GradientDictionary()
         {
             return GetDictionary(this._Symbol.ListArguments(), this.GradientArrays);
         }
 
-        public IDictionary<string, NDArray> AuxiliaryDictionary()
+        public NDArrayDict AuxiliaryDictionary()
         {
             return GetDictionary(this._Symbol.ListAuxiliaryStates(), this.AuxiliaryArrays);
         }
@@ -219,9 +219,9 @@ namespace MxNetLib
 
         #region Helpers
 
-        private static IDictionary<string, NDArray> GetDictionary(IList<string> names, IList<NDArray> arrays)
+        private static NDArrayDict GetDictionary(IList<string> names, IList<NDArray> arrays)
         {
-            var ret = new Dictionary<string, NDArray>();
+            var ret = new NDArrayDict();
 
             var set = new HashSet<string>();
             foreach (var s in names)

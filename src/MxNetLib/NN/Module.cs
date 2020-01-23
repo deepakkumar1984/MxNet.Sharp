@@ -67,12 +67,12 @@ namespace MxNetLib.NN
 
         private Dictionary<string, BaseInitializer> ParamInitializers = new Dictionary<string, BaseInitializer>();
 
-        private IDictionary<string, NDArray> args;
+        private NDArrayDict args;
 
         public Module(params uint[] inputShape)
         {
             Layers = new List<BaseLayer>();
-            args = new SortedDictionary<string, NDArray>();
+            args = new NDArrayDict();
             SetInput(inputShape);
         }
 

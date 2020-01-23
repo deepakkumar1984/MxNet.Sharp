@@ -220,9 +220,9 @@ namespace MxNetLib
             return InteropHelper.ToUInt32Array(outData, outDim);
         }
 
-        public static IDictionary<string, NDArray> LoadToMap(string fileName)
+        public static NDArrayDict LoadToMap(string fileName)
         {
-            var arrayMap = new SortedDictionary<string, NDArray>();
+            var arrayMap = new NDArrayDict();
             Logging.CHECK_EQ(NativeMethods.MXNDArrayLoad(fileName, 
                                                          out var outSize,
                                                          out var outArr,
@@ -244,7 +244,7 @@ namespace MxNetLib
             return arrayMap;
         }
 
-        public static void Save(string fileName, IDictionary<string, NDArray> arrayMap)
+        public static void Save(string fileName, NDArrayDict arrayMap)
         {
             var tmp = arrayMap.Keys.ToArray();
 
@@ -275,9 +275,9 @@ namespace MxNetLib
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, null), NativeMethods.OK);
         }
 
-        public static void Load(string filename, out Dictionary<string, NDArray> data)
+        public static void Load(string filename, out NDArrayDict data)
         {
-            data = new Dictionary<string, NDArray>();
+            data = new NDArrayDict();
             uint outSize;
             IntPtr outArrPtr;
             uint outNameSize;
