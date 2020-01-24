@@ -7,9 +7,25 @@ namespace MxNetLib.Callbacks
 {
     public class LogValidationMetricsCallback : IEvalEndCallback
     {
-        public void Invoke(EvalMetric eval_metric)
+        private Logger logging;
+
+        public LogValidationMetricsCallback(Logger logger = null)
         {
-            throw new NotImplementedException();
+            logging = logger != null ? logger : Logger.GetLogger();
+        }
+
+        public void Invoke(int epoch, EvalMetric eval_metric)
+        {
+            if(eval_metric ==null)
+            {
+                return;
+            }
+
+            var name_value = eval_metric.GetNameValue();
+            foreach (var item in name_value)
+            {
+                logging.Log(string.Format("Epoch[{0}] Validation-{1}={2}", epoch, item.Item1, Math.Round(item.Item2, 2)));
+            }
         }
     }
 }

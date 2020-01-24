@@ -1,4 +1,5 @@
 ﻿using MxNetLib.Callbacks;
+using MxNetLib.IO;
 using MxNetLib.KVstore;
 using MxNetLib.Metrics;
 using MxNetLib.Optimizers;

@@ -4184,10 +4184,10 @@ namespace MxNetLib
         /// <param name="data">The input.</param>
         /// <param name="stype">Output storage type.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray CastStorage(NDArray data, CastStorageStype stype)
+        public static NDArray CastStorage(NDArray data, StorageStype stype)
         {
             return new Operator("cast_storage")
-            .SetParam("stype", Util.EnumToString<CastStorageStype>(stype, CastStorageStypeConvert))
+            .SetParam("stype", Util.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
             .SetInput("data", data)
             .Invoke();
         }

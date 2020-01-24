@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNetLib.Interop;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,24 +9,35 @@ namespace MxNetLib
     {
         public class _BulkScope : MxDisposable
         {
+            private int _size;
+            private int _old_size;
+
             public _BulkScope(int size)
             {
-                throw new NotImplementedException();
+                _size = size;    
             }
 
             public override void Enter()
             {
-                throw new NotImplementedException();
+                _old_size = SetBulkSize(_size);
             }
 
             public override void Exit()
             {
-                throw new NotImplementedException();
+                SetBulkSize(_old_size);
             }
         }
 
-        public int SetBulkSize(int size) => throw new NotImplementedException();
+        public static int SetBulkSize(int size)
+        {
+            int prev = 0;
+            NativeMethods.MXEngineSetBulkSize(size, ref prev);
+            return prev;
+        }
 
-        public _BulkScope Bulk(int size) => throw new NotImplementedException();
+        public static _BulkScope Bulk(int size)
+        {
+            return new _BulkScope(size);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MxNetLib.Callbacks;
 using MxNetLib.Initializers;
+using MxNetLib.IO;
 using MxNetLib.Metrics;
 using MxNetLib.Optimizers;
 using System;

@@ -24,7 +24,7 @@ namespace MxNetLib
                         Context context,
                         IList<NDArray> argmentArrays,
                         IList<NDArray> gradientArrays,
-                        IList<OpReqType> gradReqs,
+                        IList<OpGradReq> gradReqs,
                         IList<NDArray> auxiliaryArrays)
             : this(symbol, context, argmentArrays, gradientArrays, gradReqs, auxiliaryArrays, new Dictionary<string, Context>(), null)
         {
@@ -34,7 +34,7 @@ namespace MxNetLib
                         Context context,
                         IList<NDArray> argmentArrays,
                         IList<NDArray> gradientArrays,
-                        IList<OpReqType> gradReqs,
+                        IList<OpGradReq> gradReqs,
                         IList<NDArray> auxiliaryArrays,
                         IDictionary<string, Context> groupToCtx)
             : this(symbol, context, argmentArrays, gradientArrays, gradReqs, auxiliaryArrays, groupToCtx, null)
@@ -45,7 +45,7 @@ namespace MxNetLib
                         Context context,
                         IList<NDArray> argmentArrays,
                         IList<NDArray> gradientArrays,
-                        IList<OpReqType> gradReqs,
+                        IList<OpGradReq> gradReqs,
                         IList<NDArray> auxiliaryArrays,
                         IDictionary<string, Context> groupToCtx,
                         Executor sharedExec)
@@ -206,6 +206,8 @@ namespace MxNetLib
                 this.Outputs[i] = new NDArray(outArrayArray[i]);
             }
         }
+
+        public void CopyFromParams(NDArrayDict arg_params, NDArrayDict aux_params = null, bool allow_extra_params = false) => throw new NotImplementedException();
 
         #region Overrids
 

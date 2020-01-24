@@ -22,7 +22,7 @@ namespace MxNetLib
         public Shape()
         {
             this._Dimension = 0;
-            this._Data = new uint[StackCache];
+            this._Data = new List<mx_uint>(StackCache);
         }
 
         public Shape(IList<mx_uint> v)
@@ -37,8 +37,9 @@ namespace MxNetLib
 
             this._Dimension = (uint)v.Length;
 
-            this._Data = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
-            Array.Copy(v, this._Data, v.Length);
+            uint[] data = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
+            Array.Copy(v, data, v.Length);
+            _Data = data.ToList();
         }
 
         public Shape(mx_uint s1)
@@ -73,17 +74,18 @@ namespace MxNetLib
 
             this._Dimension = shape._Dimension;
 
-            this._Data = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
-            Array.Copy(shape._Data, this._Data, this._Dimension);
+            uint[] data = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
+            Array.Copy(shape.Data, data, this._Dimension);
+            _Data = data.ToList();
         }
 
         #endregion
 
         #region Properties
 
-        private readonly mx_uint[] _Data;
+        private readonly List<mx_uint> _Data = new List<mx_uint>();
 
-        public mx_uint[] Data => this._Data;
+        public mx_uint[] Data => this._Data.ToArray();
 
         private readonly mx_uint _Dimension;
 
@@ -103,7 +105,7 @@ namespace MxNetLib
             }
         }
 
-        public mx_uint this[mx_uint index] => this._Data[index];
+        public mx_uint this[mx_uint index] => this.Data[index];
 
         #endregion
 
@@ -112,10 +114,14 @@ namespace MxNetLib
         public Shape Clone()
         {
             var array = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
-            Array.Copy(this._Data, array, Math.Min(array.Length, this._Data.Length));
+            Array.Copy(this.Data, array, Math.Min(array.Length, this._Data.Count));
             return new Shape(array);
         }
 
+        public void Add(mx_uint i)
+        {
+            _Data.Add(i);
+        }
         #region Overrides
 
         public override bool Equals(object obj)

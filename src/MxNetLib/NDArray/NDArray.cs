@@ -37,6 +37,14 @@ namespace MxNetLib
                 return DType.GetType(GetDType());
             }
         }
+
+        public StorageStype SType
+        {
+            get
+            {
+                return (StorageStype)StorageType();
+            }
+        }
         #endregion
 
         #region Constructors
@@ -136,7 +144,7 @@ namespace MxNetLib
 
         #region Properties
 
-        public uint Size
+        public virtual uint Size
         {
             get
             {
@@ -331,7 +339,7 @@ namespace MxNetLib
             return @out;
         }
 
-        public NDArray Slice(mx_uint begin, mx_uint end)
+        public virtual NDArray Slice(mx_uint begin, mx_uint end)
         {
             Logging.CHECK_EQ(NativeMethods.MXNDArraySlice(this.GetHandle(), begin, end, out var handle), NativeMethods.OK);
             return new NDArray(handle);
@@ -348,7 +356,7 @@ namespace MxNetLib
             NativeMethods.MXNDArraySyncCopyFromCPU(this._Blob.Handle, datagch.AddrOfPinnedObject(), (uint)size);
         }
 
-        public void SyncCopyFromCPU(Array data)
+        public virtual void SyncCopyFromCPU(Array data)
         {
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -419,7 +427,7 @@ namespace MxNetLib
             Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitToWrite(this._Blob.Handle), NativeMethods.OK);
         }
 
-        public NDArray AsType(DType dtype)
+        public virtual NDArray AsType(DType dtype)
         {
             return nd.Cast(this, dtype);
         }
@@ -432,7 +440,13 @@ namespace MxNetLib
             return this.ChangeContext(context);
         }
 
-        public NumSharp.NDArray AsNumpy()
+        private int StorageType()
+        {
+            NativeMethods.MXNDArrayGetStorageType(GetHandle(), out var out_storage_type);
+            return out_storage_type;
+        }
+
+        public virtual NumSharp.NDArray AsNumpy()
         {
             NumSharp.NDArray x = null;
 
@@ -553,7 +567,7 @@ namespace MxNetLib
             return ret;
         }
 
-        public NDArray Reshape(Shape shape, bool reverse = false)
+        public virtual NDArray Reshape(Shape shape, bool reverse = false)
         {
             NDArrayHandle handle;
             var dims = shape.Data.Select(s => (int)s);
@@ -561,7 +575,7 @@ namespace MxNetLib
             return new NDArray(handle);
         }
 
-        public NDArray Reshape(params int[] shape)
+        public virtual NDArray Reshape(params int[] shape)
         {
             uint[] targetShape = new mx_uint[shape.Length];
             long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
@@ -580,7 +594,7 @@ namespace MxNetLib
             return Reshape(new Shape(targetShape));
         }
 
-        public NDArray Reshape(params uint[] shape)
+        public virtual NDArray Reshape(params uint[] shape)
         {
             uint[] targetShape = new mx_uint[shape.Length];
             long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);

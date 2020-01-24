@@ -7,6 +7,6 @@ namespace MxNetLib.Callbacks
 {
     public interface IEvalEndCallback
     {
-        void Invoke(EvalMetric eval_metric);
+        void Invoke(int epoch, EvalMetric eval_metric);
     }
 }

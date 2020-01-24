@@ -48,12 +48,12 @@ namespace MxNetLib
 
         public static _RecordingStateScope PredictMode() => new _RecordingStateScope(null, false);
 
-        public static void MarkVariables(NDArray[] variables, NDArray[] gradients, string grad_reqs= "write")
+        public static void MarkVariables(NDArray[] variables, NDArray[] gradients, OpGradReq grad_reqs= OpGradReq.Write)
         {
             int[] gradReqs = new int[variables.Length];
             for(int i=0;i<gradReqs.Length;i++)
             {
-                gradReqs[i] = Maps.GRAD_REQ_MAP[grad_reqs];
+                gradReqs[i] = (int)OpGradReq.Write;
             }
 
             NativeMethods.MXAutogradMarkVariables(variables.Length, Util.GetNDArrayHandles(variables), gradReqs, Util.GetNDArrayHandles(gradients));

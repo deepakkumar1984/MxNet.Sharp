@@ -7,6 +7,7 @@ using System.Linq;
 using MxNetLib.NN.Initializers;
 using System.IO;
 using MxNetLib.NN.Data;
+using MxNetLib.IO;
 
 namespace MxNetLib.NN
 {
@@ -63,14 +64,14 @@ namespace MxNetLib.NN
                     TrainMetric.Reset();
                     sw.Restart();
 
-                    while (train.Next())
+                    while (train.IterNext())
                     {
                         samples += batchSize;
-                        var dataBatch = train.GetDataBatch();
+                        var dataBatch = train.Next();
 
                         // Set data and label
-                        dataBatch.Data.CopyTo(args["X"]);
-                        dataBatch.Label.CopyTo(args[labelName]);
+                        dataBatch.Data[0].CopyTo(args["X"]);
+                        dataBatch.Label[0].CopyTo(args[labelName]);
                         
                         // Compute gradients
                         exec.Forward(true);
@@ -93,11 +94,11 @@ namespace MxNetLib.NN
                     {
                         validation.BatchSize = batchSize;
                         validation.Reset();
-                        while (validation.Next())
+                        while (validation.IterNext())
                         {
-                            var dataBatch = validation.GetDataBatch();
-                            dataBatch.Data.CopyTo(args["X"]);
-                            dataBatch.Label.CopyTo(args[labelName]);
+                            var dataBatch = validation.Next();
+                            dataBatch.Data[0].CopyTo(args["X"]);
+                            dataBatch.Label[0].CopyTo(args[labelName]);
                             NDArray.WaitAll();
                             // Forward pass is enough as no gradient is needed when evaluating
                             exec.Forward(false);
@@ -124,7 +125,7 @@ namespace MxNetLib.NN
         {
             NDArray result = new NDArray();
             List<float> preds = new List<float>();
-            NDArrayIter dataIter = new NDArrayIter(x, null);
+            NDArrayIter dataIter = new NDArrayIter(new NDArray[] { x }, null);
 
             if(!batchSize.HasValue)
                 batchSize = x.Shape[0];
@@ -139,10 +140,10 @@ namespace MxNetLib.NN
             {
                 dataIter.BatchSize = batchSize.Value;
                 dataIter.Reset();
-                while (dataIter.Next())
+                while (dataIter.IterNext())
                 {
-                    var batch = dataIter.GetDataBatch();
-                    batch.Data.CopyTo(predictArgs["X"]);
+                    var batch = dataIter.Next();
+                    batch.Data[0].CopyTo(predictArgs["X"]);
                     exec.Forward(false);
                     preds.AddRange(exec.Output.GetValues<float>());
                 }

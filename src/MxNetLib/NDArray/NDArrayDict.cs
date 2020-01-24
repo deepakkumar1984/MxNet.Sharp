@@ -40,6 +40,11 @@ namespace MxNetLib
             dict.Add(name, value);
         }
 
+        public bool Contains(string name)
+        {
+            return dict.ContainsKey(name);
+        }
+
         public void Remove(string name)
         {
             dict.Remove(name);

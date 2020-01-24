@@ -5,129 +5,73 @@ using System.Runtime.InteropServices;
 using MxNetLib.Extensions;
 using MxNetLib.Interop;
 using mx_float = System.Single;
-using DataIterCreator = System.IntPtr;
+using DataIterHandle = System.IntPtr;
 
 // ReSharper disable once CheckNamespace
-namespace MxNetLib
+namespace MxNetLib.IO
 {
 
     public sealed class MXDataIter : DataIter
     {
-
-        #region Fields
-
-        private static readonly MXDataIterMap DataiterMap = new MXDataIterMap();
-
-        private readonly DataIterCreator _Creator;
-
-        private readonly Dictionary<string, string> _Params = new Dictionary<string, string>();
-
-        private MXDataIterBlob _BlobPtr;
-
-        #endregion
-
-        #region Constructors
-
-        public MXDataIter(string mxdataiterType)
+        private DataIterHandle handle;
+        private bool _debug_skip_load = false;
+        private bool _debug_at_begin = true;
+        private DataBatch first_batch = null;
+        private NDArray data;
+        private NDArray label;
+        private int? next_res;
+        private MXDataIterMap DataIterMap = new MXDataIterMap();
+        private Operator op;
+        public MXDataIter(string mxdataiterType, string data_name = "data", string label_name = "softmax_label")
         {
-            this._Creator = DataiterMap.GetMXDataIterCreator(mxdataiterType);
-            this._BlobPtr = new MXDataIterBlob();
+            this.handle = DataIterMap.GetMXDataIterCreator(mxdataiterType);
+            _debug_skip_load = false;
+            first_batch = Next();
+            data = first_batch.Data[0];
+            label = first_batch.Label[0];
+
+            ProvideData = new DataDesc[] { new DataDesc(data_name, data.Shape, data.DataType) };
+            ProvideLabel = new DataDesc[] { new DataDesc(label_name, label.Shape, label.DataType) };
+            BatchSize = data.Shape[0];
+            op = new Operator(handle);
         }
 
-        public MXDataIter(MXDataIter other)
+        public MXDataIter(DataIterHandle handle, string data_name= "data", string label_name= "softmax_label")
         {
-            if (other == null)
-                throw new ArgumentNullException(nameof(other));
+            this.handle = handle;
+            _debug_skip_load = false;
+            first_batch = Next();
+            data = first_batch.Data[0];
+            label = first_batch.Label[0];
 
-            this._Creator = other._Creator;
-            this._Params = new Dictionary<string, string>(other._Params);
-
-            other._BlobPtr.AddRef();
-            this._BlobPtr = other._BlobPtr;
+            ProvideData = new DataDesc[] { new DataDesc(data_name, data.Shape, data.DataType) };
+            ProvideLabel = new DataDesc[] { new DataDesc(label_name, label.Shape, label.DataType) };
+            BatchSize = data.Shape[0];
+            op = new Operator(handle);
         }
 
-        #endregion
-
-        #region Methods
-
-        public MXDataIter CreateDataIter()
+        protected override void DisposeUnmanaged()
         {
-            var keys = this._Params.Keys.ToArray();
-            var paramKeys = new string[keys.Length];
-            var paramValues = new string[keys.Length];
-            for (var i = 0; i < keys.Length; i++)
-            {
-                var key = keys[i];
-                paramKeys[i] = key;
-                paramValues[i] = this._Params[key];
-            }
-
-            NativeMethods.MXDataIterCreateIter(this._Creator,
-                                               (uint)paramKeys.Length,
-                                               paramKeys,
-                                               paramValues,
-                                               out var @out);
-
-            if (@out == IntPtr.Zero)
-            {
-                var error = NativeMethods.MXGetLastError();
-                var innerMessage = Marshal.PtrToStringAnsi(error);
-                throw new MXNetException($"Failed to create DataIter: {innerMessage}");
-            }
-
-            this._BlobPtr.Handle = @out;
-            return this;
+            base.DisposeUnmanaged();
+            if (this.handle != IntPtr.Zero)
+                NativeMethods.MXDataIterFree(handle);
         }
 
-        public MXDataIter SetParam(string name, object value)
+        public void DebugSkipLoad()
         {
-            if (value == null)
-            {
-                return this;
-            }
-
-            this._Params[name] = value.ToValueString();
-            return this;
+            _debug_skip_load = true;
+            Console.WriteLine("Set debug_skip_load to be true, will simply return first batch");
         }
 
-        public override void SetBatch(uint batchSize)
+        public override NDArray[] GetData()
         {
-            SetParam("batch_size", batchSize);
-            base.SetBatch(batchSize);
-        }
-
-        #region Overrides
-
-        protected override void DisposeManaged()
-        {
-            base.DisposeManaged();
-
-            this._BlobPtr?.ReleaseRef();
-            this._BlobPtr = null;
-        }
-
-        #endregion
-
-        #endregion
-
-        #region DataIter Members
-
-        public override void BeforeFirst()
-        {
-            var r = NativeMethods.MXDataIterBeforeFirst(this._BlobPtr.Handle);
-            Logging.CHECK_EQ(r, 0);
-        }
-
-        public override NDArray GetData()
-        {
-            var r = NativeMethods.MXDataIterGetData(this._BlobPtr.Handle, out var handle);
-            Logging.CHECK_EQ(r, 0);
-            return new NDArray(handle);
+            NativeMethods.MXDataIterGetData(handle, out var hdl);
+            return new NDArray[] { new NDArray(hdl) };
         }
 
         public override int[] GetIndex()
         {
-            var r = NativeMethods.MXDataIterGetIndex(this._BlobPtr.Handle, out var outIndex, out var outSize);
+            var r = NativeMethods.MXDataIterGetIndex(handle, out var outIndex, out var outSize);
             Logging.CHECK_EQ(r, 0);
 
             var outIndexArray = InteropHelper.ToUInt64Array(outIndex, (uint)outSize);
@@ -138,29 +82,81 @@ namespace MxNetLib
             return ret;
         }
 
-        public override NDArray GetLabel()
+        public override NDArray[] GetLabel()
         {
-            var r = NativeMethods.MXDataIterGetLabel(this._BlobPtr.Handle, out var handle);
-            Logging.CHECK_EQ(r, 0);
-            return new NDArray(handle);
+            NativeMethods.MXDataIterGetLabel(handle, out var hdl);
+            return new NDArray[] { new NDArray(hdl) };
         }
 
-        public override int GetPadNum()
+        public override int GetPad()
         {
-            var r = NativeMethods.MXDataIterGetPadNum(this._BlobPtr.Handle, out var @out);
-            Logging.CHECK_EQ(r, 0);
+            var r = NativeMethods.MXDataIterGetPadNum(handle, out var @out);
             return @out;
         }
 
-        public override bool Next()
+        public override bool IterNext()
         {
-            var r = NativeMethods.MXDataIterNext(this._BlobPtr.Handle, out var @out);
-            Logging.CHECK_EQ(r, 0);
-            return @out > 0;
+            if (first_batch != null)
+                return true;
+
+            next_res = 0;
+            NativeMethods.MXDataIterNext(handle, out next_res);
+            return Convert.ToBoolean(next_res.Value);
         }
 
-        #endregion
+        public override void Reset()
+        {
+            _debug_at_begin = true;
+            first_batch = null;
+            NativeMethods.MXDataIterBeforeFirst(handle);
+        }
 
+        public override DataBatch Next()
+        {
+            if(_debug_skip_load && !_debug_at_begin)
+            {
+                return new DataBatch(GetData(), GetLabel(), GetPad(), GetIndex());
+            }
+
+            if(first_batch != null)
+            {
+                var batch = first_batch;
+                first_batch = null;
+                return batch;
+            }
+
+            _debug_at_begin = false;
+            next_res = 0;
+            NativeMethods.MXDataIterNext(handle, out next_res);
+            if(next_res.HasValue)
+            {
+                return new DataBatch(GetData(), GetLabel(), GetPad(), GetIndex());
+            }
+            else
+            {
+                throw new MXNetException("Stop Iteration");
+            }
+        }
+
+        public void SetParam(string key, string value)
+        {
+            op.SetParam(key, value);
+        }
+
+        public void SetParam(string key, NDArray value)
+        {
+            op.SetParam(key, value);
+        }
+
+        public void SetParam(string key, Symbol value)
+        {
+            op.SetParam(key, value);
+        }
+
+        public void SetParam(string key, object value)
+        {
+            op.SetParam(key, value);
+        }
     }
 
 }

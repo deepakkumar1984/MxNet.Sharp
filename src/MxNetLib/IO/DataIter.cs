@@ -1,57 +1,44 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace MxNetLib
+namespace MxNetLib.IO
 {
 
     public abstract class DataIter : DisposableMXNetObject
     {
-
-        #region Methods
         public uint BatchSize { get; set; }
-        protected int cursor = 0;
-        public uint LabelCount
+
+        public DataDesc[] ProvideData { get; set; }
+
+        public DataDesc[] ProvideLabel { get; set; }
+
+        public int DefaultBucketKey { get; set; }
+
+        public DataIter(uint batch_size = 0)
         {
-            get
-            {
-                return GetLabel().GetShape()[0];
-            }
+            BatchSize = batch_size;
         }
 
-        public abstract void BeforeFirst();
+        public abstract NDArray[] GetData();
 
-        public abstract NDArray GetData();
-
-        public DataBatch GetDataBatch()
-        {
-            return new DataBatch
-            {
-                Data = this.GetData(),
-                Label = this.GetLabel(),
-                PadNum = this.GetPadNum(),
-                Index = this.GetIndex()
-            };
-        }
+        public abstract NDArray[] GetLabel();
 
         public abstract int[] GetIndex();
 
-        public abstract NDArray GetLabel();
+        public abstract int GetPad();
 
-        public abstract int GetPadNum();
+        public abstract void Reset();
 
-        public abstract bool Next();
+        public abstract bool IterNext();
 
-        public void Reset()
+        public virtual DataBatch Next()
         {
-            this.BeforeFirst();
+            if(IterNext())
+            {
+                return new DataBatch(GetData(), GetLabel(), GetPad(), GetIndex());
+            }
+            else
+            {
+                throw new MXNetException("Stop Iteration");
+            }
         }
-
-        public virtual void SetBatch(uint batchSize)
-        {
-            BatchSize = batchSize;
-            cursor = (int)-batchSize;
-        }
-
-        #endregion
-
     }
-
 }

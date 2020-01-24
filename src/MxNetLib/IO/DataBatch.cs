@@ -1,5 +1,5 @@
 ﻿// ReSharper disable once CheckNamespace
-namespace MxNetLib
+namespace MxNetLib.IO
 {
 
     /// <summary>
@@ -10,7 +10,7 @@ namespace MxNetLib
 
         #region Properties
 
-        public NDArray Data
+        public NDArray[] Data
         {
             get;
             internal set;
@@ -22,13 +22,31 @@ namespace MxNetLib
             internal set;
         }
 
-        public NDArray Label
+        public NDArray[] Label
         {
             get;
             internal set;
         }
 
-        public int PadNum
+        public int? Pad
+        {
+            get;
+            internal set;
+        }
+
+        public DataDesc[] ProvideData
+        {
+            get;
+            internal set;
+        }
+
+        public DataDesc[] ProvideLabel
+        {
+            get;
+            internal set;
+        }
+
+        public int? BucketKey
         {
             get;
             internal set;
@@ -36,6 +54,17 @@ namespace MxNetLib
 
         #endregion
 
+        public DataBatch(NDArray[] data, NDArray[] label = null, int? pad= null, int[] index= null,
+                        int? bucket_key= null, DataDesc[] provide_data= null, DataDesc[] provide_label = null)
+        {
+            Data = data;
+            Label = label;
+            Pad = pad;
+            Index = index;
+            BucketKey = bucket_key;
+            ProvideData = provide_data;
+            ProvideLabel = provide_label;
+        }
     }
 
 }

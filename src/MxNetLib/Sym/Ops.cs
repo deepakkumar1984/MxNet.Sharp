@@ -4176,10 +4176,10 @@ namespace MxNetLib
         /// <param name="data">The input.</param>
         /// <param name="stype">Output storage type.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol CastStorage(Symbol data, CastStorageStype stype, string symbol_name = "")
+        public static Symbol CastStorage(Symbol data, StorageStype stype, string symbol_name = "")
         {
             return new Operator("cast_storage")
-            .SetParam("stype", Util.EnumToString<CastStorageStype>(stype, CastStorageStypeConvert))
+            .SetParam("stype", Util.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
             .SetInput("data", data)
             .CreateSymbol(symbol_name);
         }

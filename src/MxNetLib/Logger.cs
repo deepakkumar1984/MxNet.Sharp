@@ -12,8 +12,42 @@ namespace MxNetLib
         public static TraceLevel VERBOSE = TraceLevel.Verbose;
         public static TraceLevel WARNING = TraceLevel.Warning;
 
-        public Logger()
+        private string filename = "";
+        private string name = "";
+        private FileMode filemode = FileMode.Append;
+        private TraceLevel traceLevel = WARNING;
+        TextWriterTraceListener trace;
+
+        public void Log(string message)
         {
+            if(trace != null)
+                trace.Write(message);
+
+            Console.WriteLine(message);
+        }
+
+        public void Warning(string message)
+        {
+            if (trace != null)
+                trace.Write(message);
+
+            Console.WriteLine(message);
+        }
+
+        public void Info(string message)
+        {
+            if (trace != null)
+                trace.Write(message);
+
+            Console.WriteLine(message);
+        }
+
+        public void Error(string message)
+        {
+            if (trace != null)
+                trace.Write(message);
+
+            Console.WriteLine(message);
         }
 
         public class _Formatter

@@ -250,6 +250,21 @@ namespace MxNetLib.Interop
                                                     [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_keys,
                                                     [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_vals);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetAuxType(IntPtr handle, int i, out int out_type);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetStorageType(IntPtr handle, out int out_storage_type);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArraySyncCheckFormat(IntPtr handle, bool full_check);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetDataNDArray(IntPtr handle, out IntPtr @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetAuxNDArray(IntPtr handle, out IntPtr @out);
+
         #endregion
 
         #region Part 3: symbolic configuration generation
@@ -720,7 +735,7 @@ namespace MxNetLib.Interop
         /// <param name="out">return value of next</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXDataIterNext(DataIterHandle handle, out int @out);
+        public static extern int MXDataIterNext(DataIterHandle handle, out int? @out);
 
         /// <summary>
         /// Call iterator.Reset
@@ -817,6 +832,11 @@ namespace MxNetLib.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXAutogradGetSymbol(NDArrayHandle handle, SymbolHandle @out);
+        #endregion
+
+        #region Engine API
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXEngineSetBulkSize(int size, ref int prev);
         #endregion
 
         #endregion

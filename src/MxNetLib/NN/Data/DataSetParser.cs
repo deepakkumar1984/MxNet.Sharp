@@ -1,4 +1,5 @@
 ﻿using MxNetLib;
+using MxNetLib.IO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,23 +8,21 @@ namespace MxNetLib.NN.Data
 {
     public class DataSetParser
     {
-        public static ValueTuple<DataIter, DataIter> MNIST(string trainImagesPath, string trainLabelPath, string valImagesPath, string valLabelPath, uint batch_size=32, int flat = 0)
+        public static ValueTuple<DataIter, DataIter> MNIST(string trainImagesPath, string trainLabelPath, string valImagesPath, string valLabelPath, uint batch_size = 32, int flat = 0)
         {
-            var trainIter = new MXDataIter("MNISTIter")
-                .SetParam("image", trainImagesPath)
-                .SetParam("label", trainLabelPath)
-                .SetParam("batch_size", batch_size)
-                .SetParam("dtype", "float32")
-                .SetParam("flat", flat.ToString())
-                .CreateDataIter();
+            var trainIter = new MXDataIter("MNISTIter");
+            trainIter.SetParam("image", trainImagesPath);
+            trainIter.SetParam("label", trainLabelPath);
+            trainIter.SetParam("batch_size", batch_size);
+            trainIter.SetParam("dtype", "float32");
+            trainIter.SetParam("flat", flat.ToString());
 
-            var valIter = new MXDataIter("MNISTIter")
-                .SetParam("image", valImagesPath)
-                .SetParam("label", valLabelPath)
-                .SetParam("batch_size", batch_size)
-                .SetParam("dtype", "float32")
-                .SetParam("flat", flat.ToString())
-                .CreateDataIter();
+            var valIter = new MXDataIter("MNISTIter");
+            valIter.SetParam("image", valImagesPath);
+            valIter.SetParam("label", valLabelPath);
+            valIter.SetParam("batch_size", batch_size);
+            valIter.SetParam("dtype", "float32");
+            valIter.SetParam("flat", flat.ToString());
 
             return ValueTuple.Create(trainIter, valIter);
         }

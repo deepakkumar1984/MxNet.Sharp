@@ -32,5 +32,10 @@ namespace MxNetLib
         {
             return list.Select(x => (x.GetHandle())).ToArray();
         }
+
+        public static List<T> Set<T>(List<T> keys)
+        {
+            return keys.Distinct().OrderBy(x => x).ToList();
+        }
     }
 }

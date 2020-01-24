@@ -130,7 +130,7 @@ namespace MxNetLib
         public Executor Bind(Context context,
                              IList<NDArray> argArrays,
                              IList<NDArray> gradArrays,
-                             IList<OpReqType> gradReqs,
+                             IList<OpGradReq> gradReqs,
                              IList<NDArray> auxArrays)
         {
             return new Executor(this,
@@ -145,7 +145,7 @@ namespace MxNetLib
         public Executor Bind(Context context,
                              IList<NDArray> argArrays,
                              IList<NDArray> gradArrays,
-                             IList<OpReqType> gradReqs,
+                             IList<OpGradReq> gradReqs,
                              IList<NDArray> auxArrays,
                              IDictionary<string, Context> groupToCtx)
         {
@@ -162,7 +162,7 @@ namespace MxNetLib
         public Executor Bind(Context context,
                              IList<NDArray> argArrays,
                              IList<NDArray> gradArrays,
-                             IList<OpReqType> gradReqs,
+                             IList<OpGradReq> gradReqs,
                              IList<NDArray> auxArrays,
                              IDictionary<string, Context> groupToCtx,
                              Executor sharedExec)
@@ -216,21 +216,18 @@ namespace MxNetLib
 
             this.ThrowIfDisposed();
 
-            var argShapes = new Dictionary<string, IList<mx_uint>>();
-            var inShapes = new List<List<mx_uint>>();
-            var auxShapes = new List<List<mx_uint>>();
-            var outShapes = new List<List<mx_uint>>();
+            var argShapes = new Dictionary<string, Shape>();
 
             var argNameList = this.ListArguments();
             foreach (var argName in argNameList)
             {
                 if (knownArgs[argName] != null)
-                    argShapes[argName] = knownArgs[argName].GetShape();
+                    argShapes[argName] = knownArgs[argName].Shape;
             }
 
-            this.InferShape(argShapes, inShapes, auxShapes, outShapes);
+            var (inShapes, outShapes, auxShapes) = this.InferShape(argShapes);
 
-            for (var i = 0; i < inShapes.Count; ++i)
+            for (var i = 0; i < inShapes.Length; ++i)
             {
                 var shape = inShapes[i];
                 var argName = argNameList[i];
@@ -240,7 +237,7 @@ namespace MxNetLib
                 }
                 else
                 {
-                    var array = new NDArray(shape.ToArray(), false);
+                    var array = new NDArray(shape, false);
                     argsMap[argName] = array;
                     //NDArray.SampleGaussian(0, 1, array);
                     nd.RandomUniform(0, 1, array.Shape).CopyTo(array);
@@ -248,29 +245,28 @@ namespace MxNetLib
             }
         }
 
-        public void InferShape(IDictionary<String, IList<mx_uint>> argShapes,
-                               IList<List<mx_uint>> inShape,
-                               IList<List<mx_uint>> auxShape,
-                               IList<List<mx_uint>> outShape)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="argShapes"></param>
+        /// <returns>Return arg_shapes, out_shapes, aux_shapes</returns>
+        public (Shape[], Shape[], Shape[]) InferShape(Dictionary<string , Shape> argShapes)
         {
             if (argShapes == null)
                 throw new ArgumentNullException(nameof(argShapes));
-            if (inShape == null)
-                throw new ArgumentNullException(nameof(inShape));
-            if (auxShape == null)
-                throw new ArgumentNullException(nameof(auxShape));
-            if (outShape == null)
-                throw new ArgumentNullException(nameof(outShape));
+
+            List<Shape> inShape = new List<Shape>();
+            List<Shape> auxShape = new List<Shape>();
+            List<Shape> outShape = new List<Shape>();
 
             this.ThrowIfDisposed();
-
             var argIndPtr = new List<mx_uint>();
             var argShapeData = new List<mx_uint>();
 
             foreach (var item in argShapes.Values)
             {
                 argIndPtr.Add((uint)argShapeData.Count);
-                foreach (var i in item)
+                foreach (var i in item.Data)
                     argShapeData.Add(i);
             }
 
@@ -303,36 +299,40 @@ namespace MxNetLib
                                                                       out var complete), NativeMethods.OK);
 
                     if (complete == 0)
-                        return;
+                        return (null, null, null);
 
                     for (var i = 0; i < inShapeSize; ++i)
                     {
-                        inShape.Add(new List<mx_uint>());
+                        inShape.Add(new Shape());
                         for (var j = 0; j < inShapeNdim[i]; ++j)
                             inShape[i].Add(inShapeData[i][j]);
                     }
 
                     for (var i = 0; i < auxShapeSize; ++i)
                     {
-                        auxShape.Add(new List<mx_uint>());
+                        auxShape.Add(new Shape());
                         for (var j = 0; j < auxShapeNdim[i]; ++j)
                             auxShape[i].Add(auxShapeData[i][j]);
                     }
 
                     for (var i = 0; i < outShapeSize; ++i)
                     {
-                        outShape.Add(new List<mx_uint>());
+                        outShape.Add(new Shape());
                         for (var j = 0; j < outShapeNdim[i]; ++j)
                             outShape[i].Add(outShapeData[i][j]);
                     }
                 }
             }
+
+            return (inShape.ToArray(), outShape.ToArray(), auxShape.ToArray());
         }
+
+        public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> args) => throw new NotImplementedException();
 
         public void InferExecutorArrays(Context context,
                                         IList<NDArray> argArrays,
                                         IList<NDArray> gradArrays,
-                                        IList<OpReqType> gradReqs,
+                                        IList<OpGradReq> gradReqs,
                                         IList<NDArray> auxArrays,
                                         NDArrayDict argsMap)
         {
@@ -348,7 +348,7 @@ namespace MxNetLib
         public void InferExecutorArrays(Context context,
                                         IList<NDArray> argArrays,
                                         IList<NDArray> gradArrays,
-                                        IList<OpReqType> gradReqs,
+                                        IList<OpGradReq> gradReqs,
                                         IList<NDArray> auxArrays,
                                         NDArrayDict argsMap,
                                         NDArrayDict argGradStore)
@@ -360,17 +360,17 @@ namespace MxNetLib
                                      auxArrays,
                                      argsMap,
                                      argGradStore,
-                                     new Dictionary<string, OpReqType>());
+                                     new Dictionary<string, OpGradReq>());
         }
 
         public void InferExecutorArrays(Context context,
                                         IList<NDArray> argArrays,
                                         IList<NDArray> gradArrays,
-                                        IList<OpReqType> gradReqs,
+                                        IList<OpGradReq> gradReqs,
                                         IList<NDArray> auxArrays,
                                         NDArrayDict argsMap,
                                         NDArrayDict argGradStore,
-                                        IDictionary<string, OpReqType> gradReqType)
+                                        IDictionary<string, OpGradReq> gradReqType)
         {
             this.InferExecutorArrays(context,
                                      argArrays,
@@ -386,11 +386,11 @@ namespace MxNetLib
         public void InferExecutorArrays(Context context,
                                     IList<NDArray> argArrays,
                                     IList<NDArray> gradArrays,
-                                    IList<OpReqType> gradReqs,
+                                    IList<OpGradReq> gradReqs,
                                     IList<NDArray> auxArrays,
                                     NDArrayDict argsMap,
                                     NDArrayDict argGradStore,
-                                    IDictionary<string, OpReqType> gradReqType,
+                                    IDictionary<string, OpGradReq> gradReqType,
                                     NDArrayDict auxMap)
         {
             if (context == null)
@@ -415,20 +415,17 @@ namespace MxNetLib
             this.ThrowIfDisposed();
 
             var argNameList = this.ListArguments();
-            var inShapes = new List<List<mx_uint>>();
-            var auxShapes = new List<List<mx_uint>>();
-            var outShapes = new List<List<mx_uint>>();
-            var argShapes = new Dictionary<string, IList<mx_uint>>();
+            var argShapes = new Dictionary<string, Shape>();
 
             foreach (var argName in argNameList)
             {
                 if (argsMap[argName] != null)
-                    argShapes[argName] = argsMap[argName].GetShape();
+                    argShapes[argName] = argsMap[argName].Shape;
             }
 
-            this.InferShape(argShapes, inShapes, auxShapes, outShapes);
+            var (inShapes, auxShapes, outShapes) = this.InferShape(argShapes);
 
-            for (var i = 0; i < inShapes.Count; ++i)
+            for (var i = 0; i < inShapes.Length; ++i)
             {
                 var shape = inShapes[i];
                 var argName = argNameList[i];
@@ -460,16 +457,16 @@ namespace MxNetLib
                 else if (argName.LastIndexOf("data", StringComparison.InvariantCulture) == argName.Length - 4 ||
                          argName.LastIndexOf("label", StringComparison.InvariantCulture) == argName.Length - 5)
                 {
-                    gradReqs.Add(OpReqType.NullOp);
+                    gradReqs.Add(OpGradReq.Null);
                 }
                 else
                 {
-                    gradReqs.Add(OpReqType.WriteTo);
+                    gradReqs.Add(OpGradReq.Write);
                 }
             }
 
             var auxNameList = this.ListAuxiliaryStates();
-            for (var i = 0; i < auxShapes.Count; ++i)
+            for (var i = 0; i < auxShapes.Length; ++i)
             {
                 var shape = auxShapes[i];
                 var auxName = auxNameList[i];
@@ -571,13 +568,13 @@ namespace MxNetLib
 
             this.ThrowIfDisposed();
 
-            return this.SimpleBind(context, argsMap, argGradStore, new Dictionary<string, OpReqType>());
+            return this.SimpleBind(context, argsMap, argGradStore, new Dictionary<string, OpGradReq>());
         }
 
         public Executor SimpleBind(Context context,
                                    NDArrayDict argsMap,
                                    NDArrayDict argGradStore,
-                                   IDictionary<string, OpReqType> gradReqType)
+                                   IDictionary<string, OpGradReq> gradReqType)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -596,7 +593,7 @@ namespace MxNetLib
         public Executor SimpleBind(Context context,
                                    NDArrayDict argsMap,
                                    NDArrayDict argGradStore,
-                                   IDictionary<string, OpReqType> gradReqType,
+                                   IDictionary<string, OpGradReq> gradReqType,
                                    NDArrayDict auxMap)
         {
             if (context == null)
@@ -614,7 +611,7 @@ namespace MxNetLib
 
             var argArrays = new List<NDArray>();
             var gradArrays = new List<NDArray>();
-            var gradReqs = new List<OpReqType>();
+            var gradReqs = new List<OpGradReq>();
             var auxArrays = new List<NDArray>();
 
             this.InferExecutorArrays(context,
