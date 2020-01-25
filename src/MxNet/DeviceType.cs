@@ -9,7 +9,9 @@ namespace MxNet
 
         GPU = 2,
 
-        CPUPinned = 3
+        CPUPinned = 3,
+
+        CPUShared = 5
 
     }
 

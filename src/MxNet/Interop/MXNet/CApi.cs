@@ -38,8 +38,19 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNotifyShutdown();
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXStorageEmptyCache(int dev_type, int dev_id);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXGetGPUMemoryInformation64(int dev_id, ref long free_mem, ref long total_mem);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXGetGPUCount(ref int count);
+
         [DllImport("Kernel32.dll")]
         public static extern ExecutorHandle LoadLibrary(string path);
+
+
 
         #endregion
 
@@ -161,8 +172,14 @@ namespace MxNet.Interop
         /// <param name="data">the data source to copy from.</param>
         /// <param name="size">the memory size we want to copy from.</param>
         /// <returns></returns>
+        //[DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        //public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.R4)] float[] data, uint size);
+
+        //[DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        //public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)] int[] data, uint size);
+
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.R4)] float[] data, uint size);
+        public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, IntPtr data, uint size);
 
         /// <summary>
         /// Perform a synchronize copyto a continugous CPU memory region.
@@ -232,6 +249,21 @@ namespace MxNet.Interop
                                                     int num_params,
                                                     [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_keys,
                                                     [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_vals);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetAuxType(IntPtr handle, int i, out int out_type);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetStorageType(IntPtr handle, out int out_storage_type);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArraySyncCheckFormat(IntPtr handle, bool full_check);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetDataNDArray(IntPtr handle, out IntPtr @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetAuxNDArray(IntPtr handle, out IntPtr @out);
 
         #endregion
 
@@ -703,7 +735,7 @@ namespace MxNet.Interop
         /// <param name="out">return value of next</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXDataIterNext(DataIterHandle handle, out int @out);
+        public static extern int MXDataIterNext(DataIterHandle handle, out int? @out);
 
         /// <summary>
         /// Call iterator.Reset
@@ -775,6 +807,36 @@ namespace MxNet.Interop
             out IntPtr @out);
 
 
+        #endregion
+
+        #region Part 7: Autograd API
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradSetIsRecording(int is_recording, ref int prev);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradSetIsTraining(int train_mode, ref int prev);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradIsRecording(ref int curr);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradIsTraining(ref int curr);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradMarkVariables(int num_var, NDArrayHandle[] var_handles, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)] int[] reqs_array, NDArrayHandle[] grad_handles);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradBackwardEx(int num_output, NDArrayHandle[] output_handles, NDArrayHandle[] ograd_handles, int num_variables,
+                                                        NDArrayHandle[] var_handles, int retain_graph, int create_graph, int is_train, [Out]NDArrayHandle[] grad_handles,
+                                                        [Out][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)] int[] grad_stypes);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXAutogradGetSymbol(NDArrayHandle handle, SymbolHandle @out);
+        #endregion
+
+        #region Engine API
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXEngineSetBulkSize(int size, ref int prev);
         #endregion
 
         #endregion

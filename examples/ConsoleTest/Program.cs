@@ -1,5 +1,5 @@
-﻿using MxNetLib;
-using MxNetLib.Metrics;
+﻿using MxNet;
+using MxNet.Metrics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            MXNet.SetDevice(DeviceType.CPU);
+            mx.SetDevice(DeviceType.CPU);
             Autograd.SetTraining(true);
             NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
             x = nd.Square(x);

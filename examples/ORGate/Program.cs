@@ -1,11 +1,11 @@
-﻿using MxNetLib;
-using MxNetLib.IO;
-using MxNetLib.Metrics;
-using MxNetLib.NN;
-using MxNetLib.NN.Data;
-using MxNetLib.NN.Initializers;
-using MxNetLib.NN.Layers;
-using MxNetLib.Optimizers;
+﻿using MxNet;
+using MxNet.IO;
+using MxNet.Metrics;
+using MxNet.NN;
+using MxNet.NN.Data;
+using MxNet.NN.Initializers;
+using MxNet.NN.Layers;
+using MxNet.Optimizers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ namespace ORGate
     {
         static void Main(string[] args)
         {
-            MXNet.SetDevice(DeviceType.CPU);
+            mx.SetDevice(DeviceType.CPU);
 
             //Pred data
             DataFrame train_x = new DataFrame(2);

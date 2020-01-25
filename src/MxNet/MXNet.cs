@@ -8,7 +8,7 @@ using System.Linq;
 namespace MxNet
 {
 
-    public sealed partial class MXNet
+    public sealed partial class mx
     {
         private static readonly string[] DllWhiteList = new[] { "libgcc_s_seh-1.dll", "libgfortran-3.dll", "libquadmath-0.dll", "libopenblas.dll", "libmxnet.dll" };
 

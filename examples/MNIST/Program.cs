@@ -1,13 +1,13 @@
-﻿using MxNetLib;
+﻿using MxNet;
 using System;
-using MxNetLib.Metrics;
-using MxNetLib.Optimizers;
+using MxNet.Metrics;
+using MxNet.Optimizers;
 using System.Collections.Generic;
 using System.Linq;
-using MxNetLib.NN;
-using MxNetLib.NN.Layers;
-using MxNetLib.NN.Initializers;
-using MxNetLib.NN.Data;
+using MxNet.NN;
+using MxNet.NN.Layers;
+using MxNet.NN.Initializers;
+using MxNet.NN.Data;
 
 namespace MNIST
 {
@@ -16,7 +16,7 @@ namespace MNIST
         static void Main(string[] args)
         {
             //Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
-            MXNet.SetDevice(DeviceType.GPU);
+            mx.SetDevice(DeviceType.GPU);
             uint batchSize = 200;
 
             string trainImagePath = "./mnist_data/train-images-idx3-ubyte";
@@ -46,7 +46,7 @@ namespace MNIST
 
             //var loadedModel = Module.LoadModel(modelFolder);
             //loadedModel.LoadCheckpoint(modelFolder);
-            MXNet.MXNotifyShutdown();
+            mx.MXNotifyShutdown();
         }
 
         private static void BuildSymbolModel(Module model)

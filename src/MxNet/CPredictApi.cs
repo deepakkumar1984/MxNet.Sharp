@@ -6,7 +6,7 @@ using MxNet.Interop;
 namespace MxNet
 {
 
-    public sealed partial class MXNet
+    public sealed partial class mx
     {
 
         #region Methods

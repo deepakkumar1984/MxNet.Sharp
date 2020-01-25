@@ -282,14 +282,16 @@ Int32,
 Int64,
 Int8
 };
-///<summary>
-///<para>Output storage type.</para>
-///</summary>
-public enum CastStorageStype
-{Csr,
-Default,
-RowSparse
-};
+    ///<summary>
+    ///<para>Output storage type.</para>
+    ///</summary>
+    public enum StorageStype
+    {
+        Default = 0,
+        RowSparse,
+        Csr
+    }
+
 ///<summary>
 ///<para>The desired storage type of the forward output given by user, if thecombination of input storage types and this hint does not matchany implemented ones, the dot operator will perform fallback operationand still produce an output of the desired storage type.</para>
 ///</summary>

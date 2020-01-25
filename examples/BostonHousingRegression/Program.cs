@@ -1,12 +1,12 @@
 ﻿
 using CsvHelper;
-using MxNetLib;
-using MxNetLib.IO;
-using MxNetLib.Metrics;
-using MxNetLib.NN;
-using MxNetLib.NN.Data;
-using MxNetLib.NN.Layers;
-using MxNetLib.Optimizers;
+using MxNet;
+using MxNet.IO;
+using MxNet.Metrics;
+using MxNet.NN;
+using MxNet.NN.Data;
+using MxNet.NN.Layers;
+using MxNet.Optimizers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +19,7 @@ namespace BostonHousingRegression
         static void Main(string[] args)
         {
             //Environment.SetEnvironmentVariable("MXNET_ENGINE_TYPE", "NaiveEngine");
-            MXNet.SetDevice(DeviceType.CPU);
+            mx.SetDevice(DeviceType.CPU);
             //uint batchSize = 200;
             //uint numFeatures = 13;
             //var x = Symbol.Variable("x");
