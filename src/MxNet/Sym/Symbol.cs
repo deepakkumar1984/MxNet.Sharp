@@ -498,6 +498,11 @@ namespace MxNet
             return ret;
         }
 
+        public Dictionary<string, Dictionary<string, string>> ListAttributeDict()
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<string> ListAuxiliaryStates()
         {
             this.ThrowIfDisposed();

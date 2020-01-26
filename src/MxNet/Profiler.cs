@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ProfileHandle = System.IntPtr;
+using MxNet.Interop;
 
 namespace MxNet
 {
@@ -9,99 +10,164 @@ namespace MxNet
     {
         public class Task : IDisposable
         {
-            private string _name;
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
+
+            internal ProfileHandle handle;
 
             public Task(Domain domain, string name)
             {
-                throw new NotImplementedException();
+                Name = name;
+                Domain = domain;
+                NativeMethods.MXProfileCreateTask(domain.handle, name, out var @out);
+                handle = @out;
             }
 
-            public void Start() => throw new NotImplementedException();
+            public void Start()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDurationStart(handle);
+            }
 
-            public void Stop() => throw new NotImplementedException();
+            public void Stop()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDurationStop(handle);
+            }
 
             public override string ToString()
             {
-                return _name;
+                return Name;
             }
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
             }
         }
 
         public class Frame : IDisposable
         {
-            private string _name;
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
+
+            internal ProfileHandle handle;
 
             public Frame(Domain domain, string name)
             {
-                throw new NotImplementedException();
+                Domain = domain;
+                Name = name;
+                NativeMethods.MXProfileCreateFrame(domain.handle, name, out var @out);
+                handle = @out;
             }
 
-            public void Start() => throw new NotImplementedException();
+            public void Start()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDurationStart(handle);
+            }
 
-            public void Stop() => throw new NotImplementedException();
+            public void Stop()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDurationStop(handle);
+            }
 
             public override string ToString()
             {
-                return _name;
+                return Name;
             }
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
             }
         }
 
         public class Event : IDisposable
         {
-            private string _name;
+            public string Name { get; set; }
 
-            public Event(Domain domain, string name)
+            internal ProfileHandle handle;
+
+            public Event(string name)
             {
-                throw new NotImplementedException();
+                Name = name;
+                NativeMethods.MXProfileCreateEvent(name, out var @out);
+                handle = @out;
             }
 
-            public void Start() => throw new NotImplementedException();
+            public void Start()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDurationStart(handle);
+            }
 
-            public void Stop() => throw new NotImplementedException();
+            public void Stop()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDurationStop(handle);
+            }
 
             public override string ToString()
             {
-                return _name;
+                return Name;
             }
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
             }
         }
 
         public class Counter : IDisposable
         {
-            private string _name;
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
+
+            internal ProfileHandle handle;
 
             public Counter(Domain domain, string name, int? value = null)
             {
-                throw new NotImplementedException();
+                Domain = domain;
+                Name = name;
+                NativeMethods.MXProfileCreateCounter(domain.handle, name, out var @out);
+                handle = @out;
+
+                if (value.HasValue)
+                    SetValue(value.Value);
             }
 
-            public void SetValue(int value) => throw new NotImplementedException();
+            public void SetValue(int value)
+            {
+                NativeMethods.MXProfileSetCounter(handle, value);
+            }
 
-            public void Increment(int delta = 1) => throw new NotImplementedException();
+            public void Increment(int delta = 1)
+            {
+                NativeMethods.MXProfileAdjustCounter(handle, delta);
+            }
 
-            public void Decrement(int delta = 1) => throw new NotImplementedException();
+            public void Decrement(int delta = 1)
+            {
+                NativeMethods.MXProfileAdjustCounter(handle, -delta);
+            }
 
             public override string ToString()
             {
-                return _name;
+                return Name;
             }
 
             public void Dispose()
             {
-                throw new NotImplementedException();
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
             }
 
             public static Counter operator +(Counter c, int delta)
@@ -119,35 +185,43 @@ namespace MxNet
 
         public class Marker
         {
-            private string _name;
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
 
             public Marker(Domain domain, string name)
             {
-                throw new NotImplementedException();
+                Domain = domain;
+                Name = name;
             }
 
-            public void Mark(string scope = "process") => throw new NotImplementedException();
+            public void Mark(string scope = "process")
+            {
+                NativeMethods.MXProfileSetMarker(Domain.handle, Name, scope);
+            }
 
             public override string ToString()
             {
-                return _name;
+                return Name;
             }
         }
 
         public class Domain
         {
-            private string _name;
+            public string Name { get; set; }
 
-            private ProfileHandle handle;
+            internal ProfileHandle handle;
 
             public Domain(string name)
             {
-                throw new NotImplementedException();
+                Name = name;
+                NativeMethods.MXProfileCreateDomain(name, out var @out);
+                handle = @out;
             }
 
             public override string ToString()
             {
-                return _name;
+                return Name;
             }
 
             public Task NewTask(string name)

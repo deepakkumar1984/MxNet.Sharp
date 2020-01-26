@@ -4,11 +4,10 @@ using System.Text;
 
 namespace MxNet.Optimizers
 {
-    public class SGD : Optimizer
+    public class LBSGD : Optimizer
     {
-        private readonly Dictionary<int, NDArray> moments;
-
-        public SGD(float momentum = 0, bool lazy_update = true)
+        public LBSGD(float momentum= 0, bool multi_precision= false, string warmup_strategy= "linear'",
+                    int warmup_epochs= 5, int batch_scale= 1, int updates_per_epoch= 32, int begin_epoch= 0, int num_epochs= 60)
         {
             throw new NotImplementedException();
         }

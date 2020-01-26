@@ -5,6 +5,8 @@ using DataIterHandle = System.IntPtr;
 using ExecutorHandle = System.IntPtr;
 using NDArrayHandle = System.IntPtr;
 using SymbolHandle = System.IntPtr;
+using ProfileHandle = System.IntPtr;
+using KVStoreHandle = System.IntPtr;
 using size_t = System.UInt64;
 using uint64_t = System.UInt64;
 using mx_uint = System.UInt32;
@@ -806,7 +808,46 @@ namespace MxNet.Interop
             int delayAlloc,
             out IntPtr @out);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreRunServer(KVStoreHandle handle, MXKVStoreServerController controller, IntPtr controller_handle);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreSendCommmandToServers(KVStoreHandle handle, int cmd_id, string cmd_body);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreIsWorkerNode(out int ret);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreFree(KVStoreHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreInitEx(KVStoreHandle handle, int num, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys, NDArrayHandle[] vals);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePushEx(KVStoreHandle handle, int num, 
+                                                    [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys, 
+                                                    NDArrayHandle[] vals, int priority);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePullWithSparseEx(KVStoreHandle handle, int num,
+                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
+                                                   NDArrayHandle[] vals, int priority, bool ignore_sparse);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePushPullEx(KVStoreHandle handle, int vnum,
+                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vkeys,
+                                                   int onum,
+                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] okeys,
+                                                   NDArrayHandle[] vals, NDArrayHandle[] outs, int priority);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePullRowSparseEx(KVStoreHandle handle, int num,
+                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
+                                                   NDArrayHandle[] vals, NDArrayHandle[] row_ids, int priority);
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreSetGradientCompression(KVStoreHandle handle, int num_params,
+                                                         [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
+                                                          [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vals);
         #endregion
 
         #region Part 7: Autograd API
@@ -837,6 +878,41 @@ namespace MxNet.Interop
         #region Engine API
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXEngineSetBulkSize(int size, ref int prev);
+        #endregion
+
+        #region Profiler API
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileCreateDomain(string name, out ProfileHandle @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileCreateTask(ProfileHandle handle, string name, out ProfileHandle @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileCreateFrame(ProfileHandle handle, string name, out ProfileHandle @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileCreateEvent(string name, out ProfileHandle @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileCreateCounter(ProfileHandle handle, string name, out ProfileHandle @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileDestroyHandle(ProfileHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileDurationStart(ProfileHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileDurationStop(ProfileHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileSetCounter(ProfileHandle handle, int value);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileAdjustCounter(ProfileHandle handle, int delta);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXProfileSetMarker(ProfileHandle handle, string name, string scope);
         #endregion
 
         #endregion

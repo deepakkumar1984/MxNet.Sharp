@@ -4,11 +4,9 @@ using System.Text;
 
 namespace MxNet.Optimizers
 {
-    public class SGD : Optimizer
+    public class Ftlr : Optimizer
     {
-        private readonly Dictionary<int, NDArray> moments;
-
-        public SGD(float momentum = 0, bool lazy_update = true)
+        public Ftlr(float lamda1 = 0.1f, float learning_rate = 0.1f, float beta = 1) : base(learning_rate: learning_rate)
         {
             throw new NotImplementedException();
         }

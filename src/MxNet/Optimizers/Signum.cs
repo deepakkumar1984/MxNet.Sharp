@@ -6,21 +6,19 @@ namespace MxNet.Optimizers
 {
     public class Signum : Optimizer
     {
-        private readonly Dictionary<int, NDArray> moments;
-
-        public Signum(float lr = 0.01f, float momentum = 0, float decayRate = 0) : base(lr, "adam")
+        public Signum(float learning_rate = 0.01f, float momentum = 0.9f, float wd_lh = 0) : base(learning_rate: learning_rate)
         {
-            moments = new Dictionary<int, NDArray>();
-            DecayRate = decayRate;
-            Momentum = momentum;
+            throw new NotImplementedException();
         }
 
-        public override void Update(int iteration, int index, NDArray param, NDArray grad)
+        public override object CreateState(int index, NDArray weight)
         {
-            if (!moments.ContainsKey(index))
-                moments[index] = nd.Zeros(param.Shape);
+            throw new NotImplementedException();
+        }
 
-            nd.SignumUpdate(param, grad, moments[index], LearningRate, Momentum, DecayRate);
+        public override void Update(int iteration, int index, NDArray param, NDArray grad, object state)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,14 +4,8 @@ using System.Text;
 
 namespace MxNet.Optimizers
 {
-    public class SGD : Optimizer
+    public class SGLD : Optimizer
     {
-        private readonly Dictionary<int, NDArray> moments;
-
-        public SGD(float momentum = 0, bool lazy_update = true)
-        {
-            throw new NotImplementedException();
-        }
 
         public override object CreateState(int index, NDArray weight)
         {

@@ -4,11 +4,9 @@ using System.Text;
 
 namespace MxNet.Optimizers
 {
-    public class SGD : Optimizer
+    public class NAG : Optimizer
     {
-        private readonly Dictionary<int, NDArray> moments;
-
-        public SGD(float momentum = 0, bool lazy_update = true)
+        public NAG(float momentum = 0)
         {
             throw new NotImplementedException();
         }

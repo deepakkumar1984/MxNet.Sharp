@@ -11,7 +11,7 @@ namespace MxNet
     {
         public static Optimizer SGD(float lr = 0.01f, float momentum = 1e-7f, float decay = 0)
         {
-            return new SGD(lr, momentum, decay);
+            return new SGD(momentum);
         }
 
         public static Optimizer Signum(float lr = 0.01f, float decay = 0, float momentum = 1e-7f)
@@ -26,17 +26,17 @@ namespace MxNet
 
         public static Optimizer Adagrad(float lr = 0.01f, float epsilon = 1e-7f, float decay = 0)
         {
-            return new Adagrad(lr, decay, epsilon);
+            return new Adagrad(epsilon);
         }
 
         public static Optimizer Adadelta(float lr = 1.0f, float rho = 0.95f, float epsilon = 1e-7f, float decay = 0)
         {
-            return new AdaDelta(lr, rho, decay, epsilon);
+            return new AdaDelta(rho, decay, epsilon);
         }
 
         public static Optimizer Adam(float lr = 0.001f, float beta_1 = 0.9f, float beta_2 = 0.999f, float decay = 0,  float epsilon = 1e-7f)
         {
-            return new Adam(lr, beta_1, beta_2, decay, epsilon);
+            return new Adam(lr, beta_1, beta_2, epsilon);
         }
 
         internal static Optimizer Get(OptimizerType optimizerType)

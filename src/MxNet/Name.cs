@@ -11,6 +11,9 @@ namespace MxNet
         {
             internal static ThreadLocal<NameManager> current = new ThreadLocal<NameManager>();
 
+            private Dictionary<string, int> counter = new Dictionary<string, int>();
+            private NameManager old_manager = null;
+
             public static NameManager Current
             {
                 get
@@ -26,24 +29,39 @@ namespace MxNet
                 }
             }
 
-            public NameManager()
-            {
-                throw new NotImplementedException();
-            }
-
             public override void Enter()
             {
-                throw new NotImplementedException();
+                if(!current.IsValueCreated)
+                {
+                    current.Value = new NameManager();
+                }
+
+                old_manager = current.Value;
+                current.Value = this;
             }
 
             public override void Exit()
             {
-                throw new NotImplementedException();
+                if(old_manager != null)
+                {
+                    current.Value = old_manager;
+                }
             }
 
             public virtual string Get(string name, string hint)
             {
-                throw new NotImplementedException();
+                if(!string.IsNullOrWhiteSpace(name))
+                {
+                    return name;
+                }
+
+                if(!counter.ContainsKey(hint))
+                {
+                    counter[hint] = 0;
+                }
+
+                name = hint + counter[hint];
+                return name;
             }
         }
 

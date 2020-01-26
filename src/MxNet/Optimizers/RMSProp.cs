@@ -6,8 +6,6 @@ namespace MxNet.Optimizers
 {
     public class RMSProp : Optimizer
     {
-        private readonly Dictionary<int, NDArray> accumulators;
-
         /// <summary>
         /// RMSProp decay factor, corresponding to fraction of gradient to keep at each time step.
         /// </summary>
@@ -16,20 +14,20 @@ namespace MxNet.Optimizers
         /// </value>
         public float Rho { get; set; }
 
-        public RMSProp(float lr = 0.001f, float rho = 0.9f, float decayRate = 0, float epsilon = 1e-07f) : base(lr, "adam")
+        public RMSProp(float learning_rate= 0.001f, float gamma1= 0.9f, float gamma2= 0.9f,
+                    float epsilon= 1e-8f, bool centered= false, float? clip_weights= null) : base(learning_rate: learning_rate)
         {
-            accumulators = new Dictionary<int, NDArray>();
-            DecayRate = decayRate;
-            Rho = rho;
-            Epsilon = epsilon;
+            throw new NotImplementedException();
         }
 
-        public override void Update(int iteration, int index, NDArray param, NDArray grad)
+        public override object CreateState(int index, NDArray weight)
         {
-            if (!accumulators.ContainsKey(index))
-                accumulators[index] = nd.Zeros(param.Shape);
+            throw new NotImplementedException();
+        }
 
-            nd.RmspropUpdate(param, grad, accumulators[index], LearningRate, Rho, Epsilon, DecayRate, 1 / iteration);
+        public override void Update(int iteration, int index, NDArray param, NDArray grad, object state)
+        {
+            throw new NotImplementedException();
         }
     }
 }

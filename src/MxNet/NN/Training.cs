@@ -84,7 +84,7 @@ namespace MxNet.NN
                             if (argNames[i] == "X" || argNames[i] == labelName)
                                 continue;
 
-                            ModelOptimizer.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i]);
+                            ModelOptimizer.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i], null);
                         }
                     }
 

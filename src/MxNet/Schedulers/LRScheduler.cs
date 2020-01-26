@@ -18,7 +18,7 @@ namespace MxNet
 
         #region Properties
 
-        protected float BaseLearningRate
+        internal float BaseLearningRate
         {
             get;
             set;

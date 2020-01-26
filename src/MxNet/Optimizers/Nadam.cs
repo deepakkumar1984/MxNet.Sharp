@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.Optimizers
 {
-    public class Adam : Optimizer
+    public class Nadam : Optimizer
     {
       
 
@@ -26,14 +26,14 @@ namespace MxNet.Optimizers
 
         public float Epsilon { get; set; }
 
-        public bool LazyUpdate { get; set; }
+        public float ScheduleDecay { get; set; }
 
-        public Adam(float learning_rate= 0.001f, float beta1= 0.9f, float beta2= 0.999f, float epsilon= 1e-8f,bool lazy_update= true):base(learning_rate: learning_rate)
+        public Nadam(float learning_rate= 0.001f, float beta1= 0.9f, float beta2= 0.999f, float epsilon= 1e-8f,float schedule_decay = 0.004f):base(learning_rate: learning_rate)
         {
             Beta1 = beta1;
             Beta2 = beta2;
             Epsilon = epsilon;
-            LazyUpdate = lazy_update;
+            ScheduleDecay = schedule_decay;
         }
 
         public override void Update(int iteration, int index, NDArray param, NDArray grad, object state)
