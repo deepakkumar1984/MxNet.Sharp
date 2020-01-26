@@ -8,7 +8,7 @@ namespace MxNet.Initializers
     {
         public override void InitWeight(string name, NDArray arr)
         {
-            throw new NotImplementedException();
+            arr.Constant(1);
         }
     }
 }

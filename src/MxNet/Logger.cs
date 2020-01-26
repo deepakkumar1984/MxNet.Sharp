@@ -4,7 +4,7 @@ using System.IO;
 
 namespace MxNet
 {
-    public class Logger
+    public class Logger : IDisposable
     {
         public static TraceLevel ERROR = TraceLevel.Error;
         public static TraceLevel INFO = TraceLevel.Info;
@@ -14,45 +14,51 @@ namespace MxNet
 
         private string filename = "";
         private string name = "";
-        private FileMode filemode = FileMode.Append;
         private TraceLevel traceLevel = WARNING;
-        TextWriterTraceListener trace;
+        static TextWriterTraceListener trace;
 
-        public void Log(string message)
+        public static void Log(string message, TraceLevel level = TraceLevel.Verbose)
         {
             if(trace != null)
-                trace.Write(message);
+                trace.Write(Formatter.FormatMessage(message, level));
 
+            Console.ForegroundColor = Formatter.GetColor(level);
             Console.WriteLine(message);
+            Console.ResetColor();
         }
 
-        public void Warning(string message)
+        public static void Warning(string message)
         {
-            if (trace != null)
-                trace.Write(message);
-
-            Console.WriteLine(message);
+            Log(message, TraceLevel.Warning);
         }
 
-        public void Info(string message)
+        public static void Info(string message)
         {
-            if (trace != null)
-                trace.Write(message);
-
-            Console.WriteLine(message);
+            Log(message, TraceLevel.Info);
         }
 
-        public void Error(string message)
+        public static void Error(string message)
         {
-            if (trace != null)
-                trace.Write(message);
-
-            Console.WriteLine(message);
+            Log(message, TraceLevel.Error);
         }
 
-        public class _Formatter
+        public static void Configure(string filename, string name = "")
         {
-            private ConsoleColor GetColor(TraceLevel level)
+            if(!string.IsNullOrWhiteSpace(name))
+                trace = new TextWriterTraceListener(filename, name);
+            else
+                trace = new TextWriterTraceListener(filename);
+        }
+
+        public void Dispose()
+        {
+            trace.Close();
+            trace.Dispose();
+        }
+
+        public class Formatter
+        {
+            public static ConsoleColor GetColor(TraceLevel level)
             {
                 ConsoleColor color = ConsoleColor.White;
 
@@ -75,34 +81,27 @@ namespace MxNet
                 return color;
             }
 
-            private string GetLabel(TraceLevel level)
+            public static string GetLabel(TraceLevel level)
             {
                 switch (level)
                 {
                     case TraceLevel.Error:
-                        return "E";
+                        return "ERROR";
                     case TraceLevel.Warning:
-                        return "W";
-                        
+                        return "WARNING";
                     case TraceLevel.Info:
-                        return "I";
+                        return "INFO";
                     case TraceLevel.Verbose:
-                        return "V";
+                        return "VERBOSE";
                 }
 
                 return "I";
             }
 
-            public string Format(TraceLevel level)
+            public static string FormatMessage(string message, TraceLevel level)
             {
-                throw new NotImplementedException();
+                return string.Format("{0}: {1}", GetLabel(level), message);
             }
-        }
-
-        public static Logger GetLogger(string name = null, string filename = null, FileMode fileMode = FileMode.Append,
-            TraceLevel level = TraceLevel.Warning)
-        {
-            throw new NotImplementedException();
         }
     }
 }

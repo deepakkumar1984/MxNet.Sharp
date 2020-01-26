@@ -228,6 +228,16 @@ namespace MxNet
             .Invoke();
         }
 
+        public NDArray Sum(int axis, bool keepdims = false, bool exclude = false)
+        {
+            return new Operator("sum")
+            .SetParam("axis", axis)
+            .SetParam("keepdims", keepdims)
+            .SetParam("exclude", exclude)
+            .SetInput("data", this)
+            .Invoke();
+        }
+
         public float Sum()
         {
             var x = Sum(null);
@@ -254,6 +264,16 @@ namespace MxNet
             .Invoke();
         }
 
+        public NDArray Mean(int axis, bool keepdims = false, bool exclude = false)
+        {
+            return new Operator("mean")
+            .SetParam("axis", axis)
+            .SetParam("keepdims", keepdims)
+            .SetParam("exclude", exclude)
+            .SetInput("data", this)
+            .Invoke();
+        }
+
         public float Mean()
         {
             var x = Mean(null);
@@ -271,6 +291,16 @@ namespace MxNet
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
         /// <returns>returns new NDArray</returns>
         public NDArray Prod(Shape axis = null, bool keepdims = false, bool exclude = false)
+        {
+            return new Operator("prod")
+            .SetParam("axis", axis)
+            .SetParam("keepdims", keepdims)
+            .SetParam("exclude", exclude)
+            .SetInput("data", this)
+            .Invoke();
+        }
+
+        public NDArray Prod(int axis, bool keepdims = false, bool exclude = false)
         {
             return new Operator("prod")
             .SetParam("axis", axis)
@@ -344,6 +374,16 @@ namespace MxNet
             .Invoke();
         }
 
+        public NDArray Max(int axis, bool keepdims = false, bool exclude = false)
+        {
+            return new Operator("max")
+            .SetParam("axis", axis)
+            .SetParam("keepdims", keepdims)
+            .SetParam("exclude", exclude)
+            .SetInput("data", this)
+            .Invoke();
+        }
+
         ///<summary>
         ///<para>Computes the min of array elements over given axes.</para>
         ///<para> </para>
@@ -355,6 +395,16 @@ namespace MxNet
         /// <param name="exclude">Whether to perform reduction on axis that are NOT in axis instead.</param>
         /// <returns>returns new NDArray</returns>
         public NDArray Min(Shape axis = null, bool keepdims = false, bool exclude = false)
+        {
+            return new Operator("min")
+            .SetParam("axis", axis)
+            .SetParam("keepdims", keepdims)
+            .SetParam("exclude", exclude)
+            .SetInput("data", this)
+            .Invoke();
+        }
+
+        public NDArray Min(int axis, bool keepdims = false, bool exclude = false)
         {
             return new Operator("min")
             .SetParam("axis", axis)

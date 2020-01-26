@@ -13,9 +13,8 @@ namespace MxNet.Callbacks
         private bool init;
         private long tic;
         private int last_count;
-        private Logger logging;
 
-        public Speedometer(int batch_size, int frequent= 50, bool auto_reset= true, Logger logger = null)
+        public Speedometer(int batch_size, int frequent= 50, bool auto_reset= true)
         {
             _batch_size = batch_size;
             _frequent = frequent;
@@ -23,7 +22,6 @@ namespace MxNet.Callbacks
             init = false;
             tic = 0;
             last_count = 0;
-            logging = logger!=null ? logger : Logger.GetLogger();
         }
 
         public void Invoke(int epoch, int nbatch, EvalMetric eval_metric, FuncArgs locals = null)
@@ -62,7 +60,7 @@ namespace MxNet.Callbacks
                                 msg += string.Format("\t {0}={1}", item.Item1, item.Item2);
                             }
 
-                            logging.Log(msg);
+                            Logger.Log(msg);
                         }
                         else
                         {
@@ -72,12 +70,12 @@ namespace MxNet.Callbacks
                                 msg += string.Format("\t {0}={1}", item.Item1, item.Item2);
                             }
 
-                            logging.Log(msg);
+                            Logger.Log(msg);
                         }
                     }
                     else
                     {
-                        logging.Log(string.Format("Iter[{0}] Batch [{1}]\tSpeed: {} samples/sec", epoch, _batch_size, speed));
+                        Logger.Log(string.Format("Iter[{0}] Batch [{1}]\tSpeed: {} samples/sec", epoch, _batch_size, speed));
                     }
 
                     tic = DateTime.Now.Ticks;

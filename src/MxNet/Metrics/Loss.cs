@@ -10,9 +10,13 @@ namespace MxNet.Metrics
         {
         }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(NDArray _, NDArray preds)
         {
-            throw new NotImplementedException();
+            var loss = nd.Sum(preds).AsScalar<float>();
+            sum_metric += loss;
+            global_sum_metric += loss;
+            num_inst += (int)preds.Shape.Size;
+            global_num_inst += (int)preds.Shape.Size;
         }
     }
 }

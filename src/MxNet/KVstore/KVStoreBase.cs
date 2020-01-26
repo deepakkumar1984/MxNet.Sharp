@@ -35,7 +35,7 @@ namespace MxNet.KVstore
             string name = klass.GetType().Name;
             if(kv_registry.ContainsKey(name))
             {
-                Logger.GetLogger().Warning(string.Format("WARNING: New kvstore {0} is overriding existing one", name));
+                Logger.Warning(string.Format("WARNING: New kvstore {0} is overriding existing one", name));
             }
 
             kv_registry[name] = (KVStoreBase)klass;

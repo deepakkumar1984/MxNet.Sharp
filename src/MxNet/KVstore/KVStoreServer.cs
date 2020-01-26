@@ -28,7 +28,7 @@ namespace MxNet.KVstore
                 if(!init_logging)
                 {
                     head = string.Format("{0} Server[{1}]", DateTime.Now.ToString(), kvstore.Rank);
-                    Logger.GetLogger().Log(head);
+                    Logger.Log(head);
                     init_logging = true;
                 }
 

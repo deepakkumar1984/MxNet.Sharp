@@ -162,7 +162,7 @@ namespace MxNet
                             logmsg.AppendFormat(". Need to re-allocate. Consider putting default_bucket_key " +
                                                 "to be the bucket taking the largest input for better memory sharing.");
 
-                            logger.Warning(logmsg.ToString());
+                            Logger.Warning(logmsg.ToString());
 
                             arg_arr = nd.Zeros(arg_shape[i], ctx, arg_types[i]);
                             shared_data_arrays[name] = arg_arr;

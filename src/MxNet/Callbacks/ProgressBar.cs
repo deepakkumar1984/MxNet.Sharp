@@ -9,13 +9,11 @@ namespace MxNet.Callbacks
     {
         private int total;
         private int length;
-        private Logger logging;
 
-        public ProgressBar(int total, int length= 80, Logger logger = null)
+        public ProgressBar(int total, int length= 80)
         {
             this.total = total;
             this.length = length;
-            logging = logger != null ? logger : Logger.GetLogger();
         }
 
         public void Invoke(int epoch, int nbatch, EvalMetric eval_metric, FuncArgs locals = null)
@@ -34,7 +32,7 @@ namespace MxNet.Callbacks
                 prog_bar += "-";
             }
 
-            logging.Log(string.Format("[{0}] {1}%", prog_bar, Math.Round(percents)));
+            Logger.Log(string.Format("[{0}] {1}%", prog_bar, Math.Round(percents)));
         }
     }
 }

@@ -8,12 +8,8 @@ namespace MxNet.Initializers
     {
         public MSRAPrelu(string factor_type= "avg", float slope= 0.25f) : base("gaussian", factor_type)
         {
-            throw new NotImplementedException();
+            Magnitude = 2 / (1 + (float)Math.Pow(slope, 2));
         }
 
-        public override void InitWeight(string name, NDArray arr)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

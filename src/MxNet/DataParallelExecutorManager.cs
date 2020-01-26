@@ -49,9 +49,8 @@ namespace MxNet
         public DataParallelExecutorManager(Symbol symbol, Context[] ctx, DataIter train_data, string[] arg_names, string[] param_names,
                                         string[] aux_names, int[] work_load_list = null, Logger logger = null, Func<int, Symbol> sym_gen = null)
         {
-            logging = logger ?? Logger.GetLogger();
             num_device = ctx.Length;
-            logging.Info(string.Format("Start training with {0}", num_device));
+            Logger.Info(string.Format("Start training with {0}", num_device));
 
             if (work_load_list == null)
             {

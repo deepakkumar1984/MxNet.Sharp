@@ -240,7 +240,7 @@ namespace MxNet
                     var array = new NDArray(shape, false);
                     argsMap[argName] = array;
                     //NDArray.SampleGaussian(0, 1, array);
-                    nd.RandomUniform(0, 1, array.Shape).CopyTo(array);
+                    nd.Random.Uniform(0, 1, array.Shape).CopyTo(array);
                 }
             }
         }
@@ -438,7 +438,7 @@ namespace MxNet
                     argArrays.Add(new NDArray(shape, false));
                     //NDArray.SampleGaussian(0, 1, argArrays.Last());
                     var argArr = argArrays.Last();
-                    nd.RandomUniform(0, 1, argArr.Shape).CopyTo(argArr);
+                    nd.Random.Uniform(0, 1, argArr.Shape).CopyTo(argArr);
                 }
 
                 if (argGradStore[argName] != null)
@@ -479,7 +479,7 @@ namespace MxNet
                     auxArrays.Add(new NDArray(shape, false));
                     var aux = auxArrays.Last();
                     //NDArray.SampleGaussian(0, 1, auxArrays.Last());
-                    nd.RandomUniform(0, 1, aux.Shape).CopyTo(aux);
+                    nd.Random.Uniform(0, 1, aux.Shape).CopyTo(aux);
                 }
             }
         }

@@ -6,14 +6,22 @@ namespace MxNet.Initializers
 {
     public class LSTMBias : Initializer
     {
+        public float ForgetBias { get; set; }
+
         public LSTMBias(float forget_bias = 1)
         {
-            throw new NotImplementedException();
+            ForgetBias = forget_bias;
         }
 
         public override void InitWeight(string name, NDArray arr)
         {
-            throw new NotImplementedException();
+            arr.Constant(0);
+            int num_hidden = Convert.ToInt32(arr.Shape[0] / 4);
+            var data = arr.GetValues<float>();
+            for (int i = num_hidden; i < 2 * num_hidden; i++)
+                data[i] = ForgetBias;
+
+            arr.SyncCopyFromCPU(data);
         }
     }
 }

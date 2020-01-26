@@ -6,14 +6,16 @@ namespace MxNet.Initializers
 {
     public class Normal : Initializer
     {
+        public float Sigma { get; set; }
+
         public Normal(float sigma = 0.01f)
         {
-            throw new NotImplementedException();
+            Sigma = sigma;
         }
 
         public override void InitWeight(string name, NDArray arr)
         {
-            throw new NotImplementedException();
+            arr = nd.Random.Normal(0, Sigma, arr.Shape);
         }
     }
 }

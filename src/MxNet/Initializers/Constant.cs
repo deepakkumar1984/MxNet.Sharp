@@ -6,14 +6,16 @@ namespace MxNet.Initializers
 {
     public class Constant : Initializer
     {
+        public float Value { get; set; }
+
         public Constant(float value)
         {
-            throw new NotImplementedException();
+            Value = value;
         }
 
         public override void InitWeight(string name, NDArray arr)
         {
-            throw new NotImplementedException();
+            arr.Constant(Value);
         }
     }
 }

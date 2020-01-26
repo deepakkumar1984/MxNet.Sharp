@@ -57,13 +57,11 @@ namespace MxNet.Callbacks
     {
         private bool _auto_reset;
         private int _period;
-        private Logger logging;
 
-        public LogTrainMetric(int period, bool auto_reset = false, Logger logging = null)
+        public LogTrainMetric(int period, bool auto_reset = false)
         {
             _auto_reset = auto_reset;
             _period = period;
-            logging = logging != null ? logging : Logger.GetLogger();
         }
 
         public void Invoke(int epoch, int nbatch, EvalMetric eval_metric, FuncArgs locals = null)
@@ -73,7 +71,7 @@ namespace MxNet.Callbacks
                 var name_values = eval_metric.GetNameValue();
                 foreach (var item in name_values)
                 {
-                    logging.Log(string.Format("Iter: {0} Batch: {1} Train-{2}={3}", epoch, nbatch, item.Item1, item.Item2));
+                    Logger.Log(string.Format("Iter: {0} Batch: {1} Train-{2}={3}", epoch, nbatch, item.Item1, item.Item2));
                 }
 
                 if (_auto_reset)

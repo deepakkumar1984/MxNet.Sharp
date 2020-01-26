@@ -6,14 +6,16 @@ namespace MxNet.Initializers
 {
     public class Uniform : Initializer
     {
+        public float Scale { get; set; }
+
         public Uniform(float scale = 0.07f)
         {
-            throw new NotImplementedException();
+            Scale = scale;
         }
 
         public override void InitWeight(string name, NDArray arr)
         {
-            throw new NotImplementedException();
+            arr = nd.Random.Uniform(-Scale, Scale, arr.Shape);
         }
     }
 }
