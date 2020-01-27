@@ -6,7 +6,21 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
-    class Dropout
+    public class Dropout : HybridBlock
     {
+        public Dropout(float rate, Shape axes = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArrayOrSymbol[] HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Datasets
 {
-    class ImageRecordDataset
+    public class ImageRecordDataset : RecordFileDataset
     {
+        public ImageRecordDataset(string filename, int flag = 1, Func<NDArray, NDArray> transform = null) : base(filename)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

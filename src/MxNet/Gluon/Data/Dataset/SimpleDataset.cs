@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
-    class SimpleDataset
+    public class SimpleDataset<T> : Dataset<T>
     {
+        public SimpleDataset(T[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override T this[int idx] => throw new NotImplementedException();
+
+        public override int Length => throw new NotImplementedException();
     }
 }

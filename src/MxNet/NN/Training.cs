@@ -77,14 +77,14 @@ namespace MxNet.NN
                         exec.Forward(true);
                         exec.Backward();
                         TrainMetric.Update(args[labelName], exec.Output);
-
+                        
                         // Update parameters
                         for (var i = 0; i < argNames.Count; ++i)
                         {
                             if (argNames[i] == "X" || argNames[i] == labelName)
                                 continue;
 
-                            ModelOptimizer.Update(iter, i, exec.ArgmentArrays[i], exec.GradientArrays[i], null);
+                            ModelOptimizer.Update(i, exec.ArgmentArrays[i], exec.GradientArrays[i], null);
                         }
                     }
 

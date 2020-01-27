@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Reflection;
 
 namespace MxNet.Optimizers
 {
@@ -30,8 +31,8 @@ namespace MxNet.Optimizers
         public Dictionary<int, Gluon.Parameter> ParamDict { get; set; }
 
         private float lr;
-        private Dictionary<int, float> lr_mult = new Dictionary<int, float>();
-        private Dictionary<int, float> wd_mult = new Dictionary<int, float>();
+        private Dictionary<string, float> lr_mult = new Dictionary<string, float>();
+        private Dictionary<string, float> wd_mult = new Dictionary<string, float>();
         private Dictionary<int, Dictionary<int, int>> all_index_update_counts = new Dictionary<int, Dictionary<int, int>>();
         private Dictionary<int, int> index_update_count = new Dictionary<int, int>();
         private (Dictionary<string, Dictionary<string, string>>, List<string>) sym_info;
@@ -79,31 +80,188 @@ namespace MxNet.Optimizers
             else
                 ParamDict = new Dictionary<int, Gluon.Parameter>();
 
-            SetLrMult(new Dictionary<int, float>());
-            SetWdMult(new Dictionary<int, float>());
+            SetLrMult(new Dictionary<string, float>());
+            SetWdMult(new Dictionary<string, float>());
         }
 
-        public abstract object CreateState(int index, NDArray weight);
+        public abstract Dictionary<string, NDArray> CreateState(int index, NDArray weight);
 
-        public object CreateStatec(int index, NDArray weight) => throw new NotImplementedException();
+        public Dictionary<string, NDArray> CreateStateMultiPrecision(int index, NDArray weight)
+        {
+            NDArray weight_master_copy = null;
+            if (MultiPrecision && weight.DataType.Name == DType.Float32.Name)
+            {
+                weight_master_copy = weight.AsType(DType.Float32);
+                var r = CreateState(index, weight);
+                r.Add("weight_master_copy", weight_master_copy);
+                
+                return r;
+            }
 
-        public abstract void Update(int iteration, int index, NDArray param, NDArray grad, object state);
+            if (!MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+                Logger.Warning("Accumulating with float16 in optimizer can lead to " +
+                          "poor accuracy or slow convergence. " +
+                          "Consider using multi_precision=True option of the " +
+                          "optimizer");
 
-        public void UpdateMultiPrecision(int iteration, int index, NDArray param, NDArray grad, object state) => throw new NotImplementedException();
+            return CreateState(index, weight);
+        }
 
-        public void SetLearningRate(float lr) => throw new NotImplementedException();
+        public abstract void Update(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state);
+
+        public void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state)
+        {
+            if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+            {
+                var weight_master_copy = state["weight_master_copy"];
+                state.Remove("weight_master_copy");
+                var grad32 = grad.AsType(DType.Float32);
+                Update(index, weight_master_copy, grad32, state);
+                weight = weight_master_copy.Cast(weight.DataType);
+            }
+            else
+            {
+                Update(index, weight, grad, state);
+            }
+        }
+
+        public void SetLearningRate(float lr)
+        {
+            Logger.Warning("[DEPRECATED] Sets lr scale. Use SetLrMult instead");
+        }
 
         public static Updater GetUpdater(Optimizer optimizer)
         {
-            throw new NotImplementedException();
+             throw new NotImplementedException();
         }
 
-        public static void Register(Optimizer klass) => throw new NotImplementedException();
+        internal void SetLrMult(Dictionary<string, float> args_lr_mult)
+        {
+            lr_mult = new Dictionary<string, float>();
+            if(sym_info.Item1.Count > 0)
+            {
+                var (attr, arg_names) = this.sym_info;
+                foreach (var name in arg_names)
+                {
+                    if(attr.ContainsKey(name) && attr[name].ContainsKey("__lr_mult__"))
+                    {
+                        if(float.TryParse(attr[name]["__lr_mult__"], out var attrValue))
+                            lr_mult[name] = attrValue;
+                    }
+                }
+            }
 
-        public static Optimizer CreateOptimizer(string name, FuncArgs kwargs) => throw new NotImplementedException();
+            foreach (var item in args_lr_mult)
+            {
+                lr_mult[item.Key] = item.Value;
+            }
+        }
 
-        private void SetLrMult(Dictionary<int, float> lr_mult) => throw new NotImplementedException();
+        internal void SetWdMult(Dictionary<string, float> args_wd_mult)
+        {
+            wd_mult = new Dictionary<string, float>();
+            foreach (var n in Idx2Name.Values)
+            {
+                if (!n.EndsWith("_weight") || n.EndsWith("_gamma"))
+                    wd_mult[n] = 0;
+            }
 
-        private void SetWdMult(Dictionary<int, float> lr_mult) => throw new NotImplementedException();
+            if (sym_info.Item1.Count > 0)
+            {
+                var (attr, arg_names) = this.sym_info;
+                foreach (var name in arg_names)
+                {
+                    if (attr.ContainsKey(name) && attr[name].ContainsKey("__wd_mult__"))
+                    {
+                        if (float.TryParse(attr[name]["__wd_mult__"], out var attrValue))
+                            wd_mult[name] = attrValue;
+                    }
+                }
+            }
+
+            foreach (var item in args_wd_mult)
+            {
+                wd_mult[item.Key] = item.Value;
+            }
+        }
+
+        internal void SetCurrentContext(int device_id)
+        {
+            if(all_index_update_counts.ContainsKey(device_id))
+            {
+                all_index_update_counts[device_id] = new Dictionary<int, int>();
+            }
+
+            index_update_count = all_index_update_counts[device_id];
+        }
+
+        internal void UpdateCount(int[] index)
+        {
+            foreach (var idx in index)
+            {
+                if (!index_update_count.ContainsKey(idx))
+                    index_update_count[idx] = (int)BeginNumUpdate;
+
+                index_update_count[idx] += 1;
+                NumUpdate = (uint)Math.Max(index_update_count[idx], NumUpdate);
+            }
+        }
+
+        internal float[] GetLrs(int[] indices)
+        {
+            float lr = 0;
+            if (Scheduler != null)
+                lr = Scheduler.Call(NumUpdate);
+            else
+                lr = LearningRate;
+
+            float[] lrs = new float[indices.Length];
+            for(int i=0;i<indices.Length;i++)
+            {
+                int index = indices[i];
+                lrs[i] = lr;
+                if (ParamDict.ContainsKey(index))
+                    lrs[i] *= ParamDict[index].LRMult;
+                else if (lr_mult.ContainsKey(index.ToString()))
+                    lrs[i] *= lr_mult[index.ToString()];
+                else if (Idx2Name.ContainsKey(index))
+                {
+                    float Idx2Name_lrvalue = 1;
+                    if(float.TryParse(Idx2Name[index], out Idx2Name_lrvalue))
+                    {
+                        lrs[i] *= Idx2Name_lrvalue;
+                    }
+                }
+            }
+
+            return lrs;
+        }
+
+        internal float GetLr(int index) => GetLrs(new int[] { index })[0];
+
+        internal float[] GetWds(int[] indices)
+        {
+            float[] wds = new float[indices.Length];
+            for (int i = 0; i < indices.Length; i++)
+            {
+                int index = indices[i];
+                if (ParamDict.ContainsKey(index))
+                    wds[i] *= ParamDict[index].WDMult;
+                else if (wd_mult.ContainsKey(index.ToString()))
+                    wds[i] *= wd_mult[index.ToString()];
+                else if (Idx2Name.ContainsKey(index))
+                {
+                    float Idx2Name_lrvalue = 1;
+                    if (float.TryParse(Idx2Name[index], out Idx2Name_lrvalue))
+                    {
+                        wds[i] *= Idx2Name_lrvalue;
+                    }
+                }
+            }
+
+            return wds;
+        }
+
+        internal float GetWd(int index) => GetWds(new int[] { index })[0];
     }
 }

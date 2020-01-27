@@ -36,12 +36,12 @@ namespace MxNet.Optimizers
             ScheduleDecay = schedule_decay;
         }
 
-        public override void Update(int iteration, int index, NDArray param, NDArray grad, object state)
+        public override void Update(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state)
         {
             throw new NotImplementedException();
         }
 
-        public override object CreateState(int index, NDArray weight)
+        public override Dictionary<string, NDArray> CreateState(int index, NDArray weight)
         {
             throw new NotImplementedException();
         }

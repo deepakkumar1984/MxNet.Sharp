@@ -28,7 +28,7 @@ namespace MxNet.Optimizers
 
         public bool LazyUpdate { get; set; }
 
-        public Adam(float learning_rate= 0.001f, float beta1= 0.9f, float beta2= 0.999f, float epsilon= 1e-8f,bool lazy_update= true):base(learning_rate: learning_rate)
+        public Adam(float learning_rate = 0.001f, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-8f, bool lazy_update = true) : base(learning_rate: learning_rate)
         {
             Beta1 = beta1;
             Beta2 = beta2;
@@ -36,12 +36,12 @@ namespace MxNet.Optimizers
             LazyUpdate = lazy_update;
         }
 
-        public override void Update(int iteration, int index, NDArray param, NDArray grad, object state)
+        public override void Update(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state)
         {
             throw new NotImplementedException();
         }
 
-        public override object CreateState(int index, NDArray weight)
+        public override Dictionary<string, NDArray> CreateState(int index, NDArray weight)
         {
             throw new NotImplementedException();
         }

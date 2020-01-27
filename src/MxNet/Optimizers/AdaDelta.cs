@@ -4,6 +4,7 @@ using System.Text;
 
 namespace MxNet.Optimizers
 {
+    
     public class AdaDelta : Optimizer
     {
         /// <summary>
@@ -22,14 +23,34 @@ namespace MxNet.Optimizers
             Epsilon = epsilon;
         }
 
-        public override void Update(int iteration, int index, NDArray param, NDArray grad, object state)
+        public override void Update(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state)
         {
-            throw new NotImplementedException();
+            var wd = GetWd(index);
+            UpdateCount(new int[] { index });
+            grad *= RescaleGrad;
+            if(ClipGradient.HasValue)
+            {
+                grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
+            }
+
+            var acc_g = state["acc_g"];
+            var acc_delta = state["acc_delta"];
+
+            acc_g *= Rho;
+            acc_g += (1 - Rho) * grad * grad;
+            var current_delta = nd.Sqrt(acc_delta + Epsilon) / nd.Sqrt(acc_g + Epsilon) * grad;
+            acc_delta *= Rho;
+            acc_delta += (1 - Rho) * current_delta * current_delta;
+            weight -= current_delta + wd * weight; 
         }
 
-        public override object CreateState(int index, NDArray weight)
+        public override Dictionary<string, NDArray> CreateState(int index, NDArray weight)
         {
-            throw new NotImplementedException();
+            return new Dictionary<string, NDArray>()
+            {
+                { "acc_g", nd.Zeros(weight.Shape, weight.context)},
+                { "acc_delta", nd.Zeros(weight.Shape, weight.context)}
+            };
         }
     }
 }

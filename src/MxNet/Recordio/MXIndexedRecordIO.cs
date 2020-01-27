@@ -34,8 +34,8 @@ namespace MxNet.Recordio
 
         public int Tell() => throw new NotImplementedException();
 
-        public byte[] ReadIdx(int idx) => throw new NotImplementedException();
+        public string ReadIdx(int idx) => throw new NotImplementedException();
 
-        public void WriteIdx(int idx, byte[] buf) => throw new NotImplementedException();
+        public void WriteIdx(int idx, string buf) => throw new NotImplementedException();
     }
 }
