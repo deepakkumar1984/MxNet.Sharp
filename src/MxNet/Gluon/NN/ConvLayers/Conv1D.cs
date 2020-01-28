@@ -12,7 +12,7 @@ namespace MxNet.Gluon.NN
                     string bias_initializer = "zeros", string prefix = null, ParameterDict @params = null) 
                     : base(channels, new int[] { kernel_size }, new int[] { strides }, new int[] { padding },
                           new int[] { dilation }, groups, layout, in_channels, activation, use_bias, 
-                          weight_initializer, bias_initializer, "Convolution", prefix, @params)
+                          weight_initializer, bias_initializer, null, "Convolution", prefix, @params)
         {
         }
     }

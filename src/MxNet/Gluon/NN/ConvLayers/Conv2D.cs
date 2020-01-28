@@ -15,7 +15,7 @@ namespace MxNet.Gluon.NN
                           padding == default ? new int[] { 0, 0 } : new int[] { padding.Item1, padding.Item2 },
                           dilation == default ? new int[] { 1, 1 } : new int[] { dilation.Item1, dilation.Item2 },
                           groups, layout, in_channels, activation, use_bias, 
-                          weight_initializer, bias_initializer, "Convolution", prefix, @params)
+                          weight_initializer, bias_initializer, null, "Convolution", prefix, @params)
         {
             throw new NotImplementedException();
         }

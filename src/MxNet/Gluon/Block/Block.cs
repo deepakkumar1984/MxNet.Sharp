@@ -13,6 +13,14 @@ namespace MxNet.Gluon
 
         public delegate void ApplyFn(Block block);
 
+        public string Prefix
+        {
+            get;
+            private set;
+        }
+
+        public virtual ParameterDict Params { get; private set; }
+
         public Block(string prefix, ParameterDict @params)
         {
             throw new NotImplementedException();
