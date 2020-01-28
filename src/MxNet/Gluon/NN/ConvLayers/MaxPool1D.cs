@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MxNet.Gluon.NN
+{
+    public class MaxPool1D : _Pooling
+    {
+        public MaxPool1D(int pool_size = 2, int? strides = null, int padding = 0, string layout = "NCW",
+                            bool ceil_mode = false, string prefix = null, ParameterDict @params = null)
+                        : base(new int[] { pool_size }
+                        , strides.HasValue ? new int[] { strides.Value } : new int[] { pool_size }
+                        , new int[] { padding }, ceil_mode, false, "max", layout, null, prefix, @params)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

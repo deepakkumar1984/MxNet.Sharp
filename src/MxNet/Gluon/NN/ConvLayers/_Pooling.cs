@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
-    public class Activation : HybridBlock
+    public abstract class _Pooling : HybridBlock
     {
-        public Activation(string activation, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public _Pooling(int[] pool_size, int[] strides, int[] padding, bool ceil_mode, bool global_pool,
+                        string pool_type, string layout, bool? count_include_pad= null, string prefix = null,
+                        ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -16,6 +16,11 @@ namespace MxNet.Gluon.NN
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             throw new NotImplementedException();
+        }
+
+        public override string Alias()
+        {
+            return "pool";
         }
 
         public override string ToString()

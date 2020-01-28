@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
-    public class Flatten : HybridBlock
+    public class HybridLambda : HybridBlock
     {
-        public Flatten(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public delegate NDArrayOrSymbol[] LambdaFn(NDArray[] x, params object[] args);
+
+        public HybridLambda(LambdaFn function, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol[] HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             throw new NotImplementedException();
         }

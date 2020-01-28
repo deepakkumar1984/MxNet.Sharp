@@ -31,7 +31,7 @@ namespace MxNet.Gluon.NN
 
         public void Add(params Block[] blocks) => throw new NotImplementedException();
 
-        public override NDArray[] Forward(NDArray[] inputs)
+        public override NDArray Forward(NDArray input, params NDArray[] args)
         {
             throw new NotImplementedException();
         }

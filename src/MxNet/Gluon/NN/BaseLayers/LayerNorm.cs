@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
-    public class Activation : HybridBlock
+    public class LayerNorm : HybridBlock
     {
-        public Activation(string activation, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public LayerNorm(int axis = 1, float epsilon = 1e-5f, bool center = true, bool scale = false,
+                        string beta_initializer = "zeros", string gamma_initializer = "ones",
+                        int in_channels = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

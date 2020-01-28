@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
-    public class Dropout : HybridBlock
+    public class Lambda : Block
     {
-        public Dropout(float rate, Shape axes = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public delegate NDArray[] LambdaFn(NDArray[] x, params object[] args);
+
+
+        public Lambda(LambdaFn function, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol[] HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArray Forward(NDArray input, params NDArray[] args)
         {
             throw new NotImplementedException();
         }

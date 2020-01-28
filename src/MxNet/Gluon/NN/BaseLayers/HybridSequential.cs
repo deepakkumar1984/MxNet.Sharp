@@ -33,7 +33,7 @@ namespace MxNet.Gluon.NN
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol[] HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             throw new NotImplementedException();
         }

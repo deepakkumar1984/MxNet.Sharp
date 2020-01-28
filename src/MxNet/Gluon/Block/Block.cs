@@ -58,7 +58,7 @@ namespace MxNet.Gluon
 
         public NDArrayOrSymbol[] Call(NDArrayOrSymbol[] args) => throw new NotImplementedException();
 
-        public virtual NDArray[] Forward(NDArray[] inputs) => throw new NotImplementedException();
+        public virtual NDArray Forward(NDArray input, params NDArray[] args) => throw new NotImplementedException();
 
         public virtual void Summary(NDArray[] inputs) => throw new NotImplementedException();
 

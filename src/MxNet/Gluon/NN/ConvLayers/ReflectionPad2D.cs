@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
-    public class GELU : HybridBlock
+    public class ReflectionPad2D : HybridBlock
     {
-        public GELU(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public ReflectionPad2D(int padding = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -17,6 +15,5 @@ namespace MxNet.Gluon.NN
         {
             throw new NotImplementedException();
         }
-
     }
 }

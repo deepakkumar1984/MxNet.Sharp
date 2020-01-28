@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <Platforms>AnyCPU;x64</Platforms>
     <Version>1.1.0</Version>
     <Authors>Deepak Battini</Authors>

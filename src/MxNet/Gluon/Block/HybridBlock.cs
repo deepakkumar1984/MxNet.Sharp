@@ -58,11 +58,11 @@ namespace MxNet.Gluon
 
         public void Export(string path, int epoch = 0, bool remove_amp_cast = true) => throw new NotImplementedException();
 
-        public override NDArray[] Forward(NDArray[] inputs)
+        public override NDArray Forward(NDArray input, params NDArray[] args)
         {
             throw new NotImplementedException();
         }
 
-        public abstract NDArrayOrSymbol[] HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);
+        public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);
     }
 }

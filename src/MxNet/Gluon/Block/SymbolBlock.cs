@@ -13,12 +13,12 @@ namespace MxNet.Gluon
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol[] HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArray[] Forward(NDArray[] inputs)
+        public override NDArray Forward(NDArray input, NDArray[] args)
         {
             throw new NotImplementedException();
         }
