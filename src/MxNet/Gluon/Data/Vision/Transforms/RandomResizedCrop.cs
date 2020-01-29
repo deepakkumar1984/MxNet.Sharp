@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
-    class RandomResizedCrop
+    public class RandomResizedCrop : Block
     {
+        public RandomResizedCrop((int, int) size, (float, float)? scale = null, (float, float)? ratio = null, int interpolation = 1) : base(null, null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArray Forward(NDArray input, params NDArray[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

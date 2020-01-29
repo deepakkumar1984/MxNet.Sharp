@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MxNet.Gluon.Data.Vision.Transforms
+namespace MxNet.Gluon.Data.Vision
 {
-    public class ToTensor : HybridBlock
+    public class Queue : ConcurrentQueue<NDArray>
     {
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public Queue(IEnumerable<NDArray> collection) : base(collection)
         {
             throw new NotImplementedException();
         }

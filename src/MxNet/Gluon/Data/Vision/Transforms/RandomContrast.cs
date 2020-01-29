@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
-    class RandomContrast
+    public class RandomContrast : HybridBlock
     {
+        public RandomContrast(float contrast)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

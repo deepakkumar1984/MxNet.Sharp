@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
-    class RandomFlipTopBottom
+    public class RandomFlipTopBottom : HybridBlock
     {
+        public RandomFlipTopBottom(float brightness)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

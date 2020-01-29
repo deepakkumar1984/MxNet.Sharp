@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
-    class CropResize
+    public class CropResize : HybridBlock
     {
+        public CropResize(int x, int y, int width, int height, (int, int)? size= null, int? interpolation= null)
+        {
+            throw new NotImplementedException();
+        }
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
-    class RandomLighting
+    public class RandomLighting : HybridBlock
     {
+        public RandomLighting(float alpha)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

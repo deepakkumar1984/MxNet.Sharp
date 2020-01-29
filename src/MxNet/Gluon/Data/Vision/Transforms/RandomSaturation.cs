@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
-    class RandomSaturation
+    public class RandomSaturation : HybridBlock
     {
+        public RandomSaturation(float saturation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
