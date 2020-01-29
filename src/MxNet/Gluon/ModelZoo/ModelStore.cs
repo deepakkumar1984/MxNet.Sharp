@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.ModelZoo
 {
-    class ModelStore
+    public class ModelStore
     {
+        public static string ShortHash(string name) => throw new NotImplementedException();
+
+        public static string GetModelFile(string name, string root= "./models") => throw new NotImplementedException();
+
+        public static string Purge(string root = "./models") => throw new NotImplementedException();
     }
 }

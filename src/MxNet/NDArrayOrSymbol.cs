@@ -48,8 +48,8 @@ namespace MxNet
             X = x;
         }
 
-        public static explicit operator NDArrayOrSymbol(NDArray x) => new NDArrayOrSymbol(x);
+        public static implicit operator NDArrayOrSymbol(NDArray x) => new NDArrayOrSymbol(x);
 
-        public static explicit operator NDArrayOrSymbol(Symbol x) => new NDArrayOrSymbol(x);
+        public static implicit operator NDArrayOrSymbol(Symbol x) => new NDArrayOrSymbol(x);
     }
 }

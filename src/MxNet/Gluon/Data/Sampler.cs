@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
-    class Sampler
+    public class Sampler
     {
     }
 }

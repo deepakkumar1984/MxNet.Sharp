@@ -11,14 +11,15 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
             mx.SetDevice(DeviceType.CPU);
-
+            MxNet.Gluon.L2Loss l = new MxNet.Gluon.L2Loss();
+            
             NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
             x = nd.Square(x);
             var a = Autograd.GetSymbol(x);
             NDArray y = nd.EqualScalar(x, 3);
             //var acc = new Accuracy();
             var data = y.GetValues<float>();
-            
+            l.HybridForward(x, y);
             //acc.Update(x, y);
             var eq = nd.Equal(x, y);
             for (int i = 1; i <= 100000; i++)

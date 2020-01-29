@@ -35,32 +35,30 @@ namespace MxNet.Gluon
             throw new NotImplementedException();
         }
 
-        private Context[] _check_contexts() => throw new NotImplementedException();
+        internal Context[] CheckContexts() => throw new NotImplementedException();
 
-        private void _init_optimizer(Optimizer optimizer, Dictionary<string, object>  optimizer_params) => throw new NotImplementedException();
+        internal void InitOptimizer(Optimizer optimizer, Dictionary<string, object>  optimizer_params) => throw new NotImplementedException();
 
-        private void _init_params() => throw new NotImplementedException();
+        internal void InitParams() => throw new NotImplementedException();
 
-        private void _reset_kvstore() => throw new NotImplementedException();
+        internal void ResetKVstore() => throw new NotImplementedException();
 
-        private void _init_kvstore() => throw new NotImplementedException();
+        internal void InitKVstore() => throw new NotImplementedException();
 
-        private void _row_sparse_pull(Parameter parameter, NDArray @out, int[] row_id, bool full_idx= false) => throw new NotImplementedException();
+        internal void RowSparsePull(Parameter parameter, NDArray @out, int[] row_id, bool full_idx= false) => throw new NotImplementedException();
 
-        private void _check_and_rescale_grad(float scale) => throw new NotImplementedException();
+        internal void CheckAndRescaleGrad(float scale) => throw new NotImplementedException();
 
         public void Step(int batch_size, bool ignore_stale_grad= false) => throw new NotImplementedException();
 
-        public void allreduce_grads() => throw new NotImplementedException();
+        public void AllReduceGrads() => throw new NotImplementedException();
 
-        public void _allreduce_grads() => throw new NotImplementedException();
+        public void AllreduceGrads() => throw new NotImplementedException();
 
         public void Update(int batch_size, bool ignore_stale_grad = false) => throw new NotImplementedException();
 
-        private void _Update(int batch_size, bool ignore_stale_grad = false) => throw new NotImplementedException();
+        public void SaveStates(string fname) => throw new NotImplementedException();
 
-        public void save_states(string fname) => throw new NotImplementedException();
-
-        public void load_states(string fname) => throw new NotImplementedException();
+        public void LoadStates(string fname) => throw new NotImplementedException();
     }
 }

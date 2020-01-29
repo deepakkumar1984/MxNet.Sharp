@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon
 {
-    class L1Loss
+    public class L1Loss : Loss
     {
+        public L1Loss(float? weight = null, int? batch_axis = 0, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        {
+        }
+
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
