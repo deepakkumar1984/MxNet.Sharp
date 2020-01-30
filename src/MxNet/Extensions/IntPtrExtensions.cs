@@ -1,6 +1,6 @@
 ﻿using MxNet.Interop;
 
-namespace MxNet.Extensions
+namespace MxNet
 {
 
     internal static class NatoveMethodsExtensions

@@ -7,14 +7,18 @@ namespace MxNet.Image
 {
     public class BrightnessJitterAug : Augmenter
     {
+        public float Brightness { get; set; }
+
         public BrightnessJitterAug(float brightness)
         {
-            throw new NotImplementedException();
+            Brightness = brightness;
         }
 
         public override NDArray Call(NDArray src)
         {
-            throw new NotImplementedException();
+            var alpha = 1f + NumSharp.np.random.uniform(-Brightness, Brightness);
+            src *= alpha;
+            return src;
         }
     }
 }

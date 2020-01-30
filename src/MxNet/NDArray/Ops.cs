@@ -3415,6 +3415,11 @@ namespace MxNet
             .Invoke();
         }
 
+        public static NDArray Sum(NDArray data, uint axis, bool keepdims = false, bool exclude = false)
+        {
+            return Sum(data, new Shape(axis), keepdims, exclude);
+        }
+
         ///<summary>
         ///<para>Computes the mean of array elements over given axes.</para>
         ///<para> </para>

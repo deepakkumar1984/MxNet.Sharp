@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using MxNet.Extensions;
 using MxNet.Interop;
 using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;

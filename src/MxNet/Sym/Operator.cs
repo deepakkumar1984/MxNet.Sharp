@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using MxNet.Extensions;
 using MxNet.Interop;
 using SymbolHandle = System.IntPtr;
 using NDArrayHandle = System.IntPtr;

@@ -7,14 +7,19 @@ namespace MxNet.Image
 {
     public class RandomCropAug : Augmenter
     {
-        public RandomCropAug(int size, InterpolationFlags interp = InterpolationFlags.INTER_CUBIC)
+        public (int, int) Size { get; set; }
+
+        public ImgInterp Interp { get; set; }
+
+        public RandomCropAug((int, int) size, ImgInterp interp = ImgInterp.Area_Based)
         {
-            throw new NotImplementedException();
+            Size = size;
+            Interp = interp;
         }
 
         public override NDArray Call(NDArray src)
         {
-            throw new NotImplementedException();
+            return Img.RandomCrop(src, Size, Interp).Item1;
         }
     }
 }

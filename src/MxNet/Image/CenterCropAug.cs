@@ -7,14 +7,19 @@ namespace MxNet.Image
 {
     public class CenterCropAug : Augmenter
     {
-        public CenterCropAug(int size, InterpolationFlags interp = InterpolationFlags.INTER_CUBIC)
+        public (int, int) Size { get; set; }
+
+        public ImgInterp Interp { get; set; }
+
+        public CenterCropAug((int, int) size, ImgInterp interp = ImgInterp.Area_Based)
         {
-            throw new NotImplementedException();
+            Size = size;
+            Interp = interp;
         }
 
         public override NDArray Call(NDArray src)
         {
-            throw new NotImplementedException();
+            return Img.CenterCrop(src, Size, Interp).Item1;
         }
     }
 }

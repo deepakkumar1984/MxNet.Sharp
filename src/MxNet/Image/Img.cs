@@ -1,4 +1,5 @@
-﻿using SharpCV;
+﻿using NumSharp;
+using SharpCV;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -138,9 +139,9 @@ namespace MxNet.Image
             var src_area = h * w;
             for (int i = 0; i < 10; i++)
             {
-                var target_area = nd.Random.Uniform(area.Item1, area.Item2, new Shape(1)).AsScalar<float>() * src_area;
+                float target_area = np.random.uniform(area.Item1, area.Item2, new NumSharp.Shape(1)) * src_area;
                 var log_ratio = ((float)Math.Log(ratio.Item1), (float)Math.Log(ratio.Item2));
-                var new_ratio = nd.Exp(nd.Random.Uniform(log_ratio.Item1, log_ratio.Item2, new Shape(1))).AsScalar<float>();
+                var new_ratio = np.exp(np.random.uniform(log_ratio.Item1, log_ratio.Item2, new NumSharp.Shape(1)));
                 var new_w = (int)Math.Round(Math.Pow(target_area * new_ratio, 2));
                 var new_h = (int)Math.Round(Math.Pow(target_area / new_ratio, 2));
                 if (new_w <= w && new_h <= h)
