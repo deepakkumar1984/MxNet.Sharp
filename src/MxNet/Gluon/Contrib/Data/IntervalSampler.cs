@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MxNet.Gluon.Contrib.Data
 {
-    public class IntervalSampler : Sampler, IEnumerable<int>
+    public class IntervalSampler : Sampler
     {
         public int Length
         {
@@ -20,12 +20,12 @@ namespace MxNet.Gluon.Contrib.Data
         {
         }
 
-        public IEnumerator<int> GetEnumerator()
+        public override IEnumerator GetEnumerator()
         {
             throw new NotImplementedException();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public override int Len()
         {
             throw new NotImplementedException();
         }

@@ -35,7 +35,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             throw new NotImplementedException();
         }
 
-        private static HybridConcurrent MakeD(int axis = 1, string prefix)
+        private static HybridConcurrent MakeD(int axis = 1, string prefix = "")
         {
             throw new NotImplementedException();
         }
@@ -50,7 +50,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             throw new NotImplementedException();
         }
 
-        public static Inception3 GetInception3(bool pretrained = false, Context ctx = null, string root = ".\models")
+        public static Inception3 GetInception3(bool pretrained = false, Context ctx = null, string root = "./models")
         {
             throw new NotImplementedException();
         }

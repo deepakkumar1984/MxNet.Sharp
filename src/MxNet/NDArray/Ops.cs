@@ -41,7 +41,7 @@ namespace MxNet
         /// <param name="flag">Convert decoded image to grayscale (0) or color (1).</param>
         /// <param name="to_rgb">Whether to convert decoded image to mxnet's default RGB format (instead of opencv's default BGR).</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Cvimdecode(NDArray buf, int flag = 1, bool to_rgb = true)
+        public static NDArray Cvimdecode(byte[] buf, int flag = 1, bool to_rgb = true)
         {
             return new Operator("_cvimdecode")
             .SetParam("buf", buf)

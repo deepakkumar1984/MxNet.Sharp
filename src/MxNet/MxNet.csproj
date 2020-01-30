@@ -44,6 +44,7 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NumSharp" Version="0.20.5" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.2.0.20200108" />
+    <PackageReference Include="SharpCV" Version="0.3.0" />
   </ItemGroup>
 
   <ItemGroup>
