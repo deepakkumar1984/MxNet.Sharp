@@ -6,19 +6,21 @@ namespace MxNet.Image
 {
     public class SequentialAug : Augmenter
     {
+        public Augmenter[] Augmenters { get; set; }
+
         public SequentialAug(Augmenter[] ts)
         {
-            throw new NotImplementedException();
+            Augmenters = ts;
         }
 
-        public override string Dumps()
+        public override NDArray Call(NDArray src)
         {
-            throw new NotImplementedException(); 
-        }
+            foreach (var aug in Augmenters)
+            {
+                src = aug.Call(src);
+            }
 
-        public override void Call(NDArray src, NDArray label)
-        {
-            throw new NotImplementedException();
+            return src;
         }
     }
 }

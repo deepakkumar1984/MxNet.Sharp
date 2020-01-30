@@ -7,14 +7,20 @@ namespace MxNet.Image
 {
     public class ForceResizeAug : Augmenter
     {
-        public ForceResizeAug(int size, InterpolationFlags interp = InterpolationFlags.INTER_CUBIC)
+        public (int, int) Size { get; set; }
+
+        public ImgInterp Interp { get; set; }
+
+        public ForceResizeAug((int, int) size, ImgInterp interp = ImgInterp.Area_Based)
         {
-            throw new NotImplementedException();
+            Size = size;
+            Interp = interp;
         }
 
-        public override void Call(NDArray src, NDArray label)
+        public override NDArray Call(NDArray src)
         {
-            throw new NotImplementedException();
+            var sizes = ((int)src.Shape[0], (int)src.Shape[1], Size.Item2, Size.Item1);
+            return Img.ImResize(src, Size.Item1, Size.Item2, Img.GetInterpMethod(Interp, sizes));
         }
     }
 }

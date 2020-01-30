@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Image.Detection
+namespace MxNet.Image
 {
     public abstract class DetAugmenter
     {

@@ -4,9 +4,14 @@ using System.Text;
 
 namespace MxNet.Image
 {
-    public class DetBorrowAug : DetAugmenter
+    public class DetRandomSelectAug : DetAugmenter
     {
-        public DetBorrowAug(Augmenter augmenter)
+        public DetRandomSelectAug(Augmenter[] aug_list, float skip_prob)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string Dumps()
         {
             throw new NotImplementedException();
         }

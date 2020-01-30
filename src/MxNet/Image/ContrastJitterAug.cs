@@ -12,7 +12,7 @@ namespace MxNet.Image
             throw new NotImplementedException();
         }
 
-        public override void Call(NDArray src, NDArray label)
+        public override NDArray Call(NDArray src)
         {
             throw new NotImplementedException();
         }

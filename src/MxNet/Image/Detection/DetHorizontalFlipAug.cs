@@ -4,9 +4,14 @@ using System.Text;
 
 namespace MxNet.Image
 {
-    public class DetBorrowAug : DetAugmenter
+    public class DetHorizontalFlipAug : DetAugmenter
     {
-        public DetBorrowAug(Augmenter augmenter)
+        public DetHorizontalFlipAug(float p)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string Dumps()
         {
             throw new NotImplementedException();
         }
@@ -15,5 +20,7 @@ namespace MxNet.Image
         {
             throw new NotImplementedException();
         }
+
+        private void FlipLabel(NDArray label) => throw new NotImplementedException();
     }
 }

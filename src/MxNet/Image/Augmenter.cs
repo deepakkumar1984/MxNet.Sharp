@@ -6,8 +6,18 @@ namespace MxNet.Image
 {
     public abstract class Augmenter
     {
-        public virtual string Dumps() => throw new NotImplementedException();
+        public Dictionary<string, object> Parameters { get; set; }
 
-        public abstract void Call(NDArray src, NDArray label);
+        public Augmenter()
+        {
+            Parameters = new Dictionary<string, object>();
+        }
+
+        public virtual string Dumps()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+
+        public abstract NDArray Call(NDArray src);
     }
 }
