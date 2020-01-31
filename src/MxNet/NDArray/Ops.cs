@@ -8249,6 +8249,14 @@ namespace MxNet
             .Invoke();
         }
 
+        public static NDArray Flip(NDArray data, uint axis)
+        {
+            return new Operator("reverse")
+            .SetParam("axis", new Shape(axis))
+            .SetInput("data", data)
+            .Invoke();
+        }
+
         ///<summary>
         ///<para>Join a sequence of arrays along a new axis.</para>
         ///<para> </para>

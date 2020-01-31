@@ -7,14 +7,19 @@ namespace MxNet.Image
 {
     public class ColorNormalizeAug : Augmenter
     {
+        public NDArray Mean { get; set; }
+
+        public NDArray Std { get; set; }
+
         public ColorNormalizeAug(NDArray mean, NDArray std)
         {
-            throw new NotImplementedException();
+            Mean = mean;
+            Std = std;
         }
 
         public override NDArray Call(NDArray src)
         {
-            throw new NotImplementedException();
+            return Img.ColorNormalize(src, Mean, Std);
         }
     }
 }

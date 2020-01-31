@@ -7,14 +7,16 @@ namespace MxNet.Image
 {
     public class CastAug : Augmenter
     {
+        public DType DataType { get; set; }
+
         public CastAug(DType dtype)
         {
-            throw new NotImplementedException();
+            DataType = dtype;
         }
 
         public override NDArray Call(NDArray src)
         {
-            throw new NotImplementedException();
+            return src.AsType(DataType);
         }
     }
 }
