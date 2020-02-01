@@ -531,7 +531,7 @@ namespace MxNet
         /// <param name="lower_bound">Lower bound of random slope. (For rrelu only)</param>
         /// <param name="upper_bound">Upper bound of random slope. (For rrelu only)</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol LeakyReLU(Symbol data, Symbol gamma, LeakyreluActType act_type = LeakyreluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f, float upper_bound = 0.334f, string symbol_name = "")
+        public static Symbol LeakyReLU(Symbol data, NDArray gamma = null, LeakyreluActType act_type = LeakyreluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f, float upper_bound = 0.334f, string symbol_name = "")
         {
             return new Operator("LeakyReLU")
             .SetParam("act_type", Util.EnumToString<LeakyreluActType>(act_type, LeakyreluActTypeConvert))

@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MxNet.Image
 {
     public class DetRandomSelectAug : DetAugmenter
     {
-        public DetRandomSelectAug(Augmenter[] aug_list, float skip_prob)
+        public DetAugmenter[] AugList { get; set; }
+
+        public float SkipProb { get; set; }
+
+        public DetRandomSelectAug(DetAugmenter[] aug_list, float skip_prob)
         {
-            throw new NotImplementedException();
+            AugList = aug_list;
+            SkipProb = skip_prob;
         }
 
-        public override string Dumps()
+        public override (NDArray, NDArray) Call(NDArray src, NDArray label)
         {
-            throw new NotImplementedException();
-        }
+            if (new Random().NextDouble() < SkipProb)
+                return (src, label);
 
-        public override void Call(NDArray src, NDArray label)
-        {
-            throw new NotImplementedException();
+            AugList.Shuffle();
+            return AugList[0].Call(src, label);
         }
     }
 }

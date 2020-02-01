@@ -6,14 +6,17 @@ namespace MxNet.Image
 {
     public class DetBorrowAug : DetAugmenter
     {
+        public Augmenter Augmenter { get; set; }
+
         public DetBorrowAug(Augmenter augmenter)
         {
-            throw new NotImplementedException();
+            Augmenter = augmenter;
         }
 
-        public override void Call(NDArray src, NDArray label)
+        public override (NDArray, NDArray) Call(NDArray src, NDArray label)
         {
-            throw new NotImplementedException();
+            src = Augmenter.Call(src);
+            return (src, label);
         }
     }
 }

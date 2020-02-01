@@ -8,6 +8,8 @@ namespace MxNet.Gluon.NN
 {
     public class Sequential : Block
     {
+        private List<Block> blocks = new List<Block>();
+
         public Block[] this[string key]
         {
             get
@@ -26,19 +28,24 @@ namespace MxNet.Gluon.NN
 
         public Sequential(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
         }
 
-        public void Add(params Block[] blocks) => throw new NotImplementedException();
+        public void Add(params Block[] blocks)
+        {
+            foreach (var item in blocks)
+            {
+                RegisterChild(item);
+            }
+        }
 
         public override NDArray Forward(NDArray input, params NDArray[] args)
         {
-            throw new NotImplementedException();
-        }
+            foreach (var item in blocks)
+            {
+                input = item.Call(input).NdX;
+            }
 
-        public override void Summary(NDArray[] inputs)
-        {
-            throw new NotImplementedException();
+            return input;
         }
 
         public override string ToString()

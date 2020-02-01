@@ -6,21 +6,29 @@ namespace MxNet.Image
 {
     public class DetHorizontalFlipAug : DetAugmenter
     {
+        public float Probability { get; set; }
+
         public DetHorizontalFlipAug(float p)
         {
-            throw new NotImplementedException();
+            Probability = p;
         }
 
-        public override string Dumps()
+        public override (NDArray, NDArray) Call(NDArray src, NDArray label)
         {
-            throw new NotImplementedException();
+            if (new Random().NextDouble() < Probability)
+            {
+                src = nd.Flip(src, axis: 1);
+                FlipLabel(label);
+            }
+
+            return (src, label);
         }
 
-        public override void Call(NDArray src, NDArray label)
+        private void FlipLabel(NDArray label)
         {
-            throw new NotImplementedException();
+            var tmp = 1 - label[":,1"];
+            label[":,1"] = 1 - label[":,3"];
+            label[":,3"] = tmp;
         }
-
-        private void FlipLabel(NDArray label) => throw new NotImplementedException();
     }
 }

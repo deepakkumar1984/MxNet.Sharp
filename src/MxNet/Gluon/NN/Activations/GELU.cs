@@ -10,12 +10,14 @@ namespace MxNet.Gluon.NN
     {
         public GELU(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.LeakyReLU(x.NdX, act_type: LeakyreluActType.Gelu);
+
+            return sym.LeakyReLU(x.SymX, act_type: LeakyreluActType.Gelu, symbol_name: "fwd");
         }
 
     }

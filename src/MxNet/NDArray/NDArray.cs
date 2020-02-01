@@ -136,7 +136,7 @@ namespace MxNet
         public NDArray(Array data, Context ctx = null)
             : this(data, new Shape((uint)data.GetLength(0)), ctx)
         {
-            
+
         }
 
         #endregion
@@ -230,7 +230,7 @@ namespace MxNet
         public static NDArrayDict LoadToMap(string fileName)
         {
             var arrayMap = new NDArrayDict();
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayLoad(fileName, 
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayLoad(fileName,
                                                          out var outSize,
                                                          out var outArr,
                                                          out var outNameSize,
@@ -488,6 +488,38 @@ namespace MxNet
             return x.reshape(new NumSharp.Shape(npShape.ToArray()));
         }
 
+        public NDArray this[string slice]
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(slice))
+                    return this;
+
+                var (rowBegin, rowEnd, colBegin, colEnd) = Util.GetSliceNotation(slice, Shape);
+
+                if (colBegin == 0 && colEnd == 0)
+                    return Slice(rowBegin, rowEnd);
+
+                return Slice(new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd));
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(slice))
+                    value.CopyTo(this);
+
+                var (rowBegin, rowEnd, colBegin, colEnd) = Util.GetSliceNotation(slice, Shape);
+                var output = nd.SliceAssign(this, value, new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd));
+                output.CopyTo(this);
+            }
+        }
+
+        public NDArray this[NDArray slice]
+        {
+            get
+            {
+                return nd.SliceLike(this, slice);
+            }
+        }
         #region Operators
 
         public static NDArray operator +(NDArray lhs, NDArray rhs)
@@ -566,6 +598,66 @@ namespace MxNet
             return ret;
         }
 
+        public static NDArray operator >(NDArray lhs, NDArray rhs)
+        {
+            return nd.Greater(lhs, rhs);
+        }
+
+        public static NDArray operator >=(NDArray lhs, NDArray rhs)
+        {
+            return nd.GreaterEqual(lhs, rhs);
+        }
+
+        public static NDArray operator >(NDArray lhs, float rhs)
+        {
+            return nd.GreaterScalar(lhs, rhs);
+        }
+
+        public static NDArray operator >=(NDArray lhs, float rhs)
+        {
+            return nd.GreaterEqualScalar(lhs, rhs);
+        }
+
+        public static NDArray operator >(float lhs, NDArray rhs)
+        {
+            return nd.GreaterScalar(rhs, lhs);
+        }
+
+        public static NDArray operator >=(float lhs, NDArray rhs)
+        {
+            return nd.GreaterEqualScalar(rhs, lhs);
+        }
+
+        public static NDArray operator <(NDArray lhs, NDArray rhs)
+        {
+            return nd.Lesser(lhs, rhs);
+        }
+
+        public static NDArray operator <=(NDArray lhs, NDArray rhs)
+        {
+            return nd.LesserEqual(lhs, rhs);
+        }
+
+        public static NDArray operator <(NDArray lhs, float rhs)
+        {
+            return nd.LesserScalar(lhs, rhs);
+        }
+
+        public static NDArray operator <=(NDArray lhs, float rhs)
+        {
+            return nd.LesserEqualScalar(lhs, rhs);
+        }
+
+        public static NDArray operator <(float lhs, NDArray rhs)
+        {
+            return nd.LesserScalar(rhs, lhs);
+        }
+
+        public static NDArray operator <=(float lhs, NDArray rhs)
+        {
+            return nd.LesserEqualScalar(rhs, lhs);
+        }
+
         public virtual NDArray Reshape(Shape shape, bool reverse = false)
         {
             NDArrayHandle handle;
@@ -578,7 +670,7 @@ namespace MxNet
         {
             uint[] targetShape = new mx_uint[shape.Length];
             long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
-            for (int i=0;  i<targetShape.Length;i++)
+            for (int i = 0; i < targetShape.Length; i++)
             {
                 if (shape[i] > 0)
                 {
@@ -636,7 +728,5 @@ namespace MxNet
         #endregion
 
         #endregion
-
     }
-
 }

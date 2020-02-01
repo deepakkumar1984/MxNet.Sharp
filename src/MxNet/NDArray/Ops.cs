@@ -531,7 +531,7 @@ namespace MxNet
         /// <param name="lower_bound">Lower bound of random slope. (For rrelu only)</param>
         /// <param name="upper_bound">Upper bound of random slope. (For rrelu only)</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray LeakyReLU(NDArray data, NDArray gamma, LeakyreluActType act_type = LeakyreluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f, float upper_bound = 0.334f)
+        public static NDArray LeakyReLU(NDArray data, NDArray gamma = null, LeakyreluActType act_type = LeakyreluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f, float upper_bound = 0.334f)
         {
             return new Operator("LeakyReLU")
             .SetParam("act_type", Util.EnumToString<LeakyreluActType>(act_type, LeakyreluActTypeConvert))
@@ -3792,7 +3792,7 @@ namespace MxNet
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Where(NDArray condition, NDArray x, NDArray y)
+        public static NDArray Where(NDArray condition, NDArray x = null, NDArray y = null)
         {
             return new Operator("where")
             .SetInput("condition", condition)

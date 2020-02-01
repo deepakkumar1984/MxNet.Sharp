@@ -13,6 +13,9 @@ namespace ConsoleTest
             mx.SetDevice(DeviceType.CPU);
             
             NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
+
+            x[":,3"] = x[":,2"];
+            var data1 = x.AsArray<float>();
             x = nd.Flip(x, axis: 1);
             x = nd.Square(x);
             var a = Autograd.GetSymbol(x);

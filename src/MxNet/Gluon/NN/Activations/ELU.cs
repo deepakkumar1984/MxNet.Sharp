@@ -8,14 +8,22 @@ namespace MxNet.Gluon.NN
 {
     public class ELU : HybridBlock
     {
+        public float Alpha { get; set; }
+
         public ELU(float alpha = 1, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            if (alpha < 0)
+                throw new ArgumentException("Slope coefficient for LeakyReLU must be no less than 0");
+
+            Alpha = alpha;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.LeakyReLU(x.NdX, act_type: LeakyreluActType.Elu, slope: Alpha);
+
+            return sym.LeakyReLU(x.SymX, act_type: LeakyreluActType.Elu, slope: Alpha, symbol_name: "fwd");
         }
 
     }

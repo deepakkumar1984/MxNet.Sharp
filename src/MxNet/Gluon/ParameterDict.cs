@@ -12,6 +12,10 @@ namespace MxNet.Gluon
     {
         public string Prefix { get; set; }
 
+        internal ParameterDict Shared;
+
+        private Dictionary<string, Parameter> data;
+
         public ParameterDict(string prefix = "", ParameterDict shared= null)
         {
             throw new NotImplementedException();
@@ -49,7 +53,11 @@ namespace MxNet.Gluon
             throw new NotImplementedException();
         }
 
+        public bool Contains(string key) => data.ContainsKey(key);
+
         public Constant GetConstant(string name, float value = 0) => throw new NotImplementedException();
+
+        public NDArray Get(string name, Shape shape, Initializers.Initializer init) => throw new NotImplementedException();
 
         public Constant Update(ParameterDict other) => throw new NotImplementedException();
 

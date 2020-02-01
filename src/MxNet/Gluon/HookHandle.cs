@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MxNet.Gluon.Block;
 
 namespace MxNet.Gluon
 {
@@ -25,7 +26,7 @@ namespace MxNet.Gluon
             throw new NotImplementedException();
         }
 
-        public void Attach(Dictionary<string, HookHandle> hooks_dict, HookHandle hook) => throw new NotImplementedException();
+        public void Attach(SortedDictionary<string, Hook> hooks_dict, Hook hook) => throw new NotImplementedException();
 
         public void Detach() => throw new NotImplementedException();
 

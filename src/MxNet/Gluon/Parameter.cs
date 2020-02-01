@@ -76,7 +76,7 @@ namespace MxNet.Gluon
 
         internal void InitGrad() => throw new NotImplementedException();
 
-        internal void Reduce() => throw new NotImplementedException();
+        internal NDArray Reduce() => throw new NotImplementedException();
 
         public void Initialize(Initializer init= null, Context ctx= null, Initializer default_init= null, bool force_reinit= false) => throw new NotImplementedException();
 

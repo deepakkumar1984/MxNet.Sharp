@@ -8,19 +8,29 @@ namespace MxNet.Gluon.NN
 {
     public class Activation : HybridBlock
     {
-        public Activation(string activation, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public ActivationActType ActType { get; set; }
+
+        public Activation(ActivationActType activation, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            ActType = activation;
+        }
+
+        public override string Alias()
+        {
+            return Enum.GetName(typeof(ActivationActType), ActType);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.Activation(x.NdX, ActType);
+
+            return sym.Activation(x.SymX, ActType, "fwd");
         }
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return Prefix + Alias();
         }
     }
 }

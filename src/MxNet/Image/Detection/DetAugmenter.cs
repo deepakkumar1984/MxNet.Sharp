@@ -6,8 +6,11 @@ namespace MxNet.Image
 {
     public abstract class DetAugmenter
     {
-        public virtual string Dumps() => throw new NotImplementedException();
+        public virtual string Dumps()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
 
-        public abstract void Call(NDArray src, NDArray label);
+        public abstract (NDArray, NDArray) Call(NDArray src, NDArray label);
     }
 }
