@@ -17,7 +17,6 @@ namespace MxNet.Gluon.NN
                           groups, layout, in_channels, activation, use_bias, 
                           weight_initializer, bias_initializer, null, "Convolution", prefix, @params)
         {
-            throw new NotImplementedException();
         }
     }
 }

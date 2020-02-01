@@ -14,6 +14,12 @@ namespace MxNet.Gluon.NN
             throw new NotImplementedException();
         }
 
+        private Shape[] _infer_weight_shape(string op_name, Shape data_shape)
+        {
+            var sym = Symbol.Variable("data");
+            
+        }
+
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             throw new NotImplementedException();

@@ -13,7 +13,8 @@ namespace MxNet.Gluon.NN
                         , padding.HasValue ? new int[] { 0, 0 } : new int[] { padding.Value.Item1, padding.Value.Item2 }
                         , ceil_mode, false, "avg", layout, null, prefix, @params)
         {
-            throw new NotImplementedException();
+            if (layout != "NCHW" && layout != "NHWC")
+                throw new Exception("Only NCHW and NHWC layouts are valid for 2D Pooling");
         }
     }
 }

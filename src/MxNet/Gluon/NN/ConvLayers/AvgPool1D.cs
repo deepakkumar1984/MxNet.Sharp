@@ -12,7 +12,8 @@ namespace MxNet.Gluon.NN
                         , strides.HasValue ? new int[] { strides.Value } : new int[] { pool_size }
                         , new int[] { padding }, ceil_mode, false, "avg", layout, null, prefix, @params)
         {
-            throw new NotImplementedException();
+            if (layout != "NCW" && layout != "NWC")
+                throw new Exception("Only NCW and NWC layouts are valid for 1D Pooling");
         }
     }
 }

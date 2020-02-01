@@ -23,9 +23,5 @@ namespace MxNet.Gluon.NN
             return "pool";
         }
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
