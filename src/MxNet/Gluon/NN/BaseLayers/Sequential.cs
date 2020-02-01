@@ -10,11 +10,13 @@ namespace MxNet.Gluon.NN
     {
         private List<Block> blocks = new List<Block>();
 
-        public Block[] this[string key]
+        public Sequential this[string key]
         {
             get
             {
-                throw new NotImplementedException();
+                Sequential net = new Sequential(Prefix);
+                net.Add(childrens[key]);
+                return net;
             }
         }
 
@@ -22,7 +24,7 @@ namespace MxNet.Gluon.NN
         {
             get
             {
-                throw new NotImplementedException();
+                return childrens.Count;
             }
         }
 
@@ -50,12 +52,18 @@ namespace MxNet.Gluon.NN
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return string.Format("{0}: {1}", this.GetType().Name, Name);
         }
 
         public override void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)
         {
-            throw new NotImplementedException();
+            if(childrens.Values.All(x=>(x.GetType() == typeof(HybridBlock))))
+            {
+                Logger.Warning(string.Format("All children of this Sequential layer '{0}' are HybridBlocks. Consider " +
+                                                "using HybridSequential for the best performance.", Prefix));
+            }
+
+            base.Hybridize(active, static_alloc, static_shape);
         }
     }
 }

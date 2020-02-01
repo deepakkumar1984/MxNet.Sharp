@@ -10,17 +10,16 @@ namespace MxNet.Gluon.NN
     {
         public Flatten(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.Flatten(x.NdX);
+
+            return sym.Flatten(x.SymX, symbol_name: "fwd");
         }
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -8,21 +8,19 @@ namespace MxNet.Gluon.NN
 {
     public class HybridLambda : HybridBlock
     {
-        public delegate NDArrayOrSymbol[] LambdaFn(NDArray[] x, params object[] args);
+        public LambdaFn Function { get; }
+
+        public delegate NDArrayOrSymbol LambdaFn(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);
 
         public HybridLambda(LambdaFn function, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            Function = function;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            return Function(x, args);
         }
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

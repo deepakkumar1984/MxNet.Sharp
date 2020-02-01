@@ -35,7 +35,7 @@ namespace MxNet.Gluon
 
         private void ClearCachedOp() => throw new NotImplementedException();
 
-        public override void RegisterChild(Block block, string name)
+        public override void RegisterChild(Block block, string name = null)
         {
             throw new NotImplementedException();
         }

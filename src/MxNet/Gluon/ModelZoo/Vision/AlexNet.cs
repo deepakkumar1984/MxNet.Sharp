@@ -26,9 +26,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             Features.Add(new Conv2D(256, kernel_size: (3, 3), padding: (1, 1), activation: "relu"));
             Features.Add(new MaxPool2D(pool_size: (3, 3), strides: (2, 2)));
             Features.Add(new Flatten());
-            Features.Add(new Dense(4096, activation: "relu"));
+            Features.Add(new Dense(4096, activation: ActivationActType.Relu));
             Features.Add(new Dropout(0.5f));
-            Features.Add(new Dense(4096, activation: "relu"));
+            Features.Add(new Dense(4096, activation: ActivationActType.Relu));
             Features.Add(new Dropout(0.5f));
 
             Output = new Dense(classes);

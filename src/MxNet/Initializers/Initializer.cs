@@ -43,5 +43,10 @@ namespace MxNet.Initializers
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
+
+        public static Initializer Get(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

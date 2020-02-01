@@ -1105,7 +1105,7 @@ namespace MxNet
         /// <param name="no_bias">Whether to disable bias parameter.</param>
         /// <param name="flatten">Whether to collapse all but the first axis of the input data tensor.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol FullyConnected(Symbol data, Symbol weight, int num_hidden, Symbol bias = null, bool no_bias = true, bool flatten = true, string symbol_name = "")
+        public static Symbol FullyConnected(Symbol data, Symbol weight, Symbol bias = null, int num_hidden = 0, bool no_bias = true, bool flatten = true, string symbol_name = "")
         {
             return new Operator("FullyConnected")
             .SetParam("num_hidden", num_hidden)

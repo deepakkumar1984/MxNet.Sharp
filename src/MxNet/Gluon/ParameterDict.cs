@@ -57,7 +57,10 @@ namespace MxNet.Gluon
 
         public Constant GetConstant(string name, float value = 0) => throw new NotImplementedException();
 
-        public NDArray Get(string name, Shape shape, Initializers.Initializer init) => throw new NotImplementedException();
+        public NDArray Get(string name, Shape shape, Initializers.Initializer init, 
+                            DType dtype = null, bool allow_deferred_init = false,
+                            bool differentiable = false, OpGradReq grad_req = OpGradReq.Null,
+                            string grad_stype = "default") => throw new NotImplementedException();
 
         public Constant Update(ParameterDict other) => throw new NotImplementedException();
 

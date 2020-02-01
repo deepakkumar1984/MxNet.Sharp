@@ -4,10 +4,7 @@ using MxNet.Metrics;
 using MxNet.Optimizers;
 using System.Collections.Generic;
 using System.Linq;
-using MxNet.NN;
-using MxNet.NN.Layers;
-using MxNet.NN.Initializers;
-using MxNet.NN.Data;
+using MxNet.Gluon.NN;
 
 namespace MNIST
 {

@@ -67,6 +67,26 @@ namespace MxNet
         {
         }
 
+        public Shape(int s1)
+            : this(new[] { (uint)s1 })
+        {
+        }
+
+        public Shape(int s1, int s2)
+            : this(new[] { (uint)s1, (uint)s2 })
+        {
+        }
+
+        public Shape(int s1, int s2, int s3)
+            : this(new[] { (uint)s1, (uint)s2, (uint)s3 })
+        {
+        }
+
+        public Shape(int s1, int s2, int s3, int s4)
+            : this(new[] { (uint)s1, (uint)s2, (uint)s3, (uint)s4 })
+        {
+        }
+
         public Shape(Shape shape)
         {
             if (shape == null)

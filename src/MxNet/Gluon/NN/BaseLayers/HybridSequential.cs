@@ -8,11 +8,13 @@ namespace MxNet.Gluon.NN
 {
     public class HybridSequential : HybridBlock
     {
-        public Block[] this[string key]
+        public new HybridSequential this[string key]
         {
             get
             {
-                throw new NotImplementedException();
+                HybridSequential net = new HybridSequential(Prefix);
+                net.Add((HybridBlock)childrens[key]);
+                return net;
             }
         }
 
@@ -20,7 +22,7 @@ namespace MxNet.Gluon.NN
         {
             get
             {
-                throw new NotImplementedException();
+                return childrens.Count;
             }
         }
 
@@ -28,9 +30,12 @@ namespace MxNet.Gluon.NN
         {
         }
 
-        public void Add(params Block[] blocks)
+        public void Add(params HybridBlock[] blocks)
         {
-            throw new NotImplementedException();
+            foreach (var item in blocks)
+            {
+                RegisterChild(item);
+            }
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
