@@ -167,7 +167,7 @@ namespace MxNet.Gluon
                     throw new Exception(string.Format("Parameter '{0}' loaded from file {1} is not present in ParameterDict", name, filename));
 
                 if(Params.Contains(name))
-                    Params[name].LoadInit(loaded[name], ctx, cast_dtype: cast_dtype, dtype_source: dtype_source);
+                    Params[name].LoadInit(loaded[name], new Context[] { ctx }, cast_dtype: cast_dtype, dtype_source: dtype_source);
             }
         }
 

@@ -267,6 +267,9 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayGetAuxNDArray(IntPtr handle, out IntPtr @out);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayDetach(IntPtr handle, out IntPtr @out);
+
         #endregion
 
         #region Part 3: symbolic configuration generation

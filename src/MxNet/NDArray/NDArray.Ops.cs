@@ -584,7 +584,7 @@ namespace MxNet
         /// <param name="data">The input.</param>
         /// <param name="stype">Output storage type.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray CastStorage(StorageStype stype)
+        public NDArray ToSType(StorageStype stype)
         {
             return new Operator("cast_storage")
             .SetParam("stype", Util.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
@@ -660,20 +660,6 @@ namespace MxNet
             .SetParam("k", k)
             .SetParam("axis1", axis1)
             .SetParam("axis2", axis2)
-            .SetInput("data", this)
-            .Invoke();
-        }
-
-        ///<summary>
-        ///<para>Returns a copy of the input.</para>
-        ///<para> </para>
-        ///<para>From:C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\elemwise_unary_op_basic.cc:200</para>
-        ///</summary>
-        /// <param name="data">The input array.</param>
-        /// <returns>returns new NDArray</returns>
-        public NDArray Copy()
-        {
-            return new Operator("_copy")
             .SetInput("data", this)
             .Invoke();
         }

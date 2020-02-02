@@ -6,15 +6,8 @@ namespace MxNet
 {
     public class Logger : IDisposable
     {
-        public static TraceLevel ERROR = TraceLevel.Error;
-        public static TraceLevel INFO = TraceLevel.Info;
-        public static TraceLevel OFF = TraceLevel.Off;
-        public static TraceLevel VERBOSE = TraceLevel.Verbose;
-        public static TraceLevel WARNING = TraceLevel.Warning;
-
         private string filename = "";
         private string name = "";
-        private TraceLevel traceLevel = WARNING;
         static TextWriterTraceListener trace;
 
         public static void Log(string message, TraceLevel level = TraceLevel.Verbose)

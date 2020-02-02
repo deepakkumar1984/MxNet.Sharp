@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MxNet.Gluon
 {
     public class Utils
     {
+        private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(0);
+
         public static NDArray[] SplitData(NDArray data, int num_slice, int batch_axis = 0, bool even_split = true)
         {
             var size = (int)data.Shape[(uint)batch_axis];
@@ -107,7 +112,7 @@ namespace MxNet.Gluon
             return total_norm;
         }
 
-        private string Indent(string s_, int numSpaces)
+        private static string Indent(string s_, int numSpaces)
         {
             var s = s_.Split('\n');
             if (s.Length == 1)
@@ -129,26 +134,109 @@ namespace MxNet.Gluon
             return result;
         }
 
-        public bool CheckSha1(string filename, string sha1_hash)
+        public static bool CheckSha1(string filename, string sha1_hash)
         {
             using (FileStream stream = File.OpenRead(filename))
             {
                 byte[] hash = SHA256.Create().ComputeHash(stream);
+                string hashString = Encoding.UTF8.GetString(hash, 0, hash.Length);
+                if (hashString == sha1_hash)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Download(string url, string path= "", bool overwrite= false, string sha1_hash= "", bool verify_ssl= true)
+        {
+            if (!verify_ssl)
+                Logger.Warning("Unverified HTTPS request is being made (verify_ssl=False). " + 
+                                "Adding certificate verification is strongly advised.");
+
+            if (string.IsNullOrWhiteSpace(path))
+                path = "./";
+
+            using (WebClient client = new WebClient())
+            {
+                var ur = new Uri(url);
+                // client.Credentials = new NetworkCredential("username", "password");
+                client.DownloadProgressChanged += WebClientDownloadProgressChanged;
+                client.DownloadFileCompleted += WebClientDownloadCompleted;
+                Console.WriteLine(@"Downloading file:" + url);
+                client.DownloadFileAsync(ur, path);
+                _semaphore.Wait();
+            }
+
+            if(!CheckSha1(path, sha1_hash))
+            {
+                throw new Exception("File hash not matching");
             }
         }
 
-        public void Download(string url, string path= "", bool overwrite= false, string sha1_hash= "", int retries= 5, bool verify_ssl= true) => throw new NotImplementedException();
+        private void WebClientDownloadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            var _result = !e.Cancelled;
+            if (!_result)
+            {
+                Console.Write(e.Error.ToString());
+            }
 
-        private string _get_repo_url() => throw new NotImplementedException();
+            Console.WriteLine(Environment.NewLine + "Download finished!");
+            _semaphore.Release();
+        }
 
-        private string _get_repo_url(string @namespace, string filename) => throw new NotImplementedException();
+        private void WebClientDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Console.Write("\r     -->    {0}%.", e.ProgressPercentage);
+        }
 
-        private void _brief_print_list<T>(List<T> lst, int limit= 7) => throw new NotImplementedException();
+        public static string GetRepoUrl()
+        {
+            string default_repo = "https://apache-mxnet.s3-accelerate.dualstack.amazonaws.com/";
+            string repo_url = Environment.GetEnvironmentVariable("MXNET_GLUON_REPO");
+            repo_url = !string.IsNullOrEmpty(repo_url) ? repo_url : default_repo;
+            if (!repo_url.EndsWith("/"))
+                repo_url = repo_url + "/";
 
-        public bool shape_is_known(Shape shape) => throw new NotImplementedException();
+            return repo_url;
+        }
 
-        public bool _check_same_symbol_type(Symbol[] symbols) => throw new NotImplementedException();
+        public static string GetRepoFileUrl(string @namespace, string filename)
+        {
+            return string.Format("{0}{1}/{2}", GetRepoUrl(), @namespace, filename);
+        }
 
-        public void _check_all_np_ndarrays(object @out) => throw new NotImplementedException();
+        public static void BriefPrintList<T>(List<T> lst, int limit= 7)
+        {
+            int counter = 0;
+            foreach (var item in lst)
+            {
+                if(counter == 7)
+                {
+                    Console.WriteLine(", ...,");
+                    counter = 0;
+                }
+
+                Console.Write("'{0}'", item.ToString());
+                counter++;
+            }
+        }
+
+        public static bool ShapeIsKnown(Shape shape)
+        {
+            if (shape == null)
+                return false;
+
+            if (shape.Dimension == 0)
+                return false;
+
+            for (uint i = 0; i < shape.Dimension; i++)
+            {
+                if (shape[i] == 0)
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

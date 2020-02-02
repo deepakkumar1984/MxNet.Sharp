@@ -520,6 +520,12 @@ namespace MxNet
                 return nd.SliceLike(this, slice);
             }
         }
+
+        public NDArray Detach()
+        {
+            NativeMethods.MXNDArrayDetach(GetHandle(), out var hdl);
+            return new NDArray(hdl);
+        }
         #region Operators
 
         public static NDArray operator +(NDArray lhs, NDArray rhs)

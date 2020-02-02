@@ -9,6 +9,11 @@ namespace MxNet.Gluon
 {
     public class Trainer
     {
+        internal bool _kv_initialized;
+        internal bool _update_on_kvstore;
+
+        internal Parameter[] _params_to_init;
+
         public float learning_rate
         {
             get
@@ -45,7 +50,7 @@ namespace MxNet.Gluon
 
         internal void InitKVstore() => throw new NotImplementedException();
 
-        internal void RowSparsePull(Parameter parameter, NDArray @out, int[] row_id, bool full_idx= false) => throw new NotImplementedException();
+        internal void RowSparsePull(Parameter parameter, NDArray[] @out, NDArray row_id, bool full_idx= false) => throw new NotImplementedException();
 
         internal void CheckAndRescaleGrad(float scale) => throw new NotImplementedException();
 

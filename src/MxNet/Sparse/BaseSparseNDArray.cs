@@ -139,7 +139,7 @@ namespace MxNet.Sparse
 
         public override NumSharp.NDArray AsNumpy()
         {
-            return CastStorage(StorageStype.Default).AsNumpy();
+            return ToSType(StorageStype.Default).AsNumpy();
         }
 
         public override NDArray AsType(DType dtype)
