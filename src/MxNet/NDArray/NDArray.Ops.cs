@@ -103,7 +103,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray ArgmaxChannel(NDArray data)
+        public NDArray ArgmaxChannel()
         {
             return new Operator("argmax_channel")
             .SetInput("data", this)
@@ -671,7 +671,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Copy(NDArray data)
+        public NDArray Copy()
         {
             return new Operator("_copy")
             .SetInput("data", this)
@@ -760,7 +760,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">Input Array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray SizeArray(NDArray data)
+        public NDArray SizeArray()
         {
             return new Operator("size_array")
             .SetInput("data", this)
@@ -806,7 +806,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Negative(NDArray data)
+        public NDArray Negative()
         {
             return new Operator("negative")
             .SetInput("data", this)
@@ -828,7 +828,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Reciprocal(NDArray data)
+        public NDArray Reciprocal()
         {
             return new Operator("reciprocal")
             .SetInput("data", this)
@@ -854,7 +854,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Abs(NDArray data)
+        public NDArray Abs()
         {
             return new Operator("abs")
             .SetInput("data", this)
@@ -880,7 +880,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Sign(NDArray data)
+        public NDArray Sign()
         {
             return new Operator("sign")
             .SetInput("data", this)
@@ -906,7 +906,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Round(NDArray data)
+        public NDArray Round()
         {
             return new Operator("round")
             .SetInput("data", this)
@@ -936,7 +936,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Rint(NDArray data)
+        public NDArray Rint()
         {
             return new Operator("rint")
             .SetInput("data", this)
@@ -964,7 +964,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Ceil(NDArray data)
+        public NDArray Ceil()
         {
             return new Operator("ceil")
             .SetInput("data", this)
@@ -992,7 +992,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Floor(NDArray data)
+        public NDArray Floor()
         {
             return new Operator("floor")
             .SetInput("data", this)
@@ -1021,7 +1021,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Trunc(NDArray data)
+        public NDArray Trunc()
         {
             return new Operator("trunc")
             .SetInput("data", this)
@@ -1048,7 +1048,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Fix(NDArray data)
+        public NDArray Fix()
         {
             return new Operator("fix")
             .SetInput("data", this)
@@ -1077,7 +1077,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Square(NDArray data)
+        public NDArray Square()
         {
             return new Operator("square")
             .SetInput("data", this)
@@ -1106,7 +1106,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Sqrt(NDArray data)
+        public NDArray Sqrt()
         {
             return new Operator("sqrt")
             .SetInput("data", this)
@@ -1131,7 +1131,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Rsqrt(NDArray data)
+        public NDArray Rsqrt()
         {
             return new Operator("rsqrt")
             .SetInput("data", this)
@@ -1160,7 +1160,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Cbrt(NDArray data)
+        public NDArray Cbrt()
         {
             return new Operator("cbrt")
             .SetInput("data", this)
@@ -1180,7 +1180,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Erf(NDArray data)
+        public NDArray Erf()
         {
             return new Operator("erf")
             .SetInput("data", this)
@@ -1200,7 +1200,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Erfinv(NDArray data)
+        public NDArray Erfinv()
         {
             return new Operator("erfinv")
             .SetInput("data", this)
@@ -1223,7 +1223,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Rcbrt(NDArray data)
+        public NDArray Rcbrt()
         {
             return new Operator("rcbrt")
             .SetInput("data", this)
@@ -1248,7 +1248,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Exp(NDArray data)
+        public NDArray Exp()
         {
             return new Operator("exp")
             .SetInput("data", this)
@@ -1268,7 +1268,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Log(NDArray data)
+        public NDArray Log()
         {
             return new Operator("log")
             .SetInput("data", this)
@@ -1288,7 +1288,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Log10(NDArray data)
+        public NDArray Log10()
         {
             return new Operator("log10")
             .SetInput("data", this)
@@ -1308,7 +1308,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Log2(NDArray data)
+        public NDArray Log2()
         {
             return new Operator("log2")
             .SetInput("data", this)
@@ -1333,7 +1333,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Log1P(NDArray data)
+        public NDArray Log1P()
         {
             return new Operator("log1p")
             .SetInput("data", this)
@@ -1357,7 +1357,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Expm1(NDArray data)
+        public NDArray Expm1()
         {
             return new Operator("expm1")
             .SetInput("data", this)
@@ -1374,7 +1374,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Gamma(NDArray data)
+        public NDArray Gamma()
         {
             return new Operator("gamma")
             .SetInput("data", this)
@@ -1391,7 +1391,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Gammaln(NDArray data)
+        public NDArray Gammaln()
         {
             return new Operator("gammaln")
             .SetInput("data", this)
@@ -1408,7 +1408,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray LogicalNot(NDArray data)
+        public NDArray LogicalNot()
         {
             return new Operator("logical_not")
             .SetInput("data", this)
@@ -1435,7 +1435,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Sin(NDArray data)
+        public NDArray Sin()
         {
             return new Operator("sin")
             .SetInput("data", this)
@@ -1458,7 +1458,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Cos(NDArray data)
+        public NDArray Cos()
         {
             return new Operator("cos")
             .SetInput("data", this)
@@ -1485,7 +1485,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Tan(NDArray data)
+        public NDArray Tan()
         {
             return new Operator("tan")
             .SetInput("data", this)
@@ -1513,7 +1513,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Arcsin(NDArray data)
+        public NDArray Arcsin()
         {
             return new Operator("arcsin")
             .SetInput("data", this)
@@ -1537,7 +1537,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Arccos(NDArray data)
+        public NDArray Arccos()
         {
             return new Operator("arccos")
             .SetInput("data", this)
@@ -1564,7 +1564,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Arctan(NDArray data)
+        public NDArray Arctan()
         {
             return new Operator("arctan")
             .SetInput("data", this)
@@ -1589,7 +1589,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Degrees(NDArray data)
+        public NDArray Degrees()
         {
             return new Operator("degrees")
             .SetInput("data", this)
@@ -1614,7 +1614,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Radians(NDArray data)
+        public NDArray Radians()
         {
             return new Operator("radians")
             .SetInput("data", this)
@@ -1639,7 +1639,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Sinh(NDArray data)
+        public NDArray Sinh()
         {
             return new Operator("sinh")
             .SetInput("data", this)
@@ -1660,7 +1660,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Cosh(NDArray data)
+        public NDArray Cosh()
         {
             return new Operator("cosh")
             .SetInput("data", this)
@@ -1685,7 +1685,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Tanh(NDArray data)
+        public NDArray Tanh()
         {
             return new Operator("tanh")
             .SetInput("data", this)
@@ -1708,7 +1708,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Arcsinh(NDArray data)
+        public NDArray Arcsinh()
         {
             return new Operator("arcsinh")
             .SetInput("data", this)
@@ -1727,7 +1727,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Arccosh(NDArray data)
+        public NDArray Arccosh()
         {
             return new Operator("arccosh")
             .SetInput("data", this)
@@ -1750,7 +1750,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Arctanh(NDArray data)
+        public NDArray Arctanh()
         {
             return new Operator("arctanh")
             .SetInput("data", this)
@@ -1779,7 +1779,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray ZerosLike(NDArray data)
+        public NDArray ZerosLike()
         {
             return new Operator("zeros_like")
             .SetInput("data", this)
@@ -1802,7 +1802,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">The input</param>
         /// <returns>returns new NDArray</returns>
-        public NDArray OnesLike(NDArray data)
+        public NDArray OnesLike()
         {
             return new Operator("ones_like")
             .SetInput("data", this)

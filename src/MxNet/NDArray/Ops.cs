@@ -8492,15 +8492,30 @@ namespace MxNet
         /// <param name="squeeze_axis">If true, Removes the axis with length 1 from the shapes of the output arrays. **Note** that setting `squeeze_axis` to ``true`` removes axis with length 1 only along the `axis` which it is split. Also `squeeze_axis` can be set to ``true`` only if ``input.shape[axis] == num_outputs``.</param>
         /// <param name="sections">Number of sections if equally splitted. Default to 0 which means split by indices.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray SplitV2(NDArray data, Shape indices, int axis = 1, bool squeeze_axis = false, int sections = 0)
+        public static NDArray[] SplitV2(NDArray data, Shape indices, int axis = 1, bool squeeze_axis = false, int sections = 0)
         {
-            return new Operator("_split_v2")
+            List<NDArray> outputs = new List<NDArray>();
+            new Operator("_split_v2")
             .SetParam("indices", indices)
             .SetParam("axis", axis)
             .SetParam("squeeze_axis", squeeze_axis)
             .SetParam("sections", sections)
             .SetInput("data", data)
-            .Invoke();
+            .Invoke(outputs);
+
+            return outputs.ToArray();
+        }
+
+        public static NDArray[] Split(NDArray data, int num_outputs, int axis = 1, bool squeeze_axis = false)
+        {
+            List<NDArray> outputs = new List<NDArray>();
+            new Operator("split")
+            .SetParam("num_outputs", num_outputs)
+            .SetParam("axis", axis)
+            .SetParam("squeeze_axis", squeeze_axis)
+            .SetInput("data", data)
+            .Invoke(outputs);
+            return outputs.ToArray();
         }
 
         private static readonly List<string> TopkRetTypConvert = new List<string>() { "both", "indices", "mask", "value" };
