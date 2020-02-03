@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.IO
 {
-    internal class Utils
+    internal class IOUtils
     {
         public static Dictionary<string, NDArray> InitData(NDArray[] data, bool allow_empty, string default_name) => throw new NotImplementedException();
 

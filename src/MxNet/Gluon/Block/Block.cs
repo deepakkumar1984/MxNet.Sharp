@@ -205,7 +205,7 @@ namespace MxNet.Gluon
             return this;
         }
 
-        public void Initialize(Initializer init= null, Context ctx= null, bool verbose= false, bool force_reinit= false)
+        public void Initialize(Initializer init= null, Context[] ctx= null, bool verbose= false, bool force_reinit= false)
         {
             init = init ?? new Uniform();
             CollectParams().Initialize(init, ctx, verbose, force_reinit);

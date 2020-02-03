@@ -12,7 +12,7 @@ namespace MNIST
     {
         static void Main(string[] args)
         {
-            GluonDemo.LoadData();
+            GluonDemo.Run();
         }
 
     }

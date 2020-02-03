@@ -56,7 +56,7 @@ namespace MxNet
                 gradReqs[i] = (int)OpGradReq.Write;
             }
 
-            NativeMethods.MXAutogradMarkVariables(variables.Length, Util.GetNDArrayHandles(variables), gradReqs, Util.GetNDArrayHandles(gradients));
+            NativeMethods.MXAutogradMarkVariables(variables.Length, MxUtil.GetNDArrayHandles(variables), gradReqs, MxUtil.GetNDArrayHandles(gradients));
         }
 
         private static (IntPtr[], IntPtr[]) ParseHead(NDArray[] heads, NDArray[] head_grads)
@@ -64,7 +64,7 @@ namespace MxNet
             IntPtr[] headHandles = null;
             IntPtr[] headGradHandles = null;
 
-            headHandles = Util.GetNDArrayHandles(heads);
+            headHandles = MxUtil.GetNDArrayHandles(heads);
 
             if(head_grads == null)
             {
@@ -79,7 +79,7 @@ namespace MxNet
                 if (heads.Length != head_grads.Length)
                     throw new ArgumentException("heads and head_grads must be lists of the same length");
 
-                headGradHandles = Util.GetNDArrayHandles(head_grads);
+                headGradHandles = MxUtil.GetNDArrayHandles(head_grads);
             }
 
             return (headHandles, headGradHandles);
@@ -102,7 +102,7 @@ namespace MxNet
             int[] grad_stypes = new int[head_handles.Length];
 
             NativeMethods.MXAutogradBackwardEx(head_handles.Length, head_handles, head_grads_handles, variables.Length,
-                                                Util.GetNDArrayHandles(variables), Convert.ToInt32(retain_graph),
+                                                MxUtil.GetNDArrayHandles(variables), Convert.ToInt32(retain_graph),
                                                 Convert.ToInt32(create_graph), Convert.ToInt32(train_mode), grad_handles, grad_stypes);
 
             List<NDArray> result = new List<NDArray>();

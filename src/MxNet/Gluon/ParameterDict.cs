@@ -64,7 +64,7 @@ namespace MxNet.Gluon
 
         public Constant Update(ParameterDict other) => throw new NotImplementedException();
 
-        public void Initialize(Initializer init= null, Context ctx= null, bool verbose= false, bool force_reinit= false) => throw new NotImplementedException();
+        public void Initialize(Initializer init= null, Context[] ctx= null, bool verbose= false, bool force_reinit= false) => throw new NotImplementedException();
 
         public void ZeroGrad() => throw new NotImplementedException();
 

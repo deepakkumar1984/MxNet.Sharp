@@ -124,7 +124,7 @@ namespace MxNet
                         needGradSet.Add(item);
                 }
 
-                needGradSet = Util.Set(needGradSet);
+                needGradSet = MxUtil.Set(needGradSet);
             }
 
             Dictionary<string, OpGradReq> grad_req = new Dictionary<string, OpGradReq>();

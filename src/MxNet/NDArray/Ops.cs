@@ -561,7 +561,7 @@ namespace MxNet
         public static NDArray LeakyReLU(NDArray data, NDArray gamma = null, LeakyreluActType act_type = LeakyreluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f, float upper_bound = 0.334f)
         {
             return new Operator("LeakyReLU")
-            .SetParam("act_type", Util.EnumToString<LeakyreluActType>(act_type, LeakyreluActTypeConvert))
+            .SetParam("act_type", MxUtil.EnumToString<LeakyreluActType>(act_type, LeakyreluActTypeConvert))
             .SetParam("slope", slope)
             .SetParam("lower_bound", lower_bound)
             .SetParam("upper_bound", upper_bound)
@@ -636,7 +636,7 @@ namespace MxNet
         public static NDArray Activation(NDArray data, ActivationActType act_type)
         {
             return new Operator("Activation")
-            .SetParam("act_type", Util.EnumToString<ActivationActType>(act_type, ActivationActTypeConvert))
+            .SetParam("act_type", MxUtil.EnumToString<ActivationActType>(act_type, ActivationActTypeConvert))
             .SetInput("data", data)
             .Invoke();
         }
@@ -905,9 +905,9 @@ namespace MxNet
             .SetParam("num_group", num_group)
             .SetParam("workspace", workspace)
             .SetParam("no_bias", no_bias)
-            .SetParam("cudnn_tune", Util.EnumToString<ConvolutionCudnnTune>(cudnn_tune, ConvolutionCudnnTuneConvert))
+            .SetParam("cudnn_tune", MxUtil.EnumToString<ConvolutionCudnnTune>(cudnn_tune, ConvolutionCudnnTuneConvert))
             .SetParam("cudnn_off", cudnn_off)
-            .SetParam("layout", Util.EnumToString<ConvolutionLayout>(layout, ConvolutionLayoutConvert))
+            .SetParam("layout", MxUtil.EnumToString<ConvolutionLayout>(layout, ConvolutionLayoutConvert))
             .SetInput("data", data)
             .SetInput("weight", weight)
             .SetInput("bias", bias)
@@ -978,7 +978,7 @@ namespace MxNet
             return new Operator("CTCLoss")
             .SetParam("use_data_lengths", use_data_lengths)
             .SetParam("use_label_lengths", use_label_lengths)
-            .SetParam("blank_label", Util.EnumToString<CtclossBlankLabel>(blank_label, CtclossBlankLabelConvert))
+            .SetParam("blank_label", MxUtil.EnumToString<CtclossBlankLabel>(blank_label, CtclossBlankLabelConvert))
             .SetInput("data", data)
             .SetInput("label", label)
             .SetInput("data_lengths", data_lengths)
@@ -1027,9 +1027,9 @@ namespace MxNet
             .SetParam("num_group", num_group)
             .SetParam("workspace", workspace)
             .SetParam("no_bias", no_bias)
-            .SetParam("cudnn_tune", Util.EnumToString<DeconvolutionCudnnTune>(cudnn_tune, DeconvolutionCudnnTuneConvert))
+            .SetParam("cudnn_tune", MxUtil.EnumToString<DeconvolutionCudnnTune>(cudnn_tune, DeconvolutionCudnnTuneConvert))
             .SetParam("cudnn_off", cudnn_off)
-            .SetParam("layout", Util.EnumToString<DeconvolutionLayout>(layout, DeconvolutionLayoutConvert))
+            .SetParam("layout", MxUtil.EnumToString<DeconvolutionLayout>(layout, DeconvolutionLayoutConvert))
             .SetInput("data", data)
             .SetInput("weight", weight)
             .SetInput("bias", bias)
@@ -1083,7 +1083,7 @@ namespace MxNet
 
             return new Operator("Dropout")
             .SetParam("p", p)
-            .SetParam("mode", Util.EnumToString<DropoutMode>(mode, DropoutModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<DropoutMode>(mode, DropoutModeConvert))
             .SetParam("axes", axes)
             .SetParam("cudnn_off", cudnn_off)
             .SetInput("data", data)
@@ -1307,15 +1307,15 @@ namespace MxNet
 
             return new Operator("Pooling")
             .SetParam("kernel", kernel)
-            .SetParam("pool_type", Util.EnumToString<PoolingPoolType>(pool_type, PoolingPoolTypeConvert))
+            .SetParam("pool_type", MxUtil.EnumToString<PoolingPoolType>(pool_type, PoolingPoolTypeConvert))
             .SetParam("global_pool", global_pool)
             .SetParam("cudnn_off", cudnn_off)
-            .SetParam("pooling_convention", Util.EnumToString<PoolingPoolingConvention>(pooling_convention, PoolingPoolingConventionConvert))
+            .SetParam("pooling_convention", MxUtil.EnumToString<PoolingPoolingConvention>(pooling_convention, PoolingPoolingConventionConvert))
             .SetParam("stride", stride)
             .SetParam("pad", pad)
             .SetParam("p_value", p_value)
             .SetParam("count_include_pad", count_include_pad)
-            .SetParam("layout", Util.EnumToString<PoolingLayout>(layout, PoolingLayoutConvert))
+            .SetParam("layout", MxUtil.EnumToString<PoolingLayout>(layout, PoolingLayoutConvert))
             .SetInput("data", data)
             .Invoke();
         }
@@ -1473,7 +1473,7 @@ namespace MxNet
         public static NDArray SoftmaxActivation(NDArray data, SoftmaxactivationMode mode = SoftmaxactivationMode.Instance)
         {
             return new Operator("SoftmaxActivation")
-            .SetParam("mode", Util.EnumToString<SoftmaxactivationMode>(mode, SoftmaxactivationModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<SoftmaxactivationMode>(mode, SoftmaxactivationModeConvert))
             .SetInput("data", data)
             .Invoke();
         }
@@ -1496,8 +1496,8 @@ namespace MxNet
             return new Operator("UpSampling")
             .SetParam("scale", scale)
             .SetParam("num_filter", num_filter)
-            .SetParam("sample_type", Util.EnumToString<UpsamplingSampleType>(sample_type, UpsamplingSampleTypeConvert))
-            .SetParam("multi_input_mode", Util.EnumToString<UpsamplingMultiInputMode>(multi_input_mode, UpsamplingMultiInputModeConvert))
+            .SetParam("sample_type", MxUtil.EnumToString<UpsamplingSampleType>(sample_type, UpsamplingSampleTypeConvert))
+            .SetParam("multi_input_mode", MxUtil.EnumToString<UpsamplingMultiInputMode>(multi_input_mode, UpsamplingMultiInputModeConvert))
             .SetParam("num_args", num_args)
             .SetParam("workspace", workspace)
             .SetInput(data)
@@ -2321,7 +2321,7 @@ namespace MxNet
         public static NDArray Pad(NDArray data, PadMode mode, Shape pad_width, double constant_value = 0)
         {
             return new Operator("pad")
-            .SetParam("mode", Util.EnumToString<PadMode>(mode, PadModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<PadMode>(mode, PadModeConvert))
             .SetParam("pad_width", pad_width)
             .SetParam("constant_value", constant_value)
             .SetInput("data", data)
@@ -2984,7 +2984,7 @@ namespace MxNet
             .SetParam("state_size", state_size)
             .SetParam("num_layers", num_layers)
             .SetParam("bidirectional", bidirectional)
-            .SetParam("mode", Util.EnumToString<RNNMode>(mode, RNNModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<RNNMode>(mode, RNNModeConvert))
             .SetParam("p", p)
             .SetParam("state_outputs", state_outputs)
             .SetParam("projection_size", projection_size)
@@ -3176,7 +3176,7 @@ namespace MxNet
             .SetParam("multi_output", multi_output)
             .SetParam("use_ignore", use_ignore)
             .SetParam("preserve_shape", preserve_shape)
-            .SetParam("normalization", Util.EnumToString<SoftmaxoutputNormalization>(normalization, SoftmaxoutputNormalizationConvert))
+            .SetParam("normalization", MxUtil.EnumToString<SoftmaxoutputNormalization>(normalization, SoftmaxoutputNormalizationConvert))
             .SetParam("out_grad", out_grad)
             .SetParam("smooth_alpha", smooth_alpha)
             .SetInput("data", data)
@@ -3382,7 +3382,7 @@ namespace MxNet
             return new Operator("pick")
             .SetParam("axis", axis)
             .SetParam("keepdims", keepdims)
-            .SetParam("mode", Util.EnumToString<PickMode>(mode, PickModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<PickMode>(mode, PickModeConvert))
             .SetInput("data", data)
             .SetInput("index", index)
             .Invoke();
@@ -3726,7 +3726,7 @@ namespace MxNet
             return new Operator("norm")
             .SetParam("ord", ord)
             .SetParam("axis", axis)
-            .SetParam("out_dtype", Util.EnumToString<NormOutDtype>(out_dtype, NormOutDtypeConvert))
+            .SetParam("out_dtype", MxUtil.EnumToString<NormOutDtype>(out_dtype, NormOutDtypeConvert))
             .SetParam("keepdims", keepdims)
             .SetInput("data", data)
             .Invoke();
@@ -3780,7 +3780,7 @@ namespace MxNet
         public static NDArray CastStorage(NDArray data, StorageStype stype)
         {
             return new Operator("cast_storage")
-            .SetParam("stype", Util.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
+            .SetParam("stype", MxUtil.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
             .SetInput("data", data)
             .Invoke();
         }
@@ -3961,7 +3961,7 @@ namespace MxNet
             return new Operator("dot")
             .SetParam("transpose_a", transpose_a)
             .SetParam("transpose_b", transpose_b)
-            .SetParam("forward_stype", Util.EnumToString<DotForwardStype>(forward_stype, DotForwardStypeConvert))
+            .SetParam("forward_stype", MxUtil.EnumToString<DotForwardStype>(forward_stype, DotForwardStypeConvert))
             .SetInput("lhs", lhs)
             .SetInput("rhs", rhs)
             .Invoke();
@@ -3995,7 +3995,7 @@ namespace MxNet
             return new Operator("batch_dot")
             .SetParam("transpose_a", transpose_a)
             .SetParam("transpose_b", transpose_b)
-            .SetParam("forward_stype", Util.EnumToString<BatchDotForwardStype>(forward_stype, BatchDotForwardStypeConvert))
+            .SetParam("forward_stype", MxUtil.EnumToString<BatchDotForwardStype>(forward_stype, BatchDotForwardStypeConvert))
             .SetInput("lhs", lhs)
             .SetInput("rhs", rhs)
             .Invoke();
@@ -6778,7 +6778,7 @@ namespace MxNet
         {
             return new Operator("take")
             .SetParam("axis", axis)
-            .SetParam("mode", Util.EnumToString<TakeMode>(mode, TakeModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<TakeMode>(mode, TakeModeConvert))
             .SetInput("a", a)
             .SetInput("indices", indices)
             .Invoke();
@@ -8592,7 +8592,7 @@ namespace MxNet
             return new Operator("topk")
             .SetParam("axis", axis)
             .SetParam("k", k)
-            .SetParam("ret_typ", Util.EnumToString<TopkRetTyp>(ret_typ, TopkRetTypConvert))
+            .SetParam("ret_typ", MxUtil.EnumToString<TopkRetTyp>(ret_typ, TopkRetTypConvert))
             .SetParam("is_ascend", is_ascend)
             .SetParam("dtype", dtype)
             .SetInput("data", data)
@@ -8920,9 +8920,9 @@ namespace MxNet
             .SetParam("num_group", num_group)
             .SetParam("workspace", workspace)
             .SetParam("no_bias", no_bias)
-            .SetParam("cudnn_tune", Util.EnumToString<ConvolutionV1CudnnTune>(cudnn_tune, ConvolutionV1CudnnTuneConvert))
+            .SetParam("cudnn_tune", MxUtil.EnumToString<ConvolutionV1CudnnTune>(cudnn_tune, ConvolutionV1CudnnTuneConvert))
             .SetParam("cudnn_off", cudnn_off)
-            .SetParam("layout", Util.EnumToString<ConvolutionV1Layout>(layout, ConvolutionV1LayoutConvert))
+            .SetParam("layout", MxUtil.EnumToString<ConvolutionV1Layout>(layout, ConvolutionV1LayoutConvert))
             .SetInput("data", data)
             .SetInput("weight", weight)
             .SetInput("bias", bias)
@@ -9059,7 +9059,7 @@ namespace MxNet
             if (target_shape == null) { target_shape = new Shape(); }
 
             return new Operator("GridGenerator")
-            .SetParam("transform_type", Util.EnumToString<GridgeneratorTransformType>(transform_type, GridgeneratorTransformTypeConvert))
+            .SetParam("transform_type", MxUtil.EnumToString<GridgeneratorTransformType>(transform_type, GridgeneratorTransformTypeConvert))
             .SetParam("target_shape", target_shape)
             .SetInput("data", data)
             .Invoke();
@@ -9190,7 +9190,7 @@ namespace MxNet
         {
             return new Operator("L2Normalization")
             .SetParam("eps", eps)
-            .SetParam("mode", Util.EnumToString<L2normalizationMode>(mode, L2normalizationModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<L2normalizationMode>(mode, L2normalizationModeConvert))
             .SetInput("data", data)
             .Invoke();
         }
@@ -9232,7 +9232,7 @@ namespace MxNet
             return new Operator("MakeLoss")
             .SetParam("grad_scale", grad_scale)
             .SetParam("valid_thresh", valid_thresh)
-            .SetParam("normalization", Util.EnumToString<MakelossNormalization>(normalization, MakelossNormalizationConvert))
+            .SetParam("normalization", MxUtil.EnumToString<MakelossNormalization>(normalization, MakelossNormalizationConvert))
             .SetInput("data", data)
             .Invoke();
         }
@@ -9297,9 +9297,9 @@ namespace MxNet
 
             return new Operator("Pooling_v1")
             .SetParam("kernel", kernel)
-            .SetParam("pool_type", Util.EnumToString<PoolingV1PoolType>(pool_type, PoolingV1PoolTypeConvert))
+            .SetParam("pool_type", MxUtil.EnumToString<PoolingV1PoolType>(pool_type, PoolingV1PoolTypeConvert))
             .SetParam("global_pool", global_pool)
-            .SetParam("pooling_convention", Util.EnumToString<PoolingV1PoolingConvention>(pooling_convention, PoolingV1PoolingConventionConvert))
+            .SetParam("pooling_convention", MxUtil.EnumToString<PoolingV1PoolingConvention>(pooling_convention, PoolingV1PoolingConventionConvert))
             .SetParam("stride", stride)
             .SetParam("pad", pad)
             .SetInput("data", data)
@@ -9624,8 +9624,8 @@ namespace MxNet
 
             return new Operator("SpatialTransformer")
             .SetParam("target_shape", target_shape)
-            .SetParam("transform_type", Util.EnumToString<SpatialtransformerTransformType>(transform_type, SpatialtransformerTransformTypeConvert))
-            .SetParam("sampler_type", Util.EnumToString<SpatialtransformerSamplerType>(sampler_type, SpatialtransformerSamplerTypeConvert))
+            .SetParam("transform_type", MxUtil.EnumToString<SpatialtransformerTransformType>(transform_type, SpatialtransformerTransformTypeConvert))
+            .SetParam("sampler_type", MxUtil.EnumToString<SpatialtransformerSamplerType>(sampler_type, SpatialtransformerSamplerTypeConvert))
             .SetParam("cudnn_off", cudnn_off)
             .SetInput("data", data)
             .SetInput("loc", loc)

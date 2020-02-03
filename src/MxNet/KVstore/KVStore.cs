@@ -57,12 +57,12 @@ namespace MxNet.KVstore
 
         public void Pull(string key, NDArray[] @out, int priority = 0, bool ignore_sparse = true)
         {
-            NativeMethods.MXKVStorePullWithSparseEx(handle, 1, new string[] { key }, Util.GetNDArrayHandles(@out), priority, ignore_sparse);
+            NativeMethods.MXKVStorePullWithSparseEx(handle, 1, new string[] { key }, MxUtil.GetNDArrayHandles(@out), priority, ignore_sparse);
         }
 
         public override void PushPull(string key, NDArray value, NDArray[] @out, int priority = 0)
         {
-            NativeMethods.MXKVStorePushPullEx(handle, 1, new string[] { key }, @out.Length, new string[] { key }, new IntPtr[] { value.NativePtr }, Util.GetNDArrayHandles(@out), priority);
+            NativeMethods.MXKVStorePushPullEx(handle, 1, new string[] { key }, @out.Length, new string[] { key }, new IntPtr[] { value.NativePtr }, MxUtil.GetNDArrayHandles(@out), priority);
         }
 
         public void RowSparsePull(string key, NDArray[] @out, int priority = 0, NDArray[] row_ids = null)
@@ -85,7 +85,7 @@ namespace MxNet.KVstore
                 first_out = @out.ToList();
             }
 
-            NativeMethods.MXKVStorePullRowSparseEx(handle, 1, new string[] { key }, Util.GetNDArrayHandles(first_out.ToArray()), Util.GetNDArrayHandles(row_ids), priority);
+            NativeMethods.MXKVStorePullRowSparseEx(handle, 1, new string[] { key }, MxUtil.GetNDArrayHandles(first_out.ToArray()), MxUtil.GetNDArrayHandles(row_ids), priority);
         }
 
 

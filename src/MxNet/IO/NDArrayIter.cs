@@ -110,8 +110,8 @@ namespace MxNet.IO
         public NDArrayIter(NDArray[] data, NDArray[] label = null, uint batch_size = 1, bool shuffle = false,
                             string last_batch_handle = "pad", string data_name = "data", string label_name = "softmax_label")
         {
-            this.data = Utils.InitData(data, false, data_name);
-            this.label = Utils.InitData(label, false, label_name);
+            this.data = IOUtils.InitData(data, false, data_name);
+            this.label = IOUtils.InitData(label, false, label_name);
             BatchSize = batch_size;
             this.last_batch_handle = last_batch_handle;
             this.shuffle = shuffle;

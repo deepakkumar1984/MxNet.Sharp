@@ -114,6 +114,8 @@ namespace MxNet
         {
             if (ctx != null)
                 context = ctx;
+            else
+                context = Context.CurrentContext;
 
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -495,7 +497,7 @@ namespace MxNet
                 if (string.IsNullOrEmpty(slice))
                     return this;
 
-                var (rowBegin, rowEnd, colBegin, colEnd) = Util.GetSliceNotation(slice, Shape);
+                var (rowBegin, rowEnd, colBegin, colEnd) = MxUtil.GetSliceNotation(slice, Shape);
 
                 if (colBegin == 0 && colEnd == 0)
                     return Slice(rowBegin, rowEnd);
@@ -507,7 +509,7 @@ namespace MxNet
                 if (string.IsNullOrEmpty(slice))
                     value.CopyTo(this);
 
-                var (rowBegin, rowEnd, colBegin, colEnd) = Util.GetSliceNotation(slice, Shape);
+                var (rowBegin, rowEnd, colBegin, colEnd) = MxUtil.GetSliceNotation(slice, Shape);
                 var output = nd.SliceAssign(this, value, new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd));
                 output.CopyTo(this);
             }

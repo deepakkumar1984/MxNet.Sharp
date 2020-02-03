@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MxNet
 {
-    public class Util
+    public class MxUtil
     {
         public static string EnumToString<TEnum>(TEnum? _enum, List<string> convert) where TEnum : struct, IConvertible
         {

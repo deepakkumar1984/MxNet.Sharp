@@ -196,7 +196,7 @@ namespace MxNet.Gluon
             {
                 if (deferred_init != null)
                 {
-                    if (ctx == null || Util.Set<Context>(ctx.ToList()) != Util.Set(deferred_init.Value.Item2.ToList()))
+                    if (ctx == null || MxUtil.Set<Context>(ctx.ToList()) != MxUtil.Set(deferred_init.Value.Item2.ToList()))
                     {
                         throw new Exception($"Failed to load Parameter '{Name}' on {ctx[0]} because it was " +
                                             $"previous initialized on {ListCtx()[0]}.");
@@ -211,7 +211,7 @@ namespace MxNet.Gluon
             }
             else
             {
-                if (ctx == null || Util.Set<Context>(ctx.ToList()) != Util.Set(deferred_init.Value.Item2.ToList()))
+                if (ctx == null || MxUtil.Set<Context>(ctx.ToList()) != MxUtil.Set(deferred_init.Value.Item2.ToList()))
                 {
                     throw new Exception($"Failed to load Parameter '{Name}' on {ctx[0]} because it was " +
                                         $"previous initialized on {ListCtx()[0]}.");

@@ -168,7 +168,7 @@ namespace MxNet
             return new Operator("pick")
             .SetParam("axis", axis)
             .SetParam("keepdims", keepdims)
-            .SetParam("mode", Util.EnumToString<PickMode>(mode, PickModeConvert))
+            .SetParam("mode", MxUtil.EnumToString<PickMode>(mode, PickModeConvert))
             .SetInput("data", this)
             .SetInput("index", index)
             .Invoke();
@@ -533,7 +533,7 @@ namespace MxNet
             return new Operator("norm")
             .SetParam("ord", ord)
             .SetParam("axis", axis)
-            .SetParam("out_dtype", Util.EnumToString<NormOutDtype>(out_dtype, NormOutDtypeConvert))
+            .SetParam("out_dtype", MxUtil.EnumToString<NormOutDtype>(out_dtype, NormOutDtypeConvert))
             .SetParam("keepdims", keepdims)
             .SetInput("data", this)
             .Invoke();
@@ -587,7 +587,7 @@ namespace MxNet
         public NDArray ToSType(StorageStype stype)
         {
             return new Operator("cast_storage")
-            .SetParam("stype", Util.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
+            .SetParam("stype", MxUtil.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
             .SetInput("data", this)
             .Invoke();
         }
@@ -2225,7 +2225,7 @@ namespace MxNet
             return new Operator("topk")
             .SetParam("axis", axis)
             .SetParam("k", k)
-            .SetParam("ret_typ", Util.EnumToString<TopkRetTyp>(ret_typ, TopkRetTypConvert))
+            .SetParam("ret_typ", MxUtil.EnumToString<TopkRetTyp>(ret_typ, TopkRetTypConvert))
             .SetParam("is_ascend", is_ascend)
             .SetParam("dtype", dtype)
             .SetInput("data", this)
