@@ -24,7 +24,11 @@ namespace MxNet
                 if (current != null)
                     return current;
 
-                return new Context();
+                return Context.Cpu();
+            }
+            set
+            {
+                current = value;
             }
         }
 

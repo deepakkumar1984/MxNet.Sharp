@@ -147,7 +147,7 @@ namespace MxNet.Gluon
             return false;
         }
 
-        public void Download(string url, string path= "", bool overwrite= false, string sha1_hash= "", bool verify_ssl= true)
+        public static void Download(string url, string path= "", bool overwrite= false, string sha1_hash= "", bool verify_ssl= true)
         {
             if (!verify_ssl)
                 Logger.Warning("Unverified HTTPS request is being made (verify_ssl=False). " + 
@@ -167,13 +167,16 @@ namespace MxNet.Gluon
                 _semaphore.Wait();
             }
 
-            if(!CheckSha1(path, sha1_hash))
+            if (sha1_hash != "")
             {
-                throw new Exception("File hash not matching");
+                if (!CheckSha1(path, sha1_hash))
+                {
+                    throw new Exception("File hash not matching");
+                }
             }
         }
 
-        private void WebClientDownloadCompleted(object sender, AsyncCompletedEventArgs e)
+        private static void WebClientDownloadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             var _result = !e.Cancelled;
             if (!_result)
@@ -185,7 +188,7 @@ namespace MxNet.Gluon
             _semaphore.Release();
         }
 
-        private void WebClientDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private static void WebClientDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             Console.Write("\r     -->    {0}%.", e.ProgressPercentage);
         }

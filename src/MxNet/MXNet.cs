@@ -75,7 +75,7 @@ namespace MxNet
         public IntPtr NativePtr
         {
             get;
-            protected set;
+            internal set;
         }
 
         #endregion

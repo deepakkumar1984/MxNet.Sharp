@@ -17,7 +17,7 @@ namespace MxNet
     {
         #region Fields
 
-        internal readonly NDBlob _Blob;
+        internal NDBlob _Blob;
 
         public Context context = mx.Device;
 

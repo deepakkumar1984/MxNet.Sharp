@@ -1,6 +1,8 @@
+using MxNet.Interop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -118,11 +120,36 @@ namespace MxNet
         ///</summary>
         /// <param name="data">input data</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Copyto(NDArray data)
+        public static NDArray CopyTo(NDArray data)
         {
             return new Operator("_copyto")
             .SetParam("data", data)
             .Invoke();
+        }
+
+        public static NDArray Array(Array data, Context ctx = null)
+        {
+            if (ctx == null)
+                ctx = Context.CurrentContext;
+
+            List<uint> shape = new List<uint>();
+            for (int i = 0; i < data.Rank; i++)
+                shape.Add((uint)data.GetLength(i));
+
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.ToArray(),
+                                                          (uint)data.Rank,
+                                                          ctx.GetDeviceType(),
+                                                          ctx.GetDeviceId(),
+                                                          false.ToInt32(),
+                                                          out var @out), NativeMethods.OK);
+            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
+            NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint)data.Length);
+
+            NDArray result = new NDArray();
+            result.NativePtr = @out;
+            result._Blob = new NDBlob(@out);
+
+            return result;
         }
 
         ///<summary>
