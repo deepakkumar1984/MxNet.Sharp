@@ -6,9 +6,9 @@ namespace MxNet.IO
     {
         public uint BatchSize { get; set; }
 
-        public DataDesc[] ProvideData { get; set; }
+        public virtual DataDesc[] ProvideData { get; }
 
-        public DataDesc[] ProvideLabel { get; set; }
+        public virtual DataDesc[] ProvideLabel { get; set; }
 
         public int DefaultBucketKey { get; set; }
 

@@ -21,6 +21,25 @@ namespace MxNet.IO
         private int? next_res;
         private MXDataIterMap DataIterMap = new MXDataIterMap();
         private Operator op;
+        private string data_name;
+        private string label_name;
+
+        public override DataDesc[] ProvideData
+        {
+            get
+            {
+                return new DataDesc[] { new DataDesc(data_name, data.Shape, data.DataType) };
+            }
+        }
+
+        public override DataDesc[] ProvideLabel
+        {
+            get
+            {
+                return new DataDesc[] { new DataDesc(label_name, label.Shape, label.DataType) };
+            }
+        }
+
         public MXDataIter(string mxdataiterType, string data_name = "data", string label_name = "softmax_label")
         {
             this.handle = DataIterMap.GetMXDataIterCreator(mxdataiterType);
@@ -28,9 +47,8 @@ namespace MxNet.IO
             first_batch = Next();
             data = first_batch.Data[0];
             label = first_batch.Label[0];
-
-            ProvideData = new DataDesc[] { new DataDesc(data_name, data.Shape, data.DataType) };
-            ProvideLabel = new DataDesc[] { new DataDesc(label_name, label.Shape, label.DataType) };
+            this.data_name = data_name;
+            this.label_name = label_name;
             BatchSize = data.Shape[0];
             op = new Operator(handle);
         }
@@ -43,8 +61,6 @@ namespace MxNet.IO
             data = first_batch.Data[0];
             label = first_batch.Label[0];
 
-            ProvideData = new DataDesc[] { new DataDesc(data_name, data.Shape, data.DataType) };
-            ProvideLabel = new DataDesc[] { new DataDesc(label_name, label.Shape, label.DataType) };
             BatchSize = data.Shape[0];
             op = new Operator(handle);
         }

@@ -10,6 +10,6 @@ namespace MxNet.IO
 
         public static bool HasInstance(NDArray data, DType dtype) => throw new NotImplementedException();
 
-        public static NDArray[] GetDataByIdx(NDArray[] data, int idx) => throw new NotImplementedException();
+        public static Dictionary<string, NDArray> GetDataByIdx(Dictionary<string, NDArray> data, NDArray idx) => throw new NotImplementedException();
     }
 }
