@@ -26,67 +26,67 @@ namespace MxNet
 
         public static float GetRtol(float? rtol = null) => rtol.HasValue ? rtol.Value : 1e-5f;
 
-        public static NDArray[] random_arrays(params Shape[] shapes) => throw new NotImplementedException();
+        //public static NDArray[] random_arrays(params Shape[] shapes) => throw new NotImplementedException();
 
-        public static NDArray random_sample(NDArray population, int k) => throw new NotImplementedException();
+        //public static NDArray random_sample(NDArray population, int k) => throw new NotImplementedException();
 
-        private static void _validate_csr_generation_inputs(int num_rows, int num_cols, float density, string distribution= "uniform") => throw new NotImplementedException();
+        //private static void _validate_csr_generation_inputs(int num_rows, int num_cols, float density, string distribution= "uniform") => throw new NotImplementedException();
 
-        public static void shuffle_csr_column_indices(int[] csr) => throw new NotImplementedException();
+        //public static void shuffle_csr_column_indices(int[] csr) => throw new NotImplementedException();
 
-        private static CSRNDArray _get_uniform_dataset_csr(int num_rows, int num_cols, float density= 0.1f, DType dtype= null,
-                                                    Initializer data_init= null, bool shuffle_csr_indices= false) => throw new NotImplementedException();
+        //private static CSRNDArray _get_uniform_dataset_csr(int num_rows, int num_cols, float density= 0.1f, DType dtype= null,
+        //                                            Initializer data_init= null, bool shuffle_csr_indices= false) => throw new NotImplementedException();
 
-        private static CSRNDArray _get_powerlaw_dataset_csr(int num_rows, int num_cols, float density= 0.1f, DType dtype = null) => throw new NotImplementedException();
+        //private static CSRNDArray _get_powerlaw_dataset_csr(int num_rows, int num_cols, float density= 0.1f, DType dtype = null) => throw new NotImplementedException();
 
-        public static NDArray assign_each(NDArray the_input, Func<NDArray, NDArray> function) => throw new NotImplementedException();
+        //public static NDArray assign_each(NDArray the_input, Func<NDArray, NDArray> function) => throw new NotImplementedException();
 
-        public static NDArray assign_each2(NDArray input1, NDArray input2, Func<NDArray, NDArray, NDArray> function) => throw new NotImplementedException();
+        //public static NDArray assign_each2(NDArray input1, NDArray input2, Func<NDArray, NDArray, NDArray> function) => throw new NotImplementedException();
 
-        public static T rand_sparse_ndarray<T>(Shape shape, StorageStype stype, float? density= null, DType dtype= null, string distribution= null,
-                                               Initializer data_init= null, NDArray rsp_indices= null, Func<NDArray, NDArray>  modifier_func = null,
-                                               bool shuffle_csr_indices= false, Context ctx= null) => throw new NotImplementedException();
+        //public static T rand_sparse_ndarray<T>(Shape shape, StorageStype stype, float? density= null, DType dtype= null, string distribution= null,
+        //                                       Initializer data_init= null, NDArray rsp_indices= null, Func<NDArray, NDArray>  modifier_func = null,
+        //                                       bool shuffle_csr_indices= false, Context ctx= null) => throw new NotImplementedException();
 
-        public static NDArray rand_ndarray(Shape shape, StorageStype stype=  StorageStype.Default, float? density= null, DType dtype= null, Func<NDArray, NDArray>  modifier_func = null,
-                                            bool shuffle_csr_indices= false, string distribution= null, Context ctx= null) => throw new NotImplementedException();
+        //public static NDArray rand_ndarray(Shape shape, StorageStype stype=  StorageStype.Default, float? density= null, DType dtype= null, Func<NDArray, NDArray>  modifier_func = null,
+        //                                    bool shuffle_csr_indices= false, string distribution= null, Context ctx= null) => throw new NotImplementedException();
 
-        public static T create_sparse_array<T>(Shape shape, StorageStype stype = StorageStype.Default, Initializer data_init = null,
-                                                NDArray rsp_indices = null, DType dtype = null, Func<NDArray, NDArray> modifier_func = null, float density = 0.5f,
-                                           bool shuffle_csr_indices = false) => throw new NotImplementedException();
+        //public static T create_sparse_array<T>(Shape shape, StorageStype stype = StorageStype.Default, Initializer data_init = null,
+        //                                        NDArray rsp_indices = null, DType dtype = null, Func<NDArray, NDArray> modifier_func = null, float density = 0.5f,
+        //                                   bool shuffle_csr_indices = false) => throw new NotImplementedException();
 
-        public static T create_sparse_array_zd<T>(Shape shape, StorageStype stype, Initializer data_init = null,
-                                              NDArray rsp_indices = null, DType dtype = null, Func<NDArray, NDArray> modifier_func = null, float density = 0.5f,
-                                         bool shuffle_csr_indices = false) => throw new NotImplementedException();
+        //public static T create_sparse_array_zd<T>(Shape shape, StorageStype stype, Initializer data_init = null,
+        //                                      NDArray rsp_indices = null, DType dtype = null, Func<NDArray, NDArray> modifier_func = null, float density = 0.5f,
+        //                                 bool shuffle_csr_indices = false) => throw new NotImplementedException();
 
-        public static Shape rand_shape_2d(int dim0= 10, int dim1= 10) => throw new NotImplementedException();
+        //public static Shape rand_shape_2d(int dim0= 10, int dim1= 10) => throw new NotImplementedException();
 
-        public static Shape rand_shape_3d(int dim0 = 10, int dim1 = 10, int dim2 = 10) => throw new NotImplementedException();
+        //public static Shape rand_shape_3d(int dim0 = 10, int dim1 = 10, int dim2 = 10) => throw new NotImplementedException();
 
-        public static Shape rand_shape_nd(int num_dim, int dim1 = 10) => throw new NotImplementedException();
+        //public static Shape rand_shape_nd(int num_dim, int dim1 = 10) => throw new NotImplementedException();
 
-        public static (int, int) rand_coord_2d(int x_low, int x_high, int y_low, int y_high) => throw new NotImplementedException();
+        //public static (int, int) rand_coord_2d(int x_low, int x_high, int y_low, int y_high) => throw new NotImplementedException();
 
-        public static NumSharp.NDArray np_reduce(NumSharp.NDArray dat, int axis, bool keepdims, Func<NumSharp.NDArray, NumSharp.NDArray> numpy_reduce_func) => throw new NotImplementedException();
+        //public static NumSharp.NDArray np_reduce(NumSharp.NDArray dat, int axis, bool keepdims, Func<NumSharp.NDArray, NumSharp.NDArray> numpy_reduce_func) => throw new NotImplementedException();
 
-        public static (float, float) find_max_violation(NumSharp.NDArray a, NumSharp.NDArray b,float? rtol= null, float? atol= null) => throw new NotImplementedException();
+        //public static (float, float) find_max_violation(NumSharp.NDArray a, NumSharp.NDArray b,float? rtol= null, float? atol= null) => throw new NotImplementedException();
 
-        public static bool same(NumSharp.NDArray a, NumSharp.NDArray b) => throw new NotImplementedException();
+        //public static bool same(NumSharp.NDArray a, NumSharp.NDArray b) => throw new NotImplementedException();
 
-        public static bool almost_equal(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol= null, float? atol= null,bool equal_nan= false) => throw new NotImplementedException();
+        //public static bool almost_equal(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol= null, float? atol= null,bool equal_nan= false) => throw new NotImplementedException();
 
-        public static bool assert_almost_equal(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol= null, float? atol= null, (string, string)? names= null, bool equal_nan= false) => throw new NotImplementedException();
+        //public static bool assert_almost_equal(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol= null, float? atol= null, (string, string)? names= null, bool equal_nan= false) => throw new NotImplementedException();
 
-        public static bool assert_almost_equal_with_err(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol = null, float? atol = null, float? etol = null, (string, string)? names = null, bool equal_nan = false) => throw new NotImplementedException();
+        //public static bool assert_almost_equal_with_err(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol = null, float? atol = null, float? etol = null, (string, string)? names = null, bool equal_nan = false) => throw new NotImplementedException();
 
-        public static bool almost_equal_ignore_nan(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol = null, float? atol = null) => throw new NotImplementedException();
+        //public static bool almost_equal_ignore_nan(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol = null, float? atol = null) => throw new NotImplementedException();
 
-        public static bool assert_almost_equal_ignore_nan(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol = null, float? atol = null, (string, string)? names = null) => throw new NotImplementedException();
+        //public static bool assert_almost_equal_ignore_nan(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol = null, float? atol = null, (string, string)? names = null) => throw new NotImplementedException();
 
-        public static void simple_forward(Symbol sym, Context ctx= null, bool is_train= false, params NDArray[] inputs) => throw new NotImplementedException();
+        //public static void simple_forward(Symbol sym, Context ctx= null, bool is_train= false, params NDArray[] inputs) => throw new NotImplementedException();
 
-        private static Dictionary<string, NDArray> _parse_location(Symbol sym, NDArray[] location, Context ctx, DType dtype = null) => throw new NotImplementedException();
+        //private static Dictionary<string, NDArray> _parse_location(Symbol sym, NDArray[] location, Context ctx, DType dtype = null) => throw new NotImplementedException();
 
-        private static Dictionary<string, NDArray> _parse_aux_states(Symbol sym, NDArray[] aux_states, Context ctx, DType dtype = null) => throw new NotImplementedException();
+        //private static Dictionary<string, NDArray> _parse_aux_states(Symbol sym, NDArray[] aux_states, Context ctx, DType dtype = null) => throw new NotImplementedException();
 
         public static List<int> ListGpus()
         {
@@ -173,12 +173,12 @@ namespace MxNet
             return (label, images);
         }
 
-        public static Dictionary<string, NDArray> GetMnistPkl() => throw new NotImplementedException();
+        //public static Dictionary<string, NDArray> GetMnistPkl() => throw new NotImplementedException();
 
-        public static Dictionary<string, NDArray> GetMnistUByte() => throw new NotImplementedException();
+        //public static Dictionary<string, NDArray> GetMnistUByte() => throw new NotImplementedException();
 
-        public static Dictionary<string, NDArray> GetCifar10() => throw new NotImplementedException();
+        //public static Dictionary<string, NDArray> GetCifar10() => throw new NotImplementedException();
 
-        public static (NDArrayIter, NDArrayIter) GetMnistIterator(int batch_size, Shape input_shape, int num_parts= 1, int part_index= 0) => throw new NotImplementedException();
+        //public static (NDArrayIter, NDArrayIter) GetMnistIterator(int batch_size, Shape input_shape, int num_parts= 1, int part_index= 0) => throw new NotImplementedException();
     }
 }

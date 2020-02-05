@@ -10,7 +10,7 @@ namespace MxNet.Gluon
 {
     public class _BlockScope : MxDisposable
     {
-        private static System.Threading.ThreadLocal<_BlockScope> current = new System.Threading.ThreadLocal<_BlockScope>();
+        private static System.Threading.ThreadLocal<_BlockScope> _current = new System.Threading.ThreadLocal<_BlockScope>();
 
         private Block _block;
         private Dictionary<string, int> _counter = new Dictionary<string, int>();
@@ -29,8 +29,8 @@ namespace MxNet.Gluon
 
         public static (string, ParameterDict) Create(string prefix, ParameterDict @params, string hint)
         {
-            current.Value = _BlockScope.current.IsValueCreated ? _BlockScope.current.Value : null;
-            if (!current.IsValueCreated)
+            var current = _BlockScope._current.IsValueCreated ? _BlockScope._current.Value : null;
+            if (current == null)
             {
                 if (prefix == null)
                 {
@@ -45,21 +45,21 @@ namespace MxNet.Gluon
                 else
                     @params = new ParameterDict(@params.Prefix, @params);
 
-                current.Value.Params = @params;
+                _current.Value.Params = @params;
 
                 return (prefix, @params);
             }
 
             if(string.IsNullOrWhiteSpace(prefix))
             {
-                int count = current.Value._counter.ContainsKey(hint) ? current.Value._counter[hint] : 0;
+                int count = current._counter.ContainsKey(hint) ? _current.Value._counter[hint] : 0;
                 prefix = hint + count;
-                current.Value._counter[hint] = count + 1;
+                current._counter[hint] = count + 1;
             }
 
             if(@params == null)
             {
-                var parent = current.Value._block.Params;
+                var parent = current._block.Params;
                 @params = new ParameterDict(parent.Prefix + prefix, parent.Shared);
             }
             else
@@ -67,7 +67,7 @@ namespace MxNet.Gluon
                 @params = new ParameterDict(@params.Prefix + prefix, @params);
             }
 
-            return (current.Value._block.Prefix + prefix, @params);
+            return (current._block.Prefix + prefix, @params);
         }
 
         public override void Enter()
@@ -75,7 +75,7 @@ namespace MxNet.Gluon
             if (string.IsNullOrWhiteSpace(_block.Prefix))
                 return;
 
-            _old_scope = _BlockScope.current.Value;
+            _old_scope = _BlockScope._current.Value;
             _name_scope = new Prefix(_block.Prefix);
             _name_scope.Enter();
         }
@@ -87,7 +87,7 @@ namespace MxNet.Gluon
 
             _name_scope.Exit();
             _name_scope = null;
-            _BlockScope.current.Value = _old_scope;
+            _BlockScope._current.Value = _old_scope;
         }
     }
 }

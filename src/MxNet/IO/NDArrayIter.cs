@@ -8,88 +8,6 @@ namespace MxNet.IO
 {
     public class NDArrayIter : DataIter
     {
-        //private NDArray _data;
-        //private NDArray _label;
-
-        //private uint num_data;
-
-        //public NDArrayIter(NDArray data, NDArray label)
-        //{
-        //    _data = data;
-        //    _label = label;
-        //    BatchSize = 32;
-        //    num_data = data.GetShape()[0];
-        //    cursor = (int)-BatchSize;
-        //}
-
-        //public override void BeforeFirst()
-        //{
-        //    cursor = (int)-BatchSize;
-        //}
-
-        //public override NDArray GetData()
-        //{
-        //    uint start = (uint)cursor;
-        //    uint end = (uint)cursor + BatchSize;
-        //    if(end > num_data)
-        //    {
-        //        end = num_data;
-        //    }
-
-        //    return _data.Slice(start, end);
-        //}
-
-        //public override int[] GetIndex()
-        //{
-        //    uint start = (uint)cursor;
-        //    uint end = (uint)cursor + BatchSize;
-        //    if (end > num_data)
-        //    {
-        //        end = num_data;
-        //    }
-
-        //    List<int> idx = new List<int>();
-        //    for (int i = (int)start; i < end; i++)
-        //    {
-        //        idx.Add((int)i);
-        //    }
-
-        //    return idx.ToArray();
-        //}
-
-        //public override NDArray GetLabel()
-        //{
-        //    if (_label == null)
-        //        return null;
-
-        //    uint start = (uint)cursor;
-        //    uint end = (uint)cursor + BatchSize;
-        //    if (end >= num_data)
-        //    {
-        //        end = num_data;
-        //    }
-
-        //    return _label.Slice(start, end).Ravel();
-        //}
-
-        //public override int GetPadNum()
-        //{
-        //    return 0;
-        //}
-
-        //public override bool Next()
-        //{
-        //    cursor += (int)BatchSize;
-        //    if(cursor < num_data)
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
         private string last_batch_handle;
         private DataBatch first_batch = null;
         private Dictionary<string, NDArray> data;
@@ -149,10 +67,9 @@ namespace MxNet.IO
         {
             this.data = IOUtils.InitData(data, false, data_name);
             this.label = IOUtils.InitData(label, false, label_name);
-            this.idx = nd.Arange((int)data[0].Shape[0]);
             this.BatchSize = batch_size;
             this.cursor = (int)batch_size;
-            this.num_data = this.idx.Shape[0];
+            this.num_data = data[0].Shape[0];
             this.last_batch_handle = last_batch_handle;
             this.shuffle = shuffle;
             
@@ -246,9 +163,8 @@ namespace MxNet.IO
 
         private void ShuffleData()
         {
-            idx = nd.Shuffle(idx);
-            this.data = IOUtils.GetDataByIdx(data, idx);
-            this.label = IOUtils.GetDataByIdx(label, idx);
+            this.data = IOUtils.GetDataByIdx(data);
+            this.label = IOUtils.GetDataByIdx(label);
         }
 
         private NDArray[] _getdata(Dictionary<string, NDArray> data_source, int? start= null, int? end= null)
