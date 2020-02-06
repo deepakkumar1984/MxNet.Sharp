@@ -18,7 +18,7 @@ namespace MxNet
             {
                 get
                 {
-                    if (current != null && current.IsValueCreated)
+                    if (current.IsValueCreated)
                         return current.Value;
 
                     return new NameManager();
@@ -29,15 +29,11 @@ namespace MxNet
                 }
             }
 
-            public override void Enter()
+            public override MxDisposable Enter()
             {
-                if(!current.IsValueCreated)
-                {
-                    current.Value = new NameManager();
-                }
-
-                old_manager = current.Value;
+                old_manager = Current;
                 current.Value = this;
+                return this;
             }
 
             public override void Exit()

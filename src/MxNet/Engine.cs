@@ -17,9 +17,10 @@ namespace MxNet
                 _size = size;    
             }
 
-            public override void Enter()
+            public override MxDisposable Enter()
             {
                 _old_size = SetBulkSize(_size);
+                return this;
             }
 
             public override void Exit()

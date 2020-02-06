@@ -45,8 +45,6 @@ namespace MxNet.Gluon
                 else
                     @params = new ParameterDict(@params.Prefix, @params);
 
-                _current.Value.Params = @params;
-
                 return (prefix, @params);
             }
 
@@ -70,14 +68,15 @@ namespace MxNet.Gluon
             return (current._block.Prefix + prefix, @params);
         }
 
-        public override void Enter()
+        public override MxDisposable Enter()
         {
             if (string.IsNullOrWhiteSpace(_block.Prefix))
-                return;
+                return null;
 
             _old_scope = _BlockScope._current.Value;
             _name_scope = new Prefix(_block.Prefix);
             _name_scope.Enter();
+            return this;
         }
 
         public override void Exit()

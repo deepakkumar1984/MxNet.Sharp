@@ -209,20 +209,23 @@ namespace MxNet.Gluon
             return string.Format("{0}{1}/{2}", GetRepoUrl(), @namespace, filename);
         }
 
-        public static void BriefPrintList<T>(List<T> lst, int limit= 7)
+        public static string BriefPrintList<T>(List<T> lst, int limit= 7)
         {
             int counter = 0;
+            StringBuilder sb = new StringBuilder();
             foreach (var item in lst)
             {
                 if(counter == 7)
                 {
-                    Console.WriteLine(", ...,");
+                    sb.AppendLine(", ...,");
                     counter = 0;
                 }
 
-                Console.Write("'{0}'", item.ToString());
+                sb.AppendFormat("'{0}'", item.ToString());
                 counter++;
             }
+
+            return sb.ToString();
         }
 
         public static bool ShapeIsKnown(Shape shape)

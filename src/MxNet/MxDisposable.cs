@@ -7,12 +7,7 @@ namespace MxNet
 {
     public abstract class MxDisposable : IDisposable
     {
-        public MxDisposable()
-        {
-            Enter();
-        }
-
-        public abstract void Enter();
+        public abstract MxDisposable Enter();
 
         public abstract void Exit();
 

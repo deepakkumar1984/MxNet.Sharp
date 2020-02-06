@@ -13,7 +13,7 @@ namespace MxNet.Gluon.NN
         public int Output_Dim { get; }
         public DType Dtype { get; }
         public bool Sparse_Grad { get; }
-        public NDArray Weight { get; }
+        public Parameter Weight { get; }
         public Embedding(int input_dim, int output_dim, DType dtype = null,
                         string weight_initializer= null, bool sparse_grad= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
@@ -21,7 +21,7 @@ namespace MxNet.Gluon.NN
             Output_Dim = output_dim;
             Dtype = dtype;
             Sparse_Grad = sparse_grad;
-            Weight = Params.Get("weight", new Shape(input_dim, output_dim), Initializer.Get(weight_initializer), dtype, true, grad_stype: Sparse_Grad ? "row_sparse" : "default");
+            Weight = Params.Get(name: "weight", OpGradReq.Write, new Shape(input_dim, output_dim), dtype, init: Initializer.Get(weight_initializer), allow_deferred_init: true, grad_stype: Sparse_Grad ? StorageStype.RowSparse : StorageStype.Default);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)

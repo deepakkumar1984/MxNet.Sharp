@@ -41,7 +41,7 @@ namespace MxNet.Gluon
         public Block(string prefix, ParameterDict @params)
         {
             (Prefix, Params) = _BlockScope.Create(prefix, @params, Alias());
-            Name = prefix.EndsWith("_") ? prefix.Substring(0, prefix.Length - 1) : prefix;
+            Name = prefix != null && prefix.EndsWith("_") ? prefix.Substring(0, prefix.Length - 1) : prefix;
             scope = new _BlockScope(this);
             childrens = new SortedDictionary<string, Block>();
             reg_params = new Dictionary<string, Parameter>();
@@ -135,7 +135,13 @@ namespace MxNet.Gluon
             NDArray.Save(filename, arg_dict);
         }
 
-        public void LoadParameters(string filename, Context ctx= null, bool allow_missing= false,
+        public void LoadParameters(string filename, Context ctx = null, bool allow_missing = false,
+                        bool ignore_extra = false, bool cast_dtype = false, string dtype_source = "current")
+        {
+            LoadParameters(filename, new Context[] { ctx }, allow_missing, ignore_extra, cast_dtype, dtype_source);
+        }
+
+        public void LoadParameters(string filename, Context[] ctx= null, bool allow_missing= false,
                         bool ignore_extra= false, bool cast_dtype= false, string dtype_source= "current")
         {
             NDArrayDict loaded = new NDArrayDict();
@@ -167,7 +173,7 @@ namespace MxNet.Gluon
                     throw new Exception(string.Format("Parameter '{0}' loaded from file {1} is not present in ParameterDict", name, filename));
 
                 if(Params.Contains(name))
-                    Params[name].LoadInit(loaded[name], new Context[] { ctx }, cast_dtype: cast_dtype, dtype_source: dtype_source);
+                    Params[name].LoadInit(loaded[name], ctx, cast_dtype: cast_dtype, dtype_source: dtype_source);
             }
         }
 

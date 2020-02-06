@@ -46,7 +46,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             var net = new AlexNet();
             if(pretrained)
             {
-                net.LoadParameters(ModelStore.GetModelFile("alexnet", root));
+                net.LoadParameters(ModelStore.GetModelFile("alexnet", root), ctx);
             }
 
             return net;

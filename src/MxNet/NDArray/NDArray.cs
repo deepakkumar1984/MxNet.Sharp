@@ -321,6 +321,12 @@ namespace MxNet
             }
         }
 
+        public static NDArrayDict Load(string filename)
+        {
+            Load(filename, out var r);
+            return r;
+        }
+
         public void Constant(mx_float scalar)
         {
             using (var op = new Operator("_set_value"))

@@ -30,7 +30,7 @@ namespace MxNet.Gluon
 
         public void Detach() => throw new NotImplementedException();
 
-        public override void Enter()
+        public override MxDisposable Enter()
         {
             throw new NotImplementedException();
         }

@@ -19,9 +19,9 @@ namespace MxNet.Gluon.NN
 
         public DType DataType { get; set; }
 
-        public NDArray Weight { get; set; }
+        public Parameter Weight { get; set; }
 
-        public NDArray Bias { get; set; }
+        public Parameter Bias { get; set; }
 
         public int InUnits { get; set; }
 
@@ -34,10 +34,10 @@ namespace MxNet.Gluon.NN
             UseBias = use_bias;
             Flatten_ = flatten;
             DataType = dtype;
-            Weight = Params.Get("weight", new Shape((uint)units, (uint)in_units), Initializer.Get(weight_initializer), dtype, true);
+            Weight = Params.Get("weight", OpGradReq.Write, new Shape((uint)units, (uint)in_units), dtype, init: Initializer.Get(weight_initializer), allow_deferred_init: true);
 
             if(UseBias)
-                Bias = Params.Get("bias", new Shape((uint)units), Initializer.Get(bias_initializer), dtype, true);
+                Bias = Params.Get("bias", OpGradReq.Write, new Shape((uint)units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
