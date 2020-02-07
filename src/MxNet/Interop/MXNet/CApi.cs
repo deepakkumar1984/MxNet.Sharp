@@ -1,19 +1,17 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using AtomicSymbolCreator = System.IntPtr;
 using DataIterCreator = System.IntPtr;
 using DataIterHandle = System.IntPtr;
 using ExecutorHandle = System.IntPtr;
-using NDArrayHandle = System.IntPtr;
-using SymbolHandle = System.IntPtr;
-using ProfileHandle = System.IntPtr;
-using KVStoreHandle = System.IntPtr;
-using size_t = System.UInt64;
-using uint64_t = System.UInt64;
-using mx_uint = System.UInt32;
-using mx_float = System.Single;
-
 using ExecutorMonitorCallback = System.IntPtr;
-using System;
+using KVStoreHandle = System.IntPtr;
+using mx_uint = System.UInt32;
+using NDArrayHandle = System.IntPtr;
+using ProfileHandle = System.IntPtr;
+using size_t = System.UInt64;
+using SymbolHandle = System.IntPtr;
+using uint64_t = System.UInt64;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet.Interop
@@ -269,6 +267,16 @@ namespace MxNet.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayDetach(IntPtr handle, out IntPtr @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXCreateCachedOpEx(IntPtr handle, int num_flags, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
+                                                    NDArrayHandle[] vals, out IntPtr @out, bool thread_safe = false);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXFreeCachedOp(IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXInvokeCachedOpEx(IntPtr handle, int num_inputs, NDArrayHandle[] inputs, out int num_outputs, out NDArrayHandle[] outputs, out int[] out_stypes);
 
         #endregion
 
@@ -827,8 +835,8 @@ namespace MxNet.Interop
         public static extern int MXKVStoreInitEx(KVStoreHandle handle, int num, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys, NDArrayHandle[] vals);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXKVStorePushEx(KVStoreHandle handle, int num, 
-                                                    [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys, 
+        public static extern int MXKVStorePushEx(KVStoreHandle handle, int num,
+                                                    [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
                                                     NDArrayHandle[] vals, int priority);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
