@@ -7,7 +7,7 @@ namespace MxNet.Image
 {
     public class ImageIter : DataIter
     {
-        public ImageIter(uint batch_size, Shape data_shape, int label_width= 1,
+        public ImageIter(int batch_size, Shape data_shape, int label_width= 1,
                  string path_imgrec= null, string[] path_imglist= null, string path_root= null, 
                  string path_imgidx= null, bool shuffle= false, int part_index= 0, int num_parts= 1,
                  Augmenter[] aug_list= null, Dictionary<string, float> imglist= null,

@@ -20,10 +20,10 @@ namespace MxNet.Initializers
         public override void InitWeight(string name, NDArray arr)
         {
             var nout = arr.Shape[0];
-            uint nin = 1;
+            int nin = 1;
             NDArray tmp = null;
             NDArray res = null;
-            for (uint i = 1; i < arr.Shape.Dimension; i++)
+            for (int i = 1; i < arr.Shape.Dimension; i++)
                 nin *= arr.Shape[i];
 
             if (RandType == "uniform")

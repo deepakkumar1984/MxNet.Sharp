@@ -26,8 +26,8 @@ namespace MxNet.Gluon.NN
             Center = center;
             Scale = scale;
             In_Channels = in_channels;
-            Gamma = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape((uint)in_channels), init: Initializer.Get(gamma_initializer), allow_deferred_init: true);
-            Beta = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape((uint)in_channels), init: Initializer.Get(beta_initializer), allow_deferred_init: true);
+            Gamma = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels), init: Initializer.Get(gamma_initializer), allow_deferred_init: true);
+            Beta = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels), init: Initializer.Get(beta_initializer), allow_deferred_init: true);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)

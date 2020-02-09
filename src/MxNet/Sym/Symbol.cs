@@ -260,17 +260,17 @@ namespace MxNet
             List<Shape> outShape = new List<Shape>();
 
             this.ThrowIfDisposed();
-            var argIndPtr = new List<mx_uint>();
-            var argShapeData = new List<mx_uint>();
+            var argIndPtr = new List<int>();
+            var argShapeData = new List<int>();
 
             foreach (var item in argShapes.Values)
             {
-                argIndPtr.Add((uint)argShapeData.Count);
+                argIndPtr.Add(argShapeData.Count);
                 foreach (var i in item.Data)
                     argShapeData.Add(i);
             }
 
-            argIndPtr.Add((uint)argShapeData.Count);
+            argIndPtr.Add(argShapeData.Count);
 
             unsafe
             {
@@ -278,9 +278,9 @@ namespace MxNet
                 var argIndPtrArray = argIndPtr.ToArray();
                 var argShapeDataArray = argShapeData.ToArray();
                 {
-                    mx_uint inShapeSize;
-                    mx_uint* inShapeNdim;
-                    mx_uint** inShapeData;
+                    int inShapeSize;
+                    int* inShapeNdim;
+                    int** inShapeData;
 
                     Logging.CHECK_EQ(NativeMethods.MXSymbolInferShape(this.NativePtr,
                                                                       (uint)argShapes.Count,

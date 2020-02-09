@@ -32,10 +32,10 @@ namespace MxNet.Gluon.NN
             Scale = scale;
             Use_Global_Stats = use_global_stats;
             In_Channels = in_channels;
-            Gamma = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape((uint)in_channels), init: Initializer.Get(gamma_initializer), allow_deferred_init: true, differentiable: scale);
-            Beta = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape((uint)in_channels), init: Initializer.Get(beta_initializer), allow_deferred_init: true, differentiable: center);
-            RunningMean = Params.Get("running_mean", OpGradReq.Write, new Shape((uint)in_channels), init: Initializer.Get(running_mean_initializer), allow_deferred_init: true);
-            RunningVar = Params.Get("running_var", OpGradReq.Write, new Shape((uint)in_channels), init: Initializer.Get(running_variance_initializer), allow_deferred_init: true);
+            Gamma = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels), init: Initializer.Get(gamma_initializer), allow_deferred_init: true, differentiable: scale);
+            Beta = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels), init: Initializer.Get(beta_initializer), allow_deferred_init: true, differentiable: center);
+            RunningMean = Params.Get("running_mean", OpGradReq.Write, new Shape(in_channels), init: Initializer.Get(running_mean_initializer), allow_deferred_init: true);
+            RunningVar = Params.Get("running_var", OpGradReq.Write, new Shape(in_channels), init: Initializer.Get(running_variance_initializer), allow_deferred_init: true);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)

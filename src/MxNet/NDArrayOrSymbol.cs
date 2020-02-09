@@ -51,5 +51,9 @@ namespace MxNet
         public static implicit operator NDArrayOrSymbol(NDArray x) => new NDArrayOrSymbol(x);
 
         public static implicit operator NDArrayOrSymbol(Symbol x) => new NDArrayOrSymbol(x);
+
+        public static implicit operator NDArray(NDArrayOrSymbol x) => x.NdX;
+
+        public static implicit operator Symbol(NDArrayOrSymbol x) => x.SymX;
     }
 }

@@ -373,20 +373,18 @@ namespace MxNet.Gluon
                 List<int> indices = new List<int>();
                 List<NDArray> grads = new List<NDArray>();
                 List<NDArray> arrays = new List<NDArray>();
-                Enumerable.Zip(param.ListData(), param.ListGrad(), (arr, grad) => 
-                {
-                    if(!ignore_stale_grad || arr.FreshGrad)
-                    {
-                        indices.Add(i);
-                        grads.Add(grad);
-                        arrays.Add(arr);
-                        arr.FreshGrad = false;
-                    }
+                updates = Enumerable.Zip(param.ListData(), param.ListGrad(), (arr, grad) => 
+                            {
+                                if(!ignore_stale_grad || arr.FreshGrad)
+                                {
+                                    indices.Add(i);
+                                    grads.Add(grad);
+                                    arrays.Add(arr);
+                                    arr.FreshGrad = false;
+                                }
 
-                    updates.Add((indices.ToArray(), grads.ToArray(), arrays.ToArray()));
-
-                    return true;
-                });
+                                return (indices.ToArray(), grads.ToArray(), arrays.ToArray());
+                            }).ToList();
             }
 
             if(!(_kvstore == null && _update_on_kvstore.Value))

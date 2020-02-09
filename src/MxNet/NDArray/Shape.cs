@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using mx_uint = System.UInt32;
-using size_t = System.UInt64;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
@@ -22,68 +20,48 @@ namespace MxNet
         public Shape()
         {
             this._Dimension = 0;
-            this._Data = new List<mx_uint>(StackCache);
+            this._Data = new List<int>(StackCache);
         }
 
-        public Shape(IList<mx_uint> v)
+        public Shape(IList<int> v)
             : this(v.ToArray())
         {
         }
 
-        public Shape(params mx_uint[] v)
+        public Shape(params int[] v)
         {
             if (v == null)
                 throw new ArgumentNullException(nameof(v));
 
-            this._Dimension = (uint)v.Length;
+            this._Dimension = v.Length;
 
-            uint[] data = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
+            int[] data = new int[this._Dimension < StackCache ? StackCache : this._Dimension];
             Array.Copy(v, data, v.Length);
             _Data = data.ToList();
         }
 
-        public Shape(mx_uint s1)
+        public Shape(int s1)
             : this(new[] { s1 })
         {
         }
 
-        public Shape(mx_uint s1, mx_uint s2)
+        public Shape(int s1, int s2)
             : this(new[] { s1, s2 })
         {
         }
 
-        public Shape(mx_uint s1, mx_uint s2, mx_uint s3)
+        public Shape(int s1, int s2, int s3)
             : this(new[] { s1, s2, s3 })
         {
         }
 
-        public Shape(mx_uint s1, mx_uint s2, mx_uint s3, mx_uint s4)
+        public Shape(int s1, int s2, int s3, int s4)
             : this(new[] { s1, s2, s3, s4 })
         {
         }
 
-        public Shape(mx_uint s1, mx_uint s2, mx_uint s3, mx_uint s4, mx_uint s5)
+        public Shape(int s1, int s2, int s3, int s4, int s5)
             : this(new[] { s1, s2, s3, s4, s5 })
-        {
-        }
-
-        public Shape(int s1)
-            : this(new[] { (uint)s1 })
-        {
-        }
-
-        public Shape(int s1, int s2)
-            : this(new[] { (uint)s1, (uint)s2 })
-        {
-        }
-
-        public Shape(int s1, int s2, int s3)
-            : this(new[] { (uint)s1, (uint)s2, (uint)s3 })
-        {
-        }
-
-        public Shape(int s1, int s2, int s3, int s4)
-            : this(new[] { (uint)s1, (uint)s2, (uint)s3, (uint)s4 })
         {
         }
 
@@ -94,7 +72,7 @@ namespace MxNet
 
             this._Dimension = shape._Dimension;
 
-            uint[] data = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
+            int[] data = new int[this._Dimension < StackCache ? StackCache : this._Dimension];
             Array.Copy(shape.Data, data, this._Dimension);
             _Data = data.ToList();
         }
@@ -103,19 +81,19 @@ namespace MxNet
 
         #region Properties
 
-        private readonly List<mx_uint> _Data = new List<mx_uint>();
+        private readonly List<int> _Data = new List<int>();
 
-        public mx_uint[] Data => this._Data.ToArray();
+        public int[] Data => this._Data.ToArray();
 
-        private readonly mx_uint _Dimension;
+        private readonly int _Dimension;
 
-        public mx_uint Dimension => this._Dimension;
+        public int Dimension => this._Dimension;
 
-        public size_t Size
+        public int Size
         {
             get
             {
-                size_t size = 1;
+                int size = 1;
                 var data = this._Data;
 
                 for (var index = 0; index < this._Dimension; index++)
@@ -125,7 +103,7 @@ namespace MxNet
             }
         }
 
-        public mx_uint this[mx_uint index] => this.Data[index];
+        public int this[int index] => this.Data[index];
 
         #endregion
 
@@ -133,12 +111,12 @@ namespace MxNet
 
         public Shape Clone()
         {
-            var array = new mx_uint[this._Dimension < StackCache ? StackCache : this._Dimension];
+            var array = new int[this._Dimension < StackCache ? StackCache : this._Dimension];
             Array.Copy(this.Data, array, Math.Min(array.Length, this._Data.Count));
             return new Shape(array);
         }
 
-        public void Add(mx_uint i)
+        public void Add(int i)
         {
             _Data.Add(i);
         }

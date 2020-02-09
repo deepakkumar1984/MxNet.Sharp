@@ -36,8 +36,8 @@ namespace MxNet.Metrics
 
         private void Grow(int inc)
         {
-            lcm = nd.Pad(lcm, PadMode.Constant, new Shape(0, (uint)inc, 0, (uint)inc), 0);
-            gcm = nd.Pad(gcm, PadMode.Constant, new Shape(0, (uint)inc, 0, (uint)inc), 0);
+            lcm = nd.Pad(lcm, PadMode.Constant, new Shape(0, inc, 0, inc), 0);
+            gcm = nd.Pad(gcm, PadMode.Constant, new Shape(0, inc, 0, inc), 0);
             k += inc;
         }
 
@@ -82,14 +82,14 @@ namespace MxNet.Metrics
         public override void Reset()
         {
             global_num_inst = 0;
-            gcm = nd.Zeros(new Shape((uint)k, (uint)k));
+            gcm = nd.Zeros(new Shape(k, k));
             ResetLocal();
         }
 
         public override void ResetLocal()
         {
             num_inst = 0;
-            lcm = nd.Zeros(new Shape((uint)k, (uint)k));
+            lcm = nd.Zeros(new Shape(k, k));
         }
     }
 }

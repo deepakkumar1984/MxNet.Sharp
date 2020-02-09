@@ -8,6 +8,9 @@ namespace MxNet.Gluon
 {
     public class Loss : HybridBlock
     {
+        internal float? _weight;
+        internal int? _batch_axis;
+
         public Loss(float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
         }
@@ -22,7 +25,7 @@ namespace MxNet.Gluon
             return HybridForward(pred, label, sample_weight);
         }
 
-        internal void ApplyWeighting(Symbol loss, float? weight = null, Symbol sample_weight = null) => throw new NotImplementedException();
+        internal NDArrayOrSymbol ApplyWeighting(NDArrayOrSymbol loss, float? weight = null, NDArrayOrSymbol sample_weight = null) => throw new NotImplementedException();
 
     }
 }

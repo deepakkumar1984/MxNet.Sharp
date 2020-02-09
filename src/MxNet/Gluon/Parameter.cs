@@ -160,19 +160,17 @@ namespace MxNet.Gluon
 
             if(Shape != null)
             {
-                List<uint> newshape = new List<uint>();
-                Enumerable.Zip(Shape.Data, data.Shape.Data, (self_dim, data_dim) =>
+                List<int> newshape = new List<int>();
+                newshape = Enumerable.Zip(Shape.Data, data.Shape.Data, (self_dim, data_dim) =>
                 {
                     Assert.InList("self_dim", (int)self_dim, Enumerable.Range(0, (int)data_dim).ToArray(),
                                 $"Failed loading Parameter '{Name}' from saved params: shape incompatible expected %{Shape} vs saved %{data.Shape}");
 
                     if (self_dim != 0)
-                        newshape.Add(self_dim);
+                        return self_dim;
                     else
-                        newshape.Add(data_dim);
-
-                    return true;
-                });
+                        return data_dim;
+                }).ToList();
 
                 Shape = new Shape(newshape);
             }

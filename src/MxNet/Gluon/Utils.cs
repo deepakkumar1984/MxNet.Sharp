@@ -17,7 +17,7 @@ namespace MxNet.Gluon
 
         public static NDArray[] SplitData(NDArray data, int num_slice, int batch_axis = 0, bool even_split = true)
         {
-            var size = (int)data.Shape[(uint)batch_axis];
+            var size = (int)data.Shape[batch_axis];
             if (even_split && size % num_slice != 0)
             {
                 throw new ArgumentException(string.Format("data with shape {0} cannot be evenly split into {1} slices along axis {2}. " +
@@ -38,7 +38,7 @@ namespace MxNet.Gluon
             {
                 for(int i=0; i<num_slice;i++)
                 {
-                    if (i < num_slice - 1)
+                    if (i < num_slice)
                         slices.Add(data[string.Format("{0}:{1}", i * step, (i + 1) * step)]);
                 }
             }
@@ -68,10 +68,9 @@ namespace MxNet.Gluon
             var slices = SplitData(data, ctx_list.Length, batch_axis, even_split);
 
             List<NDArray> result = new List<NDArray>();
-            Enumerable.Zip(slices, ctx_list, (i, ctx) => {
-                result.Add(i.AsInContext(ctx));
-                return true;
-            });
+            result = Enumerable.Zip(slices, ctx_list, (i, ctx) => {
+                return i.AsInContext(ctx);
+            }).ToList();
 
             return result.ToArray();
         }
@@ -236,7 +235,7 @@ namespace MxNet.Gluon
             if (shape.Dimension == 0)
                 return false;
 
-            for (uint i = 0; i < shape.Dimension; i++)
+            for (int i = 0; i < shape.Dimension; i++)
             {
                 if (shape[i] == 0)
                     return false;

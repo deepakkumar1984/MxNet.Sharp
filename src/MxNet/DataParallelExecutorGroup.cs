@@ -60,12 +60,12 @@ namespace MxNet
             {
                 Dictionary<string, Shape> data_shapes = new Dictionary<string, Shape>();
                 Dictionary<string, DType> data_types = new Dictionary<string, DType>();
-                List<uint> shapeData = new List<uint>();
+                List<int> shapeData = new List<int>();
                 foreach (var item in train_data.ProvideData)
                 {
                     shapeData = item.Shape.Data.ToList();
                     shapeData.RemoveAt(0);
-                    shapeData.Insert(0, (uint)(slices[i].End.Value - slices[i].Begin));
+                    shapeData.Insert(0, (slices[i].End.Value - slices[i].Begin));
                     data_shapes[item.Name] = new Shape(shapeData);
                     data_types[item.Name] = item.DataType;
                 }
@@ -74,7 +74,7 @@ namespace MxNet
                 {
                     shapeData = item.Shape.Data.ToList();
                     shapeData.RemoveAt(0);
-                    shapeData.Insert(0, (uint)(slices[i].End.Value - slices[i].Begin));
+                    shapeData.Insert(0, (slices[i].End.Value - slices[i].Begin));
                     data_shapes[item.Name] = new Shape(shapeData);
                     data_types[item.Name] = item.DataType;
                 }

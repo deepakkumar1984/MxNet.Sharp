@@ -92,7 +92,7 @@ namespace MxNet.Sparse
         }
         #endregion
 
-        public override uint Size => throw new NotSupportedException("Not supported for Sparse NDArray");
+        public override int Size => throw new NotSupportedException("Not supported for Sparse NDArray");
 
         public override void SyncCopyFromCPU(Array data)
         {
@@ -104,17 +104,12 @@ namespace MxNet.Sparse
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }
 
-        public override NDArray Reshape(params uint[] shape)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-
         public override NDArray Reshape(Shape shape, bool reverse = false)
         {
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }
 
-        public override NDArray Slice(uint begin, uint end)
+        public override NDArray Slice(int begin, int? end)
         {
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }

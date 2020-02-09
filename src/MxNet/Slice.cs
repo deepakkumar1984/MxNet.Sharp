@@ -6,11 +6,11 @@ namespace MxNet
 {
     public class Slice
     {
-        public uint Begin { get; set; }
+        public int Begin { get; set; }
 
-        public uint? End { get; set; }
+        public int? End { get; set; }
 
-        public Slice(uint begin, uint? end)
+        public Slice(int begin, int? end)
         {
             Begin = begin;
             End = end;

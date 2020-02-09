@@ -34,10 +34,10 @@ namespace MxNet.Gluon.NN
             UseBias = use_bias;
             Flatten_ = flatten;
             DataType = dtype;
-            Weight = Params.Get("weight", OpGradReq.Write, new Shape((uint)units, (uint)in_units), dtype, init: Initializer.Get(weight_initializer), allow_deferred_init: true);
+            Weight = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype, init: Initializer.Get(weight_initializer), allow_deferred_init: true);
 
             if(UseBias)
-                Bias = Params.Get("bias", OpGradReq.Write, new Shape((uint)units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
+                Bias = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)

@@ -13,7 +13,7 @@ namespace MxNet.IO
         private NDArrayDict data;
         private NDArrayDict label;
         private int cursor;
-        private uint num_data;
+        private int num_data;
         private int num_source;
         private bool shuffle;
         private NDArray[] _cache_data;
@@ -55,14 +55,14 @@ namespace MxNet.IO
             }
         }
 
-        public NDArrayIter(NDArray data, NDArray label = null, uint batch_size = 1, bool shuffle = false,
+        public NDArrayIter(NDArray data, NDArray label = null, int batch_size = 1, bool shuffle = false,
                            string last_batch_handle = "pad", string data_name = "data", string label_name = "softmax_label")
             : this(new NDArray[] { data }, new NDArray[] { label }, batch_size, shuffle, last_batch_handle, data_name, label_name)
         {
 
         }
 
-        public NDArrayIter(NDArray[] data, NDArray[] label = null, uint batch_size = 1, bool shuffle = false,
+        public NDArrayIter(NDArray[] data, NDArray[] label = null, int batch_size = 1, bool shuffle = false,
                             string last_batch_handle = "pad", string data_name = "data", string label_name = "softmax_label")
         {
             this.data = IOUtils.InitData(data, false, data_name);
@@ -115,10 +115,16 @@ namespace MxNet.IO
             return cursor < num_data;
         }
 
+        public bool End()
+        {
+            return !(cursor < num_data);
+        }
+
         public override DataBatch Next()
         {
-            if (IterNext())
+            if (!IterNext())
                 throw new Exception("Stop Iteration");
+
             var d = this.GetData();
             var l = GetLabel();
             // iter should stop when last batch is not complete
@@ -178,7 +184,7 @@ namespace MxNet.IO
             List<NDArray> result = new List<NDArray>();
             foreach (var x in data_source)
             {
-                result.Add(x.Value.Slice((uint)start.Value, (uint)end));
+                result.Add(x.Value.Slice(start.Value, end));
             }
 
             return result.ToArray();

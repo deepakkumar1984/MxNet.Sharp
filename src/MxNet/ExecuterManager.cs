@@ -28,7 +28,7 @@ namespace MxNet
                 if (begin >= end)
                     throw new Exception("Too many slices. Some splits are empty.");
 
-                slices.Add(new Slice((uint)begin, (uint)end));
+                slices.Add(new Slice(begin, end));
             }
 
             return slices.ToArray();

@@ -17,7 +17,7 @@ namespace MNIST
         public static void Run()
         {
             var mnist = TestUtils.GetMNIST();
-            uint batch_size = 100;
+            int batch_size = 100;
             var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
             var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
 
@@ -36,17 +36,17 @@ namespace MNIST
             int epoch = 10;
             var metric = new Accuracy();
             var softmax_cross_entropy_loss = new SoftmaxCrossEntropyLoss();
-            for(int i = 0;i<epoch;i++)
+            for (int i = 0; i < epoch; i++)
             {
                 train_data.Reset();
-                while(train_data.IterNext())
+                while (!train_data.End())
                 {
                     var batch = train_data.Next();
                     var data = Utils.SplitAndLoad(batch.Data[0], ctx_list: ctxList, batch_axis: 0);
                     var label = Utils.SplitAndLoad(batch.Label[0], ctx_list: ctxList, batch_axis: 0);
 
                     NDArray[] outputs = null;
-                    using(var ag = Autograd.Record())
+                    using (var ag = Autograd.Record())
                     {
                         Enumerable.Zip(data, label, (x, y) =>
                         {

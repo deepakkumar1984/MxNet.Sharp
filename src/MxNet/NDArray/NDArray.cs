@@ -71,27 +71,6 @@ namespace MxNet
             this._Blob = new NDBlob(handle);
         }
 
-        internal NDArray(IList<mx_uint> shape, bool delayAlloc = true, Context ctx = null)
-        {
-            if (ctx != null)
-                context = ctx;
-
-            if (shape == null)
-                throw new ArgumentNullException(nameof(shape));
-
-            var floats = shape as mx_uint[];
-            var arg = floats ?? shape.ToArray();
-
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(arg,
-                                                           (uint)arg.Length,
-                                                           context.GetDeviceType(),
-                                                           context.GetDeviceId(),
-                                                           delayAlloc.ToInt32(),
-                                                           out var @out), NativeMethods.OK);
-            this.NativePtr = @out;
-            this._Blob = new NDBlob(@out);
-        }
-
         public NDArray(Shape shape, bool delayAlloc = true, Context ctx = null)
         {
             if (ctx != null)
@@ -123,7 +102,7 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(shape));
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data,
-                                                           (uint)shape.Dimension,
+                                                           shape.Dimension,
                                                            context.GetDeviceType(),
                                                            context.GetDeviceId(),
                                                            false.ToInt32(),
@@ -136,7 +115,7 @@ namespace MxNet
         }
 
         public NDArray(Array data, Context ctx = null)
-            : this(data, new Shape((uint)data.GetLength(0)), ctx)
+            : this(data, new Shape(data.GetLength(0)), ctx)
         {
 
         }
@@ -145,11 +124,11 @@ namespace MxNet
 
         #region Properties
 
-        public virtual uint Size
+        public virtual int Size
         {
             get
             {
-                uint ret = 1;
+                int ret = 1;
                 var shape = this.GetShape();
                 for (var i = 0; i < shape.Count; i++)
                     ret *= shape[i];
@@ -158,7 +137,7 @@ namespace MxNet
             }
         }
 
-        public uint Dimension
+        public int Dimension
         {
             get
             {
@@ -185,7 +164,7 @@ namespace MxNet
 
         public NDArray Copy()
         {
-            var ret = new NDArray(this.GetShape());
+            var ret = new NDArray(this.Shape);
             using (var op = new Operator("_copyto"))
                 op.Set(this).Invoke(ret);
 
@@ -236,10 +215,10 @@ namespace MxNet
             return this.NativePtr;
         }
 
-        public IList<mx_uint> GetShape()
+        public IList<int> GetShape()
         {
             NativeMethods.MXNDArrayGetShape(this.NativePtr, out var outDim, out var outData);
-            return InteropHelper.ToUInt32Array(outData, outDim);
+            return InteropHelper.ToInt32Array(outData, outDim);
         }
 
         public static NDArrayDict LoadToMap(string fileName)
@@ -359,9 +338,9 @@ namespace MxNet
             return @out;
         }
 
-        public virtual NDArray Slice(mx_uint begin, mx_uint end)
+        public virtual NDArray Slice(int begin, int? end)
         {
-            Logging.CHECK_EQ(NativeMethods.MXNDArraySlice(this.GetHandle(), begin, end, out var handle), NativeMethods.OK);
+            Logging.CHECK_EQ(NativeMethods.MXNDArraySlice(this.GetHandle(), begin, end.Value, out var handle), NativeMethods.OK);
             return new NDArray(handle);
         }
 
@@ -414,10 +393,10 @@ namespace MxNet
 
         public Array AsArray<T>()
         {
-            ulong size = this.Size;
+            int size = this.Size;
             var data = new T[size];
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
-            NativeMethods.MXNDArraySyncCopyToCPU(_Blob.Handle, datagch.AddrOfPinnedObject(), size);
+            NativeMethods.MXNDArraySyncCopyToCPU(_Blob.Handle, datagch.AddrOfPinnedObject(), (ulong)size);
             datagch.Free();
             return data;
         }
@@ -695,36 +674,17 @@ namespace MxNet
 
         public virtual NDArray Reshape(params int[] shape)
         {
-            uint[] targetShape = new mx_uint[shape.Length];
+            int[] targetShape = new int[shape.Length];
             long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
             for (int i = 0; i < targetShape.Length; i++)
             {
                 if (shape[i] > 0)
                 {
-                    targetShape[i] = (uint)shape[i];
+                    targetShape[i] = shape[i];
                 }
                 else
                 {
-                    targetShape[i] = Size / (uint)prod;
-                }
-            }
-
-            return Reshape(new Shape(targetShape));
-        }
-
-        public virtual NDArray Reshape(params uint[] shape)
-        {
-            uint[] targetShape = new mx_uint[shape.Length];
-            long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
-            for (int i = 0; i < targetShape.Length; i++)
-            {
-                if (shape[i] > 0)
-                {
-                    targetShape[i] = (uint)shape[i];
-                }
-                else
-                {
-                    targetShape[i] = Size / (uint)prod;
+                    targetShape[i] = Size / (int)prod;
                 }
             }
 
@@ -733,8 +693,8 @@ namespace MxNet
 
         public NDArray Ravel()
         {
-            uint n = Shape[0];
-            uint m = Size / n;
+            int n = Shape[0];
+            int m = Size / n;
             return Reshape(new Shape(n, m));
         }
 

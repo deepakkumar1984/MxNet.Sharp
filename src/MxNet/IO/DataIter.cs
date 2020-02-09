@@ -4,7 +4,7 @@ namespace MxNet.IO
 
     public abstract class DataIter : DisposableMXNetObject
     {
-        public uint BatchSize { get; set; }
+        public int BatchSize { get; set; }
 
         public virtual DataDesc[] ProvideData { get; }
 
@@ -12,7 +12,7 @@ namespace MxNet.IO
 
         public int DefaultBucketKey { get; set; }
 
-        public DataIter(uint batch_size = 0)
+        public DataIter(int batch_size = 0)
         {
             BatchSize = batch_size;
         }

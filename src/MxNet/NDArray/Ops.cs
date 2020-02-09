@@ -132,12 +132,12 @@ namespace MxNet
             if (ctx == null)
                 ctx = Context.CurrentContext;
 
-            List<uint> shape = new List<uint>();
+            List<int> shape = new List<int>();
             for (int i = 0; i < data.Rank; i++)
-                shape.Add((uint)data.GetLength(i));
+                shape.Add(data.GetLength(i));
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.ToArray(),
-                                                          (uint)data.Rank,
+                                                          data.Rank,
                                                           ctx.GetDeviceType(),
                                                           ctx.GetDeviceId(),
                                                           false.ToInt32(),
@@ -3453,7 +3453,7 @@ namespace MxNet
             .Invoke();
         }
 
-        public static NDArray Sum(NDArray data, uint axis, bool keepdims = false, bool exclude = false)
+        public static NDArray Sum(NDArray data, int axis, bool keepdims = false, bool exclude = false)
         {
             return Sum(data, new Shape(axis), keepdims, exclude);
         }
@@ -3476,6 +3476,11 @@ namespace MxNet
             .SetParam("exclude", exclude)
             .SetInput("data", data)
             .Invoke();
+        }
+
+        public static NDArray Mean(NDArray data, int axis, bool keepdims = false, bool exclude = false)
+        {
+            return Mean(data, new Shape(axis), keepdims, exclude);
         }
 
         ///<summary>
@@ -8287,7 +8292,7 @@ namespace MxNet
             .Invoke();
         }
 
-        public static NDArray Flip(NDArray data, uint axis)
+        public static NDArray Flip(NDArray data, int axis)
         {
             return new Operator("reverse")
             .SetParam("axis", new Shape(axis))

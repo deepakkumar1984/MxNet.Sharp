@@ -92,7 +92,7 @@ namespace MxNet.Image
         public static NDArray FixedCrop(NDArray src, int x0, int y0, int w, int h, 
                                         (int, int)? size = null, ImgInterp interp = ImgInterp.Area_Based)
         {
-            var output = nd.Slice(src, new Shape((uint)y0, (uint)x0, 0), new Shape((uint)(y0 + h), (uint)(x0 + w), (uint)src.Shape[2]));
+            var output = nd.Slice(src, new Shape(y0, x0, 0), new Shape((y0 + h), (x0 + w), src.Shape[2]));
             if(size.HasValue && size.Value.Item1 != w && size.Value.Item2 != h)
             {
                 var sizes = (h, w, size.Value.Item2, size.Value.Item1);

@@ -46,7 +46,7 @@ namespace MxNet.Optimizers
             bool aggregate = true;
             Enumerable.Zip(weights, grads, (weight, grad) => {
                 aggregate = (aggregate && weight.SType == StorageStype.Default && grad.SType == StorageStype.Default);
-                return true;
+                return 0;
             });
 
             UpdateCount(indices);

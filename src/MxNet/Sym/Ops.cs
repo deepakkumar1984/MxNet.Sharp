@@ -3846,6 +3846,11 @@ namespace MxNet
             .CreateSymbol(symbol_name);
         }
 
+        public static Symbol Sum(Symbol data, int axis, bool keepdims = false, bool exclude = false, string symbol_name = "")
+        {
+            return Sum(data, new Shape(axis), keepdims, exclude, symbol_name);
+        }
+
         ///<summary>
         ///<para>Computes the mean of array elements over given axes.</para>
         ///<para> </para>
@@ -3864,6 +3869,11 @@ namespace MxNet
             .SetParam("exclude", exclude)
             .SetInput("data", data)
             .CreateSymbol(symbol_name);
+        }
+
+        public static Symbol Mean(Symbol data, int axis, bool keepdims = false, bool exclude = false, string symbol_name = "")
+        {
+            return Mean(data, new Shape(axis), keepdims, exclude, symbol_name);
         }
 
         ///<summary>

@@ -141,7 +141,7 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayGetShape(NDArrayHandle handle,
-                                                   out mx_uint out_dim,
+                                                   out int out_dim,
                                                    out AtomicSymbolCreator out_pdata);
 
         /// <summary>
@@ -154,8 +154,8 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArraySlice(NDArrayHandle handle,
-                                                mx_uint slice_begin,
-                                                mx_uint slice_end,
+                                                int slice_begin,
+                                                int slice_end,
                                                 out NDArrayHandle @out);
 
         [DllImport("libmxnet.dll", EntryPoint = "MXNDArrayReshape", CallingConvention = CallingConvention.Cdecl)]
@@ -477,17 +477,17 @@ namespace MxNet.Interop
         public static extern unsafe int MXSymbolInferShape(SymbolHandle sym,
                                                            mx_uint num_args,
                                                            [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                           mx_uint[] arg_ind_ptr,
-                                                           mx_uint[] arg_shape_data,
-                                                           mx_uint* in_shape_size,
-                                                           mx_uint** in_shape_ndim,
-                                                           mx_uint*** in_shape_data,
-                                                           out mx_uint out_shape_size,
-                                                           out mx_uint* out_shape_ndim,
-                                                           out mx_uint** out_shape_data,
-                                                           out mx_uint aux_shape_size,
-                                                           out mx_uint* aux_shape_ndim,
-                                                           out mx_uint** aux_shape_data,
+                                                           int[] arg_ind_ptr,
+                                                           int[] arg_shape_data,
+                                                           int* in_shape_size,
+                                                           int** in_shape_ndim,
+                                                           int*** in_shape_data,
+                                                           out int out_shape_size,
+                                                           out int* out_shape_ndim,
+                                                           out int** out_shape_data,
+                                                           out int aux_shape_size,
+                                                           out int* aux_shape_ndim,
+                                                           out int** aux_shape_data,
                                                            out int complete);
 
         /// <summary>
@@ -819,8 +819,8 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayCreate(
-            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U4)]uint[] shape,
-            uint ndim, DeviceType devType,
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U4)]int[] shape,
+            int ndim, DeviceType devType,
             int devId,
             int delayAlloc,
             out IntPtr @out);

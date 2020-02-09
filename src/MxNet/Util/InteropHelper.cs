@@ -35,12 +35,12 @@ namespace MxNet
             }
         }
 
-        public static uint[] ToUInt32Array(IntPtr ptr, uint count)
+        public static int[] ToInt32Array(IntPtr ptr, int count)
         {
             unsafe
             {
-                var array = new uint[count];
-                var p = (uint*)ptr;
+                var array = new int[count];
+                var p = (int*)ptr;
                 for (var i = 0; i < count; i++)
                     array[i] = p[i];
 

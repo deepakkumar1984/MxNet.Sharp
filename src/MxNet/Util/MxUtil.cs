@@ -38,9 +38,9 @@ namespace MxNet
             return keys.Distinct().OrderBy(x => x).ToList();
         }
 
-        public static (uint,uint,uint,uint) GetSliceNotation(string slice, Shape shape)
+        public static (int,int,int,int) GetSliceNotation(string slice, Shape shape)
         {
-            uint rowBegin = 0, rowEnd = shape[0], colBegin = 0, colEnd = 0;
+            int rowBegin = 0, rowEnd = shape[0], colBegin = 0, colEnd = 0;
 
             if (slice.Contains(","))
             {
@@ -50,14 +50,14 @@ namespace MxNet
                 string[] rowRange = rowSpan.Contains(":") ? rowSpan.Split(':') : null;
                 if (rowRange != null)
                 {
-                    rowBegin = !string.IsNullOrEmpty(rowRange[0]) ? Convert.ToUInt32(rowRange[0].Trim()) : rowBegin;
-                    rowEnd = !string.IsNullOrEmpty(rowRange[1]) ? Convert.ToUInt32(rowRange[1].Trim()) : rowEnd;
+                    rowBegin = !string.IsNullOrEmpty(rowRange[0]) ? Convert.ToInt32(rowRange[0].Trim()) : rowBegin;
+                    rowEnd = !string.IsNullOrEmpty(rowRange[1]) ? Convert.ToInt32(rowRange[1].Trim()) : rowEnd;
                 }
                 else
                 {
                     if(!string.IsNullOrWhiteSpace(rowSpan))
                     {
-                        rowEnd = Convert.ToUInt32(rowSpan.Trim());
+                        rowEnd = Convert.ToInt32(rowSpan.Trim());
                         rowBegin = rowEnd - 1;
                     }
                 }
@@ -65,14 +65,14 @@ namespace MxNet
                 string[] colRange = colSpan.Contains(":") ? colSpan.Split(':') : null;
                 if (colRange != null)
                 {
-                    colBegin = !string.IsNullOrEmpty(colRange[0]) ? Convert.ToUInt32(colRange[0].Trim()) : colBegin;
-                    colEnd = !string.IsNullOrEmpty(colRange[1]) ? Convert.ToUInt32(colRange[1].Trim()) : shape[1];
+                    colBegin = !string.IsNullOrEmpty(colRange[0]) ? Convert.ToInt32(colRange[0].Trim()) : colBegin;
+                    colEnd = !string.IsNullOrEmpty(colRange[1]) ? Convert.ToInt32(colRange[1].Trim()) : shape[1];
                 }
                 else
                 {
                     if (!string.IsNullOrWhiteSpace(colSpan))
                     {
-                        colEnd = Convert.ToUInt32(colSpan.Trim());
+                        colEnd = Convert.ToInt32(colSpan.Trim());
                         colBegin = colEnd - 1;
                     }
                 }
@@ -82,8 +82,8 @@ namespace MxNet
                 string[] rowRange = slice.Contains(":") ? slice.Split(':') : null;
                 if (rowRange != null)
                 {
-                    rowBegin = !string.IsNullOrEmpty(rowRange[0]) ? Convert.ToUInt32(rowRange[0].Trim()) : rowBegin;
-                    rowEnd = !string.IsNullOrEmpty(rowRange[1]) ? Convert.ToUInt32(rowRange[1].Trim()) : rowEnd;
+                    rowBegin = !string.IsNullOrEmpty(rowRange[0]) ? Convert.ToInt32(rowRange[0].Trim()) : rowBegin;
+                    rowEnd = !string.IsNullOrEmpty(rowRange[1]) ? Convert.ToInt32(rowRange[1].Trim()) : rowEnd;
                 }
             }
 

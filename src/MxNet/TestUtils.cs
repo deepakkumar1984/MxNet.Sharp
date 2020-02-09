@@ -134,7 +134,7 @@ namespace MxNet
             return dataset;
         }
 
-        private static (NDArray, NDArray) read_data(string label_url, string image_url, uint n)
+        private static (NDArray, NDArray) read_data(string label_url, string image_url, int n)
         {
             NDArray label = null;
             NDArray images = null;
