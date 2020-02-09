@@ -36,7 +36,7 @@ namespace MNIST
             int epoch = 10;
             var metric = new Accuracy();
             var softmax_cross_entropy_loss = new SoftmaxCrossEntropyLoss();
-            for (int i = 0; i < epoch; i++)
+            for (int iter = 0; iter < epoch; iter++)
             {
                 train_data.Reset();
                 while (!train_data.End())
@@ -48,11 +48,14 @@ namespace MNIST
                     NDArray[] outputs = null;
                     using (var ag = Autograd.Record())
                     {
-                        Enumerable.Zip(data, label, (x, y) =>
+                        for (int i = 0; i < data.Length; i++)
                         {
+                            var x = data[i];
+                            var y = label[i];
+
                             var z = net.Call(x);
-                            return true;
-                        });
+
+                        }
                     }
                 }
             }

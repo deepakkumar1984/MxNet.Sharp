@@ -8,7 +8,13 @@ namespace MxNet.Gluon.NN
 {
     public class Sequential : Block
     {
-        private List<Block> blocks = new List<Block>();
+        public List<Block> Blocks
+        {
+            get
+            {
+                return childrens.Values.ToList();
+            }
+        }
 
         public Sequential this[string key]
         {
@@ -42,7 +48,7 @@ namespace MxNet.Gluon.NN
 
         public override NDArray Forward(NDArray input, params NDArray[] args)
         {
-            foreach (var item in blocks)
+            foreach (var item in Blocks)
             {
                 input = item.Call(input).NdX;
             }

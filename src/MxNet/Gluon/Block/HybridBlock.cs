@@ -204,12 +204,22 @@ namespace MxNet.Gluon
 
         public override void RegisterChild(Block block, string name = null)
         {
-            throw new NotImplementedException();
+            if (block is HybridBlock)
+                base.RegisterChild(block, name);
+            else
+                throw new Exception("Children of HybridBlock must also be HybridBlock, " +
+                                    $"but {block.Name} has type {block.GetType().Name}. If you are using Sequential, " +
+                                    "please try HybridSequential instead.");
         }
 
         public override void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)
         {
-            throw new NotImplementedException();
+            _active = active;
+            ClearCachedOp();
+            if (active && forward_hooks != null || forward_pre_hooks != null)
+                Logger.Warning($"{Name} is being hybridized while still having forward hook/pre-hook");
+
+            base.Hybridize(active, static_alloc, static_shape);
         }
 
         public override void Cast(DType dtype)
