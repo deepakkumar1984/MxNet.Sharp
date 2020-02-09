@@ -108,7 +108,7 @@ namespace MxNet.Gluon
             if (_shared != null && _shared.Contains(name))
                 _params[name] = _shared[name];
 
-            return _params[name];
+            return null;
         }
 
         public Parameter Get(string name, OpGradReq grad_req = OpGradReq.Write, Shape shape = null, DType dtype = null,
@@ -141,7 +141,7 @@ namespace MxNet.Gluon
                     continue;
                 }
 
-                if(_params[item.Key].GetType() != item.Value.GetType())
+                if(_params[item.Key].GetType() == item.Value.GetType())
                 {
                     _params[item.Key] = item.Value;
                 }

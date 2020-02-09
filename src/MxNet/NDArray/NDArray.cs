@@ -166,6 +166,19 @@ namespace MxNet
             }
         }
 
+        public bool FreshGrad
+        {
+            get
+            {
+                NativeMethods.MXNDArrayGetGradState(this.NativePtr, out var freshGrad);
+                return freshGrad;
+            }
+            set
+            {
+                NativeMethods.MXNDArraySetGradState(this.NativePtr, value);
+            }
+        }
+
         #endregion
 
         #region Methods

@@ -84,9 +84,9 @@ namespace MxNet
 
         //public static void simple_forward(Symbol sym, Context ctx= null, bool is_train= false, params NDArray[] inputs) => throw new NotImplementedException();
 
-        //private static Dictionary<string, NDArray> _parse_location(Symbol sym, NDArray[] location, Context ctx, DType dtype = null) => throw new NotImplementedException();
+        //private static NDArrayDict _parse_location(Symbol sym, NDArray[] location, Context ctx, DType dtype = null) => throw new NotImplementedException();
 
-        //private static Dictionary<string, NDArray> _parse_aux_states(Symbol sym, NDArray[] aux_states, Context ctx, DType dtype = null) => throw new NotImplementedException();
+        //private static NDArrayDict _parse_aux_states(Symbol sym, NDArray[] aux_states, Context ctx, DType dtype = null) => throw new NotImplementedException();
 
         public static List<int> ListGpus()
         {
@@ -119,13 +119,13 @@ namespace MxNet
             return path;
         }
 
-        public static Dictionary<string, NDArray> GetMNIST()
+        public static NDArrayDict GetMNIST()
         {
             string path = "http://data.mxnet.io/data/mnist/";
             var (train_lbl, train_img) = read_data(path + "train-labels-idx1-ubyte.gz", path + "train-images-idx3-ubyte.gz", 60000);
             var (test_lbl, test_img) = read_data(path + "t10k-labels-idx1-ubyte.gz", path + "t10k-images-idx3-ubyte.gz", 10000);
 
-            Dictionary<string, NDArray> dataset = new Dictionary<string, NDArray>();
+            NDArrayDict dataset = new NDArrayDict();
             dataset.Add("train_data", train_img);
             dataset.Add("train_label", train_lbl);
             dataset.Add("test_data", test_img);
@@ -173,11 +173,11 @@ namespace MxNet
             return (label, images);
         }
 
-        //public static Dictionary<string, NDArray> GetMnistPkl() => throw new NotImplementedException();
+        //public static NDArrayDict GetMnistPkl() => throw new NotImplementedException();
 
-        //public static Dictionary<string, NDArray> GetMnistUByte() => throw new NotImplementedException();
+        //public static NDArrayDict GetMnistUByte() => throw new NotImplementedException();
 
-        //public static Dictionary<string, NDArray> GetCifar10() => throw new NotImplementedException();
+        //public static NDArrayDict GetCifar10() => throw new NotImplementedException();
 
         //public static (NDArrayIter, NDArrayIter) GetMnistIterator(int batch_size, Shape input_shape, int num_parts= 1, int part_index= 0) => throw new NotImplementedException();
     }

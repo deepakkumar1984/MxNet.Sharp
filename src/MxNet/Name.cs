@@ -57,6 +57,7 @@ namespace MxNet
                 }
 
                 name = hint + counter[hint];
+                counter[hint]++;
                 return name;
             }
         }

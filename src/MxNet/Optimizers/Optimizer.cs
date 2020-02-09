@@ -6,6 +6,11 @@ using System.Reflection;
 
 namespace MxNet.Optimizers
 {
+    public class OptimState : NDArrayDict
+    {
+        
+    }
+
     public abstract class Optimizer
     {
         public float LearningRate
@@ -84,18 +89,15 @@ namespace MxNet.Optimizers
             SetWdMult(new Dictionary<string, float>());
         }
 
-        public abstract Dictionary<string, NDArray> CreateState(int index, NDArray weight);
+        public abstract NDArrayDict CreateState(int index, NDArray weight);
 
-        public Dictionary<string, NDArray> CreateStateMultiPrecision(int index, NDArray weight)
+        public virtual (NDArrayDict, NDArray) CreateStateMultiPrecision(int index, NDArray weight)
         {
             NDArray weight_master_copy = null;
-            if (MultiPrecision && weight.DataType.Name == DType.Float32.Name)
+            if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
             {
                 weight_master_copy = weight.AsType(DType.Float32);
-                var r = CreateState(index, weight);
-                r.Add("weight_master_copy", weight_master_copy);
-                
-                return r;
+                return (CreateState(index, weight_master_copy), weight_master_copy);
             }
 
             if (!MultiPrecision && weight.DataType.Name == DType.Float16.Name)
@@ -104,24 +106,23 @@ namespace MxNet.Optimizers
                           "Consider using multi_precision=True option of the " +
                           "optimizer");
 
-            return CreateState(index, weight);
+            return (CreateState(index, weight), weight);
         }
 
-        public abstract void Update(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state);
+        public abstract void Update(int index, NDArray weight, NDArray grad, NDArrayDict state);
 
-        public void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state)
+        public virtual void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, (NDArrayDict, NDArray) state)
         {
             if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
             {
-                var weight_master_copy = state["weight_master_copy"];
-                state.Remove("weight_master_copy");
+                var weight_master_copy = state.Item2;
                 var grad32 = grad.AsType(DType.Float32);
-                Update(index, weight_master_copy, grad32, state);
+                Update(index, weight_master_copy, grad32, state.Item1);
                 weight = weight_master_copy.Cast(weight.DataType);
             }
             else
             {
-                Update(index, weight, grad, state);
+                Update(index, weight, grad, state.Item1);
             }
         }
 
@@ -263,5 +264,21 @@ namespace MxNet.Optimizers
         }
 
         internal float GetWd(int index) => GetWds(new int[] { index })[0];
+
+        internal static NDArray[] FlattenList(params NDArray[][] nested_list)
+        {
+            List<NDArray> result = new List<NDArray>();
+            foreach (var item in nested_list)
+            {
+                result.AddRange(item);
+            }
+
+            return result.ToArray();
+        }
+
+        public Updater GetUpdater()
+        {
+            return new Updater(this);
+        }
     }
 }

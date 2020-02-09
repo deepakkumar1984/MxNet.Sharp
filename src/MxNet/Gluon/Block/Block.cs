@@ -77,7 +77,7 @@ namespace MxNet.Gluon
         public ParameterDict CollectParams(string select = null)
         {
             ParameterDict ret = new ParameterDict(Params.Prefix);
-            if(!string.IsNullOrWhiteSpace(select))
+            if(string.IsNullOrWhiteSpace(select))
             {
                 ret.Update(Params);
             }

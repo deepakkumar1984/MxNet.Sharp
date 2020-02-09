@@ -10,8 +10,8 @@ namespace MxNet.IO
     {
         private string last_batch_handle;
         private DataBatch first_batch = null;
-        private Dictionary<string, NDArray> data;
-        private Dictionary<string, NDArray> label;
+        private NDArrayDict data;
+        private NDArrayDict label;
         private int cursor;
         private uint num_data;
         private int num_source;
@@ -167,7 +167,7 @@ namespace MxNet.IO
             this.label = IOUtils.GetDataByIdx(label);
         }
 
-        private NDArray[] _getdata(Dictionary<string, NDArray> data_source, int? start= null, int? end= null)
+        private NDArray[] _getdata(NDArrayDict data_source, int? start= null, int? end= null)
         {
             if (!start.HasValue && !end.HasValue)
                 throw new ArgumentException("Should atleast specify start or end");
@@ -200,7 +200,7 @@ namespace MxNet.IO
             return result.ToArray();
         }
 
-        private NDArray[] _batchify(Dictionary<string, NDArray> data_source)
+        private NDArray[] _batchify(NDArrayDict data_source)
         {
             if (cursor > num_data)
                 throw new Exception("DataIter need reset");

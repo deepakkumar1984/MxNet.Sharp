@@ -46,7 +46,19 @@ namespace MxNet.Initializers
 
         public static Initializer Get(string name)
         {
-            throw new NotImplementedException();
+            if (name == null)
+                name = "";
+            switch (name.ToLower().Trim())
+            {
+                case "xavier":
+                    return new Xavier();
+                case "zeros":
+                    return new Zero();
+                case "ones":
+                    return new One();
+                default:
+                    return null;
+            }
         }
     }
 }

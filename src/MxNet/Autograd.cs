@@ -133,6 +133,11 @@ namespace MxNet
                 _enter_train_mode = train_mode;
                 _prev_is_record = null;
                 _prev_train_mode = null;
+                if (_enter_is_record.HasValue)
+                    _prev_is_record = SetRecording(_enter_is_record.Value);
+
+                if (_enter_train_mode.HasValue)
+                    _prev_train_mode = SetRecording(_enter_train_mode.Value);
             }
 
             public override MxDisposable Enter()

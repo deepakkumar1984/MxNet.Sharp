@@ -16,7 +16,7 @@ namespace MxNet
     {
         private CachedOpHandle handle;
 
-        public CachedOp(Symbol sym, Dictionary<string, NDArray> flags)
+        public CachedOp(Symbol sym, NDArrayDict flags)
         {
             handle = IntPtr.Zero;
             NativeMethods.MXCreateCachedOpEx(sym.GetHandle(), flags.Count, flags.Keys.ToArray(), MxUtil.GetNDArrayHandles(flags.Values.ToArray()), out handle);

@@ -12,8 +12,8 @@ namespace MxNet.Gluon
         internal Symbol symvar = null;
         internal List<NDArray> _data = null;
         internal List<NDArray> _grad = null;
-        internal List<Context> ctx_list = null;
-        internal Dictionary<int, Context[]> ctx_map;
+        internal List<Context> _ctx_list = null;
+        internal Dictionary<int, List<Context>> ctx_map;
         internal Trainer trainer = null;
         internal (Initializer, Context[], Initializer, NDArray)? deferred_init = null;
         internal bool differentiable = false;
@@ -86,7 +86,7 @@ namespace MxNet.Gluon
             Grad_Stype = grad_stype;
             this.allow_deferred_init = allow_deferred_init;
             grad_req = OpGradReq.Null;
-            ctx_map = new Dictionary<int, Context[]>();
+            ctx_map = new Dictionary<int, List<Context>>();
 
         }
 
@@ -116,13 +116,18 @@ namespace MxNet.Gluon
                     ctx = Context.CurrentContext;
             }
 
-            foreach (var item in arr_list)
+            var ctx_list = ctx_map[(int)ctx.GetDeviceType() & 1];
+
+            if (ctx.GetDeviceId() < ctx_list.Count)
             {
-                if(item.context != ctx)
-                {
-                    throw new Exception($"Parameter '{Name}' was not initialized on context {ctx.ToString()}. " + 
-                                         $"It was only initialized on {item.context.ToString()}.");
-                }
+                var idx = ctx_list[ctx.GetDeviceId()];
+                if (idx != null)
+                    return arr_list;
+            }
+            else
+            {
+                throw new Exception($"Parameter '{Name}' was not initialized on context {ctx.ToString()}. " +
+                                             $"It was only initialized on {ctx_list[0].ToString()}.");
             }
 
             if (deferred_init != null)
@@ -248,14 +253,16 @@ namespace MxNet.Gluon
 
         internal void InitImpl(NDArray data, Context[] ctx_list)
         {
-            ctx_map = new Dictionary<int, Context[]>();
+            this._ctx_list = ctx_list.ToList();
+            ctx_map = new Dictionary<int, List<Context>>() { { 0, new List<Context>()}, { 1, new List<Context>() } };
+
             for (int i = 0; i < ctx_list.Length; i++)
             {
-                var dev_list = ctx_map[(int)ctx_list[i].GetDeviceType() & 1].ToList();
-                while (dev_list.Count <= ctx_list[i].GetDeviceId())
-                    dev_list.Add(null);
+                var key = (int)ctx_list[i].GetDeviceType() & 1;
+                while (ctx_map[key].Count <= ctx_list[i].GetDeviceId())
+                    ctx_map[key].Add(null);
 
-                dev_list[ctx_list[i].GetDeviceId()] = ctx_list[i];
+                ctx_map[key][ctx_list[i].GetDeviceId()] = ctx_list[i];
             }
 
             this._data = new List<NDArray>();
@@ -372,7 +379,7 @@ namespace MxNet.Gluon
                 return;
             }
             
-            if(trainer != null && trainer._kv_initialized && trainer._update_on_kvstore)
+            if(trainer != null && trainer._kv_initialized && trainer._update_on_kvstore.Value)
             {
                 if(!trainer._params_to_init.Contains(this))
                 {
@@ -457,9 +464,9 @@ namespace MxNet.Gluon
 
         public Context[] ListCtx()
         {
-            if(_data == null)
+            if (_data == null)
             {
-                if(deferred_init.HasValue)
+                if (deferred_init.HasValue)
                 {
                     return deferred_init.Value.Item2;
                 }
@@ -467,7 +474,7 @@ namespace MxNet.Gluon
                 throw new Exception($"Parameter '{Name}' has not been initialized");
             }
 
-            return this.ctx_list.ToArray();
+            return this._ctx_list != null ? this._ctx_list.ToArray() : new Context[0];
         }
 
         public void ZeroGrad()

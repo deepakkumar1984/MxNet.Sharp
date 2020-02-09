@@ -276,6 +276,12 @@ namespace MxNet.Interop
         public static extern int MXFreeCachedOp(IntPtr handle);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetGradState(IntPtr handle, out bool freshGrad);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArraySetGradState(IntPtr handle, bool freshGrad);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXInvokeCachedOpEx(IntPtr handle, int num_inputs, NDArrayHandle[] inputs, out int num_outputs, out NDArrayHandle[] outputs, out int[] out_stypes);
 
         #endregion

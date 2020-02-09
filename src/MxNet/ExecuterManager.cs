@@ -108,7 +108,7 @@ namespace MxNet
 
             List<NDArray> arg_arrays = new List<NDArray>();
             List<NDArray> aux_arrays = new List<NDArray>();
-            Dictionary<string, NDArray> grad_arrays = need_grad ? new Dictionary<string, NDArray>() : null;
+            NDArrayDict grad_arrays = need_grad ? new NDArrayDict() : null;
 
             var arg_names = sym.ListArguments();
             List<string> needGradSet = new List<string>();

@@ -32,7 +32,7 @@ namespace MxNet.Gluon
         private List<int> _out_format;
         private List<int> _in_format;
         private bool _active = false;
-        private Dictionary<string, NDArray> _flags = new Dictionary<string, NDArray>();
+        private NDArrayDict _flags = new NDArrayDict();
         private List<CachedOpArg> _cached_op_args = new List<CachedOpArg>();
         public HybridBlock(string prefix = null , ParameterDict @params = null) : base(prefix, @params)
         {
@@ -137,7 +137,7 @@ namespace MxNet.Gluon
                 }
             }
 
-            var flags = new Dictionary<string, NDArray>() { { "data_indices", new NDArray(data_indices.ToArray()) }, { "param_indices", new NDArray(param_indices.ToArray()) } };
+            var flags = new NDArrayDict() { { "data_indices", new NDArray(data_indices.ToArray()) }, { "param_indices", new NDArray(param_indices.ToArray()) } };
             foreach (var item in _flags)
             {
                 flags.Add(item.Key, item.Value);

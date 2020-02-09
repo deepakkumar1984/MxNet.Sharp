@@ -6,9 +6,9 @@ namespace MxNet.IO
 {
     internal class IOUtils
     {
-        public static Dictionary<string, NDArray> InitData(NDArray[] data, bool allow_empty, string default_name)
+        public static NDArrayDict InitData(NDArray[] data, bool allow_empty, string default_name)
         {
-            Dictionary<string, NDArray> result = new Dictionary<string, NDArray>();
+            NDArrayDict result = new NDArrayDict();
             if (data == null)
                 return result;
 
@@ -30,7 +30,7 @@ namespace MxNet.IO
             return result;
         }
 
-        public static bool HasInstance(Dictionary<string, NDArray> data, DType dtype)
+        public static bool HasInstance(NDArrayDict data, DType dtype)
         {
             foreach (var item in data)
             {
@@ -41,9 +41,9 @@ namespace MxNet.IO
             return false;
         }
 
-        public static Dictionary<string, NDArray> GetDataByIdx(Dictionary<string, NDArray> data)
+        public static NDArrayDict GetDataByIdx(NDArrayDict data)
         {
-            Dictionary<string, NDArray> shuffle_data = new Dictionary<string, NDArray>();
+            NDArrayDict shuffle_data = new NDArrayDict();
 
             foreach (var item in data)
             {

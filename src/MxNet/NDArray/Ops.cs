@@ -1605,16 +1605,18 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray MultiSgdUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArray[] MultiSgdUpdate(NDArray[] data, float[] lrs, float[] wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            return new Operator("multi_sgd_update")
+            List<NDArray> result = new List<NDArray>();
+            new Operator("multi_sgd_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
             .SetParam("rescale_grad", rescale_grad)
             .SetParam("clip_gradient", clip_gradient)
             .SetParam("num_weights", num_weights)
             .SetInput(data)
-            .Invoke();
+            .Invoke(result);
+            return result.ToArray();
         }
 
         ///<summary>
@@ -1648,9 +1650,10 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray MultiSgdMomUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArray[] MultiSgdMomUpdate(NDArray[] data, float[] lrs, float[] wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            return new Operator("multi_sgd_mom_update")
+            List<NDArray> result = new List<NDArray>();
+            new Operator("multi_sgd_mom_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
             .SetParam("momentum", momentum)
@@ -1658,7 +1661,9 @@ namespace MxNet
             .SetParam("clip_gradient", clip_gradient)
             .SetParam("num_weights", num_weights)
             .SetInput(data)
-            .Invoke();
+            .Invoke(result);
+
+            return result.ToArray();
         }
 
         ///<summary>
@@ -1679,16 +1684,19 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray MultiMpSgdUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArray[] MultiMpSgdUpdate(NDArray[] data, float[] lrs, float[] wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            return new Operator("multi_mp_sgd_update")
+            List<NDArray> result = new List<NDArray>();
+            new Operator("multi_mp_sgd_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
             .SetParam("rescale_grad", rescale_grad)
             .SetParam("clip_gradient", clip_gradient)
             .SetParam("num_weights", num_weights)
             .SetInput(data)
-            .Invoke();
+              .Invoke(result);
+
+            return result.ToArray();
         }
 
         ///<summary>
@@ -1722,9 +1730,10 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray MultiMpSgdMomUpdate(NDArray[] data, Tuple<double> lrs, Tuple<double> wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArray[] MultiMpSgdMomUpdate(NDArray[] data, float[] lrs, float[] wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            return new Operator("multi_mp_sgd_mom_update")
+            List<NDArray> result = new List<NDArray>();
+            new Operator("multi_mp_sgd_mom_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
             .SetParam("momentum", momentum)
@@ -1732,7 +1741,9 @@ namespace MxNet
             .SetParam("clip_gradient", clip_gradient)
             .SetParam("num_weights", num_weights)
             .SetInput(data)
-            .Invoke();
+            .Invoke(result);
+
+            return result.ToArray();
         }
 
         ///<summary>

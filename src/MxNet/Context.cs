@@ -109,6 +109,13 @@ namespace MxNet
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            var other = (Context)obj;
+            return this.ToString() == other.ToString();
+
+        }
+
     }
 
 }

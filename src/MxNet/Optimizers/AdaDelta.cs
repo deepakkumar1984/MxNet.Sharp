@@ -23,7 +23,7 @@ namespace MxNet.Optimizers
             Epsilon = epsilon;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, Dictionary<string, NDArray> state)
+        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             var wd = GetWd(index);
             UpdateCount(new int[] { index });
@@ -44,9 +44,9 @@ namespace MxNet.Optimizers
             weight -= current_delta + wd * weight; 
         }
 
-        public override Dictionary<string, NDArray> CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            return new Dictionary<string, NDArray>()
+            return new NDArrayDict()
             {
                 { "acc_g", nd.Zeros(weight.Shape, weight.context)},
                 { "acc_delta", nd.Zeros(weight.Shape, weight.context)}

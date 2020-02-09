@@ -50,9 +50,9 @@ namespace MxNet.KVstore
             NativeMethods.MXKVStoreInitEx(handle, 1, new string[] { key }, new IntPtr[] { value.NativePtr });
         }
 
-        public void Push(string key, NDArray value, int priority = 0)
+        public void Push(string key, NDArray[] value, int priority = 0)
         {
-            NativeMethods.MXKVStorePushEx(handle, 1, new string[] { key }, new IntPtr[] { value.NativePtr }, priority);
+            NativeMethods.MXKVStorePushEx(handle, 1, new string[] { key }, MxUtil.GetNDArrayHandles(value), priority);
         }
 
         public void Pull(string key, NDArray[] @out, int priority = 0, bool ignore_sparse = true)
@@ -73,11 +73,9 @@ namespace MxNet.KVstore
             if (row_ids == null)
                 throw new ArgumentNullException("row_ids");
 
-            bool single_rowid = false;
             List<NDArray> first_out = new List<NDArray>();
             if (row_ids.Length == 1)
             {
-                single_rowid = true;
                 first_out.Add(@out[0]);
             }
             else
