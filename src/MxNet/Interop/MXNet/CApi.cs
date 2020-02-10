@@ -553,6 +553,9 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolSaveToJSON(SymbolHandle symbol, out System.IntPtr out_json);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolRemoveAmpCast(SymbolHandle symbol, out SymbolHandle handle);
+
         #endregion
 
         #region Part 4: Executor interface

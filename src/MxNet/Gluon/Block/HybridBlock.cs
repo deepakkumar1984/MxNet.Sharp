@@ -158,7 +158,7 @@ namespace MxNet.Gluon
             }
         }
 
-        private NDArray[] CallCachedOp(NDArray[] args)
+        private NDArray[] CallCachedOp(params NDArray[] args)
         {
             if (_cached_op == null)
                 BuildCache(args);
@@ -224,20 +224,162 @@ namespace MxNet.Gluon
 
         public override void Cast(DType dtype)
         {
-            throw new NotImplementedException();
+            ClearCachedOp();
+            base.Cast(dtype);
         }
 
-        private void InterAttrs(string infer_fn, string attr, Symbol[] args) => throw new NotImplementedException();
-
-        public void InferShape(NDArray[] args) => throw new NotImplementedException();
-
-        public void InferType(NDArray[] args) => throw new NotImplementedException();
-
-        public void Export(string path, int epoch = 0, bool remove_amp_cast = true) => throw new NotImplementedException();
-
-        public override NDArray Forward(NDArray input, params NDArray[] args)
+        private void InterAttrs(string infer_fn, string attr, NDArray[] arguments)
         {
-            throw new NotImplementedException();
+            var (inputs, @out) = GetGraph(arguments);
+            var (args, _) = Flatten(arguments.ToList().ToNDArrayOrSymbols(), "input");
+
+            if(infer_fn == "infer_shape")
+            {
+                Dictionary<string, Shape> args_shape = new Dictionary<string, Shape>();
+                Dictionary<string, Shape> sdict = new Dictionary<string, Shape>();
+                for (int i = 0; i < args[0].Length; i++)
+                {
+                    args_shape.Add(inputs[i].Name, args[0][i].NdX.Shape);
+                }
+
+                var (arg_attrs, _, aux_attrs) = @out.InferShape(args_shape);
+                if (arg_attrs == null)
+                    throw new Exception("No Args shape found");
+
+                var arg_names = @out.ListArguments().ToArray();
+                for(int i = 0;i< arg_attrs.Length;i++)
+                {
+                    sdict.Add(arg_names[i], arg_attrs[i]);
+                }
+
+                var aux_names = @out.ListAuxiliaryStates().ToArray();
+                for (int i = 0; i < aux_attrs.Length; i++)
+                {
+                    sdict[aux_names[i]] = aux_attrs[i];
+                }
+
+                var collectedValues = CollectParams().Values();
+                for (int i = 0; i < collectedValues.Length; i++)
+                {
+                    collectedValues[i].Shape = sdict[collectedValues[i].Name];
+                }
+            }
+            else if (infer_fn == "infer_type")
+            {
+                Dictionary<string, DType> args_shape = new Dictionary<string, DType>();
+                Dictionary<string, DType> sdict = new Dictionary<string, DType>();
+                for (int i = 0; i < args[0].Length; i++)
+                {
+                    args_shape.Add(inputs[i].Name, args[0][i].NdX.DataType);
+                }
+
+                var (arg_attrs, _, aux_attrs) = @out.InferType(args_shape);
+                if (arg_attrs == null)
+                    throw new Exception("No Args shape found");
+
+                var arg_names = @out.ListArguments().ToArray();
+                for (int i = 0; i < arg_attrs.Length; i++)
+                {
+                    sdict.Add(arg_names[i], arg_attrs[i]);
+                }
+
+                var aux_names = @out.ListAuxiliaryStates().ToArray();
+                for (int i = 0; i < aux_attrs.Length; i++)
+                {
+                    sdict[aux_names[i]] = aux_attrs[i];
+                }
+
+                var collectedValues = CollectParams().Values();
+                for (int i = 0; i < collectedValues.Length; i++)
+                {
+                    collectedValues[i].DataType = sdict[collectedValues[i].Name];
+                }
+            }
+        }
+
+        public void InferShape(NDArray[] args)
+        {
+            InterAttrs("infer_shape", "shape", args);
+        }
+
+        public void InferType(NDArray[] args)
+        {
+            InterAttrs("infer_type", "dtype", args);
+        }
+
+        public void Export(string path, int epoch = 0, bool remove_amp_cast = true)
+        {
+            if (!_cached_graph.HasValue)
+                throw new Exception("Please first call block.hybridize() and then run forward with " +
+                                        "this block at least once before calling export.");
+
+            var sym = _cached_graph.Value.Item2;
+            sym.Save($"{path}\\symbol.json", remove_amp_cast);
+
+            var arg_names = MxUtil.Set(sym.ListArguments().ToList());
+            var aux_names = MxUtil.Set(sym.ListAuxiliaryStates().ToList());
+
+            NDArrayDict arg_dict = new NDArrayDict();
+            foreach (var param in CollectParams().Items())
+            {
+                if(arg_names.Contains(param.Key))
+                {
+                    arg_dict[$"arg:{param.Key}"] = param.Value.Reduce();
+                }
+                else if (aux_names.Contains(param.Key))
+                {
+                    arg_dict[$"aux:{param.Key}"] = param.Value.Reduce();
+                }
+            }
+        }
+
+        public override NDArray Forward(NDArray x, params NDArray[] args)
+        {
+            var ctx = x.context;
+            var list = args.ToList();
+            list.Insert(0, x);
+
+            if (_active)
+            {
+                return CallCachedOp(list.ToArray()).FirstOrDefault();
+            }
+
+            Dictionary<string, NDArrayOrSymbol> @params = new Dictionary<string, NDArrayOrSymbol>();
+
+            try
+            {
+                foreach (var p in reg_params)
+                {
+                    @params[p.Key] = p.Value.Data(ctx);
+                }
+            }
+            catch(Exception ex)
+            {
+                @params.Clear();
+                DeferredInferShape(list.ToArray());
+                foreach (var p in Params.Items())
+                {
+                    p.Value.FinishDeferredInit();
+                }
+
+                foreach (var p in reg_params)
+                {
+                    @params[p.Key] = p.Value.Var();
+                }
+            }
+
+            List<NDArrayOrSymbol> argsList = new List<NDArrayOrSymbol>();
+            foreach (var item in args)
+            {
+                argsList.Add(item);
+            }
+
+            foreach (var item in @params)
+            {
+                argsList.Add(item.Value);
+            }
+
+            return HybridForward(x, argsList.ToArray());
         }
 
         public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);

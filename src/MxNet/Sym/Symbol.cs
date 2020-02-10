@@ -542,9 +542,17 @@ namespace MxNet
             return new Symbol(handle);
         }
 
-        public void Save(string fileName)
+        public void Save(string fileName, bool remove_amp_cast = true)
         {
-            Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToFile(this.GetHandle(), fileName), NativeMethods.OK);
+            if (remove_amp_cast)
+            {
+                Logging.CHECK_EQ(NativeMethods.MXSymbolRemoveAmpCast(this.GetHandle(), out var h), NativeMethods.OK);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToFile(h, fileName), NativeMethods.OK);
+            }
+            else
+            {
+                Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToFile(this.GetHandle(), fileName), NativeMethods.OK);
+            }
         }
 
         public Executor SimpleBind(Context context,

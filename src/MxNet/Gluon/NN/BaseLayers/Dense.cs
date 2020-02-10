@@ -35,7 +35,7 @@ namespace MxNet.Gluon.NN
             Flatten_ = flatten;
             DataType = dtype;
             Weight = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype, init: Initializer.Get(weight_initializer), allow_deferred_init: true);
-
+            
             if(UseBias)
                 Bias = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
         }
