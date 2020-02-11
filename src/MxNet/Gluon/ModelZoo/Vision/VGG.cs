@@ -23,22 +23,22 @@ namespace MxNet.Gluon.ModelZoo.Vision
             throw new NotImplementedException();
         }
 
-        public static VGG GetVgg(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static VGG GetVgg(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", bool batch_norm = false) => throw new NotImplementedException();
 
-        public static VGG Vgg11() => throw new NotImplementedException();
+        public static VGG Vgg11(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(11, pretrained, ctx, root);
 
-        public static VGG Vgg13() => throw new NotImplementedException();
+        public static VGG Vgg13(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(13, pretrained, ctx, root);
 
-        public static VGG Vgg16() => throw new NotImplementedException();
+        public static VGG Vgg16(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(16, pretrained, ctx, root);
 
-        public static VGG Vgg19() => throw new NotImplementedException();
+        public static VGG Vgg19(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(19, pretrained, ctx, root);
 
-        public static VGG Vgg11_BN() => throw new NotImplementedException();
+        public static VGG Vgg11_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(11, pretrained, ctx, root, true);
 
-        public static VGG Vgg13_BN() => throw new NotImplementedException();
+        public static VGG Vgg13_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(13, pretrained, ctx, root, true);
 
-        public static VGG Vgg16_BN() => throw new NotImplementedException();
+        public static VGG Vgg16_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(16, pretrained, ctx, root, true);
 
-        public static VGG Vgg19_BN() => throw new NotImplementedException();
+        public static VGG Vgg19_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(19, pretrained, ctx, root, true);
     }
 }

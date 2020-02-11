@@ -15,19 +15,39 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.Clip(x, 0, 6);
+
+            return sym.Clip(x, 0, 6);
         }
     }
 
     public class LinearBottleneck : HybridBlock
     {
+        private bool use_shortcut;
+        private HybridSequential output;
+
         public LinearBottleneck(int in_channels, int channels, int t, int stride, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
+            use_shortcut = (stride == 1 && in_channels == channels);
+            output = new HybridSequential();
+            MobileNet.AddConv(output, in_channels * t, relu6: true);
+            MobileNet.AddConv(output, in_channels * t, kernel: 3, stride: stride, pad: 1, num_group: in_channels, relu6: true);
+            MobileNet.AddConv(output, channels, active: false, relu6: true);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var @out = output.Call(x);
+            if(use_shortcut)
+            {
+                if (x.IsNDArray)
+                    @out = nd.ElemwiseAdd(@out.NdX, x.NdX);
+                else
+                    @out = sym.ElemwiseAdd(@out.SymX, x.SymX);
+            }
+
+            return @out;
         }
     }
 
@@ -57,13 +77,13 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public static MobileNet GetMobileNet(float multiplier, bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
 
-        public static MobileNet MobileNet1_0(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNet1_0(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(1, pretrained, ctx, root);
 
-        public static MobileNet MobileNet0_75(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNet0_75(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(0.75f, pretrained, ctx, root);
 
-        public static MobileNet MobileNet0_5(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNet0_5(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(0.5f, pretrained, ctx, root);
 
-        public static MobileNet MobileNet0_25(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNet0_25(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(0.25f, pretrained, ctx, root);
     }
 
     public class MobileNetV2 : HybridBlock
@@ -81,12 +101,12 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public static MobileNet GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
 
-        public static MobileNet MobileNetV2_1_0(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNetV2_1_0(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(1, pretrained, ctx, root);
 
-        public static MobileNet MobileNetV2_0_75(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNetV2_0_75(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(0.75f, pretrained, ctx, root);
 
-        public static MobileNet MobileNetV2_0_5(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNetV2_0_5(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(0.5f, pretrained, ctx, root);
 
-        public static MobileNet MobileNetV2_0_25(bool pretrained = false, Context ctx = null) => throw new NotImplementedException();
+        public static MobileNet MobileNetV2_0_25(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(0.25f, pretrained, ctx, root);
     }
 }

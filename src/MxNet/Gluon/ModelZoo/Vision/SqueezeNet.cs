@@ -31,9 +31,11 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
 
-        public static SqueezeNet GetSqueezeNet1_0() => throw new NotImplementedException();
+        public static SqueezeNet GetSqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "./models") =>
+                    GetSqueezeNet("1.0", pretrained, ctx, root);
 
-        public static SqueezeNet GetSqueezeNet1_1() => throw new NotImplementedException();
+        public static SqueezeNet GetSqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "./models") =>
+            GetSqueezeNet("1.1", pretrained, ctx, root);
 
     }
 }

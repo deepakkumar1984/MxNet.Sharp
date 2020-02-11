@@ -16,25 +16,25 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public static ResNet GetResNet(int version, int num_layers, bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
 
-        public static ResNet ResNet18_v1(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet18_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 18, pretrained, ctx, root);
 
-        public static ResNet ResNet34_v1(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet34_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 34, pretrained, ctx, root);
 
-        public static ResNet ResNet50_v1(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet50_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 50, pretrained, ctx, root);
 
-        public static ResNet ResNet101_v1(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet101_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 101, pretrained, ctx, root);
 
-        public static ResNet ResNet152_v1(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet152_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 152, pretrained, ctx, root);
 
-        public static ResNet ResNet18_v2(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet18_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 18, pretrained, ctx, root);
 
-        public static ResNet ResNet34_v2(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet34_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 34, pretrained, ctx, root);
 
-        public static ResNet ResNet50_v2(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet50_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 50, pretrained, ctx, root);
 
-        public static ResNet ResNet101_v2(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet101_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 101, pretrained, ctx, root);
 
-        public static ResNet ResNet152_v2(bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNet ResNet152_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 152, pretrained, ctx, root);
     }
 
     public class BasicBlockV1 : HybridBlock
