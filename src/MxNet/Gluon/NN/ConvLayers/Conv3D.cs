@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Initializers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,5 +19,6 @@ namespace MxNet.Gluon.NN
                           weight_initializer, bias_initializer, null, "Convolution", prefix, @params)
         {
         }
+
     }
 }

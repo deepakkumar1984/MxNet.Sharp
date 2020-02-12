@@ -1,4 +1,5 @@
-﻿using MxNet.Gluon.NN;
+﻿using MxNet.Gluon.Contrib.NN;
+using MxNet.Gluon.NN;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,33 +10,104 @@ namespace MxNet.Gluon.ModelZoo.Vision
 {
     public class SqueezeNet : HybridBlock
     {
+        public HybridSequential Features { get; set; }
+        public HybridSequential Output { get; set; }
+
         public SqueezeNet(string version, int classes= 1000, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            if (version != "1.0" || version != "1.1")
+                throw new NotSupportedException("Unsupported version");
+
+            Features = new HybridSequential();
+            if(version=="1.0")
+            {
+                Features.Add(new Conv2D(96, (7, 7), (2, 2)));
+                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
+                Features.Add(MakeFire(16, 64, 64));
+                Features.Add(MakeFire(16, 64, 64));
+                Features.Add(MakeFire(32, 128, 128));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
+                Features.Add(MakeFire(32, 128, 128));
+                Features.Add(MakeFire(48, 192, 192));
+                Features.Add(MakeFire(48, 192, 192));
+                Features.Add(MakeFire(64, 256, 256));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
+                Features.Add(MakeFire(64, 256, 256));
+            }
+            else if (version == "1.1")
+            {
+                Features.Add(new Conv2D(64, (3, 3), (2, 2)));
+                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
+                Features.Add(MakeFire(16, 64, 64));
+                Features.Add(MakeFire(16, 64, 64));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
+                Features.Add(MakeFire(32, 128, 128));
+                Features.Add(MakeFire(32, 128, 128));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
+                Features.Add(MakeFire(48, 192, 192));
+                Features.Add(MakeFire(48, 192, 192));
+                Features.Add(MakeFire(64, 256, 256));
+                Features.Add(MakeFire(64, 256, 256));
+            }
+
+            Features.Add(new Dropout(0.5f));
+
+
+            Output = new HybridSequential();
+            Output.Add(new Conv2D(classes, (1, 1)));
+            Output.Add(new Activation(ActivationActType.Relu));
+            Output.Add(new AvgPool2D((13, 13)));
+            Output.Add(new Flatten());
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            x = Features.Call(x);
+            x = Output.Call(x);
+            return x;
         }
 
-        private static HybridSequential MakeFire(int squeeze_channels, int expand1x1_channels, int expand3x3_channels)
+        private HybridSequential MakeFire(int squeeze_channels, int expand1x1_channels, int expand3x3_channels)
         {
-            throw new NotImplementedException();
+            var output = new HybridSequential(prefix: "");
+            output.Add(MakeFireConv(squeeze_channels, (1, 1)));
+
+            var paths = new HybridConcurrent(axis: 1, prefix: "");
+            paths.Add(MakeFireConv(expand1x1_channels, (1, 1)));
+            paths.Add(MakeFireConv(expand3x3_channels, (3, 3), (1, 1)));
+
+            output.Add(paths);
+
+            return output;
         }
 
-        private static HybridSequential MakeFireConv(int channels, (int, int) kernel_size, (int, int) padding = default)
+        private HybridSequential MakeFireConv(int channels, (int, int) kernel_size, (int, int)? padding = null)
         {
-            throw new NotImplementedException();
+            var output = new HybridSequential(prefix: "");
+            output.Add(new Conv2D(channels, kernel_size, padding));
+            output.Add(new Activation(ActivationActType.Relu));
+
+            return output;
         }
 
-        public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null)
+        {
+            var net = new SqueezeNet(version, classes, prefix, @params);
+            if (pretrained)
+            {
+                net.LoadParameters(ModelStore.GetModelFile("squeezenet" + version), ctx: ctx);
+            }
 
-        public static SqueezeNet GetSqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "./models") =>
-                    GetSqueezeNet("1.0", pretrained, ctx, root);
+            return net;
+        }
 
-        public static SqueezeNet GetSqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "./models") =>
-            GetSqueezeNet("1.1", pretrained, ctx, root);
+        public static SqueezeNet GetSqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
+                    GetSqueezeNet("1.0", pretrained, ctx, root, classes, prefix, @params);
+
+        public static SqueezeNet GetSqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
+            GetSqueezeNet("1.1", pretrained, ctx, root, classes, prefix, @params);
 
     }
 }

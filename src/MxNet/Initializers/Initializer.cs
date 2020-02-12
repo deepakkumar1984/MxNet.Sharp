@@ -44,6 +44,11 @@ namespace MxNet.Initializers
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
 
+        public static implicit operator Initializer(string name)
+        {
+            return Initializer.Get(name);
+        }
+
         public static Initializer Get(string name)
         {
             if (name == null)

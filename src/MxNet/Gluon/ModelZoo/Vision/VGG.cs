@@ -1,4 +1,5 @@
 ﻿using MxNet.Gluon.NN;
+using MxNet.Initializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,68 @@ namespace MxNet.Gluon.ModelZoo.Vision
 {
     public class VGG : HybridBlock
     {
+        private static Dictionary<int, (int[], int[])> vgg_spec = new Dictionary<int, (int[], int[])>()
+        {
+            { 11, (new int[]{ 1, 1, 2, 2, 2 }, new int[]{ 64, 128, 256, 512, 512}) },
+            { 13, (new int[]{ 2, 2, 2, 2, 2 }, new int[]{ 64, 128, 256, 512, 512}) },
+            { 16, (new int[]{ 2, 2, 3, 3, 3 }, new int[]{ 64, 128, 256, 512, 512}) },
+            { 19, (new int[]{ 2, 2, 4, 4, 4 }, new int[]{ 64, 128, 256, 512, 512}) }
+        };
+
+        public HybridSequential Features { get; set; }
+        public Dense Output { get; set; }
+
         public VGG(int[] layers, int[] filters, int classes= 1000, bool batch_norm= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
+            Features = MakeFeatures(layers, filters, batch_norm);
+            Features.Add(new Dense(4096, ActivationActType.Relu, weight_initializer: "normal", bias_initializer: "zeros"));
+            Features.Add(new Dropout(0.5f));
+            Features.Add(new Dense(4096, ActivationActType.Relu, weight_initializer: "normal", bias_initializer: "zeros"));
+            Features.Add(new Dropout(0.5f));
+
+            Output = new Dense(classes, weight_initializer: "normal", bias_initializer: "zeros");
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            x = Features.Call(x);
+            x = Output.Call(x);
+            return x;
         }
 
         private HybridSequential MakeFeatures(int[] layers, int[] filters, bool batch_norm = false)
         {
-            throw new NotImplementedException();
+            var featurizer = new HybridSequential(prefix: "");
+            for(int i=0;i< layers.Length;i++)
+            {
+                int num = layers[i];
+                for (int j = 0; i < num; j++)
+                {
+                    featurizer.Add(new Conv2D(filters[i], (3, 3), (1, 1), weight_initializer: new Xavier(rnd_type: "gaussian", factor_type: "out", magnitude: 2), bias_initializer: "zeros"));
+                    if (batch_norm)
+                        featurizer.Add(new BatchNorm());
+
+                    featurizer.Add(new Activation(ActivationActType.Relu));
+                }
+
+                featurizer.Add(new MaxPool2D(strides: (2, 2)));
+            }
+
+            return featurizer;
         }
 
-        public static VGG GetVgg(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", bool batch_norm = false) => throw new NotImplementedException();
+        public static VGG GetVgg(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", bool batch_norm = false)
+        {
+            var (layers, filters) = vgg_spec[num_layers];
+            var net = new VGG(layers, filters, batch_norm: batch_norm);
+            if (pretrained)
+            {
+                string batch_norm_suffix = batch_norm ? "_bn" : "";
+                net.LoadParameters(ModelStore.GetModelFile($"vgg{num_layers}{batch_norm_suffix}"), ctx: ctx);
+            }
+
+            return net;
+        }
 
         public static VGG Vgg11(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(11, pretrained, ctx, root);
 

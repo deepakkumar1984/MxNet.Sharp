@@ -26,7 +26,7 @@ namespace MxNet.Gluon.NN
         public int InUnits { get; set; }
 
         public Dense(int units, ActivationActType? activation = null, bool use_bias = true, bool flatten = true,
-                    DType dtype = null, string weight_initializer = null, string bias_initializer = "zeros",
+                    DType dtype = null, Initializer weight_initializer = null, string bias_initializer = "zeros",
                     int in_units = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
             Units = units;
@@ -34,7 +34,7 @@ namespace MxNet.Gluon.NN
             UseBias = use_bias;
             Flatten_ = flatten;
             DataType = dtype;
-            Weight = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype, init: Initializer.Get(weight_initializer), allow_deferred_init: true);
+            Weight = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype, init: weight_initializer, allow_deferred_init: true);
             
             if(UseBias)
                 Bias = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);

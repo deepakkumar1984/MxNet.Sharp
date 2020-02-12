@@ -9,119 +9,414 @@ namespace MxNet.Gluon.ModelZoo.Vision
 {
     public class ResNet
     {
+        private static Dictionary<int, (string, int[], int[])> resnet_spec = new Dictionary<int, (string, int[], int[])>()
+        {
+            {18, ("basic_block", new int[]{ 2, 2, 2, 2 }, new int[] { 64, 64, 128, 256, 512 }) },
+            {34, ("basic_block", new int[]{ 3, 4, 6, 3 }, new int[] { 64, 64, 128, 256, 512 }) },
+            {50, ("bottle_neck", new int[]{ 3, 4, 6, 3 }, new int[] { 64, 256, 512, 1024, 2048 }) },
+            {101, ("bottle_neck", new int[]{ 3, 4, 23, 3 }, new int[] { 64, 256, 512, 1024, 2048}) },
+            {152, ("bottle_neck", new int[]{3, 8, 36, 3 }, new int[] { 64, 256, 512, 1024, 2048}) }
+        };
+
         internal static Conv2D Conv3x3(int channels, int stride, int in_channels)
         {
-            throw new NotImplementedException();
+            return new Conv2D(channels, (3, 3), (stride, stride), (1, 1), use_bias: false, in_channels: in_channels);
         }
 
-        public static ResNet GetResNet(int version, int num_layers, bool pretrained = false, Context ctx = null, string root = "./models") => throw new NotImplementedException();
+        public static ResNetV1 GetResNetV1(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null)
+        {
+            if (!resnet_spec.ContainsKey(num_layers))
+                throw new Exception("Invalid number of layers");
 
-        public static ResNet ResNet18_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 18, pretrained, ctx, root);
+            var (block_type, layers, channels) = resnet_spec[num_layers];
 
-        public static ResNet ResNet34_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 34, pretrained, ctx, root);
+            var net = new ResNetV1(block_type, layers, channels);
+            if (pretrained)
+            {
+                net.LoadParameters(ModelStore.GetModelFile($"resnet{num_layers}_v1", root), ctx);
+            }
 
-        public static ResNet ResNet50_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 50, pretrained, ctx, root);
+            return net;
+        }
 
-        public static ResNet ResNet101_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 101, pretrained, ctx, root);
+        public static ResNetV2 GetResNetV2(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null)
+        {
+            if (!resnet_spec.ContainsKey(num_layers))
+                throw new Exception("Invalid number of layers");
 
-        public static ResNet ResNet152_v1(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(1, 152, pretrained, ctx, root);
+            var (block_type, layers, channels) = resnet_spec[num_layers];
 
-        public static ResNet ResNet18_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 18, pretrained, ctx, root);
+            var net = new ResNetV2(block_type, layers, channels);
+            if (pretrained)
+            {
+                net.LoadParameters(ModelStore.GetModelFile($"resnet{num_layers}_v2", root), ctx);
+            }
 
-        public static ResNet ResNet34_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 34, pretrained, ctx, root);
+            return net;
+        }
 
-        public static ResNet ResNet50_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 50, pretrained, ctx, root);
+        public static ResNetV1 ResNet18_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) =>
+                                        GetResNetV1(18, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNet ResNet101_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 101, pretrained, ctx, root);
+        public static ResNetV1 ResNet34_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, 
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
+                                        => GetResNetV1(34, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNet ResNet152_v2(bool pretrained = false, Context ctx = null, string root = "./models") => GetResNet(2, 152, pretrained, ctx, root);
+        public static ResNetV1 ResNet50_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
+                                        => GetResNetV1( 50, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+
+        public static ResNetV1 ResNet101_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, 
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
+                                        => GetResNetV1(101, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+
+        public static ResNetV1 ResNet152_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
+                                        => GetResNetV1( 152, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+
+        public static ResNetV2 ResNet18_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(18, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+
+        public static ResNetV2 ResNet34_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(34, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+
+        public static ResNetV2 ResNet50_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(50, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+
+        public static ResNetV2 ResNet101_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(101, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+
+        public static ResNetV2 ResNet152_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+                                        bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(152, pretrained, ctx, root, classes, thumbnail, prefix, @params);
     }
 
     public class BasicBlockV1 : HybridBlock
     {
+        private HybridSequential body;
+        private HybridSequential ds;
+        
         public BasicBlockV1(int channels, int stride, bool downsample= false, int in_channels= 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            body = new HybridSequential(prefix: "");
+            body.Add(ResNet.Conv3x3(channels, stride, in_channels));
+            body.Add(new BatchNorm());
+            body.Add(new Activation(ActivationActType.Relu));
+            body.Add(ResNet.Conv3x3(channels, 1, in_channels));
+            body.Add(new BatchNorm());
+            if(downsample)
+            {
+                ds = new HybridSequential();
+                ds.Add(new Conv2D(channels, (1,1), (stride, stride), use_bias: false, in_channels: in_channels));
+                ds.Add(new BatchNorm());
+            }
+            else
+            {
+                ds = null;
+            }
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var residual = x;
+
+            x = body.Call(x);
+            if (ds != null)
+                residual = ds.Call(residual);
+
+            if (x.IsNDArray)
+                x = nd.Activation(x.NdX + residual.NdX, act_type: ActivationActType.Relu);
+            else
+                x = sym.Activation(x.SymX + residual.SymX, act_type: ActivationActType.Relu);
+
+            return x;
         }
     }
 
     public class BasicBlockV2 : HybridBlock
     {
+        private BatchNorm bn1;
+        private Conv2D conv1;
+        private BatchNorm bn2;
+        private Conv2D conv2;
+        private Conv2D ds;
+
         public BasicBlockV2(int channels, int stride, bool downsample = false, int in_channels = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            bn1 = new BatchNorm();
+            conv1 = ResNet.Conv3x3(channels, stride, in_channels);
+            bn2 = new BatchNorm();
+            conv2 = ResNet.Conv3x3(channels, 1, in_channels);
+            if (downsample)
+                ds = new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels);
+            else
+                ds = null;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var residual = x;
+            x = bn1.Call(x);
+            if (x.IsNDArray)
+                x = nd.Activation(x.NdX, act_type: ActivationActType.Relu);
+            else
+                x = sym.Activation(x.SymX, act_type: ActivationActType.Relu);
+
+            if (ds != null)
+                residual = ds.Call(x);
+
+            x = conv1.Call(x);
+
+            x = bn2.Call(x);
+            if (x.IsNDArray)
+                x = nd.Activation(x.NdX, act_type: ActivationActType.Relu);
+            else
+                x = sym.Activation(x.SymX, act_type: ActivationActType.Relu);
+            x = conv2.Call(x);
+
+            if(x.IsNDArray)
+                return x.NdX + residual.NdX;
+
+            return x.SymX + residual.SymX;
         }
     }
 
     public class BottleneckV1 : HybridBlock
     {
+        private HybridSequential body;
+        private HybridSequential ds;
+
         public BottleneckV1(int channels, int stride, bool downsample = false, int in_channels = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            int channel_one_fourth = Convert.ToInt32(channels / 4);
+            body = new HybridSequential(prefix: "");
+            body.Add(new Conv2D(channel_one_fourth, (1, 1), (stride, stride)));
+            body.Add(new BatchNorm());
+            body.Add(new Activation(ActivationActType.Relu));
+            body.Add(ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth));
+            body.Add(new BatchNorm());
+            body.Add(new Activation(ActivationActType.Relu));
+            body.Add(new Conv2D(channels, (1, 1), (1, 1)));
+            body.Add(new BatchNorm());
+            if (downsample)
+            {
+                ds = new HybridSequential();
+                ds.Add(new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels));
+                ds.Add(new BatchNorm());
+            }
+            else
+            {
+                ds = null;
+            }
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var residual = x;
+
+            x = body.Call(x);
+            if (ds != null)
+                residual = ds.Call(residual);
+
+            if (x.IsNDArray)
+                x = nd.Activation(x.NdX + residual.NdX, act_type: ActivationActType.Relu);
+            else
+                x = sym.Activation(x.SymX + residual.SymX, act_type: ActivationActType.Relu);
+
+            return x;
         }
     }
 
     public class BottleneckV2 : HybridBlock
     {
+        private BatchNorm bn1;
+        private Conv2D conv1;
+        private BatchNorm bn2;
+        private Conv2D conv2;
+        private BatchNorm bn3;
+        private Conv2D conv3;
+        private Conv2D ds;
+
         public BottleneckV2(int channels, int stride, bool downsample = false, int in_channels = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            int channel_one_fourth = Convert.ToInt32(channels / 4);
+            bn1 = new BatchNorm();
+            conv1 = new Conv2D(channel_one_fourth, (1, 1), (1, 1), use_bias: false);
+            bn2 = new BatchNorm();
+            conv2 = ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth);
+            bn3 = new BatchNorm();
+            conv3 = new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels);
+            if (downsample)
+                ds = new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels);
+            else
+                ds = null;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var residual = x;
+            x = bn1.Call(x);
+            if (x.IsNDArray)
+                x = nd.Activation(x.NdX, act_type: ActivationActType.Relu);
+            else
+                x = sym.Activation(x.SymX, act_type: ActivationActType.Relu);
+
+            if (ds != null)
+                residual = ds.Call(x);
+
+            x = conv1.Call(x);
+
+            x = bn2.Call(x);
+            if (x.IsNDArray)
+                x = nd.Activation(x.NdX, act_type: ActivationActType.Relu);
+            else
+                x = sym.Activation(x.SymX, act_type: ActivationActType.Relu);
+            x = conv2.Call(x);
+
+            x = bn3.Call(x);
+            if (x.IsNDArray)
+                x = nd.Activation(x.NdX, act_type: ActivationActType.Relu);
+            else
+                x = sym.Activation(x.SymX, act_type: ActivationActType.Relu);
+            x = conv3.Call(x);
+
+            if (x.IsNDArray)
+                return x.NdX + residual.NdX;
+
+            return x.SymX + residual.SymX;
         }
     }
 
     public class ResNetV1 : HybridBlock
     {
-        public ResNetV1(HybridBlock block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public HybridSequential Features { get; set; }
+        public Dense Output { get; set; }
+
+        public ResNetV1(string block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            if (layers.Length != channels.Length - 1)
+                throw new Exception("layers.length should be equal to channels.length - 1");
+
+            Features = new HybridSequential();
+            if (thumbnail)
+                Features.Add(ResNet.Conv3x3(channels[0], 1, 0));
+            else
+            {
+                Features.Add(new Conv2D(channels[0], (7, 7), (2, 2), (3, 3), use_bias: false));
+                Features.Add(new BatchNorm());
+                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
+            }
+
+            for(int i=0;i<layers.Length;i++)
+            {
+                int stride = i == 0 ? 1 : 2;
+                int num_layer = layers[i];
+                Features.Add(MakeLayer(block, num_layer, channels[i + 1], stride, i + 1, in_channels: channels[i]));
+            }
+
+            Features.Add(new GlobalAvgPool2D());
+
+            Output = new Dense(classes, in_units: channels.Last());
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            x = Features.Call(x);
+            x = Output.Call(x);
+            return x;
         }
 
-        private void MakeLayer(HybridBlock block, int[] layers, int[] channels, int stride, int stage_index, int in_channels = 0)
+        private HybridSequential MakeLayer(string block, int layers, int channels, int stride, int stage_index, int in_channels = 0)
         {
-            throw new NotImplementedException();
+            var layer = new HybridSequential(prefix: $"stage{stage_index}_");
+            if (block == "basic_block")
+            {
+                layer.Add(new BasicBlockV1(channels, stride, channels != in_channels, in_channels: in_channels, prefix: ""));
+                for(int i = 0;i<layer.Length - 1;i++)
+                {
+                    layer.Add(new BasicBlockV1(channels, 1, false, in_channels: in_channels, prefix: ""));
+                }
+            }
+            else if(block == "bottle_neck")
+            {
+                layer.Add(new BottleneckV1(channels, stride, channels != in_channels, in_channels: in_channels, prefix: ""));
+                for (int i = 0; i < layer.Length - 1; i++)
+                {
+                    layer.Add(new BottleneckV1(channels, 1, false, in_channels: in_channels, prefix: ""));
+                }
+            }
+
+            return layer;
         }
     }
 
     public class ResNetV2 : HybridBlock
     {
-        public ResNetV2(HybridBlock block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public HybridSequential Features { get; set; }
+        public Dense Output { get; set; }
+
+        public ResNetV2(string block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            if (layers.Length != channels.Length - 1)
+                throw new Exception("layers.length should be equal to channels.length - 1");
+
+            Features = new HybridSequential();
+            Features.Add(new BatchNorm(scale: false, center: false));
+            if (thumbnail)
+                Features.Add(ResNet.Conv3x3(channels[0], 1, 0));
+            else
+            {
+                Features.Add(new Conv2D(channels[0], (7, 7), (2, 2), (3, 3), use_bias: false));
+                Features.Add(new BatchNorm());
+                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
+            }
+
+            int in_channels = channels[0];
+            for (int i = 0; i < layers.Length; i++)
+            {
+                int stride = i == 0 ? 1 : 2;
+                int num_layer = layers[i];
+                Features.Add(MakeLayer(block, num_layer, channels[i + 1], stride, i + 1, in_channels: channels[i]));
+            }
+
+            Features.Add(new BatchNorm());
+            Features.Add(new Activation(ActivationActType.Relu));
+            Features.Add(new GlobalAvgPool2D());
+            Features.Add(new Flatten());
+
+            Output = new Dense(classes, in_units: channels.Last());
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            x = Features.Call(x);
+            x = Output.Call(x);
+            return x;
         }
 
-        private void MakeLayer(HybridBlock block, int[] layers, int[] channels, int stride, int stage_index, int in_channels = 0)
+        private HybridSequential MakeLayer(string block, int layers, int channels, int stride, int stage_index, int in_channels = 0)
         {
-            throw new NotImplementedException();
+            var layer = new HybridSequential(prefix: $"stage{stage_index}_");
+            if (block == "basic_block")
+            {
+                layer.Add(new BasicBlockV2(channels, stride, channels != in_channels, in_channels: in_channels, prefix: ""));
+                for (int i = 0; i < layer.Length - 1; i++)
+                {
+                    layer.Add(new BasicBlockV2(channels, 1, false, in_channels: in_channels, prefix: ""));
+                }
+            }
+            else if (block == "bottle_neck")
+            {
+                layer.Add(new BottleneckV2(channels, stride, channels != in_channels, in_channels: in_channels, prefix: ""));
+                for (int i = 0; i < layer.Length - 1; i++)
+                {
+                    layer.Add(new BottleneckV2(channels, 1, false, in_channels: in_channels, prefix: ""));
+                }
+            }
+
+            return layer;
         }
     }
 }
