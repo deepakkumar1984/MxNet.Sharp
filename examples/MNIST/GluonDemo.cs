@@ -32,6 +32,7 @@ namespace MNIST
                                         new Context[] { Context.Cpu(0), Context.Cpu(1) };
 
             net.Initialize(new Xavier(magnitude: 2.24f), ctxList.ToArray());
+            net.Hybridize();
             var trainer = new Trainer(net.CollectParams(), new SGD());
             int epoch = 10;
             var metric = new Accuracy();

@@ -41,7 +41,7 @@ namespace MxNet.Gluon
 
         private (Symbol[], Symbol) GetGraph(NDArray[] args)
         {
-            if(_cached_graph.HasValue)
+            if(!_cached_graph.HasValue)
             {
                 List<Symbol> inputs = new List<Symbol>();
                 var (args_sym, _in_format) = Flatten(args.Select(x=>(new NDArrayOrSymbol(x))).ToArray(), "input");
@@ -333,45 +333,59 @@ namespace MxNet.Gluon
             }
         }
 
-        public override NDArray Forward(NDArray x, params NDArray[] args)
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            var ctx = x.context;
-            var list = args.ToList();
-            list.Insert(0, x);
-
-            if (_active)
-            {
-                return CallCachedOp(list.ToArray()).FirstOrDefault();
-            }
-
             Dictionary<string, NDArrayOrSymbol> @params = new Dictionary<string, NDArrayOrSymbol>();
-
-            try
-            {
-                foreach (var p in reg_params)
-                {
-                    @params[p.Key] = p.Value.Data(ctx);
-                }
-            }
-            catch(Exception ex)
-            {
-                @params.Clear();
-                DeferredInferShape(list.ToArray());
-                foreach (var p in Params.Items())
-                {
-                    p.Value.FinishDeferredInit();
-                }
-
-                foreach (var p in reg_params)
-                {
-                    @params[p.Key] = p.Value.Var();
-                }
-            }
-
             List<NDArrayOrSymbol> argsList = new List<NDArrayOrSymbol>();
             foreach (var item in args)
             {
                 argsList.Add(item);
+            }
+
+            if (x.IsNDArray)
+            {
+                var ctx = x.NdX.context;
+                var list = args.ToList();
+                list.Insert(0, x);
+
+                if (_active)
+                {
+                    return CallCachedOp(list.ToList().ToNDArrays()).FirstOrDefault();
+                }
+
+                try
+                {
+                    foreach (var p in reg_params)
+                    {
+                        @params[p.Key] = p.Value.Data(ctx);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    @params.Clear();
+                    DeferredInferShape(list.ToList().ToNDArrays());
+                    foreach (var p in Params.Items())
+                    {
+                        p.Value.FinishDeferredInit();
+                    }
+
+                    foreach (var p in reg_params)
+                    {
+                        @params[p.Key] = p.Value.Var();
+                    }
+                }
+
+                foreach (var item in @params)
+                {
+                    argsList.Add(item.Value);
+                }
+
+                return HybridForward(x, argsList.ToArray());
+            }
+
+            foreach (var p in reg_params)
+            {
+                @params[p.Key] = p.Value.Var();
             }
 
             foreach (var item in @params)

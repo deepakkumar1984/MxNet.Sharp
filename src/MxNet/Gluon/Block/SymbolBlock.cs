@@ -18,7 +18,7 @@ namespace MxNet.Gluon
             throw new NotImplementedException();
         }
 
-        public override NDArray Forward(NDArray input, NDArray[] args)
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, NDArrayOrSymbol[] args)
         {
             throw new NotImplementedException();
         }

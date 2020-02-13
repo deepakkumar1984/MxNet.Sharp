@@ -17,7 +17,7 @@ namespace MxNet.Gluon.NN
             Function = function;
         }
 
-        public override NDArray Forward(NDArray input, params NDArray[] args)
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
         {
             return Function(input);
         }

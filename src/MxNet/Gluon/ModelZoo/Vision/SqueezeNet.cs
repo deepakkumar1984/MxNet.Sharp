@@ -64,8 +64,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            x = Features.Call(x);
-            x = Output.Call(x);
+            x = Features.Call(x, args);
+            x = Output.Call(x, args);
             return x;
         }
 

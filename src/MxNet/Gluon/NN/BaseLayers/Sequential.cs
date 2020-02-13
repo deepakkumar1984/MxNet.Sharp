@@ -46,11 +46,11 @@ namespace MxNet.Gluon.NN
             }
         }
 
-        public override NDArray Forward(NDArray input, params NDArray[] args)
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
         {
             foreach (var item in Blocks)
             {
-                input = item.Call(input).NdX;
+                input = item.Call(input, args).NdX;
             }
 
             return input;

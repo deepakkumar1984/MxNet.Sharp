@@ -10,7 +10,7 @@ namespace MxNet.Gluon
 {
     public abstract class Block
     {
-        public delegate void Hook(Block block, NDArray input);
+        public delegate void Hook(Block block, NDArrayOrSymbol input);
 
         public delegate void ApplyFn(Block block);
 
@@ -238,14 +238,14 @@ namespace MxNet.Gluon
             }
         }
 
-        public NDArrayOrSymbol Call(NDArrayOrSymbol x)
+        public NDArrayOrSymbol Call(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             foreach (var hook in forward_pre_hooks.Values)
             {
-                hook(this, x.NdX);
+                hook(this, x);
             }
 
-            var @out = Forward(x.NdX);
+            var @out = Forward(x, args);
 
             foreach (var hook in forward_hooks.Values)
             {
@@ -255,7 +255,7 @@ namespace MxNet.Gluon
             return @out;
         }
 
-        public virtual NDArray Forward(NDArray input, params NDArray[] args)
+        public virtual NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
         {
             return input;
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon
 {
-    public class ParameterDict : IEnumerable
+    public class ParameterDict : IEnumerable<KeyValuePair<string, Parameter>>
     {
         private string _prefix;
 
@@ -54,7 +54,12 @@ namespace MxNet.Gluon
             }
         }
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator<KeyValuePair<string, Parameter>> GetEnumerator()
+        {
+            return _params.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _params.GetEnumerator();
         }
@@ -249,5 +254,7 @@ namespace MxNet.Gluon
                 this[name].LoadInit(arg_dict[name], ctx, cast_dtype: cast_dtype, dtype_source: dtype_source);
             }
         }
+
+       
     }
 }

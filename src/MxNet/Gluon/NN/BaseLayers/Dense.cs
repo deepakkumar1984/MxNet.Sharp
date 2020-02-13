@@ -38,18 +38,20 @@ namespace MxNet.Gluon.NN
             
             if(UseBias)
                 Bias = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
+
+            base.Params[Weight.Name] = Weight;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             NDArrayOrSymbol output = null;
-            NDArrayOrSymbol weight = args[0];
-            NDArrayOrSymbol bias = args[1];
+            var weight = args[0];
+            var bias = args.Length > 1 ? args[1] : null;
             if (x.IsNDArray)
-                output = nd.FullyConnected(x.NdX, weight.NdX, bias.NdX, Units, !UseBias, Flatten_);
+                output = nd.FullyConnected(x.NdX, weight, bias, Units, !UseBias, Flatten_);
 
             if (x.IsSymbol)
-                output = sym.FullyConnected(x.SymX, weight.SymX, bias.SymX, Units, !UseBias, Flatten_);
+                output = sym.FullyConnected(x.SymX, weight, bias, Units, !UseBias, Flatten_);
 
             if (Act != null)
                 output = Act.HybridForward(output);

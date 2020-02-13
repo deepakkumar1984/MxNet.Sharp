@@ -38,7 +38,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            var @out = output.Call(x);
+            var @out = output.Call(x, args);
             if(use_shortcut)
             {
                 if (x.IsNDArray)
@@ -81,8 +81,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            x = Features.Call(x);
-            x = Output.Call(x);
+            x = Features.Call(x, args);
+            x = Output.Call(x, args);
             return x;
         }
 
@@ -162,8 +162,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            x = Features.Call(x);
-            x = Output.Call(x);
+            x = Features.Call(x, args);
+            x = Output.Call(x, args);
             return x;
         }
 
