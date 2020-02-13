@@ -28,25 +28,25 @@ namespace MxNet.Gluon
         {
             get
             {
-                return scope;
+                return _scope;
             }
         }
 
-        internal _BlockScope scope;
-        internal SortedDictionary<string, Block> childrens;
-        internal Dictionary<string, Parameter> reg_params;
-        internal SortedDictionary<string, Hook> forward_hooks;
-        internal SortedDictionary<string, Hook> forward_pre_hooks;
+        internal _BlockScope _scope;
+        internal SortedDictionary<string, Block> _childrens;
+        internal Dictionary<string, Parameter> _reg_params;
+        internal SortedDictionary<string, Hook> _forward_hooks;
+        internal SortedDictionary<string, Hook> _forward_pre_hooks;
 
         public Block(string prefix, ParameterDict @params)
         {
             (Prefix, Params) = _BlockScope.Create(prefix, @params, Alias());
             Name = prefix != null && prefix.EndsWith("_") ? prefix.Substring(0, prefix.Length - 1) : prefix;
-            scope = new _BlockScope(this);
-            childrens = new SortedDictionary<string, Block>();
-            reg_params = new Dictionary<string, Parameter>();
-            forward_hooks = new SortedDictionary<string, Hook>();
-            forward_pre_hooks = new SortedDictionary<string, Hook>();
+            _scope = new _BlockScope(this);
+            _childrens = new SortedDictionary<string, Block>();
+            _reg_params = new Dictionary<string, Parameter>();
+            _forward_hooks = new SortedDictionary<string, Hook>();
+            _forward_pre_hooks = new SortedDictionary<string, Hook>();
         }
 
         public override string ToString()
@@ -61,12 +61,24 @@ namespace MxNet.Gluon
 
         public void SetAttr(string name, Parameter value)
         {
-            if (reg_params.ContainsKey(name))
+            if (_reg_params.ContainsKey(name))
                 throw new Exception("Overriding Parameter attribute %s is not allowed. " +
                                 "If you want to share parameters between blocks, please set " +
                                 "'params' at Block construction instead.");
 
-            reg_params[name] = value;
+            _reg_params[name] = value;
+        }
+
+        public object this[string name]
+        {
+            set
+            {
+                if(value is Parameter)
+                    _reg_params[name] = (Parameter)value;
+
+                if (value is Block)
+                    RegisterChild((Block)value);
+            }
         }
 
         public virtual string Alias()
@@ -84,15 +96,17 @@ namespace MxNet.Gluon
             else
             {
                 var pattern = new Regex(select);
-                Dictionary<string, Parameter> matchedParams = new Dictionary<string, Parameter>();
+                ParameterDict matchedParams = new ParameterDict();
                 foreach (var item in Params.Items())
                 {
                     if (pattern.IsMatch(item.Key))
-                        ret[item.Key] = item.Value;
+                        matchedParams[item.Key] = item.Value;
                 }
+
+                ret.Update(matchedParams);
             }
 
-            foreach (var item in childrens.Values)
+            foreach (var item in _childrens.Values)
             {
                 ret.Update(item.CollectParams(select));
             }
@@ -114,7 +128,7 @@ namespace MxNet.Gluon
                 ret[prefix + item.Key] = item.Value;
             }
 
-            foreach (var item in childrens.Values)
+            foreach (var item in _childrens.Values)
             {
                 ret.Update(item.CollectParamsWithPrefix(prefix));
             }
@@ -180,28 +194,28 @@ namespace MxNet.Gluon
         public virtual void RegisterChild(Block block, string name = null)
         {
             if (string.IsNullOrWhiteSpace(name))
-                name = childrens.Count.ToString();
+                name = _childrens.Count.ToString();
 
-            childrens[name] = block;
+            _childrens[name] = block;
         }
 
         public HookHandle RegisterForwardPreHook(Hook hook)
         {
             var handle = new HookHandle();
-            handle.Attach(forward_pre_hooks, hook);
+            handle.Attach(_forward_pre_hooks, hook);
             return handle;
         }
 
         public HookHandle RegisterForwardHook(Hook hook)
         {
             var handle = new HookHandle();
-            handle.Attach(forward_hooks, hook);
+            handle.Attach(_forward_hooks, hook);
             return handle;
         }
 
         public Block Apply(ApplyFn fn)
         {
-            foreach (var cld in childrens.Values)
+            foreach (var cld in _childrens.Values)
             {
                 cld.Apply(fn);
             }
@@ -219,7 +233,7 @@ namespace MxNet.Gluon
 
         public virtual void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)
         {
-            foreach (var cld in childrens.Values)
+            foreach (var cld in _childrens.Values)
             {
                 cld.Hybridize(active, static_alloc, static_shape);
             }
@@ -227,7 +241,7 @@ namespace MxNet.Gluon
 
         public virtual void Cast(DType dtype)
         {
-            foreach (var item in childrens.Values)
+            foreach (var item in _childrens.Values)
             {
                 item.Cast(dtype);
             }
@@ -240,14 +254,14 @@ namespace MxNet.Gluon
 
         public NDArrayOrSymbol Call(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            foreach (var hook in forward_pre_hooks.Values)
+            foreach (var hook in _forward_pre_hooks.Values)
             {
                 hook(this, x);
             }
 
             var @out = Forward(x, args);
 
-            foreach (var hook in forward_hooks.Values)
+            foreach (var hook in _forward_hooks.Values)
             {
                 hook(this, @out);
             }

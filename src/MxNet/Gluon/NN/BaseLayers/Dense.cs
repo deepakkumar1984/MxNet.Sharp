@@ -19,10 +19,6 @@ namespace MxNet.Gluon.NN
 
         public DType DataType { get; set; }
 
-        public Parameter Weight { get; set; }
-
-        public Parameter Bias { get; set; }
-
         public int InUnits { get; set; }
 
         public Dense(int units, ActivationActType? activation = null, bool use_bias = true, bool flatten = true,
@@ -34,12 +30,10 @@ namespace MxNet.Gluon.NN
             UseBias = use_bias;
             Flatten_ = flatten;
             DataType = dtype;
-            Weight = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype, init: weight_initializer, allow_deferred_init: true);
+            this["weight"] = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype, init: weight_initializer, allow_deferred_init: true);
             
             if(UseBias)
-                Bias = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
-
-            base.Params[Weight.Name] = Weight;
+                this["bias"] = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)

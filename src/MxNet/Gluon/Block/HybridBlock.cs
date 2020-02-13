@@ -53,7 +53,7 @@ namespace MxNet.Gluon
                 var grouped_inputs = Regroup(new List<NDArrayOrSymbol[]>() { inputs.ToNDArrayOrSymbols() }, _in_format.ToList()).Item1;
 
                 Dictionary<string, Symbol> @params = new Dictionary<string, Symbol>();
-                foreach (var item in reg_params)
+                foreach (var item in _reg_params)
                 {
                     @params[item.Key] = item.Value.Var();
                 }
@@ -216,7 +216,7 @@ namespace MxNet.Gluon
         {
             _active = active;
             ClearCachedOp();
-            if (active && forward_hooks != null || forward_pre_hooks != null)
+            if (active && _forward_hooks != null || _forward_pre_hooks != null)
                 Logger.Warning($"{Name} is being hybridized while still having forward hook/pre-hook");
 
             base.Hybridize(active, static_alloc, static_shape);
@@ -355,7 +355,7 @@ namespace MxNet.Gluon
 
                 try
                 {
-                    foreach (var p in reg_params)
+                    foreach (var p in _reg_params)
                     {
                         @params[p.Key] = p.Value.Data(ctx);
                     }
@@ -369,7 +369,7 @@ namespace MxNet.Gluon
                         p.Value.FinishDeferredInit();
                     }
 
-                    foreach (var p in reg_params)
+                    foreach (var p in _reg_params)
                     {
                         @params[p.Key] = p.Value.Var();
                     }
@@ -383,7 +383,7 @@ namespace MxNet.Gluon
                 return HybridForward(x, argsList.ToArray());
             }
 
-            foreach (var p in reg_params)
+            foreach (var p in _reg_params)
             {
                 @params[p.Key] = p.Value.Var();
             }

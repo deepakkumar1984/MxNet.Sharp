@@ -13,7 +13,7 @@ namespace MxNet.Gluon.NN
             get
             {
                 HybridSequential net = new HybridSequential(Prefix);
-                net.Add((HybridBlock)childrens[key]);
+                net.Add((HybridBlock)_childrens[key]);
                 return net;
             }
         }
@@ -22,7 +22,7 @@ namespace MxNet.Gluon.NN
         {
             get
             {
-                return childrens.Count;
+                return _childrens.Count;
             }
         }
 

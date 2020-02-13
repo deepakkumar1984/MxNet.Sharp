@@ -12,7 +12,7 @@ namespace MxNet.Gluon.NN
         {
             get
             {
-                return childrens.Values.ToList();
+                return _childrens.Values.ToList();
             }
         }
 
@@ -21,7 +21,7 @@ namespace MxNet.Gluon.NN
             get
             {
                 Sequential net = new Sequential(Prefix);
-                net.Add(childrens[key]);
+                net.Add(_childrens[key]);
                 return net;
             }
         }
@@ -30,7 +30,7 @@ namespace MxNet.Gluon.NN
         {
             get
             {
-                return childrens.Count;
+                return _childrens.Count;
             }
         }
 
@@ -63,7 +63,7 @@ namespace MxNet.Gluon.NN
 
         public override void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)
         {
-            if(childrens.Values.All(x=>(x.GetType() == typeof(HybridBlock))))
+            if(_childrens.Values.All(x=>(x.GetType() == typeof(HybridBlock))))
             {
                 Logger.Warning(string.Format("All children of this Sequential layer '{0}' are HybridBlocks. Consider " +
                                                 "using HybridSequential for the best performance.", Prefix));
