@@ -15,7 +15,7 @@ Add the MxNet redistributed package available as per below. For GPU please make 
 | Type        |  Name                           | Nuget                                       |
 |-------------|---------------------------------|---------------------------------------------|
 | MxNet-CPU   | MxNet CPU Version               | Install-Package MxNet.Runtime.Redist        |
-| MxNet-MKL   | MxNet COU with MKL              | Install-Package MxNet-MKL.Runtime.Redist    |
+| MxNet-MKL   | MxNet CPU with MKL              | Install-Package MxNet-MKL.Runtime.Redist    |
 | MxNet-CU101 | MxNet with Cuda 10.1 and CuDnn 7| Install-Package MxNet-CU101.Runtime.Redist  |
 | MxNet-CU100 | MxNet with Cuda 10 and CuDnn 7  | Install-Package MxNet-CU100.Runtime.Redist  |
 
