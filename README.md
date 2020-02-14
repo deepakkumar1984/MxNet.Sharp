@@ -50,7 +50,7 @@ net.Add(new Dense(10));
 var gpus = TestUtils.ListGpus();
 Context[] ctxList = gpus.Count > 0 ?
                             gpus.Select(x => (Context.Gpu(x))).ToArray() :
-                            new Context[] { Context.Cpu(0), Context.Cpu(1) };
+                            new Context[] { Context.Cpu(0), Context.Cpu(1) }; //Set Multiple GPU's
 
 net.Initialize(new Xavier(magnitude: 2.24f), ctxList.ToArray());
 var trainer = new Trainer(net.CollectParams(), new SGD());
