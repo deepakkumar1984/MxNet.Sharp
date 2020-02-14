@@ -11,7 +11,6 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
             mx.SetDevice(DeviceType.CPU);
-            
             NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
 
             x[":,3"] = x[":,2"];

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using AtomicSymbolCreator = System.IntPtr;
 using DataIterCreator = System.IntPtr;
@@ -556,6 +557,17 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolRemoveAmpCast(SymbolHandle symbol, out SymbolHandle handle);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolGetAttr(SymbolHandle symbol, string key, out string @out, out int success);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolSetAttr(SymbolHandle symbol, string key, string value);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolListAttr(SymbolHandle symbol, out int out_size, [Out][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolListAttrShallow(SymbolHandle symbol, out int out_size, [Out][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] @out);
         #endregion
 
         #region Part 4: Executor interface

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MxNet", "src\MxNet\MxNet.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MxNet.OpGenerator", "src\MxNet.OpGenerator\MxNet.OpGenerator.csproj", "{025EC9AF-B4D6-4EEE-AFF2-524D494E7E11}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "redist", "redist", "{870A92A8-39A6-4170-9092-FA6B9970E87D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

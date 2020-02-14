@@ -222,7 +222,7 @@ namespace MxNet.Optimizers
                 int index = indices[i];
                 lrs[i] = lr;
                 if (ParamDict.ContainsKey(index))
-                    lrs[i] *= ParamDict[index].LRMult;
+                    lrs[i] *= ParamDict[index].Lr_Mult;
                 else if (lr_mult.ContainsKey(index.ToString()))
                     lrs[i] *= lr_mult[index.ToString()];
                 else if (Idx2Name.ContainsKey(index))
@@ -247,7 +247,7 @@ namespace MxNet.Optimizers
             {
                 int index = indices[i];
                 if (ParamDict.ContainsKey(index))
-                    wds[i] *= ParamDict[index].WDMult;
+                    wds[i] *= ParamDict[index].Wd_Mult;
                 else if (wd_mult.ContainsKey(index.ToString()))
                     wds[i] *= wd_mult[index.ToString()];
                 else if (Idx2Name.ContainsKey(index))

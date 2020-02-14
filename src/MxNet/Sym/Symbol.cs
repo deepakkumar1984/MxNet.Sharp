@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using MxNet.Initializers;
 using MxNet.Interop;
 using mx_uint = System.UInt32;
 using SymbolHandle = System.IntPtr;
@@ -649,6 +650,87 @@ namespace MxNet
         public static Symbol Variable(string name)
         {
             return new Symbol(name);
+        }
+
+        public static Symbol Var(string name, Dictionary<string, string> attr= null, Shape shape= null, float? lr_mult= null, float? wd_mult= null,
+                            DType dtype= null, Initializer init= null, StorageStype? stype= null)
+        {
+            NativeMethods.MXSymbolCreateVariable(name, out var handle);
+            var ret = new Symbol(handle);
+            if (attr == null)
+                attr = new Dictionary<string, string>();
+
+            if (shape != null)
+                attr.Add("__shape__", shape.ToString());
+
+            if (lr_mult.HasValue)
+                attr.Add("__lr_mult__", lr_mult.Value.ToString());
+
+            if (wd_mult.HasValue)
+                attr.Add("__wd_mult__", wd_mult.Value.ToString());
+
+            if (dtype != null)
+                attr.Add("__dtype__", dtype.Name);
+
+            if(init != null)
+            {
+                string init_string = init.Dumps();
+                attr.Add("__init__", init_string);
+            }
+
+            if (stype.HasValue)
+                attr.Add("__storage_type__", ((int)stype).ToString());
+
+            ret.SetAttr(attr);
+
+            return ret;
+        }
+
+        public string Attr(string key)
+        {
+            NativeMethods.MXSymbolGetAttr(GetHandle(), key, out var @out, out var success);
+            if(success != 0)
+                return @out;
+
+            return null;
+        }
+
+        public Dictionary<string, string> ListAttr()
+        {
+            List<string> pairs = new List<string>();
+            NativeMethods.MXSymbolListAttrShallow(GetHandle(), out var out_size, pairs.ToArray());
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            int i = 0;
+            while (i < out_size)
+            {
+                dict[pairs[i * 2]] = pairs[i * 2 + 1];
+            }
+
+            return dict;
+        }
+
+        public Dictionary<string, Dictionary<string, string>> AttrDict()
+        {
+            List<string> pairs = new List<string>();
+            NativeMethods.MXSymbolListAttr(GetHandle(), out var out_size, pairs.ToArray());
+            Dictionary<string, Dictionary<string, string>> dict = new Dictionary<string, Dictionary<string, string>>();
+            int i = 0;
+            while (i < out_size)
+            {
+                string[] keys = pairs[i * 2].Split('$');
+                dict[keys[0]] = new Dictionary<string, string>();
+                dict[keys[0]][keys[1]] = pairs[i * 2 + 1];
+            }
+
+            return dict;
+        }
+
+        public void SetAttr(Dictionary<string, string> attrs)
+        {
+            foreach (var attr in attrs)
+            {
+                NativeMethods.MXSymbolSetAttr(GetHandle(), attr.Key, attr.Value);
+            }
         }
 
         #region Overrides

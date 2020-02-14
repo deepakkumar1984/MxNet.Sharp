@@ -9,7 +9,7 @@ namespace MxNet.Gluon
 {
     public class Parameter
     {
-        internal Symbol symvar = null;
+        internal Symbol _var = null;
         internal List<NDArray> _data = null;
         internal List<NDArray> _grad = null;
         internal List<Context> _ctx_list = null;
@@ -19,10 +19,6 @@ namespace MxNet.Gluon
         internal bool differentiable = false;
         internal bool allow_deferred_init;
         private OpGradReq grad_req;
-
-        public float LRMult { get; set; }
-
-        public float WDMult { get; set; }
 
         public virtual OpGradReq GradReg
         {
@@ -484,8 +480,33 @@ namespace MxNet.Gluon
                 this._grad[i] = nd.ZerosLike(this._grad[i]);
         }
 
-        public Symbol Var() => throw new NotImplementedException();
+        public Symbol Var()
+        {
+            if(_var == null)
+            {
+                _var = Symbol.Var(Name, shape: Shape, dtype: DataType, lr_mult: Lr_Mult, wd_mult: Wd_Mult, init: Init, stype: Stype);
+            }
 
-        public void Cast(DType dtype) => throw new NotImplementedException();
+            return _var;
+        }
+
+        public void Cast(DType dtype)
+        {
+            if (_data != null)
+            {
+                for (int i = 0; i < _data.Count; i++)
+                {
+                    _data[i] = _data[i].Cast(dtype);
+                }
+            }
+
+            if (_grad != null)
+            {
+                for (int i = 0; i < _grad.Count; i++)
+                {
+                    _data[i] = _data[i].Cast(dtype);
+                }
+            }
+        }
     }
 }

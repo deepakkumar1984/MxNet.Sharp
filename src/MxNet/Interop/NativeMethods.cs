@@ -25,7 +25,7 @@ namespace MxNet.Interop
 
         public const CallingConvention CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl;
 #else
-        public const string NativeLibrary = @"libmxnet.dll"; 
+        public const string NativeLibrary = @"libmxnet"; 
 
         public const string CLibrary = "msvcrt.dll";
 
