@@ -42,9 +42,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             if(use_shortcut)
             {
                 if (x.IsNDArray)
-                    @out = nd.ElemwiseAdd(@out.NdX, x.NdX);
+                    @out = nd.ElemwiseAdd(@out, x.NdX);
                 else
-                    @out = sym.ElemwiseAdd(@out.SymX, x.SymX);
+                    @out = sym.ElemwiseAdd(@out, x.SymX);
             }
 
             return @out;

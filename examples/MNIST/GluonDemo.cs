@@ -32,7 +32,6 @@ namespace MNIST
                                         new Context[] { Context.Cpu(0), Context.Cpu(1) };
 
             net.Initialize(new Xavier(magnitude: 2.24f), ctxList.ToArray());
-            //net.Hybridize();
             var trainer = new Trainer(net.CollectParams(), new SGD());
             int epoch = 10;
             var metric = new Accuracy();
@@ -49,16 +48,22 @@ namespace MNIST
                     NDArray[] outputs = null;
                     using (var ag = Autograd.Record())
                     {
-                        for (int i = 0; i < data.Length; i++)
+                        outputs = Enumerable.Zip(data, label, (x, y) =>
                         {
-                            var x = data[i];
-                            var y = label[i];
-
                             var z = net.Call(x);
-
-                        }
+                            NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+                            loss.Backward();
+                            return z;
+                        }).ToList().ToNDArrays();
                     }
+
+                    metric.Update(label, outputs);
+                    trainer.Step(batch.Data[0].Shape[0]);
                 }
+
+                var (name, acc) = metric.Get();
+                metric.Reset();
+                Console.WriteLine($"Training acc at epoch {iter}: {name}={acc}");
             }
         }
     }

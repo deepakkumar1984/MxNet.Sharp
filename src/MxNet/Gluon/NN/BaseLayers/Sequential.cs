@@ -50,7 +50,7 @@ namespace MxNet.Gluon.NN
         {
             foreach (var item in Blocks)
             {
-                input = item.Call(input, args).NdX;
+                input = item.Call(input, args);
             }
 
             return input;

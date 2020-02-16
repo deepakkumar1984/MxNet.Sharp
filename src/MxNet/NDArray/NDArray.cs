@@ -526,6 +526,19 @@ namespace MxNet
             NativeMethods.MXNDArrayDetach(GetHandle(), out var hdl);
             return new NDArray(hdl);
         }
+
+        public void Backward(NDArray out_grad= null, bool retain_graph= false, bool train_mode= true)
+        {
+            List<NDArrayHandle> ograd_handles = new List<NDArrayHandle>();
+            if (out_grad!=null)
+            {
+                ograd_handles.Add(out_grad.GetHandle());
+            }
+
+            NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] { NativePtr }, ograd_handles.ToArray(),
+                                                0, new NDArrayHandle[0], retain_graph ? 1 : 0,
+                                                0, train_mode ? 1 : 0, new NDArrayHandle[0], new int[0]);
+        }
         #region Operators
 
         public static NDArray operator +(NDArray lhs, NDArray rhs)
