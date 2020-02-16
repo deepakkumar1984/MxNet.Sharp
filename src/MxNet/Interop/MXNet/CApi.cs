@@ -159,7 +159,7 @@ namespace MxNet.Interop
                                                 int slice_end,
                                                 out NDArrayHandle @out);
 
-        [DllImport("libmxnet.dll", EntryPoint = "MXNDArrayReshape", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NativeLibrary, EntryPoint = "MXNDArrayReshape", CallingConvention = CallingConvention.Cdecl)]
         public static extern int MXNDArrayReshape(NDArrayHandle handle,
             int ndim,
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)] int[] dims,

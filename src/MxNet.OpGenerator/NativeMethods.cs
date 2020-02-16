@@ -11,7 +11,7 @@ namespace MxNet.OpGenerator
     {        /// Return Type: int
              ///out_size: mx_uint*
              ///out_array: AtomicSymbolCreator**
-        [DllImport("libmxnet.dll", EntryPoint = "MXSymbolListAtomicSymbolCreators",CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NativeLibrary, EntryPoint = "MXSymbolListAtomicSymbolCreators",CallingConvention = CallingConvention.Cdecl)]
         public static extern int MXSymbolListAtomicSymbolCreators(out uint outSize,
             out IntPtr outArrayPtr);
 
@@ -25,7 +25,7 @@ namespace MxNet.OpGenerator
         ///arg_descriptions: char***
         ///key_var_num_args: char**
         ///return_type: char**
-        [DllImport("libmxnet.dll", EntryPoint = "MXSymbolGetAtomicSymbolInfo", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NativeLibrary, EntryPoint = "MXSymbolGetAtomicSymbolInfo", CallingConvention = CallingConvention.Cdecl)]
         public static extern int MXSymbolGetAtomicSymbolInfo(IntPtr creator,
           [Out]out IntPtr name,
           [Out]out IntPtr description,
