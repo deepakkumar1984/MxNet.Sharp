@@ -35,7 +35,7 @@ MxNet Version Build: https://github.com/apache/incubator-mxnet/releases/tag/1.5.
 |----------------|------------------------------------------|---------------------------------------------------|
 | MxNet-CPU      | MxNet CPU Version                        | Install-Package MxNet.Linux.Runtime.Redist        |
 | MxNet-MKL      | MxNet CPU with MKL                       | Install-Package MxNet-MKL.Linux.Runtime.Redist    |
-| MxNet-CU101    | MxNet for Cuda 10.1 and CuDnn 7          | Install-Package MxNet-CU101.Runtime.Redist        |
+| MxNet-CU101    | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                                |
 | MxNet-CU101MKL | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                                |
 | MxNet-CU100    | MxNet for Cuda 10 and CuDnn 7            | **Yet to publish**                                |
 | MxNet-CU100MKL | MxNet with MKL for Cuda 10 and CuDnn 7   | **Yet to publish**                                |
