@@ -1,6 +1,23 @@
-# MxNet
+<div align="center">
+  <a href="https://mxnet.apache.org/"><img src="https://raw.githubusercontent.com/dmlc/web-data/master/mxnet/image/mxnet_logo_2.png"></a><br>
+</div>
 
-Apache MXNet (incubating) is a deep learning framework designed for both efficiency and flexibility. It allows you to mix symbolic and imperative programming to maximize efficiency and productivity. At its core, MXNet contains a dynamic dependency scheduler that automatically parallelizes both symbolic and imperative operations on the fly. A graph optimization layer on top of that makes symbolic execution fast and memory efficient. MXNet is portable and lightweight, scaling effectively to multiple GPUs and multiple machines.
+Apache MXNet (incubating) for Deep Learning
+=====
+
+
+Apache MXNet (incubating) is a deep learning framework designed for both *efficiency* and *flexibility*.
+It allows you to ***mix*** [symbolic and imperative programming](https://mxnet.apache.org/api/architecture/program_model)
+to ***maximize*** efficiency and productivity.
+At its core, MXNet contains a dynamic dependency scheduler that automatically parallelizes both symbolic and imperative operations on the fly.
+A graph optimization layer on top of that makes symbolic execution fast and memory efficient.
+MXNet is portable and lightweight, scaling effectively to multiple GPUs and multiple machines.
+
+MXNet is more than a deep learning project. It is a collection of
+[blue prints and guidelines](https://mxnet.apache.org/api/architecture/overview) for building
+deep learning systems, and interesting insights of DL systems for hackers.
+
+**MxNet.Sharp**
 
 MxNet.Sharp is a CSharp binding coving all the Imperative, Symbolic and Gluon API's with an easy to use interface. The Gluon library in Apache MXNet provides a clear, concise, and simple API for deep learning. It makes it easy to prototype, build, and train deep learning models without sacrificing training speed.
 
