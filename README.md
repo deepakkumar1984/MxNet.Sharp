@@ -1,6 +1,23 @@
-# MxNet
+<div align="center">
+  <a href="https://mxnet.apache.org/"><img src="https://raw.githubusercontent.com/dmlc/web-data/master/mxnet/image/mxnet_logo_2.png"></a><br>
+</div>
 
-Apache MXNet (incubating) is a deep learning framework designed for both efficiency and flexibility. It allows you to mix symbolic and imperative programming to maximize efficiency and productivity. At its core, MXNet contains a dynamic dependency scheduler that automatically parallelizes both symbolic and imperative operations on the fly. A graph optimization layer on top of that makes symbolic execution fast and memory efficient. MXNet is portable and lightweight, scaling effectively to multiple GPUs and multiple machines.
+Apache MXNet (incubating) for Deep Learning
+=====
+
+
+Apache MXNet (incubating) is a deep learning framework designed for both *efficiency* and *flexibility*.
+It allows you to ***mix*** [symbolic and imperative programming](https://mxnet.apache.org/api/architecture/program_model)
+to ***maximize*** efficiency and productivity.
+At its core, MXNet contains a dynamic dependency scheduler that automatically parallelizes both symbolic and imperative operations on the fly.
+A graph optimization layer on top of that makes symbolic execution fast and memory efficient.
+MXNet is portable and lightweight, scaling effectively to multiple GPUs and multiple machines.
+
+MXNet is more than a deep learning project. It is a collection of
+[blue prints and guidelines](https://mxnet.apache.org/api/architecture/overview) for building
+deep learning systems, and interesting insights of DL systems for hackers.
+
+**MxNet.Sharp**
 
 MxNet.Sharp is a CSharp binding coving all the Imperative, Symbolic and Gluon API's with an easy to use interface. The Gluon library in Apache MXNet provides a clear, concise, and simple API for deep learning. It makes it easy to prototype, build, and train deep learning models without sacrificing training speed.
 
@@ -14,15 +31,51 @@ Add the MxNet redistributed package available as per below. For GPU please make 
 
 MxNet Version Build: https://github.com/apache/incubator-mxnet/releases/tag/1.5.0
 
-| Type        |  Name                           | Nuget                                       |
-|-------------|---------------------------------|---------------------------------------------|
-| MxNet-CPU   | MxNet CPU Version               | Install-Package MxNet.Runtime.Redist        |
-| MxNet-MKL   | MxNet CPU with MKL              | Install-Package MxNet-MKL.Runtime.Redist    |
-| MxNet-CU101 | MxNet with Cuda 10.1 and CuDnn 7| Install-Package MxNet-CU101.Runtime.Redist  |
-| MxNet-CU100 | MxNet with Cuda 10 and CuDnn 7  | Install-Package MxNet-CU100.Runtime.Redist  |
+**Win-x64 Packages**
 
-More package to come for Cuda 92 and Cuda 80 with Linux and OSX.
+| Type           |  Name                                    | Nuget                                       |
+|----------------|------------------------------------------|---------------------------------------------|
+| MxNet-CPU      | MxNet CPU Version                        | Install-Package MxNet.Runtime.Redist        |
+| MxNet-MKL      | MxNet CPU with MKL                       | Install-Package MxNet-MKL.Runtime.Redist    |
+| MxNet-CU101    | MxNet for Cuda 10.1 and CuDnn 7          | Install-Package MxNet-CU101.Runtime.Redist  |
+| MxNet-CU101MKL | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                          |
+| MxNet-CU100    | MxNet for Cuda 10 and CuDnn 7            | Install-Package MxNet-CU100.Runtime.Redist  |
+| MxNet-CU100MKL | MxNet with MKL for Cuda 10 and CuDnn 7   | **Yet to publish**                          |
+| MxNet-CU92     | MxNet for Cuda 9.2 and CuDnn 7           | Install-Package MxNet-CU100.Runtime.Redist  |
+| MxNet-CU92MKL  | MxNet with MKL for Cuda 9.2 and CuDnn 7  | **Yet to publish**                          |
+| MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | Install-Package MxNet-CU100.Runtime.Redist  |
+| MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | **Yet to publish**                          |
 
+**Linux-x64 Packages**
+
+| Type           |  Name                                    | Nuget                                             |
+|----------------|------------------------------------------|---------------------------------------------------|
+| MxNet-CPU      | MxNet CPU Version                        | Install-Package MxNet.Linux.Runtime.Redist        |
+| MxNet-MKL      | MxNet CPU with MKL                       | Install-Package MxNet-MKL.Linux.Runtime.Redist    |
+| MxNet-CU101    | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                                |
+| MxNet-CU101MKL | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                                |
+| MxNet-CU100    | MxNet for Cuda 10 and CuDnn 7            | **Yet to publish**                                |
+| MxNet-CU100MKL | MxNet with MKL for Cuda 10 and CuDnn 7   | **Yet to publish**                                |
+| MxNet-CU92     | MxNet for Cuda 9.2 and CuDnn 7           | **Yet to publish**                                |
+| MxNet-CU92MKL  | MxNet with MKL for Cuda 9.2 and CuDnn 7  | **Yet to publish**                                |
+| MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | **Yet to publish**                                |
+| MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | **Yet to publish**                                |
+
+**OSX-x64 Packages**
+
+| Type           |  Name                                    | Nuget                                             |
+|----------------|------------------------------------------|---------------------------------------------------|
+| MxNet-CPU      | MxNet CPU Version                        | **Yet to publish**                                |
+| MxNet-MKL      | MxNet CPU with MKL                       | **Yet to publish**                                |
+| MxNet-CU101    | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                                |
+| MxNet-CU101MKL | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                                |
+| MxNet-CU100    | MxNet for Cuda 10 and CuDnn 7            | **Yet to publish**                                |
+| MxNet-CU100MKL | MxNet with MKL for Cuda 10 and CuDnn 7   | **Yet to publish**                                |
+| MxNet-CU92     | MxNet for Cuda 9.2 and CuDnn 7           | **Yet to publish**                                |
+| MxNet-CU92MKL  | MxNet with MKL for Cuda 9.2 and CuDnn 7  | **Yet to publish**                                |
+| MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | **Yet to publish**                                |
+| MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | **Yet to publish**                                |
+  
 ## Symbolic Example
 ```csharp
 model.SetInput(784);
