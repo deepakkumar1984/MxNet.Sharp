@@ -129,7 +129,7 @@ namespace MxNet.Gluon
             }
             else
             {
-                param.Shape = param.Shape ?? shape;
+                param._shape = param.Shape ?? shape;
                 param.Init = param.Init ?? init;
             }
 

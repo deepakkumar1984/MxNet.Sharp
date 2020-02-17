@@ -1,4 +1,5 @@
-﻿using MxNet.Optimizers;
+﻿using MxNet.Interop;
+using MxNet.Optimizers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -44,7 +45,10 @@ namespace MxNet.KVstore
 
         public static KVStore Create(string name = "local")
         {
-            throw new NotImplementedException(); 
+            NativeMethods.MXKVStoreCreate(name, out var handle);
+            var kv = new KVStore(handle);
+            Profiler.profiler_kvstore_handle = handle;
+            return kv;
         }
     }
 }

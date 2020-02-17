@@ -28,9 +28,19 @@ namespace MxNet.Metrics
                 pred_shape = preds.Shape;
             }
 
-            if (label_shape.Dimension != pred_shape.Dimension && label_shape.Size != pred_shape.Size)
+            if (shape)
             {
-                throw new ArgumentException(string.Format("Shape of labels {0} does not match shape of predictions {1}", label_shape.ToString(), pred_shape.ToString()));
+                if(labels.Shape[0] != preds.Shape[0])
+                {
+                    throw new ArgumentException(string.Format("Shape of labels {0} does not match shape of predictions {1}", label_shape.ToString(), pred_shape.ToString()));
+                }
+            }
+            else
+            {
+                if (label_shape.Dimension != pred_shape.Dimension && label_shape.Size != pred_shape.Size)
+                {
+                    throw new ArgumentException(string.Format("Shape of labels {0} does not match shape of predictions {1}", label_shape.ToString(), pred_shape.ToString()));
+                }
             }
         }
     }

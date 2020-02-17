@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text;
 using AtomicSymbolCreator = System.IntPtr;
 using DataIterCreator = System.IntPtr;
 using DataIterHandle = System.IntPtr;
@@ -839,6 +840,18 @@ namespace MxNet.Interop
             int devId,
             int delayAlloc,
             out IntPtr @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreCreate(string type, out KVStoreHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreGetRank(KVStoreHandle handle, out int rank);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreGetGroupSize(KVStoreHandle handle, out int size);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreGetType(KVStoreHandle handle, [Out][MarshalAs(UnmanagedType.LPStr)] string type);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStoreRunServer(KVStoreHandle handle, MXKVStoreServerController controller, IntPtr controller_handle);

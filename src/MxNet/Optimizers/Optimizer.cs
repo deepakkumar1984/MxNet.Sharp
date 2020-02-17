@@ -133,7 +133,7 @@ namespace MxNet.Optimizers
 
         public static Updater GetUpdater(Optimizer optimizer)
         {
-             throw new NotImplementedException();
+            return optimizer.GetUpdater();
         }
 
         internal void SetLrMult(Dictionary<string, float> args_lr_mult)

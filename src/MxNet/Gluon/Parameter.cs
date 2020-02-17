@@ -18,6 +18,7 @@ namespace MxNet.Gluon
         internal (Initializer, Context[], Initializer, NDArray)? deferred_init = null;
         internal bool differentiable = false;
         internal bool allow_deferred_init;
+        internal Shape _shape;
         private OpGradReq grad_req;
 
         public virtual OpGradReq GradReg
@@ -54,7 +55,17 @@ namespace MxNet.Gluon
 
         public DType DataType { get; internal set; }
 
-        public Shape Shape { get; internal set; }
+        public Shape Shape
+        {
+            get
+            {
+                var data = _shape.Data;
+                for (int i = 0; i < data.Length; i++)
+                    data[i] = data[i] != 0 ? data[i] : -1;
+
+                return new Shape(data);
+            }
+        }
 
         public string Name { get; }
 
@@ -75,7 +86,7 @@ namespace MxNet.Gluon
             Wd_Mult = wd_mult;
             Init = init;
             GradReg = grad_req;
-            Shape = shape;
+            _shape = shape;
             DataType = dtype ?? DType.Float32;
             this.differentiable = differentiable;
             Stype = stype;
@@ -154,7 +165,7 @@ namespace MxNet.Gluon
                 Assert.InList("dtype_source", dtype_source, new string[]{ "current", "saved"});
             }
 
-            if(Shape != null)
+            if(_shape != null)
             {
                 List<int> newshape = new List<int>();
                 newshape = Enumerable.Zip(Shape.Data, data.Shape.Data, (self_dim, data_dim) =>
@@ -168,7 +179,7 @@ namespace MxNet.Gluon
                         return data_dim;
                 }).ToList();
 
-                Shape = new Shape(newshape);
+                _shape = new Shape(newshape);
             }
 
             if(DataType != null)
@@ -363,7 +374,7 @@ namespace MxNet.Gluon
 
         public void SetData(NDArray data)
         {
-            this.Shape = data.Shape;
+            this._shape = data.Shape;
             if (this._data == null)
             {
                 if (this.deferred_init.HasValue)

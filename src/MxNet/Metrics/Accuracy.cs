@@ -25,7 +25,7 @@ namespace MxNet.Metrics
             var label = labels.AsNumpy().astype(NumSharp.NPTypeCode.Int32);
             label = label.flat;
             pred_label = pred_label.flat;
-            var num_correct = (pred_label == label).sum().Data<float>()[0];
+            var num_correct = (pred_label == label).astype(NumSharp.NPTypeCode.Float).sum().Data<float>()[0];
             sum_metric += num_correct;
             global_sum_metric += num_correct;
             num_inst += pred_label.Shape.Size;

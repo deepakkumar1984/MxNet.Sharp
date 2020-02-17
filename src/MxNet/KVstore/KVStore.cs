@@ -20,11 +20,33 @@ namespace MxNet.KVstore
 
     public class KVStore : KVStoreBase, IDisposable
     {
-        public override int Rank => throw new NotImplementedException();
+        public override int Rank
+        {
+            get
+            {
+                NativeMethods.MXKVStoreGetRank(handle, out var ret);
+                return ret;
+            }
+        }
 
-        public override string Type => throw new NotImplementedException();
+        public override string Type
+        {
+            get
+            {
+                string name = "";
+                NativeMethods.MXKVStoreGetType(handle, name);
+                return name;
+            }
+        }
 
-        public override int NumWorkers => throw new NotImplementedException();
+        public override int NumWorkers
+        {
+            get
+            {
+                NativeMethods.MXKVStoreGetGroupSize(handle, out var ret);
+                return ret;
+            }
+        }
 
         internal KVStoreHandle handle;
         internal Updater updater;

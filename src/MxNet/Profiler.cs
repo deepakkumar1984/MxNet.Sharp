@@ -8,6 +8,8 @@ namespace MxNet
 {
     public class Profiler
     {
+        public static IntPtr profiler_kvstore_handle;
+
         public class Task : IDisposable
         {
             public string Name { get; set; }

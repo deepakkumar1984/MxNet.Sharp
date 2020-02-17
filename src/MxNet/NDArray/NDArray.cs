@@ -535,9 +535,9 @@ namespace MxNet
                 ograd_handles.Add(out_grad.GetHandle());
             }
 
-            NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] { NativePtr }, ograd_handles.ToArray(),
-                                                0, new NDArrayHandle[0], retain_graph ? 1 : 0,
-                                                0, train_mode ? 1 : 0, new NDArrayHandle[0], new int[0]);
+            NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] { NativePtr }, null,
+                                                0, null, retain_graph ? 1 : 0,
+                                                0, train_mode ? 1 : 0, null, new int[0]);
         }
         #region Operators
 

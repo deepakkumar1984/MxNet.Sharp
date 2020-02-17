@@ -158,7 +158,7 @@ namespace MxNet.Gluon
             KVStore kvstore = null;
             if (_contains_sparse_weight)
             {
-                (kvstore, update_on_kvstore) = Model.CreateSparseKVStore((KVStore)config["kvstore"]);
+                (kvstore, update_on_kvstore) = Model.CreateSparseKVStore(config["kvstore"].ToString());
                 _distributed = kvstore.Type.Contains("dist");
                 if (!(bool)config["update_on_kvstore"])
                     throw new Exception("Cannot set update_on_kvstore=False when sparse weights " +
@@ -172,7 +172,7 @@ namespace MxNet.Gluon
                     arg_arrays[param.Name] = param.Data(_contexts[0]);
                 }
 
-                (kvstore, _) = Model.CreateKVStore((KVStore)config["kvstore"], _contexts.Length, arg_arrays);
+                (kvstore, _) = Model.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
                 if (kvstore != null)
                     _distributed = kvstore.Type.Contains("dist");
                 else
@@ -196,7 +196,7 @@ namespace MxNet.Gluon
                     arg_arrays[param.Name] = param.Data(_contexts[0]);
                 }
 
-                (kvstore, update_on_kvstore) = Model.CreateKVStore((KVStore)config["kvstore"], _contexts.Length, arg_arrays);
+                (kvstore, update_on_kvstore) = Model.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
                 if (kvstore != null)
                     _distributed = kvstore.Type.Contains("dist");
                 else
@@ -210,7 +210,7 @@ namespace MxNet.Gluon
                                                 "when training in async mode.");
                 }
 
-                if (config.ContainsKey("update_on_kvstore"))
+                if (config.ContainsKey("update_on_kvstore") && config["update_on_kvstore"] != null)
                     update_on_kvstore = (bool)config["update_on_kvstore"];
             }
 

@@ -48,6 +48,16 @@ namespace MNIST
                     NDArray[] outputs = null;
                     using (var ag = Autograd.Record())
                     {
+                        //for(int i = 0;i < data.Length; i++)
+                        //{
+                        //    var x = data[i];
+                        //    var y = label[i];
+
+                        //    var z = net.Call(x);
+                        //    NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+                        //    loss.Backward();
+                        //}
+
                         outputs = Enumerable.Zip(data, label, (x, y) =>
                         {
                             var z = net.Call(x);

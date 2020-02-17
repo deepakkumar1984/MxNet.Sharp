@@ -6,14 +6,54 @@ using MxNet.Optimizers;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MxNet
 {
     public class Model
     {
-        internal static (KVStore, bool) CreateSparseKVStore(KVStore kvstore) => throw new NotImplementedException();
+        internal static (KVStore, bool) CreateSparseKVStore(KVStore kvstore)
+        {
+            bool update_on_kvstore = true;
+            return (kvstore, update_on_kvstore);
+        }
 
-        internal static (KVStore, bool) CreateKVStore(KVStore kvstore, int num_device, NDArrayDict arg_params) => throw new NotImplementedException();
+        internal static (KVStore, bool) CreateSparseKVStore(string kvstore)
+        {
+            return CreateSparseKVStore(KVStore.Create(kvstore));
+        }
+
+        internal static (KVStore, bool) CreateKVStore(KVStore kvstore, int num_device, NDArrayDict arg_params)
+        {
+            bool update_on_kvstore = true;
+            if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MXNET_UPDATE_ON_KVSTORE")))
+                update_on_kvstore = Convert.ToBoolean(Environment.GetEnvironmentVariable("MXNET_UPDATE_ON_KVSTORE"));
+
+            if (kvstore == null)
+                update_on_kvstore = false;
+
+            return (kvstore, update_on_kvstore);
+        }
+
+        internal static (KVStore, bool) CreateKVStore(string kvstore, int num_device, NDArrayDict arg_params)
+        {
+            KVStore kV = null;
+            bool update_on_kvstore = true;
+            if (num_device == 1 && !kvstore.Contains("dist"))
+                kV = null;
+            else
+            {
+                kV = KVStore.Create(kvstore);
+                if(kvstore == "local")
+                {
+                    int max_size = arg_params.Values.Select(x => (x.Shape.Size)).ToList().Max();
+                    if (max_size > 1024 * 1024 * 16)
+                        update_on_kvstore = false;
+                }
+            }
+
+            return (kV, update_on_kvstore);
+        }
 
         internal static void InitializeKVStore(KVStore kvstore, NDArray[] param_arrays, NDArrayDict  arg_params, string[] param_names, bool update_on_kvstore) => throw new NotImplementedException();
 
