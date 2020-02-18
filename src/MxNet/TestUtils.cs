@@ -150,7 +150,7 @@ namespace MxNet
                     stream.Seek(8, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
 
-                    label = new NDArray(data.Select(x=>(float)x).ToArray(), new Shape(n)) / 255;
+                    label = new NDArray(data.Select(x=>(float)x).ToArray(), new Shape(n));
                 }
             }
 

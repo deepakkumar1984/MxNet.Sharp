@@ -52,7 +52,8 @@ namespace MxNet.KVstore
         internal Updater _updater;
         internal IntPtr updater_func;
         internal IntPtr str_updater_func;
-        internal delegate void UpdaterHandle(int key, IntPtr lhs_handle, IntPtr rhs_handle);
+        internal delegate void UpdaterHandle(int key, IntPtr lhs_handle, IntPtr rhs_handle, IntPtr _);
+        internal delegate void UpdaterHandleStr(string key, IntPtr lhs_handle, IntPtr rhs_handle, IntPtr _);
 
 
         public KVStore(KVStoreHandle handle)
@@ -161,11 +162,21 @@ namespace MxNet.KVstore
             NativeMethods.MXKVStoreFree(handle);
         }
 
-        private UpdaterHandle updater_handle(Updater updater)
+        private UpdaterHandle UpdaterWrapper(Updater updater)
         {
-            UpdaterHandle func = (key, lhs_handle, rhs_handle) => 
+            UpdaterHandle func = (key, lhs_handle, rhs_handle, _) => 
             {
                 updater.Call(key, new NDArray(lhs_handle), new NDArray(rhs_handle));
+            };
+
+            return func;
+        }
+
+        private UpdaterHandleStr UpdaterWrapperStr(Updater updater)
+        {
+            UpdaterHandleStr func = (key, lhs_handle, rhs_handle, _) =>
+            {
+                updater.Call(Convert.ToInt32(key), new NDArray(lhs_handle), new NDArray(rhs_handle));
             };
 
             return func;
@@ -174,6 +185,9 @@ namespace MxNet.KVstore
         public void SetUpdater(Updater updater)
         {
             _updater = updater;
+            updater_func = UpdaterWrapper(updater).Method.MethodHandle.GetFunctionPointer();
+            str_updater_func = UpdaterWrapperStr(updater).Method.MethodHandle.GetFunctionPointer();
+            NativeMethods.MXKVStoreSetUpdaterEx(handle, updater_func, str_updater_func, IntPtr.Zero);
         }
     }
 }

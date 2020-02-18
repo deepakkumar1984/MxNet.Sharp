@@ -60,8 +60,8 @@ namespace MxNet.Gluon
             get
             {
                 var data = _shape.Data;
-                for (int i = 0; i < data.Length; i++)
-                    data[i] = data[i] != 0 ? data[i] : -1;
+                //for (int i = 0; i < data.Length; i++)
+                //    data[i] = data[i] != 0 ? data[i] : -1;
 
                 return new Shape(data);
             }
@@ -106,48 +106,48 @@ namespace MxNet.Gluon
             this.trainer = trainer;
         }
 
-        internal NDArray[] CheckAndGet(NDArray[] arr_list, Context ctx)
+        internal NDArray[] CheckAndGet(List<NDArray> arr_list, Context ctx)
         {
-            if (arr_list == null)
-                throw new ArgumentException($"Parameter '{Name}' has not been initialized. Note that " +
-                                            "you should initialize parameters and create Trainer " +
-                                            "with Block.collect_params() instead of Block.params " +
-                                            "because the later does not include Parameters of " +
-                                            "nested child Blocks");
-
-            if(ctx == null)
+            if (arr_list != null)
             {
-                if (arr_list.Length == 1)
-                    return arr_list;
+                if (ctx == null)
+                {
+                    if (arr_list.Count == 1)
+                        return arr_list.ToArray();
+                    else
+                        ctx = Context.CurrentContext;
+                }
+
+                var ctx_list = ctx_map[(int)ctx.GetDeviceType() & 1];
+
+                if (ctx.GetDeviceId() < ctx_list.Count)
+                {
+                    var idx = ctx_list[ctx.GetDeviceId()];
+                    if (idx != null)
+                        return arr_list.ToArray();
+                }
                 else
-                    ctx = Context.CurrentContext;
+                {
+                    throw new Exception($"Parameter '{Name}' was not initialized on context {ctx.ToString()}. " +
+                                                 $"It was only initialized on {ctx_list[0].ToString()}.");
+                }
             }
 
-            var ctx_list = ctx_map[(int)ctx.GetDeviceType() & 1];
-
-            if (ctx.GetDeviceId() < ctx_list.Count)
-            {
-                var idx = ctx_list[ctx.GetDeviceId()];
-                if (idx != null)
-                    return arr_list;
-            }
-            else
-            {
-                throw new Exception($"Parameter '{Name}' was not initialized on context {ctx.ToString()}. " +
-                                             $"It was only initialized on {ctx_list[0].ToString()}.");
-            }
-
-            if (deferred_init != null)
-                throw new Exception($"Parameter '{Name}' has not been initialized yet because initialization was " +
+            if (deferred_init.HasValue)
+                throw new DeferredInitializationException($"Parameter '{Name}' has not been initialized yet because initialization was " +
                                     "deferred. Actual initialization happens during the first forward pass. " +
                                     "Please pass one batch of data through the network before accessing Parameters. " +
                                     "You can also avoid deferred initialization by specifying in_units, " +
                                     "num_features, etc., for network layers.");
 
-            return arr_list;
+            throw new ArgumentException($"Parameter '{Name}' has not been initialized. Note that " +
+                                           "you should initialize parameters and create Trainer " +
+                                           "with Block.collect_params() instead of Block.params " +
+                                           "because the later does not include Parameters of " +
+                                           "nested child Blocks");
         }
 
-        internal NDArray[] GetRowSparse(NDArray[] arr_list, Context ctx, NDArray row_id)
+        internal NDArray[] GetRowSparse(List<NDArray> arr_list, Context ctx, NDArray row_id)
         {
             if (trainer == null)
                 throw new Exception($"Cannot get row_sparse data for Parameter '{Name}' when no " +
@@ -293,7 +293,7 @@ namespace MxNet.Gluon
                 _grad.Add(nd.Zeros(_data[i].Shape, _data[i].context, _data[i].DataType).ToSType(Stype));
             }
 
-            Autograd.MarkVariables(CheckAndGet(this._data.ToArray(), null), this._grad.ToArray(), GradReg);
+            Autograd.MarkVariables(CheckAndGet(this._data, null), this._grad.ToArray(), GradReg);
         }
 
         internal NDArray Reduce()
@@ -309,7 +309,7 @@ namespace MxNet.Gluon
             {
                 var all_row_ids = nd.Arange(0, (int)Shape[0], dtype: DType.Int64, ctx: ctx);
                 data = nd.Zeros(Shape, ctx: ctx).ToSType(StorageStype.RowSparse);
-                trainer.RowSparsePull(this, new NDArray[] { data }, all_row_ids, true);
+                trainer.RowSparsePull(this, new List<NDArray> { data }, all_row_ids, true);
             }
 
             return data;
@@ -392,7 +392,7 @@ namespace MxNet.Gluon
                 }
             }
 
-            var dlist = CheckAndGet(this._data.ToArray(), null);
+            var dlist = CheckAndGet(this._data, null);
             for (int i = 0; i < dlist.Length; i++)
             {
                 dlist[i] = data;
@@ -408,7 +408,7 @@ namespace MxNet.Gluon
                                    "use data() instead.");
             }
 
-            return GetRowSparse(_data.ToArray(), row_id.context, row_id).FirstOrDefault();
+            return GetRowSparse(_data, row_id.context, row_id).FirstOrDefault();
         }
 
         public NDArray[] ListRowSparseData(NDArray row_id)
@@ -419,7 +419,7 @@ namespace MxNet.Gluon
                                     $"because its storage type is {Stype}. Please use data() instead.");
             }
 
-            return GetRowSparse(_data.ToArray(), null, row_id);
+            return GetRowSparse(_data, null, row_id);
         }
 
         public NDArray Data(Context ctx = null)
@@ -431,7 +431,7 @@ namespace MxNet.Gluon
                                    "use RowSparseData() instead.");
             }
 
-            return CheckAndGet(_data.ToArray(), ctx).FirstOrDefault();
+            return CheckAndGet(_data, ctx).FirstOrDefault();
         }
 
         public NDArray[] ListData()
@@ -442,7 +442,7 @@ namespace MxNet.Gluon
                                     $"because its storage type is {Stype}. Please use ListRowSparseData() instead.");
             }
 
-            return CheckAndGet(this._data.ToArray(), null);
+            return CheckAndGet(this._data, null);
         }
 
         public NDArray Grad(Context ctx = null)
@@ -453,7 +453,7 @@ namespace MxNet.Gluon
                                     "because grad_req='null'");
             }
 
-            return CheckAndGet(_grad.ToArray(), ctx).FirstOrDefault();
+            return CheckAndGet(_grad, ctx).FirstOrDefault();
         }
 
         public NDArray[] ListGrad()
@@ -464,7 +464,7 @@ namespace MxNet.Gluon
                                     "because grad_req='null'");
             }
 
-            return CheckAndGet(_grad.ToArray(), null);
+            return CheckAndGet(_grad, null);
         }
 
         public Context[] ListCtx()

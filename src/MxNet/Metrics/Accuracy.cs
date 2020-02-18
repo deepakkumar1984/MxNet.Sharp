@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MxNet.Metrics
 {
@@ -16,16 +17,21 @@ namespace MxNet.Metrics
         public override void Update(NDArray labels, NDArray preds)
         {
             CheckLabelShapes(labels, preds, true);
-            NumSharp.NDArray pred_label = null;
+      
+            NDArray pred_label = null;
             if (preds.Shape != labels.Shape)
-                pred_label = preds.Argmax(Axis).AsNumpy().astype(NumSharp.NPTypeCode.Int32);
+                pred_label = preds.Argmax(Axis);
             else
-                pred_label = preds.AsNumpy().astype(NumSharp.NPTypeCode.Int32);
-            
-            var label = labels.AsNumpy().astype(NumSharp.NPTypeCode.Int32);
-            label = label.flat;
-            pred_label = pred_label.flat;
-            var num_correct = (pred_label == label).astype(NumSharp.NPTypeCode.Float).sum().Data<float>()[0];
+                pred_label = preds;
+
+            var label = labels.Ravel();
+            pred_label = pred_label.Ravel();
+
+            var labelData = label.AsArray<float>();
+            var predData = pred_label.AsArray<float>();
+
+            var num_correct = nd.Equal(pred_label, label).AsType(DType.Float32).Sum();
+
             sum_metric += num_correct;
             global_sum_metric += num_correct;
             num_inst += pred_label.Shape.Size;

@@ -176,7 +176,7 @@ namespace MxNet.Gluon
                         cargs.Add(item.Param.Data());
                 }
             }
-            catch
+            catch(DeferredInitializationException ex)
             {
                 DeferredInferShape(args);
                 cargs.Clear();
@@ -360,7 +360,7 @@ namespace MxNet.Gluon
                         @params[p.Key] = p.Value.Data(ctx);
                     }
                 }
-                catch (Exception ex)
+                catch (DeferredInitializationException ex)
                 {
                     @params.Clear();
                     DeferredInferShape(list.ToList().ToNDArrays());

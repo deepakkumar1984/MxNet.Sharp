@@ -29,7 +29,7 @@ namespace MNIST
             var gpus = TestUtils.ListGpus();
             Context[] ctxList = gpus.Count > 0 ?
                                         gpus.Select(x => (Context.Gpu(x))).ToArray() :
-                                        new Context[] { Context.Cpu(0), Context.Cpu(1) };
+                                        new Context[] { Context.Cpu(0) };
 
             net.Initialize(new Xavier(magnitude: 2.24f), ctxList.ToArray());
             var trainer = new Trainer(net.CollectParams(), new SGD());
@@ -45,29 +45,33 @@ namespace MNIST
                     var data = Utils.SplitAndLoad(batch.Data[0], ctx_list: ctxList, batch_axis: 0);
                     var label = Utils.SplitAndLoad(batch.Label[0], ctx_list: ctxList, batch_axis: 0);
 
-                    NDArray[] outputs = null;
+                    List<NDArray> outputs = new List<NDArray>();
                     using (var ag = Autograd.Record())
                     {
-                        //for(int i = 0;i < data.Length; i++)
-                        //{
-                        //    var x = data[i];
-                        //    var y = label[i];
+                        for (int i = 0; i < data.Length; i++)
+                        {
+                            var x = data[i];
+                            var y = label[i];
+                            
+                            var z = net.Call(x);
+                            var z1 = z.NdX.AsArray<float>();
+                            NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+                            var loss1 = loss.AsArray<float>();
+                            loss.Backward();
+                            var loss2 = loss.AsArray<float>();
+                            outputs.Add(z);
+                        }
 
+                        //outputs = Enumerable.Zip(data, label, (x, y) =>
+                        //{
                         //    var z = net.Call(x);
                         //    NDArray loss = softmax_cross_entropy_loss.Call(z, y);
                         //    loss.Backward();
-                        //}
-
-                        outputs = Enumerable.Zip(data, label, (x, y) =>
-                        {
-                            var z = net.Call(x);
-                            NDArray loss = softmax_cross_entropy_loss.Call(z, y);
-                            loss.Backward();
-                            return z;
-                        }).ToList().ToNDArrays();
+                        //    return z;
+                        //}).ToList().ToNDArrays();
                     }
 
-                    metric.Update(label, outputs);
+                    metric.Update(label, outputs.ToArray());
                     trainer.Step(batch.Data[0].Shape[0]);
                 }
 

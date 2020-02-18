@@ -117,7 +117,7 @@ namespace MxNet.IO
 
         public bool End()
         {
-            return !(cursor < num_data);
+            return !(cursor + BatchSize < num_data);
         }
 
         public override DataBatch Next()

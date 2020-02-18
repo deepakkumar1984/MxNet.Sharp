@@ -127,7 +127,7 @@ namespace MxNet.Gluon
                         params_to_init.Add(param);
                     else
                     {
-                        var param_arrays = param.CheckAndGet(param._data.ToArray(), null);
+                        var param_arrays = param.CheckAndGet(param._data, null);
                         var idx = _param2idx[param.Name];
                         _kvstore.Init(idx.ToString(), param_arrays[0]);
                         if (param.Stype == StorageStype.Default)
@@ -234,7 +234,7 @@ namespace MxNet.Gluon
             _kv_initialized = true;
         }
 
-        internal void RowSparsePull(Parameter parameter, NDArray[] @out, NDArray row_id, bool full_idx= false)
+        internal void RowSparsePull(Parameter parameter, List<NDArray> @out, NDArray row_id, bool full_idx= false)
         {
             if (!_kv_initialized)
                 InitKVstore();
@@ -248,10 +248,10 @@ namespace MxNet.Gluon
                 if (row_id.Size != @out[0].Shape[0])
                     throw new Exception("row_id size not equal to @out row size");
 
-                _kvstore.Pull(idx.ToString(), @out, -idx, false);
+                _kvstore.Pull(idx.ToString(), @out.ToArray(), -idx, false);
             }
             else
-                _kvstore.RowSparsePull(idx.ToString(), @out, -idx, new NDArray[] { row_id });
+                _kvstore.RowSparsePull(idx.ToString(), @out.ToArray(), -idx, new NDArray[] { row_id });
         }
 
         internal void CheckAndRescaleGrad(float scale)
@@ -349,7 +349,7 @@ namespace MxNet.Gluon
 
                 if(!ignore_stale_grad)
                 {
-                    var datalist = param.CheckAndGet(param._data.ToArray(), null);
+                    var datalist = param.CheckAndGet(param._data, null);
                     foreach (var data in datalist)
                     {
                         if (!data.FreshGrad)

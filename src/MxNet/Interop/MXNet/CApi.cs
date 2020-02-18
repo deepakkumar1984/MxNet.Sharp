@@ -893,6 +893,9 @@ namespace MxNet.Interop
         public static extern int MXKVStoreSetGradientCompression(KVStoreHandle handle, int num_params,
                                                          [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
                                                           [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vals);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreSetUpdaterEx(KVStoreHandle handle, IntPtr updater, IntPtr str_updater, IntPtr updater_handle);
         #endregion
 
         #region Part 7: Autograd API
