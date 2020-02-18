@@ -33,18 +33,18 @@ MxNet Version Build: https://github.com/apache/incubator-mxnet/releases/tag/1.5.
 
 **Win-x64 Packages**
 
-| Type           |  Name                                    | Nuget                                       |
-|----------------|------------------------------------------|---------------------------------------------|
-| MxNet-CPU      | MxNet CPU Version                        | Install-Package MxNet.Runtime.Redist        |
-| MxNet-MKL      | MxNet CPU with MKL                       | Install-Package MxNet-MKL.Runtime.Redist    |
-| MxNet-CU101    | MxNet for Cuda 10.1 and CuDnn 7          | Install-Package MxNet-CU101.Runtime.Redist  |
-| MxNet-CU101MKL | MxNet for Cuda 10.1 and CuDnn 7          | **Yet to publish**                          |
-| MxNet-CU100    | MxNet for Cuda 10 and CuDnn 7            | Install-Package MxNet-CU100.Runtime.Redist  |
-| MxNet-CU100MKL | MxNet with MKL for Cuda 10 and CuDnn 7   | **Yet to publish**                          |
-| MxNet-CU92     | MxNet for Cuda 9.2 and CuDnn 7           | Install-Package MxNet-CU100.Runtime.Redist  |
-| MxNet-CU92MKL  | MxNet with MKL for Cuda 9.2 and CuDnn 7  | **Yet to publish**                          |
-| MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | Install-Package MxNet-CU100.Runtime.Redist  |
-| MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | **Yet to publish**                          |
+| Type           |  Name                                    | Nuget                                           |
+|----------------|------------------------------------------|-------------------------------------------------|
+| MxNet-CPU      | MxNet CPU Version                        | Install-Package MxNet.Runtime.Redist            |
+| MxNet-MKL      | MxNet CPU with MKL                       | Install-Package MxNet-MKL.Runtime.Redist        |
+| MxNet-CU101    | MxNet for Cuda 10.1 and CuDnn 7          | Install-Package MxNet-CU101.Runtime.Redist      |
+| MxNet-CU101MKL | MxNet for Cuda 10.1 and CuDnn 7          | Install-Package MxNet-CU101MKL.Runtime.Redist   |
+| MxNet-CU100    | MxNet for Cuda 10 and CuDnn 7            | Install-Package MxNet-CU100.Runtime.Redist      |
+| MxNet-CU100MKL | MxNet with MKL for Cuda 10 and CuDnn 7   | Install-Package MxNet-CU100MKL.Runtime.Redist   |
+| MxNet-CU92     | MxNet for Cuda 9.2 and CuDnn 7           | Install-Package MxNet-CU100.Runtime.Redist      |
+| MxNet-CU92MKL  | MxNet with MKL for Cuda 9.2 and CuDnn 7  | Install-Package MxNet-CU92MKL.Runtime.Redist    |
+| MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | Install-Package MxNet-CU100.Runtime.Redist      |
+| MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | Install-Package MxNet-CU80MKL.Runtime.Redist    |
 
 **Linux-x64 Packages**
 
