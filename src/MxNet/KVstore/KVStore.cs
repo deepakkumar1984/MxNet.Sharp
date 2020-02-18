@@ -49,14 +49,16 @@ namespace MxNet.KVstore
         }
 
         internal KVStoreHandle handle;
-        internal Updater updater;
+        internal Updater _updater;
         internal IntPtr updater_func;
         internal IntPtr str_updater_func;
+        internal delegate void UpdaterHandle(int key, IntPtr lhs_handle, IntPtr rhs_handle);
+
 
         public KVStore(KVStoreHandle handle)
         {
             this.handle = handle;
-            updater = null;
+            _updater = null;
             updater_func = IntPtr.Zero;
             str_updater_func = IntPtr.Zero;
         }
@@ -159,9 +161,19 @@ namespace MxNet.KVstore
             NativeMethods.MXKVStoreFree(handle);
         }
 
-        private void SetUpdater(Updater updater)
+        private UpdaterHandle updater_handle(Updater updater)
         {
-            throw new NotImplementedException();
+            UpdaterHandle func = (key, lhs_handle, rhs_handle) => 
+            {
+                updater.Call(key, new NDArray(lhs_handle), new NDArray(rhs_handle));
+            };
+
+            return func;
+        }
+
+        public void SetUpdater(Updater updater)
+        {
+            _updater = updater;
         }
     }
 }

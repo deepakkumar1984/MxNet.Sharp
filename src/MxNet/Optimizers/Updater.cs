@@ -19,6 +19,11 @@ namespace MxNet.Optimizers
             aggregate_updates = opt.AggregateNum > 0;
         }
 
+        public void Call(int index, NDArray grad, NDArray weight)
+        {
+            Call(new int[] { index }, new NDArray[] { grad }, new NDArray[] { weight });
+        }
+
         public void Call(int[] indices, NDArray[] grads, NDArray[] weights)
         {
             if (weights != null)

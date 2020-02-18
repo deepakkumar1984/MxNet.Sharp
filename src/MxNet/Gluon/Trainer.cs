@@ -437,7 +437,7 @@ namespace MxNet.Gluon
             if (_update_on_kvstore.Value)
             {
                 _kvstore.LoadOptimizerStates(fname);
-                Optimizer = _kvstore.updater.optimizer;
+                Optimizer = _kvstore._updater.optimizer;
             }
             else
             {
