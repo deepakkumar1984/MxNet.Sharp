@@ -261,17 +261,16 @@ namespace MxNet
             List<Shape> outShape = new List<Shape>();
 
             this.ThrowIfDisposed();
-            var argIndPtr = new List<int>();
+            var argIndPtr = new List<int>() { 0 };
             var argShapeData = new List<int>();
 
             foreach (var item in argShapes.Values)
             {
-                argIndPtr.Add(argShapeData.Count);
                 foreach (var i in item.Data)
                     argShapeData.Add(i);
-            }
 
-            argIndPtr.Add(argShapeData.Count);
+                argIndPtr.Add(argShapeData.Count);
+            }
 
             unsafe
             {
@@ -649,7 +648,7 @@ namespace MxNet
 
         public static Symbol Variable(string name)
         {
-            return new Symbol(name);
+            return Var(name);
         }
 
         public static Symbol Var(string name, Dictionary<string, string> attr= null, Shape shape= null, float? lr_mult= null, float? wd_mult= null,

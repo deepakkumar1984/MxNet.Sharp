@@ -45,9 +45,16 @@ namespace MxNet.Gluon
             {
                 List<Symbol> inputs = new List<Symbol>();
                 var (args_sym, _in_format) = Flatten(args.Select(x=>(new NDArrayOrSymbol(x))).ToArray(), "input");
-                for (int i = 0; i < args_sym.Count; i++)
+                if (args_sym.Count > 1)
                 {
-                    inputs.Add(Symbol.Variable($"data{i}"));
+                    for (int i = 0; i < args_sym.Count; i++)
+                    {
+                        inputs.Add(Symbol.Variable($"data{i}"));
+                    }
+                }
+                else
+                {
+                    inputs.Add(Symbol.Variable("data"));
                 }
 
                 var grouped_inputs = Regroup(new List<NDArrayOrSymbol[]>() { inputs.ToNDArrayOrSymbols() }, _in_format.ToList()).Item1;

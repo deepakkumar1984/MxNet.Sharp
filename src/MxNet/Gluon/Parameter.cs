@@ -59,10 +59,21 @@ namespace MxNet.Gluon
         {
             get
             {
-                var data = _shape.Data;
+                var data = new List<int>();
                 //for (int i = 0; i < data.Length; i++)
                 //    data[i] = data[i] != 0 ? data[i] : -1;
+                bool checkZero = true;
+                foreach (var item in _shape.Data.Reverse())
+                {
+                    if (item == 0 && checkZero)
+                        continue;
 
+                    checkZero = false;
+
+                    data.Add(item);
+                }
+                
+                data.Reverse();
                 return new Shape(data);
             }
         }
