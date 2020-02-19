@@ -59,22 +59,23 @@ namespace MxNet.Gluon
         {
             get
             {
-                var data = new List<int>();
+                //var data = new List<int>();
                 //for (int i = 0; i < data.Length; i++)
                 //    data[i] = data[i] != 0 ? data[i] : -1;
-                bool checkZero = true;
-                foreach (var item in _shape.Data.Reverse())
-                {
-                    if (item == 0 && checkZero)
-                        continue;
+                //bool checkZero = true;
+                //foreach (var item in _shape.Data.Reverse())
+                //{
+                //    if (item == 0 && checkZero)
+                //        continue;
 
-                    checkZero = false;
+                //    checkZero = false;
 
-                    data.Add(item);
-                }
-                
-                data.Reverse();
-                return new Shape(data);
+                //    data.Add(item);
+                //}
+
+                //data.Reverse();
+                //return new Shape(data);
+                return _shape;
             }
         }
 
@@ -260,7 +261,7 @@ namespace MxNet.Gluon
             {
                 if(data == null)
                 {
-                    data = nd.Zeros(shape: Shape, dtype: DataType, ctx: Context.Cpu(0)).ToSType(Stype);
+                    data = nd.Zeros(shape: Shape, dtype: DataType, ctx: ctx[0]).ToSType(Stype);
                     InitImpl(data, ctx);
                 }
             }

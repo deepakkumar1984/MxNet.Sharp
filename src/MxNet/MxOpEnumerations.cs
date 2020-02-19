@@ -296,18 +296,20 @@ Int8
 ///<para>The desired storage type of the forward output given by user, if thecombination of input storage types and this hint does not matchany implemented ones, the dot operator will perform fallback operationand still produce an output of the desired storage type.</para>
 ///</summary>
 public enum DotForwardStype
-{Csr,
-Default,
-RowSparse
-};
+{
+        Default = 0,
+        RowSparse,
+        Csr
+    };
 ///<summary>
 ///<para>The desired storage type of the forward output given by user, if thecombination of input storage types and this hint does not matchany implemented ones, the dot operator will perform fallback operationand still produce an output of the desired storage type.</para>
 ///</summary>
 public enum BatchDotForwardStype
-{Csr,
-Default,
-RowSparse
-};
+{
+        Default = 0,
+        RowSparse,
+        Csr
+    };
 ///<summary>
 ///<para>Specify how out-of-bound indices bahave. Default is "clip". "clip" means clip to the range. So, if all indices mentioned are too large, they are replaced by the index that addresses the last element along an axis.  "wrap" means to wrap around.  "raise" means to raise an error, not supported yet.</para>
 ///</summary>

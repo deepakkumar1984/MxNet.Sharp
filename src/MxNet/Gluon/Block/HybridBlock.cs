@@ -256,7 +256,7 @@ namespace MxNet.Gluon
                 var arg_names = @out.ListArguments().ToArray();
                 for(int i = 0;i< arg_attrs.Length;i++)
                 {
-                    sdict.Add(arg_names[i], arg_attrs[i]);
+                    sdict.Add(arg_names[i], new Shape(arg_attrs[i].Data));
                 }
 
                 var aux_names = @out.ListAuxiliaryStates().ToArray();
@@ -378,7 +378,7 @@ namespace MxNet.Gluon
 
                     foreach (var p in _reg_params)
                     {
-                        @params[p.Key] = p.Value.Var();
+                        @params[p.Key] = p.Value.Data(ctx);
                     }
                 }
 
@@ -389,15 +389,17 @@ namespace MxNet.Gluon
 
                 return HybridForward(x, argsList.ToArray());
             }
-
-            foreach (var p in _reg_params)
+            else 
             {
-                @params[p.Key] = p.Value.Var();
-            }
+                foreach (var p in _reg_params)
+                {
+                    @params[p.Key] = p.Value.Var();
+                }
 
-            foreach (var item in @params)
-            {
-                argsList.Add(item.Value);
+                foreach (var item in @params)
+                {
+                    argsList.Add(item.Value);
+                }
             }
 
             return HybridForward(x, argsList.ToArray());

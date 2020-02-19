@@ -267,7 +267,12 @@ namespace MxNet
             foreach (var item in argShapes.Values)
             {
                 foreach (var i in item.Data)
+                {
+                    if (i == 0)
+                        continue;
+
                     argShapeData.Add(i);
+                }
 
                 argIndPtr.Add(argShapeData.Count);
             }

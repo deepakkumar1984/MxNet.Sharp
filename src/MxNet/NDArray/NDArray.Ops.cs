@@ -539,7 +539,7 @@ namespace MxNet
             .Invoke();
         }
 
-        private static readonly List<string> CastStorageStypeConvert = new List<string>() { "csr", "default", "row_sparse" };
+        private static readonly List<string> CastStorageStypeConvert = new List<string>() { "default", "row_sparse", "csr" };
         ///<summary>
         ///<para>Casts tensor storage type to the new type.</para>
         ///<para> </para>

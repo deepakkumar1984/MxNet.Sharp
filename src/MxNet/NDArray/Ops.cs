@@ -7053,7 +7053,7 @@ namespace MxNet
 
             return new Operator("_zeros")
             .SetParam("shape", shape)
-            .SetParam("ctx", ctx)
+            .SetParam("ctx", ctx.ToString())
             .SetParam("dtype", dtype)
             .Invoke();
         }

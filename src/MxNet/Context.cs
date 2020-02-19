@@ -101,11 +101,19 @@ namespace MxNet
         {
             if(GetDeviceType() == DeviceType.GPU)
             {
-                return string.Format("GPU: {0}", GetDeviceId());
+                return string.Format("gpu({0})", GetDeviceId());
+            }
+            else if (GetDeviceType() == DeviceType.CPUPinned)
+            {
+                return string.Format("cpu_pinned({0})", GetDeviceId());
+            }
+            else if (GetDeviceType() == DeviceType.CPUShared)
+            {
+                return string.Format("cpu_shared({0})", GetDeviceId());
             }
             else
             {
-                return string.Format("CPU: {0}", GetDeviceId());
+                return string.Format("cpu({0})", GetDeviceId());
             }
         }
 
