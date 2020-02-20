@@ -19,7 +19,7 @@ namespace MxNet.Gluon
             _from_logits = from_logits;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null)
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)
         {
             if (pred.IsNDArray)
                 return F(pred.NdX, label.NdX, sample_weight.NdX);

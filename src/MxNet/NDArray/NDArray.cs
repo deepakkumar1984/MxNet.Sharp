@@ -158,6 +158,14 @@ namespace MxNet
             }
         }
 
+        public Array Data
+        {
+            get
+            {
+                return AsArray<float>();
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -530,14 +538,16 @@ namespace MxNet
         public void Backward(NDArray out_grad= null, bool retain_graph= false, bool train_mode= true)
         {
             List<NDArrayHandle> ograd_handles = new List<NDArrayHandle>();
+            List<NDArrayHandle> var_handles = new List<NDArrayHandle>();
+            List<NDArrayHandle> grad_handles = new List<NDArrayHandle>();
             if (out_grad!=null)
             {
                 ograd_handles.Add(out_grad.GetHandle());
             }
 
-            NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] { NativePtr }, null,
-                                                0, null, retain_graph ? 1 : 0,
-                                                0, train_mode ? 1 : 0, null, new int[0]);
+            NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] { NativePtr }, ograd_handles.ToArray(),
+                                                0, var_handles.ToArray(), retain_graph ? 1 : 0,
+                                                0, train_mode ? 1 : 0, grad_handles.ToArray(), new int[0]);
         }
         #region Operators
 

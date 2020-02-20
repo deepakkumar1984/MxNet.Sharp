@@ -1134,14 +1134,16 @@ namespace MxNet
         /// <returns>returns new NDArray</returns>
         public static NDArray FullyConnected(NDArray data, NDArray weight, NDArray bias, int num_hidden, bool no_bias = false, bool flatten = true)
         {
-            return new Operator("FullyConnected")
-            .SetParam("num_hidden", num_hidden)
-            .SetParam("no_bias", no_bias)
-            .SetParam("flatten", flatten)
-            .SetInput("data", data)
-            .SetInput("weight", weight)
-            .SetInput("bias", bias)
-            .Invoke();
+            //return new Operator("FullyConnected")
+            //.SetParam("num_hidden", num_hidden)
+            //.SetParam("no_bias", no_bias)
+            //.SetParam("flatten", flatten)
+            //.SetInput("data", data)
+            //.SetInput("weight", weight)
+            //.SetInput("bias", bias)
+            //.Invoke();
+
+            return new Operator("FullyConnected").Set(data, weight, bias, num_hidden, no_bias, flatten).Invoke();
         }
 
         ///<summary>

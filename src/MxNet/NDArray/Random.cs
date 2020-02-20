@@ -10,7 +10,7 @@ namespace MxNet
         {
             public static NDArray Uniform(float low = 0f, float high = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__uniform")
+                return new Operator("uniform")
                 .SetParam("low", low)
                 .SetParam("high", high)
                 .SetParam("shape", shape)
@@ -21,7 +21,7 @@ namespace MxNet
 
             public static NDArray Normal(float loc = 0f, float scale = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__normal")
+                return new Operator("normal")
                 .SetParam("loc", loc)
                 .SetParam("scale", scale)
                 .SetParam("shape", shape)
@@ -32,7 +32,7 @@ namespace MxNet
 
             public static NDArray Gamma(float alpha = 1f, float beta = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__gamma")
+                return new Operator("gamma")
                 .SetParam("alpha", alpha)
                 .SetParam("beta", beta)
                 .SetParam("shape", shape)
@@ -43,7 +43,7 @@ namespace MxNet
 
             public static NDArray Exponential(float lam = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__exponential")
+                return new Operator("exponential")
                 .SetParam("lam", lam)
                 .SetParam("shape", shape)
                 .SetParam("ctx", ctx)
@@ -53,7 +53,7 @@ namespace MxNet
 
             public static NDArray Poisson(float lam = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__poisson")
+                return new Operator("poisson")
                 .SetParam("lam", lam)
                 .SetParam("shape", shape)
                 .SetParam("ctx", ctx)
@@ -63,7 +63,7 @@ namespace MxNet
 
             public static NDArray NegativeBinomial(int k = 1, float p = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__negative_binomial")
+                return new Operator("negative_binomial")
                 .SetParam("k", k)
                 .SetParam("p", p)
                 .SetParam("shape", shape)
@@ -74,7 +74,7 @@ namespace MxNet
 
             public static NDArray GeneralizedNegativeBinomial(float mu = 1f, float alpha = 1f, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__generalized_negative_binomial")
+                return new Operator("generalized_negative_binomial")
                 .SetParam("mu", mu)
                 .SetParam("alpha", alpha)
                 .SetParam("shape", shape)
@@ -85,7 +85,7 @@ namespace MxNet
 
             public static NDArray Randint(Tuple<double> low, Tuple<double> high, Shape shape = null, Context ctx = null, DType dtype = null)
             {
-                return new Operator("__randint")
+                return new Operator("randint")
                 .SetParam("low", low)
                 .SetParam("high", high)
                 .SetParam("shape", shape)
@@ -96,7 +96,7 @@ namespace MxNet
 
             public static NDArray UniformLike(NDArray data, float low = 0f, float high = 1f)
             {
-                return new Operator("__uniform_like")
+                return new Operator("uniform_like")
                 .SetParam("low", low)
                 .SetParam("high", high)
                 .SetInput("data", data)
@@ -105,7 +105,7 @@ namespace MxNet
 
             public static NDArray NormalLike(NDArray data, float loc = 0f, float scale = 1f)
             {
-                return new Operator("__normal_like")
+                return new Operator("normal_like")
                 .SetParam("loc", loc)
                 .SetParam("scale", scale)
                 .SetInput("data", data)
@@ -114,7 +114,7 @@ namespace MxNet
 
             public static NDArray GammaLike(NDArray data, float alpha = 1f, float beta = 1f)
             {
-                return new Operator("__gamma_like")
+                return new Operator("gamma_like")
                 .SetParam("alpha", alpha)
                 .SetParam("beta", beta)
                 .SetInput("data", data)
@@ -123,7 +123,7 @@ namespace MxNet
 
             public static NDArray ExponentialLike(NDArray data, float lam = 1f)
             {
-                return new Operator("__exponential_like")
+                return new Operator("exponential_like")
                 .SetParam("lam", lam)
                 .SetInput("data", data)
                 .Invoke();
@@ -131,7 +131,7 @@ namespace MxNet
 
             public static NDArray PoissonLike(NDArray data, float lam = 1f)
             {
-                return new Operator("__poisson_like")
+                return new Operator("poisson_like")
                 .SetParam("lam", lam)
                 .SetInput("data", data)
                 .Invoke();
@@ -139,7 +139,7 @@ namespace MxNet
 
             public static NDArray NegativeBinomialLike(NDArray data, int k = 1, float p = 1f)
             {
-                return new Operator("__negative_binomial_like")
+                return new Operator("negative_binomial_like")
                 .SetParam("k", k)
                 .SetParam("p", p)
                 .SetInput("data", data)
@@ -148,7 +148,7 @@ namespace MxNet
 
             public static NDArray GeneralizedNegativeBinomialLike(NDArray data, float mu = 1f, float alpha = 1f)
             {
-                return new Operator("__generalized_negative_binomial_like")
+                return new Operator("generalized_negative_binomial_like")
                 .SetParam("mu", mu)
                 .SetParam("alpha", alpha)
                 .SetInput("data", data)

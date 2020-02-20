@@ -249,7 +249,7 @@ namespace MxNet.Gluon
                 return;
 
             var (init, ctx, default_init, data) = deferred_init.Value;
-            deferred_init = default;
+            deferred_init = null;
             if(!Utils.ShapeIsKnown(Shape))
             {
                 throw new Exception($"Cannot initialize Parameter '{Name}' because it has " +
@@ -262,6 +262,17 @@ namespace MxNet.Gluon
                 if(data == null)
                 {
                     data = nd.Zeros(shape: Shape, dtype: DataType, ctx: ctx[0]).ToSType(Stype);
+
+                    if (init == null)
+                    {
+                        if (default_init != null)
+                            default_init.InitWeight(Name, data);
+                    }
+                    else
+                    {
+                        init.InitWeight(Name, data);
+                    }
+
                     InitImpl(data, ctx);
                 }
             }

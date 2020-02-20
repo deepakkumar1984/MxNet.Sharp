@@ -1,10 +1,9 @@
 ﻿using MxNet;
+using MxNet.Gluon;
+using MxNet.Gluon.NN;
+using MxNet.Initializers;
 using MxNet.IO;
 using MxNet.Metrics;
-using MxNet.NN;
-using MxNet.NN.Data;
-using MxNet.NN.Initializers;
-using MxNet.NN.Layers;
 using MxNet.Optimizers;
 using System;
 using System.Collections.Generic;
@@ -16,47 +15,59 @@ namespace ORGate
     {
         static void Main(string[] args)
         {
-            mx.SetDevice(DeviceType.CPU);
+            NDArray trainX = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }).Reshape(4, 2);
+            NDArray trainY = new NDArray(new float[] { 0, 1, 1, 0 });
 
-            //Pred data
-            DataFrame train_x = new DataFrame(2);
-            DataFrame train_y = new DataFrame(1);
-            train_x.Load(0, 0, 0, 1, 1, 0, 1, 1);
+            int batch_size = 2;
+            var train_data = new NDArrayIter(trainX, trainY, batch_size);
+            var val_data = new NDArrayIter(trainX, trainY, batch_size);
 
-            train_y.Load(0, 1, 1, 0);
+            var net = new Sequential();
+            net.Add(new Dense(4, activation: ActivationActType.Relu));
+            net.Add(new Dense(1));
 
-            NDArrayIter train = new NDArrayIter(train_x.ToVariable(), train_y.ToVariable());
+            var gpus = TestUtils.ListGpus();
+            Context[] ctxList = gpus.Count > 0 ?
+                                        gpus.Select(x => (Context.Gpu(x))).ToArray() :
+                                        new Context[] { Context.Cpu(0) };
 
-            //Build Model
-            Module model = new Module(2);
-            //BuildSymbolModel(model);
-            BuildNNModel(model);
-            model.Fit(train, 1000, 2);
+            net.Initialize(new Xavier(), ctxList.ToArray());
+            var trainer = new Trainer(net.CollectParams(), new SGD());
+            int epoch = 1000;
+            var metric = new Accuracy();
+            var binary_crossentropy = new SigmoidBinaryCrossEntropyLoss();
+            for (int iter = 0; iter < epoch; iter++)
+            {
+                train_data.Reset();
+                while (!train_data.End())
+                {
+                    var batch = train_data.Next();
+                    var data = Utils.SplitAndLoad(batch.Data[0], ctx_list: ctxList, batch_axis: 0);
+                    var label = Utils.SplitAndLoad(batch.Label[0], ctx_list: ctxList, batch_axis: 0);
 
-            Console.ReadLine();
+                    List<NDArray> outputs = new List<NDArray>();
+                    using (var ag = Autograd.Record())
+                    {
+                        for (int i = 0; i < data.Length; i++)
+                        {
+                            var x = data[i];
+                            var y = label[i];
+
+                            var z = net.Call(x);
+                            NDArray loss = binary_crossentropy.Call(z, y);
+                            loss.Backward();
+                            outputs.Add(z);
+                        }
+                    }
+
+                    metric.Update(label, outputs.ToArray());
+                    trainer.Step(batch.Data[0].Shape[0]);
+                }
+
+                var (name, acc) = metric.Get();
+                metric.Reset();
+                Console.WriteLine($"Training acc at epoch {iter}: {name}={acc}");
+            }
         }
-
-        private static void BuildSymbolModel(Module model)
-        {
-            var x = Symbol.Variable("X");
-            var fc1 = sym.Relu(sym.FullyConnected(x, Symbol.Variable("fc1_w"), 64));
-            var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), 32));
-            var fc3 = sym.Relu(sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), 1));
-            var output = sym.LogisticRegressionOutput(fc3, Symbol.Variable("label"));
-
-            model.SetDefaultInitializer(new RandomUniform(-1, 1));
-            model.Compile(output, OptimizerRegistry.Adam(), new F1());
-        }
-
-        private static void BuildNNModel(Module model)
-        {
-            model.Add(new Dense(dim: 64, activation: ActivationType.ReLU, kernalInitializer: new RandomUniform(-1, 1)));
-            model.Add(new Dense(dim: 32, activation: ActivationType.ReLU, kernalInitializer: new GlorotUniform()));
-            model.Add(new Dense(dim: 1));
-
-            //Train
-            model.Compile(OptimizerType.Adam, LossType.SigmoidBinaryCrossEntropy, new F1());
-        }
-        
     }
 }

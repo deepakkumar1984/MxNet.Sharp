@@ -22,12 +22,31 @@ namespace MxNet.Gluon
             return x;
         }
 
-        public virtual NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null)
+        public virtual NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)
         {
             return pred;
         }
 
-        internal NDArrayOrSymbol ApplyWeighting(NDArrayOrSymbol loss, float? weight = null, NDArrayOrSymbol sample_weight = null) => throw new NotImplementedException();
+        internal NDArrayOrSymbol ApplyWeighting(NDArrayOrSymbol loss, float? weight = null, NDArrayOrSymbol sample_weight = null)
+        {
+            if(sample_weight != null)
+            {
+                if (loss.IsNDArray)
+                    loss = nd.BroadcastMul(loss, sample_weight);
+                else
+                    loss = sym.BroadcastMul(loss, sample_weight);
+            }
+
+            if(weight.HasValue)
+            {
+                if (loss.IsNDArray)
+                    loss = loss.NdX * weight.Value;
+                else
+                    loss = loss.SymX * weight.Value;
+            }
+
+            return loss;
+        }
 
     }
 }

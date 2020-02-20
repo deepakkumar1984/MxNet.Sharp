@@ -382,12 +382,7 @@ namespace MxNet.Gluon
                     }
                 }
 
-                foreach (var item in @params)
-                {
-                    argsList.Add(item.Value);
-                }
-
-                return HybridForward(x, argsList.ToArray());
+                return HybridForward(x, @params.Values.ToArray());
             }
             else 
             {
@@ -395,14 +390,9 @@ namespace MxNet.Gluon
                 {
                     @params[p.Key] = p.Value.Var();
                 }
-
-                foreach (var item in @params)
-                {
-                    argsList.Add(item.Value);
-                }
             }
 
-            return HybridForward(x, argsList.ToArray());
+            return HybridForward(x, @params.Values.ToArray());
         }
 
         public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);

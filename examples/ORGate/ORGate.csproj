@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MNIST\MNIST.csproj" />
+    <PackageReference Include="MxNet.Runtime.Redist" Version="1.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MxNet\MxNet.csproj" />
   </ItemGroup>
 
 </Project>

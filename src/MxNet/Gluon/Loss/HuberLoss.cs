@@ -13,7 +13,7 @@ namespace MxNet.Gluon
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null)
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)
         {
             throw new NotImplementedException();
         }
