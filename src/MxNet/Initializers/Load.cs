@@ -43,7 +43,7 @@ namespace MxNet.Initializers
                 if (DefaultInit == null)
                     throw new MXNetException(string.Format("Cannot Initialize {0}. Not found in loaded param and no default Initializer is provided", name));
 
-                DefaultInit.InitWeight(name, arr);
+                DefaultInit.InitWeight(name, ref arr);
                 if (Verbose)
                     Logger.Log(string.Format("Initialized {0} by default", name));
             }

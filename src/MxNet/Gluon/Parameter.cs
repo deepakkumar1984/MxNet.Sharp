@@ -266,11 +266,11 @@ namespace MxNet.Gluon
                     if (init == null)
                     {
                         if (default_init != null)
-                            default_init.InitWeight(Name, data);
+                            default_init.InitWeight(Name, ref data);
                     }
                     else
                     {
-                        init.InitWeight(Name, data);
+                        init.InitWeight(Name, ref data);
                     }
 
                     InitImpl(data, ctx);

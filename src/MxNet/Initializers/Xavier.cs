@@ -19,7 +19,7 @@ namespace MxNet.Initializers
             Magnitude = magnitude;
         }
 
-        public override void InitWeight(string name, NDArray arr)
+        public override void InitWeight(string name, ref NDArray arr)
         {
             var shape = arr.Shape;
             float hw_scale = 1;

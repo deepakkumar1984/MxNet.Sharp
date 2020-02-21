@@ -13,7 +13,7 @@ namespace MxNet.Initializers
             Value = value;
         }
 
-        public override void InitWeight(string name, NDArray arr)
+        public override void InitWeight(string name, ref NDArray arr)
         {
             arr.Constant(Value);
         }

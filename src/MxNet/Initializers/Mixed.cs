@@ -25,7 +25,7 @@ namespace MxNet.Initializers
             foreach (var item in map)
             {
                 if (item.Key.IsMatch(name))
-                    item.Value.InitWeight(name, arr);
+                    item.Value.InitWeight(name, ref arr);
             }
         }
     }

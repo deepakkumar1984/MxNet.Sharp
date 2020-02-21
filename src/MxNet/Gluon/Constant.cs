@@ -17,7 +17,7 @@ namespace MxNet.Gluon
                 _value = value;
             }
 
-            public override void InitWeight(string name, NDArray arr)
+            public override void InitWeight(string name, ref NDArray arr)
             {
                 _value.CopyTo(arr);
             }

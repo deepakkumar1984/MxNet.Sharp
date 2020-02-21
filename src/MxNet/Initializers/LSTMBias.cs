@@ -13,7 +13,7 @@ namespace MxNet.Initializers
             ForgetBias = forget_bias;
         }
 
-        public override void InitWeight(string name, NDArray arr)
+        public override void InitWeight(string name, ref NDArray arr)
         {
             arr.Constant(0);
             int num_hidden = Convert.ToInt32(arr.Shape[0] / 4);

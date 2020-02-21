@@ -17,7 +17,7 @@ namespace MxNet.Initializers
             RandType = rand_type;
         }
 
-        public override void InitWeight(string name, NDArray arr)
+        public override void InitWeight(string name, ref NDArray arr)
         {
             var nout = arr.Shape[0];
             int nin = 1;

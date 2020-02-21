@@ -11,7 +11,7 @@ namespace MxNet.Initializers
             //ToDo: Depended on RNN Layer implementation
         }
 
-        public override void InitWeight(string name, NDArray arr)
+        public override void InitWeight(string name, ref NDArray arr)
         {
             //ToDo: Depended on RNN Layer implementation
         }

@@ -29,7 +29,7 @@ namespace MxNet.Initializers
             this.print_func = print_func;
         }
 
-        public abstract void InitWeight(string name, NDArray arr);
+        public abstract void InitWeight(string name, ref NDArray arr);
 
         private void VerbosePrint(InitDesc desc, string @init, NDArray arr)
         {

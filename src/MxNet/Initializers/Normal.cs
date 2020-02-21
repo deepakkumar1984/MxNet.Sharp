@@ -13,7 +13,7 @@ namespace MxNet.Initializers
             Sigma = sigma;
         }
 
-        public override void InitWeight(string name, NDArray arr)
+        public override void InitWeight(string name, ref NDArray arr)
         {
             arr = nd.Random.Normal(0, Sigma, arr.Shape);
         }

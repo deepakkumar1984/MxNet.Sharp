@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "redist", "redist", "{870A92
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ORGate", "examples\ORGate\ORGate.csproj", "{893914D5-B284-41EF-9E71-A6135282035D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageClassification", "examples\ImageClassification\ImageClassification.csproj", "{BD77AA9A-BED0-4D51-A767-BE6557767944}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,14 @@ Global
 		{893914D5-B284-41EF-9E71-A6135282035D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{893914D5-B284-41EF-9E71-A6135282035D}.Release|x64.ActiveCfg = Release|x64
 		{893914D5-B284-41EF-9E71-A6135282035D}.Release|x64.Build.0 = Release|x64
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Debug|x64.Build.0 = Debug|Any CPU
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Release|x64.ActiveCfg = Release|Any CPU
+		{BD77AA9A-BED0-4D51-A767-BE6557767944}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +89,7 @@ Global
 		{8A1E6A9A-DCC4-4793-AE28-A1310F93761F} = {7F9899A6-10C3-44BE-8696-EAEA7C2D596B}
 		{025EC9AF-B4D6-4EEE-AFF2-524D494E7E11} = {7F9899A6-10C3-44BE-8696-EAEA7C2D596B}
 		{893914D5-B284-41EF-9E71-A6135282035D} = {A28464AE-58E0-4BCD-AA19-B65E571DC285}
+		{BD77AA9A-BED0-4D51-A767-BE6557767944} = {A28464AE-58E0-4BCD-AA19-B65E571DC285}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6C75B613-36E0-4042-B237-EB2E76AE1E8C}

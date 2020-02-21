@@ -11,7 +11,7 @@ namespace MxNet.Initializers
         {
         }
 
-        public override void InitWeight(string name, NDArray arr)
+        public override void InitWeight(string name, ref NDArray arr)
         {
             float[] weight = new float[arr.Shape.Size];
             float f = (float)Math.Ceiling(arr.Shape[3] / 2f);
