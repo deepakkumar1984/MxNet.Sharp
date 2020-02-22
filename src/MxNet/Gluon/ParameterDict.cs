@@ -120,7 +120,7 @@ namespace MxNet.Gluon
                              float lr_mult = 1.0f, float wd_mult = 1.0f, Initializer init = null, bool allow_deferred_init = false,
                              bool differentiable = true, StorageStype stype = StorageStype.Default, StorageStype grad_stype = StorageStype.Default)
         {
-            name = Prefix + name;
+            name = Prefix + "_" + name;
             var param = GetImpl(name);
             if(param == null)
             {

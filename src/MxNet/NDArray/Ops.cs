@@ -890,7 +890,7 @@ namespace MxNet
         /// <param name="cudnn_off">Turn off cudnn for this layer.</param>
         /// <param name="layout">Set layout for input, output and weight. Empty for    default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.NHWC and NDHWC are only supported on GPU.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Convolution(NDArray data, NDArray weight, NDArray bias, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, uint num_group = 1, ulong workspace = 1024, bool no_bias = false, ConvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionLayout? layout = null)
+        public static NDArray Convolution(NDArray data, NDArray weight, NDArray bias, Shape kernel, int num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, int num_group = 1, ulong workspace = 1024, bool no_bias = false, ConvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionLayout? layout = null)
         {
             if (stride == null) { stride = new Shape(); }
             if (dilate == null) { dilate = new Shape(); }
@@ -1301,7 +1301,7 @@ namespace MxNet
         /// <param name="count_include_pad">Only used for AvgPool, specify whether to count padding elements for averagecalculation. For example, with a 5*5 kernel on a 3*3 corner of a image,the sum of the 9 valid elements will be divided by 25 if this is set to true,or it will be divided by 9 if this is set to false. Defaults to true.</param>
         /// <param name="layout">Set layout for input and output. Empty for    default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Pooling(NDArray data, Shape kernel = null, PoolingPoolType pool_type = PoolingPoolType.Max, bool global_pool = false, bool cudnn_off = false, PoolingPoolingConvention pooling_convention = PoolingPoolingConvention.Valid, Shape stride = null, Shape pad = null, int? p_value = null, bool? count_include_pad = null, PoolingLayout? layout = null)
+        public static NDArray Pooling(NDArray data, Shape kernel = null, PoolingPoolType pool_type = PoolingPoolType.Max, bool global_pool = false, bool cudnn_off = false, PoolingPoolingConvention pooling_convention = PoolingPoolingConvention.Valid, Shape stride = null, Shape pad = null, int? p_value = null, bool? count_include_pad = null, string layout = null)
         {
             if (kernel == null) { kernel = new Shape(); }
             if (stride == null) { stride = new Shape(); }
@@ -1317,7 +1317,7 @@ namespace MxNet
             .SetParam("pad", pad)
             .SetParam("p_value", p_value)
             .SetParam("count_include_pad", count_include_pad)
-            .SetParam("layout", MxUtil.EnumToString<PoolingLayout>(layout, PoolingLayoutConvert))
+            .SetParam("layout", layout)
             .SetInput("data", data)
             .Invoke();
         }

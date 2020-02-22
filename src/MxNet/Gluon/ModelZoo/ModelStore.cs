@@ -59,10 +59,16 @@ namespace MxNet.Gluon.ModelZoo
             throw new Exception($"Pretrained model for {name} is not available");
         }
 
-        public static string GetModelFile(string name, string root = "./models")
+        public static string GetModelFile(string name, string root = "")
         {
+            if (string.IsNullOrWhiteSpace(root))
+                root = mx.AppPath + "\\Models";
+
+            if (!Directory.Exists(root))
+                Directory.CreateDirectory(root);
+
             string file_name = $"{name}-{ShortHash(name)}";
-            string file_path = Path.Combine(root, file_name);
+            string file_path = $"{root}\\{file_name}.params";
             string shal1_hash = model_sha1[name];
             if (File.Exists(file_path))
             {
@@ -85,14 +91,17 @@ namespace MxNet.Gluon.ModelZoo
             Utils.Download(string.Format(_url_format, repo_url, file_name), zip_file_path, overwrite: true);
             ZipFile.ExtractToDirectory(zip_file_path, root);
             File.Delete(zip_file_path);
-            if (Utils.CheckSha1(zip_file_path, shal1_hash))
+            
+            if (Utils.CheckSha1(file_path, shal1_hash))
                 return file_path;
             else
                 throw new Exception("Downloaded file has different hash. Please try again.");
         }
 
-        public static void Purge(string root = "./models")
+        public static void Purge(string root = "")
         {
+            if (string.IsNullOrWhiteSpace(root))
+                root = mx.AppPath + "\\Models";
             DirectoryInfo dir = new DirectoryInfo(root);
             var files  =dir.GetFiles("*.params");
             foreach (var item in files)

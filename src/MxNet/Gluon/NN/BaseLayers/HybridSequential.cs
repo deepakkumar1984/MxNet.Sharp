@@ -40,12 +40,12 @@ namespace MxNet.Gluon.NN
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
-        }
+            foreach (var item in _childrens)
+            {
+                x = item.Value.Call(x, args);
+            }
 
-        public override string ToString()
-        {
-            throw new NotImplementedException();
+            return x;
         }
     }
 }

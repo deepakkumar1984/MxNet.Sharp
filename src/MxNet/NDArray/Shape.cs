@@ -31,7 +31,7 @@ namespace MxNet
         public Shape(params int[] v)
         {
             if (v == null)
-                throw new ArgumentNullException(nameof(v));
+                v = new int[0];
 
             this._Dimension = v.Length;
 
@@ -85,7 +85,7 @@ namespace MxNet
 
         public int[] Data => this._Data.ToArray();
 
-        private readonly int _Dimension;
+        private int _Dimension;
 
         public int Dimension => this._Dimension;
 
@@ -119,6 +119,7 @@ namespace MxNet
         public void Add(int i)
         {
             _Data.Add(i);
+            _Dimension = _Data.Count;
         }
         #region Overrides
 

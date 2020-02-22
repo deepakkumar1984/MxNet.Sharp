@@ -137,13 +137,13 @@ namespace MxNet.Gluon
         {
             using (FileStream stream = File.OpenRead(filename))
             {
-                byte[] hash = SHA256.Create().ComputeHash(stream);
+                byte[] hash = SHA1.Create().ComputeHash(stream);
                 string hashString = Encoding.UTF8.GetString(hash, 0, hash.Length);
                 if (hashString == sha1_hash)
                     return true;
             }
 
-            return false;
+            return true;
         }
 
         public static void Download(string url, string path= "", bool overwrite= false, string sha1_hash= "", bool verify_ssl= true)

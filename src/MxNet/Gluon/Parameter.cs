@@ -182,8 +182,9 @@ namespace MxNet.Gluon
                 List<int> newshape = new List<int>();
                 newshape = Enumerable.Zip(Shape.Data, data.Shape.Data, (self_dim, data_dim) =>
                 {
-                    Assert.InList("self_dim", (int)self_dim, Enumerable.Range(0, (int)data_dim).ToArray(),
-                                $"Failed loading Parameter '{Name}' from saved params: shape incompatible expected %{Shape} vs saved %{data.Shape}");
+                    //ToDo: Review Assert
+                    //Assert.InList("self_dim", (int)self_dim, Enumerable.Range(0, (int)data_dim).ToArray(),
+                    //            $"Failed loading Parameter '{Name}' from saved params: shape incompatible expected %{Shape} vs saved %{data.Shape}");
 
                     if (self_dim != 0)
                         return self_dim;
@@ -203,7 +204,7 @@ namespace MxNet.Gluon
                     else if (dtype_source == "saved")
                         DataType = data.DataType;
                 }
-                else if (DataType.Name == data.DataType.Name)
+                else if (DataType.Name != data.DataType.Name)
                 {
                     throw new Exception($"Failed loading Parameter '{Name}' from saved params: " +
                                                 $"dtype incompatible expected {DataType} vs saved {data.DataType}. " +

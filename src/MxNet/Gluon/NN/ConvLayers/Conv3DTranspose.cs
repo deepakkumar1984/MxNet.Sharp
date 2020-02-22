@@ -9,7 +9,7 @@ namespace MxNet.Gluon.NN
     {
         public Conv3DTranspose(int channels, (int, int, int) kernel_size, (int, int, int) strides = default, (int, int, int) padding = default, (int, int, int) output_padding = default,
                    (int, int, int) dilation = default, int groups = 1, string layout = "NCDHW",
-                   string activation = null, bool use_bias = true, Initializer weight_initializer = null,
+                   ActivationActType? activation = null, bool use_bias = true, Initializer weight_initializer = null,
                    string bias_initializer = "zeros", int in_channels = 0, string prefix = null, ParameterDict @params = null)
                    : base(channels, new int[] { kernel_size.Item1, kernel_size.Item2, kernel_size.Item3 },
                          strides == default ? new int[] { 1, 1, 1 } : new int[] { strides.Item1, strides.Item2, strides.Item3 },

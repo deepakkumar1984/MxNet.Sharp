@@ -49,11 +49,6 @@ namespace MxNet.Gluon
             _forward_pre_hooks = new SortedDictionary<string, Hook>();
         }
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
         public void SetAttr(string name, Block value)
         {
             RegisterChild(value, name);
@@ -130,7 +125,7 @@ namespace MxNet.Gluon
 
             foreach (var item in _childrens.Values)
             {
-                ret.Update(item.CollectParamsWithPrefix(prefix));
+                ret.Update(item.CollectParamsWithPrefix(prefix + item.Name));
             }
 
             return ret;

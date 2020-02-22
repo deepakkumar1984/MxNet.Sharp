@@ -60,7 +60,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return featurizer;
         }
 
-        public static VGG GetVgg(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", bool batch_norm = false)
+        public static VGG GetVgg(int num_layers, bool pretrained = false, Context ctx = null, string root = "", bool batch_norm = false)
         {
             var (layers, filters) = vgg_spec[num_layers];
             var net = new VGG(layers, filters, batch_norm: batch_norm);
@@ -73,20 +73,20 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return net;
         }
 
-        public static VGG Vgg11(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(11, pretrained, ctx, root);
+        public static VGG Vgg11(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(11, pretrained, ctx, root);
 
-        public static VGG Vgg13(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(13, pretrained, ctx, root);
+        public static VGG Vgg13(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(13, pretrained, ctx, root);
 
-        public static VGG Vgg16(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(16, pretrained, ctx, root);
+        public static VGG Vgg16(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(16, pretrained, ctx, root);
 
-        public static VGG Vgg19(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(19, pretrained, ctx, root);
+        public static VGG Vgg19(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(19, pretrained, ctx, root);
 
-        public static VGG Vgg11_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(11, pretrained, ctx, root, true);
+        public static VGG Vgg11_BN(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(11, pretrained, ctx, root, true);
 
-        public static VGG Vgg13_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(13, pretrained, ctx, root, true);
+        public static VGG Vgg13_BN(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(13, pretrained, ctx, root, true);
 
-        public static VGG Vgg16_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(16, pretrained, ctx, root, true);
+        public static VGG Vgg16_BN(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(16, pretrained, ctx, root, true);
 
-        public static VGG Vgg19_BN(bool pretrained = false, Context ctx = null, string root = "./models") => GetVgg(19, pretrained, ctx, root, true);
+        public static VGG Vgg19_BN(bool pretrained = false, Context ctx = null, string root = "") => GetVgg(19, pretrained, ctx, root, true);
     }
 }

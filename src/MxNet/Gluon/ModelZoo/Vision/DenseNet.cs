@@ -59,7 +59,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return x;
         }
 
-        public static DenseNet GetDenseNet(int num_layers, bool pretrained= false, Context ctx= null, string root= "./models", int bn_size = 4, float? dropout = null, int classes = 1000)
+        public static DenseNet GetDenseNet(int num_layers, bool pretrained= false, Context ctx= null, string root= "", int bn_size = 4, float? dropout = null, int classes = 1000)
         {
             var (num_init_features, growth_rate, block_config) = densenet_spec[num_layers];
             var net = new DenseNet(num_init_features, growth_rate, block_config, bn_size, dropout, classes);
@@ -71,22 +71,22 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return net;
         }
 
-        public static DenseNet DenseNet121(bool pretrained = false, Context ctx = null, string root = "./models", int bn_size = 4, float? dropout = null, int classes = 1000)
+        public static DenseNet DenseNet121(bool pretrained = false, Context ctx = null, string root = "", int bn_size = 4, float? dropout = null, int classes = 1000)
         {
             return GetDenseNet(121, pretrained, ctx, root, bn_size, dropout, classes);
         }
 
-        public static DenseNet DenseNet161(bool pretrained = false, Context ctx = null, string root = "./models", int bn_size = 4, float? dropout = null, int classes = 1000)
+        public static DenseNet DenseNet161(bool pretrained = false, Context ctx = null, string root = "", int bn_size = 4, float? dropout = null, int classes = 1000)
         {
             return GetDenseNet(161, pretrained, ctx, root, bn_size, dropout, classes);
         }
 
-        public static DenseNet DenseNet169(bool pretrained = false, Context ctx = null, string root = "./models", int bn_size = 4, float? dropout = null, int classes = 1000)
+        public static DenseNet DenseNet169(bool pretrained = false, Context ctx = null, string root = "", int bn_size = 4, float? dropout = null, int classes = 1000)
         {
             return GetDenseNet(169, pretrained, ctx, root, bn_size, dropout, classes);
         }
 
-        public static DenseNet DenseNet201(bool pretrained = false, Context ctx = null, string root = "./models", int bn_size = 4, float? dropout = null, int classes = 1000)
+        public static DenseNet DenseNet201(bool pretrained = false, Context ctx = null, string root = "", int bn_size = 4, float? dropout = null, int classes = 1000)
         {
             return GetDenseNet(201, pretrained, ctx, root, bn_size, dropout, classes);
         }

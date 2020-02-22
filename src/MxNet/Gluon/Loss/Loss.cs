@@ -8,13 +8,13 @@ namespace MxNet.Gluon
 {
     public class Loss : HybridBlock
     {
-        internal float? _weight;
-        internal int? _batch_axis;
+        public float? Weight { get; private set; }
+        public int? BatchAxis { get; internal set; }
 
         public Loss(float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            _weight = weight;
-            _batch_axis = batch_axis;
+            Weight = weight;
+            BatchAxis = batch_axis;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)

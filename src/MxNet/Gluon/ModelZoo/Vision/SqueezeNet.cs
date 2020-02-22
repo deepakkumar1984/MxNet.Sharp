@@ -92,7 +92,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null)
+        public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
         {
             var net = new SqueezeNet(version, classes, prefix, @params);
             if (pretrained)
@@ -103,10 +103,10 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return net;
         }
 
-        public static SqueezeNet GetSqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
+        public static SqueezeNet GetSqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
                     GetSqueezeNet("1.0", pretrained, ctx, root, classes, prefix, @params);
 
-        public static SqueezeNet GetSqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
+        public static SqueezeNet GetSqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
             GetSqueezeNet("1.1", pretrained, ctx, root, classes, prefix, @params);
 
     }

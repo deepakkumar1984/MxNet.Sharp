@@ -135,7 +135,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        public static Inception3 GetInception3(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null)
+        public static Inception3 GetInception3(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
         {
             var net = new Inception3(classes, prefix, @params);
             if (pretrained)

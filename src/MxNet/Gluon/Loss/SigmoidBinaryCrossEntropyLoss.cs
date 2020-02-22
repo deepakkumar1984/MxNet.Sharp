@@ -78,11 +78,11 @@ namespace MxNet.Gluon
                 }
             }
 
-            loss = ApplyWeighting(loss, _weight, sample_weight);
+            loss = ApplyWeighting(loss, Weight, sample_weight);
             if (loss.IsNDArray)
-                return nd.Mean(loss, _batch_axis.Value, exclude: true);
+                return nd.Mean(loss, BatchAxis.Value, exclude: true);
 
-            return sym.Mean(loss, _batch_axis.Value, exclude: true);
+            return sym.Mean(loss, BatchAxis.Value, exclude: true);
         }
     }
 }

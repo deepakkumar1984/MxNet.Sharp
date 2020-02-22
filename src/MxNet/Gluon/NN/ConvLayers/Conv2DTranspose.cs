@@ -9,7 +9,7 @@ namespace MxNet.Gluon.NN
     {
         public Conv2DTranspose(int channels, (int, int) kernel_size, (int, int) strides = default, (int, int) padding = default, (int, int) output_padding = default,
                     (int, int) dilation = default, int groups = 1, string layout = "NCHW",
-                    string activation = null, bool use_bias = true, Initializer weight_initializer = null,
+                    ActivationActType? activation = null, bool use_bias = true, Initializer weight_initializer = null,
                     string bias_initializer = "zeros", int in_channels = 0, string prefix = null, ParameterDict @params = null)
                     : base(channels, new int[] { kernel_size.Item1, kernel_size.Item2 },
                           strides == default ? new int[] { 1, 1 } : new int[] { strides.Item1, strides.Item2 },

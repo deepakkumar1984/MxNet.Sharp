@@ -23,7 +23,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return new Conv2D(channels, (3, 3), (stride, stride), (1, 1), use_bias: false, in_channels: in_channels);
         }
 
-        public static ResNetV1 GetResNetV1(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null)
+        public static ResNetV1 GetResNetV1(int num_layers, bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null)
         {
             if (!resnet_spec.ContainsKey(num_layers))
                 throw new Exception("Invalid number of layers");
@@ -39,7 +39,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return net;
         }
 
-        public static ResNetV2 GetResNetV2(int num_layers, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null)
+        public static ResNetV2 GetResNetV2(int num_layers, bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, bool thumbnail = false, string prefix = null, ParameterDict @params = null)
         {
             if (!resnet_spec.ContainsKey(num_layers))
                 throw new Exception("Invalid number of layers");
@@ -55,39 +55,39 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return net;
         }
 
-        public static ResNetV1 ResNet18_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV1 ResNet18_v1(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) =>
                                         GetResNetV1(18, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV1 ResNet34_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, 
+        public static ResNetV1 ResNet34_v1(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, 
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
                                         => GetResNetV1(34, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV1 ResNet50_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV1 ResNet50_v1(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
                                         => GetResNetV1( 50, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV1 ResNet101_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, 
+        public static ResNetV1 ResNet101_v1(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, 
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
                                         => GetResNetV1(101, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV1 ResNet152_v1(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV1 ResNet152_v1(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) 
                                         => GetResNetV1( 152, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV2 ResNet18_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV2 ResNet18_v2(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(18, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV2 ResNet34_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV2 ResNet34_v2(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(34, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV2 ResNet50_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV2 ResNet50_v2(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(50, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV2 ResNet101_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV2 ResNet101_v2(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(101, pretrained, ctx, root, classes, thumbnail, prefix, @params);
 
-        public static ResNetV2 ResNet152_v2(bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000,
+        public static ResNetV2 ResNet152_v2(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000,
                                         bool thumbnail = false, string prefix = null, ParameterDict @params = null) => GetResNetV2(152, pretrained, ctx, root, classes, thumbnail, prefix, @params);
     }
 

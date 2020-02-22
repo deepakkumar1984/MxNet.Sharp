@@ -106,7 +106,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             AddConv(@out, channels, relu6: relu6);
         }
 
-        public static MobileNet GetMobileNet(float multiplier, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null)
+        public static MobileNet GetMobileNet(float multiplier, bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
         {
             var net = new MobileNet(multiplier, classes, prefix, @params);
             if (pretrained)
@@ -117,13 +117,13 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return net;
         }
 
-        public static MobileNet MobileNet1_0(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(1, pretrained, ctx, root);
+        public static MobileNet MobileNet1_0(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNet(1, pretrained, ctx, root);
 
-        public static MobileNet MobileNet0_75(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(0.75f, pretrained, ctx, root);
+        public static MobileNet MobileNet0_75(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNet(0.75f, pretrained, ctx, root);
 
-        public static MobileNet MobileNet0_5(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(0.5f, pretrained, ctx, root);
+        public static MobileNet MobileNet0_5(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNet(0.5f, pretrained, ctx, root);
 
-        public static MobileNet MobileNet0_25(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNet(0.25f, pretrained, ctx, root);
+        public static MobileNet MobileNet0_25(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNet(0.25f, pretrained, ctx, root);
     }
 
     public class MobileNetV2 : HybridBlock
@@ -167,7 +167,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return x;
         }
 
-        public static MobileNet GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null, string root = "./models", int classes = 1000, string prefix = null, ParameterDict @params = null)
+        public static MobileNet GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
         {
             var net = new MobileNet(multiplier, classes, prefix, @params);
             if (pretrained)
@@ -178,12 +178,12 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return net;
         }
 
-        public static MobileNet MobileNetV2_1_0(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(1, pretrained, ctx, root);
+        public static MobileNet MobileNetV2_1_0(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNetV2(1, pretrained, ctx, root);
 
-        public static MobileNet MobileNetV2_0_75(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(0.75f, pretrained, ctx, root);
+        public static MobileNet MobileNetV2_0_75(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNetV2(0.75f, pretrained, ctx, root);
 
-        public static MobileNet MobileNetV2_0_5(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(0.5f, pretrained, ctx, root);
+        public static MobileNet MobileNetV2_0_5(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNetV2(0.5f, pretrained, ctx, root);
 
-        public static MobileNet MobileNetV2_0_25(bool pretrained = false, Context ctx = null, string root = "./models") => GetMobileNetV2(0.25f, pretrained, ctx, root);
+        public static MobileNet MobileNetV2_0_25(bool pretrained = false, Context ctx = null, string root = "") => GetMobileNetV2(0.25f, pretrained, ctx, root);
     }
 }

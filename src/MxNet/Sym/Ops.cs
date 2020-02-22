@@ -773,79 +773,6 @@ namespace MxNet
         private static readonly List<string> ConvolutionLayoutConvert = new List<string>() { "NCDHW", "NCHW", "NCW", "NDHWC", "NHWC" };
         ///<summary>
         ///<para>Compute *N*-D convolution on *(N+2)*-D input.</para>
-        ///<para> </para>
-        ///<para>In the 2-D convolution, given input data with shape *(batch_size,</para>
-        ///<para>channel, height, width)*, the output is computed by</para>
-        ///<para> </para>
-        ///<para>.. math::</para>
-        ///<para> </para>
-        ///<para>   out[n,i,:,:] = bias[i] + \sum_{j=0}^{channel} data[n,j,:,:] \star</para>
-        ///<para>   weight[i,j,:,:]</para>
-        ///<para> </para>
-        ///<para>where :math:`\star` is the 2-D cross-correlation operator.</para>
-        ///<para> </para>
-        ///<para>For general 2-D convolution, the shapes are</para>
-        ///<para> </para>
-        ///<para>- **data**: *(batch_size, channel, height, width)*</para>
-        ///<para>- **weight**: *(num_filter, channel, kernel[0], kernel[1])*</para>
-        ///<para>- **bias**: *(num_filter,)*</para>
-        ///<para>- **out**: *(batch_size, num_filter, out_height, out_width)*.</para>
-        ///<para> </para>
-        ///<para>Define::</para>
-        ///<para> </para>
-        ///<para>  f(x,k,p,s,d) = floor((x+2*p-d*(k-1)-1)/s)+1</para>
-        ///<para> </para>
-        ///<para>then we have::</para>
-        ///<para> </para>
-        ///<para>  out_height=f(height, kernel[0], pad[0], stride[0], dilate[0])</para>
-        ///<para>  out_width=f(width, kernel[1], pad[1], stride[1], dilate[1])</para>
-        ///<para> </para>
-        ///<para>If ``no_bias`` is set to be true, then the ``bias`` term is ignored.</para>
-        ///<para> </para>
-        ///<para>The default data ``layout`` is *NCHW*, namely *(batch_size, channel, height,</para>
-        ///<para>width)*. We can choose other layouts such as *NWC*.</para>
-        ///<para> </para>
-        ///<para>If ``num_group`` is larger than 1, denoted by *g*, then split the input ``data``</para>
-        ///<para>evenly into *g* parts along the channel axis, and also evenly split ``weight``</para>
-        ///<para>along the first dimension. Next compute the convolution on the *i*-th part of</para>
-        ///<para>the data with the *i*-th weight part. The output is obtained by concatenating all</para>
-        ///<para>the *g* results.</para>
-        ///<para> </para>
-        ///<para>1-D convolution does not have *height* dimension but only *width* in space.</para>
-        ///<para> </para>
-        ///<para>- **data**: *(batch_size, channel, width)*</para>
-        ///<para>- **weight**: *(num_filter, channel, kernel[0])*</para>
-        ///<para>- **bias**: *(num_filter,)*</para>
-        ///<para>- **out**: *(batch_size, num_filter, out_width)*.</para>
-        ///<para> </para>
-        ///<para>3-D convolution adds an additional *depth* dimension besides *height* and</para>
-        ///<para>*width*. The shapes are</para>
-        ///<para> </para>
-        ///<para>- **data**: *(batch_size, channel, depth, height, width)*</para>
-        ///<para>- **weight**: *(num_filter, channel, kernel[0], kernel[1], kernel[2])*</para>
-        ///<para>- **bias**: *(num_filter,)*</para>
-        ///<para>- **out**: *(batch_size, num_filter, out_depth, out_height, out_width)*.</para>
-        ///<para> </para>
-        ///<para>Both ``weight`` and ``bias`` are learnable parameters.</para>
-        ///<para> </para>
-        ///<para>There are other options to tune the performance.</para>
-        ///<para> </para>
-        ///<para>- **cudnn_tune**: enable this option leads to higher startup time but may give</para>
-        ///<para>  faster speed. Options are</para>
-        ///<para> </para>
-        ///<para>  - **off**: no tuning</para>
-        ///<para>  - **limited_workspace**:run test and pick the fastest algorithm that doesn't</para>
-        ///<para>    exceed workspace limit.</para>
-        ///<para>  - **fastest**: pick the fastest algorithm and ignore workspace limit.</para>
-        ///<para>  - **None** (default): the behavior is determined by environment variable</para>
-        ///<para>    ``MXNET_CUDNN_AUTOTUNE_DEFAULT``. 0 for off, 1 for limited workspace</para>
-        ///<para>    (default), 2 for fastest.</para>
-        ///<para> </para>
-        ///<para>- **workspace**: A large number leads to more (GPU) memory usage but may improve</para>
-        ///<para>  the performance.</para>
-        ///<para> </para>
-        ///<para> </para>
-        ///<para> </para>
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\nn\convolution.cc:L472</para>
         ///</summary>
         /// <param name="data">Input data to the ConvolutionOp.</param>
@@ -863,7 +790,7 @@ namespace MxNet
         /// <param name="cudnn_off">Turn off cudnn for this layer.</param>
         /// <param name="layout">Set layout for input, output and weight. Empty for    default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.NHWC and NDHWC are only supported on GPU.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Convolution(Symbol data, Symbol weight, Shape kernel, uint num_filter, Shape stride = null, Shape dilate = null, Shape pad = null, Symbol bias = null, bool no_bias = true, uint num_group = 1, ulong workspace = 1024, ConvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionLayout? layout = null, string symbol_name = "")
+        public static Symbol Convolution(Symbol data, Symbol weight, Symbol bias, Shape kernel, int num_filter, Shape stride = null, Shape dilate = null, Shape pad = null,  int num_group = 1, ulong workspace = 1024, bool no_bias = true, ConvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, ConvolutionLayout? layout = null, string symbol_name = "")
         {
             if (stride == null) { stride = new Shape(); }
             if (dilate == null) { dilate = new Shape(); }
@@ -1272,7 +1199,7 @@ namespace MxNet
         /// <param name="count_include_pad">Only used for AvgPool, specify whether to count padding elements for averagecalculation. For example, with a 5*5 kernel on a 3*3 corner of a image,the sum of the 9 valid elements will be divided by 25 if this is set to true,or it will be divided by 9 if this is set to false. Defaults to true.</param>
         /// <param name="layout">Set layout for input and output. Empty for    default layout: NCW for 1d, NCHW for 2d and NCDHW for 3d.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Pooling(Symbol data, Shape kernel = null, PoolingPoolType pool_type = PoolingPoolType.Max, bool global_pool = false, bool cudnn_off = false, PoolingPoolingConvention pooling_convention = PoolingPoolingConvention.Valid, Shape stride = null, Shape pad = null, int? p_value = null, bool? count_include_pad = null, PoolingLayout? layout = null, string symbol_name = "")
+        public static Symbol Pooling(Symbol data, Shape kernel = null, PoolingPoolType pool_type = PoolingPoolType.Max, bool global_pool = false, bool cudnn_off = false, PoolingPoolingConvention pooling_convention = PoolingPoolingConvention.Valid, Shape stride = null, Shape pad = null, int? p_value = null, bool? count_include_pad = null, string layout = null, string symbol_name = "")
         {
             if (kernel == null) { kernel = new Shape(); }
             if (stride == null) { stride = new Shape(); }
@@ -1288,7 +1215,7 @@ namespace MxNet
             .SetParam("pad", pad)
             .SetParam("p_value", p_value)
             .SetParam("count_include_pad", count_include_pad)
-            .SetParam("layout", MxUtil.EnumToString<PoolingLayout>(layout, PoolingLayoutConvert))
+            .SetParam("layout", layout)
             .SetInput("data", data)
             .CreateSymbol(symbol_name);
         }

@@ -287,7 +287,88 @@ namespace MxNet
                     int* inShapeNdim;
                     int** inShapeData;
 
-                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShape(this.NativePtr,
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapeEx(this.NativePtr,
+                                                                      (uint)argShapes.Count,
+                                                                      keys,
+                                                                      argIndPtrArray,
+                                                                      argShapeDataArray,
+                                                                      &inShapeSize,
+                                                                      &inShapeNdim,
+                                                                      &inShapeData,
+                                                                      out var outShapeSize,
+                                                                      out var outShapeNdim,
+                                                                      out var outShapeData,
+                                                                      out var auxShapeSize,
+                                                                      out var auxShapeNdim,
+                                                                      out var auxShapeData,
+                                                                      out var complete), NativeMethods.OK);
+
+                    if (complete == 0)
+                        return (null, null, null);
+
+                    for (var i = 0; i < inShapeSize; ++i)
+                    {
+                        inShape.Add(new Shape());
+                        for (var j = 0; j < inShapeNdim[i]; ++j)
+                            inShape[i].Add(inShapeData[i][j]);
+                    }
+
+                    for (var i = 0; i < auxShapeSize; ++i)
+                    {
+                        auxShape.Add(new Shape());
+                        for (var j = 0; j < auxShapeNdim[i]; ++j)
+                            auxShape[i].Add(auxShapeData[i][j]);
+                    }
+
+                    for (var i = 0; i < outShapeSize; ++i)
+                    {
+                        outShape.Add(new Shape());
+                        for (var j = 0; j < outShapeNdim[i]; ++j)
+                            outShape[i].Add(outShapeData[i][j]);
+                    }
+                }
+            }
+
+            return (inShape.ToArray(), outShape.ToArray(), auxShape.ToArray());
+        }
+
+        public (Shape[], Shape[], Shape[]) InferShapePartial(Dictionary<string, Shape> argShapes)
+        {
+            if (argShapes == null)
+                throw new ArgumentNullException(nameof(argShapes));
+
+            List<Shape> inShape = new List<Shape>();
+            List<Shape> auxShape = new List<Shape>();
+            List<Shape> outShape = new List<Shape>();
+
+            this.ThrowIfDisposed();
+            var argIndPtr = new List<int>() { 0 };
+            var argShapeData = new List<int>();
+
+            foreach (var item in argShapes.Values)
+            {
+                foreach (var i in item.Data)
+                {
+                    if (i == 0)
+                        continue;
+
+                    argShapeData.Add(i);
+                }
+
+                argIndPtr.Add(argShapeData.Count);
+            }
+
+            unsafe
+            {
+                var keys = argShapes.Keys.ToArray();
+                var argIndPtrArray = argIndPtr.ToArray();
+                var argShapeDataArray = argShapeData.ToArray();
+                {
+                    int inShapeSize;
+                    int* inShapeNdim;
+                    int** inShapeData;
+
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapePartialEx(this.NativePtr,
                                                                       (uint)argShapes.Count,
                                                                       keys,
                                                                       argIndPtrArray,
@@ -735,6 +816,30 @@ namespace MxNet
             {
                 NativeMethods.MXSymbolSetAttr(GetHandle(), attr.Key, attr.Value);
             }
+        }
+
+        public virtual Symbol Reshape(Shape shape, bool reverse = false)
+        {
+            return sym.Reshape(this, shape, reverse);
+        }
+
+        public virtual Symbol Reshape(params int[] shape)
+        {
+            //int[] targetShape = new int[shape.Length];
+            //long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
+            //for (int i = 0; i < targetShape.Length; i++)
+            //{
+            //    if (shape[i] > 0)
+            //    {
+            //        targetShape[i] = shape[i];
+            //    }
+            //    else
+            //    {
+            //        targetShape[i] = Size / (int)prod;
+            //    }
+            //}
+
+            return Reshape(new Shape(shape));
         }
 
         #region Overrides

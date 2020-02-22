@@ -41,8 +41,8 @@ namespace MxNet.Gluon
                 loss = nd.Negative(nd.Sum(pred * label, axis: _axis, keepdims: true));
             }
 
-            loss = ApplyWeighting(loss, _weight, sample_weight).NdX;
-            return nd.Mean(loss, axis: _batch_axis.Value, exclude: true);
+            loss = ApplyWeighting(loss, Weight, sample_weight).NdX;
+            return nd.Mean(loss, axis: BatchAxis.Value, exclude: true);
         }
 
         private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
@@ -59,8 +59,8 @@ namespace MxNet.Gluon
                 loss = sym.Negative(sym.Sum(pred * label, axis: _axis, keepdims: true));
             }
 
-            loss = ApplyWeighting(loss, _weight, sample_weight).SymX;
-            return sym.Mean(loss, axis: _batch_axis.Value, exclude: true);
+            loss = ApplyWeighting(loss, Weight, sample_weight).SymX;
+            return sym.Mean(loss, axis: BatchAxis.Value, exclude: true);
         }
     }
 }

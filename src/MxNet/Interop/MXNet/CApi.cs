@@ -476,7 +476,7 @@ namespace MxNet.Interop
         /// <param name="complete">whether infer shape completes or more information is needed.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern unsafe int MXSymbolInferShape(SymbolHandle sym,
+        public static extern unsafe int MXSymbolInferShapeEx(SymbolHandle sym,
                                                            mx_uint num_args,
                                                            [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
                                                            int[] arg_ind_ptr,
@@ -491,6 +491,40 @@ namespace MxNet.Interop
                                                            out int* aux_shape_ndim,
                                                            out int** aux_shape_data,
                                                            out int complete);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern unsafe int MXSymbolInferShape(SymbolHandle sym,
+                                                          mx_uint num_args,
+                                                          [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
+                                                          int[] arg_ind_ptr,
+                                                          int[] arg_shape_data,
+                                                          int* in_shape_size,
+                                                          int** in_shape_ndim,
+                                                          int*** in_shape_data,
+                                                          out int out_shape_size,
+                                                          out int* out_shape_ndim,
+                                                          out int** out_shape_data,
+                                                          out int aux_shape_size,
+                                                          out int* aux_shape_ndim,
+                                                          out int** aux_shape_data,
+                                                          out int complete);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern unsafe int MXSymbolInferShapePartialEx(SymbolHandle sym,
+                                                          mx_uint num_args,
+                                                          [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
+                                                          int[] arg_ind_ptr,
+                                                          int[] arg_shape_data,
+                                                          int* in_shape_size,
+                                                          int** in_shape_ndim,
+                                                          int*** in_shape_data,
+                                                          out int out_shape_size,
+                                                          out int* out_shape_ndim,
+                                                          out int** out_shape_data,
+                                                          out int aux_shape_size,
+                                                          out int* aux_shape_ndim,
+                                                          out int** aux_shape_data,
+                                                          out int complete);
 
         /// <summary>
         /// List arguments in the symbol.
