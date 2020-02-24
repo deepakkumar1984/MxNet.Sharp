@@ -8,9 +8,23 @@ namespace MxNet.Modules
 {
     public class DataParallelExecutorGroup
     {
-        public DataParallelExecutorGroup(Symbol symbol, Context[] contexts, int[] workload, Shape[] data_shapes, Shape[] label_shapes,
+        internal int _total_exec_bytes;
+        internal NDArrayDict _arg_params;
+        internal NDArrayDict _aux_params;
+
+        public List<NDArray[]> ParamArrays { get; set; }
+        public List<NDArray[]> GradArrays { get; set; }
+        public List<NDArray[]> AuxArrays { get; set; }
+        public int BatchSize { get; set; }
+        public string[] ParamNames { get; set; }
+
+        public DataParallelExecutorManager[] Execs { get; set; }
+
+
+
+        public DataParallelExecutorGroup(Symbol symbol, Context[] contexts, int[] workload, DataDesc[] data_shapes, DataDesc[] label_shapes,
                                         string[] param_names, bool for_training, bool inputs_need_grad, DataParallelExecutorGroup shared_group = null,
-                                        Logger logger = null, string[] fixed_param_names = null, string grad_req = "write", string[] state_names = null,
+                                        string[] fixed_param_names = null, OpGradReq grad_req = OpGradReq.Write, string[] state_names = null,
                                         Dictionary<string, Context> group2ctxs = null)
         {
             throw new NotImplementedException();
@@ -22,11 +36,11 @@ namespace MxNet.Modules
 
         public void BindExec(Shape[] data_shapes, Shape[] label_shapes, DataParallelExecutorGroup shared_group = null, bool reshape= false) => throw new NotImplementedException();
 
-        public void Reshape(Shape[] data_shapes, Shape[] label_shapes) => throw new NotImplementedException();
+        public void Reshape(DataDesc[] data_shapes, DataDesc[] label_shapes) => throw new NotImplementedException();
 
         public void SetParams(NDArrayDict arg_params, NDArrayDict aux_params, bool allow_extra= false) => throw new NotImplementedException();
 
-        public void GetParams(NDArrayDict arg_params, NDArrayDict aux_params) => throw new NotImplementedException();
+        public void GetParams(ref NDArrayDict arg_params, ref NDArrayDict aux_params) => throw new NotImplementedException();
 
         public void Forward(DataBatch data_batch, bool? is_train = null) => throw new NotImplementedException();
 

@@ -92,18 +92,16 @@ namespace MxNet.Metrics
             }
         }
 
-        public List<(string, float)> GetNameValue()
+        public Dictionary<string, float> GetNameValue()
         {
             var nameValue = Get();
-
-            return new List<(string, float)>() { nameValue };
+            return new Dictionary<string, float>() { { nameValue.Item1, nameValue.Item2 } };
         }
 
-        public List<(string, float)> GetGlobalNameValue()
+        public Dictionary<string, float> GetGlobalNameValue()
         {
             var nameValue = GetGlobal();
-
-            return new List<(string, float)>() { nameValue };
+            return new Dictionary<string, float>() { { nameValue.Item1, nameValue.Item2 } };
         }
 
         public static implicit operator EvalMetric(string name)

@@ -71,7 +71,7 @@ namespace MxNet.Callbacks
                 var name_values = eval_metric.GetNameValue();
                 foreach (var item in name_values)
                 {
-                    Logger.Log(string.Format("Iter: {0} Batch: {1} Train-{2}={3}", epoch, nbatch, item.Item1, item.Item2));
+                    Logger.Log(string.Format("Iter: {0} Batch: {1} Train-{2}={3}", epoch, nbatch, item.Key, item.Value));
                 }
 
                 if (_auto_reset)

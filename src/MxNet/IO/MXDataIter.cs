@@ -119,6 +119,11 @@ namespace MxNet.IO
             return Convert.ToBoolean(next_res.Value);
         }
 
+        public override bool End()
+        {
+            throw new NotImplementedException();
+        }
+
         public override void Reset()
         {
             _debug_at_begin = true;

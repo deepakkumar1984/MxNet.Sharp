@@ -42,6 +42,11 @@ namespace MxNet.Image
             throw new NotImplementedException();
         }
 
+        public override bool End()
+        {
+            throw new NotImplementedException();
+        }
+
         public override DataBatch Next()
         {
             throw new NotImplementedException();

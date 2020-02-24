@@ -55,13 +55,13 @@ namespace MxNet
             return (kV, update_on_kvstore);
         }
 
-        internal static void InitializeKVStore(KVStore kvstore, NDArray[] param_arrays, NDArrayDict  arg_params, string[] param_names, bool update_on_kvstore) => throw new NotImplementedException();
+        internal static void InitializeKVStore(KVStore kvstore, List<NDArray[]> param_arrays, NDArrayDict  arg_params, string[] param_names, bool update_on_kvstore) => throw new NotImplementedException();
 
-        internal static void UpdateParamsOnKVStoreNCCL(NDArray[]  param_arrays, NDArray[]  grad_arrays, KVStore kvstore, string[] param_names) => throw new NotImplementedException();
+        internal static void UpdateParamsOnKVStoreNCCL(List<NDArray[]> param_arrays, List<NDArray[]> grad_arrays, KVStore kvstore, string[] param_names) => throw new NotImplementedException();
 
-        internal static void UpdateParamsOnKVStore(NDArray[] param_arrays, NDArray[] grad_arrays, KVStore kvstore, string[] param_names) => throw new NotImplementedException();
+        internal static void UpdateParamsOnKVStore(List<NDArray[]> param_arrays, List<NDArray[]> grad_arrays, KVStore kvstore, string[] param_names) => throw new NotImplementedException();
 
-        internal static void UpdateParams(NDArray[] param_arrays, NDArray[] grad_arrays, Func<int, NDArray, NDArray> updater, 
+        internal static void UpdateParams(List<NDArray[]> param_arrays, List<NDArray[]> grad_arrays, Updater updater, 
                                                 int num_device, KVStore kvstore, string[] param_names) => throw new NotImplementedException();
 
         internal static void MultipleCallbacks(params object[] callbacks)

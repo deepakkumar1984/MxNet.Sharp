@@ -102,7 +102,7 @@ namespace MxNet.Gluon
             }
 
             var scale = max_norm / (total_norm + 1e-8f);
-            scale = nd.Min(nd.Concat(new NDArray[] { scale, nd.Ones(new Shape(1), ctx: ctx) }, num_args: 2, dim: 0));
+            scale = nd.Min(nd.Concat(new NDArray[] { scale, nd.Ones(new Shape(1), ctx: ctx) }, dim: 0));
             for(int i=0;i< arrays.Length;i++)
             {
                 arrays[i] *= scale.AsInContext(arrays[i].context);

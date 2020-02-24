@@ -6,12 +6,25 @@ using MxNet.Metrics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+using MxNet.Optimizers;
 
 namespace MxNet.Modules
 {
     public abstract class BaseModule
     {
-        private Symbol symbol;
+        internal Symbol _symbol;
+        internal int _total_exec_bytes;
+
+        public bool Binded { get; set; }
+
+        public bool ForTraining { get; set; }
+
+        public bool InputsNeedGrad { get; set; }
+
+        public bool ParamsInitialized { get; set; }
+
+        public bool OptimizerInitialized { get; set; }
 
         public abstract string[] DataNames
         {
@@ -28,12 +41,12 @@ namespace MxNet.Modules
             get;
         }
 
-        public abstract Shape[] DataShapes
+        public abstract DataDesc[] DataShapes
         {
             get;
         }
 
-        public abstract Shape[] LabelShapes
+        public abstract DataDesc[] LabelShapes
         {
             get;
         }
@@ -47,34 +60,152 @@ namespace MxNet.Modules
         {
             get
             {
-                return symbol;
+                return _symbol;
             }
         }
 
-        public BaseModule(Logger logging)
+        public BaseModule()
         {
-            throw new NotImplementedException();
+            Binded = false;
+            ForTraining = false;
+            InputsNeedGrad = false;
+            ParamsInitialized = false;
+            OptimizerInitialized = false;
+            _symbol = null;
+            _total_exec_bytes = 0;
         }
 
         public void ForwardBackward(DataBatch data_batch)
         {
-
+            Forward(data_batch, is_train: true);
+            Backward();
         }
 
-        public void Score(DataIter eval_data, EvalMetric eval_metric, int? num_batch= null, IBatchEndCallback[] batch_end_callback  = null,
+        public Dictionary<string, float> Score(DataIter eval_data, EvalMetric eval_metric, int? num_batch= null, IBatchEndCallback[] batch_end_callback  = null,
               IScoreEndCallback[] score_end_callback = null, bool reset= true, int epoch= 0, Func<DataBatch, NDArrayDict> sparse_row_id_fn= null)
         {
-            throw new NotImplementedException();
+            if(!Binded && !ParamsInitialized)
+            {
+                throw new Exception("Module not binded and param initialized");
+            }
+
+            eval_metric.Reset();
+            int actual_num_batch = 0;
+            while(eval_data.End())
+            {
+                if (num_batch.HasValue && eval_data.Cursor == num_batch.Value)
+                    break;
+
+                var eval_batch = eval_data.Next();
+                Prepare(eval_batch, sparse_row_id_fn);
+                Forward(eval_batch, false);
+                UpdateMetric(eval_metric, eval_batch.Label, pre_sliced: true);
+                if(batch_end_callback != null)
+                {
+                    foreach (var callback in batch_end_callback)
+                    {
+                        callback.Invoke(epoch, eval_data.Cursor, eval_metric);
+                    }
+                }
+
+                actual_num_batch++;
+            }
+
+            if(score_end_callback != null)
+            {
+                foreach (var callback in score_end_callback)
+                {
+                    callback.Invoke(epoch, actual_num_batch, eval_metric, new FuncArgs());
+                }
+            }
+
+            return eval_metric.GetNameValue();
         }
 
-        public void IterPredict(DataIter eval_data, int? num_batch = null, bool reset = true, int epoch = 0, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
+        public IEnumerable<(NDArray[], int, DataBatch)> IterPredict(DataIter eval_data, int? num_batch = null, bool reset = true, int epoch = 0, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
-            throw new NotImplementedException();
+            if (!Binded && !ParamsInitialized)
+            {
+                throw new Exception("Module not binded and param initialized");
+            }
+
+            if (reset)
+                eval_data.Reset();
+
+            while (eval_data.End())
+            {
+                if (num_batch.HasValue && eval_data.Cursor == num_batch.Value)
+                    break;
+
+                var eval_batch = eval_data.Next();
+                Prepare(eval_batch, sparse_row_id_fn);
+                Forward(eval_batch, false);
+                var pad = eval_batch.Pad.Value;
+                List<NDArray> outputs = new List<NDArray>();
+                foreach (var list in GetOutputs())
+                {
+                    foreach (var @out in list)
+                    {
+                        outputs.Add(@out[$"0:{@out.Shape[0] - pad}"]);
+                    }
+                }
+
+                yield return (outputs.ToArray(), eval_data.Cursor, eval_batch);
+            }
         }
 
-        public void Predict(DataIter eval_data, int? num_batch = null, bool merge_batches = true, bool reset = true, bool always_output_list = true, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
+        public List<NDArray[]> Predict(DataIter eval_data, int? num_batch = null, bool merge_batches = true, bool reset = true, bool always_output_list = true, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
-            throw new NotImplementedException();
+            if (!Binded && !ParamsInitialized)
+            {
+                throw new Exception("Module not binded and param initialized");
+            }
+
+            if (reset)
+                eval_data.Reset();
+
+            List<NDArray[]> output_list = new List<NDArray[]>();
+            List<NDArray> output_list2 = new List<NDArray>();
+            while (eval_data.End())
+            {
+                if (num_batch.HasValue && eval_data.Cursor == num_batch.Value)
+                    break;
+
+                var eval_batch = eval_data.Next();
+                Prepare(eval_batch, sparse_row_id_fn);
+                Forward(eval_batch, false);
+                var pad = eval_batch.Pad.Value;
+                List<NDArray> outputs = new List<NDArray>();
+                foreach (var list in GetOutputs())
+                {
+                    foreach (var @out in list)
+                    {
+                        outputs.Add(@out[$"0:{@out.Shape[0] - pad}"].Copy());
+                    }
+                }
+
+                output_list.Add(outputs.ToArray());
+            }
+
+            if (output_list.Count == 0)
+                return output_list;
+
+            if(merge_batches)
+            {
+                int num_outputs = output_list[0].Length;
+                foreach (var @out in output_list)
+                {
+                    if (@out.Length != num_outputs)
+                        throw new Exception("Cannot merge batches, as num of outputs is not the same " +
+                                                "in mini-batches. Maybe bucketing is used?");
+
+                    output_list2.Add(nd.Concat(@out));
+                }
+
+                return new List<NDArray[]>() { output_list2.ToArray() };
+            }
+
+            return output_list;
         }
 
         public void Fit(DataIter train_data, DataIter eval_data= null, string eval_metric= "acc",
@@ -99,17 +230,82 @@ namespace MxNet.Modules
             InitParams(null, arg_params, aux_params, allow_missing, force_init, allow_extra);
         }
 
-        public virtual void SaveParams(string fname) => throw new NotImplementedException();
+        public virtual void SaveParams(string fname)
+        {
+            var (arg_params, aux_params) = GetParams();
+            NDArrayDict save_dict = new NDArrayDict();
+            foreach (var item in arg_params)
+            {
+                save_dict["arg:" + item.Key] = item.Value.AsInContext(Context.Cpu());
+            }
 
-        public virtual void LoadParams(string fname) => throw new NotImplementedException();
+            foreach (var item in aux_params)
+            {
+                save_dict["aux:" + item.Key] = item.Value.AsInContext(Context.Cpu());
+            }
 
-        public virtual List<NDArray[]> GetStates(bool merge_multi_context = false) => throw new NotImplementedException();
+            NDArray.Save(fname, save_dict);
+        }
 
-        public virtual void SetStates(List<NDArray[]> states, int value) => throw new NotImplementedException();
+        public virtual void LoadParams(string fname)
+        {
+            var save_dict = NDArray.Load(fname);
+            NDArrayDict arg_params = new NDArrayDict();
+            NDArrayDict aux_params = new NDArrayDict();
+            foreach (var item in save_dict)
+            {
+                string arg_type = item.Key.Split(':')[0];
+                string name = item.Key.Split(':')[1];
+                if (arg_type == "arg")
+                {
+                    arg_params[name] = item.Value;
+                }
+                else if (arg_type == "aux")
+                {
+                    aux_params[name] = item.Value;
+                }
+                else
+                    throw new Exception("Invalid param file: " + fname);
+            }
+
+            SetParams(arg_params, aux_params);
+        }
+
+        public virtual List<NDArray[]> GetStates(bool merge_multi_context = true)
+        {
+            if (!Binded && !ParamsInitialized)
+            {
+                throw new Exception("Module not binded and param initialized");
+            }
+
+            if(!merge_multi_context)
+            {
+                throw new Exception("Invalid value merge_multi_context");
+            }
+
+            return new List<NDArray[]>();
+        }
+
+        public virtual void SetStates(List<NDArray[]> states, int value)
+        {
+            if (!Binded && !ParamsInitialized)
+            {
+                throw new Exception("Module not binded and param initialized");
+            }
+
+            if(states == null)
+            {
+                throw new Exception("States is passed null");
+            }
+        }
 
         public abstract void InstallMonitor(Monitor mon);
 
-        public virtual void Prepare(DataBatch data_batch, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null) => throw new NotImplementedException();
+        public virtual void Prepare(DataBatch data_batch, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
+        {
+            if (sparse_row_id_fn != null)
+                Logger.Warning("sparse_row_id_fn is not invoked for BaseModule.");
+        }
 
         public abstract void Forward(DataBatch data_batch, bool is_train = true);
 
@@ -123,26 +319,60 @@ namespace MxNet.Modules
 
         public abstract void UpdateMetric(EvalMetric eval_metric, NDArray[] labels, bool pre_sliced = false);
 
-        public abstract void Bind(Shape[] data_shapes, Shape[] label_shapes = null, bool for_training = true,
-                                    bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, string grad_req = "write");
+        public abstract void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true,
+                                    bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, 
+                                    OpGradReq grad_req =  OpGradReq.Write);
 
-        public abstract void InitOptimizer(string kvstore = "local", string optimizer = "sgd", Dictionary<string, object> optimizer_params = null, bool force_init = false);
+        public abstract void InitOptimizer(string kvstore = "local", Optimizer optimizer = null, Dictionary<string, object> optimizer_params = null, bool force_init = false);
 
         internal static void CheckInputNames(Symbol symbol, string[] names, string typename, bool @throw)
         {
-            throw new NotImplementedException();
+            var args = symbol.ListArguments();
+            foreach (var name in names)
+            {
+                if (args.Contains(name))
+                    continue;
+
+                var candidates = args.Where(x => (!x.EndsWith("_weight") && !x.EndsWith("_bias") && !x.EndsWith("_gamma") && !x.EndsWith("_beta"))).ToList();
+                var msg = $"\033[91mYou created Module with Module(..., {typename}_names ={string.Join(", ", names)}) but " +
+                                  $"input with name '{string.Join("\n\t", candidates)}' is not found in symbol.list_arguments(). " +
+                                  "Did you mean one of:\n\t%s\033[0m";
+
+                if (@throw)
+                    throw new Exception(msg);
+                else
+                    Logger.Warning(msg);
+            }
         }
 
-        internal static void CheckNamesMatch(string[] data_names, Shape[] data_shapes, string name, bool @throw)
+        internal static void CheckNamesMatch(string[] data_names, DataDesc[] data_shapes, string name, bool @throw)
         {
-            throw new NotImplementedException();
+            var actual = (from x in data_shapes select x.Name).ToList();
+            actual.Sort();
+            string actual_str = string.Join(", ", actual);
+            var names = data_names.ToList();
+            names.Sort();
+            string data_names_str = string.Join(", ", names);
+            if (data_names.Length != data_shapes.Length)
+            {
+                string msg = $"Data provided by {name}_shapes don't match names specified by {name}_names";
+                if (@throw)
+                    throw new Exception(msg);
+                else
+                    Logger.Warning(msg);
+            }
         }
 
-        internal static (Shape[], Shape[]) ParseDataDesc(string[] data_names, string[] label_names, Shape[] data_shapes, Shape[] label_shapes)
+        internal static (DataDesc[], DataDesc[]) ParseDataDesc(string[] data_names, string[] label_names,
+                                                                DataDesc[] data_shapes, DataDesc[] label_shapes)
         {
-            throw new NotImplementedException();
+            CheckNamesMatch(data_names, data_shapes, "data", true);
+            if(label_shapes != null)
+                CheckNamesMatch(label_names, label_shapes, "label", false);
+            else
+                CheckNamesMatch(label_names, new DataDesc[0], "label", false);
+
+            return (data_shapes, label_shapes);
         }
-
-
     }
 }

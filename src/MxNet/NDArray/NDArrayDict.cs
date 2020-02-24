@@ -6,7 +6,6 @@ using System.Text;
 
 namespace MxNet
 {
-
     public class NDArrayDict : IEnumerable<KeyValuePair<string, NDArray>>
     {
         private Dictionary<string, NDArray> dict = new Dictionary<string, NDArray>();
@@ -74,7 +73,5 @@ namespace MxNet
                 dict[name] = value;
             }
         }
-
-        
     }
 }

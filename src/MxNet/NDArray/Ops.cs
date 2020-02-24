@@ -771,10 +771,9 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Concat(NDArray[] data, int num_args, int dim = 1)
+        public static NDArray Concat(NDArray[] data, int dim = 1)
         {
             return new Operator("Concat")
-            .SetParam("num_args", num_args)
             .SetParam("dim", dim)
             .SetInput(data)
             .Invoke();

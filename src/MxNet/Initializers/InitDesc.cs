@@ -7,10 +7,10 @@ namespace MxNet.Initializers
     public class InitDesc
     {
         public string Name;
-        public Dictionary<string, Dictionary<string, string>> Attrs;
+        public Dictionary<string, string> Attrs;
         public Initializer GlobalInit = null;
 
-        public InitDesc(string name, Dictionary<string, Dictionary<string, string>> attrs=null, Initializer global_init = null)
+        public InitDesc(string name, Dictionary<string, string> attrs=null, Initializer global_init = null)
         {
             Name = name;
             Attrs = attrs;

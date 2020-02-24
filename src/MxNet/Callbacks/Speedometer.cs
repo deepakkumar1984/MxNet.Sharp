@@ -57,7 +57,7 @@ namespace MxNet.Callbacks
                             msg = string.Format("Epoch[{0}] Batch [{1}-{2}]\tSpeed: {3} samples/sec", epoch, count - _frequent, count, speed);
                             foreach (var item in name_value)
                             {
-                                msg += string.Format("\t {0}={1}", item.Item1, item.Item2);
+                                msg += string.Format("\t {0}={1}", item.Key, item.Value);
                             }
 
                             Logger.Log(msg);
@@ -67,7 +67,7 @@ namespace MxNet.Callbacks
                             msg = string.Format("Epoch[{0}] Batch [0-{1}]\tSpeed: {2} samples/sec", epoch, count, speed);
                             foreach (var item in name_value)
                             {
-                                msg += string.Format("\t {0}={1}", item.Item1, item.Item2);
+                                msg += string.Format("\t {0}={1}", item.Key, item.Value);
                             }
 
                             Logger.Log(msg);

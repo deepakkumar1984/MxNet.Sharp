@@ -12,6 +12,8 @@ namespace MxNet.IO
 
         public int DefaultBucketKey { get; set; }
 
+        public int Cursor { get; set; }
+
         public DataIter(int batch_size = 0)
         {
             BatchSize = batch_size;
@@ -28,6 +30,8 @@ namespace MxNet.IO
         public abstract void Reset();
 
         public abstract bool IterNext();
+
+        public abstract bool End();
 
         public virtual DataBatch Next()
         {

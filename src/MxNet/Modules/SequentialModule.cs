@@ -1,6 +1,7 @@
 ﻿using MxNet.Initializers;
 using MxNet.IO;
 using MxNet.Metrics;
+using MxNet.Optimizers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace MxNet.Modules
 {
     public class SequentialModule : BaseModule
     {
-        public SequentialModule(Logger logging = null) : base(logging)
+        public SequentialModule(Logger logging = null)
         {
             throw new NotImplementedException();
         }
@@ -20,9 +21,9 @@ namespace MxNet.Modules
 
         public override string[] LabelNames => throw new NotImplementedException();
 
-        public override Shape[] DataShapes => throw new NotImplementedException();
+        public override DataDesc[] DataShapes => throw new NotImplementedException();
 
-        public override Shape[] LabelShapes => throw new NotImplementedException();
+        public override DataDesc[] LabelShapes => throw new NotImplementedException();
 
         public override Shape[] OutputShapes => throw new NotImplementedException();
 
@@ -36,7 +37,7 @@ namespace MxNet.Modules
             throw new NotImplementedException();
         }
 
-        public override void Bind(Shape[] data_shapes, Shape[] label_shapes = null, bool for_training = true, bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, string grad_req = "write")
+        public override void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true, bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, OpGradReq grad_req = OpGradReq.Write)
         {
             throw new NotImplementedException();
         }
@@ -61,7 +62,7 @@ namespace MxNet.Modules
             throw new NotImplementedException();
         }
 
-        public override void InitOptimizer(string kvstore = "local", string optimizer = "sgd", Dictionary<string, object> optimizer_params = null, bool force_init = false)
+        public override void InitOptimizer(string kvstore = "local", Optimizer optimizer = null, Dictionary<string, object> optimizer_params = null, bool force_init = false)
         {
             throw new NotImplementedException();
         }
