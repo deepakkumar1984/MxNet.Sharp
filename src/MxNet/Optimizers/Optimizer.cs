@@ -265,12 +265,12 @@ namespace MxNet.Optimizers
 
         internal float GetWd(int index) => GetWds(new int[] { index })[0];
 
-        internal static NDArray[] FlattenList(params NDArray[][] nested_list)
+        internal static NDArrayList FlattenList(params NDArrayList[] nested_list)
         {
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             foreach (var item in nested_list)
             {
-                result.AddRange(item);
+                result.Add(item);
             }
 
             return result.ToArray();

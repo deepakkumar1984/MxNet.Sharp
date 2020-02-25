@@ -28,10 +28,10 @@ namespace MxNet
                 NativeMethods.MXFreeCachedOp(handle);
         }
 
-        public NDArray[] Call(NDArray[] args)
+        public NDArrayList Call(NDArrayList args)
         {
             NativeMethods.MXInvokeCachedOpEx(handle, args.Length, MxUtil.GetNDArrayHandles(args), out var num_outputs, out var outputs, out var out_stypes);
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             for (int i = 0; i < num_outputs; i++)
             {
                 result.Add(new NDArray(outputs[i]).ToSType((StorageStype)out_stypes[i]));

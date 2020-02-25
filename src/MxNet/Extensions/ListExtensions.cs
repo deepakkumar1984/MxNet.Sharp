@@ -12,7 +12,7 @@ namespace MxNet
             return source.Select(x => (x.SymX)).ToArray();
         }
 
-        public static NDArray[] ToNDArrays(this List<NDArrayOrSymbol> source)
+        public static NDArrayList ToNDArrays(this List<NDArrayOrSymbol> source)
         {
             return source.Select(x => (x.NdX)).ToArray();
         }
@@ -22,7 +22,7 @@ namespace MxNet
             return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
         }
 
-        public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this List<NDArray> source)
+        public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this NDArrayList source)
         {
             return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
         }

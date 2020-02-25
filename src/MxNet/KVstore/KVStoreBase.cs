@@ -17,9 +17,9 @@ namespace MxNet.KVstore
 
         public abstract int NumWorkers { get; }
 
-        public abstract void Broadcast(string key, NDArray value, NDArray[] @out, int priority = 0);
+        public abstract void Broadcast(string key, NDArray value, NDArrayList @out, int priority = 0);
 
-        public abstract void PushPull(string key, NDArray value, NDArray[] @out, int priority = 0);
+        public abstract void PushPull(string key, NDArray value, NDArrayList @out, int priority = 0);
 
         public abstract void SetOptimizer(Optimizer optimizer);
 

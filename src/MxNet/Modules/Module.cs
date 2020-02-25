@@ -150,7 +150,7 @@ namespace MxNet.Modules
             _label_shapes = null;
         }
 
-        public override void Backward(NDArray[] out_grads = null)
+        public override void Backward(NDArrayList out_grads = null)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -274,7 +274,7 @@ namespace MxNet.Modules
             _exec_group.Forward(data_batch, is_train);
         }
 
-        public override List<NDArray[]> GetInputGrads(bool merge_multi_context = true)
+        public override List<NDArrayList> GetInputGrads(bool merge_multi_context = true)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -284,7 +284,7 @@ namespace MxNet.Modules
             return _exec_group.GetInputGrads(merge_multi_context);
         }
 
-        public override List<NDArray[]> GetOutputs(bool merge_multi_context = true)
+        public override List<NDArrayList> GetOutputs(bool merge_multi_context = true)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -294,7 +294,7 @@ namespace MxNet.Modules
             return _exec_group.GetOutputs(merge_multi_context);
         }
 
-        public override List<NDArray[]> GetStates(bool merge_multi_context = true)
+        public override List<NDArrayList> GetStates(bool merge_multi_context = true)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -304,7 +304,7 @@ namespace MxNet.Modules
             return _exec_group.GetStates(merge_multi_context);
         }
 
-        public override void SetStates(List<NDArray[]> states, int value)
+        public override void SetStates(List<NDArrayList> states, int value)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -508,7 +508,7 @@ namespace MxNet.Modules
             }
         }
 
-        public override void UpdateMetric(EvalMetric eval_metric, NDArray[] labels, bool pre_sliced = false)
+        public override void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false)
         {
             _exec_group.UpdateMetric(eval_metric, labels, pre_sliced);
         }
@@ -544,7 +544,7 @@ namespace MxNet.Modules
                     if (p.Value.SType == StorageStype.RowSparse)
                     {
                         var row_ids = nd.Arange(0, p.Value.Shape[0], dtype: DType.Int64);
-                        _kvstore.RowSparsePull(p.Key, new NDArray[] { p.Value }, row_ids: new NDArray[] { row_ids });
+                        _kvstore.RowSparsePull(p.Key, p.Value, row_ids: row_ids);
                     }
                 }
             }
@@ -597,7 +597,7 @@ namespace MxNet.Modules
                             Logger.Warning($"{param_name}.stype is not 'row_sparse'. No need to " +
                                                   "perform row_sparse_pull.");
                         else
-                            _kvstore.RowSparsePull(param_name, param_val, row_ids: new NDArray[] { row_id }, priority: param_idx);
+                            _kvstore.RowSparsePull(param_name, param_val, row_ids: row_id, priority: param_idx);
                     }
                 }
             }

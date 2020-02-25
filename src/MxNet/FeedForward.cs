@@ -45,13 +45,13 @@ namespace MxNet
 
         internal static bool IsDataArg(string name) => throw new NotImplementedException();
 
-        internal void InitParams(NDArray[] inputs, bool overwrite= false) => throw new NotImplementedException();
+        internal void InitParams(NDArrayList inputs, bool overwrite= false) => throw new NotImplementedException();
 
         internal void InitPredictor(Shape[] input_shapes, Dictionary<string, DType> type_dict= null) => throw new NotImplementedException();
 
         internal NDArray InitIter(NDArray X, NDArray y, bool is_train) => throw new NotImplementedException();
 
-        internal DataIter InitEvalIter(NDArray[] eval_data) => throw new NotImplementedException();
+        internal DataIter InitEvalIter(NDArrayList eval_data) => throw new NotImplementedException();
 
         public NDArray predict(NDArray X, int? num_batch= null, bool reset= true) => throw new NotImplementedException();
 

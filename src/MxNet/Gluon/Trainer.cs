@@ -234,7 +234,7 @@ namespace MxNet.Gluon
             _kv_initialized = true;
         }
 
-        internal void RowSparsePull(Parameter parameter, List<NDArray> @out, NDArray row_id, bool full_idx= false)
+        internal void RowSparsePull(Parameter parameter, NDArrayList @out, NDArray row_id, bool full_idx= false)
         {
             if (!_kv_initialized)
                 InitKVstore();
@@ -251,7 +251,7 @@ namespace MxNet.Gluon
                 _kvstore.Pull(idx.ToString(), @out.ToArray(), -idx, false);
             }
             else
-                _kvstore.RowSparsePull(idx.ToString(), @out.ToArray(), -idx, new NDArray[] { row_id });
+                _kvstore.RowSparsePull(idx.ToString(), @out.ToArray(), -idx, row_id);
         }
 
         internal void CheckAndRescaleGrad(float scale)
@@ -340,14 +340,14 @@ namespace MxNet.Gluon
 
         private void _update(bool ignore_stale_grad = false)
         {
-            List<(int[], NDArray[], NDArray[])> updates = new List<(int[], NDArray[], NDArray[])>();
+            List<(int[], NDArrayList, NDArrayList)> updates = new List<(int[], NDArrayList, NDArrayList)>();
             for (int i = 0; i < _params.Count; i++)
             {
                 var param = _params[i];
                 if (param.GradReg == OpGradReq.Null)
                     continue;
 
-                if(!ignore_stale_grad)
+                if (!ignore_stale_grad)
                 {
                     var datalist = param.CheckAndGet(param._data, null);
                     foreach (var data in datalist)
@@ -371,11 +371,11 @@ namespace MxNet.Gluon
                 }
 
                 List<int> indices = new List<int>();
-                List<NDArray> grads = new List<NDArray>();
-                List<NDArray> arrays = new List<NDArray>();
-                updates = Enumerable.Zip(param.ListData(), param.ListGrad(), (arr, grad) => 
+                NDArrayList grads = new NDArrayList();
+                NDArrayList arrays = new NDArrayList();
+                updates = Enumerable.Zip(param.ListData(), param.ListGrad(), (arr, grad) =>
                             {
-                                if(!ignore_stale_grad || arr.FreshGrad)
+                                if (!ignore_stale_grad || arr.FreshGrad)
                                 {
                                     indices.Add(i);
                                     grads.Add(grad);
@@ -383,7 +383,7 @@ namespace MxNet.Gluon
                                     arr.FreshGrad = false;
                                 }
 
-                                return (indices.ToArray(), grads.ToArray(), arrays.ToArray());
+                                return (indices.ToArray(), new NDArrayList(grads.ToArray()), new NDArrayList(arrays.ToArray()));
                             }).ToList();
             }
 

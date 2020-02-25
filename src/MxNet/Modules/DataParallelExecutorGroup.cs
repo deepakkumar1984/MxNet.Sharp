@@ -12,9 +12,9 @@ namespace MxNet.Modules
         internal NDArrayDict _arg_params;
         internal NDArrayDict _aux_params;
 
-        public List<NDArray[]> ParamArrays { get; set; }
-        public List<NDArray[]> GradArrays { get; set; }
-        public List<NDArray[]> AuxArrays { get; set; }
+        public List<NDArrayList> ParamArrays { get; set; }
+        public List<NDArrayList> GradArrays { get; set; }
+        public List<NDArrayList> AuxArrays { get; set; }
         public int BatchSize { get; set; }
         public string[] ParamNames { get; set; }
 
@@ -32,7 +32,7 @@ namespace MxNet.Modules
 
         public void DecideSlices(Shape[] data_shapes) => throw new NotImplementedException();
 
-        public NDArray[] CollectArrays() => throw new NotImplementedException();
+        public NDArrayList CollectArrays() => throw new NotImplementedException();
 
         public void BindExec(Shape[] data_shapes, Shape[] label_shapes, DataParallelExecutorGroup shared_group = null, bool reshape= false) => throw new NotImplementedException();
 
@@ -46,17 +46,17 @@ namespace MxNet.Modules
 
         public Shape[] GetOutputShapes() => throw new NotImplementedException();
 
-        public List<NDArray[]> GetOutputs(bool merge_multi_context= true, int begin= 0, int? end= null) => throw new NotImplementedException();
+        public List<NDArrayList> GetOutputs(bool merge_multi_context= true, int begin= 0, int? end= null) => throw new NotImplementedException();
 
-        public List<NDArray[]> GetStates(bool merge_multi_context = true) => throw new NotImplementedException();
+        public List<NDArrayList> GetStates(bool merge_multi_context = true) => throw new NotImplementedException();
 
-        public void SetStates(List<NDArray[]> states = null, int? value = null) => throw new NotImplementedException();
+        public void SetStates(List<NDArrayList> states = null, int? value = null) => throw new NotImplementedException();
 
-        public List<NDArray[]> GetInputGrads(bool merge_multi_context = true) => throw new NotImplementedException();
+        public List<NDArrayList> GetInputGrads(bool merge_multi_context = true) => throw new NotImplementedException();
 
-        public void Backward(NDArray[] grads) => throw new NotImplementedException();
+        public void Backward(NDArrayList grads) => throw new NotImplementedException();
 
-        public void UpdateMetric(EvalMetric eval_metric, NDArray[] labels, bool pre_sliced = false)
+        public void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false)
         {
             throw new NotImplementedException();
         }

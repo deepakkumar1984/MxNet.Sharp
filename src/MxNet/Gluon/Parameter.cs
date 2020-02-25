@@ -10,8 +10,8 @@ namespace MxNet.Gluon
     public class Parameter
     {
         internal Symbol _var = null;
-        internal List<NDArray> _data = null;
-        internal List<NDArray> _grad = null;
+        internal NDArrayList _data = null;
+        internal NDArrayList _grad = null;
         internal List<Context> _ctx_list = null;
         internal Dictionary<int, List<Context>> ctx_map;
         internal Trainer trainer = null;
@@ -40,7 +40,7 @@ namespace MxNet.Gluon
                     _grad = null;
                     if (_data != null)
                     {
-                        for (int i = 0; i < _data.Count; i++)
+                        for (int i = 0; i < _data.Length; i++)
                         {
                             _data[i] = _data[i].Detach();
                         }
@@ -118,13 +118,13 @@ namespace MxNet.Gluon
             this.trainer = trainer;
         }
 
-        internal NDArray[] CheckAndGet(List<NDArray> arr_list, Context ctx)
+        internal NDArrayList CheckAndGet(NDArrayList arr_list, Context ctx)
         {
             if (arr_list != null)
             {
                 if (ctx == null)
                 {
-                    if (arr_list.Count == 1)
+                    if (arr_list.Length == 1)
                         return arr_list.ToArray();
                     else
                         ctx = Context.CurrentContext;
@@ -159,7 +159,7 @@ namespace MxNet.Gluon
                                            "nested child Blocks");
         }
 
-        internal NDArray[] GetRowSparse(List<NDArray> arr_list, Context ctx, NDArray row_id)
+        internal NDArrayList GetRowSparse(NDArrayList arr_list, Context ctx, NDArray row_id)
         {
             if (trainer == null)
                 throw new Exception($"Cannot get row_sparse data for Parameter '{Name}' when no " +
@@ -294,7 +294,7 @@ namespace MxNet.Gluon
                 ctx_map[key][ctx_list[i].GetDeviceId()] = ctx_list[i];
             }
 
-            this._data = new List<NDArray>();
+            this._data = new NDArrayList();
             foreach (var ctx in ctx_list)
             {
                 this._data.Add(data.AsInContext(ctx));
@@ -311,8 +311,8 @@ namespace MxNet.Gluon
                 return;
             }
 
-            _grad = new List<NDArray>();
-            for (int i = 0; i < _data.Count; i++)
+            _grad = new NDArrayList();
+            for (int i = 0; i < _data.Length; i++)
             {
                 _grad.Add(nd.Zeros(_data[i].Shape, _data[i].context, _data[i].DataType).ToSType(Stype));
             }
@@ -333,7 +333,7 @@ namespace MxNet.Gluon
             {
                 var all_row_ids = nd.Arange(0, (int)Shape[0], dtype: DType.Int64, ctx: ctx);
                 data = nd.Zeros(Shape, ctx: ctx).ToSType(StorageStype.RowSparse);
-                trainer.RowSparsePull(this, new List<NDArray> { data }, all_row_ids, true);
+                trainer.RowSparsePull(this, new NDArrayList { data }, all_row_ids, true);
             }
 
             return data;
@@ -435,7 +435,7 @@ namespace MxNet.Gluon
             return GetRowSparse(_data, row_id.context, row_id).FirstOrDefault();
         }
 
-        public NDArray[] ListRowSparseData(NDArray row_id)
+        public NDArrayList ListRowSparseData(NDArray row_id)
         {
             if (Stype != StorageStype.RowSparse)
             {
@@ -458,7 +458,7 @@ namespace MxNet.Gluon
             return CheckAndGet(_data, ctx).FirstOrDefault();
         }
 
-        public NDArray[] ListData()
+        public NDArrayList ListData()
         {
             if (Stype != StorageStype.Default)
             {
@@ -480,7 +480,7 @@ namespace MxNet.Gluon
             return CheckAndGet(_grad, ctx).FirstOrDefault();
         }
 
-        public NDArray[] ListGrad()
+        public NDArrayList ListGrad()
         {
             if (_data != null && _grad == null)
             {
@@ -511,7 +511,7 @@ namespace MxNet.Gluon
             if (_grad == null)
                 return;
 
-            for (int i = 0; i < _grad.Count; i++)
+            for (int i = 0; i < _grad.Length; i++)
                 this._grad[i] = nd.ZerosLike(this._grad[i]);
         }
 
@@ -529,7 +529,7 @@ namespace MxNet.Gluon
         {
             if (_data != null)
             {
-                for (int i = 0; i < _data.Count; i++)
+                for (int i = 0; i < _data.Length; i++)
                 {
                     _data[i] = _data[i].Cast(dtype);
                 }
@@ -537,7 +537,7 @@ namespace MxNet.Gluon
 
             if (_grad != null)
             {
-                for (int i = 0; i < _grad.Count; i++)
+                for (int i = 0; i < _grad.Length; i++)
                 {
                     _data[i] = _data[i].Cast(dtype);
                 }

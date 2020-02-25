@@ -65,7 +65,7 @@ namespace MxNet
             }
         }
 
-        internal static void LoadGeneral(NDArray[] data, NDArray[] targets)
+        internal static void LoadGeneral(NDArrayList data, NDArrayList targets)
         {
             for (int i = 0; i < data.Length; i++)
             {
@@ -75,12 +75,12 @@ namespace MxNet
             }
         }
 
-        internal static void LoadData(DataBatch batch, NDArray[] targets)
+        internal static void LoadData(DataBatch batch, NDArrayList targets)
         {
             LoadGeneral(batch.Data, targets);
         }
 
-        internal static void LoadLabel(DataBatch batch, NDArray[] targets)
+        internal static void LoadLabel(DataBatch batch, NDArrayList targets)
         {
             LoadGeneral(batch.Label, targets);
         }
@@ -106,8 +106,8 @@ namespace MxNet
             if (arg_types == null)
                 throw new ArgumentNullException("arg_types");
 
-            List<NDArray> arg_arrays = new List<NDArray>();
-            List<NDArray> aux_arrays = new List<NDArray>();
+            NDArrayList arg_arrays = new NDArrayList();
+            NDArrayList aux_arrays = new NDArrayList();
             NDArrayDict grad_arrays = need_grad ? new NDArrayDict() : null;
 
             var arg_names = sym.ListArguments();

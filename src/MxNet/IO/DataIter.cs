@@ -19,9 +19,9 @@ namespace MxNet.IO
             BatchSize = batch_size;
         }
 
-        public abstract NDArray[] GetData();
+        public abstract NDArrayList GetData();
 
-        public abstract NDArray[] GetLabel();
+        public abstract NDArrayList GetLabel();
 
         public abstract int[] GetIndex();
 

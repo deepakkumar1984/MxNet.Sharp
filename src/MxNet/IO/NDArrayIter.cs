@@ -15,10 +15,10 @@ namespace MxNet.IO
         private int num_data;
         private int num_source;
         private bool shuffle;
-        private NDArray[] _cache_data;
-        private NDArray[] _cache_label;
+        private NDArrayList _cache_data;
+        private NDArrayList _cache_label;
         private NDArray idx;
-        private List<NDArray> data_list = new List<NDArray>();
+        private NDArrayList data_list = new NDArrayList();
 
         public override DataDesc[] ProvideData 
         { 
@@ -54,14 +54,7 @@ namespace MxNet.IO
             }
         }
 
-        public NDArrayIter(NDArray data, NDArray label = null, int batch_size = 1, bool shuffle = false,
-                           string last_batch_handle = "pad", string data_name = "data", string label_name = "softmax_label")
-            : this(new NDArray[] { data }, new NDArray[] { label }, batch_size, shuffle, last_batch_handle, data_name, label_name)
-        {
-
-        }
-
-        public NDArrayIter(NDArray[] data, NDArray[] label = null, int batch_size = 1, bool shuffle = false,
+        public NDArrayIter(NDArrayList data, NDArrayList label = null, int batch_size = 1, bool shuffle = false,
                             string last_batch_handle = "pad", string data_name = "data", string label_name = "softmax_label")
         {
             this.data = IOUtils.InitData(data, false, data_name);
@@ -73,13 +66,13 @@ namespace MxNet.IO
             this.shuffle = shuffle;
             
             this.Reset();
-            data_list.AddRange(data);
-            data_list.AddRange(label);
+            data_list.Add(data);
+            data_list.Add(label);
             _cache_data = null;
             _cache_label = null;
         }
 
-        public override NDArray[] GetData()
+        public override NDArrayList GetData()
         {
             return _batchify(this.data);
         }
@@ -89,7 +82,7 @@ namespace MxNet.IO
             return Enumerable.Range(0, this.data.Keys.Length).ToArray();
         }
 
-        public override NDArray[] GetLabel()
+        public override NDArrayList GetLabel()
         {
             return _batchify(this.label);
         }
@@ -172,7 +165,7 @@ namespace MxNet.IO
             this.label = IOUtils.GetDataByIdx(label);
         }
 
-        private NDArray[] _getdata(NDArrayDict data_source, int? start= null, int? end= null)
+        private NDArrayList _getdata(NDArrayDict data_source, int? start= null, int? end= null)
         {
             if (!start.HasValue && !end.HasValue)
                 throw new ArgumentException("Should atleast specify start or end");
@@ -180,7 +173,7 @@ namespace MxNet.IO
             start = start.HasValue ? start : 0;
             end = end.HasValue ? end : (int)data_source.First().Value.Shape[0];
 
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             foreach (var x in data_source)
             {
                 result.Add(x.Value.Slice(start.Value, end));
@@ -189,23 +182,23 @@ namespace MxNet.IO
             return result.ToArray();
         }
 
-        private NDArray[] _concat(NDArray[] first_data, NDArray[] second_data)
+        private NDArrayList _concat(NDArrayList first_data, NDArrayList second_data)
         {
             if (first_data.Length != second_data.Length)
                 throw new Exception("Data source should be of same size.");
 
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             for (int i = 0; i < first_data.Length; i++)
             {
                 result.Add(
-                    nd.Concat(new NDArray[] { first_data[i], second_data[i] }, 0)
+                    nd.Concat(new NDArrayList(first_data[i], second_data[i]), 0)
                     );
             }
 
             return result.ToArray();
         }
 
-        private NDArray[] _batchify(NDArrayDict data_source)
+        private NDArrayList _batchify(NDArrayDict data_source)
         {
             if (Cursor > num_data)
                 throw new Exception("DataIter need reset");

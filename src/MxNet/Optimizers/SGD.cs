@@ -32,16 +32,16 @@ namespace MxNet.Optimizers
 
         public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
-            _update_impl(new int[] { index }, new NDArray[] { weight }, new NDArray[] { grad }, (state, null), false);
+            _update_impl(new int[] { index }, weight, grad, (state, null), false);
         }
 
         public override void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, (NDArrayDict, NDArray) state)
         {
             bool use_multi_precision = MultiPrecision && weight.DataType.Name == DType.Float16.Name;
-            _update_impl(new int[] { index }, new NDArray[] { weight }, new NDArray[] { grad }, state, true);
+            _update_impl(new int[] { index }, weight, grad, state, true);
         }
 
-        private void _update_impl(int[] indices, NDArray[]  weights, NDArray[]  grads, (NDArrayDict, NDArray) states, bool multi_precision= false)
+        private void _update_impl(int[] indices, NDArrayList  weights, NDArrayList  grads, (NDArrayDict, NDArray) states, bool multi_precision= false)
         {
             bool aggregate = true;
             Enumerable.Zip(weights, grads, (weight, grad) => {

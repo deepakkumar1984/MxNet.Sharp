@@ -278,7 +278,7 @@ namespace MxNet
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, keys), NativeMethods.OK);
         }
 
-        public static void Save(string fileName, IList<NDArray> arrayList)
+        public static void Save(string fileName, NDArrayList arrayList)
         {
             var args = arrayList.Select(array => array.GetHandle()).ToArray();
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, null), NativeMethods.OK);

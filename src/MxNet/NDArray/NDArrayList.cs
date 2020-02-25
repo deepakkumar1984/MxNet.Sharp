@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MxNet
 {
@@ -9,9 +10,30 @@ namespace MxNet
     {
         public List<NDArray> data = null;
 
+        public NDArray[] Data => data.ToArray();
+
+        public IntPtr[] Handles => data.Select(x => (x.NativePtr)).ToArray();
+
+        public NDArrayOrSymbol[] NDArrayOrSymbols => data.Select(x => (new NDArrayOrSymbol(x))).ToArray();
+
         public NDArrayList()
         {
             data = new List<NDArray>();
+        }
+
+        public NDArrayList(int length)
+        {
+            data = new List<NDArray>(length);
+        }
+
+        public NDArrayList(params NDArray[] args)
+        {
+            data = args.ToList();
+        }
+
+        public void Add(params NDArray[] x)
+        {
+            data.AddRange(x);
         }
 
         public IEnumerator<NDArray> GetEnumerator()
@@ -30,8 +52,20 @@ namespace MxNet
             {
                 return data[i];
             }
+            set
+            {
+                data[i] = value;
+            }
         }
 
         public int Length => data.Count;
+
+        public static implicit operator NDArrayList(NDArray[] x) => new NDArrayList(x);
+
+        public static implicit operator NDArrayList(NDArray x) => new NDArrayList(x);
+
+        public static implicit operator NDArrayList(List<NDArray> x) => new NDArrayList(x.ToArray());
+
+        public static implicit operator NDArray(NDArrayList x) => x.data.Count > 0 ? x[0] : null;
     }
 }

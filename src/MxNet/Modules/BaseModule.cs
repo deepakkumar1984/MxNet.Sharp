@@ -122,7 +122,7 @@ namespace MxNet.Modules
             return eval_metric.GetNameValue();
         }
 
-        public IEnumerable<(NDArray[], int, DataBatch)> IterPredict(DataIter eval_data, int? num_batch = null, bool reset = true, int epoch = 0, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
+        public IEnumerable<(NDArrayList, int, DataBatch)> IterPredict(DataIter eval_data, int? num_batch = null, bool reset = true, int epoch = 0, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -141,7 +141,7 @@ namespace MxNet.Modules
                 Prepare(eval_batch, sparse_row_id_fn);
                 Forward(eval_batch, false);
                 var pad = eval_batch.Pad.Value;
-                List<NDArray> outputs = new List<NDArray>();
+                NDArrayList outputs = new NDArrayList();
                 foreach (var list in GetOutputs())
                 {
                     foreach (var @out in list)
@@ -154,7 +154,7 @@ namespace MxNet.Modules
             }
         }
 
-        public List<NDArray[]> Predict(DataIter eval_data, int? num_batch = null, bool merge_batches = true, bool reset = true, bool always_output_list = true, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
+        public List<NDArrayList> Predict(DataIter eval_data, int? num_batch = null, bool merge_batches = true, bool reset = true, bool always_output_list = true, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -164,8 +164,8 @@ namespace MxNet.Modules
             if (reset)
                 eval_data.Reset();
 
-            List<NDArray[]> output_list = new List<NDArray[]>();
-            List<NDArray> output_list2 = new List<NDArray>();
+            List<NDArrayList> output_list = new List<NDArrayList>();
+            NDArrayList output_list2 = new NDArrayList();
             while (eval_data.End())
             {
                 if (num_batch.HasValue && eval_data.Cursor == num_batch.Value)
@@ -175,7 +175,7 @@ namespace MxNet.Modules
                 Prepare(eval_batch, sparse_row_id_fn);
                 Forward(eval_batch, false);
                 var pad = eval_batch.Pad.Value;
-                List<NDArray> outputs = new List<NDArray>();
+                NDArrayList outputs = new NDArrayList();
                 foreach (var list in GetOutputs())
                 {
                     foreach (var @out in list)
@@ -202,7 +202,7 @@ namespace MxNet.Modules
                     output_list2.Add(nd.Concat(@out));
                 }
 
-                return new List<NDArray[]>() { output_list2.ToArray() };
+                return new List<NDArrayList>() { output_list2.ToArray() };
             }
 
             return output_list;
@@ -271,7 +271,7 @@ namespace MxNet.Modules
             SetParams(arg_params, aux_params);
         }
 
-        public virtual List<NDArray[]> GetStates(bool merge_multi_context = true)
+        public virtual List<NDArrayList> GetStates(bool merge_multi_context = true)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -283,10 +283,10 @@ namespace MxNet.Modules
                 throw new Exception("Invalid value merge_multi_context");
             }
 
-            return new List<NDArray[]>();
+            return new List<NDArrayList>();
         }
 
-        public virtual void SetStates(List<NDArray[]> states, int value)
+        public virtual void SetStates(List<NDArrayList> states, int value)
         {
             if (!Binded && !ParamsInitialized)
             {
@@ -309,15 +309,15 @@ namespace MxNet.Modules
 
         public abstract void Forward(DataBatch data_batch, bool is_train = true);
 
-        public abstract void Backward(NDArray[] out_grads = null);
+        public abstract void Backward(NDArrayList out_grads = null);
 
-        public abstract List<NDArray[]> GetOutputs(bool merge_multi_context = true);
+        public abstract List<NDArrayList> GetOutputs(bool merge_multi_context = true);
 
-        public abstract List<NDArray[]> GetInputGrads(bool merge_multi_context = true);
+        public abstract List<NDArrayList> GetInputGrads(bool merge_multi_context = true);
 
         public abstract void Update();
 
-        public abstract void UpdateMetric(EvalMetric eval_metric, NDArray[] labels, bool pre_sliced = false);
+        public abstract void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false);
 
         public abstract void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true,
                                     bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, 

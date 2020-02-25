@@ -129,10 +129,10 @@ namespace MxNet
         #region Methods
 
         public Executor Bind(Context context,
-                             IList<NDArray> argArrays,
-                             IList<NDArray> gradArrays,
+                             NDArrayList argArrays,
+                             NDArrayList gradArrays,
                              IList<OpGradReq> gradReqs,
-                             IList<NDArray> auxArrays)
+                             NDArrayList auxArrays)
         {
             return new Executor(this,
                                 context,
@@ -144,10 +144,10 @@ namespace MxNet
         }
 
         public Executor Bind(Context context,
-                             IList<NDArray> argArrays,
-                             IList<NDArray> gradArrays,
+                             NDArrayList argArrays,
+                             NDArrayList gradArrays,
                              IList<OpGradReq> gradReqs,
-                             IList<NDArray> auxArrays,
+                             NDArrayList auxArrays,
                              IDictionary<string, Context> groupToCtx)
         {
             return new Executor(this,
@@ -161,10 +161,10 @@ namespace MxNet
         }
 
         public Executor Bind(Context context,
-                             IList<NDArray> argArrays,
-                             IList<NDArray> gradArrays,
+                             NDArrayList argArrays,
+                             NDArrayList gradArrays,
                              IList<OpGradReq> gradReqs,
-                             IList<NDArray> auxArrays,
+                             NDArrayList auxArrays,
                              IDictionary<string, Context> groupToCtx,
                              Executor sharedExec)
         {
@@ -416,10 +416,10 @@ namespace MxNet
         public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> args) => throw new NotImplementedException();
 
         public void InferExecutorArrays(Context context,
-                                        IList<NDArray> argArrays,
-                                        IList<NDArray> gradArrays,
+                                        NDArrayList argArrays,
+                                        NDArrayList gradArrays,
                                         IList<OpGradReq> gradReqs,
-                                        IList<NDArray> auxArrays,
+                                        NDArrayList auxArrays,
                                         NDArrayDict argsMap)
         {
             this.InferExecutorArrays(context,
@@ -432,10 +432,10 @@ namespace MxNet
         }
 
         public void InferExecutorArrays(Context context,
-                                        IList<NDArray> argArrays,
-                                        IList<NDArray> gradArrays,
+                                        NDArrayList argArrays,
+                                        NDArrayList gradArrays,
                                         IList<OpGradReq> gradReqs,
-                                        IList<NDArray> auxArrays,
+                                        NDArrayList auxArrays,
                                         NDArrayDict argsMap,
                                         NDArrayDict argGradStore)
         {
@@ -450,10 +450,10 @@ namespace MxNet
         }
 
         public void InferExecutorArrays(Context context,
-                                        IList<NDArray> argArrays,
-                                        IList<NDArray> gradArrays,
+                                        NDArrayList argArrays,
+                                        NDArrayList gradArrays,
                                         IList<OpGradReq> gradReqs,
-                                        IList<NDArray> auxArrays,
+                                        NDArrayList auxArrays,
                                         NDArrayDict argsMap,
                                         NDArrayDict argGradStore,
                                         IDictionary<string, OpGradReq> gradReqType)
@@ -470,10 +470,10 @@ namespace MxNet
         }
 
         public void InferExecutorArrays(Context context,
-                                    IList<NDArray> argArrays,
-                                    IList<NDArray> gradArrays,
+                                    NDArrayList argArrays,
+                                    NDArrayList gradArrays,
                                     IList<OpGradReq> gradReqs,
-                                    IList<NDArray> auxArrays,
+                                    NDArrayList auxArrays,
                                     NDArrayDict argsMap,
                                     NDArrayDict argGradStore,
                                     IDictionary<string, OpGradReq> gradReqType,
@@ -708,10 +708,10 @@ namespace MxNet
 
             this.ThrowIfDisposed();
 
-            var argArrays = new List<NDArray>();
-            var gradArrays = new List<NDArray>();
+            var argArrays = new NDArrayList();
+            var gradArrays = new NDArrayList();
             var gradReqs = new List<OpGradReq>();
-            var auxArrays = new List<NDArray>();
+            var auxArrays = new NDArrayList();
 
             this.InferExecutorArrays(context,
                                      argArrays,

@@ -6,7 +6,7 @@ namespace MxNet.IO
 {
     internal class IOUtils
     {
-        public static NDArrayDict InitData(NDArray[] data, bool allow_empty, string default_name)
+        public static NDArrayDict InitData(NDArrayList data, bool allow_empty, string default_name)
         {
             NDArrayDict result = new NDArrayDict();
             if (data == null)

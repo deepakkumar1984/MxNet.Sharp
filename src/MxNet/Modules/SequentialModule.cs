@@ -32,7 +32,7 @@ namespace MxNet.Modules
             throw new NotImplementedException();
         }
 
-        public override void Backward(NDArray[] out_grads = null)
+        public override void Backward(NDArrayList out_grads = null)
         {
             throw new NotImplementedException();
         }
@@ -47,12 +47,12 @@ namespace MxNet.Modules
             throw new NotImplementedException();
         }
 
-        public override List<NDArray[]> GetInputGrads(bool merge_multi_context = true)
+        public override List<NDArrayList> GetInputGrads(bool merge_multi_context = true)
         {
             throw new NotImplementedException();
         }
 
-        public override List<NDArray[]> GetOutputs(bool merge_multi_context = true)
+        public override List<NDArrayList> GetOutputs(bool merge_multi_context = true)
         {
             throw new NotImplementedException();
         }
@@ -82,7 +82,7 @@ namespace MxNet.Modules
             throw new NotImplementedException();
         }
 
-        public override void UpdateMetric(EvalMetric eval_metric, NDArray[] labels, bool pre_sliced = false)
+        public override void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false)
         {
             throw new NotImplementedException();
         }

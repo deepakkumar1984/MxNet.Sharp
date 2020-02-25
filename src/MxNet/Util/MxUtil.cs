@@ -28,7 +28,7 @@ namespace MxNet
             }
         }
 
-        public static IntPtr[] GetNDArrayHandles(NDArray[] list)
+        public static IntPtr[] GetNDArrayHandles(NDArrayList list)
         {
             return list.Select(x => (x.GetHandle())).ToArray();
         }

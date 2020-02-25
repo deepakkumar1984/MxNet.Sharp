@@ -8,9 +8,9 @@ namespace MxNet.Gluon.Data.Vision
 {
     public class _MultiWorkerIterV1 : IDisposable
     {
-        public delegate void WorkerFn(Dataset<NDArray> dataset, Queue key_queue, Queue data_queue, Func<NDArray[], bool> batchify_fn);
+        public delegate void WorkerFn(Dataset<NDArray> dataset, Queue key_queue, Queue data_queue, Func<NDArrayList, bool> batchify_fn);
 
-        public _MultiWorkerIterV1(int num_workers, Dataset<NDArray> dataset, Func<NDArray[], bool>  batchify_fn, BatchSampler batch_sampler,
+        public _MultiWorkerIterV1(int num_workers, Dataset<NDArray> dataset, Func<NDArrayList, bool>  batchify_fn, BatchSampler batch_sampler,
                                 bool pin_memory= false, int pin_device_id= 0, WorkerFn worker_fn= null)
         {
             throw new NotImplementedException();

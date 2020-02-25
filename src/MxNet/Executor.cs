@@ -22,20 +22,20 @@ namespace MxNet
 
         public Executor(Symbol symbol,
                         Context context,
-                        IList<NDArray> argmentArrays,
-                        IList<NDArray> gradientArrays,
+                        NDArrayList argmentArrays,
+                        NDArrayList gradientArrays,
                         IList<OpGradReq> gradReqs,
-                        IList<NDArray> auxiliaryArrays)
+                        NDArrayList auxiliaryArrays)
             : this(symbol, context, argmentArrays, gradientArrays, gradReqs, auxiliaryArrays, new Dictionary<string, Context>(), null)
         {
         }
 
         public Executor(Symbol symbol,
                         Context context,
-                        IList<NDArray> argmentArrays,
-                        IList<NDArray> gradientArrays,
+                        NDArrayList argmentArrays,
+                        NDArrayList gradientArrays,
                         IList<OpGradReq> gradReqs,
-                        IList<NDArray> auxiliaryArrays,
+                        NDArrayList auxiliaryArrays,
                         IDictionary<string, Context> groupToCtx)
             : this(symbol, context, argmentArrays, gradientArrays, gradReqs, auxiliaryArrays, groupToCtx, null)
         {
@@ -43,10 +43,10 @@ namespace MxNet
 
         public Executor(Symbol symbol,
                         Context context,
-                        IList<NDArray> argmentArrays,
-                        IList<NDArray> gradientArrays,
+                        NDArrayList argmentArrays,
+                        NDArrayList gradientArrays,
                         IList<OpGradReq> gradReqs,
-                        IList<NDArray> auxiliaryArrays,
+                        NDArrayList auxiliaryArrays,
                         IDictionary<string, Context> groupToCtx,
                         Executor sharedExec)
         {
@@ -107,7 +107,7 @@ namespace MxNet
                                                            out var handle), NativeMethods.OK);
             this.Handle = handle;
 
-            this.Outputs = new List<NDArray>();
+            this.Outputs = new NDArrayList();
             Logging.CHECK_EQ(NativeMethods.MXExecutorOutputs(this.Handle, out var outSize, out var outArray), 0);
             var outArrayArray = InteropHelper.ToPointerArray(outArray, outSize);
             for (mx_uint i = 0; i < outSize; ++i)
@@ -131,7 +131,7 @@ namespace MxNet
             get;
         }
 
-        public IList<NDArray> Outputs
+        public NDArrayList Outputs
         {
             get;
         }
@@ -144,17 +144,17 @@ namespace MxNet
             }
         }
 
-        public IList<NDArray> ArgmentArrays
+        public NDArrayList ArgmentArrays
         {
             get;
         }
 
-        public IList<NDArray> GradientArrays
+        public NDArrayList GradientArrays
         {
             get;
         }
 
-        public IList<NDArray> AuxiliaryArrays
+        public NDArrayList AuxiliaryArrays
         {
             get;
         }
@@ -180,10 +180,10 @@ namespace MxNet
 
         public void Backward()
         {
-            this.Backward(new List<NDArray>());
+            this.Backward(new NDArrayList());
         }
 
-        public void Backward(IList<NDArray> headGrads)
+        public void Backward(NDArrayList headGrads)
         {
             if (headGrads == null)
                 throw new ArgumentNullException(nameof(headGrads));
@@ -221,7 +221,7 @@ namespace MxNet
 
         #region Helpers
 
-        private static NDArrayDict GetDictionary(IList<string> names, IList<NDArray> arrays)
+        private static NDArrayDict GetDictionary(IList<string> names, NDArrayList arrays)
         {
             var ret = new NDArrayDict();
 
@@ -232,7 +232,7 @@ namespace MxNet
                 set.Add(s);
             }
 
-            Logging.CHECK_EQ(set.Count, arrays.Count, "names size not equal to arrays size");
+            Logging.CHECK_EQ(set.Count, arrays.Length, "names size not equal to arrays size");
             for (var i = 0; i < names.Count; ++i)
                 ret[names[i]] = arrays[i];
 

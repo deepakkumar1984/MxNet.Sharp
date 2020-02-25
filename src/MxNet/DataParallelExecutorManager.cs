@@ -22,7 +22,7 @@ namespace MxNet
         private Dictionary<int, DataParallelExecutorGroup> execgrp_bucket = new Dictionary<int, DataParallelExecutorGroup>();
         private DataParallelExecutorGroup curr_execgrp;
 
-        public NDArray[] ParamArrays
+        public NDArrayList ParamArrays
         {
             get
             {
@@ -30,7 +30,7 @@ namespace MxNet
             }
         }
 
-        public NDArray[] GradArrays
+        public NDArrayList GradArrays
         {
             get
             {
@@ -38,7 +38,7 @@ namespace MxNet
             }
         }
 
-        public NDArray[] AuxArrays
+        public NDArrayList AuxArrays
         {
             get
             {
@@ -138,12 +138,12 @@ namespace MxNet
             curr_execgrp.Forward(is_train);
         }
 
-        public void Backward(NDArray[] grads)
+        public void Backward(NDArrayList grads)
         {
             curr_execgrp.Backward();
         }
 
-        public void UpdateMetric(EvalMetric eval_metric, NDArray[] labels, bool pre_sliced = false)
+        public void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false)
         {
             curr_execgrp.UpdateMetric(eval_metric, labels, pre_sliced);
         }

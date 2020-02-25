@@ -71,7 +71,7 @@ namespace MxNet
             LOG_FATAL(message);
         }
 
-        public static void CHECK_EQ(ulong x, ulong y, string msg = "")
+        public static void CHECK_EQ(int x, int y, string msg = "")
         {
             // dmlc-core/include/dmlc/logging.h
             if (x == y)
@@ -86,15 +86,6 @@ namespace MxNet
             if (x == y)
                 return;
             
-            CHECK_EQ(x.ToString(), y.ToString(), msg);
-        }
-
-        public static void CHECK_EQ(int x, int y, string msg = "")
-        {
-            // dmlc-core/include/dmlc/logging.h
-            if (x == y)
-                return;
-
             CHECK_EQ(x.ToString(), y.ToString(), msg);
         }
 

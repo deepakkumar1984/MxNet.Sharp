@@ -10,7 +10,7 @@ namespace MxNet.IO
 
         #region Properties
 
-        public NDArray[] Data
+        public NDArrayList Data
         {
             get;
             internal set;
@@ -22,7 +22,7 @@ namespace MxNet.IO
             internal set;
         }
 
-        public NDArray[] Label
+        public NDArrayList Label
         {
             get;
             internal set;
@@ -54,7 +54,7 @@ namespace MxNet.IO
 
         #endregion
 
-        public DataBatch(NDArray[] data, NDArray[] label = null, int? pad= null, int[] index= null,
+        public DataBatch(NDArrayList data, NDArrayList label = null, int? pad= null, int[] index= null,
                         int? bucket_key= null, DataDesc[] provide_data= null, DataDesc[] provide_label = null)
         {
             Data = data;

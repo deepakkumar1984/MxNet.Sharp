@@ -21,10 +21,10 @@ namespace MxNet.Optimizers
 
         public void Call(int index, NDArray grad, NDArray weight)
         {
-            Call(new int[] { index }, new NDArray[] { grad }, new NDArray[] { weight });
+            Call(new int[] { index }, grad, weight);
         }
 
-        public void Call(int[] indices, NDArray[] grads, NDArray[] weights)
+        public void Call(int[] indices, NDArrayList grads, NDArrayList weights)
         {
             if (weights != null)
                 optimizer.SetCurrentContext(weights[0].context.GetDeviceId());

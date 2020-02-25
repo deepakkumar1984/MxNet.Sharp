@@ -135,11 +135,11 @@ namespace MxNet
             if (output == null)
                 throw new ArgumentNullException(nameof(output));
 
-            var outputs = new List<NDArray>(new[] { output });
+            var outputs = new NDArrayList(new[] { output });
             this.Invoke(outputs);
         }
 
-        public void Invoke(List<NDArray> outputs)
+        public void Invoke(NDArrayList outputs)
         {
             List<string> paramKeys = new List<string>();
             List<string> paramValues = new List<string>();
@@ -151,12 +151,12 @@ namespace MxNet
             }
 
             int numInputs = _InputNdarrays.Count;
-            int numOutputs = outputs.Count;
+            int numOutputs = outputs.Length;
 
             NDArrayHandle[] outputHandles = outputs.Select(s => s.GetHandle()).ToArray();
             IntPtr outputsReceiver = IntPtr.Zero;
             GCHandle? gcHandle = null;
-            if (outputs.Count > 0)
+            if (outputs.Length > 0)
             {
                 gcHandle = GCHandle.Alloc(outputHandles, GCHandleType.Pinned);
                 outputsReceiver = gcHandle.Value.AddrOfPinnedObject();
@@ -168,7 +168,7 @@ namespace MxNet
             NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs, ref outputsReceiver,
                 paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray());
 
-            if (outputs.Count > 0)
+            if (outputs.Length > 0)
             {
                 gcHandle?.Free();
                 return;
@@ -250,7 +250,7 @@ namespace MxNet
             return this;
         }
 
-        public Operator SetInput(NDArray[] ndlist)
+        public Operator SetInput(NDArrayList ndlist)
         {
             foreach (var item in ndlist)
             {

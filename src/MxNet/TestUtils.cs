@@ -26,7 +26,7 @@ namespace MxNet
 
         public static float GetRtol(float? rtol = null) => rtol.HasValue ? rtol.Value : 1e-5f;
 
-        //public static NDArray[] random_arrays(params Shape[] shapes) => throw new NotImplementedException();
+        //public static NDArrayList random_arrays(params Shape[] shapes) => throw new NotImplementedException();
 
         //public static NDArray random_sample(NDArray population, int k) => throw new NotImplementedException();
 
@@ -82,11 +82,11 @@ namespace MxNet
 
         //public static bool assert_almost_equal_ignore_nan(NumSharp.NDArray a, NumSharp.NDArray b, float? rtol = null, float? atol = null, (string, string)? names = null) => throw new NotImplementedException();
 
-        //public static void simple_forward(Symbol sym, Context ctx= null, bool is_train= false, params NDArray[] inputs) => throw new NotImplementedException();
+        //public static void simple_forward(Symbol sym, Context ctx= null, bool is_train= false, params NDArrayList inputs) => throw new NotImplementedException();
 
-        //private static NDArrayDict _parse_location(Symbol sym, NDArray[] location, Context ctx, DType dtype = null) => throw new NotImplementedException();
+        //private static NDArrayDict _parse_location(Symbol sym, NDArrayList location, Context ctx, DType dtype = null) => throw new NotImplementedException();
 
-        //private static NDArrayDict _parse_aux_states(Symbol sym, NDArray[] aux_states, Context ctx, DType dtype = null) => throw new NotImplementedException();
+        //private static NDArrayDict _parse_aux_states(Symbol sym, NDArrayList aux_states, Context ctx, DType dtype = null) => throw new NotImplementedException();
 
         public static List<int> ListGpus()
         {

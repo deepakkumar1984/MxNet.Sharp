@@ -18,11 +18,11 @@ namespace MxNet
 
         internal List<Executor> train_execs = new List<Executor>();
 
-        internal List<NDArray> data_arrays = new List<NDArray>();
-        internal List<NDArray> label_arrays = new List<NDArray>();
-        internal List<NDArray> param_arrays = new List<NDArray>();
-        internal List<NDArray> grad_arrays = new List<NDArray>();
-        internal List<NDArray> aux_arrays = new List<NDArray>();
+        internal NDArrayList data_arrays = new NDArrayList();
+        internal NDArrayList label_arrays = new NDArrayList();
+        internal NDArrayList param_arrays = new NDArrayList();
+        internal NDArrayList grad_arrays = new NDArrayList();
+        internal NDArrayList aux_arrays = new NDArrayList();
 
         private Slice[] slices;
 
@@ -131,9 +131,9 @@ namespace MxNet
             }
         }
 
-        public void UpdateMetric(EvalMetric metric, NDArray[] labels, bool pre_sliced = false)
+        public void UpdateMetric(EvalMetric metric, NDArrayList labels, bool pre_sliced = false)
         {
-            List<NDArray> labels_slice = new List<NDArray>();
+            NDArrayList labels_slice = new NDArrayList();
             int i = 0;
             Enumerable.Zip(train_execs, slices, (e, s) =>
             {

@@ -17,7 +17,7 @@ namespace MxNet.Image
             throw new NotImplementedException();
         }
 
-        public override NDArray[] GetData()
+        public override NDArrayList GetData()
         {
             throw new NotImplementedException();
         }
@@ -27,7 +27,7 @@ namespace MxNet.Image
             throw new NotImplementedException();
         }
 
-        public override NDArray[] GetLabel()
+        public override NDArrayList GetLabel()
         {
             throw new NotImplementedException();
         }

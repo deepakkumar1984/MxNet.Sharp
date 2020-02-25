@@ -21,7 +21,7 @@ namespace MxNet.OpGenerator
             {"NDArray-or-Symbol","NdArrayOrSymbol"},
             {"Symbol[]","List<Symbol>"},
             {"Symbol or Symbol[]","List<Symbol>"},
-            {"NDArray[]","List<Symbol>"},
+            {"NDArrayList","List<Symbol>"},
             {"caffe-layer-parameter","caffeLayerParameter"},
             {"NDArray-or-Symbol[]","NdArrayOrSymbol[]"},
             {"float","float"},

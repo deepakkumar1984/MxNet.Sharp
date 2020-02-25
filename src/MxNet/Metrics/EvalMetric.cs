@@ -42,7 +42,7 @@ namespace MxNet.Metrics
 
         public abstract void Update(NDArray labels, NDArray preds);
 
-        public virtual void Update(NDArray[] labels, NDArray[] preds)
+        public virtual void Update(NDArrayList labels, NDArrayList preds)
         {
             if(labels.Length != preds.Length)
             {

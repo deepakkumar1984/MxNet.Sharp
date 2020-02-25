@@ -78,10 +78,10 @@ namespace MxNet.IO
             Console.WriteLine("Set debug_skip_load to be true, will simply return first batch");
         }
 
-        public override NDArray[] GetData()
+        public override NDArrayList GetData()
         {
             NativeMethods.MXDataIterGetData(handle, out var hdl);
-            return new NDArray[] { new NDArray(hdl) };
+            return new NDArray(hdl);
         }
 
         public override int[] GetIndex()
@@ -97,10 +97,10 @@ namespace MxNet.IO
             return ret;
         }
 
-        public override NDArray[] GetLabel()
+        public override NDArrayList GetLabel()
         {
             NativeMethods.MXDataIterGetLabel(handle, out var hdl);
-            return new NDArray[] { new NDArray(hdl) };
+            return new NDArray(hdl);
         }
 
         public override int GetPad()

@@ -64,7 +64,7 @@ namespace MxNet.KVstore
             str_updater_func = IntPtr.Zero;
         }
 
-        public override void Broadcast(string key, NDArray value, NDArray[] @out, int priority = 0)
+        public override void Broadcast(string key, NDArray value, NDArrayList @out, int priority = 0)
         {
             Init(key, value);
             Pull(key, @out, priority);
@@ -75,22 +75,22 @@ namespace MxNet.KVstore
             NativeMethods.MXKVStoreInitEx(handle, 1, new string[] { key }, new IntPtr[] { value.NativePtr });
         }
 
-        public void Push(string key, NDArray[] value, int priority = 0)
+        public void Push(string key, NDArrayList value, int priority = 0)
         {
             NativeMethods.MXKVStorePushEx(handle, 1, new string[] { key }, MxUtil.GetNDArrayHandles(value), priority);
         }
 
-        public void Pull(string key, NDArray[] @out, int priority = 0, bool ignore_sparse = true)
+        public void Pull(string key, NDArrayList @out, int priority = 0, bool ignore_sparse = true)
         {
             NativeMethods.MXKVStorePullWithSparseEx(handle, 1, new string[] { key }, MxUtil.GetNDArrayHandles(@out), priority, ignore_sparse);
         }
 
-        public override void PushPull(string key, NDArray value, NDArray[] @out, int priority = 0)
+        public override void PushPull(string key, NDArray value, NDArrayList @out, int priority = 0)
         {
             NativeMethods.MXKVStorePushPullEx(handle, 1, new string[] { key }, @out.Length, new string[] { key }, new IntPtr[] { value.NativePtr }, MxUtil.GetNDArrayHandles(@out), priority);
         }
 
-        public void RowSparsePull(string key, NDArray[] @out, int priority = 0, NDArray[] row_ids = null)
+        public void RowSparsePull(string key, NDArrayList @out, int priority = 0, NDArrayList row_ids = null)
         {
             if (@out == null)
                 throw new ArgumentNullException("@out");
@@ -98,7 +98,7 @@ namespace MxNet.KVstore
             if (row_ids == null)
                 throw new ArgumentNullException("row_ids");
 
-            List<NDArray> first_out = new List<NDArray>();
+            NDArrayList first_out = new NDArrayList();
             if (row_ids.Length == 1)
             {
                 first_out.Add(@out[0]);

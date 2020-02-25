@@ -48,7 +48,7 @@ namespace MxNet
 
         public static _RecordingStateScope PredictMode() => new _RecordingStateScope(null, false);
 
-        public static void MarkVariables(NDArray[] variables, NDArray[] gradients, OpGradReq grad_reqs= OpGradReq.Write)
+        public static void MarkVariables(NDArrayList variables, NDArrayList gradients, OpGradReq grad_reqs= OpGradReq.Write)
         {
             int[] gradReqs = new int[variables.Length];
             for(int i=0;i<gradReqs.Length;i++)
@@ -59,7 +59,7 @@ namespace MxNet
             NativeMethods.MXAutogradMarkVariables(variables.Length, MxUtil.GetNDArrayHandles(variables), gradReqs, MxUtil.GetNDArrayHandles(gradients));
         }
 
-        private static (IntPtr[], IntPtr[]) ParseHead(NDArray[] heads, NDArray[] head_grads)
+        private static (IntPtr[], IntPtr[]) ParseHead(NDArrayList heads, NDArrayList head_grads)
         {
             IntPtr[] headHandles = null;
             IntPtr[] headGradHandles = null;
@@ -85,7 +85,7 @@ namespace MxNet
             return (headHandles, headGradHandles);
         }
 
-        public static void Backward(NDArray[] heads, NDArray[] head_grads = null, bool retain_graph= false, bool train_mode= true)
+        public static void Backward(NDArrayList heads, NDArrayList head_grads = null, bool retain_graph= false, bool train_mode= true)
         {
             var (head_handles, head_grads_handles) = ParseHead(heads, head_grads);
 
@@ -94,7 +94,7 @@ namespace MxNet
                                                 0, Convert.ToInt32(train_mode), new IntPtr[] { }, new int[] { });
         }
 
-        public static NDArray[] Grad(NDArray[] heads, NDArray[] variables, NDArray[] head_grads = null, bool retain_graph = false, bool create_graph = true, bool train_mode = true)
+        public static NDArrayList Grad(NDArrayList heads, NDArrayList variables, NDArrayList head_grads = null, bool retain_graph = false, bool create_graph = true, bool train_mode = true)
         {
             var (head_handles, head_grads_handles) = ParseHead(heads, head_grads);
 
@@ -105,7 +105,7 @@ namespace MxNet
                                                 MxUtil.GetNDArrayHandles(variables), Convert.ToInt32(retain_graph),
                                                 Convert.ToInt32(create_graph), Convert.ToInt32(train_mode), grad_handles, grad_stypes);
 
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             foreach (var item in grad_handles)
             {
                 result.Add(new NDArray(item));

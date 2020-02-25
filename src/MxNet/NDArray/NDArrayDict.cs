@@ -26,7 +26,7 @@ namespace MxNet
             }
         }
 
-        public NDArray[] Values
+        public NDArrayList Values
         {
             get
             {

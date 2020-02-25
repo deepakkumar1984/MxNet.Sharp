@@ -28,7 +28,7 @@ namespace MxNet
         ///</summary>
         /// <param name="data">input data list</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray CachedOp(NDArray[] data)
+        public static NDArray CachedOp(NDArrayList data)
         {
             return new Operator("_CachedOp")
             .SetInput(data)
@@ -392,7 +392,7 @@ namespace MxNet
         ///</summary>
         /// <param name="args">Positional input matrices</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray KhatriRao(NDArray[] args)
+        public static NDArray KhatriRao(NDArrayList args)
         {
             return new Operator("khatri_rao")
             .SetInput(args)
@@ -413,7 +413,7 @@ namespace MxNet
         /// <param name="in_data_locs">The locations of input data among the inputs.</param>
         /// <param name="remain_locs">The locations of remaining data among the inputs.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Foreach(NDArray fn, NDArray[] data, int num_args, int num_outputs, int num_out_data, Tuple<double> in_state_locs, Tuple<double> in_data_locs, Tuple<double> remain_locs)
+        public static NDArray Foreach(NDArray fn, NDArrayList data, int num_args, int num_outputs, int num_out_data, Tuple<double> in_state_locs, Tuple<double> in_data_locs, Tuple<double> remain_locs)
         {
             return new Operator("_foreach")
             .SetParam("fn", fn)
@@ -443,7 +443,7 @@ namespace MxNet
         /// <param name="func_input_locs">The locations of func's inputs in the given inputs.</param>
         /// <param name="func_var_locs">The locations of loop_vars among func's inputs.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray WhileLoop(NDArray cond, NDArray func, NDArray[] data, int num_args, int num_outputs, int num_out_data, int max_iterations, Tuple<double> cond_input_locs, Tuple<double> func_input_locs, Tuple<double> func_var_locs)
+        public static NDArray WhileLoop(NDArray cond, NDArray func, NDArrayList data, int num_args, int num_outputs, int num_out_data, int max_iterations, Tuple<double> cond_input_locs, Tuple<double> func_input_locs, Tuple<double> func_var_locs)
         {
             return new Operator("_while_loop")
             .SetParam("cond", cond)
@@ -474,7 +474,7 @@ namespace MxNet
         /// <param name="then_input_locs">The locations of then's inputs in the given inputs.</param>
         /// <param name="else_input_locs">The locations of else's inputs in the given inputs.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Cond(NDArray cond, NDArray then_branch, NDArray else_branch, NDArray[] data, int num_args, int num_outputs, Tuple<double> cond_input_locs, Tuple<double> then_input_locs, Tuple<double> else_input_locs)
+        public static NDArray Cond(NDArray cond, NDArray then_branch, NDArray else_branch, NDArrayList data, int num_args, int num_outputs, Tuple<double> cond_input_locs, Tuple<double> then_input_locs, Tuple<double> else_input_locs)
         {
             return new Operator("_cond")
             .SetParam("cond", cond)
@@ -503,7 +503,7 @@ namespace MxNet
         /// <param name="data">Input data for the custom operator.</param>
         /// <param name="op_type">Name of the custom operator. This is the name that is passed to `mx.operator.register` to register the operator.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Custom(NDArray[] data, string op_type)
+        public static NDArray Custom(NDArrayList data, string op_type)
         {
             return new Operator("Custom")
             .SetParam("op_type", op_type)
@@ -771,7 +771,7 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Concat(NDArray[] data, int dim = 1)
+        public static NDArray Concat(NDArrayList data, int dim = 1)
         {
             return new Operator("Concat")
             .SetParam("dim", dim)
@@ -786,7 +786,7 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray RnnParamConcat(NDArray[] data, int num_args, int dim = 1)
+        public static NDArray RnnParamConcat(NDArrayList data, int num_args, int dim = 1)
         {
             return new Operator("_rnn_param_concat")
             .SetParam("num_args", num_args)
@@ -1492,7 +1492,7 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be upsampled. For nearest neighbor upsampling, this can be 1-N; the size of output will be(scale*h_0,scale*w_0) and all other inputs will be upsampled to thesame size. For bilinear upsampling this must be 2; 1 input and 1 weight.</param>
         /// <param name="workspace">Tmp workspace for deconvolution (MB)</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray UpSampling(NDArray[] data, int scale, UpsamplingSampleType sample_type, int num_args, int num_filter = 0, UpsamplingMultiInputMode multi_input_mode = UpsamplingMultiInputMode.Concat, ulong workspace = 512)
+        public static NDArray UpSampling(NDArrayList data, int scale, UpsamplingSampleType sample_type, int num_args, int num_filter = 0, UpsamplingMultiInputMode multi_input_mode = UpsamplingMultiInputMode.Concat, ulong workspace = 512)
         {
             return new Operator("UpSampling")
             .SetParam("scale", scale)
@@ -1606,9 +1606,9 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray[] MultiSgdUpdate(NDArray[] data, float[] lrs, float[] wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArrayList MultiSgdUpdate(NDArrayList data, float[] lrs, float[] wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             new Operator("multi_sgd_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
@@ -1651,9 +1651,9 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray[] MultiSgdMomUpdate(NDArray[] data, float[] lrs, float[] wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArrayList MultiSgdMomUpdate(NDArrayList data, float[] lrs, float[] wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             new Operator("multi_sgd_mom_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
@@ -1685,9 +1685,9 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray[] MultiMpSgdUpdate(NDArray[] data, float[] lrs, float[] wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArrayList MultiMpSgdUpdate(NDArrayList data, float[] lrs, float[] wds, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             new Operator("multi_mp_sgd_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
@@ -1731,9 +1731,9 @@ namespace MxNet
         /// <param name="clip_gradient">Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray[] MultiMpSgdMomUpdate(NDArray[] data, float[] lrs, float[] wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+        public static NDArrayList MultiMpSgdMomUpdate(NDArrayList data, float[] lrs, float[] wds, float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
         {
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             new Operator("multi_mp_sgd_mom_update")
             .SetParam("lrs", lrs)
             .SetParam("wds", wds)
@@ -5347,7 +5347,7 @@ namespace MxNet
         ///</summary>
         /// <param name="args">Positional input arguments</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray AddN(NDArray[] args)
+        public static NDArray AddN(NDArrayList args)
         {
             return new Operator("add_n")
             .SetInput(args)
@@ -7736,11 +7736,11 @@ namespace MxNet
         /// <returns>returns new NDArray</returns>
         public static (NDArray, NDArray) LinalgSyevd(NDArray A)
         {
-            List<NDArray> outputs = new List<NDArray>();
+            NDArrayList outputs = new NDArrayList();
             new Operator("_linalg_syevd")
             .SetInput("A", A)
             .Invoke(outputs);
-            if (outputs.Count == 1)
+            if (outputs.Length == 1)
                 return (outputs[0], null);
             else
                 return (outputs[0], outputs[1]);
@@ -8323,7 +8323,7 @@ namespace MxNet
         /// <param name="axis">The axis in the result array along which the input arrays are stacked.</param>
         /// <param name="num_args">Number of inputs to be stacked.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Stack(NDArray[] data, int num_args, int axis = 0)
+        public static NDArray Stack(NDArrayList data, int num_args, int axis = 0)
         {
             return new Operator("stack")
             .SetParam("axis", axis)
@@ -8353,7 +8353,7 @@ namespace MxNet
         /// <param name="data">data to squeeze</param>
         /// <param name="axis">Selects a subset of the single-dimensional entries in the shape. If an axis is selected with shape entry greater than one, an error is raised.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Squeeze(NDArray[] data, Shape axis = null)
+        public static NDArray Squeeze(NDArrayList data, Shape axis = null)
         {
             return new Operator("squeeze")
             .SetParam("axis", axis)
@@ -8536,9 +8536,9 @@ namespace MxNet
         /// <param name="squeeze_axis">If true, Removes the axis with length 1 from the shapes of the output arrays. **Note** that setting `squeeze_axis` to ``true`` removes axis with length 1 only along the `axis` which it is split. Also `squeeze_axis` can be set to ``true`` only if ``input.shape[axis] == num_outputs``.</param>
         /// <param name="sections">Number of sections if equally splitted. Default to 0 which means split by indices.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray[] SplitV2(NDArray data, Shape indices, int axis = 1, bool squeeze_axis = false, int sections = 0)
+        public static NDArrayList SplitV2(NDArray data, Shape indices, int axis = 1, bool squeeze_axis = false, int sections = 0)
         {
-            List<NDArray> outputs = new List<NDArray>();
+            NDArrayList outputs = new NDArrayList();
             new Operator("_split_v2")
             .SetParam("indices", indices)
             .SetParam("axis", axis)
@@ -8550,9 +8550,9 @@ namespace MxNet
             return outputs.ToArray();
         }
 
-        public static NDArray[] Split(NDArray data, int num_outputs, int axis = 1, bool squeeze_axis = false)
+        public static NDArrayList Split(NDArray data, int num_outputs, int axis = 1, bool squeeze_axis = false)
         {
-            List<NDArray> outputs = new List<NDArray>();
+            NDArrayList outputs = new NDArrayList();
             new Operator("split")
             .SetParam("num_outputs", num_outputs)
             .SetParam("axis", axis)
@@ -9023,7 +9023,7 @@ namespace MxNet
         /// <param name="h_w">crop height and width: (h, w)</param>
         /// <param name="center_crop">If set to true, then it will use be the center_crop,or it will crop using the shape of crop_like</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Crop(List<NDArray> data, int num_args, Shape offset = null, Shape h_w = null, bool center_crop = false)
+        public static NDArray Crop(NDArrayList data, int num_args, Shape offset = null, Shape h_w = null, bool center_crop = false)
         {
             if (offset == null) { offset = new Shape(); }
             if (h_w == null) { h_w = new Shape(); }
@@ -9054,7 +9054,7 @@ namespace MxNet
         /// <param name="info"></param>
         /// <param name="need_top_grad">Whether this layer needs out grad for backward. Should be false for loss layers.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Native(NDArray[] data, IntPtr info, bool need_top_grad = true)
+        public static NDArray Native(NDArrayList data, IntPtr info, bool need_top_grad = true)
         {
             return new Operator("_Native")
             .SetParam("info", info)

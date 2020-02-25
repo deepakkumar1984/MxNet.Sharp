@@ -45,7 +45,7 @@ namespace MNIST
                     var data = Utils.SplitAndLoad(batch.Data[0], ctx_list: ctxList, batch_axis: 0);
                     var label = Utils.SplitAndLoad(batch.Label[0], ctx_list: ctxList, batch_axis: 0);
 
-                    List<NDArray> outputs = new List<NDArray>();
+                    NDArrayList outputs = new NDArrayList();
                     using (var ag = Autograd.Record())
                     {
                         for (int i = 0; i < data.Length; i++)

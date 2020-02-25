@@ -316,7 +316,7 @@ namespace MxNet
         /// <param name="num_neighbor">Number of neighbor.</param>
         /// <param name="max_num_vertices">Max number of vertices.</param>
         /// <returns>returns new symbol</returns>
-        public NDArray DglCsrNeighborUniformSample(NDArray csr_matrix, NDArray[] seed_arrays, int num_args, int num_hops = 1, int num_neighbor = 2, int max_num_vertices = 100)
+        public NDArray DglCsrNeighborUniformSample(NDArray csr_matrix, NDArrayList seed_arrays, int num_args, int num_hops = 1, int num_neighbor = 2, int max_num_vertices = 100)
         {
             return new Operator("_contrib_dgl_csr_neighbor_uniform_sample")
             .SetParam("num_args", num_args)
@@ -385,7 +385,7 @@ namespace MxNet
         /// <param name="num_neighbor">Number of neighbor.</param>
         /// <param name="max_num_vertices">Max number of vertices.</param>
         /// <returns>returns new symbol</returns>
-        public NDArray DglCsrNeighborNonUniformSample(NDArray csr_matrix, NDArray probability, NDArray[] seed_arrays, int num_args, int num_hops = 1, int num_neighbor = 2, int max_num_vertices = 100)
+        public NDArray DglCsrNeighborNonUniformSample(NDArray csr_matrix, NDArray probability, NDArrayList seed_arrays, int num_args, int num_hops = 1, int num_neighbor = 2, int max_num_vertices = 100)
         {
             return new Operator("_contrib_dgl_csr_neighbor_non_uniform_sample")
             .SetParam("num_args", num_args)
@@ -432,7 +432,7 @@ namespace MxNet
         /// <param name="num_args">Number of input arguments, including all symbol inputs.</param>
         /// <param name="return_mapping">Return mapping of vid and eid between the subgraph and the parent graph.</param>
         /// <returns>returns new symbol</returns>
-        public NDArray DglSubgraph(NDArray graph, NDArray[] data, int num_args, bool return_mapping)
+        public NDArray DglSubgraph(NDArray graph, NDArrayList data, int num_args, bool return_mapping)
         {
             return new Operator("_contrib_dgl_subgraph")
             .SetParam("num_args", num_args)
@@ -550,7 +550,7 @@ namespace MxNet
         /// <param name="return_mapping">Return mapping of vid and eid between the subgraph and the parent graph.</param>
         /// <param name="graph_sizes">the number of vertices in each graph.</param>
         /// <returns>returns new symbol</returns>
-        public NDArray DglGraphCompact(NDArray[] graph_data, int num_args, bool return_mapping, Tuple<double> graph_sizes)
+        public NDArray DglGraphCompact(NDArrayList graph_data, int num_args, bool return_mapping, Tuple<double> graph_sizes)
         {
             return new Operator("_contrib_dgl_graph_compact")
             .SetParam("num_args", num_args)
@@ -1040,7 +1040,7 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new symbol</returns>
-        public NDArray QuantizedConcat(NDArray[] data, int num_args, int dim = 1)
+        public NDArray QuantizedConcat(NDArrayList data, int num_args, int dim = 1)
         {
             return new Operator("_contrib_quantized_concat")
             .SetParam("num_args", num_args)

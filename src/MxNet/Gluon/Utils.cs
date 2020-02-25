@@ -15,7 +15,7 @@ namespace MxNet.Gluon
     {
         private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(0);
 
-        public static NDArray[] SplitData(NDArray data, int num_slice, int batch_axis = 0, bool even_split = true)
+        public static NDArrayList SplitData(NDArray data, int num_slice, int batch_axis = 0, bool even_split = true)
         {
             var size = (int)data.Shape[batch_axis];
             if (even_split && size % num_slice != 0)
@@ -33,7 +33,7 @@ namespace MxNet.Gluon
                 num_slice = size;
             }
 
-            List<NDArray> slices = new List<NDArray>();
+            NDArrayList slices = new NDArrayList();
             if(batch_axis == 0)
             {
                 for(int i=0; i<num_slice;i++)
@@ -44,7 +44,7 @@ namespace MxNet.Gluon
             }
             else if (even_split)
             {
-                slices.AddRange(nd.Split(data, num_outputs: num_slice, axis: batch_axis));
+                slices.Add(nd.Split(data, num_outputs: num_slice, axis: batch_axis));
             }
             else
             {
@@ -60,14 +60,14 @@ namespace MxNet.Gluon
             return slices.ToArray();
         }
 
-        public static NDArray[] SplitAndLoad(NDArray data, Context[] ctx_list, int batch_axis = 0, bool even_split = true)
+        public static NDArrayList SplitAndLoad(NDArray data, Context[] ctx_list, int batch_axis = 0, bool even_split = true)
         {
             if (ctx_list.Length == 1)
-                return new NDArray[] { data.AsInContext(ctx_list[0]) };
+                return data.AsInContext(ctx_list[0]);
 
             var slices = SplitData(data, ctx_list.Length, batch_axis, even_split);
 
-            List<NDArray> result = new List<NDArray>();
+            NDArrayList result = new NDArrayList();
             result = Enumerable.Zip(slices, ctx_list, (i, ctx) => {
                 return i.AsInContext(ctx);
             }).ToList();
@@ -75,7 +75,7 @@ namespace MxNet.Gluon
             return result.ToArray();
         }
 
-        public static NDArray clip_global_norm(NDArray[] arrays,float  max_norm, bool check_isfinite= true)
+        public static NDArray clip_global_norm(NDArrayList arrays,float  max_norm, bool check_isfinite= true)
         {
             Func<NDArray, NDArray> norm = (array) => 
             {
@@ -102,7 +102,7 @@ namespace MxNet.Gluon
             }
 
             var scale = max_norm / (total_norm + 1e-8f);
-            scale = nd.Min(nd.Concat(new NDArray[] { scale, nd.Ones(new Shape(1), ctx: ctx) }, dim: 0));
+            scale = nd.Min(nd.Concat(new NDArrayList(scale, nd.Ones(new Shape(1), ctx: ctx)), dim: 0));
             for(int i=0;i< arrays.Length;i++)
             {
                 arrays[i] *= scale.AsInContext(arrays[i].context);

@@ -269,7 +269,7 @@ namespace MxNet.Gluon
             return input;
         }
 
-        public virtual void Summary(NDArray[] inputs)
+        public virtual void Summary(NDArrayList inputs)
         {
             //ToDo: Implement Summmary
             foreach (var item in inputs)

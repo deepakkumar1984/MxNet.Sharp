@@ -39,7 +39,7 @@ namespace MxNet.Gluon
           
         }
 
-        private (Symbol[], Symbol) GetGraph(NDArray[] args)
+        private (Symbol[], Symbol) GetGraph(NDArrayList args)
         {
             if(!_cached_graph.HasValue)
             {
@@ -79,7 +79,7 @@ namespace MxNet.Gluon
             return _cached_graph.Value;
         }
 
-        private void BuildCache(NDArray[] args)
+        private void BuildCache(NDArrayList args)
         {
             var (data, @out) = GetGraph(args);
             var data_names = data.Select(x => (x.Name)).ToArray();
@@ -153,7 +153,7 @@ namespace MxNet.Gluon
             _cached_op = new CachedOp(@out, flags);
         }
 
-        private void DeferredInferShape(NDArray[] args)
+        private void DeferredInferShape(NDArrayList args)
         {
             try
             {
@@ -165,12 +165,12 @@ namespace MxNet.Gluon
             }
         }
 
-        private NDArray[] CallCachedOp(params NDArray[] args)
+        private NDArrayList CallCachedOp(NDArrayList args)
         {
             if (_cached_op == null)
                 BuildCache(args);
 
-            var (args_sym, fmt) = Flatten(args.ToList().ToNDArrayOrSymbols(), "input");
+            var (args_sym, fmt) = Flatten(args.NDArrayOrSymbols, "input");
             args = args_sym[0].ToList().ToNDArrays();
             List<NDArrayOrSymbol> cargs = new List<NDArrayOrSymbol>();
             try
@@ -200,7 +200,7 @@ namespace MxNet.Gluon
             }
 
             var @out = _cached_op.Call(cargs.ToNDArrays());
-            return Regroup(new List<NDArrayOrSymbol[]>() { @out.ToList().ToNDArrayOrSymbols() }, _out_format).Item1.ToList().ToNDArrays();
+            return Regroup(new List<NDArrayOrSymbol[]>() { @out.NDArrayOrSymbols }, _out_format).Item1.ToList().ToNDArrays();
         }
 
         private void ClearCachedOp()
@@ -235,10 +235,10 @@ namespace MxNet.Gluon
             base.Cast(dtype);
         }
 
-        private void InterAttrs(string infer_fn, string attr, NDArray[] arguments)
+        private void InterAttrs(string infer_fn, string attr, NDArrayList arguments)
         {
             var (inputs, @out) = GetGraph(arguments);
-            var (args, _) = Flatten(arguments.ToList().ToNDArrayOrSymbols(), "input");
+            var (args, _) = Flatten(arguments.NDArrayOrSymbols, "input");
 
             if(infer_fn == "infer_shape")
             {
@@ -304,12 +304,12 @@ namespace MxNet.Gluon
             }
         }
 
-        public void InferShape(NDArray[] args)
+        public void InferShape(NDArrayList args)
         {
             InterAttrs("infer_shape", "shape", args);
         }
 
-        public void InferType(NDArray[] args)
+        public void InferType(NDArrayList args)
         {
             InterAttrs("infer_type", "dtype", args);
         }
