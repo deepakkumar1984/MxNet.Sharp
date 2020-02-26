@@ -8,14 +8,19 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class RandomLighting : HybridBlock
     {
+        private float _alpha;
+
         public RandomLighting(float alpha)
         {
-            throw new NotImplementedException();
+            _alpha = alpha;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.Image.RandomLighting(x, _alpha);
+
+            return sym.Image.RandomLighting(x, _alpha);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Image;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,18 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class CenterCrop : Block
     {
-        public CenterCrop((int , int)size, int interpolation= 1) : base(null, null)
+        private (int, int) _size;
+        private ImgInterp _interpolation;
+
+        public CenterCrop((int, int) size, ImgInterp interpolation = ImgInterp.Bilinear) : base(null, null)
         {
-            throw new NotImplementedException();
+            _size = size;
+            _interpolation = interpolation;
         }
 
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            return Img.CenterCrop(x, _size, _interpolation).Item1;
         }
     }
 }

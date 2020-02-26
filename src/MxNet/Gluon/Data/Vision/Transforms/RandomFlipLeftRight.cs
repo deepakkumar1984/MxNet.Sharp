@@ -10,7 +10,10 @@ namespace MxNet.Gluon.Data.Vision.Transforms
     {
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.Image.RandomFlipLeftRight(x);
+
+            return sym.Image.RandomFlipLeftRight(x);
         }
     }
 }

@@ -8,14 +8,12 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class RandomFlipTopBottom : HybridBlock
     {
-        public RandomFlipTopBottom(float brightness)
-        {
-            throw new NotImplementedException();
-        }
-
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if (x.IsNDArray)
+                return nd.Image.RandomFlipTopBottom(x);
+
+            return sym.Image.RandomFlipTopBottom(x);
         }
     }
 }

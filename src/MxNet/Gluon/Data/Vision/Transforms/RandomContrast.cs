@@ -8,14 +8,22 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class RandomContrast : HybridBlock
     {
+        private float _contrast;
+
         public RandomContrast(float contrast)
         {
-            throw new NotImplementedException();
+            _contrast = contrast;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            float min_factor = Math.Max(0, 1 - _contrast);
+            float max_factor = 1 + _contrast;
+
+            if (x.IsNDArray)
+                return nd.Image.RandomContrast(x, min_factor, max_factor);
+
+            return sym.Image.RandomContrast(x, min_factor, max_factor);
         }
     }
 }

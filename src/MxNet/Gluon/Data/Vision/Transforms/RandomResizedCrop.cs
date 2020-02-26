@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Image;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
         private (int, int) _size;
         private (float, float) _scale;
         private (float, float) _ratio;
-        private int _interpolation;
+        private ImgInterp _interpolation;
 
-        public RandomResizedCrop((int, int) size, (float, float)? scale = null, (float, float)? ratio = null, int interpolation = 1) : base(null, null)
+        public RandomResizedCrop((int, int) size, (float, float)? scale = null, (float, float)? ratio = null, ImgInterp interpolation =  ImgInterp.Bilinear) : base(null, null)
         {
             _size = size;
             _scale = scale.HasValue ? scale.Value : (0.08f, 1.0f);
@@ -23,7 +24,7 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            return Img.RandomSizeCrop(x, _size, _scale, _ratio, _interpolation);
         }
     }
 }
