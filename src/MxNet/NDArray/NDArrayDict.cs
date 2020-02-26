@@ -39,6 +39,14 @@ namespace MxNet
             dict.Add(name, value);
         }
 
+        public void Add(NDArrayDict other)
+        {
+            foreach (var item in other)
+            {
+                Add(item.Key, item.Value);
+            }
+        }
+
         public bool Contains(string name)
         {
             return dict.ContainsKey(name);

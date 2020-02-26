@@ -47,7 +47,7 @@ namespace MxNet.Modules
 
         public override DataDesc[] LabelShapes => _label_shapes;
 
-        public override Shape[] OutputShapes
+        public override DataDesc[] OutputShapes
         {
             get
             {

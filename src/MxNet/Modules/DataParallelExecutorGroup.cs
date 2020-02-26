@@ -44,7 +44,7 @@ namespace MxNet.Modules
 
         public void Forward(DataBatch data_batch, bool? is_train = null) => throw new NotImplementedException();
 
-        public Shape[] GetOutputShapes() => throw new NotImplementedException();
+        public DataDesc[] GetOutputShapes() => throw new NotImplementedException();
 
         public List<NDArrayList> GetOutputs(bool merge_multi_context= true, int begin= 0, int? end= null) => throw new NotImplementedException();
 

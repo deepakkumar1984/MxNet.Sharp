@@ -65,6 +65,11 @@ namespace MxNet.IO
             ProvideData = provide_data;
             ProvideLabel = provide_label;
         }
+
+        public DataBatch Shallowcopy()
+        {
+            return (DataBatch)this.MemberwiseClone();
+        }
     }
 
 }

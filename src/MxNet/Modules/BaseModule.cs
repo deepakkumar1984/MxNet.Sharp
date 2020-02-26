@@ -51,7 +51,7 @@ namespace MxNet.Modules
             get;
         }
 
-        public abstract Shape[] OutputShapes
+        public abstract DataDesc[] OutputShapes
         {
             get;
         }

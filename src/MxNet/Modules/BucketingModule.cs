@@ -20,7 +20,7 @@ namespace MxNet.Modules
 
         public override DataDesc[] LabelShapes => throw new NotImplementedException();
 
-        public override Shape[] OutputShapes => throw new NotImplementedException();
+        public override DataDesc[] OutputShapes => throw new NotImplementedException();
 
         public override Symbol Symbol
         {

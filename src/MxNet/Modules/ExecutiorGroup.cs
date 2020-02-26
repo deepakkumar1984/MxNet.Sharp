@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MxNet.Modules
 {
-    public class ExecutiorGroup
+    public class ExecutorGroup
     {
         internal static void LoadGeneral(NDArrayList data, NDArrayList targets, int major_axis) => throw new NotImplementedException();
 
