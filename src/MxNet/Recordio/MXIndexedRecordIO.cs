@@ -6,6 +6,8 @@ namespace MxNet.Recordio
 {
     public class MXIndexedRecordIO : MXRecordIO
     {
+        public string[] Keys { get; set; }
+
         public MXIndexedRecordIO(string idx_path, string uri, string flag, Type key_type = null) : base(uri, flag)
         {
             throw new NotImplementedException();

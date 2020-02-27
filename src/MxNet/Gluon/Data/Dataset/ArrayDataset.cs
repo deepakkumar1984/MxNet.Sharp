@@ -6,15 +6,47 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
-    public class ArrayDataset<T> : Dataset<TakeMode>
+    public class ArrayDataset<T> : Dataset<T[]>
     {
+        private int _length;
+        private List<T[]> _data;
         public ArrayDataset(List<T[]> args)
         {
-            throw new NotImplementedException();
+            if (args.Count == 0)
+                throw new ArgumentException("Need atleast 1 array");
+            _data = new List<T[]>();
+            _length = args.Count;
+
+            if (typeof(T).Name == "Array" || typeof(T).Name == "NDArray")
+            {
+                for (int i = 0; i < args.Count; i++)
+                {
+                    _data.Add(args[i]);
+                }
+            }
+            else
+            {
+                throw new Exception("Array or NDArray type supported");
+            }
         }
 
-        public override TakeMode this[int idx] => throw new NotImplementedException();
+        public override T[] this[int idx]
+        {
+            get
+            {
+                if (_data.Count == 1)
+                    return new T[] { _data[0][idx] };
 
-        public override int Length => throw new NotImplementedException();
+                List<T> ret = new List<T>();
+                foreach (var item in _data)
+                {
+                    ret.Add(item[idx]);
+                }
+
+                return ret.ToArray();
+            }
+        }
+
+        public override int Length => _length;
     }
 }

@@ -207,7 +207,35 @@ namespace MxNet
             }
         }
 
-        public void CopyFromParams(NDArrayDict arg_params, NDArrayDict aux_params = null, bool allow_extra_params = false) => throw new NotImplementedException();
+        public void CopyFromParams(NDArrayDict arg_params, NDArrayDict aux_params = null, bool allow_extra_params = false)
+        {
+            var arg_dict = ArgmentDictionary();
+            var aux_dict = AuxiliaryDictionary();
+            foreach (var item in arg_params)
+            {
+                if(arg_dict.Contains(item.Key))
+                {
+                    var dst = arg_dict[item.Key];
+                    item.Value.AsType(dst.DataType).CopyTo(dst);
+                }
+                else if(!allow_extra_params)
+                    throw new Exception($"Find name \"{item.Key}\" that is not in the arguments");
+            }
+
+            if(aux_params == null)
+                return;
+
+            foreach (var item in aux_params)
+            {
+                if(aux_dict.Contains(item.Key))
+                {
+                    var dst = aux_dict[item.Key];
+                    item.Value.AsType(dst.DataType).CopyTo(dst);
+                }
+                else if(!allow_extra_params)
+                    throw new Exception($"Find name \"{item.Key}\" that is not in the auxiliary states");
+            }
+        }
 
         #region Overrids
 

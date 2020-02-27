@@ -31,6 +31,16 @@ namespace MxNet
             data = args.ToList();
         }
 
+        public NDArrayList((NDArray, NDArray) args)
+        {
+            data = new List<NDArray>() { args.Item1, args.Item2 };
+        }
+
+        public NDArrayList((NDArray, NDArray, NDArray) args)
+        {
+            data = new List<NDArray>() { args.Item1, args.Item2, args.Item3 };
+        }
+
         public void Add(params NDArray[] x)
         {
             data.AddRange(x);

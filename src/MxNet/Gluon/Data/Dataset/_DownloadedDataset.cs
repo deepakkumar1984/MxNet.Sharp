@@ -1,20 +1,45 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
-    public class _DownloadedDataset : Dataset<NDArrayDict>
+    public abstract class _DownloadedDataset : Dataset<NDArrayList>
     {
-        public _DownloadedDataset(string root, Func<NDArrayDict, NDArrayDict> transform)
+		private Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
+		private NDArrayList _data;
+		private NDArrayList _label;
+        private string _root;
+
+        public _DownloadedDataset(string root, Func<NDArray, NDArray, (NDArray, NDArray)> transform)
         {
-            throw new NotImplementedException();
+            _transform = transform;
+            _data = null;
+            _label = null;
+            _root = root;
+            if (!Directory.Exists(root))
+                Directory.CreateDirectory(root);
+
+            GetData();
         }
 
-        public override NDArrayDict this[int idx] => throw new NotImplementedException();
+        public override NDArrayList this[int idx]
+        {
+            get
+            {
+                if (_transform != null)
+                    return new NDArrayList(_transform(_data[idx], _label[idx]));
 
-        public override int Length => throw new NotImplementedException();
+                return new NDArrayList(_data[idx], _label[idx]);
+            }
+        }
+
+        public override int Length => _label.Length;
+
+        public abstract void GetData();
     }
 }
