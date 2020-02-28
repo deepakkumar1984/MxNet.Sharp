@@ -9,19 +9,18 @@ namespace MxNet.Gluon.Data
 {
     public class SequentialSampler : Sampler
     {
+        private int _length;
+
         public SequentialSampler(int length)
         {
-            throw new NotImplementedException();
+            _length = length;
         }
 
-        public override IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        public override int Length =>_length;
 
-        public override int Len()
+        public override IEnumerator<int> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return Enumerable.Range(0, _length).GetEnumerator();
         }
     }
 }

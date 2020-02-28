@@ -9,19 +9,20 @@ namespace MxNet.Gluon.Data
 {
     public class RandomSampler : Sampler
     {
+        private int _length;
+
         public RandomSampler(int length)
         {
-            throw new NotImplementedException();
+            _length = length;
         }
 
-        public override IEnumerator GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        public override int Length => _length;
 
-        public override int Len()
+        public override IEnumerator<int> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var x = nd.Arange(0, _length).AsType(DType.Int32);
+            x = nd.Shuffle(x);
+            return x.AsArray<int>().Cast<int>().GetEnumerator();
         }
     }
 }

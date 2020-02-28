@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
-    public abstract class Sampler : IEnumerable
+    public abstract class Sampler : IEnumerable<int>
     {
-        public abstract IEnumerator GetEnumerator();
+        public abstract int Length { get; }
 
-        public abstract int Len();
+        public abstract IEnumerator<int> GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
