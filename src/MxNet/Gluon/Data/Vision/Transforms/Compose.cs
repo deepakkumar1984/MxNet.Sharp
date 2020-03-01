@@ -9,9 +9,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class Compose : Sequential
     {
-        public Compose(Block[] transforms)
+        public Compose(HybridBlock[] transforms)
         {
-            List<Block> hybrid = new List<Block>();
+            List<HybridBlock> hybrid = new List<HybridBlock>();
             foreach (var item in transforms)
             {
                 if(item.GetType().Name == "HybridBlock")

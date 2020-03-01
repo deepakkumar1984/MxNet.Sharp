@@ -8,13 +8,13 @@ namespace MxNet.Gluon.Data.Vision.Datasets
 {
     public class CIFAR10 : _DownloadedDataset
     {
-        public CIFAR10(string root = "./datasets/cifar10", bool train = true, Func<NDArrayDict, NDArrayDict> transform = null) : base(root, transform)
+        public CIFAR10(string root = "./datasets/cifar10", bool train = true, Func<NDArray, NDArray, (NDArray, NDArray)> transform = null) : base(root, transform)
         {
             throw new NotImplementedException();
         }
 
         internal virtual (NDArray, NDArray) ReadBatch() => throw new NotImplementedException();
 
-        public void GetData() => throw new NotImplementedException();
+        public override void GetData() => throw new NotImplementedException();
     }
 }

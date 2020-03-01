@@ -7100,6 +7100,18 @@ namespace MxNet
             .Invoke();
         }
 
+        public static NDArray Empty(Shape shape = null, Context ctx = null, DType dtype = null)
+        {
+            if (shape == null) { shape = new Shape(); }
+            if (dtype == null) { dtype = DType.Float32; }
+
+            return new Operator("_empty")
+            .SetParam("shape", shape)
+            .SetParam("ctx", ctx)
+            .SetParam("dtype", dtype)
+            .Invoke();
+        }
+
         ///<summary>
         ///<para>fill target with a scalar value</para>
         ///</summary>

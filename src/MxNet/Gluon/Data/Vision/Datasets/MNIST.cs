@@ -8,11 +8,11 @@ namespace MxNet.Gluon.Data.Vision.Datasets
 {
     public class MNIST : _DownloadedDataset
     {
-        public MNIST(string root = "./datasets/mnist", bool train = true, Func<NDArrayDict, NDArrayDict> transform = null) : base(root, transform)
+        public MNIST(string root = "./datasets/mnist", bool train = true, Func<NDArray, NDArray, (NDArray, NDArray)> transform = null) : base(root, transform)
         {
             throw new NotImplementedException();
         }
 
-        public void GetData() => throw new NotImplementedException();
+        public override void GetData() => throw new NotImplementedException();
     }
 }

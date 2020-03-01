@@ -8,24 +8,14 @@ namespace MxNet.Gluon.Contrib.Data
 {
     public class IntervalSampler : Sampler
     {
-        public int Length
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public override int Length => throw new NotImplementedException();
 
         public IntervalSampler(int length, int interval, bool rollover= true)
-        {
-        }
-
-        public override IEnumerator GetEnumerator()
         {
             throw new NotImplementedException();
         }
 
-        public override int Len()
+        public override IEnumerator<int> GetEnumerator()
         {
             throw new NotImplementedException();
         }

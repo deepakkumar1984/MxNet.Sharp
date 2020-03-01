@@ -9,10 +9,29 @@ namespace MxNet.Gluon.Data.Vision
 {
     public class ConnectionWrapper
     {
-        public ConnectionWrapper(Socket conn) => throw new NotImplementedException();
+        private Socket _conn;
+        public ConnectionWrapper(Socket conn)
+        {
+            _conn = conn;
+        }
 
-        public void Send(NDArray obj) => throw new NotImplementedException();
+        public void Send(NDArray obj)
+        {
+            byte[] buffer = obj.GetBuffer();
+            _conn.Send(buffer);
+        }
 
-        public NDArray Recv() => throw new NotImplementedException();
+        public NDArray Recv()
+        {
+            List<ArraySegment<byte>> bufferSegment = new List<ArraySegment<byte>>();
+            _conn.Receive(bufferSegment);
+            var buffer = new List<byte>();
+            foreach (var item in bufferSegment)
+            {
+                buffer.AddRange(item.Array);
+            }
+
+            return NDArray.LoadFromBuffer(buffer.ToArray());
+        }
     }
 }

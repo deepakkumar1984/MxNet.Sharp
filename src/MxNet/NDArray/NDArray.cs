@@ -284,6 +284,14 @@ namespace MxNet
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, null), NativeMethods.OK);
         }
 
+        public byte[] GetBuffer()
+        {
+            NativeMethods.MXNDArraySaveRawBytes(NativePtr, out var out_size, out var buffPtr);
+            byte[] buff = new byte[out_size];
+            Marshal.Copy(buffPtr, buff, 0, out_size);
+            return buff;
+        }
+
         public static void Load(string filename, out NDArrayDict data)
         {
             data = new NDArrayDict();
@@ -325,6 +333,24 @@ namespace MxNet
         {
             Load(filename, out var r);
             return r;
+        }
+
+        public static NDArray LoadFromBuffer(byte[] buffer)
+        {
+            NativeMethods.MXNDArrayLoadFromRawBytes(buffer, buffer.Length, out var handle);
+            return new NDArray(handle);
+        }
+
+        public static NDArray NewFromSharedMem(int shared_pid, int shared_id, Shape shape, DType dtype)
+        {
+            NativeMethods.MXNDArrayCreateFromSharedMemEx(shared_pid, shared_id, shape.Data, shape.Dimension, dtype.Index, out var handle);
+            return new NDArray(handle);
+        }
+
+        public (int, int, Shape, DType) ToSharedMem()
+        {
+            NativeMethods.MXNDArrayGetSharedMemHandle(NativePtr, out var shared_pid, out var shared_id);
+            return (shared_pid, shared_id, Shape, DataType);
         }
 
         public void Constant(mx_float scalar)

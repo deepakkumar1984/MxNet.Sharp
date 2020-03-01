@@ -166,6 +166,19 @@ namespace MxNet.Interop
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)] int[] dims,
             out IntPtr @out);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayCreateFromSharedMemEx(int shared_pid, int shared_id, int[] shape,
+                                                          int ndim, int dtype, out NDArrayHandle @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetSharedMemHandle(NDArrayHandle handle, out int shared_pid, out int shared_id);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArraySaveRawBytes(NDArrayHandle handle, out int out_size, out IntPtr out_buf);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayLoadFromRawBytes(byte[] buf, int size,  out NDArrayHandle handle);
+
         /// <summary>
         /// Perform a synchronize copy from a continugous CPU memory region.
         /// <para>This function will call WaitToWrite before the copy is performed. This is useful to copy data from existing memory region that are not wrapped by NDArray(thus dependency not being tracked).</para>

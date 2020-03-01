@@ -7419,6 +7419,18 @@ namespace MxNet
             .CreateSymbol(symbol_name);
         }
 
+        public static Symbol Empty(Shape shape = null, Context ctx = null, DType dtype = null, string symbol_name = "")
+        {
+            if (shape == null) { shape = new Shape(); }
+            if (dtype == null) { dtype = DType.Float32; }
+
+            return new Operator("_empty")
+            .SetParam("shape", shape)
+            .SetParam("ctx", ctx)
+            .SetParam("dtype", dtype)
+            .CreateSymbol(symbol_name);
+        }
+
         ///<summary>
         ///<para>fill target with a scalar value</para>
         ///</summary>

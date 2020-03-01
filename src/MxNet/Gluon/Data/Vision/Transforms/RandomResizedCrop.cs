@@ -24,7 +24,7 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            return Img.RandomSizeCrop(x, _size, _scale, _ratio, _interpolation);
+            return Img.RandomSizeCrop(x, _size, _scale, _ratio, _interpolation).Item1;
         }
     }
 }

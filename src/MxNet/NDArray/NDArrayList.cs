@@ -83,5 +83,9 @@ namespace MxNet
         public static implicit operator NDArrayList(List<NDArrayOrSymbol> x) => new NDArrayList(x.Select(i => (i.NdX)).ToArray());
 
         public static implicit operator NDArray(NDArrayList x) => x.data.Count > 0 ? x[0] : null;
+
+        public static implicit operator List<NDArray>(NDArrayList x) => x.data.ToList();
+
+        public static implicit operator NDArray[](NDArrayList x) => x.data.ToArray();
     }
 }
