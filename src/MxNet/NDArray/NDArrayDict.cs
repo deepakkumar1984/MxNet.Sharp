@@ -34,6 +34,14 @@ namespace MxNet
             }
         }
 
+        public NDArrayDict(params string[] names)
+        {
+            foreach (var item in names)
+            {
+                Add(item, null);
+            }
+        }
+
         public void Add(string name, NDArray value)
         {
             dict.Add(name, value);

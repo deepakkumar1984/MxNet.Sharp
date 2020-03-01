@@ -157,9 +157,7 @@ namespace MxNet.Image
             return CenterCrop(src, size, interp);
         }
 
-        public static Augmenter CreateAugmenter(Shape data_shape, int resize= 0, bool rand_crop= false, bool rand_resize= false, bool rand_mirror= false,
-                                                NDArray mean= null, NDArray std= null, float brightness= 0, float contrast= 0, float saturation= 0, float hue= 0,
-                                                float pca_noise= 0, float rand_gray= 0, ImgInterp inter_method = ImgInterp.Area_Based)
+        public static Augmenter CreateAugmenter(Shape data_shape, int resize= 0, bool rand_crop= false, bool rand_resize= false, bool rand_mirror= false, NDArray mean= null, NDArray std= null, float brightness= 0, float contrast= 0, float saturation= 0, float hue= 0, float pca_noise= 0, float rand_gray= 0, ImgInterp inter_method = ImgInterp.Area_Based)
         {
             throw new NotImplementedException();
         }

@@ -2197,6 +2197,35 @@ namespace MxNet
             .Invoke();
         }
 
+        public static NDArray NAGMomUpdate(NDArray weight, NDArray grad, NDArray mom, float lr, float momentum = 0, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f)
+        {
+            return new Operator("nag_mom_update")
+            .SetParam("lr", lr)
+            .SetParam("momentum", momentum)
+            .SetParam("wd", wd)
+            .SetParam("rescale_grad", rescale_grad)
+            .SetParam("clip_gradient", clip_gradient)
+            .SetInput("weight", weight)
+            .SetInput("grad", grad)
+            .SetInput("mom", mom)
+            .Invoke();
+        }
+
+        public static NDArray MPNAGMomUpdate(NDArray weight, NDArray grad, NDArray mom, NDArray weight32, float lr, float momentum = 0, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f)
+        {
+            return new Operator("mp_nag_mom_update")
+            .SetParam("lr", lr)
+            .SetParam("momentum", momentum)
+            .SetParam("wd", wd)
+            .SetParam("rescale_grad", rescale_grad)
+            .SetParam("clip_gradient", clip_gradient)
+            .SetInput("weight", weight)
+            .SetInput("grad", grad)
+            .SetInput("mom", mom)
+            .SetInput("weight32", weight32)
+            .Invoke();
+        }
+
         ///<summary>
         ///<para>Update function for AdaGrad optimizer.</para>
         ///<para> </para>

@@ -36,14 +36,28 @@ namespace MxNet.Optimizers
             LazyUpdate = lazy_update;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
-        {
-            throw new NotImplementedException();
-        }
-
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            throw new NotImplementedException();
+            var stype = LazyUpdate ? weight.SType : StorageStype.Default;
+            NDArrayDict state = new NDArrayDict("mean", "variance");
+            state["mean"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(stype);
+            state["variance"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(stype);
+            return state;
+        }
+
+        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            UpdateCount(index);
+            var lr = GetLr(index);
+            var wd = GetWd(index);
+
+            var t = index_update_count[index];
+
+            var coef1 = 1 - (float)Math.Pow(Beta1, t);
+            var coef2 = 1 - (float)Math.Pow(Beta2, t);
+
+            lr *= (float)Math.Sqrt(coef2) / coef1;
+            weight = nd.AdamUpdate(weight, grad, state["mean"], state["variance"], lr, Beta1, Beta2, Epsilon, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1, LazyUpdate);
         }
     }
 }

@@ -575,6 +575,7 @@ namespace MxNet
                                                 0, var_handles.ToArray(), retain_graph ? 1 : 0,
                                                 0, train_mode ? 1 : 0, grad_handles.ToArray(), new int[0]);
         }
+
         #region Operators
 
         public static NDArray operator +(NDArray lhs, NDArray rhs)

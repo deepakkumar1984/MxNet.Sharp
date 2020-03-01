@@ -153,7 +153,7 @@ namespace MxNet.Gluon.Data.Vision
             return ret;
         }
 
-        public static NDArray DefaultMPBatchifyFn(NDArrayList data)
+        public static NDArrayList DefaultMPBatchifyFn(NDArrayList data)
         {
             var shape = data[0].Shape.Data.ToList();
             shape.Insert(0, data.Length);

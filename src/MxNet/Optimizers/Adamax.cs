@@ -29,14 +29,33 @@ namespace MxNet.Optimizers
             Beta2 = beta2;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
-        {
-            throw new NotImplementedException();
-        }
-
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            throw new NotImplementedException();
+            NDArrayDict state = new NDArrayDict("mean", "variance");
+            state["mean"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
+            state["variance"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
+            return state;
+        }
+
+        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            UpdateCount(index);
+            var lr = GetLr(index);
+            var wd = GetWd(index);
+
+            var t = index_update_count[index];
+            lr /= 1 - (float)Math.Pow(Beta1, t);
+            grad = grad * RescaleGrad + wd * weight;
+            if (ClipGradient.HasValue)
+                grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
+
+            var m_t = state["mean"];
+            var u_t = state["variance"];
+            m_t *= Beta1;
+            m_t += (1 - Beta1) * grad;
+            u_t = nd.Maximum(Beta2 * u_t, nd.Abs(grad));
+
+            weight -= lr * m_t / u_t;
         }
     }
 }

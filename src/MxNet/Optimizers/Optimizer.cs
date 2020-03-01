@@ -38,8 +38,8 @@ namespace MxNet.Optimizers
         private float lr;
         private Dictionary<string, float> lr_mult = new Dictionary<string, float>();
         private Dictionary<string, float> wd_mult = new Dictionary<string, float>();
-        private Dictionary<int, Dictionary<int, int>> all_index_update_counts = new Dictionary<int, Dictionary<int, int>>();
-        private Dictionary<int, int> index_update_count = new Dictionary<int, int>();
+        internal Dictionary<int, Dictionary<int, int>> all_index_update_counts = new Dictionary<int, Dictionary<int, int>>();
+        internal Dictionary<int, int> index_update_count = new Dictionary<int, int>();
         private (Dictionary<string, Dictionary<string, string>>, List<string>) sym_info;
 
         private Dictionary<string, Optimizer> opt_registry = new Dictionary<string, Optimizer>();
@@ -196,7 +196,7 @@ namespace MxNet.Optimizers
             index_update_count = all_index_update_counts[device_id];
         }
 
-        internal void UpdateCount(int[] index)
+        internal void UpdateCount(params int[] index)
         {
             foreach (var idx in index)
             {
