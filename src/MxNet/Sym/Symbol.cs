@@ -413,7 +413,7 @@ namespace MxNet
             return (inShape.ToArray(), outShape.ToArray(), auxShape.ToArray());
         }
 
-        public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> args) => throw new NotImplementedException();
+        public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> args = null) => throw new NotImplementedException();
 
         public void InferExecutorArrays(Context context,
                                         NDArrayList argArrays,

@@ -328,8 +328,87 @@ namespace MxNet.Gluon
             return (ret.ToArray(), args_ret.ToArray());
         }
 
-        internal static string CommonPrefix(string[] names) => throw new NotImplementedException();
+        internal static string CommonPrefix(string[] names)
+        {
+            if (names == null)
+                return "";
 
-        internal static (DType[], DType[]) InferParamTypes(Symbol[] in_params, Symbol out_params, string[] arg_params, string[] aux_params, Type default_dtype= null) => throw new NotImplementedException();
+            var prefix = names[0];
+            foreach (var name in names)
+            {
+                int i = 0;
+                while (i < prefix.Length && i < name.Length && prefix.ToList()[0] == name.ToList()[0])
+                    i++;
+
+                prefix = prefix.Substring(0, i);
+            }
+
+            return prefix;
+        }
+
+        internal static (DType[], DType[]) InferParamTypes(Symbol[] in_params, Symbol out_params, string[] arg_params, string[] aux_params, DType default_dtype= null)
+        {
+            DType[] arg_types = null;
+            DType[] aux_types = null;
+            DType[] _ = null;
+
+            var input_sym_names = in_params.Select(x => x.Name).ToArray();
+            List<DType> input_sym_arg_types = new List<DType>();
+            bool can_infer_input_type = true;
+            foreach (var in_param in in_params)
+            {
+                var input_sym_arg_type = in_param.InferType().Item1;
+                if (input_sym_arg_type != null || input_sym_arg_type.Length < 1)
+                {
+                    can_infer_input_type = false;
+                    break;
+                }
+                else
+                {
+                    input_sym_arg_types.Add(input_sym_arg_type[0]);
+                }
+            }
+
+            if(can_infer_input_type)
+            {
+                Dictionary<string, DType> @params = new Dictionary<string, DType>();
+                int i = 0;
+                foreach (var k in input_sym_names)
+                {
+                    @params.Add(k, input_sym_arg_types[i]);
+                    i++;
+                }
+
+                try
+                {
+                    (arg_types, _, aux_types) = out_params.InferType(@params);
+                }
+                catch(MXNetException ex)
+                {
+                    arg_types = null;
+                    aux_types = null;
+                }
+            }
+
+            if(arg_types == null || arg_types.Length != arg_params.Length)
+            {
+                arg_types = new DType[arg_params.Length];
+                for(int i = 0;i<arg_params.Length; i++)
+                {
+                    arg_types[i] = default_dtype;
+                }
+            }
+
+            if (aux_types == null || aux_types.Length != arg_params.Length)
+            {
+                aux_types = new DType[arg_params.Length];
+                for (int i = 0; i < arg_params.Length; i++)
+                {
+                    aux_types[i] = default_dtype;
+                }
+            }
+
+            return (arg_types, aux_types);
+        }
     }
 }

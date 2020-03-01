@@ -146,7 +146,7 @@ namespace MxNet.Gluon
             return true;
         }
 
-        public static void Download(string url, string path= "", bool overwrite= false, string sha1_hash= "", bool verify_ssl= true)
+        public static string Download(string url, string path= "", bool overwrite= false, string sha1_hash= "", bool verify_ssl= true)
         {
             if (!verify_ssl)
                 Logger.Warning("Unverified HTTPS request is being made (verify_ssl=False). " + 
@@ -173,6 +173,8 @@ namespace MxNet.Gluon
                     throw new Exception("File hash not matching");
                 }
             }
+
+            return path;
         }
 
         private static void WebClientDownloadCompleted(object sender, AsyncCompletedEventArgs e)

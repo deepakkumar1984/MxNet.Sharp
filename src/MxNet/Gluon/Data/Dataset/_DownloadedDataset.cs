@@ -10,10 +10,10 @@ namespace MxNet.Gluon.Data
 {
     public abstract class _DownloadedDataset : Dataset<NDArrayList>
     {
-		private Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
-		private NDArrayList _data;
-		private NDArrayList _label;
-        private string _root;
+        internal Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
+        internal NDArrayList _data;
+        internal NDArrayList _label;
+        internal string _root;
 
         public _DownloadedDataset(string root, Func<NDArray, NDArray, (NDArray, NDArray)> transform)
         {
