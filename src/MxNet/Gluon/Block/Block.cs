@@ -35,8 +35,8 @@ namespace MxNet.Gluon
         internal _BlockScope _scope;
         internal SortedDictionary<string, Block> _childrens;
         internal Dictionary<string, Parameter> _reg_params;
-        internal SortedDictionary<string, Hook> _forward_hooks;
-        internal SortedDictionary<string, Hook> _forward_pre_hooks;
+        internal SortedDictionary<int, Hook> _forward_hooks;
+        internal SortedDictionary<int, Hook> _forward_pre_hooks;
 
         public Block(string prefix, ParameterDict @params)
         {
@@ -45,8 +45,8 @@ namespace MxNet.Gluon
             _scope = new _BlockScope(this);
             _childrens = new SortedDictionary<string, Block>();
             _reg_params = new Dictionary<string, Parameter>();
-            _forward_hooks = new SortedDictionary<string, Hook>();
-            _forward_pre_hooks = new SortedDictionary<string, Hook>();
+            _forward_hooks = new SortedDictionary<int, Hook>();
+            _forward_pre_hooks = new SortedDictionary<int, Hook>();
         }
 
         public void SetAttr(string name, Block value)

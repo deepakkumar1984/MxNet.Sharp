@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MxNet.Gluon.RNN
 {
@@ -33,11 +34,32 @@ namespace MxNet.Gluon.RNN
             throw new NotImplementedException();
         }
 
-        internal static StateInfo[] CellsStateInfo(RNNCell[] cells, int batch_size) => throw new NotImplementedException();
+        internal static StateInfo[] CellsStateInfo(RNNCell[] cells, int batch_size)
+        {
+            var ret = cells.Select(x => (x.StateInfo(batch_size))).ToList();
+            ret.Add(new RNN.StateInfo());
+            return ret.ToArray();
+        }
 
-        internal static List<List<Symbol[]>> CellsBeginState(RNNCell[] cells, params object[] args) => throw new NotImplementedException();
+        internal static List<List<NDArrayOrSymbol[]>> CellsBeginState(RNNCell[] cells, int batch_size, StateFunc state_func)
+        {
+            var ret = cells.Select(x => (x.BeginState(batch_size, state_func))).ToList();
+            return ret;
+        }
 
-        internal static List<Symbol[]>  GetBeginState(RNNCell cell, List<Symbol[]> begin_state, Symbol inputs, int batch_size) => throw new NotImplementedException();
+        internal static List<NDArrayOrSymbol[]>  GetBeginState(RNNCell cell, List<NDArrayOrSymbol[]> begin_state, NDArrayOrSymbol inputs, int batch_size)
+        {
+            if(begin_state != null)
+            {
+                if(inputs.IsNDArray)
+                {
+                    var ctx = inputs.NdX.context;
+                    begin_state = cell.BeginState(batch_size, func: nd.Zeros);
+                }
+            }
+
+            return begin_state;
+        }
 
         internal static (NDArrayOrSymbol, int, int) FormatSequence(int length, NDArrayOrSymbol inputs, string layout, bool merge, string in_layout= null) => throw new NotImplementedException();
 
