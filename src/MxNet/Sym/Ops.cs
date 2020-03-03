@@ -3332,64 +3332,6 @@ namespace MxNet
         ///<summary>
         ///<para>Splits an array along a particular axis into multiple sub-arrays.</para>
         ///<para> </para>
-        ///<para>.. note:: ``SliceChannel`` is deprecated. Use ``split`` instead.</para>
-        ///<para> </para>
-        ///<para>**Note** that `num_outputs` should evenly divide the length of the axis</para>
-        ///<para>along which to split the array.</para>
-        ///<para> </para>
-        ///<para>Example::</para>
-        ///<para> </para>
-        ///<para>   x  = [[[ 1.]</para>
-        ///<para>          [ 2.]]</para>
-        ///<para>         [[ 3.]</para>
-        ///<para>          [ 4.]]</para>
-        ///<para>         [[ 5.]</para>
-        ///<para>          [ 6.]]]</para>
-        ///<para>   x.shape = (3, 2, 1)</para>
-        ///<para> </para>
-        ///<para>   y = split(x, axis=1, num_outputs=2) // a list of 2 arrays with shape (3, 1, 1)</para>
-        ///<para>   y = [[[ 1.]]</para>
-        ///<para>        [[ 3.]]</para>
-        ///<para>        [[ 5.]]]</para>
-        ///<para> </para>
-        ///<para>       [[[ 2.]]</para>
-        ///<para>        [[ 4.]]</para>
-        ///<para>        [[ 6.]]]</para>
-        ///<para> </para>
-        ///<para>   y[0].shape = (3, 1, 1)</para>
-        ///<para> </para>
-        ///<para>   z = split(x, axis=0, num_outputs=3) // a list of 3 arrays with shape (1, 2, 1)</para>
-        ///<para>   z = [[[ 1.]</para>
-        ///<para>         [ 2.]]]</para>
-        ///<para> </para>
-        ///<para>       [[[ 3.]</para>
-        ///<para>         [ 4.]]]</para>
-        ///<para> </para>
-        ///<para>       [[[ 5.]</para>
-        ///<para>         [ 6.]]]</para>
-        ///<para> </para>
-        ///<para>   z[0].shape = (1, 2, 1)</para>
-        ///<para> </para>
-        ///<para>`squeeze_axis=1` removes the axis with length 1 from the shapes of the output arrays.</para>
-        ///<para>**Note** that setting `squeeze_axis` to ``1`` removes axis with length 1 only</para>
-        ///<para>along the `axis` which it is split.</para>
-        ///<para>Also `squeeze_axis` can be set to true only if ``input.shape[axis] == num_outputs``.</para>
-        ///<para> </para>
-        ///<para>Example::</para>
-        ///<para> </para>
-        ///<para>   z = split(x, axis=0, num_outputs=3, squeeze_axis=1) // a list of 3 arrays with shape (2, 1)</para>
-        ///<para>   z = [[ 1.]</para>
-        ///<para>        [ 2.]]</para>
-        ///<para> </para>
-        ///<para>       [[ 3.]</para>
-        ///<para>        [ 4.]]</para>
-        ///<para> </para>
-        ///<para>       [[ 5.]</para>
-        ///<para>        [ 6.]]</para>
-        ///<para>   z[0].shape = (2 ,1 )</para>
-        ///<para> </para>
-        ///<para> </para>
-        ///<para> </para>
         ///<para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\slice_channel.cc:L107</para>
         ///</summary>
         /// <param name="data">The input</param>
@@ -3397,9 +3339,9 @@ namespace MxNet
         /// <param name="axis">Axis along which to split.</param>
         /// <param name="squeeze_axis">If true, Removes the axis with length 1 from the shapes of the output arrays. **Note** that setting `squeeze_axis` to ``true`` removes axis with length 1 only along the `axis` which it is split. Also `squeeze_axis` can be set to ``true`` only if ``input.shape[axis] == num_outputs``.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol SliceChannel(Symbol data, int num_outputs, int axis = 1, bool squeeze_axis = false, string symbol_name = "")
+        public static Symbol Split(Symbol data, int num_outputs, int axis = 1, bool squeeze_axis = false, string symbol_name = "")
         {
-            return new Operator("SliceChannel")
+            return new Operator("split")
             .SetParam("num_outputs", num_outputs)
             .SetParam("axis", axis)
             .SetParam("squeeze_axis", squeeze_axis)

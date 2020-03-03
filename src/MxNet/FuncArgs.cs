@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Collections;
 
 namespace MxNet
 {
-    public class FuncArgs
+    public class FuncArgs : IEnumerable<KeyValuePair<string, object>>
     {
         private Dictionary<string, object> args = new Dictionary<string, object>();
 
@@ -48,6 +49,16 @@ namespace MxNet
                 return default(T);
 
             return (T)args[name];
+        }
+
+        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        {
+            return args.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

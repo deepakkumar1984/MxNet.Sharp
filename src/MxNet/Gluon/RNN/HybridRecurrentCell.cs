@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.Gluon.RNN
 {
-    public partial class HybridRecurrentCell : RecurrentCell
+    public class HybridRecurrentCell : RecurrentCell
     {
         public HybridRecurrentCell(string prefix, ParameterDict @params) : base(prefix, @params)
         {
@@ -12,7 +12,7 @@ namespace MxNet.Gluon.RNN
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override StateInfo StateInfo(int batch_size = 0)
