@@ -11,7 +11,7 @@ namespace MxNet.Gluon.RNN
             throw new NotImplementedException();
         }
 
-        public override StateInfo StateInfo(int batch_size = 0)
+        public override StateInfo[] StateInfo(int batch_size = 0)
         {
             throw new NotImplementedException();
         }
@@ -26,9 +26,9 @@ namespace MxNet.Gluon.RNN
             throw new NotImplementedException();
         }
 
-        public override (Symbol[], Symbol[]) Unroll(int length, Symbol[] inputs, List<Symbol[]> begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
+        public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol[] begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
         {
-            throw new NotImplementedException();
+            return base.Unroll(length, inputs, begin_state, layout, merge_outputs, valid_length);
         }
 
         public override string ToString()

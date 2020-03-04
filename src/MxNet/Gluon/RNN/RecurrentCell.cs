@@ -145,10 +145,10 @@ namespace MxNet.Gluon.RNN
 
     public abstract class RecurrentCell : HybridBlock
     {
-        private bool _modified;
-        private int _init_counter;
-        private int _counter;
-        private new Dictionary<string, RecurrentCell> _childrens = new Dictionary<string, RecurrentCell>();
+        internal bool _modified;
+        internal int _init_counter;
+        internal int _counter;
+        internal new Dictionary<string, RecurrentCell> _childrens = new Dictionary<string, RecurrentCell>();
 
         public RecurrentCell(string prefix, ParameterDict @params) : base(prefix, @params)
         {
@@ -166,15 +166,15 @@ namespace MxNet.Gluon.RNN
             }
         }
 
-        public abstract StateInfo StateInfo(int batch_size= 0);
+        public abstract StateInfo[] StateInfo(int batch_size= 0);
 
-        public virtual NDArrayOrSymbol[] BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
+        public virtual NDArrayOrSymbol BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
             if (_modified)
                 throw new Exception("After applying modifier cells (e.g. ZoneoutCell) the base " +
                                     "cell cannot be called directly. Call the modifier cell instead.");
 
-            List<NDArrayOrSymbol> states = new List<NDArrayOrSymbol>();
+            NDArrayOrSymbol states = null;
             var state_info = StateInfo(batch_size);
             for (int i = 0; i < state_info.Length; i++)
             {
@@ -196,24 +196,22 @@ namespace MxNet.Gluon.RNN
                     var m = typeof(sym).GetMethod(func.Replace("sym.", ""), System.Reflection.BindingFlags.Static);
                     var keys = m.GetParameters().Select(x => x.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    var s = (Symbol)m.Invoke(obj, paramArgs);
-                    states.Add(s);
+                    states = (Symbol)m.Invoke(obj, paramArgs);
                 }
                 else if (func.StartsWith("nd."))
                 {
                     nd obj = new nd();
                     var m = typeof(sym).GetMethod(func.Replace("nd.", ""), System.Reflection.BindingFlags.Static);
-                    var keys = m.GetParameters().Select(x => x.Name).ToArray();
+                    var keys = m.GetParameters().Select(ids => ids.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    var x = (NDArray)m.Invoke(obj, paramArgs);
-                    states.Add(x);
+                    states = (NDArray)m.Invoke(obj, paramArgs);
                 }
             }
 
-            return states.ToArray();
+            return states;
         }
 
-        public virtual (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol[] begin_state = null,
+        public virtual (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol begin_state = null,
                             string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
         {
             if (!inputs[0].IsSymbol)
@@ -245,20 +243,20 @@ namespace MxNet.Gluon.RNN
         }
 
 
-        private Symbol Activation(Symbol input, string activation, FuncArgs args = null)
+        internal Symbol Activation(Symbol input, string activation, FuncArgs args = null, string name = "")
         {
             switch (activation.ToLower())
             {
                 case "tanh":
-                    return sym.Activation(input, ActivationActType.Tanh);
+                    return sym.Activation(input, ActivationActType.Tanh, name);
                 case "relu":
-                    return sym.Activation(input, ActivationActType.Relu);
+                    return sym.Activation(input, ActivationActType.Relu, name);
                 case "sigmoid":
-                    return sym.Activation(input, ActivationActType.Sigmoid);
+                    return sym.Activation(input, ActivationActType.Sigmoid, name);
                 case "softrelu":
-                    return sym.Activation(input, ActivationActType.Softrelu);
+                    return sym.Activation(input, ActivationActType.Softrelu, name);
                 case "softsign":
-                    return sym.Activation(input, ActivationActType.Softsign);
+                    return sym.Activation(input, ActivationActType.Softsign, name);
                 case "leakyrely":
                     return sym.LeakyReLU(input);
                 default:
@@ -268,7 +266,7 @@ namespace MxNet.Gluon.RNN
             return input;
         }
 
-        private NDArray Activation(NDArray input, string activation, FuncArgs args = null)
+        internal NDArray Activation(NDArray input, string activation, FuncArgs args = null)
         {
             switch (activation.ToLower())
             {

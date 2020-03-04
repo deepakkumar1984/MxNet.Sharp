@@ -16,7 +16,7 @@ namespace MxNet.Gluon.RNN
 
         public override ParameterDict Params => BaseCell.Params;
 
-        public override StateInfo StateInfo(int batch_size = 0)
+        public override StateInfo[] StateInfo(int batch_size = 0)
         {
             throw new NotImplementedException();
         }

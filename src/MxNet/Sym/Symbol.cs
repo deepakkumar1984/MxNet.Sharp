@@ -107,20 +107,19 @@ namespace MxNet
             }
         }
 
-        public Symbol this[string index]
+        public Symbol this[string slice]
         {
             get
             {
-                this.ThrowIfDisposed();
+                if (string.IsNullOrEmpty(slice))
+                    return this;
 
-                var outputs = this.ListOutputs();
-                for (var i = 0; i < outputs.Count; i++)
-                {
-                    if (outputs[i] == index)
-                        return this[i];
-                }
+                string[] split = slice.Split(':');
 
-                throw new KeyNotFoundException($"Cannot find output that matches name {index}");
+                int rowBegin = Convert.ToInt32(split[0]);
+                int rowEnd = Convert.ToInt32(split[1]);
+
+                return sym.Slice(this, new Shape(rowBegin), new Shape(rowEnd));
             }
         }
 

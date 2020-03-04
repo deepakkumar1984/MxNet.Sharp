@@ -3,24 +3,32 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Reflection;
+using MxNet.Initializers;
 
 namespace MxNet.Gluon.RNN
 {
     public class RNNCell : HybridRecurrentCell
     {
         private int _hidden_size;
-        private int _counter;
+        private string _activation;
+        private int _input_size;
 
         public RNNCell(int hidden_size, string activation = "tanh", string i2h_weight_initializer = null, string h2h_weight_initializer = null,
                         string i2h_bias_initializer = "zeros", string h2h_bias_initializer = "zeros", int input_size = 0,
                         string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            _hidden_size = hidden_size;
+            _activation = activation;
+            _input_size = input_size;
+            this["i2h_weight"] = Params.Get("i2h_weight", shape: new Shape(hidden_size, input_size), init: Initializer.Get(i2h_weight_initializer), allow_deferred_init: true);
+            this["h2h_weight"] = Params.Get("h2h_weight", shape: new Shape(hidden_size, hidden_size), init: Initializer.Get(h2h_weight_initializer), allow_deferred_init: true);
+            this["i2h_bias"] = Params.Get("i2h_bias", shape: new Shape(hidden_size), init: Initializer.Get(i2h_bias_initializer), allow_deferred_init: true);
+            this["h2h_bias"] = Params.Get("h2h_bias", shape: new Shape(hidden_size), init: Initializer.Get(h2h_bias_initializer), allow_deferred_init: true);
         }
 
-        public override StateInfo StateInfo(int batch_size = 0)
+        public override StateInfo[] StateInfo(int batch_size = 0)
         {
-            return new StateInfo() { Layout = "NC", Shape = new Shape(batch_size, _hidden_size) };
+            return new StateInfo[] { new StateInfo() { Layout = "NC", Shape = new Shape(batch_size, _hidden_size) } };
         }
 
         public override string Alias()
@@ -30,28 +38,56 @@ namespace MxNet.Gluon.RNN
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var prefix = $"t{_counter}_";
+            NDArrayOrSymbol states = args[0];
+            NDArrayOrSymbol i2h_weight = args[1];
+            NDArrayOrSymbol h2h_weight = args[2];
+            NDArrayOrSymbol i2h_bias = args[3];
+            NDArrayOrSymbol h2h_bias = args[4];
+            NDArrayOrSymbol output = null;
+
+            if (x.IsNDArray)
+            {
+                var i2h = nd.FullyConnected(x, weight: i2h_weight, bias: i2h_bias, num_hidden: _hidden_size);
+                var h2h = nd.FullyConnected(states, weight: h2h_weight, bias: h2h_bias, num_hidden: _hidden_size);
+                var i2h_plus_h2h = nd.ElemwiseAdd(i2h, h2h);
+                output = Activation(i2h_plus_h2h, _activation);
+            }
+            else
+            {
+                var i2h = sym.FullyConnected(x, weight: i2h_weight, bias: i2h_bias, num_hidden: _hidden_size, symbol_name: prefix + "i2h");
+                var h2h = sym.FullyConnected(states, weight: h2h_weight, bias: h2h_bias, num_hidden: _hidden_size, symbol_name: prefix + "h2h");
+                var i2h_plus_h2h = sym.ElemwiseAdd(i2h, h2h, symbol_name: prefix + "plus0");
+                output = Activation(i2h_plus_h2h, _activation, name: prefix + "out");
+            }
+
+            Outputs = new NDArrayOrSymbol[] { output };
+            return output;
         }
 
-        public override string ToString()
+        internal static StateInfo[] CellsStateInfo(RecurrentCell[] cells, int batch_size)
         {
-            throw new NotImplementedException();
-        }
+            List<StateInfo> ret = new List<StateInfo>();
+            foreach (var item in cells)
+            {
+                ret.AddRange(item.StateInfo(batch_size));
+            }
 
-        internal static StateInfo[] CellsStateInfo(RNNCell[] cells, int batch_size)
-        {
-            var ret = cells.Select(x => (x.StateInfo(batch_size))).ToList();
-            ret.Add(new RNN.StateInfo());
             return ret.ToArray();
         }
 
-        internal static List<List<NDArrayOrSymbol[]>> CellsBeginState(RNNCell[] cells, int batch_size, string state_func)
+        internal static NDArrayOrSymbol[] CellsBeginState(RecurrentCell[] cells, int batch_size, string state_func)
         {
-            var ret = cells.Select(x => (x.BeginState(batch_size, state_func))).ToList();
-            return ret;
+            List<NDArrayOrSymbol> ret = new List<NDArrayOrSymbol>();
+            foreach (var item in cells)
+            {
+                ret.Add(item.BeginState(batch_size, state_func));
+            }
+
+            return ret.ToArray();
         }
 
-        internal static NDArrayOrSymbol[] GetBeginState(RecurrentCell cell, NDArrayOrSymbol[] begin_state, NDArrayOrSymbol inputs, int batch_size)
+        internal static NDArrayOrSymbol GetBeginState(RecurrentCell cell, NDArrayOrSymbol begin_state, NDArrayOrSymbol inputs, int batch_size)
         {
             if (begin_state != null)
             {
@@ -71,7 +107,7 @@ namespace MxNet.Gluon.RNN
             return begin_state;
         }
 
-        internal static NDArrayOrSymbol[] GetBeginState(RecurrentCell cell, NDArrayOrSymbol[] begin_state, NDArrayOrSymbol[] inputs, int batch_size)
+        internal static NDArrayOrSymbol GetBeginState(RecurrentCell cell, NDArrayOrSymbol begin_state, NDArrayOrSymbol[] inputs, int batch_size)
         {
             if (begin_state != null)
             {

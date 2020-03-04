@@ -13,19 +13,19 @@ namespace MxNet.Gluon.RNN
 
         public (Symbol, List<Symbol[]>) Call(Symbol inputs, List<Symbol[]> states) => throw new NotSupportedException("Bidirectional cannot be stepped. Please use unroll");
 
-        public override StateInfo StateInfo(int batch_size = 0)
+        public override StateInfo[] StateInfo(int batch_size = 0)
         {
             throw new NotImplementedException();
         }
 
-        public override List<Symbol[]> BeginState(int batch_size = 0, StateFunc func = null, params object[] args)
+        public override NDArrayOrSymbol BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
-            throw new NotImplementedException();
+            return base.BeginState(batch_size, func, args);
         }
 
-        public override (Symbol[], Symbol[]) Unroll(int length, Symbol[] inputs, List<Symbol[]> begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
+        public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
         {
-            throw new NotImplementedException();
+            return base.Unroll(length, inputs, begin_state, layout, merge_outputs, valid_length);
         }
     }
 }

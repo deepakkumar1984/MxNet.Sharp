@@ -6,6 +6,7 @@ namespace MxNet.Gluon.RNN
 {
     public class HybridRecurrentCell : RecurrentCell
     {
+        public NDArrayOrSymbol[] Outputs { get; set; }
         public HybridRecurrentCell(string prefix, ParameterDict @params) : base(prefix, @params)
         {
         }
@@ -15,7 +16,7 @@ namespace MxNet.Gluon.RNN
             return null;
         }
 
-        public override StateInfo StateInfo(int batch_size = 0)
+        public override StateInfo[] StateInfo(int batch_size = 0)
         {
             return null;
         }
