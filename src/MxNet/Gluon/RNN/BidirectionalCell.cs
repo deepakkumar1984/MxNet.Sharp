@@ -18,12 +18,12 @@ namespace MxNet.Gluon.RNN
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
+        public override NDArrayOrSymbol[] BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
             return base.BeginState(batch_size, func, args);
         }
 
-        public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
+        public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol[] begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
         {
             return base.Unroll(length, inputs, begin_state, layout, merge_outputs, valid_length);
         }

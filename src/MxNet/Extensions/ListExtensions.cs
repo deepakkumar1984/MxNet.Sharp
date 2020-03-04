@@ -26,5 +26,10 @@ namespace MxNet
         {
             return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
         }
+
+        public static NDArrayOrSymbol Sum(this NDArrayOrSymbol[] source)
+        {
+
+        }
     }
 }

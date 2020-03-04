@@ -17,7 +17,7 @@ namespace MxNet.Gluon.RNN
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
+        public override NDArrayOrSymbol[] BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
             return base.BeginState(batch_size, func, args);
         }

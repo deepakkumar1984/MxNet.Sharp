@@ -18,18 +18,12 @@ namespace MxNet.Gluon.RNN
             RegisterChild(cell);
         }
 
-        public override NDArrayOrSymbol BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
+        public override NDArrayOrSymbol[] BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
-            NDArrayOrSymbol ret = null;
-            var states = RNNCell.CellsBeginState(_childrens.Values.ToArray(), batch_size, func)
-            foreach (var item in states)
-            {
-
-            }
-            return ret;
+            return RNNCell.CellsBeginState(_childrens.Values.ToArray(), batch_size, func);
         }
 
-        public (NDArrayOrSymbol, NDArrayOrSymbol[]) Call(NDArrayOrSymbol inputs, NDArrayOrSymbol states)
+        public (NDArrayOrSymbol, NDArrayOrSymbol) Call(NDArrayOrSymbol inputs, NDArrayOrSymbol states)
         {
             _counter++;
             List<NDArrayOrSymbol> next_states = new List<NDArrayOrSymbol>();
@@ -48,7 +42,8 @@ namespace MxNet.Gluon.RNN
                 next_states.Add(state);
             }
 
-            return (inputs, next_states.ToArray());
+            next_states.ToList().ToNDArrays().Sum();
+            return (inputs, next_states.Sum());
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -61,7 +56,7 @@ namespace MxNet.Gluon.RNN
             return RNNCell.CellsStateInfo(_childrens.Values.ToArray(), batch_size);
         }
 
-        public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
+        public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol[] begin_state = null, string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
         {
             Reset();
             var (inputs1, _, batch_size) = RNNCell.FormatSequence(length, inputs, layout, false);
@@ -69,13 +64,16 @@ namespace MxNet.Gluon.RNN
             int num_cells = _childrens.Count;
             begin_state = RNNCell.GetBeginState(this, begin_state, inputs, batch_size);
             int p = 0;
+            NDArrayOrSymbol[] states = null;
+
             List<NDArrayOrSymbol> next_states = new List<NDArrayOrSymbol>();
             foreach (var item in _childrens)
             {
-                string i = item.Key;
+                int i = Convert.ToInt32(item.Key);
                 var cell = item.Value;
                 int n = cell.StateInfo().Length;
-              
+                (inputs, states) = cell.Unroll(length, inputs, states, layout, merge_outputs: i < num_cells - 1 ? null : merge_outputs, valid_length: valid_length);
+                next_states.AddRange(states);
             }
         }
 

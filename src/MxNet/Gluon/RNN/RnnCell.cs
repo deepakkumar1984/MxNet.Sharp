@@ -81,13 +81,13 @@ namespace MxNet.Gluon.RNN
             List<NDArrayOrSymbol> ret = new List<NDArrayOrSymbol>();
             foreach (var item in cells)
             {
-                ret.Add(item.BeginState(batch_size, state_func));
+                ret.AddRange(item.BeginState(batch_size, state_func));
             }
 
             return ret.ToArray();
         }
 
-        internal static NDArrayOrSymbol GetBeginState(RecurrentCell cell, NDArrayOrSymbol begin_state, NDArrayOrSymbol inputs, int batch_size)
+        internal static NDArrayOrSymbol[] GetBeginState(RecurrentCell cell, NDArrayOrSymbol[] begin_state, NDArrayOrSymbol inputs, int batch_size)
         {
             if (begin_state != null)
             {
@@ -107,7 +107,7 @@ namespace MxNet.Gluon.RNN
             return begin_state;
         }
 
-        internal static NDArrayOrSymbol GetBeginState(RecurrentCell cell, NDArrayOrSymbol begin_state, NDArrayOrSymbol[] inputs, int batch_size)
+        internal static NDArrayOrSymbol[] GetBeginState(RecurrentCell cell, NDArrayOrSymbol[] begin_state, NDArrayOrSymbol[] inputs, int batch_size)
         {
             if (begin_state != null)
             {

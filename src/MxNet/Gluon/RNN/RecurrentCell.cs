@@ -168,13 +168,13 @@ namespace MxNet.Gluon.RNN
 
         public abstract StateInfo[] StateInfo(int batch_size= 0);
 
-        public virtual NDArrayOrSymbol BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
+        public virtual NDArrayOrSymbol[] BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
             if (_modified)
                 throw new Exception("After applying modifier cells (e.g. ZoneoutCell) the base " +
                                     "cell cannot be called directly. Call the modifier cell instead.");
 
-            NDArrayOrSymbol states = null;
+            List<NDArrayOrSymbol> states = new List<NDArrayOrSymbol>();
             var state_info = StateInfo(batch_size);
             for (int i = 0; i < state_info.Length; i++)
             {
@@ -196,7 +196,7 @@ namespace MxNet.Gluon.RNN
                     var m = typeof(sym).GetMethod(func.Replace("sym.", ""), System.Reflection.BindingFlags.Static);
                     var keys = m.GetParameters().Select(x => x.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    states = (Symbol)m.Invoke(obj, paramArgs);
+                    states.Add((Symbol)m.Invoke(obj, paramArgs));
                 }
                 else if (func.StartsWith("nd."))
                 {
@@ -204,14 +204,14 @@ namespace MxNet.Gluon.RNN
                     var m = typeof(sym).GetMethod(func.Replace("nd.", ""), System.Reflection.BindingFlags.Static);
                     var keys = m.GetParameters().Select(ids => ids.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    states = (NDArray)m.Invoke(obj, paramArgs);
+                    states.Add((NDArray)m.Invoke(obj, paramArgs));
                 }
             }
 
-            return states;
+            return states.ToArray();
         }
 
-        public virtual (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol begin_state = null,
+        public virtual (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol[] begin_state = null,
                             string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
         {
             if (!inputs[0].IsSymbol)
