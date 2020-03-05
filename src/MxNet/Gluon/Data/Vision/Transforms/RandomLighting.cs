@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MxNet.Gluon.Data.Vision.Transforms
+﻿namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class RandomLighting : HybridBlock
     {
-        private float _alpha;
+        private readonly float _alpha;
 
         public RandomLighting(float alpha)
         {

@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Metrics
+﻿namespace MxNet.Metrics
 {
     public class MCC : EvalMetric
     {
-        public string Average { get; private set; }
-        private _BinaryClassificationMetrics metrics;
+        private readonly _BinaryClassificationMetrics metrics;
 
-        public MCC(string output_name = null, string label_name = null, string average = "macro") : base("mcc", output_name, label_name, true)
+        public MCC(string output_name = null, string label_name = null, string average = "macro") : base("mcc",
+            output_name, label_name, true)
         {
             Average = average;
             metrics = new _BinaryClassificationMetrics();
         }
+
+        public string Average { get; }
 
         public override void Update(NDArray labels, NDArray preds)
         {
@@ -31,10 +29,10 @@ namespace MxNet.Metrics
             }
             else
             {
-                this.sum_metric = this.metrics.MatthewsCC() * this.metrics.TotalExamples;
-                this.global_sum_metric = this.metrics.MatthewsCC(true) * this.metrics.GlobalTotalExamples;
-                this.num_inst = this.metrics.TotalExamples;
-                this.global_num_inst = this.metrics.GlobalTotalExamples;
+                sum_metric = metrics.MatthewsCC() * metrics.TotalExamples;
+                global_sum_metric = metrics.MatthewsCC(true) * metrics.GlobalTotalExamples;
+                num_inst = metrics.TotalExamples;
+                global_num_inst = metrics.GlobalTotalExamples;
             }
         }
 

@@ -1,35 +1,34 @@
-﻿using MxNet.Optimizers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using MxNet.Optimizers;
+using Newtonsoft.Json;
 
 namespace MxNet
 {
     public class PickedStates
     {
-        public List<KeyValuePair<int, string>> States { get; set; }
-
-        public Optimizer Optimizer { get; set; }
-
         public PickedStates()
         {
             States = new List<KeyValuePair<int, string>>();
         }
+
+        public List<KeyValuePair<int, string>> States { get; set; }
+
+        public Optimizer Optimizer { get; set; }
     }
 
     public class Pickle
     {
         public static string Dumps(Dictionary<int, (NDArrayDict, NDArray)> states, Optimizer optimizer = null)
         {
-            string result = "";
-            PickedStates pickedStates = new PickedStates();
+            var result = "";
+            var pickedStates = new PickedStates();
             var states_dump = states.ToList();
-            Dictionary<int, NDArrayDict> dict = new Dictionary<int, NDArrayDict>();
+            var dict = new Dictionary<int, NDArrayDict>();
             foreach (var item in states)
             {
-                NDArrayDict v = item.Value.Item1;
+                var v = item.Value.Item1;
                 v["_state_item2_"] = item.Value.Item2;
                 dict.Add(item.Key, v);
             }
@@ -42,14 +41,15 @@ namespace MxNet
             }
 
             pickedStates.Optimizer = optimizer;
-            result = Newtonsoft.Json.JsonConvert.SerializeObject(pickedStates);
+            result = JsonConvert.SerializeObject(pickedStates);
             return result;
         }
 
-        public static (Dictionary<int, (NDArrayDict, NDArray)>, Optimizer) Loads(string data, bool load_optimizer = false)
+        public static (Dictionary<int, (NDArrayDict, NDArray)>, Optimizer) Loads(string data,
+            bool load_optimizer = false)
         {
-            PickedStates pickedStates = Newtonsoft.Json.JsonConvert.DeserializeObject<PickedStates>(data);
-            Dictionary<int, (NDArrayDict, NDArray)> states = new Dictionary<int, (NDArrayDict, NDArray)>();
+            var pickedStates = JsonConvert.DeserializeObject<PickedStates>(data);
+            var states = new Dictionary<int, (NDArrayDict, NDArray)>();
 
             foreach (var item in pickedStates.States)
             {

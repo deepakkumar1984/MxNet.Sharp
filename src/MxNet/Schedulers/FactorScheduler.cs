@@ -1,22 +1,9 @@
 ﻿// ReSharper disable once CheckNamespace
+
 namespace MxNet
 {
-
     public class FactorScheduler : LRScheduler
     {
-
-        #region Fields
-
-        private int _Count;
-
-        private readonly int _Step;
-
-        private readonly float _Factor;
-
-        private readonly float _StopFactorLearningRate;
-
-        #endregion
-
         #region Constructors
 
         public FactorScheduler(int step, float factor = 1, float stop_factor_lr = 1e-8f,
@@ -34,26 +21,38 @@ namespace MxNet
 
         public override float Call(uint numUpdate)
         {
-            while (numUpdate > (uint)(this._Count + this._Step))
+            while (numUpdate > (uint) (_Count + _Step))
             {
-                this._Count += this._Step;
+                _Count += _Step;
 
-                this.BaseLearningRate *= this._Factor;
-                if (this.BaseLearningRate < this._StopFactorLearningRate)
+                BaseLearningRate *= _Factor;
+                if (BaseLearningRate < _StopFactorLearningRate)
                 {
-                    this.BaseLearningRate = this._StopFactorLearningRate;
-                    Logging.LG($"Update[{numUpdate}]: now learning rate arrived at {this.BaseLearningRate}, will not change in the future");
+                    BaseLearningRate = _StopFactorLearningRate;
+                    Logging.LG(
+                        $"Update[{numUpdate}]: now learning rate arrived at {BaseLearningRate}, will not change in the future");
                 }
                 else
                 {
-                    Logging.LG($"Update[{numUpdate}]: Change learning rate to {this.BaseLearningRate}");
+                    Logging.LG($"Update[{numUpdate}]: Change learning rate to {BaseLearningRate}");
                 }
             }
-            return this.BaseLearningRate;
+
+            return BaseLearningRate;
         }
 
         #endregion
 
-    }
+        #region Fields
 
+        private int _Count;
+
+        private readonly int _Step;
+
+        private readonly float _Factor;
+
+        private readonly float _StopFactorLearningRate;
+
+        #endregion
+    }
 }

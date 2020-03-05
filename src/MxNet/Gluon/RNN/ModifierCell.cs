@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Gluon.RNN
+﻿namespace MxNet.Gluon.RNN
 {
     public class ModifierCell : HybridRecurrentCell
     {
-        public RecurrentCell BaseCell { get; }
-
-        public ModifierCell(RecurrentCell base_cell) 
+        public ModifierCell(RecurrentCell base_cell)
             : base(base_cell.Prefix + base_cell.Alias(), base_cell.Params)
         {
             BaseCell = base_cell;
         }
+
+        public RecurrentCell BaseCell { get; }
 
         public override ParameterDict Params => BaseCell.Params;
 
@@ -29,7 +25,8 @@ namespace MxNet.Gluon.RNN
             return begin;
         }
 
-        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x,
+            params NDArrayOrSymbol[] args)
         {
             return default;
         }

@@ -5,36 +5,49 @@ using MxNet.Interop;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public static class Logging
     {
-
-        #region Fields
-
-        private static readonly string[] OperatorSymbols;
-
-        private static readonly bool ThrowException = false;
-
-        #endregion
-
         #region Constructors
 
         static Logging()
         {
             var symbols = new[]
             {
-                new { Operator = Operator.Lesser,       Symbol = "<" },
-                new { Operator = Operator.Greater,      Symbol = ">" },
-                new { Operator = Operator.LesserEqual,  Symbol = "<=" },
-                new { Operator = Operator.GreaterEqual, Symbol = ">=" },
-                new { Operator = Operator.Equal,        Symbol = "==" },
-                new { Operator = Operator.NotEqual,     Symbol = "!=" },
+                new {Operator = Operator.Lesser, Symbol = "<"},
+                new {Operator = Operator.Greater, Symbol = ">"},
+                new {Operator = Operator.LesserEqual, Symbol = "<="},
+                new {Operator = Operator.GreaterEqual, Symbol = ">="},
+                new {Operator = Operator.Equal, Symbol = "=="},
+                new {Operator = Operator.NotEqual, Symbol = "!="}
             };
 
             OperatorSymbols = new string[symbols.Length];
             for (var index = 0; index < symbols.Length; index++)
                 OperatorSymbols[index] = symbols[index].Symbol;
         }
+
+        #endregion
+
+        private enum Operator
+        {
+            Lesser = 0,
+
+            Greater,
+
+            LesserEqual,
+
+            GreaterEqual,
+
+            Equal,
+
+            NotEqual
+        }
+
+        #region Fields
+
+        private static readonly string[] OperatorSymbols;
+
+        private static readonly bool ThrowException = false;
 
         #endregion
 
@@ -64,9 +77,10 @@ namespace MxNet
             var error = NativeMethods.MXGetLastError();
             string message;
             if (string.IsNullOrEmpty(msg))
-                message = $"Check failed: {x} {OperatorSymbols[(int)Operator.Equal]} {y} {Marshal.PtrToStringAnsi(error) ?? ""}";
+                message =
+                    $"Check failed: {x} {OperatorSymbols[(int) Operator.Equal]} {y} {Marshal.PtrToStringAnsi(error) ?? ""}";
             else
-                message = $"Check failed: {x} {OperatorSymbols[(int)Operator.Equal]} {y} {msg}";
+                message = $"Check failed: {x} {OperatorSymbols[(int) Operator.Equal]} {y} {msg}";
 
             LOG_FATAL(message);
         }
@@ -85,7 +99,7 @@ namespace MxNet
             // dmlc-core/include/dmlc/logging.h
             if (x == y)
                 return;
-            
+
             CHECK_EQ(x.ToString(), y.ToString(), msg);
         }
 
@@ -114,7 +128,8 @@ namespace MxNet
                 return;
 
             var error = NativeMethods.MXGetLastError();
-            var message = $"Check failed: {x} {OperatorSymbols[(int)Operator.NotEqual]} {y} {Marshal.PtrToStringAnsi(error) ?? ""}";
+            var message =
+                $"Check failed: {x} {OperatorSymbols[(int) Operator.NotEqual]} {y} {Marshal.PtrToStringAnsi(error) ?? ""}";
             LOG_FATAL(message);
         }
 
@@ -136,24 +151,5 @@ namespace MxNet
         #endregion
 
         #endregion
-
-        private enum Operator
-        {
-
-            Lesser = 0,
-
-            Greater,
-
-            LesserEqual,
-
-            GreaterEqual,
-
-            Equal,
-
-            NotEqual
-
-        }
-
     }
-
 }

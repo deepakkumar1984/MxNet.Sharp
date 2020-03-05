@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MxNet.Gluon.Data.Vision.Transforms
+﻿namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class RandomColorJitter : HybridBlock
     {
-        private float _brightness;
-        private float _contrast;
-        private float _saturation;
-        private float _hue;
+        private readonly float _brightness;
+        private readonly float _contrast;
+        private readonly float _hue;
+        private readonly float _saturation;
 
-        public RandomColorJitter(float brightness= 0, float contrast = 0, float saturation = 0, float hue = 0)
+        public RandomColorJitter(float brightness = 0, float contrast = 0, float saturation = 0, float hue = 0)
         {
             _brightness = brightness;
             _contrast = contrast;

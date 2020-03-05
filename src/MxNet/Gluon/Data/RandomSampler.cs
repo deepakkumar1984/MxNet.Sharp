@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
     public class RandomSampler : Sampler
     {
-        private int _length;
+        private readonly int _length;
 
         public RandomSampler(int length)
         {

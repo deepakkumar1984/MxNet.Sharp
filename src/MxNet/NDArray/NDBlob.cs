@@ -4,9 +4,27 @@ using MxNet.Interop;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public sealed class NDBlob : DisposableMXNetObject
     {
+        #region Properties
+
+        public IntPtr Handle => NativePtr;
+
+        #endregion
+
+        #region Methods
+
+        #region Overrides
+
+        protected override void DisposeUnmanaged()
+        {
+            Dispose();
+            NativeMethods.MXNDArrayFree(NativePtr);
+        }
+
+        #endregion
+
+        #endregion
 
         #region Constructors
 
@@ -17,7 +35,7 @@ namespace MxNet
 
         public NDBlob(IntPtr handle)
         {
-            this.NativePtr = handle;
+            NativePtr = handle;
         }
 
         ~NDBlob()
@@ -26,27 +44,5 @@ namespace MxNet
         }
 
         #endregion
-
-        #region Properties
-
-        public IntPtr Handle => this.NativePtr;
-
-        #endregion
-
-        #region Methods
-
-        #region Overrides
-
-        protected override void DisposeUnmanaged()
-        {
-            base.Dispose();
-            NativeMethods.MXNDArrayFree(this.NativePtr);
-        }
-
-        #endregion
-
-        #endregion
-
     }
-
 }

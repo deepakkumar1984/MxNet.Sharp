@@ -1,57 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using System.Reflection;
+using MxNet.Gluon;
 
 namespace MxNet.Optimizers
 {
     public class OptimState : NDArrayDict
     {
-        
     }
 
     public abstract class Optimizer
     {
-        public float LearningRate
-        {
-            get
-            {
-                if (Scheduler != null)
-                    return Scheduler.Call(NumUpdate);
-                else
-                    return lr;
-            }
-        }
+        internal Dictionary<int, Dictionary<int, int>> all_index_update_counts =
+            new Dictionary<int, Dictionary<int, int>>();
 
-        public float WD { get; set; }
-        public float? ClipGradient { get; set; }
-        public float RescaleGrad { get; set; }
-        public LRScheduler Scheduler { get; set; }
-        public bool MultiPrecision { get; set; }
-        public uint BeginNumUpdate { get; set; }
-        public uint NumUpdate { get; set; }
-        public int AggregateNum { get; set; }
-        public Dictionary<int, string> Idx2Name { get; set; }
-        public Dictionary<int, Gluon.Parameter> ParamDict { get; set; }
-
-        private float lr;
-        private Dictionary<string, float> lr_mult = new Dictionary<string, float>();
-        private Dictionary<string, float> wd_mult = new Dictionary<string, float>();
-        internal Dictionary<int, Dictionary<int, int>> all_index_update_counts = new Dictionary<int, Dictionary<int, int>>();
         internal Dictionary<int, int> index_update_count = new Dictionary<int, int>();
-        private (Dictionary<string, Dictionary<string, string>>, List<string>) sym_info;
+
+        private readonly float lr;
+        private Dictionary<string, float> lr_mult = new Dictionary<string, float>();
 
         private Dictionary<string, Optimizer> opt_registry = new Dictionary<string, Optimizer>();
+        private readonly (Dictionary<string, Dictionary<string, string>>, List<string>) sym_info;
+        private Dictionary<string, float> wd_mult = new Dictionary<string, float>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Optimizer"/> class.
+        ///     Initializes a new instance of the <see cref="Optimizer" /> class.
         /// </summary>
         /// <param name="lr">The lr.</param>
         /// <param name="name">The name.</param>
-        public Optimizer(float rescale_grad= 1, Dictionary<int, string> param_idx2name= null, float wd= 0,
-                        float? clip_gradient= null, float learning_rate= 0.01f, LRScheduler lr_scheduler= null,
-                        Symbol sym= null, uint begin_num_update= 0, bool multi_precision= false, Dictionary<int, Gluon.Parameter> param_dict= null)
+        public Optimizer(float rescale_grad = 1, Dictionary<int, string> param_idx2name = null, float wd = 0,
+            float? clip_gradient = null, float learning_rate = 0.01f, LRScheduler lr_scheduler = null,
+            Symbol sym = null, uint begin_num_update = 0, bool multi_precision = false,
+            Dictionary<int, Parameter> param_dict = null)
         {
             lr = learning_rate;
             RescaleGrad = rescale_grad;
@@ -71,23 +51,41 @@ namespace MxNet.Optimizers
                 param_idx2name = new Dictionary<int, string>();
 
             Idx2Name = param_idx2name;
-            if(sym !=null)
-            {
+            if (sym != null)
                 sym_info = (sym.ListAttributeDict(), sym.ListArguments().ToList());
-            }
             else
-            {
-                sym_info = new ValueTuple<Dictionary<string, Dictionary<string, string>>, List<string>>(new Dictionary<string, Dictionary<string, string>>(), new List<string>());
-            }
+                sym_info = new ValueTuple<Dictionary<string, Dictionary<string, string>>, List<string>>(
+                    new Dictionary<string, Dictionary<string, string>>(), new List<string>());
 
             if (param_dict != null)
                 ParamDict = param_dict;
             else
-                ParamDict = new Dictionary<int, Gluon.Parameter>();
+                ParamDict = new Dictionary<int, Parameter>();
 
             SetLrMult(new Dictionary<string, float>());
             SetWdMult(new Dictionary<string, float>());
         }
+
+        public float LearningRate
+        {
+            get
+            {
+                if (Scheduler != null)
+                    return Scheduler.Call(NumUpdate);
+                return lr;
+            }
+        }
+
+        public float WD { get; set; }
+        public float? ClipGradient { get; set; }
+        public float RescaleGrad { get; set; }
+        public LRScheduler Scheduler { get; set; }
+        public bool MultiPrecision { get; set; }
+        public uint BeginNumUpdate { get; set; }
+        public uint NumUpdate { get; set; }
+        public int AggregateNum { get; set; }
+        public Dictionary<int, string> Idx2Name { get; set; }
+        public Dictionary<int, Parameter> ParamDict { get; set; }
 
         public abstract NDArrayDict CreateState(int index, NDArray weight);
 
@@ -102,9 +100,9 @@ namespace MxNet.Optimizers
 
             if (!MultiPrecision && weight.DataType.Name == DType.Float16.Name)
                 Logger.Warning("Accumulating with float16 in optimizer can lead to " +
-                          "poor accuracy or slow convergence. " +
-                          "Consider using multi_precision=True option of the " +
-                          "optimizer");
+                               "poor accuracy or slow convergence. " +
+                               "Consider using multi_precision=True option of the " +
+                               "optimizer");
 
             return (CreateState(index, weight), weight);
         }
@@ -139,59 +137,41 @@ namespace MxNet.Optimizers
         internal void SetLrMult(Dictionary<string, float> args_lr_mult)
         {
             lr_mult = new Dictionary<string, float>();
-            if(sym_info.Item1.Count > 0)
+            if (sym_info.Item1.Count > 0)
             {
-                var (attr, arg_names) = this.sym_info;
+                var (attr, arg_names) = sym_info;
                 foreach (var name in arg_names)
-                {
-                    if(attr.ContainsKey(name) && attr[name].ContainsKey("__lr_mult__"))
-                    {
-                        if(float.TryParse(attr[name]["__lr_mult__"], out var attrValue))
+                    if (attr.ContainsKey(name) && attr[name].ContainsKey("__lr_mult__"))
+                        if (float.TryParse(attr[name]["__lr_mult__"], out var attrValue))
                             lr_mult[name] = attrValue;
-                    }
-                }
             }
 
-            foreach (var item in args_lr_mult)
-            {
-                lr_mult[item.Key] = item.Value;
-            }
+            foreach (var item in args_lr_mult) lr_mult[item.Key] = item.Value;
         }
 
         internal void SetWdMult(Dictionary<string, float> args_wd_mult)
         {
             wd_mult = new Dictionary<string, float>();
             foreach (var n in Idx2Name.Values)
-            {
                 if (!n.EndsWith("_weight") || n.EndsWith("_gamma"))
                     wd_mult[n] = 0;
-            }
 
             if (sym_info.Item1.Count > 0)
             {
-                var (attr, arg_names) = this.sym_info;
+                var (attr, arg_names) = sym_info;
                 foreach (var name in arg_names)
-                {
                     if (attr.ContainsKey(name) && attr[name].ContainsKey("__wd_mult__"))
-                    {
                         if (float.TryParse(attr[name]["__wd_mult__"], out var attrValue))
                             wd_mult[name] = attrValue;
-                    }
-                }
             }
 
-            foreach (var item in args_wd_mult)
-            {
-                wd_mult[item.Key] = item.Value;
-            }
+            foreach (var item in args_wd_mult) wd_mult[item.Key] = item.Value;
         }
 
         internal void SetCurrentContext(int device_id)
         {
-            if(all_index_update_counts.ContainsKey(device_id))
-            {
+            if (all_index_update_counts.ContainsKey(device_id))
                 all_index_update_counts[device_id] = new Dictionary<int, int>();
-            }
 
             index_update_count = all_index_update_counts[device_id];
         }
@@ -201,10 +181,10 @@ namespace MxNet.Optimizers
             foreach (var idx in index)
             {
                 if (!index_update_count.ContainsKey(idx))
-                    index_update_count[idx] = (int)BeginNumUpdate;
+                    index_update_count[idx] = (int) BeginNumUpdate;
 
                 index_update_count[idx] += 1;
-                NumUpdate = (uint)Math.Max(index_update_count[idx], NumUpdate);
+                NumUpdate = (uint) Math.Max(index_update_count[idx], NumUpdate);
             }
         }
 
@@ -216,62 +196,67 @@ namespace MxNet.Optimizers
             else
                 lr = LearningRate;
 
-            float[] lrs = new float[indices.Length];
-            for(int i=0;i<indices.Length;i++)
+            var lrs = new float[indices.Length];
+            for (var i = 0; i < indices.Length; i++)
             {
-                int index = indices[i];
+                var index = indices[i];
                 lrs[i] = lr;
                 if (ParamDict.ContainsKey(index))
+                {
                     lrs[i] *= ParamDict[index].Lr_Mult;
+                }
                 else if (lr_mult.ContainsKey(index.ToString()))
+                {
                     lrs[i] *= lr_mult[index.ToString()];
+                }
                 else if (Idx2Name.ContainsKey(index))
                 {
                     float Idx2Name_lrvalue = 1;
-                    if(float.TryParse(Idx2Name[index], out Idx2Name_lrvalue))
-                    {
-                        lrs[i] *= Idx2Name_lrvalue;
-                    }
+                    if (float.TryParse(Idx2Name[index], out Idx2Name_lrvalue)) lrs[i] *= Idx2Name_lrvalue;
                 }
             }
 
             return lrs;
         }
 
-        internal float GetLr(int index) => GetLrs(new int[] { index })[0];
+        internal float GetLr(int index)
+        {
+            return GetLrs(new[] {index})[0];
+        }
 
         internal float[] GetWds(int[] indices)
         {
-            float[] wds = new float[indices.Length];
-            for (int i = 0; i < indices.Length; i++)
+            var wds = new float[indices.Length];
+            for (var i = 0; i < indices.Length; i++)
             {
-                int index = indices[i];
+                var index = indices[i];
                 if (ParamDict.ContainsKey(index))
+                {
                     wds[i] *= ParamDict[index].Wd_Mult;
+                }
                 else if (wd_mult.ContainsKey(index.ToString()))
+                {
                     wds[i] *= wd_mult[index.ToString()];
+                }
                 else if (Idx2Name.ContainsKey(index))
                 {
                     float Idx2Name_lrvalue = 1;
-                    if (float.TryParse(Idx2Name[index], out Idx2Name_lrvalue))
-                    {
-                        wds[i] *= Idx2Name_lrvalue;
-                    }
+                    if (float.TryParse(Idx2Name[index], out Idx2Name_lrvalue)) wds[i] *= Idx2Name_lrvalue;
                 }
             }
 
             return wds;
         }
 
-        internal float GetWd(int index) => GetWds(new int[] { index })[0];
+        internal float GetWd(int index)
+        {
+            return GetWds(new[] {index})[0];
+        }
 
         internal static NDArrayList FlattenList(params NDArrayList[] nested_list)
         {
-            NDArrayList result = new NDArrayList();
-            foreach (var item in nested_list)
-            {
-                result.Add(item);
-            }
+            var result = new NDArrayList();
+            foreach (var item in nested_list) result.Add(item);
 
             return result.ToArray();
         }

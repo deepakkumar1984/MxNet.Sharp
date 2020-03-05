@@ -1,32 +1,29 @@
-﻿using MxNet;
-using MxNet.Metrics;
-using MxNet.Optimizers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using MxNet;
+
 namespace ConsoleTest
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             mx.SetDevice(DeviceType.CPU);
-            NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
+            var x = new NDArray(new float[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, new Shape(3, 3)).Reshape(new Shape(3, 3));
             var buff = x.GetBuffer();
             var x1 = NDArray.LoadFromBuffer(buff);
 
             var zeros = nd.Zeros(new Shape(3, 3));
             x[":,3"] = x[":,2"];
             var data1 = x.AsArray<float>();
-            x = nd.Flip(x, axis: 1);
+            x = nd.Flip(x, 1);
             x = nd.Square(x);
             var a = Autograd.GetSymbol(x);
-            NDArray y = nd.EqualScalar(x, 3);
+            var y = nd.EqualScalar(x, 3);
             //var acc = new Accuracy();
             var data = y.GetValues<float>();
             //acc.Update(x, y);
             var eq = nd.Equal(x, y);
-            for (int i = 1; i <= 100000; i++)
+            for (var i = 1; i <= 100000; i++)
             {
                 x.SampleUniform();
                 x = nd.Square(x);

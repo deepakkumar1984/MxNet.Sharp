@@ -4,9 +4,22 @@ using MxNet.Interop;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public sealed class MXDataIterBlob : MXNetSharedObject
     {
+        #region Methods
+
+        #region Overrids
+
+        protected override void DisposeUnmanaged()
+        {
+            base.DisposeUnmanaged();
+            if (Handle != IntPtr.Zero)
+                NativeMethods.MXDataIterFree(Handle);
+        }
+
+        #endregion
+
+        #endregion
 
         #region Constructors
 
@@ -16,26 +29,9 @@ namespace MxNet
 
         public MXDataIterBlob(IntPtr handle)
         {
-            this.Handle = handle;
+            Handle = handle;
         }
 
         #endregion
-
-        #region Methods
-
-        #region Overrids
-
-        protected override void DisposeUnmanaged()
-        {
-            base.DisposeUnmanaged();
-            if (this.Handle != IntPtr.Zero)
-                NativeMethods.MXDataIterFree(this.Handle);
-        }
-
-        #endregion
-
-        #endregion
-        
     }
-
 }

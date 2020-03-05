@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace MxNet.Image
 {
@@ -8,7 +6,7 @@ namespace MxNet.Image
     {
         public virtual string Dumps()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            return JsonConvert.SerializeObject(this);
         }
 
         public abstract (NDArray, NDArray) Call(NDArray src, NDArray label);

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using MxNet.Interop;
 using mx_float = System.Single;
 using DataIterHandle = System.IntPtr;
@@ -9,40 +6,23 @@ using DataIterHandle = System.IntPtr;
 // ReSharper disable once CheckNamespace
 namespace MxNet.IO
 {
-
     public sealed class MXDataIter : DataIter
     {
-        private DataIterHandle handle;
-        private bool _debug_skip_load = false;
         private bool _debug_at_begin = true;
-        private DataBatch first_batch = null;
-        private NDArray data;
-        private NDArray label;
+        private bool _debug_skip_load;
+        private readonly NDArray data;
+        private readonly string data_name;
+        private readonly MXDataIterMap DataIterMap = new MXDataIterMap();
+        private DataBatch first_batch;
+        private readonly DataIterHandle handle;
+        private readonly NDArray label;
+        private readonly string label_name;
         private int? next_res;
-        private MXDataIterMap DataIterMap = new MXDataIterMap();
-        private Operator op;
-        private string data_name;
-        private string label_name;
-
-        public override DataDesc[] ProvideData
-        {
-            get
-            {
-                return new DataDesc[] { new DataDesc(data_name, data.Shape, data.DataType) };
-            }
-        }
-
-        public override DataDesc[] ProvideLabel
-        {
-            get
-            {
-                return new DataDesc[] { new DataDesc(label_name, label.Shape, label.DataType) };
-            }
-        }
+        private readonly Operator op;
 
         public MXDataIter(string mxdataiterType, string data_name = "data", string label_name = "softmax_label")
         {
-            this.handle = DataIterMap.GetMXDataIterCreator(mxdataiterType);
+            handle = DataIterMap.GetMXDataIterCreator(mxdataiterType);
             _debug_skip_load = false;
             first_batch = Next();
             data = first_batch.Data[0];
@@ -53,7 +33,7 @@ namespace MxNet.IO
             op = new Operator(handle);
         }
 
-        public MXDataIter(DataIterHandle handle, string data_name= "data", string label_name= "softmax_label")
+        public MXDataIter(DataIterHandle handle, string data_name = "data", string label_name = "softmax_label")
         {
             this.handle = handle;
             _debug_skip_load = false;
@@ -65,10 +45,20 @@ namespace MxNet.IO
             op = new Operator(handle);
         }
 
+        public override DataDesc[] ProvideData
+        {
+            get { return new[] {new DataDesc(data_name, data.Shape, data.DataType)}; }
+        }
+
+        public override DataDesc[] ProvideLabel
+        {
+            get { return new[] {new DataDesc(label_name, label.Shape, label.DataType)}; }
+        }
+
         protected override void DisposeUnmanaged()
         {
             base.DisposeUnmanaged();
-            if (this.handle != IntPtr.Zero)
+            if (handle != DataIterHandle.Zero)
                 NativeMethods.MXDataIterFree(handle);
         }
 
@@ -89,10 +79,10 @@ namespace MxNet.IO
             var r = NativeMethods.MXDataIterGetIndex(handle, out var outIndex, out var outSize);
             Logging.CHECK_EQ(r, 0);
 
-            var outIndexArray = InteropHelper.ToUInt64Array(outIndex, (uint)outSize);
+            var outIndexArray = InteropHelper.ToUInt64Array(outIndex, (uint) outSize);
             var ret = new int[outSize];
             for (var i = 0ul; i < outSize; ++i)
-                ret[i] = (int)outIndexArray[i];
+                ret[i] = (int) outIndexArray[i];
 
             return ret;
         }
@@ -133,12 +123,9 @@ namespace MxNet.IO
 
         public override DataBatch Next()
         {
-            if(_debug_skip_load && !_debug_at_begin)
-            {
-                return new DataBatch(GetData(), GetLabel(), GetPad(), GetIndex());
-            }
+            if (_debug_skip_load && !_debug_at_begin) return new DataBatch(GetData(), GetLabel(), GetPad(), GetIndex());
 
-            if(first_batch != null)
+            if (first_batch != null)
             {
                 var batch = first_batch;
                 first_batch = null;
@@ -148,14 +135,9 @@ namespace MxNet.IO
             _debug_at_begin = false;
             next_res = 0;
             NativeMethods.MXDataIterNext(handle, out next_res);
-            if(next_res.HasValue)
-            {
+            if (next_res.HasValue)
                 return new DataBatch(GetData(), GetLabel(), GetPad(), GetIndex());
-            }
-            else
-            {
-                throw new MXNetException("Stop Iteration");
-            }
+            throw new MXNetException("Stop Iteration");
         }
 
         public void SetParam(string key, string value)
@@ -178,5 +160,4 @@ namespace MxNet.IO
             op.SetParam(key, value);
         }
     }
-
 }

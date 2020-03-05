@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Metrics
 {
     public class CustomMetric : EvalMetric
     {
-        private Func<NDArray, NDArray, float> _feval;
-
         private bool _allow_extra_outputs;
+        private readonly Func<NDArray, NDArray, float> _feval;
 
-        public CustomMetric(Func<NDArray, NDArray, float> feval, string name, string output_name = null, string label_name = null, bool has_global_stats = false) 
+        public CustomMetric(Func<NDArray, NDArray, float> feval, string name, string output_name = null,
+            string label_name = null, bool has_global_stats = false)
             : base(string.Format("custom({0})", name), output_name, label_name, has_global_stats)
         {
             _feval = feval;

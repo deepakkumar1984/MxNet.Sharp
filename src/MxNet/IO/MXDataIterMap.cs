@@ -6,10 +6,8 @@ using DataIterHandle = System.IntPtr;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public sealed class MXDataIterMap
     {
-
         #region Fields
 
         private readonly Dictionary<string, DataIterHandle> _DataIterCreators;
@@ -24,23 +22,23 @@ namespace MxNet
             Logging.CHECK_EQ(r, 0);
 
 
-            this._DataIterCreators = new Dictionary<string, DataIterHandle>((int)numDataIterCreators);
+            _DataIterCreators = new Dictionary<string, DataIterHandle>((int) numDataIterCreators);
 
             var array = InteropHelper.ToPointerArray(dataIterCreators, numDataIterCreators);
             for (var i = 0; i < numDataIterCreators; i++)
             {
                 r = NativeMethods.MXDataIterGetIterInfo(array[i],
-                                                        out var name,
-                                                        out var description,
-                                                        out var num_args,
-                                                        out var arg_names2,
-                                                        out var arg_type_infos2,
-                                                        out var arg_descriptions2);
+                    out var name,
+                    out var description,
+                    out var num_args,
+                    out var arg_names2,
+                    out var arg_type_infos2,
+                    out var arg_descriptions2);
 
                 Logging.CHECK_EQ(r, 0);
 
                 var str = Marshal.PtrToStringAnsi(name);
-                this._DataIterCreators.Add(str, array[i]);
+                _DataIterCreators.Add(str, array[i]);
             }
         }
 
@@ -50,11 +48,9 @@ namespace MxNet
 
         public DataIterHandle GetMXDataIterCreator(string name)
         {
-            return this._DataIterCreators[name];
+            return _DataIterCreators[name];
         }
 
         #endregion
-
     }
-
 }

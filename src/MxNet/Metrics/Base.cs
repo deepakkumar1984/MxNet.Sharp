@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace MxNet.Metrics
 {
@@ -9,8 +7,8 @@ namespace MxNet.Metrics
     {
         public static EvalMetric Create(string metric, FuncArgs args)
         {
-            Type type = Assembly.GetExecutingAssembly().GetType("MxNet.Metric." + metric, true, true);
-            return (EvalMetric)Activator.CreateInstance(type, args.Values);
+            var type = Assembly.GetExecutingAssembly().GetType("MxNet.Metric." + metric, true, true);
+            return (EvalMetric) Activator.CreateInstance(type, args.Values);
         }
 
         public void CheckLabelShapes(NDArray labels, NDArray preds, bool shape = false)
@@ -30,17 +28,15 @@ namespace MxNet.Metrics
 
             if (shape)
             {
-                if(labels.Shape[0] != preds.Shape[0])
-                {
-                    throw new ArgumentException(string.Format("Shape of labels {0} does not match shape of predictions {1}", label_shape.ToString(), pred_shape.ToString()));
-                }
+                if (labels.Shape[0] != preds.Shape[0])
+                    throw new ArgumentException(string.Format(
+                        "Shape of labels {0} does not match shape of predictions {1}", label_shape, pred_shape));
             }
             else
             {
                 if (label_shape.Dimension != pred_shape.Dimension && label_shape.Size != pred_shape.Size)
-                {
-                    throw new ArgumentException(string.Format("Shape of labels {0} does not match shape of predictions {1}", label_shape.ToString(), pred_shape.ToString()));
-                }
+                    throw new ArgumentException(string.Format(
+                        "Shape of labels {0} does not match shape of predictions {1}", label_shape, pred_shape));
             }
         }
     }

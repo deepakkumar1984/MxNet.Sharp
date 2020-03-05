@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Metrics
+﻿namespace MxNet.Metrics
 {
     public class MAE : EvalMetric
     {
@@ -19,10 +15,10 @@ namespace MxNet.Metrics
 
             var mae = nd.Abs(labels = preds).Mean();
 
-            this.sum_metric += mae;
-            this.global_sum_metric += mae;
-            this.num_inst += 1;
-            this.global_num_inst += 1;
+            sum_metric += mae;
+            global_sum_metric += mae;
+            num_inst += 1;
+            global_num_inst += 1;
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using NumSharp;
+using System.Text;
 using MxNet.IO;
+using NumSharp;
 
 namespace MxNet
 {
@@ -11,16 +11,14 @@ namespace MxNet
     {
         internal static Slice[] SplitInputSlice(int batch_size, int[] work_load_list)
         {
-            int total_work_load = work_load_list.Sum();
-            int[] batch_num_list = new int[work_load_list.Length];
-            for(int i=0;i<work_load_list.Length;i++)
-            {
-                batch_num_list[i] = (int)Math.Round((double)work_load_list[i] * batch_size / total_work_load);
-            }
+            var total_work_load = work_load_list.Sum();
+            var batch_num_list = new int[work_load_list.Length];
+            for (var i = 0; i < work_load_list.Length; i++)
+                batch_num_list[i] = (int) Math.Round((double) work_load_list[i] * batch_size / total_work_load);
 
-            List<Slice> slices = new List<Slice>();
-            int end = 0;
-            int begin = 0;
+            var slices = new List<Slice>();
+            var end = 0;
+            var begin = 0;
             foreach (var batch_num in batch_num_list)
             {
                 begin = Math.Min(end, batch_size);
@@ -36,30 +34,28 @@ namespace MxNet
 
         internal static void CheckArguments(Symbol symbol)
         {
-            List<string> arg_set = new List<string>();
+            var arg_set = new List<string>();
             var arg_names = symbol.ListArguments();
             foreach (var name in arg_names)
             {
-                if(arg_set.Contains(name))
-                {
+                if (arg_set.Contains(name))
                     throw new Exception(string.Format("Find duplicated argument name \"{0}\", " +
-                        "please make the weight name non-duplicated(using name arguments)," +
-                        " arguments are {1}", name, string.Join(",", arg_names.ToArray())));
-                }
+                                                      "please make the weight name non-duplicated(using name arguments)," +
+                                                      " arguments are {1}", name,
+                        string.Join(",", arg_names.ToArray())));
 
                 arg_set.Add(name);
             }
 
-            List<string> aux_set = new List<string>();
+            var aux_set = new List<string>();
             var aux_names = symbol.ListAuxiliaryStates();
             foreach (var name in aux_names)
             {
                 if (aux_set.Contains(name))
-                {
                     throw new Exception(string.Format("Find duplicated auxiliary param name \"{0}\", " +
-                        "please make the weight name non-duplicated(using name arguments)," +
-                        " arguments are {1}", name, string.Join(",", arg_names.ToArray())));
-                }
+                                                      "please make the weight name non-duplicated(using name arguments)," +
+                                                      " arguments are {1}", name,
+                        string.Join(",", arg_names.ToArray())));
 
                 aux_set.Add(name);
             }
@@ -67,7 +63,7 @@ namespace MxNet
 
         internal static void LoadGeneral(NDArrayList data, NDArrayList targets)
         {
-            for (int i = 0; i < data.Length; i++)
+            for (var i = 0; i < data.Length; i++)
             {
                 var d_src = data[i];
                 var d_targets = targets[i];
@@ -85,20 +81,19 @@ namespace MxNet
             LoadGeneral(batch.Label, targets);
         }
 
-        internal static Executor BindExec(Symbol sym, Context ctx, Dictionary<string, Shape> input_shapes, string[] param_names, bool need_grad = false,
-               Executor base_exec = null, NDArrayDict shared_data_arrays = null, Dictionary<string, DType> input_types = null, Logger logger = null)
+        internal static Executor BindExec(Symbol sym, Context ctx, Dictionary<string, Shape> input_shapes,
+            string[] param_names, bool need_grad = false,
+            Executor base_exec = null, NDArrayDict shared_data_arrays = null,
+            Dictionary<string, DType> input_types = null, Logger logger = null)
         {
             var (arg_shape, _, aux_shape) = sym.InferShape(input_shapes);
             if (arg_shape == null)
                 throw new ArgumentNullException("arg_shape");
 
-            if(input_types  == null)
+            if (input_types == null)
             {
                 input_types = new Dictionary<string, DType>();
-                foreach (var item in input_shapes.Keys)
-                {
-                    input_types.Add(item, DType.Float32);
-                }
+                foreach (var item in input_shapes.Keys) input_types.Add(item, DType.Float32);
             }
 
             var (arg_types, _, aux_types) = sym.InferType(input_types);
@@ -106,37 +101,33 @@ namespace MxNet
             if (arg_types == null)
                 throw new ArgumentNullException("arg_types");
 
-            NDArrayList arg_arrays = new NDArrayList();
-            NDArrayList aux_arrays = new NDArrayList();
-            NDArrayDict grad_arrays = need_grad ? new NDArrayDict() : null;
+            var arg_arrays = new NDArrayList();
+            var aux_arrays = new NDArrayList();
+            var grad_arrays = need_grad ? new NDArrayDict() : null;
 
             var arg_names = sym.ListArguments();
-            List<string> needGradSet = new List<string>();
-            if(!need_grad)
+            var needGradSet = new List<string>();
+            if (!need_grad)
             {
                 needGradSet = new List<string>();
             }
             else
             {
                 foreach (var item in arg_names)
-                {
                     if (!input_shapes.ContainsKey(item))
                         needGradSet.Add(item);
-                }
 
                 needGradSet = MxUtil.Set(needGradSet);
             }
 
-            Dictionary<string, OpGradReq> grad_req = new Dictionary<string, OpGradReq>();
+            var grad_req = new Dictionary<string, OpGradReq>();
             foreach (var item in arg_names)
-            {
-                if(needGradSet.Contains(item))
+                if (needGradSet.Contains(item))
                     grad_req.Add(item, OpGradReq.Write);
-            }
 
-            for(int i=0;i<arg_names.Count;i++)
+            for (var i = 0; i < arg_names.Count; i++)
             {
-                string name = arg_names[i];
+                var name = arg_names[i];
                 NDArray arg_arr = null;
                 NDArray grad_arr = null;
                 if (!param_names.Contains(name))
@@ -147,18 +138,16 @@ namespace MxNet
                         if (np.prod(arg_arr.Shape.Data) >= np.prod(arg_shape[i].Data))
                         {
                             if (arg_types[i].Name != arg_arr.DataType.Name)
-                            {
                                 throw new ArgumentException("arg_type and arg_arr datatype mismatch");
-                            }
 
                             arg_arr = arg_arr.Reshape(arg_shape[i]);
                         }
                         else
                         {
-                            StringBuilder logmsg = new StringBuilder();
+                            var logmsg = new StringBuilder();
                             logmsg.AppendFormat("bucketing: data \"{0}\" has a shape {1}", name, arg_shape[i]);
                             logmsg.AppendFormat(", which is larger than already allocated ");
-                            logmsg.AppendFormat("shape {0}", arg_arr.Shape.ToString());
+                            logmsg.AppendFormat("shape {0}", arg_arr.Shape);
                             logmsg.AppendFormat(". Need to re-allocate. Consider putting default_bucket_key " +
                                                 "to be the bucket taking the largest input for better memory sharing.");
 
@@ -171,7 +160,7 @@ namespace MxNet
                     else
                     {
                         arg_arr = nd.Zeros(arg_shape[i], ctx, arg_types[i]);
-                        if(shared_data_arrays != null)
+                        if (shared_data_arrays != null)
                             shared_data_arrays[name] = arg_arr;
                     }
 
@@ -179,7 +168,7 @@ namespace MxNet
                 }
                 else
                 {
-                    if(base_exec == null)
+                    if (base_exec == null)
                     {
                         arg_arr = nd.Zeros(arg_shape[i], ctx, arg_types[i]);
                         if (needGradSet.Contains(name))
@@ -206,21 +195,15 @@ namespace MxNet
             }
 
             if (base_exec != null)
-            {
-                for (int i = 0; i < aux_shape.Length; i++)
+                for (var i = 0; i < aux_shape.Length; i++)
                 {
                     var s = aux_shape[i];
                     var t = aux_types[i];
                     aux_arrays.Add(nd.Zeros(s, ctx, t));
                 }
-            }
             else
-            {
                 foreach (var item in base_exec.AuxiliaryDictionary())
-                {
                     aux_arrays.Add(item.Value);
-                }
-            }
 
             var executor = sym.Bind(ctx, arg_arrays, grad_arrays.Values.ToList(), grad_req.Values.ToList(), aux_arrays);
             return executor;

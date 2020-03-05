@@ -1,45 +1,97 @@
-﻿using MxNet.Initializers;
-using MxNet.IO;
-using MxNet.Metrics;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using MxNet.Optimizers;
-using MxNet.KVstore;
 using System.IO;
+using System.Linq;
+using MxNet.Initializers;
+using MxNet.IO;
+using MxNet.KVstore;
+using MxNet.Metrics;
+using MxNet.Optimizers;
 
 namespace MxNet.Modules
 {
     public class Module : BaseModule
     {
+        private NDArrayDict _arg_params;
+        private readonly string[] _aux_names;
+        private NDArrayDict _aux_params;
+        private readonly Dictionary<string, object> _compression_params;
         private Context[] _context;
-        private int[] _work_load_list;
-        private Dictionary<string, Context> _group2ctxs;
-        private string[] _param_names = null;
-        private string[] _fixed_param_names = null;
-        private string[] _aux_names = null;
-        private string[] _data_names = null;
-        private string[] _label_names = null;
-        private string[] _state_names = null;
-        private string[] _output_names = null;
-        private NDArrayDict _arg_params = null;
-        private NDArrayDict _aux_params = null;
-        private bool _params_dirty;
-        private Dictionary<string, object> _compression_params;
-        private Optimizer _optimizer;
+        private readonly string[] _data_names;
+        private DataDesc[] _data_shapes;
+        private DataParallelExecutorGroup _exec_group;
+        private readonly string[] _fixed_param_names;
+        private OpGradReq _grad_req;
+        private readonly Dictionary<string, Context> _group2ctxs;
         private KVStore _kvstore;
+        private readonly string[] _label_names;
+        private DataDesc[] _label_shapes;
+        private Optimizer _optimizer;
+        private readonly string[] _param_names;
+        private bool _params_dirty;
+        private string _preload_opt_states;
+        private readonly string[] _state_names;
         private bool? _update_on_kvstore;
         private Updater _updater;
-        private string _preload_opt_states;
-        private OpGradReq _grad_req;
-        private DataParallelExecutorGroup _exec_group;
-        private DataDesc[] _data_shapes;
-        private DataDesc[] _label_shapes;
+        private int[] _work_load_list;
+
+        public Module(Symbol symbol, string[] data_names = null, string[] label_names = null, Logger logging = null,
+            Context[] context = null, int[] work_load_list = null, string[] fixed_param_names = null,
+            string[] state_names = null,
+            Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null)
+        {
+            if (context == null)
+                context = new[] {Context.Cpu()};
+
+            if (work_load_list == null)
+            {
+                work_load_list = new int[context.Length];
+                for (var i = 0; i < work_load_list.Length; i++) work_load_list[i] = 1;
+            }
+
+            if (context.Length != work_load_list.Length)
+                throw new Exception("Context and WorkLoadList length are not equal");
+
+            _group2ctxs = group2ctxs;
+            _symbol = symbol;
+            _data_names = data_names != null ? data_names : new string[0];
+            _label_names = label_names != null ? label_names : new string[0];
+            _state_names = state_names != null ? state_names : new string[0];
+            _fixed_param_names = fixed_param_names != null ? fixed_param_names : new string[0];
+            CheckInputNames(symbol, _data_names, "data", true);
+            CheckInputNames(symbol, _label_names, "label", false);
+            CheckInputNames(symbol, _state_names, "state", true);
+            CheckInputNames(symbol, _fixed_param_names, "fixed_param", true);
+
+            var arg_names = symbol.ListArguments();
+            var input_names = new List<string>();
+            input_names.AddRange(_data_names);
+            input_names.AddRange(_label_names);
+            input_names.AddRange(_state_names);
+
+            _param_names = arg_names.Where(x => arg_names.Contains(x)).ToArray();
+            _aux_names = symbol.ListAuxiliaryStates().ToArray();
+            OutputNames = symbol.ListOutputs().ToArray();
+            _arg_params = null;
+            _aux_params = null;
+            _params_dirty = false;
+
+            _compression_params = compression_params;
+            _optimizer = null;
+            _kvstore = null;
+            _update_on_kvstore = null;
+            _updater = null;
+            _preload_opt_states = null;
+            _grad_req = OpGradReq.Null;
+
+            _exec_group = null;
+            _data_shapes = null;
+            _label_shapes = null;
+        }
 
         public override string[] DataNames => _data_names;
 
-        public override string[] OutputNames => _output_names;
+        public override string[] OutputNames { get; }
 
         public override string[] LabelNames => _label_names;
 
@@ -58,78 +110,24 @@ namespace MxNet.Modules
             }
         }
 
-        public Module(Symbol symbol, string[] data_names = null, string[] label_names = null, Logger logging = null,
-                            Context[] context = null, int[] work_load_list = null, string[] fixed_param_names = null, string[] state_names = null,
-                            Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null)
+        public void SaveCheckpoint(string prefix, int epoch, bool save_optimizer_states = false,
+            bool remove_amp_cast = false)
         {
-            if (context == null)
-                context = new Context[] { Context.Cpu() };
-
-            if(work_load_list == null)
-            {
-                work_load_list = new int[context.Length];
-                for (int i = 0;i< work_load_list.Length;i++)
-                {
-                    work_load_list[i] = 1;
-                }
-            }
-
-            if (context.Length != work_load_list.Length)
-                throw new Exception("Context and WorkLoadList length are not equal");
-
-            _group2ctxs = group2ctxs;
-            _symbol = symbol;
-            _data_names = data_names != null ? data_names : new string[0];
-            _label_names = label_names != null ? label_names : new string[0];
-            _state_names = state_names != null ? state_names : new string[0];
-            _fixed_param_names = fixed_param_names != null ? fixed_param_names : new string[0];
-            CheckInputNames(symbol, _data_names, "data", true);
-            CheckInputNames(symbol, _label_names, "label", false);
-            CheckInputNames(symbol, _state_names, "state", true);
-            CheckInputNames(symbol, _fixed_param_names, "fixed_param", true);
-
-            var arg_names = symbol.ListArguments();
-            List<string> input_names = new List<string>();
-            input_names.AddRange(_data_names);
-            input_names.AddRange(_label_names);
-            input_names.AddRange(_state_names);
-
-            _param_names = arg_names.Where(x => (arg_names.Contains(x))).ToArray();
-            _aux_names = symbol.ListAuxiliaryStates().ToArray();
-            _output_names = symbol.ListOutputs().ToArray();
-            _arg_params = null;
-            _aux_params = null;
-            _params_dirty = false;
-
-            _compression_params = compression_params;
-            _optimizer = null;
-            _kvstore = null;
-            _update_on_kvstore = null;
-            _updater = null;
-            _preload_opt_states = null;
-            _grad_req = OpGradReq.Null;
-
-            _exec_group = null;
-            _data_shapes = null;
-            _label_shapes = null;
-        }
-
-        public void SaveCheckpoint(string prefix, int epoch, bool save_optimizer_states = false, bool remove_amp_cast = false)
-        {
-            Symbol.Save($"{prefix}-symbol.json", remove_amp_cast: remove_amp_cast);
-            string param_name = $"{prefix}-{epoch.ToString("D4")}.params";
+            Symbol.Save($"{prefix}-symbol.json", remove_amp_cast);
+            var param_name = $"{prefix}-{epoch.ToString("D4")}.params";
             SaveParams(param_name);
             Logger.Info($"Saved checkpoint to {param_name}");
-            if(save_optimizer_states)
+            if (save_optimizer_states)
             {
-                string state_name = $"{prefix}-{epoch.ToString("D4")}.params";
+                var state_name = $"{prefix}-{epoch.ToString("D4")}.params";
                 SaveOptimizerStates(state_name);
                 Logger.Info($"Saved optimizer state to {state_name}");
             }
         }
 
-        public static Module Load(string prefix, int epoch, bool load_optimizer_states = false, string[] data_names = null, string[] label_names = null, Logger logging = null,
-                            Context context = null, int[] work_load_list = null, string[] fixed_param_names = null)
+        public static Module Load(string prefix, int epoch, bool load_optimizer_states = false,
+            string[] data_names = null, string[] label_names = null, Logger logging = null,
+            Context context = null, int[] work_load_list = null, string[] fixed_param_names = null)
         {
             var (sym, args, auxs) = Model.LoadCheckpoint(prefix, epoch);
             var mod = new Module(sym);
@@ -152,20 +150,19 @@ namespace MxNet.Modules
 
         public override void Backward(NDArrayList out_grads = null)
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
             _exec_group.Backward(out_grads);
         }
 
-        public override void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true, bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, OpGradReq grad_req = OpGradReq.Write)
+        public override void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true,
+            bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null,
+            OpGradReq grad_req = OpGradReq.Write)
         {
             if (force_rebind)
                 ResetBind();
 
-            if(Binded)
+            if (Binded)
             {
                 Logger.Warning("Already bound, ignoring bind()");
                 return;
@@ -182,7 +179,7 @@ namespace MxNet.Modules
             (_data_shapes, _label_shapes) = ParseDataDesc(DataNames, LabelNames, data_shapes, label_shapes);
 
             DataParallelExecutorGroup shared_group = null;
-            if(shared_module != null)
+            if (shared_module != null)
             {
                 if (!shared_module.Binded && !shared_module.ParamsInitialized)
                     throw new Exception("shared_module not bounded or initialized");
@@ -192,17 +189,18 @@ namespace MxNet.Modules
                     throw new Exception("shared_group execs length is less than context length");
             }
 
-            _exec_group = new DataParallelExecutorGroup(_symbol, _context, _work_load_list, _data_shapes, _label_shapes, _param_names,
-                                                        ForTraining, InputsNeedGrad, shared_group, _fixed_param_names, grad_req,
-                                                        _state_names, _group2ctxs);
-            _total_exec_bytes = this._exec_group._total_exec_bytes;
-            if(shared_group != null)
+            _exec_group = new DataParallelExecutorGroup(_symbol, _context, _work_load_list, _data_shapes, _label_shapes,
+                _param_names,
+                ForTraining, InputsNeedGrad, shared_group, _fixed_param_names, grad_req,
+                _state_names, _group2ctxs);
+            _total_exec_bytes = _exec_group._total_exec_bytes;
+            if (shared_group != null)
             {
                 ParamsInitialized = true;
                 _arg_params = shared_group._arg_params;
                 _aux_params = shared_group._aux_params;
             }
-            else if(ParamsInitialized)
+            else if (ParamsInitialized)
             {
                 _exec_group.SetParams(_arg_params, _aux_params);
             }
@@ -213,17 +211,11 @@ namespace MxNet.Modules
                 _arg_params = new NDArrayDict();
                 _aux_params = new NDArrayDict();
 
-                var param_arrays = _exec_group.ParamArrays.Select(x => (nd.ZerosLike(x[0]))).ToArray();
-                for(int i = 0;i< _param_names.Length;i++)
-                {
-                    _arg_params[_param_names[i]] = param_arrays[i];
-                }
+                var param_arrays = _exec_group.ParamArrays.Select(x => nd.ZerosLike(x[0])).ToArray();
+                for (var i = 0; i < _param_names.Length; i++) _arg_params[_param_names[i]] = param_arrays[i];
 
-                var aux_arrays = _exec_group.AuxArrays.Select(x => (nd.ZerosLike(x[0]))).ToArray();
-                for (int i = 0; i < _aux_names.Length; i++)
-                {
-                    _aux_params[_aux_names[i]] = aux_arrays[i];
-                }
+                var aux_arrays = _exec_group.AuxArrays.Select(x => nd.ZerosLike(x[0])).ToArray();
+                for (var i = 0; i < _aux_names.Length; i++) _aux_params[_aux_names[i]] = aux_arrays[i];
             }
 
             if (shared_module != null && shared_module.ParamsInitialized)
@@ -234,14 +226,11 @@ namespace MxNet.Modules
 
         public override void Forward(DataBatch data_batch, bool is_train = true)
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
             var curr_data_shapes = _data_shapes.Select(x => x.Shape).ToArray();
-            var new_data_shapes = data_batch.Data.Select(x => (x.Shape)).ToArray();
-            if(curr_data_shapes.Length != new_data_shapes.Length)
+            var new_data_shapes = data_batch.Data.Select(x => x.Shape).ToArray();
+            if (curr_data_shapes.Length != new_data_shapes.Length)
             {
                 DataDesc[] new_dshape;
                 DataDesc[] new_lshape;
@@ -249,22 +238,14 @@ namespace MxNet.Modules
                 if (data_batch.ProvideData != null)
                     new_dshape = data_batch.ProvideData;
                 else
-                {
-                    new_dshape = Enumerable.Zip(_data_shapes, new_data_shapes, (i, shape)=>
-                    {
-                        return new DataDesc(i.Name, shape, i.DataType, i.Layout);
-                    }).ToArray();
-                }
+                    new_dshape = _data_shapes.Zip(new_data_shapes,
+                        (i, shape) => { return new DataDesc(i.Name, shape, i.DataType, i.Layout); }).ToArray();
 
                 if (data_batch.ProvideLabel != null)
                     new_lshape = data_batch.ProvideData;
                 else if (data_batch.Label != null)
-                {
-                    new_lshape = Enumerable.Zip(_label_shapes, data_batch.Label, (i, j) =>
-                    {
-                        return new DataDesc(i.Name, j.Shape, i.DataType, i.Layout);
-                    }).ToArray();
-                }
+                    new_lshape = _label_shapes.Zip(data_batch.Label,
+                        (i, j) => { return new DataDesc(i.Name, j.Shape, i.DataType, i.Layout); }).ToArray();
                 else
                     new_lshape = null;
 
@@ -276,50 +257,35 @@ namespace MxNet.Modules
 
         public override List<NDArrayList> GetInputGrads(bool merge_multi_context = true)
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
             return _exec_group.GetInputGrads(merge_multi_context);
         }
 
         public override List<NDArrayList> GetOutputs(bool merge_multi_context = true)
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
             return _exec_group.GetOutputs(merge_multi_context);
         }
 
         public override List<NDArrayList> GetStates(bool merge_multi_context = true)
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
             return _exec_group.GetStates(merge_multi_context);
         }
 
         public override void SetStates(List<NDArrayList> states, int value)
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
             _exec_group.SetStates(states, value);
         }
 
         public override (NDArrayDict, NDArrayDict) GetParams()
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
             if (_params_dirty)
                 SyncParamsFromDevices();
@@ -327,35 +293,33 @@ namespace MxNet.Modules
             return (_arg_params, _aux_params);
         }
 
-        public override void InitOptimizer(string kv = "local", Optimizer optimizer = null, Dictionary<string, object> optimizer_params = null, bool force_init = false)
+        public override void InitOptimizer(string kv = "local", Optimizer optimizer = null,
+            Dictionary<string, object> optimizer_params = null, bool force_init = false)
         {
-            if (!Binded && !ParamsInitialized)
-            {
-                throw new Exception("Module not binded and param initialized");
-            }
+            if (!Binded && !ParamsInitialized) throw new Exception("Module not binded and param initialized");
 
-            if(OptimizerInitialized && !force_init)
+            if (OptimizerInitialized && !force_init)
             {
                 Logger.Warning("optimizer already initialized, ignoring...");
                 return;
             }
 
             if (optimizer == null)
-                optimizer = new SGD(); 
+                optimizer = new SGD();
 
             if (_params_dirty)
                 SyncParamsFromDevices();
 
             var (kvstore, update_on_kvstore) = Model.CreateKVStore(kv, _context.Length, _arg_params);
-            int batch_size = _exec_group.BatchSize;
+            var batch_size = _exec_group.BatchSize;
             if (kvstore != null && kvstore.Type.Contains("dist") && kvstore.Type.Contains("_sync"))
                 batch_size *= kvstore.NumWorkers;
 
             var rescale_grad = 1.0 / batch_size;
-            Dictionary<int, string> idx2name = new Dictionary<int, string>();
-            if(update_on_kvstore)
+            var idx2name = new Dictionary<int, string>();
+            if (update_on_kvstore)
             {
-                int i = 0;
+                var i = 0;
                 foreach (var name in _exec_group.ParamNames)
                 {
                     idx2name.Add(i, name);
@@ -364,9 +328,9 @@ namespace MxNet.Modules
             }
             else
             {
-                for(int k = 0;k<_context.Length;k++)
+                for (var k = 0; k < _context.Length; k++)
                 {
-                    int i = 0;
+                    var i = 0;
                     foreach (var name in _exec_group.ParamNames)
                     {
                         idx2name.Add(i * _context.Length + k, name);
@@ -375,20 +339,17 @@ namespace MxNet.Modules
                 }
             }
 
-            if(optimizer.RescaleGrad != rescale_grad)
+            if (optimizer.RescaleGrad != rescale_grad)
                 Logger.Warning("Optimizer created manually outside Module but rescale_grad " +
-                                $"is not normalized to 1.0/batch_size/num_workers ({optimizer.RescaleGrad} vs. {rescale_grad}). Is this intended?");
+                               $"is not normalized to 1.0/batch_size/num_workers ({optimizer.RescaleGrad} vs. {rescale_grad}). Is this intended?");
 
-            if (optimizer.Idx2Name == null)
-            {
-                optimizer.Idx2Name = idx2name;
-            }
+            if (optimizer.Idx2Name == null) optimizer.Idx2Name = idx2name;
 
             _optimizer = optimizer;
             _kvstore = kvstore;
             _update_on_kvstore = update_on_kvstore;
             _updater = null;
-            if(kvstore != null)
+            if (kvstore != null)
             {
                 if (_compression_params != null)
                     kvstore.SetGradientCompression(_compression_params);
@@ -403,14 +364,16 @@ namespace MxNet.Modules
                 _updater = optimizer.GetUpdater();
 
             OptimizerInitialized = true;
-            if(!string.IsNullOrWhiteSpace(_preload_opt_states))
+            if (!string.IsNullOrWhiteSpace(_preload_opt_states))
             {
                 LoadOptimizerStates(_preload_opt_states);
                 _preload_opt_states = "";
             }
         }
 
-        public override void InitParams(Initializer initializer = null, NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
+        public override void InitParams(Initializer initializer = null, NDArrayDict arg_params = null,
+            NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false,
+            bool allow_extra = false)
         {
             if (ParamsInitialized && !force_init)
             {
@@ -423,7 +386,7 @@ namespace MxNet.Modules
 
             void impl(InitDesc name, ref NDArray arr, NDArrayDict cache)
             {
-                if(cache!=null)
+                if (cache != null)
                 {
                     NDArray cache_arr = null;
                     if (cache.Contains(name.Name))
@@ -435,7 +398,7 @@ namespace MxNet.Modules
                     }
                     else
                     {
-                        if(!allow_missing)
+                        if (!allow_missing)
                             throw new Exception($"{name.Name} is not presented");
 
                         if (initializer != null)
@@ -461,10 +424,11 @@ namespace MxNet.Modules
 
             ParamsInitialized = true;
             _params_dirty = false;
-            _exec_group.SetParams(_arg_params, _aux_params, allow_extra: allow_extra);
+            _exec_group.SetParams(_arg_params, _aux_params, allow_extra);
         }
 
-        public override void SetParams(NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
+        public override void SetParams(NDArrayDict arg_params = null, NDArrayDict aux_params = null,
+            bool allow_missing = false, bool force_init = false, bool allow_extra = false)
         {
             if (!allow_missing)
             {
@@ -478,7 +442,7 @@ namespace MxNet.Modules
                 return;
             }
 
-            _exec_group.SetParams(_arg_params, _aux_params, allow_extra: allow_extra);
+            _exec_group.SetParams(_arg_params, _aux_params, allow_extra);
             ParamsInitialized = true;
             _params_dirty = false;
         }
@@ -493,19 +457,15 @@ namespace MxNet.Modules
         public override void Update()
         {
             if (!Binded && !ParamsInitialized && !OptimizerInitialized)
-            {
                 throw new Exception("Module not binded or param initialized or optimizer initialized");
-            }
 
             _params_dirty = true;
-            if(_update_on_kvstore.HasValue && _update_on_kvstore.Value)
-            {
-                Model.UpdateParamsOnKVStore(_exec_group.ParamArrays, _exec_group.GradArrays, _kvstore, _exec_group.ParamNames);
-            }
+            if (_update_on_kvstore.HasValue && _update_on_kvstore.Value)
+                Model.UpdateParamsOnKVStore(_exec_group.ParamArrays, _exec_group.GradArrays, _kvstore,
+                    _exec_group.ParamNames);
             else
-            {
-                Model.UpdateParams(_exec_group.ParamArrays, _exec_group.GradArrays, _updater, _context.Length, _kvstore, _exec_group.ParamNames);
-            }
+                Model.UpdateParams(_exec_group.ParamArrays, _exec_group.GradArrays, _updater, _context.Length, _kvstore,
+                    _exec_group.ParamNames);
         }
 
         public override void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false)
@@ -537,17 +497,13 @@ namespace MxNet.Modules
         private void SyncParamsFromDevices()
         {
             _exec_group.GetParams(ref _arg_params, ref _aux_params);
-            if(_kvstore != null && _update_on_kvstore.HasValue && _update_on_kvstore.Value)
-            {
+            if (_kvstore != null && _update_on_kvstore.HasValue && _update_on_kvstore.Value)
                 foreach (var p in _arg_params)
-                {
                     if (p.Value.SType == StorageStype.RowSparse)
                     {
                         var row_ids = nd.Arange(0, p.Value.Shape[0], dtype: DType.Int64);
                         _kvstore.RowSparsePull(p.Key, p.Value, row_ids: row_ids);
                     }
-                }
-            }
 
             _params_dirty = false;
         }
@@ -579,11 +535,13 @@ namespace MxNet.Modules
             if (!Binded)
                 throw new Exception("Module not yet binded");
 
-            if(sparse_row_id_fn!=null)
+            if (sparse_row_id_fn != null)
             {
                 if (_kvstore != null && !_update_on_kvstore.Value)
+                {
                     Logger.Warning("Parameters are not updated in the KVStore. " +
-                                          "No need to call sparse_row_id_fn.");
+                                   "No need to call sparse_row_id_fn.");
+                }
                 else
                 {
                     var row_ids = sparse_row_id_fn(data_batch);
@@ -595,7 +553,7 @@ namespace MxNet.Modules
                         var param_val = _exec_group.ParamArrays[param_idx];
                         if (param_val[0].SType != StorageStype.RowSparse)
                             Logger.Warning($"{param_name}.stype is not 'row_sparse'. No need to " +
-                                                  "perform row_sparse_pull.");
+                                           "perform row_sparse_pull.");
                         else
                             _kvstore.RowSparsePull(param_name, param_val, row_ids: row_id, priority: param_idx);
                     }
@@ -604,4 +562,3 @@ namespace MxNet.Modules
         }
     }
 }
-

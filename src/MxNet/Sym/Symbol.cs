@@ -10,29 +10,22 @@ using SymbolHandle = System.IntPtr;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public class Symbol : DisposableMXNetObject
     {
-
         #region Fields
 
-        
         #endregion
 
         #region Constructors
 
-        static Symbol()
-        {
-        }
-
         public Symbol()
-            : this(IntPtr.Zero)
+            : this(SymbolHandle.Zero)
         {
         }
 
-        public Symbol(IntPtr handle)
+        public Symbol(SymbolHandle handle)
         {
-            this.NativePtr = handle;
+            NativePtr = handle;
         }
 
         public Symbol(string name)
@@ -40,7 +33,7 @@ namespace MxNet
             if (NativeMethods.MXSymbolCreateVariable(name, out var @out) != NativeMethods.OK)
                 throw new MXNetException($"Failed to create {nameof(Symbol)}");
 
-            this.NativePtr = @out;
+            NativePtr = @out;
         }
 
         //public Symbol(string operatorName, 
@@ -84,12 +77,12 @@ namespace MxNet
         {
             get
             {
-                this.ThrowIfDisposed();
-                if (this.NativePtr == IntPtr.Zero)
+                ThrowIfDisposed();
+                if (NativePtr == SymbolHandle.Zero)
                     return null;
 
-                NativeMethods.MXSymbolGetName(this.NativePtr, out var @out, out var success);
-                if (@out == IntPtr.Zero)
+                NativeMethods.MXSymbolGetName(NativePtr, out var @out, out var success);
+                if (@out == SymbolHandle.Zero)
                     return null;
 
                 return Marshal.PtrToStringAnsi(@out);
@@ -100,9 +93,9 @@ namespace MxNet
         {
             get
             {
-                this.ThrowIfDisposed();
+                ThrowIfDisposed();
 
-                NativeMethods.MXSymbolGetOutput(this.NativePtr, (uint)index, out var @out);
+                NativeMethods.MXSymbolGetOutput(NativePtr, (uint) index, out var @out);
                 return new Symbol(@out);
             }
         }
@@ -114,10 +107,10 @@ namespace MxNet
                 if (string.IsNullOrEmpty(slice))
                     return this;
 
-                string[] split = slice.Split(':');
+                var split = slice.Split(':');
 
-                int rowBegin = Convert.ToInt32(split[0]);
-                int rowEnd = Convert.ToInt32(split[1]);
+                var rowBegin = Convert.ToInt32(split[0]);
+                var rowEnd = Convert.ToInt32(split[1]);
 
                 return sym.Slice(this, new Shape(rowBegin), new Shape(rowEnd));
             }
@@ -128,44 +121,44 @@ namespace MxNet
         #region Methods
 
         public Executor Bind(Context context,
-                             NDArrayList argArrays,
-                             NDArrayList gradArrays,
-                             IList<OpGradReq> gradReqs,
-                             NDArrayList auxArrays)
+            NDArrayList argArrays,
+            NDArrayList gradArrays,
+            IList<OpGradReq> gradReqs,
+            NDArrayList auxArrays)
         {
             return new Executor(this,
-                                context,
-                                argArrays,
-                                gradArrays,
-                                gradReqs,
-                                auxArrays,
-                                new Dictionary<string, Context>());
+                context,
+                argArrays,
+                gradArrays,
+                gradReqs,
+                auxArrays,
+                new Dictionary<string, Context>());
         }
 
         public Executor Bind(Context context,
-                             NDArrayList argArrays,
-                             NDArrayList gradArrays,
-                             IList<OpGradReq> gradReqs,
-                             NDArrayList auxArrays,
-                             IDictionary<string, Context> groupToCtx)
+            NDArrayList argArrays,
+            NDArrayList gradArrays,
+            IList<OpGradReq> gradReqs,
+            NDArrayList auxArrays,
+            IDictionary<string, Context> groupToCtx)
         {
             return new Executor(this,
-                                context,
-                                argArrays,
-                                gradArrays,
-                                gradReqs,
-                                auxArrays,
-                                groupToCtx,
-                                null);
+                context,
+                argArrays,
+                gradArrays,
+                gradReqs,
+                auxArrays,
+                groupToCtx,
+                null);
         }
 
         public Executor Bind(Context context,
-                             NDArrayList argArrays,
-                             NDArrayList gradArrays,
-                             IList<OpGradReq> gradReqs,
-                             NDArrayList auxArrays,
-                             IDictionary<string, Context> groupToCtx,
-                             Executor sharedExec)
+            NDArrayList argArrays,
+            NDArrayList gradArrays,
+            IList<OpGradReq> gradReqs,
+            NDArrayList auxArrays,
+            IDictionary<string, Context> groupToCtx,
+            Executor sharedExec)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -181,31 +174,31 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(groupToCtx));
 
             return new Executor(this,
-                                context,
-                                argArrays,
-                                gradArrays,
-                                gradReqs,
-                                auxArrays,
-                                groupToCtx,
-                                sharedExec);
+                context,
+                argArrays,
+                gradArrays,
+                gradReqs,
+                auxArrays,
+                groupToCtx,
+                sharedExec);
         }
 
-        public IntPtr GetHandle()
+        public SymbolHandle GetHandle()
         {
-            this.ThrowIfDisposed();
-            return this.NativePtr;
+            ThrowIfDisposed();
+            return NativePtr;
         }
 
         public static Symbol Group(IList<Symbol> symbols)
         {
             var handleList = symbols.Select(symbol => symbol.GetHandle()).ToArray();
-            NativeMethods.MXSymbolCreateGroup((uint)handleList.Length, handleList, out var @out);
+            NativeMethods.MXSymbolCreateGroup((uint) handleList.Length, handleList, out var @out);
             return new Symbol(@out);
         }
 
         public void InferArgsMap(Context context,
-                                 NDArrayDict argsMap,
-                                 NDArrayDict knownArgs)
+            NDArrayDict argsMap,
+            NDArrayDict knownArgs)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -214,18 +207,16 @@ namespace MxNet
             if (knownArgs == null)
                 throw new ArgumentNullException(nameof(knownArgs));
 
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             var argShapes = new Dictionary<string, Shape>();
 
-            var argNameList = this.ListArguments();
+            var argNameList = ListArguments();
             foreach (var argName in argNameList)
-            {
                 if (knownArgs[argName] != null)
                     argShapes[argName] = knownArgs[argName].Shape;
-            }
 
-            var (inShapes, outShapes, auxShapes) = this.InferShape(argShapes);
+            var (inShapes, outShapes, auxShapes) = InferShape(argShapes);
 
             for (var i = 0; i < inShapes.Length; ++i)
             {
@@ -246,21 +237,20 @@ namespace MxNet
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="argShapes"></param>
         /// <returns>Return arg_shapes, out_shapes, aux_shapes</returns>
-        public (Shape[], Shape[], Shape[]) InferShape(Dictionary<string , Shape> argShapes)
+        public (Shape[], Shape[], Shape[]) InferShape(Dictionary<string, Shape> argShapes)
         {
             if (argShapes == null)
                 throw new ArgumentNullException(nameof(argShapes));
 
-            List<Shape> inShape = new List<Shape>();
-            List<Shape> auxShape = new List<Shape>();
-            List<Shape> outShape = new List<Shape>();
+            var inShape = new List<Shape>();
+            var auxShape = new List<Shape>();
+            var outShape = new List<Shape>();
 
-            this.ThrowIfDisposed();
-            var argIndPtr = new List<int>() { 0 };
+            ThrowIfDisposed();
+            var argIndPtr = new List<int> {0};
             var argShapeData = new List<int>();
 
             foreach (var item in argShapes.Values)
@@ -286,21 +276,21 @@ namespace MxNet
                     int* inShapeNdim;
                     int** inShapeData;
 
-                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapeEx(this.NativePtr,
-                                                                      (uint)argShapes.Count,
-                                                                      keys,
-                                                                      argIndPtrArray,
-                                                                      argShapeDataArray,
-                                                                      &inShapeSize,
-                                                                      &inShapeNdim,
-                                                                      &inShapeData,
-                                                                      out var outShapeSize,
-                                                                      out var outShapeNdim,
-                                                                      out var outShapeData,
-                                                                      out var auxShapeSize,
-                                                                      out var auxShapeNdim,
-                                                                      out var auxShapeData,
-                                                                      out var complete), NativeMethods.OK);
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapeEx(NativePtr,
+                        (uint) argShapes.Count,
+                        keys,
+                        argIndPtrArray,
+                        argShapeDataArray,
+                        &inShapeSize,
+                        &inShapeNdim,
+                        &inShapeData,
+                        out var outShapeSize,
+                        out var outShapeNdim,
+                        out var outShapeData,
+                        out var auxShapeSize,
+                        out var auxShapeNdim,
+                        out var auxShapeData,
+                        out var complete), NativeMethods.OK);
 
                     if (complete == 0)
                         return (null, null, null);
@@ -336,12 +326,12 @@ namespace MxNet
             if (argShapes == null)
                 throw new ArgumentNullException(nameof(argShapes));
 
-            List<Shape> inShape = new List<Shape>();
-            List<Shape> auxShape = new List<Shape>();
-            List<Shape> outShape = new List<Shape>();
+            var inShape = new List<Shape>();
+            var auxShape = new List<Shape>();
+            var outShape = new List<Shape>();
 
-            this.ThrowIfDisposed();
-            var argIndPtr = new List<int>() { 0 };
+            ThrowIfDisposed();
+            var argIndPtr = new List<int> {0};
             var argShapeData = new List<int>();
 
             foreach (var item in argShapes.Values)
@@ -367,21 +357,21 @@ namespace MxNet
                     int* inShapeNdim;
                     int** inShapeData;
 
-                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapePartialEx(this.NativePtr,
-                                                                      (uint)argShapes.Count,
-                                                                      keys,
-                                                                      argIndPtrArray,
-                                                                      argShapeDataArray,
-                                                                      &inShapeSize,
-                                                                      &inShapeNdim,
-                                                                      &inShapeData,
-                                                                      out var outShapeSize,
-                                                                      out var outShapeNdim,
-                                                                      out var outShapeData,
-                                                                      out var auxShapeSize,
-                                                                      out var auxShapeNdim,
-                                                                      out var auxShapeData,
-                                                                      out var complete), NativeMethods.OK);
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapePartialEx(NativePtr,
+                        (uint) argShapes.Count,
+                        keys,
+                        argIndPtrArray,
+                        argShapeDataArray,
+                        &inShapeSize,
+                        &inShapeNdim,
+                        &inShapeData,
+                        out var outShapeSize,
+                        out var outShapeNdim,
+                        out var outShapeData,
+                        out var auxShapeSize,
+                        out var auxShapeNdim,
+                        out var auxShapeData,
+                        out var complete), NativeMethods.OK);
 
                     if (complete == 0)
                         return (null, null, null);
@@ -412,71 +402,74 @@ namespace MxNet
             return (inShape.ToArray(), outShape.ToArray(), auxShape.ToArray());
         }
 
-        public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> args = null) => throw new NotImplementedException();
-
-        public void InferExecutorArrays(Context context,
-                                        NDArrayList argArrays,
-                                        NDArrayList gradArrays,
-                                        IList<OpGradReq> gradReqs,
-                                        NDArrayList auxArrays,
-                                        NDArrayDict argsMap)
+        public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> args = null)
         {
-            this.InferExecutorArrays(context,
-                                     argArrays,
-                                     gradArrays,
-                                     gradReqs,
-                                     auxArrays,
-                                     argsMap,
-                                     new NDArrayDict());
+            throw new NotImplementedException();
         }
 
         public void InferExecutorArrays(Context context,
-                                        NDArrayList argArrays,
-                                        NDArrayList gradArrays,
-                                        IList<OpGradReq> gradReqs,
-                                        NDArrayList auxArrays,
-                                        NDArrayDict argsMap,
-                                        NDArrayDict argGradStore)
+            NDArrayList argArrays,
+            NDArrayList gradArrays,
+            IList<OpGradReq> gradReqs,
+            NDArrayList auxArrays,
+            NDArrayDict argsMap)
         {
-            this.InferExecutorArrays(context,
-                                     argArrays,
-                                     gradArrays,
-                                     gradReqs,
-                                     auxArrays,
-                                     argsMap,
-                                     argGradStore,
-                                     new Dictionary<string, OpGradReq>());
+            InferExecutorArrays(context,
+                argArrays,
+                gradArrays,
+                gradReqs,
+                auxArrays,
+                argsMap,
+                new NDArrayDict());
         }
 
         public void InferExecutorArrays(Context context,
-                                        NDArrayList argArrays,
-                                        NDArrayList gradArrays,
-                                        IList<OpGradReq> gradReqs,
-                                        NDArrayList auxArrays,
-                                        NDArrayDict argsMap,
-                                        NDArrayDict argGradStore,
-                                        IDictionary<string, OpGradReq> gradReqType)
+            NDArrayList argArrays,
+            NDArrayList gradArrays,
+            IList<OpGradReq> gradReqs,
+            NDArrayList auxArrays,
+            NDArrayDict argsMap,
+            NDArrayDict argGradStore)
         {
-            this.InferExecutorArrays(context,
-                                     argArrays,
-                                     gradArrays,
-                                     gradReqs,
-                                     auxArrays,
-                                     argsMap,
-                                     argGradStore,
-                                     gradReqType,
-                                     new NDArrayDict());
+            InferExecutorArrays(context,
+                argArrays,
+                gradArrays,
+                gradReqs,
+                auxArrays,
+                argsMap,
+                argGradStore,
+                new Dictionary<string, OpGradReq>());
         }
 
         public void InferExecutorArrays(Context context,
-                                    NDArrayList argArrays,
-                                    NDArrayList gradArrays,
-                                    IList<OpGradReq> gradReqs,
-                                    NDArrayList auxArrays,
-                                    NDArrayDict argsMap,
-                                    NDArrayDict argGradStore,
-                                    IDictionary<string, OpGradReq> gradReqType,
-                                    NDArrayDict auxMap)
+            NDArrayList argArrays,
+            NDArrayList gradArrays,
+            IList<OpGradReq> gradReqs,
+            NDArrayList auxArrays,
+            NDArrayDict argsMap,
+            NDArrayDict argGradStore,
+            IDictionary<string, OpGradReq> gradReqType)
+        {
+            InferExecutorArrays(context,
+                argArrays,
+                gradArrays,
+                gradReqs,
+                auxArrays,
+                argsMap,
+                argGradStore,
+                gradReqType,
+                new NDArrayDict());
+        }
+
+        public void InferExecutorArrays(Context context,
+            NDArrayList argArrays,
+            NDArrayList gradArrays,
+            IList<OpGradReq> gradReqs,
+            NDArrayList auxArrays,
+            NDArrayDict argsMap,
+            NDArrayDict argGradStore,
+            IDictionary<string, OpGradReq> gradReqType,
+            NDArrayDict auxMap)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -497,18 +490,16 @@ namespace MxNet
             if (auxMap == null)
                 throw new ArgumentNullException(nameof(auxMap));
 
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            var argNameList = this.ListArguments();
+            var argNameList = ListArguments();
             var argShapes = new Dictionary<string, Shape>();
 
             foreach (var argName in argNameList)
-            {
                 if (argsMap[argName] != null)
                     argShapes[argName] = argsMap[argName].Shape;
-            }
 
-            var (inShapes, auxShapes, outShapes) = this.InferShape(argShapes);
+            var (inShapes, auxShapes, outShapes) = InferShape(argShapes);
 
             for (var i = 0; i < inShapes.Length; ++i)
             {
@@ -527,30 +518,20 @@ namespace MxNet
                 }
 
                 if (argGradStore[argName] != null)
-                {
                     gradArrays.Add(argGradStore[argName]);
-                }
                 else
-                {
                     gradArrays.Add(new NDArray(shape, false));
-                }
 
                 if (gradReqType.TryGetValue(argName, out var value3))
-                {
                     gradReqs.Add(value3);
-                }
                 else if (argName.LastIndexOf("data", StringComparison.InvariantCulture) == argName.Length - 4 ||
                          argName.LastIndexOf("label", StringComparison.InvariantCulture) == argName.Length - 5)
-                {
                     gradReqs.Add(OpGradReq.Null);
-                }
                 else
-                {
                     gradReqs.Add(OpGradReq.Write);
-                }
             }
 
-            var auxNameList = this.ListAuxiliaryStates();
+            var auxNameList = ListAuxiliaryStates();
             for (var i = 0; i < auxShapes.Length; ++i)
             {
                 var shape = auxShapes[i];
@@ -571,9 +552,9 @@ namespace MxNet
 
         public IList<string> ListArguments()
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            NativeMethods.MXSymbolListArguments(this.GetHandle(), out var size, out var sarry);
+            NativeMethods.MXSymbolListArguments(GetHandle(), out var size, out var sarry);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
 
             var ret = new string[size];
@@ -590,9 +571,9 @@ namespace MxNet
 
         public IList<string> ListAuxiliaryStates()
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            NativeMethods.MXSymbolListAuxiliaryStates(this.GetHandle(), out var size, out var sarry);
+            NativeMethods.MXSymbolListAuxiliaryStates(GetHandle(), out var size, out var sarry);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
 
             var ret = new string[size];
@@ -604,9 +585,9 @@ namespace MxNet
 
         public IList<string> ListOutputs()
         {
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            NativeMethods.MXSymbolListOutputs(this.GetHandle(), out var size, out var sarry);
+            NativeMethods.MXSymbolListOutputs(GetHandle(), out var size, out var sarry);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
             var ret = new string[size];
             for (var i = 0; i < size; i++)
@@ -631,31 +612,31 @@ namespace MxNet
         {
             if (remove_amp_cast)
             {
-                Logging.CHECK_EQ(NativeMethods.MXSymbolRemoveAmpCast(this.GetHandle(), out var h), NativeMethods.OK);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolRemoveAmpCast(GetHandle(), out var h), NativeMethods.OK);
                 Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToFile(h, fileName), NativeMethods.OK);
             }
             else
             {
-                Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToFile(this.GetHandle(), fileName), NativeMethods.OK);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToFile(GetHandle(), fileName), NativeMethods.OK);
             }
         }
 
         public Executor SimpleBind(Context context,
-                                   NDArrayDict argsMap)
+            NDArrayDict argsMap)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
             if (argsMap == null)
                 throw new ArgumentNullException(nameof(argsMap));
 
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            return this.SimpleBind(context, argsMap, new NDArrayDict());
+            return SimpleBind(context, argsMap, new NDArrayDict());
         }
 
         public Executor SimpleBind(Context context,
-                                   NDArrayDict argsMap,
-                                   NDArrayDict argGradStore)
+            NDArrayDict argsMap,
+            NDArrayDict argGradStore)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -664,15 +645,15 @@ namespace MxNet
             if (argGradStore == null)
                 throw new ArgumentNullException(nameof(argGradStore));
 
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            return this.SimpleBind(context, argsMap, argGradStore, new Dictionary<string, OpGradReq>());
+            return SimpleBind(context, argsMap, argGradStore, new Dictionary<string, OpGradReq>());
         }
 
         public Executor SimpleBind(Context context,
-                                   NDArrayDict argsMap,
-                                   NDArrayDict argGradStore,
-                                   IDictionary<string, OpGradReq> gradReqType)
+            NDArrayDict argsMap,
+            NDArrayDict argGradStore,
+            IDictionary<string, OpGradReq> gradReqType)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -683,16 +664,16 @@ namespace MxNet
             if (gradReqType == null)
                 throw new ArgumentNullException(nameof(gradReqType));
 
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
-            return this.SimpleBind(context, argsMap, argGradStore, gradReqType, new NDArrayDict());
+            return SimpleBind(context, argsMap, argGradStore, gradReqType, new NDArrayDict());
         }
 
         public Executor SimpleBind(Context context,
-                                   NDArrayDict argsMap,
-                                   NDArrayDict argGradStore,
-                                   IDictionary<string, OpGradReq> gradReqType,
-                                   NDArrayDict auxMap)
+            NDArrayDict argsMap,
+            NDArrayDict argGradStore,
+            IDictionary<string, OpGradReq> gradReqType,
+            NDArrayDict auxMap)
         {
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
@@ -705,29 +686,29 @@ namespace MxNet
             if (auxMap == null)
                 throw new ArgumentNullException(nameof(auxMap));
 
-            this.ThrowIfDisposed();
+            ThrowIfDisposed();
 
             var argArrays = new NDArrayList();
             var gradArrays = new NDArrayList();
             var gradReqs = new List<OpGradReq>();
             var auxArrays = new NDArrayList();
 
-            this.InferExecutorArrays(context,
-                                     argArrays,
-                                     gradArrays,
-                                     gradReqs,
-                                     auxArrays,
-                                     argsMap,
-                                     argGradStore,
-                                     gradReqType,
-                                     auxMap);
+            InferExecutorArrays(context,
+                argArrays,
+                gradArrays,
+                gradReqs,
+                auxArrays,
+                argsMap,
+                argGradStore,
+                gradReqType,
+                auxMap);
 
             return new Executor(this, context, argArrays, gradArrays, gradReqs, auxArrays);
         }
 
         public string ToJSON()
         {
-            Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToJSON(this.GetHandle(), out var outJson), NativeMethods.OK);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToJSON(GetHandle(), out var outJson), NativeMethods.OK);
             return Marshal.PtrToStringAnsi(outJson);
         }
 
@@ -736,8 +717,9 @@ namespace MxNet
             return Var(name);
         }
 
-        public static Symbol Var(string name, Dictionary<string, string> attr= null, Shape shape= null, float? lr_mult= null, float? wd_mult= null,
-                            DType dtype= null, Initializer init= null, StorageStype? stype= null)
+        public static Symbol Var(string name, Dictionary<string, string> attr = null, Shape shape = null,
+            float? lr_mult = null, float? wd_mult = null,
+            DType dtype = null, Initializer init = null, StorageStype? stype = null)
         {
             NativeMethods.MXSymbolCreateVariable(name, out var handle);
             var ret = new Symbol(handle);
@@ -756,14 +738,14 @@ namespace MxNet
             if (dtype != null)
                 attr.Add("__dtype__", dtype.Name);
 
-            if(init != null)
+            if (init != null)
             {
-                string init_string = init.Dumps();
+                var init_string = init.Dumps();
                 attr.Add("__init__", init_string);
             }
 
             if (stype.HasValue)
-                attr.Add("__storage_type__", ((int)stype).ToString());
+                attr.Add("__storage_type__", ((int) stype).ToString());
 
             ret.SetAttr(attr);
 
@@ -773,7 +755,7 @@ namespace MxNet
         public string Attr(string key)
         {
             NativeMethods.MXSymbolGetAttr(GetHandle(), key, out var @out, out var success);
-            if(success != 0)
+            if (success != 0)
                 return @out;
 
             return null;
@@ -781,27 +763,24 @@ namespace MxNet
 
         public Dictionary<string, string> ListAttr()
         {
-            List<string> pairs = new List<string>();
+            var pairs = new List<string>();
             NativeMethods.MXSymbolListAttrShallow(GetHandle(), out var out_size, pairs.ToArray());
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            int i = 0;
-            while (i < out_size)
-            {
-                dict[pairs[i * 2]] = pairs[i * 2 + 1];
-            }
+            var dict = new Dictionary<string, string>();
+            var i = 0;
+            while (i < out_size) dict[pairs[i * 2]] = pairs[i * 2 + 1];
 
             return dict;
         }
 
         public Dictionary<string, Dictionary<string, string>> AttrDict()
         {
-            List<string> pairs = new List<string>();
+            var pairs = new List<string>();
             NativeMethods.MXSymbolListAttr(GetHandle(), out var out_size, pairs.ToArray());
-            Dictionary<string, Dictionary<string, string>> dict = new Dictionary<string, Dictionary<string, string>>();
-            int i = 0;
+            var dict = new Dictionary<string, Dictionary<string, string>>();
+            var i = 0;
             while (i < out_size)
             {
-                string[] keys = pairs[i * 2].Split('$');
+                var keys = pairs[i * 2].Split('$');
                 dict[keys[0]] = new Dictionary<string, string>();
                 dict[keys[0]][keys[1]] = pairs[i * 2 + 1];
             }
@@ -811,10 +790,7 @@ namespace MxNet
 
         public void SetAttr(Dictionary<string, string> attrs)
         {
-            foreach (var attr in attrs)
-            {
-                NativeMethods.MXSymbolSetAttr(GetHandle(), attr.Key, attr.Value);
-            }
+            foreach (var attr in attrs) NativeMethods.MXSymbolSetAttr(GetHandle(), attr.Key, attr.Value);
         }
 
         public virtual Symbol Reshape(Shape shape, bool reverse = false)
@@ -1009,13 +985,11 @@ namespace MxNet
         protected override void DisposeUnmanaged()
         {
             base.DisposeUnmanaged();
-            NativeMethods.MXSymbolFree(this.NativePtr);
+            NativeMethods.MXSymbolFree(NativePtr);
         }
 
         #endregion
 
         #endregion
-
     }
-
 }

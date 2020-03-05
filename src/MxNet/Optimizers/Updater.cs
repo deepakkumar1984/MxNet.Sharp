@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Optimizers
 {
     public class Updater
     {
+        private readonly bool aggregate_updates;
         internal Optimizer optimizer;
         internal Dictionary<int, (NDArrayDict, NDArray)> states;
-        private Dictionary<int, bool> states_synced;
-        private bool aggregate_updates;
+        private readonly Dictionary<int, bool> states_synced;
 
         public Updater(Optimizer opt)
         {
@@ -21,7 +20,7 @@ namespace MxNet.Optimizers
 
         public void Call(int index, NDArray grad, NDArray weight)
         {
-            Call(new int[] { index }, grad, weight);
+            Call(new[] {index}, grad, weight);
         }
 
         public void Call(int[] indices, NDArrayList grads, NDArrayList weights)
@@ -29,9 +28,9 @@ namespace MxNet.Optimizers
             if (weights != null)
                 optimizer.SetCurrentContext(weights[0].context.GetDeviceId());
 
-            for(int i=0;i<indices.Length;i++)
+            for (var i = 0; i < indices.Length; i++)
             {
-                int index = indices[i];
+                var index = indices[i];
                 if (!states.ContainsKey(index))
                 {
                     states[index] = optimizer.CreateStateMultiPrecision(index, weights[i]);
@@ -44,15 +43,17 @@ namespace MxNet.Optimizers
                 }
             }
 
-            if(aggregate_updates)
+            if (aggregate_updates)
             {
-                Dictionary<string, List<(int, NDArray, NDArray)>> type_map = new Dictionary<string, List<(int, NDArray, NDArray)>>();
-                for(int i = 0;i<indices.Length;i++)
+                var type_map = new Dictionary<string, List<(int, NDArray, NDArray)>>();
+                for (var i = 0; i < indices.Length; i++)
                 {
                     var w = weights[i];
                     var g = grads[i];
                     if (type_map.ContainsKey(w.DataType.Name))
+                    {
                         type_map[w.DataType.Name].Add((i, w, g));
+                    }
                     else
                     {
                         type_map[w.DataType.Name] = new List<(int, NDArray, NDArray)>();
@@ -62,13 +63,13 @@ namespace MxNet.Optimizers
 
                 foreach (var item in type_map)
                 {
-                    int current_index = 0;
+                    var current_index = 0;
                     while (current_index < item.Value.Count)
                     {
-                        Dictionary<int, (NDArrayDict, NDArray)> local_states = new Dictionary<int, (NDArrayDict, NDArray)>();
-                        var step = (int)Math.Min(optimizer.AggregateNum, item.Value.Count - current_index);
+                        var local_states = new Dictionary<int, (NDArrayDict, NDArray)>();
+                        var step = Math.Min(optimizer.AggregateNum, item.Value.Count - current_index);
                         var (index, weight, grad) = item.Value[current_index + optimizer.AggregateNum];
-                        for (int j = 0; j < step; j++)
+                        for (var j = 0; j < step; j++)
                             local_states.Add(j, states[item.Value[current_index + j].Item1]);
 
                         optimizer.UpdateMultiPrecision(index, weight, grad, local_states[0]); //ToDo: revisit code
@@ -79,21 +80,16 @@ namespace MxNet.Optimizers
             }
             else
             {
-                for (int i = 0; i < indices.Length; i++)
-                {
+                for (var i = 0; i < indices.Length; i++)
                     optimizer.UpdateMultiPrecision(indices[i], weights[i], grads[i], states[i]);
-                }
             }
         }
 
         public (NDArrayDict, NDArray) SyncStateContext((NDArrayDict, NDArray) state, Context context)
         {
             var (dict, arr) = state;
-            NDArrayDict dict1 = new NDArrayDict();
-            foreach (var item in dict)
-            {
-                dict1[item.Key] = item.Value.AsInContext(context);
-            }
+            var dict1 = new NDArrayDict();
+            foreach (var item in dict) dict1[item.Key] = item.Value.AsInContext(context);
 
             return (dict1, arr.AsInContext(context));
         }
@@ -103,18 +99,15 @@ namespace MxNet.Optimizers
             var (states, opt) = Pickle.Loads(states_data);
             if (opt != null)
                 optimizer = opt;
-             
+
             this.states = states;
             states_synced.Clear();
-            foreach (var item in states.Keys)
-            {
-                states_synced.Add(item, false);
-            }
+            foreach (var item in states.Keys) states_synced.Add(item, false);
         }
 
         public string GetStates(bool dump_optimizer = false)
         {
-            if(dump_optimizer)
+            if (dump_optimizer)
                 return Pickle.Dumps(states, optimizer);
 
             return Pickle.Dumps(states);

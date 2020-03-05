@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Optimizers
 {
@@ -21,7 +19,8 @@ namespace MxNet.Optimizers
                 grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
 
             weight += -lr / 2 * (grad + wd * weight);
-            weight += nd.Random.Normal(0, (float)Math.Sqrt(lr), shape: weight.Shape, dtype: weight.DataType, ctx: weight.context);
+            weight += nd.Random.Normal(0, (float) Math.Sqrt(lr), weight.Shape, dtype: weight.DataType,
+                ctx: weight.context);
         }
     }
 }

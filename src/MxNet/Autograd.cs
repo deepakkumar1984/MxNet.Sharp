@@ -1,8 +1,6 @@
-﻿using MxNet.Interop;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Linq;
+using MxNet.Interop;
 
 namespace MxNet
 {
@@ -10,7 +8,7 @@ namespace MxNet
     {
         public static bool SetRecording(bool is_recording)
         {
-            int prev = 0;
+            var prev = 0;
             NativeMethods.MXAutogradSetIsRecording(Convert.ToInt32(is_recording), ref prev);
 
             return Convert.ToBoolean(prev);
@@ -18,7 +16,7 @@ namespace MxNet
 
         public static bool SetTraining(bool train_mode)
         {
-            int prev = 0;
+            var prev = 0;
             NativeMethods.MXAutogradSetIsTraining(Convert.ToInt32(train_mode), ref prev);
 
             return Convert.ToBoolean(prev);
@@ -26,7 +24,7 @@ namespace MxNet
 
         public static bool IsRecording()
         {
-            int curr = 0;
+            var curr = 0;
             NativeMethods.MXAutogradIsRecording(ref curr);
 
             return Convert.ToBoolean(curr);
@@ -34,29 +32,40 @@ namespace MxNet
 
         public static bool IsTraining()
         {
-            int curr = 0;
+            var curr = 0;
             NativeMethods.MXAutogradIsTraining(ref curr);
 
             return Convert.ToBoolean(curr);
         }
 
-        public static _RecordingStateScope Record(bool train_mode = true) => new _RecordingStateScope(true, train_mode);
-
-        public static _RecordingStateScope Pause(bool train_mode = true) => new _RecordingStateScope(false, train_mode);
-
-        public static _RecordingStateScope TrainMode() => new _RecordingStateScope(null, true);
-
-        public static _RecordingStateScope PredictMode() => new _RecordingStateScope(null, false);
-
-        public static void MarkVariables(NDArrayList variables, NDArrayList gradients, OpGradReq grad_reqs= OpGradReq.Write)
+        public static _RecordingStateScope Record(bool train_mode = true)
         {
-            int[] gradReqs = new int[variables.Length];
-            for(int i=0;i<gradReqs.Length;i++)
-            {
-                gradReqs[i] = (int)OpGradReq.Write;
-            }
+            return new _RecordingStateScope(true, train_mode);
+        }
 
-            NativeMethods.MXAutogradMarkVariables(variables.Length, MxUtil.GetNDArrayHandles(variables), gradReqs, MxUtil.GetNDArrayHandles(gradients));
+        public static _RecordingStateScope Pause(bool train_mode = true)
+        {
+            return new _RecordingStateScope(false, train_mode);
+        }
+
+        public static _RecordingStateScope TrainMode()
+        {
+            return new _RecordingStateScope(null, true);
+        }
+
+        public static _RecordingStateScope PredictMode()
+        {
+            return new _RecordingStateScope(null, false);
+        }
+
+        public static void MarkVariables(NDArrayList variables, NDArrayList gradients,
+            OpGradReq grad_reqs = OpGradReq.Write)
+        {
+            var gradReqs = new int[variables.Length];
+            for (var i = 0; i < gradReqs.Length; i++) gradReqs[i] = (int) OpGradReq.Write;
+
+            NativeMethods.MXAutogradMarkVariables(variables.Length, MxUtil.GetNDArrayHandles(variables), gradReqs,
+                MxUtil.GetNDArrayHandles(gradients));
         }
 
         private static (IntPtr[], IntPtr[]) ParseHead(NDArrayList heads, NDArrayList head_grads)
@@ -66,13 +75,10 @@ namespace MxNet
 
             headHandles = MxUtil.GetNDArrayHandles(heads);
 
-            if(head_grads == null)
+            if (head_grads == null)
             {
                 headHandles = new IntPtr[heads.Length];
-                for (int i = 0; i < headHandles.Length; i++)
-                {
-                    headHandles[i] = IntPtr.Zero;
-                }
+                for (var i = 0; i < headHandles.Length; i++) headHandles[i] = IntPtr.Zero;
             }
             else
             {
@@ -85,38 +91,37 @@ namespace MxNet
             return (headHandles, headGradHandles);
         }
 
-        public static void Backward(NDArrayList heads, NDArrayList head_grads = null, bool retain_graph= false, bool train_mode= true)
+        public static void Backward(NDArrayList heads, NDArrayList head_grads = null, bool retain_graph = false,
+            bool train_mode = true)
         {
             var (head_handles, head_grads_handles) = ParseHead(heads, head_grads);
 
             NativeMethods.MXAutogradBackwardEx(head_handles.Length, head_handles, head_grads_handles, 0,
-                                                new IntPtr[] { }, Convert.ToInt32(retain_graph),
-                                                0, Convert.ToInt32(train_mode), new IntPtr[] { }, new int[] { });
+                new IntPtr[] { }, Convert.ToInt32(retain_graph),
+                0, Convert.ToInt32(train_mode), new IntPtr[] { }, new int[] { });
         }
 
-        public static NDArrayList Grad(NDArrayList heads, NDArrayList variables, NDArrayList head_grads = null, bool retain_graph = false, bool create_graph = true, bool train_mode = true)
+        public static NDArrayList Grad(NDArrayList heads, NDArrayList variables, NDArrayList head_grads = null,
+            bool retain_graph = false, bool create_graph = true, bool train_mode = true)
         {
             var (head_handles, head_grads_handles) = ParseHead(heads, head_grads);
 
-            IntPtr[] grad_handles = new IntPtr[head_handles.Length];
-            int[] grad_stypes = new int[head_handles.Length];
+            var grad_handles = new IntPtr[head_handles.Length];
+            var grad_stypes = new int[head_handles.Length];
 
             NativeMethods.MXAutogradBackwardEx(head_handles.Length, head_handles, head_grads_handles, variables.Length,
-                                                MxUtil.GetNDArrayHandles(variables), Convert.ToInt32(retain_graph),
-                                                Convert.ToInt32(create_graph), Convert.ToInt32(train_mode), grad_handles, grad_stypes);
+                MxUtil.GetNDArrayHandles(variables), Convert.ToInt32(retain_graph),
+                Convert.ToInt32(create_graph), Convert.ToInt32(train_mode), grad_handles, grad_stypes);
 
-            NDArrayList result = new NDArrayList();
-            foreach (var item in grad_handles)
-            {
-                result.Add(new NDArray(item));
-            }
+            var result = new NDArrayList();
+            foreach (var item in grad_handles) result.Add(new NDArray(item));
 
             return result.ToArray();
         }
 
         public static Symbol GetSymbol(NDArray x)
         {
-            IntPtr hdl = IntPtr.Zero;
+            var hdl = IntPtr.Zero;
             NativeMethods.MXAutogradGetSymbol(x.GetHandle(), hdl);
             return new Symbol(hdl);
         }
@@ -127,6 +132,7 @@ namespace MxNet
             private bool? _enter_train_mode;
             private bool? _prev_is_record;
             private bool? _prev_train_mode;
+
             public _RecordingStateScope(bool? is_record, bool train_mode)
             {
                 _enter_is_record = is_record;
@@ -142,7 +148,7 @@ namespace MxNet
 
             public override MxDisposable Enter()
             {
-                if(_enter_is_record.HasValue)
+                if (_enter_is_record.HasValue)
                     _prev_is_record = SetRecording(_enter_is_record.Value);
 
                 if (_enter_train_mode.HasValue)

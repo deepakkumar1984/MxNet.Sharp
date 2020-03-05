@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MxNet.IO
 {
     public class DataDesc
     {
+        public DataDesc(string name, Shape shape, DType dtype = null, string layout = "NCHW'")
+        {
+            Name = name;
+            Shape = shape;
+            DataType = dtype ?? DType.Float32;
+            Layout = layout;
+        }
+
         public string Name { get; set; }
 
         public Shape Shape { get; set; }
@@ -14,14 +20,6 @@ namespace MxNet.IO
         public DType DataType { get; set; }
 
         public string Layout { get; set; }
-
-        public DataDesc(string name, Shape shape, DType dtype= null, string layout= "NCHW'")
-        {
-            Name = name;
-            Shape = shape;
-            DataType = dtype ?? DType.Float32;
-            Layout = layout;
-        }
 
         public override string ToString()
         {
@@ -38,22 +36,14 @@ namespace MxNet.IO
 
         public static DataDesc[] GetList(Dictionary<string, Shape> shapes, Dictionary<string, DType> types = null)
         {
-            List<DataDesc> result = new List<DataDesc>();
+            var result = new List<DataDesc>();
 
-            if(types!=null)
-            {
+            if (types != null)
                 foreach (var item in shapes)
-                {
                     result.Add(new DataDesc(item.Key, item.Value, types[item.Key]));
-                }
-            }
             else
-            {
                 foreach (var item in shapes)
-                {
                     result.Add(new DataDesc(item.Key, item.Value));
-                }
-            }
 
             return result.ToArray();
         }

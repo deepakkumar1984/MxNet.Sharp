@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon
 {
@@ -23,9 +19,16 @@ namespace MxNet.Gluon
             throw new NotImplementedException();
         }
 
-        public static SymbolBlock Imports(string symbol_file, string[] input_names, string param_file= null, Context ctx= null)=> throw new NotImplementedException();
+        public static SymbolBlock Imports(string symbol_file, string[] input_names, string param_file = null,
+            Context ctx = null)
+        {
+            throw new NotImplementedException();
+        }
 
-        private void ClearCachedOp() => throw new NotImplementedException();
+        private void ClearCachedOp()
+        {
+            throw new NotImplementedException();
+        }
 
         public override void Cast(DType dtype)
         {

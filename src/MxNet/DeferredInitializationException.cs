@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace MxNet
 {
@@ -19,7 +17,8 @@ namespace MxNet
         {
         }
 
-        protected DeferredInitializationException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected DeferredInitializationException(SerializationInfo info, StreamingContext context) : base(info,
+            context)
         {
         }
     }

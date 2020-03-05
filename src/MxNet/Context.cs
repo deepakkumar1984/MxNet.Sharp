@@ -1,19 +1,18 @@
 ﻿// ReSharper disable once CheckNamespace
+
 using MxNet.Interop;
 
 namespace MxNet
 {
-
     public sealed class Context
     {
+        #region Constructors
 
-        #region Fields
-
-        private readonly DeviceType _Type;
-
-        private readonly int _Id = -1;
-
-        private static Context current = null;
+        public Context(DeviceType type = DeviceType.CPU, int id = 0)
+        {
+            _Type = type;
+            _Id = id;
+        }
 
         #endregion
 
@@ -24,21 +23,35 @@ namespace MxNet
                 if (current != null)
                     return current;
 
-                return Context.Cpu();
+                return Cpu();
             }
-            set
-            {
-                current = value;
-            }
+            set => current = value;
         }
 
-        #region Constructors
-
-        public Context(DeviceType type = DeviceType.CPU, int id = 0)
+        public override string ToString()
         {
-            this._Type = type;
-            this._Id = id;
+            if (GetDeviceType() == DeviceType.GPU)
+                return string.Format("gpu({0})", GetDeviceId());
+            if (GetDeviceType() == DeviceType.CPUPinned)
+                return string.Format("cpu_pinned({0})", GetDeviceId());
+            if (GetDeviceType() == DeviceType.CPUShared)
+                return string.Format("cpu_shared({0})", GetDeviceId());
+            return string.Format("cpu({0})", GetDeviceId());
         }
+
+        public override bool Equals(object obj)
+        {
+            var other = (Context) obj;
+            return ToString() == other.ToString();
+        }
+
+        #region Fields
+
+        private readonly DeviceType _Type;
+
+        private readonly int _Id = -1;
+
+        private static Context current;
 
         #endregion
 
@@ -66,17 +79,17 @@ namespace MxNet
 
         public int GetDeviceId()
         {
-            return this._Id;
+            return _Id;
         }
 
         public DeviceType GetDeviceType()
         {
-            return this._Type;
+            return _Type;
         }
 
         public void EmptyCache()
         {
-            NativeMethods.MXStorageEmptyCache((int)_Type, _Id);
+            NativeMethods.MXStorageEmptyCache((int) _Type, _Id);
         }
 
         public static (long, long) GpuMemoryInfo(int deviceId = 0)
@@ -90,40 +103,11 @@ namespace MxNet
 
         public static int NumGpus()
         {
-            int count = 0;
+            var count = 0;
             NativeMethods.MXGetGPUCount(ref count);
             return count;
         }
 
         #endregion
-
-        public override string ToString()
-        {
-            if(GetDeviceType() == DeviceType.GPU)
-            {
-                return string.Format("gpu({0})", GetDeviceId());
-            }
-            else if (GetDeviceType() == DeviceType.CPUPinned)
-            {
-                return string.Format("cpu_pinned({0})", GetDeviceId());
-            }
-            else if (GetDeviceType() == DeviceType.CPUShared)
-            {
-                return string.Format("cpu_shared({0})", GetDeviceId());
-            }
-            else
-            {
-                return string.Format("cpu({0})", GetDeviceId());
-            }
-        }
-
-        public override bool Equals(object obj)
-        {
-            var other = (Context)obj;
-            return this.ToString() == other.ToString();
-
-        }
-
     }
-
 }

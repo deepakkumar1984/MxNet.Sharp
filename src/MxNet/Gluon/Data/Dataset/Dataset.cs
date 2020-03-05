@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
     public abstract class Dataset<T>
     {
-        public T[] Data { get; set; }
-
-        public abstract int Length { get; }
-
-        public abstract T this[int idx]
-        {
-            get;
-        }
-
         public Dataset(params T[] data)
         {
             Data = data;
         }
+
+        public T[] Data { get; set; }
+
+        public abstract int Length { get; }
+
+        public abstract T this[int idx] { get; }
 
         public Dataset<T> Transform(Func<T, T> fn, bool lazy = true)
         {

@@ -1,25 +1,19 @@
-﻿using MxNet.Gluon.Contrib.NN;
+﻿using System;
+using MxNet.Gluon.Contrib.NN;
 using MxNet.Gluon.NN;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.ModelZoo.Vision
 {
     public class SqueezeNet : HybridBlock
     {
-        public HybridSequential Features { get; set; }
-        public HybridSequential Output { get; set; }
-
-        public SqueezeNet(string version, int classes= 1000, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public SqueezeNet(string version, int classes = 1000, string prefix = null, ParameterDict @params = null) :
+            base(prefix, @params)
         {
             if (version != "1.0" || version != "1.1")
                 throw new NotSupportedException("Unsupported version");
 
             Features = new HybridSequential();
-            if(version=="1.0")
+            if (version == "1.0")
             {
                 Features.Add(new Conv2D(96, (7, 7), (2, 2)));
                 Features.Add(new Activation(ActivationActType.Relu));
@@ -62,6 +56,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             Output.Add(new Flatten());
         }
 
+        public HybridSequential Features { get; set; }
+        public HybridSequential Output { get; set; }
+
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             x = Features.Call(x, args);
@@ -71,10 +68,10 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         private HybridSequential MakeFire(int squeeze_channels, int expand1x1_channels, int expand3x3_channels)
         {
-            var output = new HybridSequential(prefix: "");
+            var output = new HybridSequential("");
             output.Add(MakeFireConv(squeeze_channels, (1, 1)));
 
-            var paths = new HybridConcurrent(axis: 1, prefix: "");
+            var paths = new HybridConcurrent(1, "");
             paths.Add(MakeFireConv(expand1x1_channels, (1, 1)));
             paths.Add(MakeFireConv(expand3x3_channels, (3, 3), (1, 1)));
 
@@ -85,29 +82,32 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         private HybridSequential MakeFireConv(int channels, (int, int) kernel_size, (int, int)? padding = null)
         {
-            var output = new HybridSequential(prefix: "");
+            var output = new HybridSequential("");
             output.Add(new Conv2D(channels, kernel_size, padding));
             output.Add(new Activation(ActivationActType.Relu));
 
             return output;
         }
 
-        public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
+        public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null,
+            string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
         {
             var net = new SqueezeNet(version, classes, prefix, @params);
-            if (pretrained)
-            {
-                net.LoadParameters(ModelStore.GetModelFile("squeezenet" + version), ctx: ctx);
-            }
+            if (pretrained) net.LoadParameters(ModelStore.GetModelFile("squeezenet" + version), ctx);
 
             return net;
         }
 
-        public static SqueezeNet GetSqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
-                    GetSqueezeNet("1.0", pretrained, ctx, root, classes, prefix, @params);
+        public static SqueezeNet GetSqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "",
+            int classes = 1000, string prefix = null, ParameterDict @params = null)
+        {
+            return GetSqueezeNet("1.0", pretrained, ctx, root, classes, prefix, @params);
+        }
 
-        public static SqueezeNet GetSqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null) =>
-            GetSqueezeNet("1.1", pretrained, ctx, root, classes, prefix, @params);
-
+        public static SqueezeNet GetSqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "",
+            int classes = 1000, string prefix = null, ParameterDict @params = null)
+        {
+            return GetSqueezeNet("1.1", pretrained, ctx, root, classes, prefix, @params);
+        }
     }
 }

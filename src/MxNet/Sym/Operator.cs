@@ -10,10 +10,8 @@ using mx_uint = System.UInt32;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public sealed class Operator : DisposableMXNetObject
     {
-
         #region Fields
 
         private static readonly OpMap OpMap;
@@ -41,30 +39,30 @@ namespace MxNet
 
         public Operator(SymbolHandle handle)
         {
-            this.NativePtr = handle;
+            NativePtr = handle;
         }
 
         public Operator(string operatorName)
         {
-            this._OpName = operatorName;
-            this._Handle = OpMap.GetSymbolCreator(operatorName);
-            
-            var return_type = System.IntPtr.Zero;
-            Logging.CHECK_EQ(NativeMethods.MXSymbolGetAtomicSymbolInfo(this._Handle,
-                                                                       out var name,
-                                                                       out var description,
-                                                                       out var numArgs,
-                                                                       out var argNames,
-                                                                       out var argTypeInfos,
-                                                                       out var argDescriptions,
-                                                                       out var keyVarNumArgs,
-                                                                       ref return_type), NativeMethods.OK);
+            _OpName = operatorName;
+            _Handle = OpMap.GetSymbolCreator(operatorName);
+
+            var return_type = SymbolHandle.Zero;
+            Logging.CHECK_EQ(NativeMethods.MXSymbolGetAtomicSymbolInfo(_Handle,
+                out var name,
+                out var description,
+                out var numArgs,
+                out var argNames,
+                out var argTypeInfos,
+                out var argDescriptions,
+                out var keyVarNumArgs,
+                ref return_type), NativeMethods.OK);
 
             var argNamesArray = InteropHelper.ToPointerArray(argNames, numArgs);
             for (var i = 0; i < numArgs; ++i)
             {
                 var pArgName = argNamesArray[i];
-                this._ArgNames.Add(Marshal.PtrToStringAnsi(pArgName));
+                _ArgNames.Add(Marshal.PtrToStringAnsi(pArgName));
             }
         }
 
@@ -72,7 +70,7 @@ namespace MxNet
 
         #region Properties
 
-        public SymbolHandle Handle => this.NativePtr;
+        public SymbolHandle Handle => NativePtr;
 
         private readonly string _OpName;
 
@@ -80,8 +78,8 @@ namespace MxNet
         {
             get
             {
-                this.ThrowIfDisposed();
-                return this._OpName;
+                ThrowIfDisposed();
+                return _OpName;
             }
         }
 
@@ -91,42 +89,42 @@ namespace MxNet
 
         public Symbol CreateSymbol(string name = "")
         {
-            if (this._InputKeys.Count > 0)
-                Logging.CHECK_EQ(this._InputKeys.Count, this._InputSymbols.Count);
+            if (_InputKeys.Count > 0)
+                Logging.CHECK_EQ(_InputKeys.Count, _InputSymbols.Count);
 
             var pname = name == "" ? null : name;
 
-            var keys = this._Params.Keys.ToArray();
+            var keys = _Params.Keys.ToArray();
             var paramKeys = new string[keys.Length];
             var paramValues = new string[keys.Length];
             for (var index = 0; index < keys.Length; index++)
             {
                 var key = keys[index];
                 paramKeys[index] = key;
-                paramValues[index] = this._Params[key];
+                paramValues[index] = _Params[key];
             }
 
-            var inputKeys = this._InputKeys.Count != 0 ? this._InputKeys.ToArray() : null;
+            var inputKeys = _InputKeys.Count != 0 ? _InputKeys.ToArray() : null;
 
-            Logging.CHECK_EQ(NativeMethods.MXSymbolCreateAtomicSymbol(this._Handle,
-                                                                      (uint)paramKeys.Length,
-                                                                      paramKeys,
-                                                                      paramValues,
-                                                                      out var symbolHandle), NativeMethods.OK);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolCreateAtomicSymbol(_Handle,
+                (uint) paramKeys.Length,
+                paramKeys,
+                paramValues,
+                out var symbolHandle), NativeMethods.OK);
 
             Logging.CHECK_EQ(NativeMethods.MXSymbolCompose(symbolHandle,
-                                                           pname,
-                                                           (uint)this._InputSymbols.Count,
-                                                           inputKeys,
-                                                           this._InputSymbols.ToArray()), NativeMethods.OK);
+                pname,
+                (uint) _InputSymbols.Count,
+                inputKeys,
+                _InputSymbols.ToArray()), NativeMethods.OK);
 
             return new Symbol(symbolHandle);
         }
 
         public NDArray Invoke()
         {
-            NDArray output = new NDArray();
-            this.Invoke(output);
+            var output = new NDArray();
+            Invoke(output);
             return output;
         }
 
@@ -135,14 +133,14 @@ namespace MxNet
             if (output == null)
                 throw new ArgumentNullException(nameof(output));
 
-            var outputs = new NDArrayList(new[] { output });
-            this.Invoke(outputs);
+            var outputs = new NDArrayList(output);
+            Invoke(outputs);
         }
 
         public void Invoke(NDArrayList outputs)
         {
-            List<string> paramKeys = new List<string>();
-            List<string> paramValues = new List<string>();
+            var paramKeys = new List<string>();
+            var paramValues = new List<string>();
 
             foreach (var data in _Params)
             {
@@ -150,22 +148,22 @@ namespace MxNet
                 paramValues.Add(data.Value);
             }
 
-            int numInputs = _InputNdarrays.Count;
-            int numOutputs = outputs.Length;
+            var numInputs = _InputNdarrays.Count;
+            var numOutputs = outputs.Length;
 
-            NDArrayHandle[] outputHandles = outputs.Select(s => s.GetHandle()).ToArray();
-            IntPtr outputsReceiver = IntPtr.Zero;
+            var outputHandles = outputs.Select(s => s.GetHandle()).ToArray();
+            var outputsReceiver = IntPtr.Zero;
             GCHandle? gcHandle = null;
             if (outputs.Length > 0)
             {
                 gcHandle = GCHandle.Alloc(outputHandles, GCHandleType.Pinned);
                 outputsReceiver = gcHandle.Value.AddrOfPinnedObject();
-
             }
 
-            NDArrayHandle[] outputsReceivers = new NDArrayHandle[] { outputsReceiver };
+            NDArrayHandle[] outputsReceivers = {outputsReceiver};
 
-            NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs, ref outputsReceiver,
+            NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs,
+                ref outputsReceiver,
                 paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray());
 
             if (outputs.Length > 0)
@@ -178,10 +176,7 @@ namespace MxNet
 
             Marshal.Copy(outputsReceiver, outputHandles, 0, numOutputs);
 
-            foreach (IntPtr outputHandle in outputHandles)
-            {
-                outputs.Add(new NDArray(outputHandle));
-            }
+            foreach (var outputHandle in outputHandles) outputs.Add(new NDArray(outputHandle));
 
             gcHandle?.Free();
         }
@@ -191,7 +186,7 @@ namespace MxNet
             if (symbol == null)
                 throw new ArgumentNullException(nameof(symbol));
 
-            this._InputSymbols.Add(symbol.GetHandle());
+            _InputSymbols.Add(symbol.GetHandle());
         }
 
         public Operator PushInput(NDArray ndarray)
@@ -199,24 +194,25 @@ namespace MxNet
             if (ndarray == null)
                 throw new ArgumentNullException(nameof(ndarray));
 
-            this._InputNdarrays.Add(ndarray.GetHandle());
+            _InputNdarrays.Add(ndarray.GetHandle());
             return this;
         }
 
-        public Operator Set(params Object[] args)
+        public Operator Set(params object[] args)
         {
             for (var i = 0; i < args.Length; i++)
             {
                 var arg = args[i];
                 if (arg is Symbol)
-                    SetParam(i, (Symbol)arg);
+                    SetParam(i, (Symbol) arg);
                 else if (arg is NDArray)
-                    SetParam(i, (NDArray)arg);
+                    SetParam(i, (NDArray) arg);
                 else if (arg is IEnumerable<Symbol>)
-                    SetParam(i, (IEnumerable<Symbol>)arg);
+                    SetParam(i, (IEnumerable<Symbol>) arg);
                 else
                     SetParam(i, arg);
             }
+
             return this;
         }
 
@@ -225,18 +221,15 @@ namespace MxNet
             if (symbol == null)
                 return this;
 
-            this._InputKeys.Add(name);
-            this._InputSymbols.Add(symbol.GetHandle());
+            _InputKeys.Add(name);
+            _InputSymbols.Add(symbol.GetHandle());
             return this;
         }
 
         public Operator SetInput(Symbol[] symbols)
         {
-            foreach (var item in symbols)
-            {
-                this._InputSymbols.Add(item.GetHandle());
-            }
-            
+            foreach (var item in symbols) _InputSymbols.Add(item.GetHandle());
+
             return this;
         }
 
@@ -245,53 +238,47 @@ namespace MxNet
             if (ndarray == null)
                 return this;
 
-            this._InputKeys.Add(name);
-            this._InputNdarrays.Add(ndarray.NativePtr);
+            _InputKeys.Add(name);
+            _InputNdarrays.Add(ndarray.NativePtr);
             return this;
         }
 
         public Operator SetInput(NDArrayList ndlist)
         {
-            foreach (var item in ndlist)
-            {
-                this._InputSymbols.Add(item.GetHandle());
-            }
+            foreach (var item in ndlist) _InputSymbols.Add(item.GetHandle());
 
             return this;
         }
 
         public Operator SetParam(string key, object value)
         {
-            if (value == null)
-            {
-                return this;
-            }
+            if (value == null) return this;
 
-            this._Params[key] = value.ToValueString();
+            _Params[key] = value.ToValueString();
             return this;
         }
 
         public Operator SetParam(int pos, NDArray val)
         {
-            this._InputNdarrays.Add(val.NativePtr);
+            _InputNdarrays.Add(val.NativePtr);
             return this;
         }
 
         public Operator SetParam(int pos, Symbol val)
         {
-            this._InputSymbols.Add(val.GetHandle());
+            _InputSymbols.Add(val.GetHandle());
             return this;
         }
 
         public Operator SetParam(int pos, IEnumerable<Symbol> val)
         {
-            this._InputSymbols.AddRange(val.Select(s => s.GetHandle()));
+            _InputSymbols.AddRange(val.Select(s => s.GetHandle()));
             return this;
         }
 
         public Operator SetParam(int pos, object val)
         {
-            this._Params[this._ArgNames[pos]] = val.ToString();
+            _Params[_ArgNames[pos]] = val.ToString();
             return this;
         }
 
@@ -300,13 +287,11 @@ namespace MxNet
         protected override void DisposeUnmanaged()
         {
             base.DisposeUnmanaged();
-            NativeMethods.MXSymbolFree(this.NativePtr);
+            NativeMethods.MXSymbolFree(NativePtr);
         }
 
         #endregion
 
         #endregion
-
     }
-
 }

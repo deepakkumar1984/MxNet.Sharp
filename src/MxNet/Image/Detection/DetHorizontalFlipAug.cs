@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Image
 {
     public class DetHorizontalFlipAug : DetAugmenter
     {
-        public float Probability { get; set; }
-
         public DetHorizontalFlipAug(float p)
         {
             Probability = p;
         }
 
+        public float Probability { get; set; }
+
         public override (NDArray, NDArray) Call(NDArray src, NDArray label)
         {
             if (new Random().NextDouble() < Probability)
             {
-                src = nd.Flip(src, axis: 1);
+                src = nd.Flip(src, 1);
                 FlipLabel(label);
             }
 

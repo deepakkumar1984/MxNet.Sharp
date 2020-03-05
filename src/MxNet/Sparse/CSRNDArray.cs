@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
@@ -9,68 +7,50 @@ namespace MxNet.Sparse
 {
     public class CSRNDArray : BaseSparseNDArray
     {
-        public NDArray Indices
+        public NDArray Indices => AuxData(1);
+
+        public NDArray IndPtr => AuxData(0);
+
+        public new NDArray Data => base.Data();
+
+        public static CSRNDArray operator +(CSRNDArray lhs, float scalar)
         {
-            get
-            {
-                return AuxData(1);
-            }
+            return (CSRNDArray) nd.PlusScalar(lhs, scalar);
         }
 
-        public NDArray IndPtr
+        public static CSRNDArray operator +(float scalar, CSRNDArray rhs)
         {
-            get
-            {
-                return AuxData(0);
-            }
+            return (CSRNDArray) nd.PlusScalar(rhs, scalar);
         }
 
-        public new NDArray Data
+        public static CSRNDArray operator -(CSRNDArray lhs, float scalar)
         {
-            get
-            {
-                return base.Data();
-            }
+            return (CSRNDArray) nd.MinusScalar(lhs, scalar);
         }
 
-        public static CSRNDArray operator +(CSRNDArray lhs, mx_float scalar)
+        public static CSRNDArray operator -(float scalar, CSRNDArray rhs)
         {
-            return (CSRNDArray)nd.PlusScalar(lhs, scalar);
+            return (CSRNDArray) nd.RminusScalar(rhs, scalar);
         }
 
-        public static CSRNDArray operator +(mx_float scalar, CSRNDArray rhs)
+        public static CSRNDArray operator *(CSRNDArray lhs, float scalar)
         {
-            return (CSRNDArray)nd.PlusScalar(rhs, scalar);
+            return (CSRNDArray) nd.MulScalar(lhs, scalar);
         }
 
-        public static CSRNDArray operator -(CSRNDArray lhs, mx_float scalar)
+        public static CSRNDArray operator *(float scalar, CSRNDArray rhs)
         {
-            return (CSRNDArray)nd.MinusScalar(lhs, scalar);
+            return (CSRNDArray) nd.MulScalar(rhs, scalar);
         }
 
-        public static CSRNDArray operator -(mx_float scalar, CSRNDArray rhs)
+        public static CSRNDArray operator /(CSRNDArray lhs, float scalar)
         {
-            return (CSRNDArray)nd.RminusScalar(rhs, scalar);
+            return (CSRNDArray) nd.DivScalar(lhs, scalar);
         }
 
-        public static CSRNDArray operator *(CSRNDArray lhs, mx_float scalar)
+        public static CSRNDArray operator /(float scalar, CSRNDArray rhs)
         {
-            return (CSRNDArray)nd.MulScalar(lhs, scalar);
-        }
-
-        public static CSRNDArray operator *(mx_float scalar, CSRNDArray rhs)
-        {
-            return (CSRNDArray)nd.MulScalar(rhs, scalar);
-        }
-
-        public static CSRNDArray operator /(CSRNDArray lhs, mx_float scalar)
-        {
-            return (CSRNDArray)nd.DivScalar(lhs, scalar);
-        }
-
-        public static CSRNDArray operator /(mx_float scalar, CSRNDArray rhs)
-        {
-            return (CSRNDArray)nd.RdivScalar(rhs, scalar);
+            return (CSRNDArray) nd.RdivScalar(rhs, scalar);
         }
 
         public new void CopyTo(NDArray other)
@@ -82,7 +62,7 @@ namespace MxNet.Sparse
 
         public void CopyTo(Context other)
         {
-            this.ChangeContext(other);
+            ChangeContext(other);
         }
 
         public new CSRNDArray ToSType(StorageStype stype)
@@ -90,7 +70,7 @@ namespace MxNet.Sparse
             if (stype == StorageStype.RowSparse)
                 throw new Exception("cast_storage from csr to row_sparse is not supported");
 
-            return (CSRNDArray)nd.CastStorage(this, stype);
+            return (CSRNDArray) nd.CastStorage(this, stype);
         }
     }
 }

@@ -1,34 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MxNet.Initializers;
 
 namespace MxNet.Gluon
 {
     public class Constant : Parameter
     {
-        public class CInit : Initializers.Initializer
+        public Constant(string name, NDArray value) : base(name, OpGradReq.Null, value.Shape, value.DataType,
+            init: new CInit(value))
         {
-            private NDArray _value;
-            
-            public CInit(NDArray value)
-            {
-                _value = value;
-            }
-
-            public override void InitWeight(string name, ref NDArray arr)
-            {
-                _value.CopyTo(arr);
-            }
+            Value = value;
+            InitName = $"Constant_{Name}_{GetHashCode()}";
         }
 
         public override OpGradReq GradReg
         {
-            get
-            {
-                return OpGradReq.Null;
-            }
+            get => OpGradReq.Null;
             set
             {
                 if (value != OpGradReq.Null)
@@ -40,11 +26,19 @@ namespace MxNet.Gluon
 
         public string InitName { get; set; }
 
-        public Constant(string name, NDArray value) : base(name: name, grad_req: OpGradReq.Null, shape: value.Shape, dtype: value.DataType, init: new CInit(value))
+        public class CInit : Initializer
         {
-            Value = value;
-            InitName = $"Constant_{Name}_{this.GetHashCode()}";
-            
+            private readonly NDArray _value;
+
+            public CInit(NDArray value)
+            {
+                _value = value;
+            }
+
+            public override void InitWeight(string name, ref NDArray arr)
+            {
+                _value.CopyTo(arr);
+            }
         }
     }
 }

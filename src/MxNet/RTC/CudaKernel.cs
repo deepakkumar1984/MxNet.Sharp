@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.RTC
 {
@@ -16,6 +14,10 @@ namespace MxNet.RTC
             throw new NotImplementedException();
         }
 
-        public void Launch(object[] args, Context ctx, (int, int, int) grid_dims, (int, int, int) block_dims, int shared_mem= 0) => throw new NotImplementedException();
+        public void Launch(object[] args, Context ctx, (int, int, int) grid_dims, (int, int, int) block_dims,
+            int shared_mem = 0)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

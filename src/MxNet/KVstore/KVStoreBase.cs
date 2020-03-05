@@ -1,16 +1,15 @@
-﻿using MxNet.Interop;
-using MxNet.Optimizers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using MxNet.Interop;
+using MxNet.Optimizers;
 using KVStoreHandle = System.IntPtr;
 
 namespace MxNet.KVstore
 {
     public abstract class KVStoreBase
     {
-        private static Dictionary<string, KVStoreBase> kv_registry = new Dictionary<string, KVStoreBase>();
         public const string OPTIMIZER = "optimizer";
+        private static readonly Dictionary<string, KVStoreBase> kv_registry = new Dictionary<string, KVStoreBase>();
         public abstract int Rank { get; }
 
         public abstract string Type { get; }
@@ -25,7 +24,7 @@ namespace MxNet.KVstore
 
         public abstract bool IsCapable(string capability);
 
-        public abstract void SaveOptimizerStates(string fname, bool dump_optimizer= false);
+        public abstract void SaveOptimizerStates(string fname, bool dump_optimizer = false);
 
         public abstract void LoadOptimizerStates(string fname);
 
@@ -33,13 +32,11 @@ namespace MxNet.KVstore
         {
             if (klass.GetType().BaseType.Name != typeof(KVStoreBase).Name)
                 throw new Exception("klass is not inheritedd from KVStoreBase");
-            string name = klass.GetType().Name;
-            if(kv_registry.ContainsKey(name))
-            {
+            var name = klass.GetType().Name;
+            if (kv_registry.ContainsKey(name))
                 Logger.Warning(string.Format("WARNING: New kvstore {0} is overriding existing one", name));
-            }
 
-            kv_registry[name] = (KVStoreBase)klass;
+            kv_registry[name] = (KVStoreBase) klass;
             return kv_registry[name];
         }
 

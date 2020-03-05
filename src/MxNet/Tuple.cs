@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace MxNet
@@ -7,6 +6,7 @@ namespace MxNet
     public class Tuple<TType>
     {
         private readonly List<TType> _tuple = new List<TType>();
+
         public Tuple(params TType[] param)
         {
             _tuple.AddRange(param);
@@ -14,7 +14,7 @@ namespace MxNet
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             sb.Append("(");
             _tuple.ForEach(f =>
             {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Metrics
 {
@@ -17,12 +15,12 @@ namespace MxNet.Metrics
             if (preds.Shape.Dimension == 1)
                 preds = preds.Reshape(preds.Shape[0], 1);
 
-            var rmse = (float)Math.Sqrt(nd.Square(labels - preds).Mean());
+            var rmse = (float) Math.Sqrt(nd.Square(labels - preds).Mean());
 
-            this.sum_metric += rmse;
-            this.global_sum_metric += rmse;
-            this.num_inst += 1;
-            this.global_num_inst += 1;
+            sum_metric += rmse;
+            global_sum_metric += rmse;
+            num_inst += 1;
+            global_num_inst += 1;
         }
     }
 }

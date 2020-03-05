@@ -1,9 +1,5 @@
-﻿using MxNet.Gluon.NN;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using MxNet.Gluon.NN;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
@@ -11,26 +7,24 @@ namespace MxNet.Gluon.Data.Vision.Transforms
     {
         public Compose(HybridBlock[] transforms)
         {
-            List<HybridBlock> hybrid = new List<HybridBlock>();
+            var hybrid = new List<HybridBlock>();
             foreach (var item in transforms)
             {
-                if(item.GetType().Name == "HybridBlock")
+                if (item.GetType().Name == "HybridBlock")
                 {
                     hybrid.Add(item);
                     continue;
                 }
-                else if(hybrid.Count == 1)
+
+                if (hybrid.Count == 1)
                 {
                     Add(hybrid[0]);
                     hybrid.Clear();
                 }
-                else if(hybrid.Count > 1)
+                else if (hybrid.Count > 1)
                 {
                     var hblock = new HybridSequential();
-                    foreach (var j in hybrid)
-                    {
-                        hblock.Add(j);
-                    }
+                    foreach (var j in hybrid) hblock.Add(j);
 
                     hblock.Hybridize();
                     Add(hblock);

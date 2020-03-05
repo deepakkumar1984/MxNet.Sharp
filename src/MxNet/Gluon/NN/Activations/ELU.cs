@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
     public class ELU : HybridBlock
     {
-        public float Alpha { get; set; }
-
         public ELU(float alpha = 1, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
             if (alpha < 0)
@@ -18,6 +12,8 @@ namespace MxNet.Gluon.NN
             Alpha = alpha;
         }
 
+        public float Alpha { get; set; }
+
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             if (x.IsNDArray)
@@ -25,6 +21,5 @@ namespace MxNet.Gluon.NN
 
             return sym.LeakyReLU(x.SymX, act_type: LeakyreluActType.Elu, slope: Alpha, symbol_name: "fwd");
         }
-
     }
 }

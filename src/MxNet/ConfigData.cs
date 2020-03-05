@@ -1,14 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Collections;
+﻿using System.Collections.Generic;
 
 namespace MxNet
 {
     public class ConfigData
     {
-        private Dictionary<string, object> configValues = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> configValues = new Dictionary<string, object>();
+
+        public object this[string name]
+        {
+            get
+            {
+                if (!configValues.ContainsKey(name))
+                    return null;
+
+                return configValues[name];
+            }
+            set => configValues[name] = value;
+        }
 
         public void Add(string name, object value)
         {
@@ -20,27 +28,12 @@ namespace MxNet
             configValues.Remove(name);
         }
 
-        public object this[string name]
-        {
-            get
-            {
-                if (!configValues.ContainsKey(name))
-                    return null;
-
-                return configValues[name];
-            }
-            set
-            {
-                configValues[name] = value;
-            }
-        }
-
         public T Get<T>(string name)
         {
             if (!configValues.ContainsKey(name))
-                return default(T);
+                return default;
 
-            return (T)configValues[name];
+            return (T) configValues[name];
         }
     }
 }

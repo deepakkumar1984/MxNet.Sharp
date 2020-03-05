@@ -1,7 +1,5 @@
-﻿using MxNet.Gluon.NN;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using MxNet.Gluon.NN;
 
 namespace MxNet.Gluon.Contrib.NN
 {

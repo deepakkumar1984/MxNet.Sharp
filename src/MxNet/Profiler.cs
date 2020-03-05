@@ -1,21 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ProfileHandle = System.IntPtr;
 using MxNet.Interop;
+using ProfileHandle = System.IntPtr;
 
 namespace MxNet
 {
     public class Profiler
     {
-        public static IntPtr profiler_kvstore_handle;
+        public static ProfileHandle profiler_kvstore_handle;
 
         public class Task : IDisposable
         {
-            public string Name { get; set; }
-
-            public Domain Domain { get; set; }
-
             internal ProfileHandle handle;
 
             public Task(Domain domain, string name)
@@ -26,6 +20,16 @@ namespace MxNet
                 handle = @out;
             }
 
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
+
+            public void Dispose()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
+            }
+
             public void Start()
             {
                 if (handle != null)
@@ -42,20 +46,10 @@ namespace MxNet
             {
                 return Name;
             }
-
-            public void Dispose()
-            {
-                if (handle != null)
-                    NativeMethods.MXProfileDestroyHandle(handle);
-            }
         }
 
         public class Frame : IDisposable
         {
-            public string Name { get; set; }
-
-            public Domain Domain { get; set; }
-
             internal ProfileHandle handle;
 
             public Frame(Domain domain, string name)
@@ -66,6 +60,16 @@ namespace MxNet
                 handle = @out;
             }
 
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
+
+            public void Dispose()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
+            }
+
             public void Start()
             {
                 if (handle != null)
@@ -82,18 +86,10 @@ namespace MxNet
             {
                 return Name;
             }
-
-            public void Dispose()
-            {
-                if (handle != null)
-                    NativeMethods.MXProfileDestroyHandle(handle);
-            }
         }
 
         public class Event : IDisposable
         {
-            public string Name { get; set; }
-
             internal ProfileHandle handle;
 
             public Event(string name)
@@ -103,6 +99,14 @@ namespace MxNet
                 handle = @out;
             }
 
+            public string Name { get; set; }
+
+            public void Dispose()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
+            }
+
             public void Start()
             {
                 if (handle != null)
@@ -119,20 +123,10 @@ namespace MxNet
             {
                 return Name;
             }
-
-            public void Dispose()
-            {
-                if (handle != null)
-                    NativeMethods.MXProfileDestroyHandle(handle);
-            }
         }
 
         public class Counter : IDisposable
         {
-            public string Name { get; set; }
-
-            public Domain Domain { get; set; }
-
             internal ProfileHandle handle;
 
             public Counter(Domain domain, string name, int? value = null)
@@ -144,6 +138,16 @@ namespace MxNet
 
                 if (value.HasValue)
                     SetValue(value.Value);
+            }
+
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
+
+            public void Dispose()
+            {
+                if (handle != null)
+                    NativeMethods.MXProfileDestroyHandle(handle);
             }
 
             public void SetValue(int value)
@@ -166,12 +170,6 @@ namespace MxNet
                 return Name;
             }
 
-            public void Dispose()
-            {
-                if (handle != null)
-                    NativeMethods.MXProfileDestroyHandle(handle);
-            }
-
             public static Counter operator +(Counter c, int delta)
             {
                 c.Increment(delta);
@@ -187,15 +185,15 @@ namespace MxNet
 
         public class Marker
         {
-            public string Name { get; set; }
-
-            public Domain Domain { get; set; }
-
             public Marker(Domain domain, string name)
             {
                 Domain = domain;
                 Name = name;
             }
+
+            public string Name { get; set; }
+
+            public Domain Domain { get; set; }
 
             public void Mark(string scope = "process")
             {
@@ -210,8 +208,6 @@ namespace MxNet
 
         public class Domain
         {
-            public string Name { get; set; }
-
             internal ProfileHandle handle;
 
             public Domain(string name)
@@ -220,6 +216,8 @@ namespace MxNet
                 NativeMethods.MXProfileCreateDomain(name, out var @out);
                 handle = @out;
             }
+
+            public string Name { get; set; }
 
             public override string ToString()
             {

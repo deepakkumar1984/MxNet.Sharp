@@ -5,16 +5,14 @@ using MxNet.Interop;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public sealed partial class mx
     {
-
         #region Methods
 
         public static void MXNDListCreate(byte[] nd_file_bytes,
-                                          int nd_file_size,
-                                          out NDListHandle handle,
-                                          out uint out_length)
+            int nd_file_size,
+            out NDListHandle handle,
+            out uint out_length)
         {
             var ret = NativeMethods.MXNDListCreate(nd_file_bytes, nd_file_size, out var @out, out out_length);
             if (ret != NativeMethods.OK)
@@ -24,13 +22,14 @@ namespace MxNet
         }
 
         public static void MXNDListGet(NDListHandle handle,
-                                       uint index,
-                                       out string out_key,
-                                       out float[] out_data,
-                                       out uint[] out_shape,
-                                       out uint out_ndim)
+            uint index,
+            out string out_key,
+            out float[] out_data,
+            out uint[] out_shape,
+            out uint out_ndim)
         {
-            var ret = NativeMethods.MXNDListGet(handle.NativePtr, index, out var out_key_ptr, out var out_data_ptr, out var out_shape_ptr, out out_ndim);
+            var ret = NativeMethods.MXNDListGet(handle.NativePtr, index, out var out_key_ptr, out var out_data_ptr,
+                out var out_shape_ptr, out out_ndim);
             if (ret != NativeMethods.OK)
                 throw CreateMXNetException($"Failed to get list from {nameof(NDListHandle)}");
 
@@ -47,17 +46,18 @@ namespace MxNet
         }
 
         public static void MXPredCreate(string symbolJson,
-                                        byte[] bytes,
-                                        int size,
-                                        int type,
-                                        int deviceId,
-                                        uint inputNodes,
-                                        string[] keys,
-                                        uint[] inputShapeIndptr,
-                                        uint[] inputShapeData,
-                                        out PredictorHandle handle)
+            byte[] bytes,
+            int size,
+            int type,
+            int deviceId,
+            uint inputNodes,
+            string[] keys,
+            uint[] inputShapeIndptr,
+            uint[] inputShapeData,
+            out PredictorHandle handle)
         {
-            var ret = NativeMethods.MXPredCreate(symbolJson, bytes, size, type, deviceId, inputNodes, keys, inputShapeIndptr, inputShapeData, out var @out);
+            var ret = NativeMethods.MXPredCreate(symbolJson, bytes, size, type, deviceId, inputNodes, keys,
+                inputShapeIndptr, inputShapeData, out var @out);
             if (ret != NativeMethods.OK)
                 throw CreateMXNetException($"Failed to create {nameof(PredictorHandle)}");
 
@@ -65,19 +65,20 @@ namespace MxNet
         }
 
         public static void MXPredCreatePartialOut(string symbolJson,
-                                                  byte[] bytes,
-                                                  int size,
-                                                  int type,
-                                                  int deviceId,
-                                                  uint inputNodes,
-                                                  string[] keys,
-                                                  uint[] inputShapeIndptr,
-                                                  uint[] inputShapeData,
-                                                  uint num_output_nodes,
-                                                  string[] output_keys,
-                                                  out PredictorHandle handle)
+            byte[] bytes,
+            int size,
+            int type,
+            int deviceId,
+            uint inputNodes,
+            string[] keys,
+            uint[] inputShapeIndptr,
+            uint[] inputShapeData,
+            uint num_output_nodes,
+            string[] output_keys,
+            out PredictorHandle handle)
         {
-            var ret = NativeMethods.MXPredCreatePartialOut(symbolJson, bytes, size, type, deviceId, inputNodes, keys, inputShapeIndptr, inputShapeData, num_output_nodes, output_keys, out var @out);
+            var ret = NativeMethods.MXPredCreatePartialOut(symbolJson, bytes, size, type, deviceId, inputNodes, keys,
+                inputShapeIndptr, inputShapeData, num_output_nodes, output_keys, out var @out);
             if (ret != NativeMethods.OK)
                 throw CreateMXNetException($"Failed to create {nameof(PredictorHandle)}");
 
@@ -108,21 +109,23 @@ namespace MxNet
                 throw CreateMXNetException($"Failed to get output from {nameof(handle)}");
         }
 
-        public static void MXPredGetOutputShape(PredictorHandle handle, uint index, out uint[] shape_data, out uint shape_ndim)
+        public static void MXPredGetOutputShape(PredictorHandle handle, uint index, out uint[] shape_data,
+            out uint shape_ndim)
         {
             if (handle == null)
                 throw new ArgumentNullException(nameof(handle));
 
             handle.ThrowIfDisposed();
 
-            var ret = NativeMethods.MXPredGetOutputShape(handle.NativePtr, index, out var shape_data_ptr, out shape_ndim);
+            var ret = NativeMethods.MXPredGetOutputShape(handle.NativePtr, index, out var shape_data_ptr,
+                out shape_ndim);
             if (ret != NativeMethods.OK)
                 throw CreateMXNetException($"Failed to get output shape from {nameof(handle)}");
 
             shape_data = new uint[shape_ndim];
             NativeMethods.memcpy(shape_data, shape_data_ptr, shape_ndim * sizeof(uint));
         }
-        
+
         public static void MXPredPartialForward(PredictorHandle handle, int step, out int step_left)
         {
             if (handle == null)
@@ -160,7 +163,5 @@ namespace MxNet
         #endregion
 
         #endregion
-
     }
-
 }

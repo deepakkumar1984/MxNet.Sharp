@@ -1,22 +1,17 @@
 ﻿using MxNet.Image;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class CropResize : HybridBlock
     {
-        private int _x;
-        private int _y;
-        private int _width;
-        private int _height;
+        private readonly int _height;
+        private readonly ImgInterp? _interpolation;
         private (int, int)? _size;
-        private ImgInterp? _interpolation;
+        private readonly int _width;
+        private readonly int _x;
+        private readonly int _y;
 
-        public CropResize(int x, int y, int width, int height, (int, int)? size= null, ImgInterp? interpolation= null)
+        public CropResize(int x, int y, int width, int height, (int, int)? size = null, ImgInterp? interpolation = null)
         {
             _x = x;
             _y = y;
@@ -33,13 +28,15 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             {
                 output = nd.Image.Crop(x, _x, _y, _width, _height);
                 if (_size.HasValue)
-                    output = nd.Image.Resize(output, new Shape(_size.Value.Item1, _size.Value.Item2), false, (int)_interpolation);
+                    output = nd.Image.Resize(output, new Shape(_size.Value.Item1, _size.Value.Item2), false,
+                        (int) _interpolation);
             }
             else
             {
                 output = sym.Image.Crop(x, _x, _y, _width, _height);
                 if (_size.HasValue)
-                    output = sym.Image.Resize(output, new Shape(_size.Value.Item1, _size.Value.Item2), false, (int)_interpolation);
+                    output = sym.Image.Resize(output, new Shape(_size.Value.Item1, _size.Value.Item2), false,
+                        (int) _interpolation);
             }
 
             return output;

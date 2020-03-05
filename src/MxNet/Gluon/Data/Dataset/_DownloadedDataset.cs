@@ -1,19 +1,14 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data
 {
     public abstract class _DownloadedDataset : Dataset<NDArrayList>
     {
-        internal Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
         internal NDArrayList _data;
         internal NDArrayList _label;
         internal string _root;
+        internal Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
 
         public _DownloadedDataset(string root, Func<NDArray, NDArray, (NDArray, NDArray)> transform)
         {

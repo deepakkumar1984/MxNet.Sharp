@@ -1,30 +1,38 @@
-﻿using MxNet.Initializers;
-using MxNet.IO;
-using MxNet.Sparse;
-using NumSharp;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Text;
 using System.Linq;
+using MxNet.Gluon;
+using NumSharp;
 
 namespace MxNet
 {
     public class TestUtils
     {
-        public static Context DefaultContext() => Context.CurrentContext;
+        public static Context DefaultContext()
+        {
+            return Context.CurrentContext;
+        }
 
         public static void SetDefaultContext(Context ctx)
         {
             Context.CurrentContext = ctx;
         }
 
-        public static DType DefaultDtype() => DType.Float32;
+        public static DType DefaultDtype()
+        {
+            return DType.Float32;
+        }
 
-        public static float GetAtol(float? atol = null) => atol.HasValue ? atol.Value : 1e-20f;
+        public static float GetAtol(float? atol = null)
+        {
+            return atol.HasValue ? atol.Value : 1e-20f;
+        }
 
-        public static float GetRtol(float? rtol = null) => rtol.HasValue ? rtol.Value : 1e-5f;
+        public static float GetRtol(float? rtol = null)
+        {
+            return rtol.HasValue ? rtol.Value : 1e-5f;
+        }
 
         //public static NDArrayList random_arrays(params Shape[] shapes) => throw new NotImplementedException();
 
@@ -93,27 +101,21 @@ namespace MxNet
             return Enumerable.Range(0, Context.NumGpus()).ToList();
         }
 
-        public static string Download(string url, string fname= null, string dirname= null, bool overwrite= false)
+        public static string Download(string url, string fname = null, string dirname = null, bool overwrite = false)
         {
-            string path = "";
-            if (string.IsNullOrWhiteSpace(dirname))
-            {
-                path = "./";
-            }
+            var path = "";
+            if (string.IsNullOrWhiteSpace(dirname)) path = "./";
 
-            if (string.IsNullOrWhiteSpace(fname))
-            {
-                path += Path.GetFileName(url);
-            }
+            if (string.IsNullOrWhiteSpace(fname)) path += Path.GetFileName(url);
 
             if (overwrite)
             {
-                MxNet.Gluon.Utils.Download(url, path, overwrite);
+                Utils.Download(url, path, overwrite);
             }
             else
             {
-                if(!File.Exists(path))
-                    MxNet.Gluon.Utils.Download(url, path, overwrite);
+                if (!File.Exists(path))
+                    Utils.Download(url, path, overwrite);
             }
 
             return path;
@@ -121,11 +123,13 @@ namespace MxNet
 
         public static NDArrayDict GetMNIST()
         {
-            string path = "http://data.mxnet.io/data/mnist/";
-            var (train_lbl, train_img) = read_data(path + "train-labels-idx1-ubyte.gz", path + "train-images-idx3-ubyte.gz", 60000);
-            var (test_lbl, test_img) = read_data(path + "t10k-labels-idx1-ubyte.gz", path + "t10k-images-idx3-ubyte.gz", 10000);
+            var path = "http://data.mxnet.io/data/mnist/";
+            var (train_lbl, train_img) = read_data(path + "train-labels-idx1-ubyte.gz",
+                path + "train-images-idx3-ubyte.gz", 60000);
+            var (test_lbl, test_img) =
+                read_data(path + "t10k-labels-idx1-ubyte.gz", path + "t10k-images-idx3-ubyte.gz", 10000);
 
-            NDArrayDict dataset = new NDArrayDict();
+            var dataset = new NDArrayDict();
             dataset.Add("train_data", train_img);
             dataset.Add("train_label", train_lbl);
             dataset.Add("test_data", test_img);
@@ -138,35 +142,35 @@ namespace MxNet
         {
             NDArray label = null;
             NDArray images = null;
-            string label_file = Download(label_url);
-            FileInfo file = new FileInfo(label_file);
-            using (FileStream fs = file.OpenRead())
+            var label_file = Download(label_url);
+            var file = new FileInfo(label_file);
+            using (var fs = file.OpenRead())
             {
-                using (GZipStream decompressionStream = new GZipStream(fs, CompressionMode.Decompress))
+                using (var decompressionStream = new GZipStream(fs, CompressionMode.Decompress))
                 {
-                    MemoryStream stream = new MemoryStream();
+                    var stream = new MemoryStream();
                     decompressionStream.CopyTo(stream);
-                    byte[] data = new byte[stream.Length - 8];
+                    var data = new byte[stream.Length - 8];
                     stream.Seek(8, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
 
-                    label = new NDArray(data.Select(x=>(float)x).ToArray(), new Shape(n));
+                    label = new NDArray(data.Select(x => (float) x).ToArray(), new Shape(n));
                 }
             }
 
-            string image_file = Download(image_url);
+            var image_file = Download(image_url);
             file = new FileInfo(image_file);
-            using (FileStream fs = file.OpenRead())
+            using (var fs = file.OpenRead())
             {
-                using (GZipStream decompressionStream = new GZipStream(fs, CompressionMode.Decompress))
+                using (var decompressionStream = new GZipStream(fs, CompressionMode.Decompress))
                 {
-                    MemoryStream stream = new MemoryStream();
+                    var stream = new MemoryStream();
                     decompressionStream.CopyTo(stream);
-                    byte[] data = new byte[stream.Length - 16];
+                    var data = new byte[stream.Length - 16];
                     stream.Seek(16, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
                     var x = np.frombuffer(data, typeof(byte));
-                    images = new NDArray(data.Select(y => (float)y).ToArray(), new Shape(n, 1, 28, 28)) / 255;
+                    images = new NDArray(data.Select(y => (float) y).ToArray(), new Shape(n, 1, 28, 28)) / 255;
                 }
             }
 

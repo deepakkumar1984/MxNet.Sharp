@@ -2,10 +2,8 @@
 
 namespace MxNet.Interop
 {
-
     internal sealed partial class NativeMethods
     {
-
         #region Constants
 
         public const int OK = 0;
@@ -25,13 +23,11 @@ namespace MxNet.Interop
 
         public const CallingConvention CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl;
 #else
-        public const string NativeLibrary = @"libmxnet"; 
+        public const string NativeLibrary = @"libmxnet";
 
         public const string CLibrary = "msvcrt.dll";
 
         public const CallingConvention CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl;
 #endif
-
     }
-
 }

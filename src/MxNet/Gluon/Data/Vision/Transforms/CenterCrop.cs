@@ -1,16 +1,11 @@
 ﻿using MxNet.Image;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class CenterCrop : Block
     {
-        private (int, int) _size;
-        private ImgInterp _interpolation;
+        private readonly ImgInterp _interpolation;
+        private readonly (int, int) _size;
 
         public CenterCrop((int, int) size, ImgInterp interpolation = ImgInterp.Bilinear) : base(null, null)
         {

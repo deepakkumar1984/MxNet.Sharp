@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using MxNet.Recordio;
 
 namespace MxNet.Gluon.Data
 {
     public class RecordFileDataset : Dataset<string>
     {
-        public string IdxFile { get; set; }
-
-        public string Filename { get; set; }
-
-        private MXIndexedRecordIO _record;
+        private readonly MXIndexedRecordIO _record;
 
         public RecordFileDataset(string filename)
         {
@@ -22,6 +13,10 @@ namespace MxNet.Gluon.Data
             Filename = filename;
             _record = new MXIndexedRecordIO(IdxFile, filename, "r");
         }
+
+        public string IdxFile { get; set; }
+
+        public string Filename { get; set; }
 
         public override string this[int idx] => _record.ReadIdx(idx);
 

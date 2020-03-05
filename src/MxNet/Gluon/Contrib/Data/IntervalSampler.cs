@@ -1,39 +1,31 @@
-﻿using MxNet.Gluon.Data;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Collections.Generic;
+using MxNet.Gluon.Data;
 
 namespace MxNet.Gluon.Contrib.Data
 {
     public class IntervalSampler : Sampler
     {
-        public override int Length => _length;
+        private readonly int _interval;
 
-        private int _interval;
+        private readonly int _length;
 
-        private bool _rollover;
+        private readonly bool _rollover;
 
-        private int _length;
-
-        public IntervalSampler(int length, int interval, bool rollover= true)
+        public IntervalSampler(int length, int interval, bool rollover = true)
         {
             _interval = interval;
             _rollover = rollover;
             _length = length;
         }
 
+        public override int Length => _length;
+
         public override IEnumerator<int> GetEnumerator()
         {
-            int n = _rollover ? _interval : 1;
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = i; j < _length; j = j + _interval)
-                {
-                    yield return j;
-                }
-            }
+            var n = _rollover ? _interval : 1;
+            for (var i = 0; i < n; i++)
+            for (var j = i; j < _length; j = j + _interval)
+                yield return j;
         }
     }
 }

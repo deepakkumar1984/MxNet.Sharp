@@ -1,9 +1,14 @@
 ﻿// ReSharper disable once CheckNamespace
+
 namespace MxNet.IO
 {
-
     public abstract class DataIter : DisposableMXNetObject
     {
+        public DataIter(int batch_size = 0)
+        {
+            BatchSize = batch_size;
+        }
+
         public int BatchSize { get; set; }
 
         public virtual DataDesc[] ProvideData { get; }
@@ -13,11 +18,6 @@ namespace MxNet.IO
         public int DefaultBucketKey { get; set; }
 
         public int Cursor { get; set; }
-
-        public DataIter(int batch_size = 0)
-        {
-            BatchSize = batch_size;
-        }
 
         public abstract NDArrayList GetData();
 
@@ -35,14 +35,9 @@ namespace MxNet.IO
 
         public virtual DataBatch Next()
         {
-            if(IterNext())
-            {
+            if (IterNext())
                 return new DataBatch(GetData(), GetLabel(), GetPad(), GetIndex());
-            }
-            else
-            {
-                throw new MXNetException("Stop Iteration");
-            }
+            throw new MXNetException("Stop Iteration");
         }
     }
 }

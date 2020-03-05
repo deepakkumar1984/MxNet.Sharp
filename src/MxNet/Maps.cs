@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet
+﻿namespace MxNet
 {
     public enum OpGradReq
     {

@@ -1,15 +1,14 @@
-﻿using NumSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using NumSharp;
 
 namespace MxNet.Metrics
 {
     public class CrossEntropy : EvalMetric
     {
-        private float eps;
+        private readonly float eps;
 
-        public CrossEntropy(float eps = 1e-12f, string output_name = null, string label_name = null) : base("cross-entropy", output_name, label_name, true)
+        public CrossEntropy(float eps = 1e-12f, string output_name = null, string label_name = null) : base(
+            "cross-entropy", output_name, label_name, true)
         {
             this.eps = eps;
         }

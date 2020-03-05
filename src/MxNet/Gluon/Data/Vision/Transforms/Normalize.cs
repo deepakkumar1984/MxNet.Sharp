@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MxNet.Gluon.Data.Vision.Transforms
+﻿namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class Normalize : HybridBlock
     {
-        private float _mean;
-        private float _std;
+        private readonly float _mean;
+        private readonly float _std;
 
-        public Normalize(float mean= 0, float std= 1)
+        public Normalize(float mean = 0, float std = 1)
         {
             _mean = mean;
             _std = std;

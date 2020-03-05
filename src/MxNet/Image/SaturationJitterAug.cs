@@ -1,28 +1,25 @@
-﻿using SharpCV;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NumSharp;
 
 namespace MxNet.Image
 {
     public class SaturationJitterAug : Augmenter
     {
-        public float Saturation { get; set; }
-
-        private NDArray coef;
+        private readonly NDArray coef;
 
         public SaturationJitterAug(float saturation)
         {
             Saturation = saturation;
-            coef = new NDArray(new float[] { 0.299f, 0.587f, 0.114f }).Reshape(1, 3);
+            coef = new NDArray(new[] {0.299f, 0.587f, 0.114f}).Reshape(1, 3);
         }
+
+        public float Saturation { get; set; }
 
         public override NDArray Call(NDArray src)
         {
-            var alpha = 1f + NumSharp.np.random.uniform(-Saturation, Saturation);
+            var alpha = 1f + np.random.uniform(-Saturation, Saturation);
             var gray = src * coef;
-            gray = nd.Sum(gray, axis: 2, keepdims: true);
-            gray *= (1 - alpha);
+            gray = nd.Sum(gray, 2, true);
+            gray *= 1 - alpha;
             src *= gray;
             src += gray;
             return src;

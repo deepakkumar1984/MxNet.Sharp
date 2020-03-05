@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Optimizers
+﻿namespace MxNet.Optimizers
 {
     public class DCASGD : Optimizer
     {
-        public float Momentum { get; set; }
-
-        public float Lamda { get; }
-
-        public DCASGD(float momentum= 0, float lamda= 0.04f)
+        public DCASGD(float momentum = 0, float lamda = 0.04f)
         {
             Momentum = momentum;
             Lamda = lamda;
         }
 
+        public float Momentum { get; set; }
+
+        public float Lamda { get; }
+
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            NDArrayDict state = new NDArrayDict("momentum", "prev_weight");
+            var state = new NDArrayDict("momentum", "prev_weight");
             if (Momentum == 0)
             {
                 state["momentum"] = null;
@@ -43,7 +39,7 @@ namespace MxNet.Optimizers
             if (ClipGradient.HasValue)
                 grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
 
-            if(state["momentum"] != null)
+            if (state["momentum"] != null)
             {
                 state["momentum"] *= Momentum;
                 state["momentum"] += -lr * (grad + wd * weight + Lamda * grad * grad * (weight - state["prev_weight"]));

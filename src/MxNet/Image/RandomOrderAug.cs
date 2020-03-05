@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
-namespace MxNet.Image
+﻿namespace MxNet.Image
 {
     public class RandomOrderAug : Augmenter
     {
-        public Augmenter[] Augmenters { get; set; }
-
         public RandomOrderAug(Augmenter[] ts)
         {
             Augmenters = ts;
         }
 
+        public Augmenter[] Augmenters { get; set; }
+
         public override NDArray Call(NDArray src)
         {
             Augmenters.Shuffle();
-            foreach (var aug in Augmenters)
-            {
-                src = aug.Call(src);
-            }
+            foreach (var aug in Augmenters) src = aug.Call(src);
 
             return src;
         }

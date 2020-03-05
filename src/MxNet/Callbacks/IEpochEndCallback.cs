@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Callbacks
+﻿namespace MxNet.Callbacks
 {
     public interface IEpochEndCallback
     {

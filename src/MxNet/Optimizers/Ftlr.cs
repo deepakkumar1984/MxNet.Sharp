@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Optimizers
+﻿namespace MxNet.Optimizers
 {
     public class Ftlr : Optimizer
     {
-        public float Lamda1 { get; set; }
-
-        public float Beta { get; set; }
-
-        public Ftlr(float lamda1 = 0.1f, float learning_rate = 0.1f, float beta = 1) : base(learning_rate: learning_rate)
+        public Ftlr(float lamda1 = 0.1f, float learning_rate = 0.1f, float beta = 1) : base(
+            learning_rate: learning_rate)
         {
             Lamda1 = lamda1;
             Beta = beta;
         }
 
+        public float Lamda1 { get; set; }
+
+        public float Beta { get; set; }
+
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            NDArrayDict state = new NDArrayDict();
+            var state = new NDArrayDict();
             state["z"] = nd.Zeros(weight.Shape, weight.context, weight.DataType);
             state["n"] = nd.Zeros(weight.Shape, weight.context, weight.DataType);
             return state;
@@ -30,7 +27,8 @@ namespace MxNet.Optimizers
             var lr = GetLr(index);
             var wd = GetWd(index);
             var t = index_update_count[index];
-            weight = nd.FtrlUpdate(weight, grad, state["z"], state["n"], lr, Lamda1, Beta, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+            weight = nd.FtrlUpdate(weight, grad, state["z"], state["n"], lr, Lamda1, Beta, wd, RescaleGrad,
+                ClipGradient.HasValue ? ClipGradient.Value : -1);
         }
     }
 }

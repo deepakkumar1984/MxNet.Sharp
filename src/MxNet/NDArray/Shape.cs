@@ -5,10 +5,8 @@ using System.Linq;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public sealed class Shape
     {
-
         #region Fields
 
         private const int StackCache = 4;
@@ -19,8 +17,8 @@ namespace MxNet
 
         public Shape()
         {
-            this._Dimension = 0;
-            this._Data = new List<int>(StackCache);
+            Dimension = 0;
+            _Data = new List<int>(StackCache);
         }
 
         public Shape(IList<int> v)
@@ -33,35 +31,35 @@ namespace MxNet
             if (v == null)
                 v = new int[0];
 
-            this._Dimension = v.Length;
+            Dimension = v.Length;
 
-            int[] data = new int[this._Dimension < StackCache ? StackCache : this._Dimension];
+            var data = new int[Dimension < StackCache ? StackCache : Dimension];
             Array.Copy(v, data, v.Length);
             _Data = data.ToList();
         }
 
         public Shape(int s1)
-            : this(new[] { s1 })
+            : this(new[] {s1})
         {
         }
 
         public Shape(int s1, int s2)
-            : this(new[] { s1, s2 })
+            : this(new[] {s1, s2})
         {
         }
 
         public Shape(int s1, int s2, int s3)
-            : this(new[] { s1, s2, s3 })
+            : this(new[] {s1, s2, s3})
         {
         }
 
         public Shape(int s1, int s2, int s3, int s4)
-            : this(new[] { s1, s2, s3, s4 })
+            : this(new[] {s1, s2, s3, s4})
         {
         }
 
         public Shape(int s1, int s2, int s3, int s4, int s5)
-            : this(new[] { s1, s2, s3, s4, s5 })
+            : this(new[] {s1, s2, s3, s4, s5})
         {
         }
 
@@ -70,10 +68,10 @@ namespace MxNet
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
 
-            this._Dimension = shape._Dimension;
+            Dimension = shape.Dimension;
 
-            int[] data = new int[this._Dimension < StackCache ? StackCache : this._Dimension];
-            Array.Copy(shape.Data, data, this._Dimension);
+            var data = new int[Dimension < StackCache ? StackCache : Dimension];
+            Array.Copy(shape.Data, data, Dimension);
             _Data = data.ToList();
         }
 
@@ -83,27 +81,25 @@ namespace MxNet
 
         private readonly List<int> _Data = new List<int>();
 
-        public int[] Data => this._Data.ToArray();
+        public int[] Data => _Data.ToArray();
 
-        private int _Dimension;
-
-        public int Dimension => this._Dimension;
+        public int Dimension { get; private set; }
 
         public int Size
         {
             get
             {
-                int size = 1;
-                var data = this._Data;
+                var size = 1;
+                var data = _Data;
 
-                for (var index = 0; index < this._Dimension; index++)
+                for (var index = 0; index < Dimension; index++)
                     size *= data[index];
 
                 return size;
             }
         }
 
-        public int this[int index] => this.Data[index];
+        public int this[int index] => Data[index];
 
         #endregion
 
@@ -111,36 +107,37 @@ namespace MxNet
 
         public Shape Clone()
         {
-            var array = new int[this._Dimension < StackCache ? StackCache : this._Dimension];
-            Array.Copy(this.Data, array, Math.Min(array.Length, this._Data.Count));
+            var array = new int[Dimension < StackCache ? StackCache : Dimension];
+            Array.Copy(Data, array, Math.Min(array.Length, _Data.Count));
             return new Shape(array);
         }
 
         public void Add(int i)
         {
             _Data.Add(i);
-            _Dimension = _Data.Count;
+            Dimension = _Data.Count;
         }
+
         #region Overrides
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj is Shape && Equals((Shape)obj);
+            return obj is Shape && Equals((Shape) obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((this._Data != null ? this._Data.Select(u => (int)u).Sum().GetHashCode() : 0) * 397) ^ (int)this._Dimension;
+                return ((_Data != null ? _Data.Select(u => u).Sum().GetHashCode() : 0) * 397) ^ Dimension;
             }
         }
 
         public override string ToString()
         {
-            return $"({string.Join(",", Enumerable.Range(0, (int)this.Dimension).Select(i => this._Data[i].ToString()))})";
+            return $"({string.Join(",", Enumerable.Range(0, Dimension).Select(i => _Data[i].ToString()))})";
         }
 
         #region Operators
@@ -155,10 +152,10 @@ namespace MxNet
             if (!(!lnull && !rnull))
                 return false;
 
-            if (lhs._Dimension != rhs._Dimension)
+            if (lhs.Dimension != rhs.Dimension)
                 return false;
 
-            for (var i = 0; i < lhs._Dimension; ++i)
+            for (var i = 0; i < lhs.Dimension; ++i)
                 if (lhs.Data[i] != rhs.Data[i])
                     return false;
 
@@ -175,10 +172,10 @@ namespace MxNet
             if (!(!lnull && !rnull))
                 return true;
 
-            if (lhs._Dimension != rhs._Dimension)
+            if (lhs.Dimension != rhs.Dimension)
                 return true;
 
-            for (var i = 0; i < lhs._Dimension; ++i)
+            for (var i = 0; i < lhs.Dimension; ++i)
                 if (lhs.Data[i] != rhs.Data[i])
                     return true;
 
@@ -199,8 +196,5 @@ namespace MxNet
         #endregion
 
         #endregion
-
     }
-
 }
-

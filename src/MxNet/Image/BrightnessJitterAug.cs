@@ -1,22 +1,19 @@
-﻿using SharpCV;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NumSharp;
 
 namespace MxNet.Image
 {
     public class BrightnessJitterAug : Augmenter
     {
-        public float Brightness { get; set; }
-
         public BrightnessJitterAug(float brightness)
         {
             Brightness = brightness;
         }
 
+        public float Brightness { get; set; }
+
         public override NDArray Call(NDArray src)
         {
-            var alpha = 1f + NumSharp.np.random.uniform(-Brightness, Brightness);
+            var alpha = 1f + np.random.uniform(-Brightness, Brightness);
             src *= alpha;
             return src;
         }

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.RTC
 {
     public class CudaModule : IDisposable
     {
-        public CudaModule(string source, string[] options= null, string[] exports= null)
+        public CudaModule(string source, string[] options = null, string[] exports = null)
         {
             throw new NotImplementedException();
         }
@@ -16,6 +14,9 @@ namespace MxNet.RTC
             throw new NotImplementedException();
         }
 
-        public CudaKernel GetKernel(string name, string signature) => throw new NotImplementedException();
+        public CudaKernel GetKernel(string name, string signature)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace MxNet
 {
     public class NDArrayList : IEnumerable<NDArray>
     {
-        public List<NDArray> data = null;
-
-        public NDArray[] Data => data.ToArray();
-
-        public IntPtr[] Handles => data.Select(x => (x.NativePtr)).ToArray();
-
-        public NDArrayOrSymbol[] NDArrayOrSymbols => data.Select(x => (new NDArrayOrSymbol(x))).ToArray();
+        public List<NDArray> data;
 
         public NDArrayList()
         {
@@ -33,18 +26,27 @@ namespace MxNet
 
         public NDArrayList((NDArray, NDArray) args)
         {
-            data = new List<NDArray>() { args.Item1, args.Item2 };
+            data = new List<NDArray> {args.Item1, args.Item2};
         }
 
         public NDArrayList((NDArray, NDArray, NDArray) args)
         {
-            data = new List<NDArray>() { args.Item1, args.Item2, args.Item3 };
+            data = new List<NDArray> {args.Item1, args.Item2, args.Item3};
         }
 
-        public void Add(params NDArray[] x)
+        public NDArray[] Data => data.ToArray();
+
+        public IntPtr[] Handles => data.Select(x => x.NativePtr).ToArray();
+
+        public NDArrayOrSymbol[] NDArrayOrSymbols => data.Select(x => new NDArrayOrSymbol(x)).ToArray();
+
+        public NDArray this[int i]
         {
-            data.AddRange(x);
+            get => data[i];
+            set => data[i] = value;
         }
+
+        public int Length => data.Count;
 
         public IEnumerator<NDArray> GetEnumerator()
         {
@@ -56,36 +58,54 @@ namespace MxNet
             return data.GetEnumerator();
         }
 
-        public NDArray this[int i]
+        public void Add(params NDArray[] x)
         {
-            get
-            {
-                return data[i];
-            }
-            set
-            {
-                data[i] = value;
-            }
+            data.AddRange(x);
         }
 
-        public int Length => data.Count;
+        public static implicit operator NDArrayList(NDArray[] x)
+        {
+            return new NDArrayList(x);
+        }
 
-        public static implicit operator NDArrayList(NDArray[] x) => new NDArrayList(x);
+        public static implicit operator NDArrayList(NDArray x)
+        {
+            return new NDArrayList(x);
+        }
 
-        public static implicit operator NDArrayList(NDArray x) => new NDArrayList(x);
+        public static implicit operator NDArrayList(List<NDArray> x)
+        {
+            return new NDArrayList(x.ToArray());
+        }
 
-        public static implicit operator NDArrayList(List<NDArray> x) => new NDArrayList(x.ToArray());
+        public static implicit operator NDArrayList(NDArrayOrSymbol[] x)
+        {
+            return new NDArrayList(x.Select(i => i.NdX).ToArray());
+        }
 
-        public static implicit operator NDArrayList(NDArrayOrSymbol[] x) => new NDArrayList(x.Select(i=>(i.NdX)).ToArray());
+        public static implicit operator NDArrayList(NDArrayOrSymbol x)
+        {
+            return new NDArrayList(x);
+        }
 
-        public static implicit operator NDArrayList(NDArrayOrSymbol x) => new NDArrayList(x);
+        public static implicit operator NDArrayList(List<NDArrayOrSymbol> x)
+        {
+            return new NDArrayList(x.Select(i => i.NdX).ToArray());
+        }
 
-        public static implicit operator NDArrayList(List<NDArrayOrSymbol> x) => new NDArrayList(x.Select(i => (i.NdX)).ToArray());
+        public static implicit operator NDArray(NDArrayList x)
+        {
+            return x.data.Count > 0 ? x[0] : null;
+        }
 
-        public static implicit operator NDArray(NDArrayList x) => x.data.Count > 0 ? x[0] : null;
+        public static implicit operator List<NDArray>(NDArrayList x)
+        {
+            return x.data.ToList();
+        }
 
-        public static implicit operator List<NDArray>(NDArrayList x) => x.data.ToList();
-
-        public static implicit operator NDArray[](NDArrayList x) => x.data.ToArray();
+        public static implicit operator NDArray[](NDArrayList x)
+        {
+            return x.data.ToArray();
+        }
     }
 }

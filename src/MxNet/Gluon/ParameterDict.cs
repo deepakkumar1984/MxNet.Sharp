@@ -1,57 +1,36 @@
-﻿using MxNet.Initializers;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MxNet.Initializers;
 
 namespace MxNet.Gluon
 {
     public class ParameterDict : IEnumerable<KeyValuePair<string, Parameter>>
     {
-        private string _prefix;
+        private readonly Dictionary<string, Parameter> _params;
 
-        private ParameterDict _shared;
-
-        private Dictionary<string, Parameter> _params;
-
-        public string Prefix
+        public ParameterDict(string prefix = "", ParameterDict shared = null)
         {
-            get
-            {
-                return _prefix;
-            }
-        }
-
-        public ParameterDict Shared
-        {
-            get
-            {
-                return _shared;
-            }
-        }
-
-        public ParameterDict(string prefix = "", ParameterDict shared= null)
-        {
-            _prefix = prefix;
-            _shared = shared;
+            Prefix = prefix;
+            Shared = shared;
             _params = new Dictionary<string, Parameter>();
         }
+
+        public string Prefix { get; }
+
+        public ParameterDict Shared { get; }
 
         public Parameter this[string name]
         {
             get
             {
-                if(_params.ContainsKey(name))
+                if (_params.ContainsKey(name))
                     return _params[name];
 
                 return null;
             }
-            set
-            {
-                _params[name] = value;
-            }
+            set => _params[name] = value;
         }
 
         public IEnumerator<KeyValuePair<string, Parameter>> GetEnumerator()
@@ -79,7 +58,10 @@ namespace MxNet.Gluon
             return _params;
         }
 
-        public bool Contains(string key) => _params.ContainsKey(key);
+        public bool Contains(string key)
+        {
+            return _params.ContainsKey(key);
+        }
 
         public Parameter GetConstant(string name, NDArray value = null)
         {
@@ -95,10 +77,8 @@ namespace MxNet.Gluon
             }
             else if (value != null)
             {
-                if(!(param is Constant))
-                {
+                if (!(param is Constant))
                     throw new Exception($"Parameter '{name}' already exists but it is not a constant.");
-                }
             }
 
             return param;
@@ -110,21 +90,23 @@ namespace MxNet.Gluon
             if (_params.ContainsKey(name))
                 return _params[name];
 
-            if (_shared != null && _shared.Contains(name))
-                _params[name] = _shared[name];
+            if (Shared != null && Shared.Contains(name))
+                _params[name] = Shared[name];
 
             return null;
         }
 
         public Parameter Get(string name, OpGradReq grad_req = OpGradReq.Write, Shape shape = null, DType dtype = null,
-                             float lr_mult = 1.0f, float wd_mult = 1.0f, Initializer init = null, bool allow_deferred_init = false,
-                             bool differentiable = true, StorageStype stype = StorageStype.Default, StorageStype grad_stype = StorageStype.Default)
+            float lr_mult = 1.0f, float wd_mult = 1.0f, Initializer init = null, bool allow_deferred_init = false,
+            bool differentiable = true, StorageStype stype = StorageStype.Default,
+            StorageStype grad_stype = StorageStype.Default)
         {
             name = Prefix + "_" + name;
             var param = GetImpl(name);
-            if(param == null)
+            if (param == null)
             {
-                param = new Parameter(name, grad_req, shape, dtype, lr_mult, wd_mult, init, allow_deferred_init, differentiable, stype, grad_stype);
+                param = new Parameter(name, grad_req, shape, dtype, lr_mult, wd_mult, init, allow_deferred_init,
+                    differentiable, stype, grad_stype);
                 _params[name] = param;
             }
             else
@@ -146,58 +128,46 @@ namespace MxNet.Gluon
                     continue;
                 }
 
-                if(_params[item.Key].GetType() == item.Value.GetType())
-                {
+                if (_params[item.Key].GetType() == item.Value.GetType())
                     _params[item.Key] = item.Value;
-                }
                 else
-                {
-                    throw new Exception("Cannot update self with other because they have different "  +
-                                            $"Parameters with the same name '{item.Key}'");
-                }
+                    throw new Exception("Cannot update self with other because they have different " +
+                                        $"Parameters with the same name '{item.Key}'");
             }
         }
 
-        public void Initialize(Initializer init= null, Context[] ctx= null, bool verbose= false, bool force_reinit= false)
+        public void Initialize(Initializer init = null, Context[] ctx = null, bool verbose = false,
+            bool force_reinit = false)
         {
             init = init ?? new Uniform();
             if (verbose)
                 init.SetVerbosity(verbose);
 
-            foreach (var item in _params)
-            {
-                item.Value.Initialize(null, ctx, init, force_reinit);
-            }
+            foreach (var item in _params) item.Value.Initialize(null, ctx, init, force_reinit);
         }
 
 
         public void ZeroGrad()
         {
-            foreach (var item in _params)
-            {
-                item.Value.ZeroGrad();
-            }
+            foreach (var item in _params) item.Value.ZeroGrad();
         }
 
         public void ResetCtx(Context ctx)
         {
-            foreach (var item in _params)
-            {
-                item.Value.ZeroGrad();
-            }
+            foreach (var item in _params) item.Value.ZeroGrad();
         }
 
         public void Save(string filename, string strip_prefix = "")
         {
-            NDArrayDict args_dict = new NDArrayDict();
+            var args_dict = new NDArrayDict();
             foreach (var param in _params)
             {
-                if(strip_prefix != "" && !param.Key.StartsWith(strip_prefix))
+                if (strip_prefix != "" && !param.Key.StartsWith(strip_prefix))
                     throw new Exception($"Prefix '{strip_prefix}' is to be striped before saving, but Parameter's " +
                                         $"name '{param.Key}' does not start with '{strip_prefix}'. " +
                                         "this may be due to your Block shares parameters from other " +
                                         "Blocks or you forgot to use 'with name_scope()' when creating " +
-                                        "child blocks. For more info on naming, please see " + 
+                                        "child blocks. For more info on naming, please see " +
                                         "http://mxnet.incubator.apache.org/tutorials/basic/naming.html");
 
                 args_dict[param.Key.Remove(0, strip_prefix.Length)] = param.Value.Reduce();
@@ -206,22 +176,19 @@ namespace MxNet.Gluon
             NDArray.Save(filename, args_dict);
         }
 
-        public void Load(string filename, Context[] ctx= null, bool allow_missing= false,
-                        bool ignore_extra= false, string restore_prefix= "", bool cast_dtype= false, string dtype_source= "current")
+        public void Load(string filename, Context[] ctx = null, bool allow_missing = false,
+            bool ignore_extra = false, string restore_prefix = "", bool cast_dtype = false,
+            string dtype_source = "current")
         {
-            if(!string.IsNullOrWhiteSpace(restore_prefix))
-            {
+            if (!string.IsNullOrWhiteSpace(restore_prefix))
                 foreach (var name in Keys())
-                {
                     if (!name.StartsWith(restore_prefix))
-                        throw new Exception($"restore_prefix is '{restore_prefix}' but Parameters name '{name}' does not start with '{restore_prefix}'");
+                        throw new Exception(
+                            $"restore_prefix is '{restore_prefix}' but Parameters name '{name}' does not start with '{restore_prefix}'");
 
-                }
-            }
-
-            int lprefix = restore_prefix.Length;
+            var lprefix = restore_prefix.Length;
             var loaded_ndarray = NDArray.Load(filename);
-            NDArrayDict arg_dict = new NDArrayDict();
+            var arg_dict = new NDArrayDict();
             foreach (var item in loaded_ndarray)
             {
                 var key = item.Key.StartsWith("arg:") || item.Key.StartsWith("aux:") ? item.Key.Remove(0, 4) : item.Key;
@@ -229,32 +196,28 @@ namespace MxNet.Gluon
                 arg_dict[key] = item.Value;
             }
 
-            if(!allow_missing)
-            {
+            if (!allow_missing)
                 foreach (var name in Keys())
-                {
                     if (!arg_dict.Contains(name))
-                        throw new Exception($"Parameter '{name.Remove(0, lprefix)}' is missing in file '{filename}', which contains parameters: {Utils.BriefPrintList<string>(Keys().ToList())}. " +
-                                                "Please make sure source and target networks have the same prefix.");
-                }
-            }
+                        throw new Exception(
+                            $"Parameter '{name.Remove(0, lprefix)}' is missing in file '{filename}', which contains parameters: {Utils.BriefPrintList(Keys().ToList())}. " +
+                            "Please make sure source and target networks have the same prefix.");
 
             foreach (var name in arg_dict.Keys)
             {
                 if (!_params.ContainsKey(name))
                 {
                     if (ignore_extra)
-                        throw new Exception($"Parameter '{name.Remove(0, lprefix)}' loaded from file '{filename}' is not present in ParameterDict, " +
-                                                $"choices are: {Utils.BriefPrintList<string>(Keys().ToList())}. Set ignore_extra to True to ignore. " +
-                                                "Please make sure source and target networks have the same prefix.");
+                        throw new Exception(
+                            $"Parameter '{name.Remove(0, lprefix)}' loaded from file '{filename}' is not present in ParameterDict, " +
+                            $"choices are: {Utils.BriefPrintList(Keys().ToList())}. Set ignore_extra to True to ignore. " +
+                            "Please make sure source and target networks have the same prefix.");
 
                     continue;
                 }
 
-                this[name].LoadInit(arg_dict[name], ctx, cast_dtype: cast_dtype, dtype_source: dtype_source);
+                this[name].LoadInit(arg_dict[name], ctx, cast_dtype, dtype_source);
             }
         }
-
-       
     }
 }

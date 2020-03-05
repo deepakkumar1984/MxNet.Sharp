@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace MxNet
 {
     public class Logger : IDisposable
     {
+        private static TextWriterTraceListener trace;
         private string filename = "";
         private string name = "";
-        static TextWriterTraceListener trace;
+
+        public void Dispose()
+        {
+            trace.Close();
+            trace.Dispose();
+        }
 
         public static void Log(string message, TraceLevel level = TraceLevel.Verbose)
         {
-            if(trace != null)
+            if (trace != null)
                 trace.Write(Formatter.FormatMessage(message, level));
 
             Console.ForegroundColor = Formatter.GetColor(level);
@@ -37,23 +42,17 @@ namespace MxNet
 
         public static void Configure(string filename, string name = "")
         {
-            if(!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(name))
                 trace = new TextWriterTraceListener(filename, name);
             else
                 trace = new TextWriterTraceListener(filename);
-        }
-
-        public void Dispose()
-        {
-            trace.Close();
-            trace.Dispose();
         }
 
         public class Formatter
         {
             public static ConsoleColor GetColor(TraceLevel level)
             {
-                ConsoleColor color = ConsoleColor.White;
+                var color = ConsoleColor.White;
 
                 switch (level)
                 {
@@ -66,8 +65,6 @@ namespace MxNet
                     case TraceLevel.Info:
                     case TraceLevel.Verbose:
                         color = ConsoleColor.White;
-                        break;
-                    default:
                         break;
                 }
 

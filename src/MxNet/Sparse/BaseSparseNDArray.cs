@@ -1,96 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using MxNet.Interop;
 using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
-using MxNet.Interop;
 
 namespace MxNet.Sparse
 {
     public class BaseSparseNDArray : NDArray
     {
-        private Dictionary<StorageStype, DType[]> _STORAGE_AUX_TYPES = new Dictionary<StorageStype, DType[]>()
+        private readonly Dictionary<StorageStype, DType[]> _STORAGE_AUX_TYPES = new Dictionary<StorageStype, DType[]>
         {
             {
                 StorageStype.Csr,
-                new DType[]{ DType.Int64, DType.Int64 }
+                new[] {DType.Int64, DType.Int64}
             },
-             {
+            {
                 StorageStype.RowSparse,
-                new DType[]{ DType.Int64 }
+                new[] {DType.Int64}
             }
         };
 
-        internal int NumAux
-        {
-            get
-            {
-                return _STORAGE_AUX_TYPES[SType].Length;
-            }
-        }
-        #region Basic Ops
-        public static BaseSparseNDArray operator +(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
-        {
-            return (BaseSparseNDArray)nd.ElemwiseAdd(lhs, rhs);
-        }
-
-        public static BaseSparseNDArray operator +(BaseSparseNDArray lhs, mx_float scalar)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-
-        public static BaseSparseNDArray operator +(mx_float scalar, BaseSparseNDArray rhs)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-
-        public static BaseSparseNDArray operator -(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
-        {
-            return (BaseSparseNDArray)nd.ElemwiseSub(lhs, rhs);
-        }
-
-        public static BaseSparseNDArray operator -(BaseSparseNDArray lhs, mx_float scalar)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-
-        public static BaseSparseNDArray operator -(mx_float scalar, BaseSparseNDArray rhs)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-
-        public static BaseSparseNDArray operator *(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
-        {
-            return (BaseSparseNDArray)nd.ElemwiseMul(lhs, rhs);
-        }
-
-        public static BaseSparseNDArray operator *(BaseSparseNDArray lhs, mx_float scalar)
-        {
-            return (BaseSparseNDArray)nd.MulScalar(lhs, scalar);
-        }
-
-        public static NDArray operator *(mx_float scalar, BaseSparseNDArray rhs)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-
-        public static BaseSparseNDArray operator /(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
-        {
-            return (BaseSparseNDArray)nd.ElemwiseDiv(lhs, rhs);
-        }
-
-        public static BaseSparseNDArray operator /(BaseSparseNDArray lhs, mx_float scalar)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-
-        public static BaseSparseNDArray operator /(mx_float scalar, BaseSparseNDArray rhs)
-        {
-            throw new NotSupportedException("Not supported for Sparse NDArray");
-        }
-        #endregion
+        internal int NumAux => _STORAGE_AUX_TYPES[SType].Length;
 
         public override int Size => throw new NotSupportedException("Not supported for Sparse NDArray");
 
@@ -122,12 +54,9 @@ namespace MxNet.Sparse
 
         private DType[] AuxTypes()
         {
-            List<DType> aux_types = new List<DType>();
-            int num_aux = NumAux;
-            for (int i = 0; i < num_aux; i++)
-            {
-                aux_types.Add(AuxType(i));
-            }
+            var aux_types = new List<DType>();
+            var num_aux = NumAux;
+            for (var i = 0; i < num_aux; i++) aux_types.Add(AuxType(i));
 
             return aux_types.ToArray();
         }
@@ -160,5 +89,69 @@ namespace MxNet.Sparse
             NativeMethods.MXNDArrayGetAuxNDArray(GetHandle(), i, out var @out);
             return new NDArray(@out);
         }
+
+        #region Basic Ops
+
+        public static BaseSparseNDArray operator +(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
+        {
+            return (BaseSparseNDArray) nd.ElemwiseAdd(lhs, rhs);
+        }
+
+        public static BaseSparseNDArray operator +(BaseSparseNDArray lhs, float scalar)
+        {
+            throw new NotSupportedException("Not supported for Sparse NDArray");
+        }
+
+        public static BaseSparseNDArray operator +(float scalar, BaseSparseNDArray rhs)
+        {
+            throw new NotSupportedException("Not supported for Sparse NDArray");
+        }
+
+        public static BaseSparseNDArray operator -(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
+        {
+            return (BaseSparseNDArray) nd.ElemwiseSub(lhs, rhs);
+        }
+
+        public static BaseSparseNDArray operator -(BaseSparseNDArray lhs, float scalar)
+        {
+            throw new NotSupportedException("Not supported for Sparse NDArray");
+        }
+
+        public static BaseSparseNDArray operator -(float scalar, BaseSparseNDArray rhs)
+        {
+            throw new NotSupportedException("Not supported for Sparse NDArray");
+        }
+
+        public static BaseSparseNDArray operator *(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
+        {
+            return (BaseSparseNDArray) nd.ElemwiseMul(lhs, rhs);
+        }
+
+        public static BaseSparseNDArray operator *(BaseSparseNDArray lhs, float scalar)
+        {
+            return (BaseSparseNDArray) nd.MulScalar(lhs, scalar);
+        }
+
+        public static NDArray operator *(float scalar, BaseSparseNDArray rhs)
+        {
+            throw new NotSupportedException("Not supported for Sparse NDArray");
+        }
+
+        public static BaseSparseNDArray operator /(BaseSparseNDArray lhs, BaseSparseNDArray rhs)
+        {
+            return (BaseSparseNDArray) nd.ElemwiseDiv(lhs, rhs);
+        }
+
+        public static BaseSparseNDArray operator /(BaseSparseNDArray lhs, float scalar)
+        {
+            throw new NotSupportedException("Not supported for Sparse NDArray");
+        }
+
+        public static BaseSparseNDArray operator /(float scalar, BaseSparseNDArray rhs)
+        {
+            throw new NotSupportedException("Not supported for Sparse NDArray");
+        }
+
+        #endregion
     }
 }

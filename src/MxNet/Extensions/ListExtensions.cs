@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace MxNet
@@ -9,12 +7,12 @@ namespace MxNet
     {
         public static Symbol[] ToSymbols(this List<NDArrayOrSymbol> source)
         {
-            return source.Select(x => (x.SymX)).ToArray();
+            return source.Select(x => x.SymX).ToArray();
         }
 
         public static NDArrayList ToNDArrays(this List<NDArrayOrSymbol> source)
         {
-            return source.Select(x => (x.NdX)).ToArray();
+            return source.Select(x => x.NdX).ToArray();
         }
 
         public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this List<Symbol> source)
@@ -32,11 +30,10 @@ namespace MxNet
             NDArrayOrSymbol result = null;
             if (source.Length > 0)
             {
-                if(source[0].IsNDArray)
-                {
+                if (source[0].IsNDArray)
                     foreach (var item in source)
                     {
-                        if(result==null)
+                        if (result == null)
                         {
                             result = item;
                             continue;
@@ -44,9 +41,7 @@ namespace MxNet
 
                         result = result.NdX + item.NdX;
                     }
-                }
                 else if (source[0].IsSymbol)
-                {
                     foreach (var item in source)
                     {
                         if (result == null)
@@ -57,7 +52,6 @@ namespace MxNet
 
                         result = result.SymX + item.SymX;
                     }
-                }
             }
 
             return result;
@@ -69,7 +63,6 @@ namespace MxNet
             if (source.Count > 0)
             {
                 if (source[0].IsNDArray)
-                {
                     foreach (var item in source)
                     {
                         if (result == null)
@@ -80,9 +73,7 @@ namespace MxNet
 
                         result = result.NdX + item.NdX;
                     }
-                }
                 else if (source[0].IsSymbol)
-                {
                     foreach (var item in source)
                     {
                         if (result == null)
@@ -93,7 +84,6 @@ namespace MxNet
 
                         result = result.SymX + item.SymX;
                     }
-                }
             }
 
             return result;

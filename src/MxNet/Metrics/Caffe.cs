@@ -1,5 +1,4 @@
-﻿using System;
-namespace MxNet.Metrics
+﻿namespace MxNet.Metrics
 {
     public class Caffe : Loss
     {

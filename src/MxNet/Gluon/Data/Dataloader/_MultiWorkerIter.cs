@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision
 {
     public class _MultiWorkerIter
     {
-        private WorkerPool _worker_pool;
-        private Func<NDArrayList, NDArrayList> _batchify_fn;
-        private BatchSampler _batch_sampler;
-        private bool _pin_memory;
-        private int _pin_device_id;
-        private WorkerFn _worker_fn;
-        private Dataset<NDArray> _dataset;
+        public delegate NDArrayList WorkerFn(int[] r, Func<NDArrayList, NDArrayList> _batchify_fn,
+            Dataset<NDArray> dataset);
+
+        private readonly BatchSampler _batch_sampler;
+        private readonly Func<NDArrayList, NDArrayList> _batchify_fn;
+        private readonly Dictionary<int, NDArrayList> _data_buffer;
         private DataLoader _data_loader;
+        private readonly Dataset<NDArray> _dataset;
+        private readonly IEnumerator<int[]> _iter;
+        private readonly int _pin_device_id;
+        private readonly bool _pin_memory;
         private int _rcvd_idx;
         private int _sent_idx;
-        private Dictionary<int, NDArrayList> _data_buffer;
-        private IEnumerator<int[]> _iter;
+        private readonly WorkerFn _worker_fn;
+        private WorkerPool _worker_pool;
 
-        public delegate NDArrayList WorkerFn(int[] r, Func<NDArrayList, NDArrayList> _batchify_fn, Dataset<NDArray> dataset);
-
-        public _MultiWorkerIter(WorkerPool worker_pool, Func<NDArrayList, NDArrayList> batchify_fn, BatchSampler batch_sampler,
-                                bool pin_memory = false, int pin_device_id = 0, WorkerFn worker_fn = null,
-                                int prefetch= 0, Dataset<NDArray> dataset= null, DataLoader data_loader= null)
+        public _MultiWorkerIter(WorkerPool worker_pool, Func<NDArrayList, NDArrayList> batchify_fn,
+            BatchSampler batch_sampler,
+            bool pin_memory = false, int pin_device_id = 0, WorkerFn worker_fn = null,
+            int prefetch = 0, Dataset<NDArray> dataset = null, DataLoader data_loader = null)
         {
             _worker_pool = worker_pool;
             _batchify_fn = batchify_fn;
@@ -40,10 +40,7 @@ namespace MxNet.Gluon.Data.Vision
             _pin_device_id = pin_device_id;
             _dataset = dataset;
             _data_loader = data_loader;
-            foreach (var item in Enumerable.Range(0, prefetch))
-            {
-                PushNext();
-            }
+            foreach (var item in Enumerable.Range(0, prefetch)) PushNext();
         }
 
         public int Length => _batch_sampler.Length;
@@ -80,11 +77,11 @@ namespace MxNet.Gluon.Data.Vision
 
             var r = _iter.Current;
 
-            ThreadPool.QueueUserWorkItem(new WaitCallback((obj) => 
+            ThreadPool.QueueUserWorkItem(obj =>
             {
                 _data_buffer[_sent_idx] = _worker_fn(r, _batchify_fn, _dataset);
                 _sent_idx++;
-            }));
+            });
         }
     }
 }

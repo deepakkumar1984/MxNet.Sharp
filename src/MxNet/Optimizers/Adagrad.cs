@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Optimizers
+﻿namespace MxNet.Optimizers
 {
     public class AdaGrad : Optimizer
     {
-        public float Epsilon { get; set; }
-
         public AdaGrad(float epsilon = 1e-07f)
         {
             Epsilon = epsilon;
         }
 
+        public float Epsilon { get; set; }
+
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            NDArrayDict state = new NDArrayDict("history");
+            var state = new NDArrayDict("history");
             state["history"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
             return state;
         }
@@ -28,9 +24,10 @@ namespace MxNet.Optimizers
             var is_sparse = grad.SType == StorageStype.RowSparse;
             var history = state["history"];
 
-            if(is_sparse)
+            if (is_sparse)
             {
-                nd.SparseAdagradUpdate(weight, grad, history, lr, Epsilon, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+                nd.SparseAdagradUpdate(weight, grad, history, lr, Epsilon, wd, RescaleGrad,
+                    ClipGradient.HasValue ? ClipGradient.Value : -1);
             }
             else
             {

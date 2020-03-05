@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Initializers
+﻿namespace MxNet.Initializers
 {
     public class Normal : Initializer
     {
-        public float Sigma { get; set; }
-
         public Normal(float sigma = 0.01f)
         {
             Sigma = sigma;
         }
+
+        public float Sigma { get; set; }
 
         public override void InitWeight(string name, ref NDArray arr)
         {

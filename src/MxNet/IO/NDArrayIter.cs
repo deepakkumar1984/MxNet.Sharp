@@ -1,30 +1,46 @@
-﻿using MxNet;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace MxNet.IO
 {
     public class NDArrayIter : DataIter
     {
-        private string last_batch_handle;
-        private DataBatch first_batch = null;
-        private NDArrayDict data;
-        private NDArrayDict label;
-        private int num_data;
-        private int num_source;
-        private bool shuffle;
         private NDArrayList _cache_data;
         private NDArrayList _cache_label;
+        private NDArrayDict data;
+        private readonly NDArrayList data_list = new NDArrayList();
+        private DataBatch first_batch = null;
         private NDArray idx;
-        private NDArrayList data_list = new NDArrayList();
+        private NDArrayDict label;
+        private readonly string last_batch_handle;
+        private readonly int num_data;
+        private int num_source;
+        private readonly bool shuffle;
 
-        public override DataDesc[] ProvideData 
-        { 
+        public NDArrayIter(NDArrayList data, NDArrayList label = null, int batch_size = 1, bool shuffle = false,
+            string last_batch_handle = "pad", string data_name = "data", string label_name = "softmax_label")
+        {
+            this.data = IOUtils.InitData(data, false, data_name);
+            this.label = IOUtils.InitData(label, false, label_name);
+            BatchSize = batch_size;
+            Cursor = batch_size;
+            num_data = data[0].Shape[0];
+            this.last_batch_handle = last_batch_handle;
+            this.shuffle = shuffle;
+
+            Reset();
+            data_list.Add(data);
+            data_list.Add(label);
+            _cache_data = null;
+            _cache_label = null;
+        }
+
+        public override DataDesc[] ProvideData
+        {
             get
             {
-                List<DataDesc> result = new List<DataDesc>();
+                var result = new List<DataDesc>();
                 foreach (var kv in data)
                 {
                     var shape = kv.Value.Shape.Data.ToList();
@@ -41,7 +57,7 @@ namespace MxNet.IO
         {
             get
             {
-                List<DataDesc> result = new List<DataDesc>();
+                var result = new List<DataDesc>();
                 foreach (var kv in label)
                 {
                     var shape = kv.Value.Shape.Data.ToList();
@@ -54,56 +70,33 @@ namespace MxNet.IO
             }
         }
 
-        public NDArrayIter(NDArrayList data, NDArrayList label = null, int batch_size = 1, bool shuffle = false,
-                            string last_batch_handle = "pad", string data_name = "data", string label_name = "softmax_label")
-        {
-            this.data = IOUtils.InitData(data, false, data_name);
-            this.label = IOUtils.InitData(label, false, label_name);
-            this.BatchSize = batch_size;
-            this.Cursor = batch_size;
-            this.num_data = data[0].Shape[0];
-            this.last_batch_handle = last_batch_handle;
-            this.shuffle = shuffle;
-            
-            this.Reset();
-            data_list.Add(data);
-            data_list.Add(label);
-            _cache_data = null;
-            _cache_label = null;
-        }
-
         public override NDArrayList GetData()
         {
-            return _batchify(this.data);
+            return _batchify(data);
         }
 
         public override int[] GetIndex()
         {
-            return Enumerable.Range(0, this.data.Keys.Length).ToArray();
+            return Enumerable.Range(0, data.Keys.Length).ToArray();
         }
 
         public override NDArrayList GetLabel()
         {
-            return _batchify(this.label);
+            return _batchify(label);
         }
 
         public override int GetPad()
         {
-            if(last_batch_handle == "pad" && Cursor + BatchSize > num_data)
-            {
-                return Cursor + (int)BatchSize - (int)num_data;
-            }
-            else if(last_batch_handle == "roll_over" && ((int)-BatchSize < Cursor) && (Cursor < 0))
-            {
-                return -Cursor;
-            }
+            if (last_batch_handle == "pad" && Cursor + BatchSize > num_data)
+                return Cursor + BatchSize - num_data;
+            if (last_batch_handle == "roll_over" && -BatchSize < Cursor && Cursor < 0) return -Cursor;
 
             return 0;
         }
 
         public override bool IterNext()
         {
-            Cursor += (int)BatchSize;
+            Cursor += BatchSize;
             return Cursor < num_data;
         }
 
@@ -117,7 +110,7 @@ namespace MxNet.IO
             if (!IterNext())
                 throw new Exception("Stop Iteration");
 
-            var d = this.GetData();
+            var d = GetData();
             var l = GetLabel();
             // iter should stop when last batch is not complete
             if (d[0].Shape[0] != BatchSize)
@@ -129,14 +122,14 @@ namespace MxNet.IO
             }
 
 
-            return new DataBatch(data: d, label: l, pad: GetPad());
+            return new DataBatch(d, l, GetPad());
         }
 
         private void HardReset()
         {
             if (shuffle)
                 ShuffleData();
-            Cursor = (int)-BatchSize;
+            Cursor = -BatchSize;
             _cache_data = null;
             _cache_label = null;
         }
@@ -146,10 +139,11 @@ namespace MxNet.IO
             if (shuffle)
                 ShuffleData();
 
-            if (last_batch_handle == "roll_over" && (num_data - BatchSize < Cursor && Cursor < num_data)) // (self.cursor - self.num_data) represents the data we have for the last batch
-                Cursor = (int)(Cursor - num_data - BatchSize);
+            if (last_batch_handle == "roll_over" && num_data - BatchSize < Cursor && Cursor < num_data
+            ) // (self.cursor - self.num_data) represents the data we have for the last batch
+                Cursor = Cursor - num_data - BatchSize;
             else
-                Cursor = (int)-BatchSize;
+                Cursor = -BatchSize;
         }
 
         public static NDArrayIter FromBatch(DataBatch data_batch)
@@ -161,23 +155,20 @@ namespace MxNet.IO
 
         private void ShuffleData()
         {
-            this.data = IOUtils.GetDataByIdx(data);
-            this.label = IOUtils.GetDataByIdx(label);
+            data = IOUtils.GetDataByIdx(data);
+            label = IOUtils.GetDataByIdx(label);
         }
 
-        private NDArrayList _getdata(NDArrayDict data_source, int? start= null, int? end= null)
+        private NDArrayList _getdata(NDArrayDict data_source, int? start = null, int? end = null)
         {
             if (!start.HasValue && !end.HasValue)
                 throw new ArgumentException("Should atleast specify start or end");
 
             start = start.HasValue ? start : 0;
-            end = end.HasValue ? end : (int)data_source.First().Value.Shape[0];
+            end = end.HasValue ? end : data_source.First().Value.Shape[0];
 
-            NDArrayList result = new NDArrayList();
-            foreach (var x in data_source)
-            {
-                result.Add(x.Value.Slice(start.Value, end));
-            }
+            var result = new NDArrayList();
+            foreach (var x in data_source) result.Add(x.Value.Slice(start.Value, end));
 
             return result.ToArray();
         }
@@ -187,13 +178,11 @@ namespace MxNet.IO
             if (first_data.Length != second_data.Length)
                 throw new Exception("Data source should be of same size.");
 
-            NDArrayList result = new NDArrayList();
-            for (int i = 0; i < first_data.Length; i++)
-            {
+            var result = new NDArrayList();
+            for (var i = 0; i < first_data.Length; i++)
                 result.Add(
                     nd.Concat(new NDArrayList(first_data[i], second_data[i]), 0)
-                    );
-            }
+                );
 
             return result.ToArray();
         }
@@ -203,13 +192,13 @@ namespace MxNet.IO
             if (Cursor > num_data)
                 throw new Exception("DataIter need reset");
 
-            if(last_batch_handle == "roll_over" && ((int)-(BatchSize) < Cursor && Cursor < 0))
+            if (last_batch_handle == "roll_over" && -BatchSize < Cursor && Cursor < 0)
             {
                 if (_cache_data == null && _cache_label == null)
                     throw new Exception("Next epoch should have cached data");
 
-                var cache_data = this._cache_data != null ? this._cache_data : this._cache_label;
-                var second_data = _getdata(data_source, end: Cursor + (int)BatchSize);
+                var cache_data = _cache_data != null ? _cache_data : _cache_label;
+                var second_data = _getdata(data_source, end: Cursor + BatchSize);
                 if (_cache_data != null)
                     _cache_data = null;
                 else
@@ -217,27 +206,22 @@ namespace MxNet.IO
 
                 return _concat(cache_data, second_data);
             }
-            else if (last_batch_handle == "pad" && (Cursor + (int)(BatchSize) > num_data))
+
+            if (last_batch_handle == "pad" && Cursor + BatchSize > num_data)
             {
                 var pad = BatchSize - num_data + Cursor;
-                var first_data = _getdata(data_source, start: Cursor);
-                var second_data = _getdata(data_source, end: (int)pad);
+                var first_data = _getdata(data_source, Cursor);
+                var second_data = _getdata(data_source, end: pad);
                 return _concat(first_data, second_data);
             }
-            else
-            {
-                int end_idx = 0;
-                if (Cursor + BatchSize < num_data)
-                {
-                    end_idx = Cursor + (int)BatchSize;
-                }
-                else
-                {
-                    end_idx = (int)num_data;
-                }
 
-                return _getdata(data_source, Cursor, end_idx);
-            }
+            var end_idx = 0;
+            if (Cursor + BatchSize < num_data)
+                end_idx = Cursor + BatchSize;
+            else
+                end_idx = num_data;
+
+            return _getdata(data_source, Cursor, end_idx);
         }
     }
 }

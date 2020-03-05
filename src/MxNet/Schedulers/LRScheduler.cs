@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace MxNet
 {
-
     public abstract class LRScheduler
     {
-
         #region Constructors
 
-        protected LRScheduler(float base_lr = 0.01f, int warmup_steps = 0, float warmup_begin_lr = 0, string warmup_mode = "linear")
+        protected LRScheduler(float base_lr = 0.01f, int warmup_steps = 0, float warmup_begin_lr = 0,
+            string warmup_mode = "linear")
         {
-            this.BaseLearningRate = base_lr;
+            BaseLearningRate = base_lr;
             WarmupFinalLr = base_lr;
             WarmupSteps = warmup_steps;
             WarmupBeginLr = warmup_begin_lr;
@@ -24,7 +22,7 @@ namespace MxNet
             if (WarmupSteps < 0)
                 throw new Exception("Warmup steps has to be positive or 0");
 
-            if (!new List<string>() { "linear", "constant" }.Contains(warmup_mode))
+            if (!new List<string> {"linear", "constant"}.Contains(warmup_mode))
                 throw new Exception("Supports only linear and constant modes of warmup");
         }
 
@@ -32,11 +30,8 @@ namespace MxNet
 
         #region Properties
 
-        internal float BaseLearningRate
-        {
-            get;
-            set;
-        }
+        internal float BaseLearningRate { get; set; }
+
         public int WarmupSteps { get; }
         public float WarmupBeginLr { get; }
         public float WarmupFinalLr { get; }
@@ -45,6 +40,7 @@ namespace MxNet
         #endregion
 
         #region Methods
+
         public float GetWarmupLR(uint num_update)
         {
             if (num_update >= WarmupSteps)
@@ -55,16 +51,14 @@ namespace MxNet
                 var increase = (WarmupFinalLr - WarmupBeginLr) * num_update / WarmupSteps;
                 return WarmupBeginLr + increase;
             }
-            else if (WarmupMode == "constant")
+
+            if (WarmupMode == "constant")
                 return WarmupBeginLr;
-            else
-                throw new Exception("Invalid warmup mode");
+            throw new Exception("Invalid warmup mode");
         }
 
         public abstract float Call(uint num_update);
 
         #endregion
-
     }
-
 }

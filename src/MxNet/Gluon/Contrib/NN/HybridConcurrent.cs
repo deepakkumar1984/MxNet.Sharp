@@ -1,27 +1,23 @@
-﻿using MxNet.Gluon.NN;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using MxNet.Gluon.NN;
 
 namespace MxNet.Gluon.Contrib.NN
 {
     public class HybridConcurrent : HybridSequential
     {
-        public int Axis { get; }
-
-        public HybridConcurrent( int axis = -1, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public HybridConcurrent(int axis = -1, string prefix = null, ParameterDict @params = null) : base(prefix,
+            @params)
         {
             Axis = axis;
         }
 
+        public int Axis { get; }
+
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            List<NDArrayOrSymbol> output = new List<NDArrayOrSymbol>();
+            var output = new List<NDArrayOrSymbol>();
 
-            foreach (var block in _childrens.Values)
-            {
-                output.Add(block.Call(x));
-            }
+            foreach (var block in _childrens.Values) output.Add(block.Call(x));
 
             if (x.IsNDArray)
                 return nd.Concat(output.ToNDArrays(), Axis);

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Gluon.Contrib.NN
 {
     public class PixelShuffle3D : HybridBlock
     {
-        public PixelShuffle3D((int, int, int) factor) : base(null, null)
+        public PixelShuffle3D((int, int, int) factor)
         {
             throw new NotImplementedException();
         }

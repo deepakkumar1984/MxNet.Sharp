@@ -1,20 +1,16 @@
 ﻿using MxNet.Image;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class RandomResizedCrop : Block
     {
-        private (int, int) _size;
-        private (float, float) _scale;
-        private (float, float) _ratio;
-        private ImgInterp _interpolation;
+        private readonly ImgInterp _interpolation;
+        private readonly (float, float) _ratio;
+        private readonly (float, float) _scale;
+        private readonly (int, int) _size;
 
-        public RandomResizedCrop((int, int) size, (float, float)? scale = null, (float, float)? ratio = null, ImgInterp interpolation =  ImgInterp.Bilinear) : base(null, null)
+        public RandomResizedCrop((int, int) size, (float, float)? scale = null, (float, float)? ratio = null,
+            ImgInterp interpolation = ImgInterp.Bilinear) : base(null, null)
         {
             _size = size;
             _scale = scale.HasValue ? scale.Value : (0.08f, 1.0f);

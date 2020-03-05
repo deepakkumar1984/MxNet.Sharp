@@ -1,26 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using NumSharp;
 
 namespace MxNet.Image
 {
     public class DetRandomCropAug : DetAugmenter
     {
-        public float MinObjectCovered { get; set; }
+        private readonly bool enabled;
 
-        public float MinEjectCovered { get; set; }
-
-        public (float, float) AspectRatioRange { get; set; }
-
-        public (float, float) AreaRange { get; set; }
-
-        public float MinEjectCoverage { get; set; }
-
-        public int MaxAttempts { get; set; }
-
-        private bool enabled;
-
-        public DetRandomCropAug(float min_object_covered = 0.1f, float min_eject_coverage = 0.3f, (float, float)? aspect_ratio_range = null,
+        public DetRandomCropAug(float min_object_covered = 0.1f, float min_eject_coverage = 0.3f,
+            (float, float)? aspect_ratio_range = null,
             (float, float)? area_range = null, int max_attempts = 50)
         {
             MinObjectCovered = min_object_covered;
@@ -33,14 +21,27 @@ namespace MxNet.Image
             if (AreaRange.Item2 <= 0 || AreaRange.Item1 > AreaRange.Item2)
                 Logger.Warning("Skip DetRandomCropAug due to invalid area_range: " + AreaRange.ToValueString());
             else if (AspectRatioRange.Item1 > AspectRatioRange.Item2 || AspectRatioRange.Item1 <= 0)
-                Logger.Warning("Skip DetRandomCropAug due to invalid aspect_ratio_range: " + aspect_ratio_range.ToValueString());
+                Logger.Warning("Skip DetRandomCropAug due to invalid aspect_ratio_range: " +
+                               aspect_ratio_range.ToValueString());
             else
                 enabled = true;
         }
 
+        public float MinObjectCovered { get; set; }
+
+        public float MinEjectCovered { get; set; }
+
+        public (float, float) AspectRatioRange { get; set; }
+
+        public (float, float) AreaRange { get; set; }
+
+        public float MinEjectCoverage { get; set; }
+
+        public int MaxAttempts { get; set; }
+
         public override (NDArray, NDArray) Call(NDArray src, NDArray label)
         {
-            var (x, y, w, h, crop) = RandomCropProposal(label, (int)src.Shape[0], (int)src.Shape[1]);
+            var (x, y, w, h, crop) = RandomCropProposal(label, src.Shape[0], src.Shape[1]);
             label = crop != null ? crop : label;
             src = Img.FixedCrop(src, x, y, w, h);
             return (src, crop);
@@ -71,14 +72,15 @@ namespace MxNet.Image
             return @out;
         }
 
-        private bool CheckSatisfyConstraints(NDArray label, int xmin, int ymin, int xmax, int ymax, int width, int height)
+        private bool CheckSatisfyConstraints(NDArray label, int xmin, int ymin, int xmax, int ymax, int width,
+            int height)
         {
             if ((xmax - xmin) * (ymax - ymin) < 2)
                 return false;
-            var x1 = (float)xmin / width;
-            var y1 = (float)ymin / height;
-            var x2 = (float)xmax / width;
-            var y2 = (float)ymax / height;
+            var x1 = (float) xmin / width;
+            var y1 = (float) ymin / height;
+            var x2 = (float) xmax / width;
+            var y2 = (float) ymax / height;
             var object_areas = CalculateAreas(label[":,1:"]);
             var valid_objects = nd.Where(nd.GreaterScalar(object_areas * width * height, 2));
             if (valid_objects.Size < 1)
@@ -91,12 +93,12 @@ namespace MxNet.Image
 
         private NDArray UpdateLabels(NDArray label, int[] crop_box, int height, int width)
         {
-            var xmin = (float)crop_box[0] / width;
-            var ymin = (float)crop_box[1] / height;
-            var w = (float)crop_box[2] / width;
-            var h = (float)crop_box[3] / height;
+            var xmin = (float) crop_box[0] / width;
+            var ymin = (float) crop_box[1] / height;
+            var w = (float) crop_box[2] / width;
+            var h = (float) crop_box[3] / height;
             var @out = label.Copy();
-            @out[":,(1, 3)"] -= xmin;  //ToDo: Support x[:,(1,3)]
+            @out[":,(1, 3)"] -= xmin; //ToDo: Support x[:,(1,3)]
             @out[":,(2, 4)"] -= ymin;
             @out[":,(1, 3)"] /= w;
             @out[":,(2, 4)"] /= h;
@@ -119,15 +121,16 @@ namespace MxNet.Image
 
             var min_area = AreaRange.Item1 * height * width;
             var max_area = AreaRange.Item2 * height * width;
-            for (int i = 0; i < MaxAttempts; i++)
+            for (var i = 0; i < MaxAttempts; i++)
             {
-                float ratio = NumSharp.np.random.uniform(AspectRatioRange.Item1, AspectRatioRange.Item2);
+                float ratio = np.random.uniform(AspectRatioRange.Item1, AspectRatioRange.Item2);
                 if (ratio <= 0)
                     continue;
-                var h = (int)Math.Round(Math.Pow(min_area / ratio, 2));
-                var max_h = (int)Math.Round(Math.Pow(max_area / ratio, 2));
+                var h = (int) Math.Round(Math.Pow(min_area / ratio, 2));
+                var max_h = (int) Math.Round(Math.Pow(max_area / ratio, 2));
                 if (Math.Round(max_h * ratio) > width)
-                    max_h = (int)((width + 0.4999999) / ratio);//find smallest max_h satifying round(max_h * ratio) <= width
+                    max_h = (int) ((width + 0.4999999) /
+                                   ratio); //find smallest max_h satifying round(max_h * ratio) <= width
 
 
                 if (max_h > height)
@@ -135,9 +138,9 @@ namespace MxNet.Image
                 if (h > max_h)
                     h = max_h;
                 if (h < max_h)
-                    h = NumSharp.np.random.randint(h, max_h); // generate random h in range [h, max_h]
+                    h = np.random.randint(h, max_h); // generate random h in range [h, max_h]
 
-                var w = (int)Math.Round(h * ratio);
+                var w = (int) Math.Round(h * ratio);
                 if (w <= width)
                     throw new Exception("Error: w <= width");
 
@@ -145,26 +148,26 @@ namespace MxNet.Image
                 if (area < min_area)
                 {
                     h += 1;
-                    w = (int)Math.Round(h * ratio);
+                    w = (int) Math.Round(h * ratio);
                     area = w * h;
                 }
 
                 if (area > max_area)
                 {
                     h -= 1;
-                    w = (int)Math.Round(h * ratio);
+                    w = (int) Math.Round(h * ratio);
                     area = w * h;
                 }
 
-                if (!(min_area <= area) && (area <= max_area) && (0 <= w) && (w <= width) && (0 <= h) && (h <= height))
+                if (!(min_area <= area) && area <= max_area && 0 <= w && w <= width && 0 <= h && h <= height)
                     continue;
 
                 NDArray new_label = null;
 
-                var y = NumSharp.np.random.randint(0, Math.Max(0, height - h));
-                var x = NumSharp.np.random.randint(0, Math.Max(0, width - w));
+                var y = np.random.randint(0, Math.Max(0, height - h));
+                var x = np.random.randint(0, Math.Max(0, width - w));
                 if (CheckSatisfyConstraints(label, x, y, x + w, y + h, width, height))
-                    new_label = UpdateLabels(label, new int[] { x, y, w, h }, height, width);
+                    new_label = UpdateLabels(label, new int[] {x, y, w, h}, height, width);
                 if (new_label != null)
                     return (x, y, w, h, new_label);
             }

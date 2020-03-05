@@ -1,13 +1,50 @@
-﻿using MxNet.Gluon.NN;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Reflection;
 
 namespace MxNet.Gluon.RNN
 {
     public class StateInfo
     {
+        public StateInfo()
+        {
+        }
+
+        public StateInfo(FuncArgs args)
+        {
+            foreach (var arg in args)
+            {
+                if (arg.Value == null)
+                    continue;
+
+                switch (arg.Key.ToLower())
+                {
+                    case "shape":
+                        Shape = (Shape) arg.Value;
+                        break;
+                    case "layout":
+                        Layout = arg.Value.ToString();
+                        break;
+                    case "in_layout":
+                        Layout = arg.Value.ToString();
+                        break;
+                    case "mean":
+                        Mean = Convert.ToSingle(arg.Value);
+                        break;
+                    case "std":
+                        Mean = Convert.ToSingle(arg.Value);
+                        break;
+                    case "dtype":
+                        DataType = (DType) arg.Value;
+                        break;
+                    case "ctx":
+                        Ctx = (Context) arg.Value;
+                        break;
+                }
+            }
+        }
+
         public Shape Shape { get; set; }
 
         public string Layout { get; set; }
@@ -22,47 +59,6 @@ namespace MxNet.Gluon.RNN
 
         public string Name { get; set; }
 
-        public StateInfo()
-        {
-
-        }
-
-        public StateInfo(FuncArgs args)
-        {
-            foreach (var arg in args)
-            {
-                if (arg.Value == null)
-                    continue;
-
-                switch (arg.Key.ToLower())
-                {
-                    case "shape":
-                        Shape = (Shape)arg.Value;
-                        break;
-                    case "layout":
-                        Layout = arg.Value.ToString();
-                        break;
-                    case "in_layout":
-                        Layout = arg.Value.ToString();
-                        break;
-                    case "mean":
-                        Mean = Convert.ToSingle(arg.Value);
-                        break;
-                    case "std":
-                        Mean = Convert.ToSingle(arg.Value);
-                        break;
-                    case "dtype":
-                        DataType = (DType)arg.Value;
-                        break;
-                    case "ctx":
-                        Ctx = (Context)arg.Value;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-
         public void Update(FuncArgs args)
         {
             foreach (var arg in args)
@@ -73,7 +69,7 @@ namespace MxNet.Gluon.RNN
                 switch (arg.Key.ToLower())
                 {
                     case "shape":
-                        Shape = (Shape)arg.Value;
+                        Shape = (Shape) arg.Value;
                         break;
                     case "layout":
                         Layout = arg.Value.ToString();
@@ -88,15 +84,13 @@ namespace MxNet.Gluon.RNN
                         Std = Convert.ToSingle(arg.Value);
                         break;
                     case "dtype":
-                        DataType = (DType)arg.Value;
+                        DataType = (DType) arg.Value;
                         break;
                     case "ctx":
-                        Ctx = (Context)arg.Value;
+                        Ctx = (Context) arg.Value;
                         break;
                     case "name":
                         Name = arg.Value.ToString();
-                        break;
-                    default:
                         break;
                 }
             }
@@ -104,9 +98,8 @@ namespace MxNet.Gluon.RNN
 
         public object[] GetArgs(string[] keys)
         {
-            List<object> args = new List<object>();
+            var args = new List<object>();
             foreach (var item in keys)
-            {
                 switch (item.ToLower())
                 {
                     case "shape":
@@ -137,7 +130,6 @@ namespace MxNet.Gluon.RNN
                         args.Add(null);
                         break;
                 }
-            }
 
             return args.ToArray();
         }
@@ -145,10 +137,10 @@ namespace MxNet.Gluon.RNN
 
     public abstract class RecurrentCell : Block
     {
-        internal bool _modified;
-        internal int _init_counter;
-        internal int _counter;
         internal new Dictionary<string, RecurrentCell> _childrens = new Dictionary<string, RecurrentCell>();
+        internal int _counter;
+        internal int _init_counter;
+        internal bool _modified;
 
         public RecurrentCell(string prefix, ParameterDict @params) : base(prefix, @params)
         {
@@ -160,15 +152,13 @@ namespace MxNet.Gluon.RNN
         {
             _init_counter = 0;
             _counter = 0;
-            foreach (var cell in _childrens.Values)
-            {
-                cell.Reset();
-            }
+            foreach (var cell in _childrens.Values) cell.Reset();
         }
 
-        public abstract StateInfo[] StateInfo(int batch_size= 0);
+        public abstract StateInfo[] StateInfo(int batch_size = 0);
 
-        public new virtual (NDArrayOrSymbol, NDArrayOrSymbol[]) Call(NDArrayOrSymbol inputs, params NDArrayOrSymbol[] states)
+        public new virtual (NDArrayOrSymbol, NDArrayOrSymbol[]) Call(NDArrayOrSymbol inputs,
+            params NDArrayOrSymbol[] states)
         {
             return default;
         }
@@ -185,45 +175,42 @@ namespace MxNet.Gluon.RNN
                 throw new Exception("After applying modifier cells (e.g. ZoneoutCell) the base " +
                                     "cell cannot be called directly. Call the modifier cell instead.");
 
-            List<NDArrayOrSymbol> states = new List<NDArrayOrSymbol>();
+            var states = new List<NDArrayOrSymbol>();
             var state_info = StateInfo(batch_size);
-            for (int i = 0; i < state_info.Length; i++)
+            for (var i = 0; i < state_info.Length; i++)
             {
                 var info = state_info[i];
                 _init_counter++;
                 if (info != null)
-                {
                     info.Update(args);
-                }
                 else
-                {
                     info = new StateInfo(args);
-                }
 
                 if (func.StartsWith("sym."))
                 {
-                    sym obj = new sym();
+                    var obj = new sym();
                     args.Add("name", $"{Prefix}begin_state_{_init_counter}");
-                    var m = typeof(sym).GetMethod(func.Replace("sym.", ""), System.Reflection.BindingFlags.Static);
+                    var m = typeof(sym).GetMethod(func.Replace("sym.", ""), BindingFlags.Static);
                     var keys = m.GetParameters().Select(x => x.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    states.Add((Symbol)m.Invoke(obj, paramArgs));
+                    states.Add((Symbol) m.Invoke(obj, paramArgs));
                 }
                 else if (func.StartsWith("nd."))
                 {
-                    nd obj = new nd();
-                    var m = typeof(sym).GetMethod(func.Replace("nd.", ""), System.Reflection.BindingFlags.Static);
+                    var obj = new nd();
+                    var m = typeof(sym).GetMethod(func.Replace("nd.", ""), BindingFlags.Static);
                     var keys = m.GetParameters().Select(ids => ids.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    states.Add((NDArray)m.Invoke(obj, paramArgs));
+                    states.Add((NDArray) m.Invoke(obj, paramArgs));
                 }
             }
 
             return states.ToArray();
         }
 
-        public virtual (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs, NDArrayOrSymbol[] begin_state = null,
-                            string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
+        public virtual (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs,
+            NDArrayOrSymbol[] begin_state = null,
+            string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
         {
             if (!inputs[0].IsSymbol)
                 throw new Exception("Only symbols is supported");
@@ -232,11 +219,11 @@ namespace MxNet.Gluon.RNN
             var (f_inputs, axis, batch_size) = RNNCell.FormatSequence(length, inputs, layout, false);
             begin_state = RNNCell.GetBeginState(this, begin_state, f_inputs, batch_size);
             var states = begin_state;
-            List<NDArrayOrSymbol> outputs = new List<NDArrayOrSymbol>();
-            List<NDArrayOrSymbol[]> all_states = new List<NDArrayOrSymbol[]>();
-            for (int i = 0; i < length; i++)
+            var outputs = new List<NDArrayOrSymbol>();
+            var all_states = new List<NDArrayOrSymbol[]>();
+            for (var i = 0; i < length; i++)
             {
-                var (output, u_states) = Unroll(1, new NDArrayOrSymbol[] { inputs[i] }, states);
+                var (output, u_states) = Unroll(1, new[] {inputs[i]}, states);
                 outputs.Add(output[0]);
                 if (valid_length != null)
                     all_states.Add(u_states);
@@ -244,9 +231,12 @@ namespace MxNet.Gluon.RNN
 
             if (valid_length != null)
             {
-                states = all_states.Select(ele_list => (sym.SequenceLast(sym.Stack(ele_list.ToList().ToSymbols(), ele_list.Length, 0), valid_length, true, 0))).ToList().ToNDArrayOrSymbols();
+                states = all_states
+                    .Select(ele_list => sym.SequenceLast(sym.Stack(ele_list.ToList().ToSymbols(), ele_list.Length),
+                        valid_length, true)).ToList().ToNDArrayOrSymbols();
 
-                outputs = RNNCell.MaskSequenceVariableLength(outputs.ToArray(), length, valid_length, axis, true).ToList();
+                outputs = RNNCell.MaskSequenceVariableLength(outputs.ToArray(), length, valid_length, axis, true)
+                    .ToList();
             }
 
             outputs = RNNCell.FormatSequence(length, outputs.ToArray(), layout, merge_outputs.Value).Item1.ToList();
@@ -270,8 +260,6 @@ namespace MxNet.Gluon.RNN
                     return sym.Activation(input, ActivationActType.Softsign, name);
                 case "leakyrely":
                     return sym.LeakyReLU(input);
-                default:
-                    break;
             }
 
             return input;
@@ -293,8 +281,6 @@ namespace MxNet.Gluon.RNN
                     return nd.Activation(input, ActivationActType.Softsign);
                 case "leakyrely":
                     return nd.LeakyReLU(input);
-                default:
-                    break;
             }
 
             return input;

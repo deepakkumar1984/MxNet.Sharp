@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MxNet
 {
@@ -16,10 +14,6 @@ namespace MxNet
         public static readonly DType Int8 = new DType("int8", "Int8", 5);
         public static readonly DType Int64 = new DType("int64", "Int64", 6);
 
-        public string Name { get; }
-        public string CsName { get; }
-        public int Index { get; }
-
         public DType(string name, string csName, int index)
         {
             Name = name;
@@ -28,14 +22,21 @@ namespace MxNet
             StringToDTypeMap.Add(Name, this);
             IndexToDTypeMap.Add(index, this);
         }
+
+        public string Name { get; }
+        public string CsName { get; }
+        public int Index { get; }
+
         public static implicit operator string(DType value)
         {
             return value.Name;
         }
+
         public static implicit operator DType(string value)
         {
             return StringToDTypeMap[value];
         }
+
         public static explicit operator DType(int index)
         {
             return IndexToDTypeMap[index];
@@ -50,6 +51,5 @@ namespace MxNet
         {
             return IndexToDTypeMap[index];
         }
-
     }
 }

@@ -1,23 +1,20 @@
-﻿using SharpCV;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace MxNet.Image
 {
     public class HorizontalFlipAug : Augmenter
     {
-        public float Probability { get; set; }
-
         public HorizontalFlipAug(float p)
         {
             Probability = p;
         }
 
+        public float Probability { get; set; }
+
         public override NDArray Call(NDArray src)
         {
             if (new Random().NextDouble() < Probability)
-                src = nd.Flip(src, axis: 1);
+                src = nd.Flip(src, 1);
 
             return src;
         }

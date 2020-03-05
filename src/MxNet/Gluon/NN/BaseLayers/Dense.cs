@@ -1,14 +1,26 @@
 ﻿using MxNet.Initializers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
     public class Dense : HybridBlock
     {
+        public Dense(int units, ActivationActType? activation = null, bool use_bias = true, bool flatten = true,
+            DType dtype = null, Initializer weight_initializer = null, string bias_initializer = "zeros",
+            int in_units = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        {
+            Units = units;
+            Act = activation != null ? new Activation(activation.Value) : null;
+            UseBias = use_bias;
+            Flatten_ = flatten;
+            DataType = dtype;
+            this["weight"] = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype,
+                init: weight_initializer, allow_deferred_init: true);
+
+            if (UseBias)
+                this["bias"] = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype,
+                    init: Initializer.Get(bias_initializer), allow_deferred_init: true);
+        }
+
         public int Units { get; set; }
 
         public Activation Act { get; set; }
@@ -20,21 +32,6 @@ namespace MxNet.Gluon.NN
         public DType DataType { get; set; }
 
         public int InUnits { get; set; }
-
-        public Dense(int units, ActivationActType? activation = null, bool use_bias = true, bool flatten = true,
-                    DType dtype = null, Initializer weight_initializer = null, string bias_initializer = "zeros",
-                    int in_units = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
-        {
-            Units = units;
-            Act = activation != null ? new Activation(activation.Value) : null;
-            UseBias = use_bias;
-            Flatten_ = flatten;
-            DataType = dtype;
-            this["weight"] = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype, init: weight_initializer, allow_deferred_init: true);
-            
-            if(UseBias)
-                this["bias"] = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype, init: Initializer.Get(bias_initializer), allow_deferred_init: true);
-        }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {

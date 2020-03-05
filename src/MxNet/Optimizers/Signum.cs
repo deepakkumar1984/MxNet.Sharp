@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Optimizers
+﻿namespace MxNet.Optimizers
 {
     public class Signum : Optimizer
     {
-        public float Momentum { get; set; }
-
-        public float WdLh { get; set; }
-
-        public Signum(float learning_rate = 0.01f, float momentum = 0.9f, float wd_lh = 0) : base(learning_rate: learning_rate)
+        public Signum(float learning_rate = 0.01f, float momentum = 0.9f, float wd_lh = 0) : base(
+            learning_rate: learning_rate)
         {
             Momentum = momentum;
             WdLh = wd_lh;
         }
 
+        public float Momentum { get; set; }
+
+        public float WdLh { get; set; }
+
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            NDArrayDict state = new NDArrayDict();
+            var state = new NDArrayDict();
             state["momentum"] = null;
 
             if (Momentum != 0)
@@ -33,9 +30,11 @@ namespace MxNet.Optimizers
             var wd = GetWd(index);
 
             if (state["momentum"] != null)
-                weight = nd.SignumUpdate(weight, grad, state["momentum"], lr, Momentum, wd, RescaleGrad, clip_gradient: ClipGradient.HasValue ? ClipGradient.Value : -1, WdLh);
+                weight = nd.SignumUpdate(weight, grad, state["momentum"], lr, Momentum, wd, RescaleGrad,
+                    ClipGradient.HasValue ? ClipGradient.Value : -1, WdLh);
             else
-                weight = nd.SignsgdUpdate(weight, grad, lr, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+                weight = nd.SignsgdUpdate(weight, grad, lr, wd, RescaleGrad,
+                    ClipGradient.HasValue ? ClipGradient.Value : -1);
         }
     }
 }

@@ -1,20 +1,29 @@
 ﻿using MxNet.Interop;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet
 {
     public class Engine
     {
+        public static int SetBulkSize(int size)
+        {
+            var prev = 0;
+            NativeMethods.MXEngineSetBulkSize(size, ref prev);
+            return prev;
+        }
+
+        public static _BulkScope Bulk(int size)
+        {
+            return new _BulkScope(size);
+        }
+
         public class _BulkScope : MxDisposable
         {
-            private int _size;
             private int _old_size;
+            private readonly int _size;
 
             public _BulkScope(int size)
             {
-                _size = size;    
+                _size = size;
             }
 
             public override MxDisposable Enter()
@@ -27,18 +36,6 @@ namespace MxNet
             {
                 SetBulkSize(_old_size);
             }
-        }
-
-        public static int SetBulkSize(int size)
-        {
-            int prev = 0;
-            NativeMethods.MXEngineSetBulkSize(size, ref prev);
-            return prev;
-        }
-
-        public static _BulkScope Bulk(int size)
-        {
-            return new _BulkScope(size);
         }
     }
 }

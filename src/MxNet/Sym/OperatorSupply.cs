@@ -55,60 +55,60 @@ namespace MxNet
             return new Operator("log").SetInput("data", data).CreateSymbol();
         }
 
-        public static Symbol PlusScalar(Symbol lhs, mx_float scalar)
+        public static Symbol PlusScalar(Symbol lhs, float scalar)
         {
             return new Operator("_PlusScalar").Set(lhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
 
-        public static Symbol MinusScalar(Symbol lhs, mx_float scalar)
+        public static Symbol MinusScalar(Symbol lhs, float scalar)
         {
             return new Operator("_MinusScalar").Set(lhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
 
-        public static Symbol RMinusScalar(mx_float scalar, Symbol rhs)
+        public static Symbol RMinusScalar(float scalar, Symbol rhs)
         {
             return new Operator("_RMinusScalar").Set(rhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
 
-        public static Symbol MulScalar(Symbol lhs, mx_float scalar)
+        public static Symbol MulScalar(Symbol lhs, float scalar)
         {
             return new Operator("_MulScalar").Set(lhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
 
-        public static Symbol DivScalar(Symbol lhs, mx_float scalar)
+        public static Symbol DivScalar(Symbol lhs, float scalar)
         {
             return new Operator("_DivScalar").Set(lhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
 
-        public static Symbol RDivScalar(mx_float scalar, Symbol rhs)
+        public static Symbol RDivScalar(float scalar, Symbol rhs)
         {
             return new Operator("_RDivScalar").Set(rhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
 
-        public static Symbol ModScalar(Symbol lhs, mx_float scalar)
+        public static Symbol ModScalar(Symbol lhs, float scalar)
         {
             return new Operator("_ModScalar").Set(lhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
 
-        public static Symbol RModScalar(mx_float scalar, Symbol rhs)
+        public static Symbol RModScalar(float scalar, Symbol rhs)
         {
             return new Operator("_RModScalar").Set(rhs)
-                     .SetParam("scalar", scalar)
-                     .CreateSymbol();
+                .SetParam("scalar", scalar)
+                .CreateSymbol();
         }
     }
 }

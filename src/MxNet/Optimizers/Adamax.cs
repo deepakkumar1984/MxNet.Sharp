@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Optimizers
 {
     public class Adamax : Optimizer
     {
-
-        /// <summary>
-        /// Gets or sets the beta 1 value.
-        /// </summary>
-        /// <value>
-        /// The beta1.
-        /// </value>
-        public float Beta1 { get; set; }
-
-        /// <summary>
-        /// Gets or sets the beta 2 value.
-        /// </summary>
-        /// <value>
-        /// The beta2.
-        /// </value>
-        public float Beta2 { get; set; }
-
-        public Adamax(float learning_rate = 0.00f, float beta1 = 0.9f, float beta2 = 0.999f) : base(learning_rate: learning_rate)
+        public Adamax(float learning_rate = 0.00f, float beta1 = 0.9f, float beta2 = 0.999f) : base(
+            learning_rate: learning_rate)
         {
             Beta1 = beta1;
             Beta2 = beta2;
         }
 
+        /// <summary>
+        ///     Gets or sets the beta 1 value.
+        /// </summary>
+        /// <value>
+        ///     The beta1.
+        /// </value>
+        public float Beta1 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the beta 2 value.
+        /// </summary>
+        /// <value>
+        ///     The beta2.
+        /// </value>
+        public float Beta2 { get; set; }
+
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            NDArrayDict state = new NDArrayDict("mean", "variance");
+            var state = new NDArrayDict("mean", "variance");
             state["mean"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
             state["variance"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
             return state;
@@ -44,7 +42,7 @@ namespace MxNet.Optimizers
             var wd = GetWd(index);
 
             var t = index_update_count[index];
-            lr /= 1 - (float)Math.Pow(Beta1, t);
+            lr /= 1 - (float) Math.Pow(Beta1, t);
             grad = grad * RescaleGrad + wd * weight;
             if (ClipGradient.HasValue)
                 grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);

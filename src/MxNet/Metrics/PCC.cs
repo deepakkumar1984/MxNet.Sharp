@@ -1,43 +1,29 @@
-﻿using NumSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
+using NumSharp;
 
 namespace MxNet.Metrics
 {
     public class PCC : EvalMetric
     {
-        public float SumMetric
-        {
-            get
-            {
-                return CalcMcc(lcm) * num_inst;
-            }
-        }
-
-        public float GlobalSumMetric
-        {
-            get
-            {
-                return CalcMcc(gcm) * global_num_inst;
-            }
-        }
+        private NDArray gcm;
 
         private int k;
         private NDArray lcm;
-        private NDArray gcm;
 
-        public PCC(string output_name = null, string label_name = null) 
+        public PCC(string output_name = null, string label_name = null)
             : base("pcc", output_name, label_name, true)
         {
             k = 2;
         }
 
+        public float SumMetric => CalcMcc(lcm) * num_inst;
+
+        public float GlobalSumMetric => CalcMcc(gcm) * global_num_inst;
+
         private void Grow(int inc)
         {
-            lcm = nd.Pad(lcm, PadMode.Constant, new Shape(0, inc, 0, inc), 0);
-            gcm = nd.Pad(gcm, PadMode.Constant, new Shape(0, inc, 0, inc), 0);
+            lcm = nd.Pad(lcm, PadMode.Constant, new Shape(0, inc, 0, inc));
+            gcm = nd.Pad(gcm, PadMode.Constant, new Shape(0, inc, 0, inc));
             k += inc;
         }
 
@@ -45,8 +31,8 @@ namespace MxNet.Metrics
         {
             var cmat = cmatArr.AsNumpy();
             var n = cmat.sum();
-            var x = cmat.sum(axis: 1);
-            var y = cmat.sum(axis: 0);
+            var x = cmat.sum(1);
+            var y = cmat.sum(0);
             var cov_xx = np.sum(x * (n - x)).Data<float>()[0];
             var cov_yy = np.sum(y * (n - y)).Data<float>()[0];
 
@@ -67,7 +53,8 @@ namespace MxNet.Metrics
                 Grow(n + 1 - k);
 
             var bcm = np.zeros(k, k);
-            Enumerable.Zip(pred.Data<int>(), label.Data<int>(), (i, j) => {
+            pred.Data<int>().Zip(label.Data<int>(), (i, j) =>
+            {
                 bcm[i, j] += 1;
                 return true;
             });

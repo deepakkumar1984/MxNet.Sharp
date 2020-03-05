@@ -3,10 +3,8 @@
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     internal static class InteropHelper
     {
-
         #region Methods
 
         public static IntPtr[] ToPointerArray(IntPtr ptr, uint count)
@@ -14,9 +12,9 @@ namespace MxNet
             unsafe
             {
                 var array = new IntPtr[count];
-                var p = (void**)ptr;
+                var p = (void**) ptr;
                 for (var i = 0; i < count; i++)
-                    array[i] = (IntPtr)p[i];
+                    array[i] = (IntPtr) p[i];
 
                 return array;
             }
@@ -27,7 +25,7 @@ namespace MxNet
             unsafe
             {
                 var array = new float[count];
-                var p = (float*)ptr;
+                var p = (float*) ptr;
                 for (var i = 0; i < count; i++)
                     array[i] = p[i];
 
@@ -40,7 +38,7 @@ namespace MxNet
             unsafe
             {
                 var array = new int[count];
-                var p = (int*)ptr;
+                var p = (int*) ptr;
                 for (var i = 0; i < count; i++)
                     array[i] = p[i];
 
@@ -53,7 +51,7 @@ namespace MxNet
             unsafe
             {
                 var array = new ulong[count];
-                var p = (ulong*)ptr;
+                var p = (ulong*) ptr;
                 for (var i = 0; i < count; i++)
                     array[i] = p[i];
 
@@ -62,7 +60,5 @@ namespace MxNet
         }
 
         #endregion
-
     }
-
 }

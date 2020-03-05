@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading;
 using static MxNet.Name;
 
 namespace MxNet.Gluon
 {
     public class _BlockScope : MxDisposable
     {
-        private static System.Threading.ThreadLocal<_BlockScope> _current = new System.Threading.ThreadLocal<_BlockScope>();
+        private static readonly ThreadLocal<_BlockScope> _current = new ThreadLocal<_BlockScope>();
 
-        private Block _block;
-        private Dictionary<string, int> _counter = new Dictionary<string, int>();
-        private _BlockScope _old_scope;
+        private readonly Block _block;
+        private readonly Dictionary<string, int> _counter = new Dictionary<string, int>();
         private Prefix _name_scope;
+        private _BlockScope _old_scope;
 
-        public ParameterDict Params { get; set; }
-
-        public _BlockScope(Block block) : base()
+        public _BlockScope(Block block)
         {
             _block = block;
             _old_scope = null;
@@ -27,9 +21,11 @@ namespace MxNet.Gluon
             _counter = new Dictionary<string, int>();
         }
 
+        public ParameterDict Params { get; set; }
+
         public static (string, ParameterDict) Create(string prefix, ParameterDict @params, string hint)
         {
-            var current = _BlockScope._current.IsValueCreated ? _BlockScope._current.Value : null;
+            var current = _current.IsValueCreated ? _current.Value : null;
             if (current == null)
             {
                 if (prefix == null)
@@ -48,14 +44,14 @@ namespace MxNet.Gluon
                 return (prefix, @params);
             }
 
-            if(string.IsNullOrWhiteSpace(prefix))
+            if (string.IsNullOrWhiteSpace(prefix))
             {
-                int count = current._counter.ContainsKey(hint) ? _current.Value._counter[hint] : 0;
+                var count = current._counter.ContainsKey(hint) ? _current.Value._counter[hint] : 0;
                 prefix = hint + count;
                 current._counter[hint] = count + 1;
             }
 
-            if(@params == null)
+            if (@params == null)
             {
                 var parent = current._block.Params;
                 @params = new ParameterDict(parent.Prefix + prefix, parent.Shared);
@@ -73,7 +69,7 @@ namespace MxNet.Gluon
             if (string.IsNullOrWhiteSpace(_block.Prefix))
                 return null;
 
-            _old_scope = _BlockScope._current.Value;
+            _old_scope = _current.Value;
             _name_scope = new Prefix(_block.Prefix);
             _name_scope.Enter();
             return this;
@@ -86,7 +82,7 @@ namespace MxNet.Gluon
 
             _name_scope.Exit();
             _name_scope = null;
-            _BlockScope._current.Value = _old_scope;
+            _current.Value = _old_scope;
         }
     }
 }

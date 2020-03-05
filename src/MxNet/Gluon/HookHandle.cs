@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static MxNet.Gluon.Block;
 
 namespace MxNet.Gluon
 {
     public class HookHandle : MxDisposable
     {
+        private WeakReference<SortedDictionary<int, Hook>> _hooks_dict_ref;
+        private int _id;
+
+        public HookHandle()
+        {
+            _hooks_dict_ref = null;
+        }
+
         public (WeakReference<SortedDictionary<int, Hook>>, int) State
         {
-            get
-            {
-                return (_hooks_dict_ref, _id);
-            }
+            get => (_hooks_dict_ref, _id);
             set
             {
                 if (value.Item1 == null)
@@ -24,14 +26,6 @@ namespace MxNet.Gluon
 
                 _id = value.Item2;
             }
-        }
-
-        private WeakReference<SortedDictionary<int, Hook>> _hooks_dict_ref;
-        private int _id;
-
-        public HookHandle() : base()
-        {
-            _hooks_dict_ref = null;
         }
 
         public void Attach(SortedDictionary<int, Hook> hooks_dict, Hook hook)

@@ -1,38 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet
+﻿namespace MxNet
 {
     public class NDArrayOrSymbol
     {
-        private object X;
-
-        public bool IsSymbol { get; set; }
-
-        public bool IsNDArray { get; set; }
-
-        public NDArray NdX
-        {
-            get
-            {
-                if(IsNDArray)
-                    return (NDArray)X;
-
-                return null;
-            }
-        }
-
-        public Symbol SymX
-        {
-            get
-            {
-                if (IsSymbol)
-                    return (Symbol)X;
-
-                return null;
-            }
-        }
+        private readonly object X;
 
         public NDArrayOrSymbol(NDArray x)
         {
@@ -48,12 +18,50 @@ namespace MxNet
             X = x;
         }
 
-        public static implicit operator NDArrayOrSymbol(NDArray x) => new NDArrayOrSymbol(x);
+        public bool IsSymbol { get; set; }
 
-        public static implicit operator NDArrayOrSymbol(Symbol x) => new NDArrayOrSymbol(x);
+        public bool IsNDArray { get; set; }
 
-        public static implicit operator NDArray(NDArrayOrSymbol x) => x.NdX;
+        public NDArray NdX
+        {
+            get
+            {
+                if (IsNDArray)
+                    return (NDArray) X;
 
-        public static implicit operator Symbol(NDArrayOrSymbol x) => x.SymX;
+                return null;
+            }
+        }
+
+        public Symbol SymX
+        {
+            get
+            {
+                if (IsSymbol)
+                    return (Symbol) X;
+
+                return null;
+            }
+        }
+
+        public static implicit operator NDArrayOrSymbol(NDArray x)
+        {
+            return new NDArrayOrSymbol(x);
+        }
+
+        public static implicit operator NDArrayOrSymbol(Symbol x)
+        {
+            return new NDArrayOrSymbol(x);
+        }
+
+        public static implicit operator NDArray(NDArrayOrSymbol x)
+        {
+            return x.NdX;
+        }
+
+        public static implicit operator Symbol(NDArrayOrSymbol x)
+        {
+            return x.SymX;
+        }
     }
 }

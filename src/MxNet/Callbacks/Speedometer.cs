@@ -1,20 +1,18 @@
-﻿using MxNet.Metrics;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using MxNet.Metrics;
 
 namespace MxNet.Callbacks
 {
     public class Speedometer : IBatchEndCallback
     {
-        private int _batch_size;
-        private int _frequent;
-        private bool _auto_reset;
+        private readonly bool _auto_reset;
+        private readonly int _batch_size;
+        private readonly int _frequent;
         private bool init;
-        private long tic;
         private int last_count;
+        private long tic;
 
-        public Speedometer(int batch_size, int frequent= 50, bool auto_reset= true)
+        public Speedometer(int batch_size, int frequent = 50, bool auto_reset = true)
         {
             _batch_size = batch_size;
             _frequent = frequent;
@@ -35,47 +33,44 @@ namespace MxNet.Callbacks
 
             last_count = count;
 
-            if(init)
+            if (init)
             {
-                if(count % _frequent == 0)
+                if (count % _frequent == 0)
                 {
                     try
                     {
-                        speed = (float)Math.Round((float)_frequent * (float)_batch_size / (float)(DateTime.Now.Ticks - tic));
+                        speed = (float) Math.Round(_frequent * (float) _batch_size / (DateTime.Now.Ticks - tic));
                     }
-                    catch(DivideByZeroException ex)
+                    catch (DivideByZeroException ex)
                     {
                         speed = float.PositiveInfinity;
                     }
 
-                    if(eval_metric != null)
+                    if (eval_metric != null)
                     {
                         var name_value = eval_metric.GetNameValue();
-                        if(_auto_reset)
+                        if (_auto_reset)
                         {
                             eval_metric.ResetLocal();
-                            msg = string.Format("Epoch[{0}] Batch [{1}-{2}]\tSpeed: {3} samples/sec", epoch, count - _frequent, count, speed);
-                            foreach (var item in name_value)
-                            {
-                                msg += string.Format("\t {0}={1}", item.Key, item.Value);
-                            }
+                            msg = string.Format("Epoch[{0}] Batch [{1}-{2}]\tSpeed: {3} samples/sec", epoch,
+                                count - _frequent, count, speed);
+                            foreach (var item in name_value) msg += string.Format("\t {0}={1}", item.Key, item.Value);
 
                             Logger.Log(msg);
                         }
                         else
                         {
-                            msg = string.Format("Epoch[{0}] Batch [0-{1}]\tSpeed: {2} samples/sec", epoch, count, speed);
-                            foreach (var item in name_value)
-                            {
-                                msg += string.Format("\t {0}={1}", item.Key, item.Value);
-                            }
+                            msg = string.Format("Epoch[{0}] Batch [0-{1}]\tSpeed: {2} samples/sec", epoch, count,
+                                speed);
+                            foreach (var item in name_value) msg += string.Format("\t {0}={1}", item.Key, item.Value);
 
                             Logger.Log(msg);
                         }
                     }
                     else
                     {
-                        Logger.Log(string.Format("Iter[{0}] Batch [{1}]\tSpeed: {} samples/sec", epoch, _batch_size, speed));
+                        Logger.Log(string.Format("Iter[{0}] Batch [{1}]\tSpeed: {} samples/sec", epoch, _batch_size,
+                            speed));
                     }
 
                     tic = DateTime.Now.Ticks;

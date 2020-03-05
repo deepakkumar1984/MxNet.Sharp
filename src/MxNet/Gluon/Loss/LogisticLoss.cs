@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon
 {
     public class LogisticLoss : Loss
     {
-        public string LabelFormat { get; set; }
-
-        public LogisticLoss(float? weight = null, int? batch_axis = 0, string label_format = "signed", string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public LogisticLoss(float? weight = null, int? batch_axis = 0, string label_format = "signed",
+            string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             if (label_format != "signed" && label_format != "binary")
                 throw new ArgumentException($"Label_format can only be signed or binary, recieved {label_format}");
@@ -18,7 +13,10 @@ namespace MxNet.Gluon
             LabelFormat = label_format;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)
+        public string LabelFormat { get; set; }
+
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label,
+            NDArrayOrSymbol sample_weight = null, params object[] args)
         {
             if (pred.IsNDArray)
                 return F(pred.NdX, label, sample_weight);
@@ -32,9 +30,10 @@ namespace MxNet.Gluon
             if (LabelFormat == "signed")
                 label = (label + 1) / 2;
 
-            var loss = nd.Relu(pred) - pred * label + nd.Activation(nd.Negative(nd.Abs(pred)), ActivationActType.Softrelu);
+            var loss = nd.Relu(pred) - pred * label +
+                       nd.Activation(nd.Negative(nd.Abs(pred)), ActivationActType.Softrelu);
             loss = ApplyWeighting(loss, Weight, sample_weight);
-            return nd.Mean(loss, axis: BatchAxis.Value, exclude: true);
+            return nd.Mean(loss, BatchAxis.Value, exclude: true);
         }
 
         private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
@@ -43,9 +42,10 @@ namespace MxNet.Gluon
             if (LabelFormat == "signed")
                 label = (label + 1) / 2;
 
-            var loss = sym.Relu(pred) - pred * label + sym.Activation(sym.Negative(sym.Abs(pred)), ActivationActType.Softrelu);
+            var loss = sym.Relu(pred) - pred * label +
+                       sym.Activation(sym.Negative(sym.Abs(pred)), ActivationActType.Softrelu);
             loss = ApplyWeighting(loss, Weight, sample_weight);
-            return sym.Mean(loss, axis: BatchAxis.Value, exclude: true);
+            return sym.Mean(loss, BatchAxis.Value, exclude: true);
         }
     }
 }

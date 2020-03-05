@@ -1,24 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Optimizers
 {
     public class CumGrad
     {
-        public int Nums { get; set; }
-
-        public NDArray Grad { get; set; }
-
         public CumGrad(int numCums, NDArray cumGrad)
         {
             Nums = numCums;
             Grad = cumGrad;
         }
+
+        public int Nums { get; set; }
+
+        public NDArray Grad { get; set; }
     }
 
     public class LBSGD : Optimizer
     {
+        public LBSGD(float momentum = 0, bool multi_precision = false, string warmup_strategy = "linear'",
+            int warmup_epochs = 5, int batch_scale = 1, int updates_per_epoch = 32, int begin_epoch = 0,
+            int num_epochs = 60)
+        {
+            Logger.Info("Running Large-Batch SGD Algorithm");
+            Logger.Info(
+                $"(Batch_scale={batch_scale}, warmup_epochs={warmup_epochs}, warmup_strategy={warmup_strategy}, updates_per_epoch={updates_per_epoch})");
+
+            MultiPrecision = multi_precision;
+            Momentum = momentum;
+            WarmupStrategy = warmup_strategy;
+            WarmupEpochs = warmup_epochs;
+            BatchScale = batch_scale;
+            UpdatesPerEpoch = updates_per_epoch;
+            InitUpdates = begin_epoch * updates_per_epoch;
+            BeginEpoch = begin_epoch;
+            NumEpochs = num_epochs;
+            LBMult = 1;
+            CumGrads = new Dictionary<int, CumGrad>();
+            Adaptive = false;
+            ADMult = 1;
+        }
+
         public float Momentum { get; set; }
 
         public string WarmupStrategy { get; set; }
@@ -37,55 +59,35 @@ namespace MxNet.Optimizers
 
         public Dictionary<int, CumGrad> CumGrads { get; set; }
 
-        public bool Adaptive{get;set;}
+        public bool Adaptive { get; set; }
 
         public int ADMult { get; set; }
 
         public int InitUpdates { get; set; }
 
-        public LBSGD(float momentum= 0, bool multi_precision= false, string warmup_strategy= "linear'",
-                    int warmup_epochs= 5, int batch_scale= 1, int updates_per_epoch= 32, int begin_epoch= 0, int num_epochs= 60)
-        {
-            Logger.Info("Running Large-Batch SGD Algorithm");
-            Logger.Info($"(Batch_scale={batch_scale}, warmup_epochs={warmup_epochs}, warmup_strategy={warmup_strategy}, updates_per_epoch={updates_per_epoch})");
-
-            MultiPrecision = multi_precision;
-            Momentum = momentum;
-            WarmupStrategy = warmup_strategy;
-            WarmupEpochs = warmup_epochs;
-            BatchScale = batch_scale;
-            UpdatesPerEpoch = updates_per_epoch;
-            InitUpdates = begin_epoch * updates_per_epoch;
-            BeginEpoch = begin_epoch;
-            NumEpochs = num_epochs;
-            LBMult = 1;
-            CumGrads = new Dictionary<int, CumGrad>();
-            Adaptive = false;
-            ADMult = 1;
-        }
-
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
-            NDArrayDict state = new NDArrayDict();
+            var state = new NDArrayDict();
             state["weight_master_copy"] = null;
             state["momentum"] = null;
             if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
             {
                 state["weight_master_copy"] = weight.AsType(DType.Float32);
-                if(Momentum != 0)
+                if (Momentum != 0)
                     state["momentum"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
 
                 return state;
             }
-            else if(!MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+
+            if (!MultiPrecision && weight.DataType.Name == DType.Float16.Name)
             {
                 Logger.Warning("Accumulating with float16 in optimizer can lead to " +
-                                  "poor accuracy or slow convergence. " +
-                                  "Consider using multi_precision=True option of the " +
-                                  "SGD optimizer");
+                               "poor accuracy or slow convergence. " +
+                               "Consider using multi_precision=True option of the " +
+                               "SGD optimizer");
             }
 
-            if(Momentum != 0)
+            if (Momentum != 0)
                 state["momentum"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
 
             return state;
@@ -109,20 +111,24 @@ namespace MxNet.Optimizers
 
                 lr = lr * lbmult;
 
-                bool use_multi_precision = state["weight_master_copy"] != null;
-                if(!use_multi_precision)
+                var use_multi_precision = state["weight_master_copy"] != null;
+                if (!use_multi_precision)
                 {
                     if (state["momentum"] != null)
-                        weight = nd.SgdMomUpdate(weight, grad, state["momentum"], lr, Momentum, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+                        weight = nd.SgdMomUpdate(weight, grad, state["momentum"], lr, Momentum, wd, RescaleGrad,
+                            ClipGradient.HasValue ? ClipGradient.Value : -1);
                     else
-                        weight = nd.SgdUpdate(weight, grad, lr, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+                        weight = nd.SgdUpdate(weight, grad, lr, wd, RescaleGrad,
+                            ClipGradient.HasValue ? ClipGradient.Value : -1);
                 }
                 else
                 {
                     if (state["momentum"] != null)
-                        weight = nd.MpSgdMomUpdate(weight, grad, state["momentum"], state["weight_master_copy"], lr, Momentum, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+                        weight = nd.MpSgdMomUpdate(weight, grad, state["momentum"], state["weight_master_copy"], lr,
+                            Momentum, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
                     else
-                        weight = nd.MpSgdUpdate(weight, grad, state["weight_master_copy"], lr, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+                        weight = nd.MpSgdUpdate(weight, grad, state["weight_master_copy"], lr, wd, RescaleGrad,
+                            ClipGradient.HasValue ? ClipGradient.Value : -1);
                 }
             }
             else
@@ -136,12 +142,16 @@ namespace MxNet.Optimizers
         {
             var nwup = WarmupEpochs * UpdatesPerEpoch;
             var strategy = WarmupStrategy;
-            var maxmult = (float)BatchScale;
+            var maxmult = (float) BatchScale;
             float mult = 0;
             if (nup >= nwup)
+            {
                 mult = maxmult;
+            }
             else if (nwup <= 1)
+            {
                 mult = 1;
+            }
             else
             {
                 if (strategy == "linear")
@@ -149,7 +159,7 @@ namespace MxNet.Optimizers
                 else if (strategy == "power2")
                     mult = 1 + (maxmult - 1) * (nup * nup) / (nwup * nwup);
                 else if (strategy == "sqrt")
-                    mult = 1 + (maxmult - 1) * (float)Math.Sqrt(nup / nwup);
+                    mult = 1 + (maxmult - 1) * (float) Math.Sqrt(nup / nwup);
                 else
                     mult = 1;
             }
@@ -161,7 +171,7 @@ namespace MxNet.Optimizers
         {
             var weight2 = _l2norm(weight);
             var grad2 = _l2norm(g);
-            var lars = (float)Math.Sqrt(weight2 / (grad2 + wd * weight2 + 1e-18));
+            var lars = (float) Math.Sqrt(weight2 / (grad2 + wd * weight2 + 1e-18));
             if (lars < 0.01f)
                 lars = 0.01f;
             else if (lars > 100)
@@ -198,11 +208,11 @@ namespace MxNet.Optimizers
         {
             var cgrad = _get_cum_gradient(index);
             NDArray cum_grad = null;
-            int num_cums = 0;
+            var num_cums = 0;
             if (cgrad != null)
             {
                 num_cums = cgrad.Nums;
-                if(num_cums > 0)
+                if (num_cums > 0)
                 {
                     cum_grad = cgrad.Grad + grad;
                     num_cums++;
@@ -226,4 +236,3 @@ namespace MxNet.Optimizers
         }
     }
 }
-

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Gluon.RNN
+﻿namespace MxNet.Gluon.RNN
 {
     public abstract class HybridRecurrentCell : RecurrentCell
     {
@@ -15,7 +11,8 @@ namespace MxNet.Gluon.RNN
             return input;
         }
 
-        public abstract (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);
+        public abstract (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x,
+            params NDArrayOrSymbol[] args);
 
         public override StateInfo[] StateInfo(int batch_size = 0)
         {

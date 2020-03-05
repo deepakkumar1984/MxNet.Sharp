@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MxNet.Recordio
 {
     public class MXIndexedRecordIO : MXRecordIO
     {
-        public string[] Keys { get; set; }
-
         public MXIndexedRecordIO(string idx_path, string uri, string flag, Type key_type = null) : base(uri, flag)
         {
             throw new NotImplementedException();
         }
+
+        public string[] Keys { get; set; }
 
         public override void Open()
         {
@@ -32,12 +31,24 @@ namespace MxNet.Recordio
             return d;
         }
 
-        public void Seek(int idx) => throw new NotImplementedException();
+        public void Seek(int idx)
+        {
+            throw new NotImplementedException();
+        }
 
-        public int Tell() => throw new NotImplementedException();
+        public int Tell()
+        {
+            throw new NotImplementedException();
+        }
 
-        public string ReadIdx(int idx) => throw new NotImplementedException();
+        public string ReadIdx(int idx)
+        {
+            throw new NotImplementedException();
+        }
 
-        public void WriteIdx(int idx, string buf) => throw new NotImplementedException();
+        public void WriteIdx(int idx, string buf)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

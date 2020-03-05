@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MxNet.Gluon.NN
 {
     public class Activation : HybridBlock
     {
-        public ActivationActType ActType { get; set; }
-
-        public Activation(ActivationActType activation, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Activation(ActivationActType activation, string prefix = null, ParameterDict @params = null) : base(
+            prefix, @params)
         {
             ActType = activation;
         }
+
+        public ActivationActType ActType { get; set; }
 
         public override string Alias()
         {

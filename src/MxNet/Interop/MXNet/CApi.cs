@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 using AtomicSymbolCreator = System.IntPtr;
 using DataIterCreator = System.IntPtr;
 using DataIterHandle = System.IntPtr;
@@ -18,13 +15,12 @@ using uint64_t = System.UInt64;
 // ReSharper disable once CheckNamespace
 namespace MxNet.Interop
 {
-
     internal sealed partial class NativeMethods
     {
-
         #region Callbacks
 
-        public delegate void ExecutorMonitorCallbackDelegate(string str, NDArrayHandle arrayHandle, ExecutorHandle executeHandle);
+        public delegate void ExecutorMonitorCallbackDelegate(string str, NDArrayHandle arrayHandle,
+            ExecutorHandle executeHandle);
 
         #endregion
 
@@ -33,8 +29,8 @@ namespace MxNet.Interop
         #region Part 0: Global State setups
 
         /// <summary>
-        /// Notify the engine about a shutdown, This can help engine to print less messages into display.
-        /// <para>User do not have to call this function.</para>
+        ///     Notify the engine about a shutdown, This can help engine to print less messages into display.
+        ///     <para>User do not have to call this function.</para>
         /// </summary>
         /// <returns>0 when success, -1 when failure happens.</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
@@ -52,14 +48,13 @@ namespace MxNet.Interop
         [DllImport("Kernel32.dll")]
         public static extern ExecutorHandle LoadLibrary(string path);
 
-
-
         #endregion
 
         #region Part 1: NDArray creation and deletion
 
         /// <summary>
-        /// create a NDArray handle that is not initialized can be used to pass in as mutate variables to hold the result of NDArray
+        ///     create a NDArray handle that is not initialized can be used to pass in as mutate variables to hold the result of
+        ///     NDArray
         /// </summary>
         /// <param name="out">the returning handle</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -67,7 +62,7 @@ namespace MxNet.Interop
         public static extern int MXNDArrayCreateNone(out NDArrayHandle @out);
 
         /// <summary>
-        /// free the narray handle
+        ///     free the narray handle
         /// </summary>
         /// <param name="symbol">the handle to be freed</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -75,7 +70,7 @@ namespace MxNet.Interop
         public static extern int MXNDArrayFree(NDArrayHandle symbol);
 
         /// <summary>
-        /// get the context of the NDArray
+        ///     get the context of the NDArray
         /// </summary>
         /// <param name="handle">the handle to the narray</param>
         /// <param name="out_dev_type">the output device type</param>
@@ -83,11 +78,11 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayGetContext(NDArrayHandle handle,
-                                                     out int out_dev_type,
-                                                     out int out_dev_id);
+            out int out_dev_type,
+            out int out_dev_id);
 
         /// <summary>
-        /// get the content of the data in NDArray
+        ///     get the content of the data in NDArray
         /// </summary>
         /// <param name="handle">the handle to the ndarray</param>
         /// <param name="out_pdata">pointer holder to get pointer of data</param>
@@ -96,7 +91,7 @@ namespace MxNet.Interop
         public static extern int MXNDArrayGetData(NDArrayHandle handle, out AtomicSymbolCreator out_pdata);
 
         /// <summary>
-        /// get the content of the data in NDArray
+        ///     get the content of the data in NDArray
         /// </summary>
         /// <param name="handle">the handle to the ndarray</param>
         /// <param name="out_dtype">pointer holder to get pointer of data</param>
@@ -105,7 +100,7 @@ namespace MxNet.Interop
         public static extern int MXNDArrayGetDType(NDArrayHandle handle, out int out_dtype);
 
         /// <summary>
-        /// Load list of narray from the file.
+        ///     Load list of narray from the file.
         /// </summary>
         /// <param name="fname">name of the file.</param>
         /// <param name="out_size">number of narray loaded.</param>
@@ -115,13 +110,13 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayLoad([MarshalAs(UnmanagedType.LPStr)] string fname,
-                                               out mx_uint out_size,
-                                               out System.IntPtr out_arr,
-                                               out mx_uint out_name_size,
-                                               out System.IntPtr out_names);
+            out uint out_size,
+            out AtomicSymbolCreator out_arr,
+            out uint out_name_size,
+            out AtomicSymbolCreator out_names);
 
         /// <summary>
-        /// Save list of narray into the file.
+        ///     Save list of narray into the file.
         /// </summary>
         /// <param name="fname">name of the file.</param>
         /// <param name="num_args">number of arguments to save.</param>
@@ -129,13 +124,14 @@ namespace MxNet.Interop
         /// <param name="keys">the name of the NDArray, optional, can be NULL</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySave([MarshalAs(UnmanagedType.LPStr)]string fname,
-                                               mx_uint num_args,
-                                               NDArrayHandle[] args,
-                                               [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys);
+        public static extern int MXNDArraySave([MarshalAs(UnmanagedType.LPStr)] string fname,
+            uint num_args,
+            NDArrayHandle[] args,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys);
 
         /// <summary>
-        /// get the shape of the array
+        ///     get the shape of the array
         /// </summary>
         /// <param name="handle">the handle to the narray</param>
         /// <param name="out_dim">the output dimension</param>
@@ -143,11 +139,11 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayGetShape(NDArrayHandle handle,
-                                                   out int out_dim,
-                                                   out AtomicSymbolCreator out_pdata);
+            out int out_dim,
+            out AtomicSymbolCreator out_pdata);
 
         /// <summary>
-        /// Slice the NDArray along axis 0.
+        ///     Slice the NDArray along axis 0.
         /// </summary>
         /// <param name="handle">the handle to the NDArray</param>
         /// <param name="slice_begin">The beginning index of slice</param>
@@ -156,32 +152,38 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArraySlice(NDArrayHandle handle,
-                                                int slice_begin,
-                                                int slice_end,
-                                                out NDArrayHandle @out);
+            int slice_begin,
+            int slice_end,
+            out NDArrayHandle @out);
 
         [DllImport(NativeLibrary, EntryPoint = "MXNDArrayReshape", CallingConvention = CallingConvention.Cdecl)]
         public static extern int MXNDArrayReshape(NDArrayHandle handle,
             int ndim,
-            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)] int[] dims,
-            out IntPtr @out);
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)]
+            int[] dims,
+            out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayCreateFromSharedMemEx(int shared_pid, int shared_id, int[] shape,
-                                                          int ndim, int dtype, out NDArrayHandle @out);
+            int ndim, int dtype, out NDArrayHandle @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayGetSharedMemHandle(NDArrayHandle handle, out int shared_pid, out int shared_id);
+        public static extern int MXNDArrayGetSharedMemHandle(NDArrayHandle handle, out int shared_pid,
+            out int shared_id);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySaveRawBytes(NDArrayHandle handle, out int out_size, out IntPtr out_buf);
+        public static extern int MXNDArraySaveRawBytes(NDArrayHandle handle, out int out_size,
+            out AtomicSymbolCreator out_buf);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayLoadFromRawBytes(byte[] buf, int size,  out NDArrayHandle handle);
+        public static extern int MXNDArrayLoadFromRawBytes(byte[] buf, int size, out NDArrayHandle handle);
 
         /// <summary>
-        /// Perform a synchronize copy from a continugous CPU memory region.
-        /// <para>This function will call WaitToWrite before the copy is performed. This is useful to copy data from existing memory region that are not wrapped by NDArray(thus dependency not being tracked).</para>
+        ///     Perform a synchronize copy from a continugous CPU memory region.
+        ///     <para>
+        ///         This function will call WaitToWrite before the copy is performed. This is useful to copy data from existing
+        ///         memory region that are not wrapped by NDArray(thus dependency not being tracked).
+        ///     </para>
         /// </summary>
         /// <param name="handle">the NDArray handle</param>
         /// <param name="data">the data source to copy from.</param>
@@ -192,9 +194,9 @@ namespace MxNet.Interop
 
         //[DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         //public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)] int[] data, uint size);
-
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySyncCopyFromCPU(IntPtr handle, IntPtr data, uint size);
+        public static extern int MXNDArraySyncCopyFromCPU(AtomicSymbolCreator handle, AtomicSymbolCreator data,
+            uint size);
 
         /// <summary>
         /// Perform a synchronize copyto a continugous CPU memory region.
@@ -210,21 +212,23 @@ namespace MxNet.Interop
         //                                                size_t size);
 
         /// Return Type: int
-        ///handle: NDArrayHandle->void*
-        ///data: void*
-        ///size: size_t->unsigned int
+        /// handle: NDArrayHandle->void*
+        /// data: void*
+        /// size: size_t->unsigned int
         [DllImport(NativeLibrary, EntryPoint = "MXNDArraySyncCopyToCPU", CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySyncCopyToCPU(IntPtr handle, IntPtr data, size_t size);
+        public static extern int MXNDArraySyncCopyToCPU(AtomicSymbolCreator handle, AtomicSymbolCreator data,
+            ulong size);
 
         /// <summary>
-        /// wait until all delayed operations in the system is completed
+        ///     wait until all delayed operations in the system is completed
         /// </summary>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayWaitAll();
 
         /// <summary>
-        /// Wait until all the pending writes with respect NDArray are finished. Always call this before read data out synchronizely.
+        ///     Wait until all the pending writes with respect NDArray are finished. Always call this before read data out
+        ///     synchronizely.
         /// </summary>
         /// <param name="handle">the NDArray handle</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -232,7 +236,8 @@ namespace MxNet.Interop
         public static extern int MXNDArrayWaitToRead(NDArrayHandle handle);
 
         /// <summary>
-        /// Wait until all the pending read/write with respect NDArray are finished. Always call this before write data into NDArray synchronizely.
+        ///     Wait until all the pending read/write with respect NDArray are finished. Always call this before write data into
+        ///     NDArray synchronizely.
         /// </summary>
         /// <param name="handle">the NDArray handle</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -244,7 +249,7 @@ namespace MxNet.Interop
         #region Part 2: functions on NDArray
 
         /// <summary>
-        /// invoke a nnvm op and imperative function
+        ///     invoke a nnvm op and imperative function
         /// </summary>
         /// <param name="creator">the op</param>
         /// <param name="num_inputs">number of input NDArrays</param>
@@ -257,63 +262,69 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXImperativeInvoke(AtomicSymbolCreator creator,
-                                                    int num_inputs,
-                                                    NDArrayHandle[] inputs,
-                                                    ref int num_outputs,
-                                                    ref NDArrayHandle outputs,
-                                                    int num_params,
-                                                    [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_keys,
-                                                    [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] param_vals);
+            int num_inputs,
+            NDArrayHandle[] inputs,
+            ref int num_outputs,
+            ref NDArrayHandle outputs,
+            int num_params,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] param_keys,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] param_vals);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayGetAuxType(IntPtr handle, int i, out int out_type);
+        public static extern int MXNDArrayGetAuxType(AtomicSymbolCreator handle, int i, out int out_type);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayGetStorageType(IntPtr handle, out int out_storage_type);
+        public static extern int MXNDArrayGetStorageType(AtomicSymbolCreator handle, out int out_storage_type);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySyncCheckFormat(IntPtr handle, bool full_check);
+        public static extern int MXNDArraySyncCheckFormat(AtomicSymbolCreator handle, bool full_check);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayGetDataNDArray(IntPtr handle, out IntPtr @out);
+        public static extern int MXNDArrayGetDataNDArray(AtomicSymbolCreator handle, out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayGetAuxNDArray(IntPtr handle, int i, out IntPtr @out);
+        public static extern int
+            MXNDArrayGetAuxNDArray(AtomicSymbolCreator handle, int i, out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayDetach(IntPtr handle, out IntPtr @out);
+        public static extern int MXNDArrayDetach(AtomicSymbolCreator handle, out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXCreateCachedOpEx(IntPtr handle, int num_flags, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                    NDArrayHandle[] vals, out IntPtr @out, bool thread_safe = false);
+        public static extern int MXCreateCachedOpEx(AtomicSymbolCreator handle, int num_flags,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            NDArrayHandle[] vals, out AtomicSymbolCreator @out, bool thread_safe = false);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXFreeCachedOp(IntPtr handle);
+        public static extern int MXFreeCachedOp(AtomicSymbolCreator handle);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayGetGradState(IntPtr handle, out bool freshGrad);
+        public static extern int MXNDArrayGetGradState(AtomicSymbolCreator handle, out bool freshGrad);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArraySetGradState(IntPtr handle, bool freshGrad);
+        public static extern int MXNDArraySetGradState(AtomicSymbolCreator handle, bool freshGrad);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXInvokeCachedOpEx(IntPtr handle, int num_inputs, NDArrayHandle[] inputs, out int num_outputs, out NDArrayHandle[] outputs, out int[] out_stypes);
+        public static extern int MXInvokeCachedOpEx(AtomicSymbolCreator handle, int num_inputs, NDArrayHandle[] inputs,
+            out int num_outputs, out NDArrayHandle[] outputs, out int[] out_stypes);
 
         #endregion
 
         #region Part 3: symbolic configuration generation
 
         /// <summary>
-        /// list all the available operator names, include entries.
+        ///     list all the available operator names, include entries.
         /// </summary>
         /// <param name="out_size">the size of returned array</param>
         /// <param name="out_array">the output operator name array.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXListAllOpNames(out mx_uint out_size, out AtomicSymbolCreator[] out_array);
+        public static extern int MXListAllOpNames(out uint out_size, out AtomicSymbolCreator[] out_array);
 
         /// <summary>
-        /// This function will change the sym hanlde. To achieve function apply behavior, copy the symbol first before apply.
+        ///     This function will change the sym hanlde. To achieve function apply behavior, copy the symbol first before apply.
         /// </summary>
         /// <param name="sym">the symbol to apply</param>
         /// <param name="name">the name of symbol</param>
@@ -323,13 +334,14 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolCompose(SymbolHandle sym,
-                                                 [MarshalAs(UnmanagedType.LPStr)] string name,
-                                                 mx_uint num_args,
-                                                 [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                 SymbolHandle[] args);
+            [MarshalAs(UnmanagedType.LPStr)] string name,
+            uint num_args,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            SymbolHandle[] args);
 
         /// <summary>
-        /// Create an AtomicSymbol.
+        ///     Create an AtomicSymbol.
         /// </summary>
         /// <param name="creator">the AtomicSymbolCreator</param>
         /// <param name="num_param"> the number of parameters</param>
@@ -339,52 +351,57 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolCreateAtomicSymbol(AtomicSymbolCreator creator,
-                                                            mx_uint num_param,
-                                                            [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                            [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vals,
-                                                            out SymbolHandle @out);
+            uint num_param,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] vals,
+            out SymbolHandle @out);
 
         /// <summary>
-        /// Load a symbol from a json file.
+        ///     Load a symbol from a json file.
         /// </summary>
         /// <param name="fname">the file name.</param>
         /// <param name="out">the output symbol.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolCreateFromFile([MarshalAs(UnmanagedType.LPStr)] string fname, out SymbolHandle @out);
+        public static extern int MXSymbolCreateFromFile([MarshalAs(UnmanagedType.LPStr)] string fname,
+            out SymbolHandle @out);
 
         /// <summary>
-        /// Load a symbol from a json string.
+        ///     Load a symbol from a json string.
         /// </summary>
         /// <param name="json">the json string.</param>
         /// <param name="out">the output symbol.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolCreateFromJSON([MarshalAs(UnmanagedType.LPStr)] string json, out SymbolHandle @out);
+        public static extern int MXSymbolCreateFromJSON([MarshalAs(UnmanagedType.LPStr)] string json,
+            out SymbolHandle @out);
 
         /// <summary>
-        /// Create a Symbol by grouping list of symbols together
+        ///     Create a Symbol by grouping list of symbols together
         /// </summary>
         /// <param name="num_symbols">number of symbols to be grouped</param>
         /// <param name="symbols">array of symbol handles</param>
         /// <param name="@out">pointer to the created symbol handle</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolCreateGroup(mx_uint num_symbols,
-                                                     SymbolHandle[] symbols,
-                                                     out SymbolHandle @out);
+        public static extern int MXSymbolCreateGroup(uint num_symbols,
+            SymbolHandle[] symbols,
+            out SymbolHandle @out);
 
         /// <summary>
-        /// Create a Variable Symbol.
+        ///     Create a Variable Symbol.
         /// </summary>
         /// <param name="name">name of the variable</param>
         /// <param name="@out">pointer to the created symbol handle</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolCreateVariable([MarshalAs(UnmanagedType.LPStr)] string name, out SymbolHandle @out);
+        public static extern int MXSymbolCreateVariable([MarshalAs(UnmanagedType.LPStr)] string name,
+            out SymbolHandle @out);
 
         /// <summary>
-        /// Free the symbol handle.
+        ///     Free the symbol handle.
         /// </summary>
         /// <param name="symbol">symbol the symbol</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -392,17 +409,17 @@ namespace MxNet.Interop
         public static extern int MXSymbolFree(SymbolHandle symbol);
 
         /// <summary>
-        /// Get string name from symbol
+        ///     Get string name from symbol
         /// </summary>
         /// <param name="symbol">the source symbol</param>
         /// <param name="out">The result name.</param>
         /// <param name="success">Whether the result is contained in out.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolGetName(SymbolHandle symbol, out System.IntPtr @out, out int success);
+        public static extern int MXSymbolGetName(SymbolHandle symbol, out AtomicSymbolCreator @out, out int success);
 
         /// <summary>
-        /// Get index-th outputs of the symbol.
+        ///     Get index-th outputs of the symbol.
         /// </summary>
         /// <param name="symbol">The symbol</param>
         /// <param name="index">the Index of the output.</param>
@@ -410,11 +427,11 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolGetOutput(SymbolHandle symbol,
-                                                   mx_uint index,
-                                                   out SymbolHandle @out);
+            uint index,
+            out SymbolHandle @out);
 
         /// <summary>
-        /// Get the detailed information about atomic symbol.
+        ///     Get the detailed information about atomic symbol.
         /// </summary>
         /// <param name="creator">the AtomicSymbolCreator.</param>
         /// <param name="name">The returned name of the creator.</param>
@@ -424,24 +441,28 @@ namespace MxNet.Interop
         /// <param name="arg_type_infos">Type informations about the arguments.</param>
         /// <param name="arg_descriptions">Description information about the arguments.</param>
         /// <param name="key_var_num_args">
-        /// The keyword argument for specifying variable number of arguments.
-        /// <para>When this parameter has non-zero length, the function allows variable number of positional arguments, and will need the caller to pass it in in MXSymbolCreateAtomicSymbol, With key = key_var_num_args, and value = number of positional arguments.</para>
+        ///     The keyword argument for specifying variable number of arguments.
+        ///     <para>
+        ///         When this parameter has non-zero length, the function allows variable number of positional arguments, and
+        ///         will need the caller to pass it in in MXSymbolCreateAtomicSymbol, With key = key_var_num_args, and value =
+        ///         number of positional arguments.
+        ///     </para>
         /// </param>
         /// <param name="return_type">Return type of the function, can be Symbol or Symbol[]</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolGetAtomicSymbolInfo(AtomicSymbolCreator creator,
-                                                             out AtomicSymbolCreator name,
-                                                             out AtomicSymbolCreator description,
-                                                             out mx_uint num_args,
-                                                             out AtomicSymbolCreator arg_names,
-                                                             out AtomicSymbolCreator arg_type_infos,
-                                                             out AtomicSymbolCreator arg_descriptions,
-                                                             out AtomicSymbolCreator key_var_num_args,
-                                                             ref AtomicSymbolCreator return_type);
+            out AtomicSymbolCreator name,
+            out AtomicSymbolCreator description,
+            out uint num_args,
+            out AtomicSymbolCreator arg_names,
+            out AtomicSymbolCreator arg_type_infos,
+            out AtomicSymbolCreator arg_descriptions,
+            out AtomicSymbolCreator key_var_num_args,
+            ref AtomicSymbolCreator return_type);
 
         /// <summary>
-        /// Get the detailed information about atomic symbol.
+        ///     Get the detailed information about atomic symbol.
         /// </summary>
         /// <param name="creator">the AtomicSymbolCreator.</param>
         /// <param name="name">The returned name of the creator.</param>
@@ -451,26 +472,30 @@ namespace MxNet.Interop
         /// <param name="arg_type_infos">Type informations about the arguments.</param>
         /// <param name="arg_descriptions">Description information about the arguments.</param>
         /// <param name="key_var_num_args">
-        /// The keyword argument for specifying variable number of arguments.
-        /// <para>When this parameter has non-zero length, the function allows variable number of positional arguments, and will need the caller to pass it in in MXSymbolCreateAtomicSymbol, With key = key_var_num_args, and value = number of positional arguments.</para>
+        ///     The keyword argument for specifying variable number of arguments.
+        ///     <para>
+        ///         When this parameter has non-zero length, the function allows variable number of positional arguments, and
+        ///         will need the caller to pass it in in MXSymbolCreateAtomicSymbol, With key = key_var_num_args, and value =
+        ///         number of positional arguments.
+        ///     </para>
         /// </param>
         /// <param name="return_type">Return type of the function, can be Symbol or Symbol[]</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolGetAtomicSymbolInfo(AtomicSymbolCreator creator,
-                                                             out AtomicSymbolCreator name,
-                                                             out AtomicSymbolCreator description,
-                                                             out mx_uint num_args,
-                                                             out AtomicSymbolCreator[] arg_names,
-                                                             out AtomicSymbolCreator[] arg_type_infos,
-                                                             out AtomicSymbolCreator[] arg_descriptions,
-                                                             out AtomicSymbolCreator key_var_num_args,
-                                                             out AtomicSymbolCreator return_type);
+            out AtomicSymbolCreator name,
+            out AtomicSymbolCreator description,
+            out uint num_args,
+            out AtomicSymbolCreator[] arg_names,
+            out AtomicSymbolCreator[] arg_type_infos,
+            out AtomicSymbolCreator[] arg_descriptions,
+            out AtomicSymbolCreator key_var_num_args,
+            out AtomicSymbolCreator return_type);
 
         /// <summary>
-        /// infer shape of unknown input shapes given the known one.
-        /// <para>The shapes are packed into a CSR matrix represented by arg_ind_ptr and arg_shape_data</para>
-        /// <para>The call will be treated as a kwargs call if key != nullptr or num_args==0, otherwise it is positional.</para>
+        ///     infer shape of unknown input shapes given the known one.
+        ///     <para>The shapes are packed into a CSR matrix represented by arg_ind_ptr and arg_shape_data</para>
+        ///     <para>The call will be treated as a kwargs call if key != nullptr or num_args==0, otherwise it is positional.</para>
         /// </summary>
         /// <param name="sym">symbol handle</param>
         /// <param name="num_args">numbe of input arguments.</param>
@@ -490,57 +515,60 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern unsafe int MXSymbolInferShapeEx(SymbolHandle sym,
-                                                           mx_uint num_args,
-                                                           [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                           int[] arg_ind_ptr,
-                                                           int[] arg_shape_data,
-                                                           int* in_shape_size,
-                                                           int** in_shape_ndim,
-                                                           int*** in_shape_data,
-                                                           out int out_shape_size,
-                                                           out int* out_shape_ndim,
-                                                           out int** out_shape_data,
-                                                           out int aux_shape_size,
-                                                           out int* aux_shape_ndim,
-                                                           out int** aux_shape_data,
-                                                           out int complete);
+            uint num_args,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            int[] arg_ind_ptr,
+            int[] arg_shape_data,
+            int* in_shape_size,
+            int** in_shape_ndim,
+            int*** in_shape_data,
+            out int out_shape_size,
+            out int* out_shape_ndim,
+            out int** out_shape_data,
+            out int aux_shape_size,
+            out int* aux_shape_ndim,
+            out int** aux_shape_data,
+            out int complete);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern unsafe int MXSymbolInferShape(SymbolHandle sym,
-                                                          mx_uint num_args,
-                                                          [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                          int[] arg_ind_ptr,
-                                                          int[] arg_shape_data,
-                                                          int* in_shape_size,
-                                                          int** in_shape_ndim,
-                                                          int*** in_shape_data,
-                                                          out int out_shape_size,
-                                                          out int* out_shape_ndim,
-                                                          out int** out_shape_data,
-                                                          out int aux_shape_size,
-                                                          out int* aux_shape_ndim,
-                                                          out int** aux_shape_data,
-                                                          out int complete);
+            uint num_args,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            int[] arg_ind_ptr,
+            int[] arg_shape_data,
+            int* in_shape_size,
+            int** in_shape_ndim,
+            int*** in_shape_data,
+            out int out_shape_size,
+            out int* out_shape_ndim,
+            out int** out_shape_data,
+            out int aux_shape_size,
+            out int* aux_shape_ndim,
+            out int** aux_shape_data,
+            out int complete);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern unsafe int MXSymbolInferShapePartialEx(SymbolHandle sym,
-                                                          mx_uint num_args,
-                                                          [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                          int[] arg_ind_ptr,
-                                                          int[] arg_shape_data,
-                                                          int* in_shape_size,
-                                                          int** in_shape_ndim,
-                                                          int*** in_shape_data,
-                                                          out int out_shape_size,
-                                                          out int* out_shape_ndim,
-                                                          out int** out_shape_data,
-                                                          out int aux_shape_size,
-                                                          out int* aux_shape_ndim,
-                                                          out int** aux_shape_data,
-                                                          out int complete);
+            uint num_args,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            int[] arg_ind_ptr,
+            int[] arg_shape_data,
+            int* in_shape_size,
+            int** in_shape_ndim,
+            int*** in_shape_data,
+            out int out_shape_size,
+            out int* out_shape_ndim,
+            out int** out_shape_data,
+            out int aux_shape_size,
+            out int* aux_shape_ndim,
+            out int** aux_shape_data,
+            out int complete);
 
         /// <summary>
-        /// List arguments in the symbol.
+        ///     List arguments in the symbol.
         /// </summary>
         /// <param name="symbol">the symbol</param>
         /// <param name="out_size">output size</param>
@@ -548,20 +576,20 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolListArguments(SymbolHandle symbol,
-                                                       out mx_uint out_size,
-                                                       out AtomicSymbolCreator out_str_array);
+            out uint out_size,
+            out AtomicSymbolCreator out_str_array);
 
         /// <summary>
-        /// list all the available AtomicSymbolEntry
+        ///     list all the available AtomicSymbolEntry
         /// </summary>
         /// <param name="out_size">the size of returned array</param>
         /// <param name="out_array">the output AtomicSymbolCreator array</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolListAtomicSymbolCreators(out mx_uint out_size, out AtomicSymbolCreator out_array);
+        public static extern int MXSymbolListAtomicSymbolCreators(out uint out_size, out AtomicSymbolCreator out_array);
 
         /// <summary>
-        /// List auxiliary states in the symbol.
+        ///     List auxiliary states in the symbol.
         /// </summary>
         /// <param name="symbol">the symbol</param>
         /// <param name="out_size">output size</param>
@@ -569,11 +597,11 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolListAuxiliaryStates(SymbolHandle symbol,
-                                                             out mx_uint out_size,
-                                                             out AtomicSymbolCreator out_str_array);
+            out uint out_size,
+            out AtomicSymbolCreator out_str_array);
 
         /// <summary>
-        /// List returns in the symbol.
+        ///     List returns in the symbol.
         /// </summary>
         /// <param name="symbol">the symbol</param>
         /// <param name="out_size">output size</param>
@@ -581,11 +609,11 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolListOutputs(SymbolHandle symbol,
-                                                     out mx_uint out_size,
-                                                     out AtomicSymbolCreator out_str_array);
+            out uint out_size,
+            out AtomicSymbolCreator out_str_array);
 
         /// <summary>
-        /// Save a symbol into a json file.
+        ///     Save a symbol into a json file.
         /// </summary>
         /// <param name="symbol">the input symbol.</param>
         /// <param name="fname">the file name.</param>
@@ -594,13 +622,13 @@ namespace MxNet.Interop
         public static extern int MXSymbolSaveToFile(SymbolHandle symbol, [MarshalAs(UnmanagedType.LPStr)] string fname);
 
         /// <summary>
-        /// Save a symbol into a json string
+        ///     Save a symbol into a json string
         /// </summary>
         /// <param name="symbol">the input symbol.</param>
         /// <param name="out_json">output json string.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolSaveToJSON(SymbolHandle symbol, out System.IntPtr out_json);
+        public static extern int MXSymbolSaveToJSON(SymbolHandle symbol, out AtomicSymbolCreator out_json);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolRemoveAmpCast(SymbolHandle symbol, out SymbolHandle handle);
@@ -612,23 +640,28 @@ namespace MxNet.Interop
         public static extern int MXSymbolSetAttr(SymbolHandle symbol, string key, string value);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolListAttr(SymbolHandle symbol, out int out_size, [Out][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] @out);
+        public static extern int MXSymbolListAttr(SymbolHandle symbol, out int out_size,
+            [Out] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolListAttrShallow(SymbolHandle symbol, out int out_size, [Out][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] @out);
+        public static extern int MXSymbolListAttrShallow(SymbolHandle symbol, out int out_size,
+            [Out] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] @out);
+
         #endregion
 
         #region Part 4: Executor interface
 
         /// <summary>
-        /// Excecutor run backward
+        ///     Excecutor run backward
         /// </summary>
         /// <param name="handle">execute handle</param>
         /// <param name="len">lenth</param>
         /// <param name="head_grads">NDArray handle for heads' gradient</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXExecutorBackward(ExecutorHandle handle, mx_uint len, NDArrayHandle[] head_grads);
+        public static extern int MXExecutorBackward(ExecutorHandle handle, uint len, NDArrayHandle[] head_grads);
 
         /*!
          * \brief Generate Executor from symbol,
@@ -654,23 +687,24 @@ namespace MxNet.Interop
          */
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXExecutorBindEX(SymbolHandle symbol_handle,
-                                                  int dev_type,
-                                                  int dev_id,
-                                                  mx_uint num_map_keys,
-                                                  [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] map_keys,
-                                                  int[] map_dev_types,
-                                                  int[] map_dev_ids,
-                                                  mx_uint len,
-                                                  NDArrayHandle[] in_args,
-                                                  NDArrayHandle[] arg_grad_store,
-                                                  mx_uint[] grad_req_type,
-                                                  mx_uint aux_states_len,
-                                                  NDArrayHandle[] aux_states,
-                                                  ExecutorHandle shared_exec,
-                                                  out ExecutorHandle @out);
+            int dev_type,
+            int dev_id,
+            uint num_map_keys,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] map_keys,
+            int[] map_dev_types,
+            int[] map_dev_ids,
+            uint len,
+            NDArrayHandle[] in_args,
+            NDArrayHandle[] arg_grad_store,
+            uint[] grad_req_type,
+            uint aux_states_len,
+            NDArrayHandle[] aux_states,
+            ExecutorHandle shared_exec,
+            out ExecutorHandle @out);
 
         /// <summary>
-        /// Executor forward method
+        ///     Executor forward method
         /// </summary>
         /// <param name="handle">executor handle</param>
         /// <param name="is_train">int value to indicate whether the forward pass is for evaluation</param>
@@ -679,7 +713,7 @@ namespace MxNet.Interop
         public static extern int MXExecutorForward(ExecutorHandle handle, int is_train);
 
         /// <summary>
-        /// Delete the executor
+        ///     Delete the executor
         /// </summary>
         /// <param name="handle">the executor.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -687,17 +721,18 @@ namespace MxNet.Interop
         public static extern int MXExecutorFree(ExecutorHandle handle);
 
         /// <summary>
-        /// Get executor's head NDArray
+        ///     Get executor's head NDArray
         /// </summary>
         /// <param name="handle">executor handle</param>
         /// <param name="out_size">output narray vector size</param>
         /// <param name="out">out put narray handles</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXExecutorOutputs(ExecutorHandle handle, out mx_uint out_size, out AtomicSymbolCreator @out);
+        public static extern int MXExecutorOutputs(ExecutorHandle handle, out uint out_size,
+            out AtomicSymbolCreator @out);
 
         /// <summary>
-        /// Print the content of execution plan, used for debug.
+        ///     Print the content of execution plan, used for debug.
         /// </summary>
         /// <param name="handle">the executor.</param>
         /// <param name="out_str">pointer to hold the output string of the printing.</param>
@@ -746,7 +781,7 @@ namespace MxNet.Interop
         #region Part 5: IO Interface
 
         /// <summary>
-        /// set a call back to notify the completion of operation
+        ///     set a call back to notify the completion of operation
         /// </summary>
         /// <param name="handle"></param>
         /// <param name="callback"></param>
@@ -754,20 +789,20 @@ namespace MxNet.Interop
         /// <returns></returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXExecutorSetMonitorCallback(ExecutorHandle handle,
-                                                              ExecutorMonitorCallback callback,
-                                                              AtomicSymbolCreator callback_handle);
+            ExecutorMonitorCallback callback,
+            AtomicSymbolCreator callback_handle);
 
         /// <summary>
-        /// List all the available iterator entries
+        ///     List all the available iterator entries
         /// </summary>
         /// <param name="out_size">the size of returned iterators</param>
         /// <param name="out_array">the output iteratos entries</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXListDataIters(out mx_uint out_size, out AtomicSymbolCreator out_array);
+        public static extern int MXListDataIters(out uint out_size, out AtomicSymbolCreator out_array);
 
         /// <summary>
-        /// Init an iterator, init with parameters the array size of passed in arguments
+        ///     Init an iterator, init with parameters the array size of passed in arguments
         /// </summary>
         /// <param name="handle">handle of the iterator creator</param>
         /// <param name="num_param">number of parameter</param>
@@ -777,13 +812,15 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXDataIterCreateIter(DataIterCreator handle,
-                                                      mx_uint num_param,
-                                                      [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                      [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vals,
-                                                      out DataIterHandle @out);
+            uint num_param,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] vals,
+            out DataIterHandle @out);
 
         /// <summary>
-        /// Get the detailed information about data iterator.
+        ///     Get the detailed information about data iterator.
         /// </summary>
         /// <param name="creator">the DataIterCreator.</param>
         /// <param name="name">The returned name of the creator.</param>
@@ -795,15 +832,15 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXDataIterGetIterInfo(DataIterCreator creator,
-                                                       out AtomicSymbolCreator name,
-                                                       out AtomicSymbolCreator description,
-                                                       out mx_uint num_args,
-                                                       out AtomicSymbolCreator arg_names,
-                                                       out AtomicSymbolCreator arg_type_infos,
-                                                       out AtomicSymbolCreator arg_descriptions);
+            out AtomicSymbolCreator name,
+            out AtomicSymbolCreator description,
+            out uint num_args,
+            out AtomicSymbolCreator arg_names,
+            out AtomicSymbolCreator arg_type_infos,
+            out AtomicSymbolCreator arg_descriptions);
 
         /// <summary>
-        /// Free the handle to the IO module
+        ///     Free the handle to the IO module
         /// </summary>
         /// <param name="handle">the handle pointer to the data iterator</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -811,7 +848,7 @@ namespace MxNet.Interop
         public static extern int MXDataIterFree(DataIterHandle handle);
 
         /// <summary>
-        /// Move iterator to next position
+        ///     Move iterator to next position
         /// </summary>
         /// <param name="handle">the handle to iterator</param>
         /// <param name="out">return value of next</param>
@@ -820,7 +857,7 @@ namespace MxNet.Interop
         public static extern int MXDataIterNext(DataIterHandle handle, out int? @out);
 
         /// <summary>
-        /// Call iterator.Reset
+        ///     Call iterator.Reset
         /// </summary>
         /// <param name="handle">the handle to iterator</param>
         /// <returns>0 when success, -1 when failure happens</returns>
@@ -828,7 +865,7 @@ namespace MxNet.Interop
         public static extern int MXDataIterBeforeFirst(DataIterHandle handle);
 
         /// <summary>
-        /// Get the handle to the NDArray of underlying data
+        ///     Get the handle to the NDArray of underlying data
         /// </summary>
         /// <param name="handle">the handle pointer to the data iterator</param>
         /// <param name="out">handle to underlying data NDArray</param>
@@ -837,7 +874,7 @@ namespace MxNet.Interop
         public static extern int MXDataIterGetData(DataIterHandle handle, out NDArrayHandle @out);
 
         /// <summary>
-        /// Get the image index by array.
+        ///     Get the image index by array.
         /// </summary>
         /// <param name="handle">the handle pointer to the data iterator</param>
         /// <param name="out_index">output index of the array.</param>
@@ -845,11 +882,11 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXDataIterGetIndex(DataIterHandle handle,
-                                                    out AtomicSymbolCreator out_index,
-                                                    out uint64_t out_size);
+            out AtomicSymbolCreator out_index,
+            out ulong out_size);
 
         /// <summary>
-        /// Get the padding number in current data batch
+        ///     Get the padding number in current data batch
         /// </summary>
         /// <param name="handle">the handle pointer to the data iterator</param>
         /// <param name="pad">pad number ptr</param>
@@ -858,7 +895,7 @@ namespace MxNet.Interop
         public static extern int MXDataIterGetPadNum(DataIterHandle handle, out int pad);
 
         /// <summary>
-        /// Get the handle to the NDArray of underlying label
+        ///     Get the handle to the NDArray of underlying label
         /// </summary>
         /// <param name="handle">the handle pointer to the data iterator</param>
         /// <param name="out">the handle to underlying label NDArray</param>
@@ -871,7 +908,7 @@ namespace MxNet.Interop
         #region Part 6: advanced KVStore for multi-machines
 
         /// <summary>
-        /// create a NDArray with specified shape
+        ///     create a NDArray with specified shape
         /// </summary>
         /// <param name="shape">the pointer to the shape</param>
         /// <param name="ndim">the dimension of the shape</param>
@@ -882,11 +919,12 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayCreate(
-            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U4)]int[] shape,
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U4)]
+            int[] shape,
             int ndim, DeviceType devType,
             int devId,
             int delayAlloc,
-            out IntPtr @out);
+            out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStoreCreate(string type, out KVStoreHandle handle);
@@ -898,10 +936,12 @@ namespace MxNet.Interop
         public static extern int MXKVStoreGetGroupSize(KVStoreHandle handle, out int size);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXKVStoreGetType(KVStoreHandle handle, [Out][MarshalAs(UnmanagedType.LPStr)] string type);
+        public static extern int MXKVStoreGetType(KVStoreHandle handle,
+            [Out] [MarshalAs(UnmanagedType.LPStr)] string type);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXKVStoreRunServer(KVStoreHandle handle, MXKVStoreServerController controller, IntPtr controller_handle);
+        public static extern int MXKVStoreRunServer(KVStoreHandle handle, MXKVStoreServerController controller,
+            AtomicSymbolCreator controller_handle);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStoreSendCommmandToServers(KVStoreHandle handle, int cmd_id, string cmd_body);
@@ -913,39 +953,52 @@ namespace MxNet.Interop
         public static extern int MXKVStoreFree(KVStoreHandle handle);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXKVStoreInitEx(KVStoreHandle handle, int num, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys, NDArrayHandle[] vals);
+        public static extern int MXKVStoreInitEx(KVStoreHandle handle, int num,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys, NDArrayHandle[] vals);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePushEx(KVStoreHandle handle, int num,
-                                                    [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                    NDArrayHandle[] vals, int priority);
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            NDArrayHandle[] vals, int priority);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePullWithSparseEx(KVStoreHandle handle, int num,
-                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                   NDArrayHandle[] vals, int priority, bool ignore_sparse);
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            NDArrayHandle[] vals, int priority, bool ignore_sparse);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePushPullEx(KVStoreHandle handle, int vnum,
-                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vkeys,
-                                                   int onum,
-                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] okeys,
-                                                   NDArrayHandle[] vals, NDArrayHandle[] outs, int priority);
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] vkeys,
+            int onum,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] okeys,
+            NDArrayHandle[] vals, NDArrayHandle[] outs, int priority);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePullRowSparseEx(KVStoreHandle handle, int num,
-                                                   [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                   NDArrayHandle[] vals, NDArrayHandle[] row_ids, int priority);
-        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXKVStoreSetGradientCompression(KVStoreHandle handle, int num_params,
-                                                         [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys,
-                                                          [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] vals);
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            NDArrayHandle[] vals, NDArrayHandle[] row_ids, int priority);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXKVStoreSetUpdaterEx(KVStoreHandle handle, IntPtr updater, IntPtr str_updater, IntPtr updater_handle);
+        public static extern int MXKVStoreSetGradientCompression(KVStoreHandle handle, int num_params,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] vals);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreSetUpdaterEx(KVStoreHandle handle, AtomicSymbolCreator updater,
+            AtomicSymbolCreator str_updater, AtomicSymbolCreator updater_handle);
+
         #endregion
 
         #region Part 7: Autograd API
+
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXAutogradSetIsRecording(int is_recording, ref int prev);
 
@@ -959,23 +1012,32 @@ namespace MxNet.Interop
         public static extern int MXAutogradIsTraining(ref int curr);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXAutogradMarkVariables(int num_var, NDArrayHandle[] var_handles, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)] int[] reqs_array, NDArrayHandle[] grad_handles);
+        public static extern int MXAutogradMarkVariables(int num_var, NDArrayHandle[] var_handles,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)]
+            int[] reqs_array, NDArrayHandle[] grad_handles);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXAutogradBackwardEx(int num_output, NDArrayHandle[] output_handles, NDArrayHandle[] ograd_handles, int num_variables,
-                                                        NDArrayHandle[] var_handles, int retain_graph, int create_graph, int is_train, [Out]NDArrayHandle[] grad_handles,
-                                                        [Out][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)] int[] grad_stypes);
+        public static extern int MXAutogradBackwardEx(int num_output, NDArrayHandle[] output_handles,
+            NDArrayHandle[] ograd_handles, int num_variables,
+            NDArrayHandle[] var_handles, int retain_graph, int create_graph, int is_train,
+            [Out] NDArrayHandle[] grad_handles,
+            [Out] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)]
+            int[] grad_stypes);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXAutogradGetSymbol(NDArrayHandle handle, SymbolHandle @out);
+
         #endregion
 
         #region Engine API
+
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXEngineSetBulkSize(int size, ref int prev);
+
         #endregion
 
         #region Profiler API
+
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXProfileCreateDomain(string name, out ProfileHandle @out);
 
@@ -1008,10 +1070,9 @@ namespace MxNet.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXProfileSetMarker(ProfileHandle handle, string name, string scope);
-        #endregion
 
         #endregion
 
+        #endregion
     }
-
 }

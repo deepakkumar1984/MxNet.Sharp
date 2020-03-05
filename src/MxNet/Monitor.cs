@@ -11,74 +11,47 @@ using Stat = System.Tuple<int, string, MxNet.NDArray>;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-
     public class Monitor
     {
-
         #region Constructors
 
         public Monitor(int interval)
             : this(interval, ".*")
         {
-
         }
 
         public Monitor(int interval, string pattern)
             : this(interval, pattern, DefaultMonitorFunc)
         {
-
         }
 
         public Monitor(int interval, string pattern, StatFunc statFunc)
         {
-            this.Interval = interval;
-            this.Pattern = pattern;
-            this.StatFunc = statFunc;
+            Interval = interval;
+            Pattern = pattern;
+            StatFunc = statFunc;
 
-            this.Exes = new List<Executor>();
-            this.Stats = new List<Stat>();
+            Exes = new List<Executor>();
+            Stats = new List<Stat>();
         }
 
         #endregion
 
         #region Properties
 
-        protected bool Activated
-        {
-            get;
-            private set;
-        }
+        protected bool Activated { get; private set; }
 
-        protected int Interval
-        {
-            get;
-        }
+        protected int Interval { get; }
 
-        protected string Pattern
-        {
-            get;
-        }
+        protected string Pattern { get; }
 
-        protected StatFunc StatFunc
-        {
-            get;
-        }
+        protected StatFunc StatFunc { get; }
 
-        protected List<Executor> Exes
-        {
-            get;
-        }
+        protected List<Executor> Exes { get; }
 
-        protected int Step
-        {
-            get;
-            private set;
-        }
+        protected int Step { get; private set; }
 
-        protected List<Stat> Stats
-        {
-            get;
-        }
+        protected List<Stat> Stats { get; }
 
         #endregion
 
@@ -91,24 +64,26 @@ namespace MxNet
 
             unsafe
             {
-                var functionPointer = Marshal.GetFunctionPointerForDelegate(new NativeMethods.ExecutorMonitorCallbackDelegate(executor_callback));
+                var functionPointer =
+                    Marshal.GetFunctionPointerForDelegate(
+                        new NativeMethods.ExecutorMonitorCallbackDelegate(executor_callback));
                 var gcHandle = GCHandle.Alloc(functionPointer);
                 var callbackHandle = GCHandle.Alloc(this);
-                var callback = (IntPtr)functionPointer.ToPointer();
-                NativeMethods.MXExecutorSetMonitorCallback(exe.Handle, callback, (IntPtr)callbackHandle);
+                var callback = (IntPtr) functionPointer.ToPointer();
+                NativeMethods.MXExecutorSetMonitorCallback(exe.Handle, callback, (IntPtr) callbackHandle);
                 callbackHandle.Free();
                 gcHandle.Free();
             }
 
-            this.Exes.Add(exe);
+            Exes.Add(exe);
         }
 
         public void Tic()
         {
-            if (this.Step % this.Interval == 0)
+            if (Step % Interval == 0)
             {
-                this.Activated = true;
-                this.Stats.Clear();
+                Activated = true;
+                Stats.Clear();
             }
         }
 
@@ -116,11 +91,11 @@ namespace MxNet
         {
             var results = new List<Stat>();
 
-            if (this.Activated)
+            if (Activated)
             {
-                this.Activated = false;
+                Activated = false;
 
-                foreach (var exe in this.Exes)
+                foreach (var exe in Exes)
                 {
                     foreach (var arg in exe.ArgmentArrays)
                         arg.WaitToRead();
@@ -129,34 +104,30 @@ namespace MxNet
                         aux.WaitToRead();
 
                     foreach (var pair in exe.ArgmentDictionary())
-                    {
-                        if (Regex.IsMatch(pair.Key, this.Pattern))
-                            this.Stats.Add(new Stat(this.Step, pair.Key, this.StatFunc(pair.Value)));
-                    }
+                        if (Regex.IsMatch(pair.Key, Pattern))
+                            Stats.Add(new Stat(Step, pair.Key, StatFunc(pair.Value)));
 
                     foreach (var pair in exe.AuxiliaryDictionary())
-                    {
-                        if (Regex.IsMatch(pair.Key, this.Pattern))
-                            this.Stats.Add(new Stat(this.Step, pair.Key, this.StatFunc(pair.Value)));
-                    }
+                        if (Regex.IsMatch(pair.Key, Pattern))
+                            Stats.Add(new Stat(Step, pair.Key, StatFunc(pair.Value)));
                 }
 
                 var tmp = results.ToArray();
                 results.Clear();
-                results.AddRange(this.Stats);
-                this.Stats.Clear();
-                this.Stats.AddRange(tmp);
+                results.AddRange(Stats);
+                Stats.Clear();
+                Stats.AddRange(tmp);
             }
 
-            ++this.Step;
+            ++Step;
 
             return results.ToArray();
         }
 
         public void TocPrint()
         {
-            var results = this.Toc();
-            float[] data = new float[1];
+            var results = Toc();
+            var data = new float[1];
             foreach (var stat in results)
             {
                 var ndarray = stat.Item3;
@@ -165,17 +136,13 @@ namespace MxNet
                 if (ndarray.Size == 1)
                 {
                     if (ndarray.GetContext().GetDeviceType() != DeviceType.GPU)
-                    {
                         unsafe
                         {
-                            var p = (float*)ndarray.GetData();
+                            var p = (float*) ndarray.GetData();
                             data[0] = p[0];
                         }
-                    }
                     else
-                    {
                         ndarray.SyncCopyToCPU(data);
-                    }
 
                     str = data[0].ToString(CultureInfo.InvariantCulture);
                 }
@@ -194,21 +161,19 @@ namespace MxNet
         {
             var monitor = GCHandle.FromIntPtr(monitorPtr).Target as Monitor;
             if (monitor != null && monitor.Activated && Regex.IsMatch(name, monitor.Pattern))
-            {
                 monitor.Stats.Add(new Stat(monitor.Step, name, monitor.StatFunc(new NDArray(handle))));
-            }
         }
 
         private static NDArray DefaultMonitorFunc(NDArray x)
         {
             using (var op = new Operator("norm"))
-                return op.PushInput(x).Invoke() / (float)Math.Sqrt(x.Size);
+            {
+                return op.PushInput(x).Invoke() / (float) Math.Sqrt(x.Size);
+            }
         }
 
         #endregion
 
         #endregion
-
     }
-
 }

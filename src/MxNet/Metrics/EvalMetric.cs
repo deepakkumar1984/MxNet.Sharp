@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using System.Reflection;
 
 namespace MxNet.Metrics
 {
     public abstract class EvalMetric : Base
     {
-        public string Name { get; internal set; }
-
-        public string OutputName { get; internal set; }
-
-        public string LabelName { get; internal set; }
+        internal int global_num_inst;
+        internal float global_sum_metric;
 
         internal bool hasGlobalStats;
 
         internal int num_inst;
         internal float sum_metric;
-        internal int global_num_inst;
-        internal float global_sum_metric;
 
-        public EvalMetric(string name, string output_name= null, string label_name = null, bool has_global_stats = false)
+        public EvalMetric(string name, string output_name = null, string label_name = null,
+            bool has_global_stats = false)
         {
             Name = name;
             OutputName = output_name;
@@ -29,13 +22,19 @@ namespace MxNet.Metrics
             hasGlobalStats = has_global_stats;
         }
 
+        public string Name { get; internal set; }
+
+        public string OutputName { get; internal set; }
+
+        public string LabelName { get; internal set; }
+
         public virtual ConfigData GetConfig()
         {
-            ConfigData config = new ConfigData();
-            config.Add("metric", this.GetType().Name);
+            var config = new ConfigData();
+            config.Add("metric", GetType().Name);
             config.Add("name", Name);
-            config.Add("output_names", new string[] { OutputName });
-            config.Add("label_names", new string[] { LabelName });
+            config.Add("output_names", new[] {OutputName});
+            config.Add("label_names", new[] {LabelName});
 
             return config;
         }
@@ -44,15 +43,9 @@ namespace MxNet.Metrics
 
         public virtual void Update(NDArrayList labels, NDArrayList preds)
         {
-            if(labels.Length != preds.Length)
-            {
-                throw new ArgumentException("Labels and Predictions are unequal length");
-            }
+            if (labels.Length != preds.Length) throw new ArgumentException("Labels and Predictions are unequal length");
 
-            for (int i = 0; i < labels.Length; i++)
-            {
-                Update(labels[i], preds[i]);
-            }
+            for (var i = 0; i < labels.Length; i++) Update(labels[i], preds[i]);
         }
 
         public virtual void Reset()
@@ -79,29 +72,27 @@ namespace MxNet.Metrics
 
         public virtual (string, float) GetGlobal()
         {
-            if(hasGlobalStats)
+            if (hasGlobalStats)
             {
                 if (global_num_inst == 0)
                     return (Name, float.NaN);
 
                 return (Name, global_sum_metric / global_num_inst);
             }
-            else
-            {
-                return Get();
-            }
+
+            return Get();
         }
 
         public Dictionary<string, float> GetNameValue()
         {
             var nameValue = Get();
-            return new Dictionary<string, float>() { { nameValue.Item1, nameValue.Item2 } };
+            return new Dictionary<string, float> {{nameValue.Item1, nameValue.Item2}};
         }
 
         public Dictionary<string, float> GetGlobalNameValue()
         {
             var nameValue = GetGlobal();
-            return new Dictionary<string, float>() { { nameValue.Item1, nameValue.Item2 } };
+            return new Dictionary<string, float> {{nameValue.Item1, nameValue.Item2}};
         }
 
         public static implicit operator EvalMetric(string name)

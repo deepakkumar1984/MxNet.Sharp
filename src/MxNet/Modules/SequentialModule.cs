@@ -1,11 +1,10 @@
-﻿using MxNet.Initializers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MxNet.Initializers;
 using MxNet.IO;
 using MxNet.Metrics;
 using MxNet.Optimizers;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 
 namespace MxNet.Modules
 {
@@ -13,12 +12,12 @@ namespace MxNet.Modules
     {
         public const string META_TAKE_LABELS = "take_labels";
         public const string META_AUTO_WIRING = "auto_wiring";
-
-        private List<Module> _modules;
-        private Dictionary<int, (bool?, bool?)> _metas;
-        private string[] _meta_keys;
-        private DataDesc[] _label_shapes; 
         private DataDesc[] _data_shapes;
+        private DataDesc[] _label_shapes;
+        private string[] _meta_keys;
+        private readonly Dictionary<int, (bool?, bool?)> _metas;
+
+        private readonly List<Module> _modules;
 
         public SequentialModule(Logger logging = null)
         {
@@ -26,7 +25,7 @@ namespace MxNet.Modules
             _metas = new Dictionary<int, (bool?, bool?)>();
             _label_shapes = null;
             _data_shapes = null;
-            _meta_keys = new string[] { META_TAKE_LABELS, META_AUTO_WIRING };
+            _meta_keys = new[] {META_TAKE_LABELS, META_AUTO_WIRING};
         }
 
         public override string[] DataNames
@@ -109,7 +108,7 @@ namespace MxNet.Modules
             if (!Binded && !ParamsInitialized)
                 throw new Exception("Module not binded and param initialized");
 
-            for (int i = _modules.Count - 1; i >= 0; i--)
+            for (var i = _modules.Count - 1; i >= 0; i--)
             {
                 var module = _modules[i];
                 module.Backward(out_grads);
@@ -117,9 +116,11 @@ namespace MxNet.Modules
             }
         }
 
-        public override void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true, bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, OpGradReq grad_req = OpGradReq.Write)
+        public override void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true,
+            bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null,
+            OpGradReq grad_req = OpGradReq.Write)
         {
-            if(Binded && !force_rebind)
+            if (Binded && !force_rebind)
             {
                 Logger.Warning("Already bound, ignoring bind()");
                 return;
@@ -133,25 +134,25 @@ namespace MxNet.Modules
                 throw new Exception("Shared module is not supported");
 
             if (_modules.Count == 0)
-                throw new Exception ("Attempting to bind an empty SequentialModule");
+                throw new Exception("Attempting to bind an empty SequentialModule");
 
             Binded = true;
             _label_shapes = label_shapes;
             var my_data_shapes = data_shapes;
-           
-            bool anybody_ever_needs_label = false;
-            for (int i_layer = 0; i_layer < _modules.Count; i_layer++)
+
+            var anybody_ever_needs_label = false;
+            for (var i_layer = 0; i_layer < _modules.Count; i_layer++)
             {
                 var module = _modules[i_layer];
                 DataDesc[] my_label_shapes = null;
                 var (meta_takelabel, meta_autowiring) = _metas[i_layer];
-                if(meta_takelabel.HasValue && meta_autowiring.HasValue)
+                if (meta_takelabel.HasValue && meta_autowiring.HasValue)
                 {
                     my_label_shapes = label_shapes;
                     anybody_ever_needs_label = true;
                 }
 
-                bool my_inputs_need_grad = (inputs_need_grad || (ForTraining && i_layer > 0));
+                var my_inputs_need_grad = inputs_need_grad || ForTraining && i_layer > 0;
                 if (!meta_autowiring.HasValue)
                     meta_autowiring = false;
 
@@ -162,13 +163,15 @@ namespace MxNet.Modules
                     if (data_names.Length != my_data_shapes.Length)
                         throw new Exception("data_names and my_data_shapes are not same length");
 
-                    my_data_shapes = Enumerable.Zip(data_names, my_data_shapes, (new_name, shape)=>
-                    {
-                        return new DataDesc(new_name, shape.Shape, shape.DataType, shape.Layout);
-                    }).ToArray();
+                    my_data_shapes = data_names.Zip(my_data_shapes,
+                        (new_name, shape) =>
+                        {
+                            return new DataDesc(new_name, shape.Shape, shape.DataType, shape.Layout);
+                        }).ToArray();
                 }
 
-                module.Bind(my_data_shapes, my_label_shapes, ForTraining, my_inputs_need_grad, force_rebind, null, grad_req);
+                module.Bind(my_data_shapes, my_label_shapes, ForTraining, my_inputs_need_grad, force_rebind, null,
+                    grad_req);
 
                 my_data_shapes = module.OutputShapes;
                 if (!anybody_ever_needs_label)
@@ -182,24 +185,22 @@ namespace MxNet.Modules
                 throw new Exception("Module not binded and param initialized");
 
             data_batch = data_batch.Shallowcopy();
-            for (int i_layer = 0; i_layer < _modules.Count; i_layer++)
+            for (var i_layer = 0; i_layer < _modules.Count; i_layer++)
             {
                 var module = _modules[i_layer];
-                module.Forward(data_batch, is_train: is_train);
+                module.Forward(data_batch, is_train);
                 if (i_layer + 1 == _modules.Count)
                     break;
 
                 data_batch.Data = module.GetOutputs()[0];
-                if(data_batch.ProvideData != null)
+                if (data_batch.ProvideData != null)
                 {
                     var data_names = module.OutputShapes.Select(x => x.Name).ToArray();
                     if (data_names.Length != data_batch.Data.Length)
                         throw new Exception("data_names and data length not same");
 
-                    data_batch.ProvideData = Enumerable.Zip(data_names, data_batch.Data, (name, x) => 
-                    {
-                        return new DataDesc(name, x.Shape);
-                    }).ToArray();
+                    data_batch.ProvideData = data_names
+                        .Zip(data_batch.Data, (name, x) => { return new DataDesc(name, x.Shape); }).ToArray();
                 }
             }
         }
@@ -225,8 +226,8 @@ namespace MxNet.Modules
             if (!Binded && !ParamsInitialized)
                 throw new Exception("Module not binded and param initialized");
 
-            NDArrayDict arg_params = new NDArrayDict();
-            NDArrayDict aux_params = new NDArrayDict();
+            var arg_params = new NDArrayDict();
+            var aux_params = new NDArrayDict();
 
             foreach (var module in _modules)
             {
@@ -238,26 +239,26 @@ namespace MxNet.Modules
             return (arg_params, aux_params);
         }
 
-        public override void InitOptimizer(string kvstore = "local", Optimizer optimizer = null, Dictionary<string, object> optimizer_params = null, bool force_init = false)
+        public override void InitOptimizer(string kvstore = "local", Optimizer optimizer = null,
+            Dictionary<string, object> optimizer_params = null, bool force_init = false)
         {
             if (!Binded && !ParamsInitialized)
                 throw new Exception("Module not binded and param initialized");
 
-            if(OptimizerInitialized && !force_init)
+            if (OptimizerInitialized && !force_init)
             {
                 Logger.Warning("optimizer already initialized, ignoring.");
                 return;
             }
 
-            foreach (var module in _modules)
-            {
-                module.InitOptimizer(kvstore, optimizer, optimizer_params, force_init);
-            }
+            foreach (var module in _modules) module.InitOptimizer(kvstore, optimizer, optimizer_params, force_init);
 
             OptimizerInitialized = true;
         }
 
-        public override void InitParams(Initializer initializer = null, NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)
+        public override void InitParams(Initializer initializer = null, NDArrayDict arg_params = null,
+            NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false,
+            bool allow_extra = false)
         {
             if (ParamsInitialized && !force_init)
                 return;
@@ -266,26 +267,24 @@ namespace MxNet.Modules
                 throw new Exception("call bind before initializing the parameters");
 
             foreach (var module in _modules)
-            {
                 module.InitParams(initializer, arg_params, aux_params, allow_missing, force_init, allow_extra);
-            }
 
             void _check_name(Dictionary<string, int> known_names, string[] new_names, Module[] modules, int i)
             {
                 foreach (var name in new_names)
                 {
                     if (known_names.ContainsKey(name))
-                        throw new Exception($"Duplicate parameter names: " +
-                            $"name '{name}' in layer {i} ({modules[i].GetType().Name}) is already " +
-                            $"used in layer {known_names[name]} ({modules[known_names[name]]}");
+                        throw new Exception("Duplicate parameter names: " +
+                                            $"name '{name}' in layer {i} ({modules[i].GetType().Name}) is already " +
+                                            $"used in layer {known_names[name]} ({modules[known_names[name]]}");
 
                     known_names[name] = i;
                 }
             }
 
-            Dictionary<string, int> arg_names = new Dictionary<string, int>();
-            Dictionary<string, int> aux_names = new Dictionary<string, int>();
-            for(int i_layer = 0;i_layer < _modules.Count;i_layer++)
+            var arg_names = new Dictionary<string, int>();
+            var aux_names = new Dictionary<string, int>();
+            for (var i_layer = 0; i_layer < _modules.Count; i_layer++)
             {
                 var (arg_p, aux_p) = _modules[i_layer + i_layer].GetParams();
                 _check_name(arg_names, arg_p.Keys.ToArray(), _modules.ToArray(), i_layer);
@@ -297,13 +296,10 @@ namespace MxNet.Modules
 
         public override void InstallMonitor(Monitor mon)
         {
-            if(!Binded)
+            if (!Binded)
                 throw new Exception("Module not binded");
 
-            foreach (var module in _modules)
-            {
-                module.InstallMonitor(mon);
-            }
+            foreach (var module in _modules) module.InstallMonitor(mon);
         }
 
         public override void Update()
@@ -311,10 +307,7 @@ namespace MxNet.Modules
             if (!Binded && !ParamsInitialized && !OptimizerInitialized)
                 throw new Exception("Module not binded or param initialized oo optimizer initialized");
 
-            foreach (var module in _modules)
-            {
-                module.Update();
-            }
+            foreach (var module in _modules) module.Update();
         }
 
         public override void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false)
@@ -322,14 +315,12 @@ namespace MxNet.Modules
             if (!Binded && !ParamsInitialized)
                 throw new Exception("Module not binded and param initialized");
 
-            int i_layer = 0;
+            var i_layer = 0;
             foreach (var module in _modules)
             {
                 var (meta_takelabel, meta_autowiring) = _metas[i_layer];
                 if (meta_takelabel.HasValue && meta_autowiring.HasValue)
-                {
                     module.UpdateMetric(eval_metric, labels, pre_sliced);
-                }
 
                 i_layer++;
             }

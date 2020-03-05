@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Initializers
+﻿namespace MxNet.Initializers
 {
     public class Constant : Initializer
     {
-        public float Value { get; set; }
-
         public Constant(float value)
         {
             Value = value;
         }
+
+        public float Value { get; set; }
 
         public override void InitWeight(string name, ref NDArray arr)
         {

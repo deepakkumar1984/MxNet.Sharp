@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 
 namespace MxNet
@@ -11,8 +9,8 @@ namespace MxNet
         {
             internal static ThreadLocal<NameManager> current = new ThreadLocal<NameManager>();
 
-            private Dictionary<string, int> counter = new Dictionary<string, int>();
-            private NameManager old_manager = null;
+            private readonly Dictionary<string, int> counter = new Dictionary<string, int>();
+            private NameManager old_manager;
 
             public static NameManager Current
             {
@@ -23,10 +21,7 @@ namespace MxNet
 
                     return new NameManager();
                 }
-                set
-                {
-                    current.Value = value;
-                }
+                set => current.Value = value;
             }
 
             public override MxDisposable Enter()
@@ -38,23 +33,14 @@ namespace MxNet
 
             public override void Exit()
             {
-                if(old_manager != null)
-                {
-                    current.Value = old_manager;
-                }
+                if (old_manager != null) current.Value = old_manager;
             }
 
             public virtual string Get(string name, string hint)
             {
-                if(!string.IsNullOrWhiteSpace(name))
-                {
-                    return name;
-                }
+                if (!string.IsNullOrWhiteSpace(name)) return name;
 
-                if(!counter.ContainsKey(hint))
-                {
-                    counter[hint] = 0;
-                }
+                if (!counter.ContainsKey(hint)) counter[hint] = 0;
 
                 name = hint + counter[hint];
                 counter[hint]++;
@@ -64,7 +50,7 @@ namespace MxNet
 
         public class Prefix : NameManager
         {
-            private string _prefix;
+            private readonly string _prefix;
 
             public Prefix(string prefix)
             {
@@ -73,10 +59,9 @@ namespace MxNet
 
             public override string Get(string name, string hint)
             {
-                string r = base.Get(name, hint);
+                var r = base.Get(name, hint);
                 return _prefix + r;
             }
         }
-
     }
 }

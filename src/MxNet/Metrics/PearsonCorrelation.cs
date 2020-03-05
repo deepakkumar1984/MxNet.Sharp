@@ -1,13 +1,8 @@
-﻿using NumSharp;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Metrics
+﻿namespace MxNet.Metrics
 {
     public class PearsonCorrelation : EvalMetric
     {
-        public PearsonCorrelation(string output_name = null, string label_name = null) 
+        public PearsonCorrelation(string output_name = null, string label_name = null)
             : base("pearsonr", output_name, label_name, true)
         {
         }
@@ -17,11 +12,10 @@ namespace MxNet.Metrics
             CheckLabelShapes(labels, preds, true);
 
             var pearson_corr = nd.Correlation(labels.Ravel(), preds.Ravel()).AsNumpy()[0, 1].Data<float>()[0];
-            this.sum_metric += pearson_corr;
-            this.global_sum_metric += pearson_corr;
-            this.num_inst += 1;
-            this.global_num_inst += 1;
-
+            sum_metric += pearson_corr;
+            global_sum_metric += pearson_corr;
+            num_inst += 1;
+            global_num_inst += 1;
         }
     }
 }

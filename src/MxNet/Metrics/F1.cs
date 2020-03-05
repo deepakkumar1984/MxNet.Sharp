@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MxNet.Metrics
+﻿namespace MxNet.Metrics
 {
     public class F1 : EvalMetric
     {
-        public string Average { get; private set; }
+        private readonly _BinaryClassificationMetrics metrics;
 
-        private _BinaryClassificationMetrics metrics;
-
-        public F1(string output_name = null, string label_name = null, string average = "macro") : base("f1", output_name, label_name, true)
+        public F1(string output_name = null, string label_name = null, string average = "macro") : base("f1",
+            output_name, label_name, true)
         {
             Average = average;
             metrics = new _BinaryClassificationMetrics();
         }
+
+        public string Average { get; }
 
         public override void Update(NDArray labels, NDArray preds)
         {
@@ -22,7 +19,7 @@ namespace MxNet.Metrics
 
             metrics.UpdateBinaryStats(labels, preds);
 
-            if(Average == "macro")
+            if (Average == "macro")
             {
                 sum_metric += metrics.FScore;
                 global_sum_metric += metrics.GlobalFScore;
@@ -32,10 +29,10 @@ namespace MxNet.Metrics
             }
             else
             {
-                this.sum_metric = this.metrics.FScore * this.metrics.TotalExamples;
-                this.global_sum_metric = this.metrics.GlobalFScore * this.metrics.GlobalTotalExamples;
-                this.num_inst = this.metrics.TotalExamples;
-                this.global_num_inst = this.metrics.GlobalTotalExamples;
+                sum_metric = metrics.FScore * metrics.TotalExamples;
+                global_sum_metric = metrics.GlobalFScore * metrics.GlobalTotalExamples;
+                num_inst = metrics.TotalExamples;
+                global_num_inst = metrics.GlobalTotalExamples;
             }
         }
 

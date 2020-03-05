@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MxNet.Gluon
+﻿namespace MxNet.Gluon
 {
     public class CosineEmbeddingLoss : Loss
     {
-        public float Margin { get; set; }
-
-        public CosineEmbeddingLoss(float? weight = null, int? batch_axis = null, float margin = 0, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public CosineEmbeddingLoss(float? weight = null, int? batch_axis = null, float margin = 0, string prefix = null,
+            ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             Margin = margin;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol input1, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)
+        public float Margin { get; set; }
+
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol input1, NDArrayOrSymbol label,
+            NDArrayOrSymbol sample_weight = null, params object[] args)
         {
-            NDArrayOrSymbol input2 = (NDArrayOrSymbol)args[0];
+            var input2 = (NDArrayOrSymbol) args[0];
             if (input1.IsNDArray)
                 return F(input1.NdX, input2, label, sample_weight);
             return F(input1.SymX, input2, label, sample_weight);
@@ -32,7 +28,8 @@ namespace MxNet.Gluon
             var y_minus_1 = nd.EqualScalar(label, -1);
             var cos_sim_a = (1 - cos_sim) * y_1;
             var z_array = nd.Zeros(new Shape(1, 1));
-            var cos_sim_b = nd.BroadcastMaximum(z_array, y_minus_1 * (cos_sim - Margin)); //ToDo: Check missing axis parameter
+            var cos_sim_b =
+                nd.BroadcastMaximum(z_array, y_minus_1 * (cos_sim - Margin)); //ToDo: Check missing axis parameter
             var loss = cos_sim_a + cos_sim_b;
             loss = ApplyWeighting(loss, Weight, sample_weight);
             return loss;
@@ -47,18 +44,19 @@ namespace MxNet.Gluon
             var y_minus_1 = sym.EqualScalar(label, -1);
             var cos_sim_a = (1 - cos_sim) * y_1;
             var z_array = sym.Zeros(new Shape(1, 1));
-            var cos_sim_b = sym.BroadcastMaximum(z_array, y_minus_1 * (cos_sim - Margin)); //ToDo: Check missing axis parameter
+            var cos_sim_b =
+                sym.BroadcastMaximum(z_array, y_minus_1 * (cos_sim - Margin)); //ToDo: Check missing axis parameter
             var loss = cos_sim_a + cos_sim_b;
             loss = ApplyWeighting(loss, Weight, sample_weight);
             return loss;
         }
 
-        private NDArray _cosine_similarity(NDArray x, NDArray y, int axis =-1)
+        private NDArray _cosine_similarity(NDArray x, NDArray y, int axis = -1)
         {
             var x_norm = nd.Norm(x, axis: new Shape(axis)).Reshape(-1, 1);
             var y_norm = nd.Norm(y, axis: new Shape(axis)).Reshape(-1, 1);
-            var x_dot_y = nd.Sum(x * y, axis: axis).Reshape(-1, 1);
-            var eps_err = new NDArray(new float[] { 1e-12f });
+            var x_dot_y = nd.Sum(x * y, axis).Reshape(-1, 1);
+            var eps_err = new NDArray(new[] {1e-12f});
             return x_dot_y / nd.BroadcastMaximum(x_norm * y_norm, eps_err);
         }
 
@@ -66,10 +64,10 @@ namespace MxNet.Gluon
         {
             var x_norm = sym.Norm(x, axis: new Shape(axis)).Reshape(-1, 1);
             var y_norm = sym.Norm(y, axis: new Shape(axis)).Reshape(-1, 1);
-            var x_dot_y = sym.Sum(x * y, axis: axis).Reshape(-1, 1);
-            var eps_err_x = new NDArray(new float[] { 1e-12f });
-            Symbol eps_err = new Constant("eps_err", eps_err_x).Var();
-            
+            var x_dot_y = sym.Sum(x * y, axis).Reshape(-1, 1);
+            var eps_err_x = new NDArray(new[] {1e-12f});
+            var eps_err = new Constant("eps_err", eps_err_x).Var();
+
             return x_dot_y / sym.BroadcastMaximum(x_norm * y_norm, eps_err);
         }
     }

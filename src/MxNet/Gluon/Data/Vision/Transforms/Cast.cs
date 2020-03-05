@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MxNet.Gluon.Data.Vision.Transforms
+﻿namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class Cast : HybridBlock
     {
-        private DType _dtype;
+        private readonly DType _dtype;
 
         public Cast(DType dtype = null)
         {

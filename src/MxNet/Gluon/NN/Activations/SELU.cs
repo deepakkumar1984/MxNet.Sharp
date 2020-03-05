@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MxNet.Gluon.NN
+﻿namespace MxNet.Gluon.NN
 {
     public class SELU : HybridBlock
     {
@@ -19,6 +13,5 @@ namespace MxNet.Gluon.NN
 
             return sym.LeakyReLU(x.SymX, act_type: LeakyreluActType.Selu, symbol_name: "fwd");
         }
-
     }
 }
