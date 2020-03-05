@@ -147,17 +147,17 @@ namespace MxNet.Sparse
             NativeMethods.MXNDArraySyncCheckFormat(GetHandle(), full_check);
         }
 
-        public NDArray _Data()
+        public NDArray Data()
         {
             WaitToRead();
             NativeMethods.MXNDArrayGetDataNDArray(GetHandle(), out var @out);
             return new NDArray(@out);
         }
 
-        internal NDArray AuxData()
+        internal NDArray AuxData(int i)
         {
             WaitToRead();
-            NativeMethods.MXNDArrayGetAuxNDArray(GetHandle(), out var @out);
+            NativeMethods.MXNDArrayGetAuxNDArray(GetHandle(), i, out var @out);
             return new NDArray(@out);
         }
     }

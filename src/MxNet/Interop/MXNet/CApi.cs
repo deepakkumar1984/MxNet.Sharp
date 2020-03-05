@@ -278,7 +278,7 @@ namespace MxNet.Interop
         public static extern int MXNDArrayGetDataNDArray(IntPtr handle, out IntPtr @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayGetAuxNDArray(IntPtr handle, out IntPtr @out);
+        public static extern int MXNDArrayGetAuxNDArray(IntPtr handle, int i, out IntPtr @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayDetach(IntPtr handle, out IntPtr @out);

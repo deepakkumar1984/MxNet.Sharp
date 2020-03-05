@@ -343,11 +343,7 @@ namespace MxNet.Gluon
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             Dictionary<string, NDArrayOrSymbol> @params = new Dictionary<string, NDArrayOrSymbol>();
-            List<NDArrayOrSymbol> argsList = new List<NDArrayOrSymbol>();
-            foreach (var item in args)
-            {
-                argsList.Add(item);
-            }
+            List<NDArrayOrSymbol> argsList = args.ToList();
 
             if (x.IsNDArray)
             {
@@ -382,7 +378,8 @@ namespace MxNet.Gluon
                     }
                 }
 
-                return HybridForward(x, @params.Values.ToArray());
+                argsList.AddRange(@params.Values.ToArray());
+                return HybridForward(x, argsList.ToArray());
             }
             else 
             {
@@ -392,7 +389,9 @@ namespace MxNet.Gluon
                 }
             }
 
-            return HybridForward(x, @params.Values.ToArray());
+            argsList.AddRange(@params.Values.ToArray());
+
+            return HybridForward(x, argsList.ToArray()); ;
         }
 
         public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);

@@ -6,29 +6,32 @@ namespace MxNet.Gluon.RNN
 {
     public class ModifierCell : HybridRecurrentCell
     {
-        private HybridRecurrentCell BaseCell;
+        public RecurrentCell BaseCell { get; }
 
         public ModifierCell(RecurrentCell base_cell) 
             : base(base_cell.Prefix + base_cell.Alias(), base_cell.Params)
         {
-            throw new NotImplementedException();
+            BaseCell = base_cell;
         }
 
         public override ParameterDict Params => BaseCell.Params;
 
         public override StateInfo[] StateInfo(int batch_size = 0)
         {
-            throw new NotImplementedException();
+            return BaseCell.StateInfo(batch_size);
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbol[] BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
-            throw new NotImplementedException();
+            BaseCell._modified = false;
+            var begin = BaseCell.BeginState(batch_size, func, args);
+            BaseCell._modified = true;
+            return begin;
         }
 
-        public override string ToString()
+        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            return default;
         }
     }
 }

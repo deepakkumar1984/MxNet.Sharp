@@ -158,7 +158,7 @@ namespace MxNet
             }
         }
 
-        public Array Data
+        public Array ArrayData
         {
             get
             {

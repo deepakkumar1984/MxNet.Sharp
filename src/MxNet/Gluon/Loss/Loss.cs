@@ -19,7 +19,7 @@ namespace MxNet.Gluon
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            return x;
+            return HybridForward(x, args[0], args.Length > 1 ? args[1] : null);
         }
 
         public virtual NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)

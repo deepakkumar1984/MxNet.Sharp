@@ -36,7 +36,7 @@ namespace MxNet.Gluon.RNN
             return "rnn";
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             var prefix = $"t{_counter}_";
             NDArrayOrSymbol states = args[0];
@@ -61,8 +61,7 @@ namespace MxNet.Gluon.RNN
                 output = Activation(i2h_plus_h2h, _activation, name: prefix + "out");
             }
 
-            Outputs = new NDArrayOrSymbol[] { output };
-            return output;
+            return (output, new NDArrayOrSymbol[] { output });
         }
 
         internal static StateInfo[] CellsStateInfo(RecurrentCell[] cells, int batch_size)
@@ -76,12 +75,12 @@ namespace MxNet.Gluon.RNN
             return ret.ToArray();
         }
 
-        internal static NDArrayOrSymbol[] CellsBeginState(RecurrentCell[] cells, int batch_size, string state_func)
+        internal static NDArrayOrSymbol[] CellsBeginState(RecurrentCell[] cells, int batch_size, string state_func, FuncArgs args = null)
         {
             List<NDArrayOrSymbol> ret = new List<NDArrayOrSymbol>();
             foreach (var item in cells)
             {
-                ret.AddRange(item.BeginState(batch_size, state_func));
+                ret.AddRange(item.BeginState(batch_size, state_func, args));
             }
 
             return ret.ToArray();
@@ -127,7 +126,7 @@ namespace MxNet.Gluon.RNN
             return begin_state;
         }
 
-        internal static (NDArrayOrSymbol[], int, int) FormatSequence(int length, NDArrayOrSymbol inputs, string layout, bool merge, string in_layout = null)
+        internal static (NDArrayOrSymbol[], int, int) FormatSequence(int? length, NDArrayOrSymbol inputs, string layout, bool merge, string in_layout = null)
         {
             int axis = layout.IndexOf('T');
             int batch_axis = layout.IndexOf('N');
@@ -141,7 +140,7 @@ namespace MxNet.Gluon.RNN
                     if (inputs.SymX.ListOutputs().Count != 1)
                         throw new Exception("unroll doesn't allow grouped symbol as input. Please convert " +
                                             "to list with list(inputs) first or let unroll handle splitting.");
-                    data_inputs = new NDArrayOrSymbol[] { sym.Split(inputs.SymX, length, in_axis, true) };
+                    data_inputs = new NDArrayOrSymbol[] { sym.Split(inputs.SymX, length.Value, in_axis, true) };
                 }
             }
             else if (inputs.IsNDArray)
@@ -159,7 +158,7 @@ namespace MxNet.Gluon.RNN
             return (data_inputs, axis, batch_size);
         }
 
-        internal static (NDArrayOrSymbol[], int, int) FormatSequence(int length, NDArrayOrSymbol[] inputs, string layout, bool merge, string in_layout = null)
+        internal static (NDArrayOrSymbol[], int, int) FormatSequence(int? length, NDArrayOrSymbol[] inputs, string layout, bool merge, string in_layout = null)
         {
             int axis = layout.IndexOf('T');
             NDArrayOrSymbol data_inputs = null;

@@ -247,7 +247,7 @@ namespace MxNet.Gluon
             }
         }
 
-        public NDArrayOrSymbol Call(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public virtual NDArrayOrSymbol Call(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             foreach (var hook in _forward_pre_hooks.Values)
             {
@@ -264,10 +264,7 @@ namespace MxNet.Gluon
             return @out;
         }
 
-        public virtual NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
-        {
-            return input;
-        }
+        public abstract NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args);
 
         public virtual void Summary(NDArrayList inputs)
         {

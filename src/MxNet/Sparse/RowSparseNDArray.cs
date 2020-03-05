@@ -9,31 +9,19 @@ namespace MxNet.Sparse
 {
     public class RowSparseNDArray : BaseSparseNDArray
     {
-        public CSRNDArray this[string slice]
+        public RowSparseNDArray Indices
         {
             get
             {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
+                return (RowSparseNDArray)AuxData(0);
             }
         }
 
-        public NDArray Indices
+        public new RowSparseNDArray Data
         {
             get
             {
-                throw new NotImplementedException();
-            }
-        }
-
-        public NDArray Data
-        {
-            get
-            {
-                throw new NotImplementedException();
+                return (RowSparseNDArray)Data();
             }
         }
 
@@ -75,6 +63,26 @@ namespace MxNet.Sparse
         public static RowSparseNDArray operator /(mx_float scalar, RowSparseNDArray rhs)
         {
             return (RowSparseNDArray)nd.RdivScalar(rhs, scalar);
+        }
+
+        public new void CopyTo(NDArray other)
+        {
+            if (other.SType == StorageStype.Csr)
+                throw new Exception("CopyTo does not support destination NDArray stype Csr");
+            base.CopyTo(other);
+        }
+
+        public void CopyTo(Context other)
+        {
+            this.ChangeContext(other);
+        }
+
+        public new CSRNDArray ToSType(StorageStype stype)
+        {
+            if (stype == StorageStype.Csr)
+                throw new Exception("cast_storage from row_sparse to Csr is not supported");
+
+            return (CSRNDArray)nd.CastStorage(this, stype);
         }
     }
 }

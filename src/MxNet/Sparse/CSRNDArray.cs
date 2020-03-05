@@ -9,30 +9,11 @@ namespace MxNet.Sparse
 {
     public class CSRNDArray : BaseSparseNDArray
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="slice">
-        /// Slice string eg: 0:10, 0:, :9
-        /// </param>
-        /// <returns></returns>
-        public CSRNDArray this[string slice]
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public NDArray Indices
         {
             get
             {
-                throw new NotImplementedException();
+                return AuxData(1);
             }
         }
 
@@ -40,15 +21,15 @@ namespace MxNet.Sparse
         {
             get
             {
-                throw new NotImplementedException();
+                return AuxData(0);
             }
         }
 
-        public NDArray Data
+        public new NDArray Data
         {
             get
             {
-                throw new NotImplementedException();
+                return base.Data();
             }
         }
 
@@ -92,14 +73,24 @@ namespace MxNet.Sparse
             return (CSRNDArray)nd.RdivScalar(rhs, scalar);
         }
 
-        public void CopyTo(CSRNDArray other)
+        public new void CopyTo(NDArray other)
         {
-            throw new NotImplementedException();
+            if (other.SType == StorageStype.RowSparse)
+                throw new Exception("CopyTo does not support destination NDArray stype RowSparse");
+            base.CopyTo(other);
         }
 
-        public CSRNDArray ToSType(StorageStype stype)
+        public void CopyTo(Context other)
         {
-            throw new NotImplementedException();
+            this.ChangeContext(other);
+        }
+
+        public new CSRNDArray ToSType(StorageStype stype)
+        {
+            if (stype == StorageStype.RowSparse)
+                throw new Exception("cast_storage from csr to row_sparse is not supported");
+
+            return (CSRNDArray)nd.CastStorage(this, stype);
         }
     }
 }

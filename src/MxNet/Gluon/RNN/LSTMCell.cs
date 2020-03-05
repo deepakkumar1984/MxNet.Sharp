@@ -40,7 +40,7 @@ namespace MxNet.Gluon.RNN
             return "lstm";
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             var prefix = $"t{_counter}_";
             NDArrayOrSymbol states_0 = args[0];
@@ -81,8 +81,7 @@ namespace MxNet.Gluon.RNN
                 next_h = sym.ElemwiseMul(out_gate, Activation(next_c.SymX, _activation, name: prefix + "i2h"), symbol_name: prefix + "out");
             }
 
-            Outputs = new NDArrayOrSymbol[] { next_h, next_c };
-            return next_h;
+            return (next_h, new NDArrayOrSymbol[] { next_h, next_c });
         }
     }
 }

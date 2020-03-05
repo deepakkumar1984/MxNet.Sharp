@@ -4,17 +4,18 @@ using System.Text;
 
 namespace MxNet.Gluon.RNN
 {
-    public class HybridRecurrentCell : RecurrentCell
+    public abstract class HybridRecurrentCell : RecurrentCell
     {
-        public NDArrayOrSymbol[] Outputs { get; set; }
         public HybridRecurrentCell(string prefix, ParameterDict @params) : base(prefix, @params)
         {
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
         {
-            return null;
+            return input;
         }
+
+        public abstract (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);
 
         public override StateInfo[] StateInfo(int batch_size = 0)
         {

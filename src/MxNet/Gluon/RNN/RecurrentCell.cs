@@ -143,7 +143,7 @@ namespace MxNet.Gluon.RNN
         }
     }
 
-    public abstract class RecurrentCell : HybridBlock
+    public abstract class RecurrentCell : Block
     {
         internal bool _modified;
         internal int _init_counter;
@@ -167,6 +167,17 @@ namespace MxNet.Gluon.RNN
         }
 
         public abstract StateInfo[] StateInfo(int batch_size= 0);
+
+        public new virtual (NDArrayOrSymbol, NDArrayOrSymbol[]) Call(NDArrayOrSymbol inputs, params NDArrayOrSymbol[] states)
+        {
+            return default;
+        }
+
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
+        {
+            _counter++;
+            return input;
+        }
 
         public virtual NDArrayOrSymbol[] BeginState(int batch_size = 0, string func = null, FuncArgs args = null)
         {
@@ -288,11 +299,5 @@ namespace MxNet.Gluon.RNN
 
             return input;
         }
-
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
-        {
-            return base.Forward(input, args);
-        }
-      
     }
 }

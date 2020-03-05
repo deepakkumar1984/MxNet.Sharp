@@ -29,7 +29,74 @@ namespace MxNet
 
         public static NDArrayOrSymbol Sum(this NDArrayOrSymbol[] source)
         {
+            NDArrayOrSymbol result = null;
+            if (source.Length > 0)
+            {
+                if(source[0].IsNDArray)
+                {
+                    foreach (var item in source)
+                    {
+                        if(result==null)
+                        {
+                            result = item;
+                            continue;
+                        }
 
+                        result = result.NdX + item.NdX;
+                    }
+                }
+                else if (source[0].IsSymbol)
+                {
+                    foreach (var item in source)
+                    {
+                        if (result == null)
+                        {
+                            result = item;
+                            continue;
+                        }
+
+                        result = result.SymX + item.SymX;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static NDArrayOrSymbol Sum(this List<NDArrayOrSymbol> source)
+        {
+            NDArrayOrSymbol result = null;
+            if (source.Count > 0)
+            {
+                if (source[0].IsNDArray)
+                {
+                    foreach (var item in source)
+                    {
+                        if (result == null)
+                        {
+                            result = item;
+                            continue;
+                        }
+
+                        result = result.NdX + item.NdX;
+                    }
+                }
+                else if (source[0].IsSymbol)
+                {
+                    foreach (var item in source)
+                    {
+                        if (result == null)
+                        {
+                            result = item;
+                            continue;
+                        }
+
+                        result = result.SymX + item.SymX;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

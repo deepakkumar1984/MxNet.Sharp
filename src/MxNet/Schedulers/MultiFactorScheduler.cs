@@ -4,29 +4,53 @@ namespace MxNet.Schedulers
 {
     public class MultiFactorScheduler : LRScheduler
     {
-        private int _MaxUpdate;
-        private int _Power;
-        private float _FinalLR;
-        private float _BaseLrOriginal;
-        private int _MaxSteps;
+        public int[] Step { get; private set; }
+        public int Factor { get; private set; }
+        public int CurrStepInd { get; private set; }
+        public int Count { get; private set; }
 
-        public MultiFactorScheduler(int max_update, float base_lr = 0.01F, int pwr = 2, float final_lr = 0,
-                    int warmup_steps = 0, float warmup_begin_lr = 0, string warmup_mode = "linear")
+        public MultiFactorScheduler(int[] step, int factor = 1, float base_lr = 0.01F, int warmup_steps = 0, float warmup_begin_lr = 0, string warmup_mode = "linear")
             : base(base_lr, warmup_steps, warmup_begin_lr, warmup_mode)
         {
-            if (max_update < 1)
-                throw new ArgumentException("maximum number of updates must be strictly positive");
+            for(int i = 0;i<step.Length;i++)
+            {
+                int _step = step[i];
+                if (i != 0 && step[i] < step[i - 1])
+                    throw new Exception("Schedule step must be an increasing integer list");
+                if (_step < 1)
+                    throw new Exception("Schedule step must be greater or equal than 1 round");
+            }
 
-            _MaxUpdate = max_update;
-            _Power = pwr;
-            _FinalLR = final_lr;
-            _BaseLrOriginal = base_lr;
-            _MaxSteps = max_update - warmup_steps;
+            if (factor > 1)
+                throw new Exception("Factor must be no more than 1 to make lr reduce");
+
+            Step = step;
+            Factor = factor;
+            CurrStepInd = 0;
+            Count = 0;
         }
 
         public override float Call(uint num_update)
         {
-            throw new NotImplementedException();
+            if (num_update < WarmupSteps)
+                return GetWarmupLR(num_update);
+
+            while (CurrStepInd <= Step.Length - 1)
+            {
+                if (num_update > Step[CurrStepInd])
+                {
+                    Count = Step[CurrStepInd];
+                    CurrStepInd++;
+                    BaseLearningRate *= Factor;
+                    Logger.Info($"Update[{num_update}]: Change learning rate to {BaseLearningRate}");
+                }
+                else
+                {
+                    return BaseLearningRate;
+                }
+            }
+
+            return BaseLearningRate;
         }
     }
 }

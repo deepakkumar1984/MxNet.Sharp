@@ -23,7 +23,7 @@ namespace MxNet.Gluon.RNN
             return RNNCell.CellsBeginState(_childrens.Values.ToArray(), batch_size, func);
         }
 
-        public (NDArrayOrSymbol, NDArrayOrSymbol) Call(NDArrayOrSymbol inputs, NDArrayOrSymbol states)
+        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) Call(NDArrayOrSymbol inputs, params NDArrayOrSymbol[] states)
         {
             _counter++;
             List<NDArrayOrSymbol> next_states = new List<NDArrayOrSymbol>();
@@ -33,22 +33,14 @@ namespace MxNet.Gluon.RNN
                 if (cell.GetType().Name == "BidirectionalCell")
                     throw new Exception("BidirectionalCell not allowed");
                 int n = cell.StateInfo().Length;
-                NDArrayOrSymbol state = states.IsNDArray 
-                                                    ? new NDArrayOrSymbol(states.NdX[$"{p}:{p + n}"])
-                                                    : new NDArrayOrSymbol(states.SymX[$"{p}:{p + n}"]);
+                var state = states.Skip(p).Take(n).ToArray();
 
                 p += n;
-                inputs = cell.Call(inputs, state);
-                next_states.Add(state);
+                (inputs, state) = cell.Call(inputs, state);
+                next_states.AddRange(state);
             }
 
-            next_states.ToList().ToNDArrays().Sum();
-            return (inputs, next_states.Sum());
-        }
-
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
-        {
-            return null;
+            return (inputs, new NDArrayOrSymbol[] { next_states.Sum() });
         }
 
         public override StateInfo[] StateInfo(int batch_size = 0)
@@ -72,9 +64,17 @@ namespace MxNet.Gluon.RNN
                 int i = Convert.ToInt32(item.Key);
                 var cell = item.Value;
                 int n = cell.StateInfo().Length;
+                p += n;
                 (inputs, states) = cell.Unroll(length, inputs, states, layout, merge_outputs: i < num_cells - 1 ? null : merge_outputs, valid_length: valid_length);
                 next_states.AddRange(states);
             }
+
+            return (inputs, next_states.ToArray());
+        }
+
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
+        {
+            throw new NotImplementedException();
         }
 
         public new SequentialRNNCell this[string i]
