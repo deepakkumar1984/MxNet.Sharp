@@ -1,14 +1,36 @@
-﻿using System;
+﻿using MxNet.Interop;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace MxNet
 {
+    public struct LibFeature
+    {
+        public string name;
+        public bool enabled;
+    }
+
     public class Runtime
     {
         public static Features FeatureList()
         {
-            throw new NotImplementedException();
+            List<Feature> featuresList = new List<Feature>();
+            
+            NativeMethods.MXLibInfoFeatures(out var intPtr, out int size);
+            int objsize = Marshal.SizeOf(typeof(LibFeature));
+            if (size > 0)
+            {
+                for(int i = 0;i<size;i++)
+                {
+                    var f = (LibFeature)Marshal.PtrToStructure(intPtr, typeof(LibFeature));
+                    intPtr += objsize;
+                    featuresList.Add(new Feature() { Enabled = f.enabled, Name = f.name });
+                }
+            }
+
+            return new Features(featuresList.ToArray());
         }
 
         public class Feature

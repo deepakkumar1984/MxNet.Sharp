@@ -402,9 +402,102 @@ namespace MxNet
             return (inShape.ToArray(), outShape.ToArray(), auxShape.ToArray());
         }
 
-        public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> args = null)
+        public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> argTypes = null)
         {
-            throw new NotImplementedException();
+            if (argTypes == null)
+                throw new ArgumentNullException(nameof(argTypes));
+
+            var inType = new List<DType>();
+            var auxType = new List<DType>();
+            var outType = new List<DType>();
+
+            ThrowIfDisposed();
+            var argTypeData = argTypes.Values.Select(x => (x.Index)).ToList();
+
+            unsafe
+            {
+                var keys = argTypes.Keys.ToArray();
+                var argShapeDataArray = argTypeData.ToArray();
+                {
+                    int inShapeSize;
+                    int* inShapeData;
+
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferType(NativePtr,
+                        (uint)argTypes.Count,
+                        keys,
+                        argShapeDataArray,
+                        &inShapeSize,
+                        &inShapeData,
+                        out var outShapeSize,
+                        out var outShapeData,
+                        out var auxShapeSize,
+                        out var auxShapeData,
+                        out var complete), NativeMethods.OK);
+
+                    if (complete == 0)
+                        return (null, null, null);
+
+                    for (var i = 0; i < inShapeSize; ++i)
+                        inType.Add(DType.GetType(inShapeData[i]));
+
+                    for (var i = 0; i < auxShapeSize; ++i)
+                        auxType.Add(DType.GetType(auxShapeData[i]));
+
+                    for (var i = 0; i < outShapeSize; ++i)
+                        outType.Add(DType.GetType(outShapeData[i]));
+                }
+            }
+
+            return (inType.ToArray(), outType.ToArray(), auxType.ToArray());
+        }
+
+        public (DType[], DType[], DType[]) InferTypePartial(Dictionary<string, DType> argTypes = null)
+        {
+            if (argTypes == null)
+                throw new ArgumentNullException(nameof(argTypes));
+
+            var inType = new List<DType>();
+            var auxType = new List<DType>();
+            var outType = new List<DType>();
+
+            ThrowIfDisposed();
+            var argTypeData = argTypes.Values.Select(x => (x.Index)).ToList();
+
+            unsafe
+            {
+                var keys = argTypes.Keys.ToArray();
+                var argShapeDataArray = argTypeData.ToArray();
+                {
+                    int inShapeSize;
+                    int* inShapeData;
+
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferTypePartial(NativePtr,
+                        (uint)argTypes.Count,
+                        keys,
+                        argShapeDataArray,
+                        &inShapeSize,
+                        &inShapeData,
+                        out var outShapeSize,
+                        out var outShapeData,
+                        out var auxShapeSize,
+                        out var auxShapeData,
+                        out var complete), NativeMethods.OK);
+
+                    if (complete == 0)
+                        return (null, null, null);
+
+                    for (var i = 0; i < inShapeSize; ++i)
+                        inType.Add(DType.GetType(inShapeData[i]));
+
+                    for (var i = 0; i < auxShapeSize; ++i)
+                        auxType.Add(DType.GetType(auxShapeData[i]));
+
+                    for (var i = 0; i < outShapeSize; ++i)
+                        outType.Add(DType.GetType(outShapeData[i]));
+                }
+            }
+
+            return (inType.ToArray(), outType.ToArray(), auxType.ToArray());
         }
 
         public void InferExecutorArrays(Context context,
@@ -566,7 +659,25 @@ namespace MxNet
 
         public Dictionary<string, Dictionary<string, string>> ListAttributeDict()
         {
-            throw new NotImplementedException();
+            ThrowIfDisposed();
+
+            NativeMethods.MXSymbolListAuxiliaryStates(GetHandle(), out var size, out var sarry);
+            var sarryArray = InteropHelper.ToPointerArray(sarry, size);
+
+            Dictionary<string, Dictionary<string, string>> ret = new Dictionary<string, Dictionary<string, string>>();
+            for (var i = 0; i < size; i++)
+            {
+                string[] pair = Marshal.PtrToStringAnsi(sarryArray[i * 2]).Split('$');
+                string name = pair[0];
+                string key = pair[1];
+                string val = Marshal.PtrToStringAnsi(sarryArray[i * 2 + 1]);
+                if (!ret.ContainsKey(name))
+                    ret.Add(name, new Dictionary<string, string>());
+
+                ret[name][key] = val;
+            }
+
+            return ret;
         }
 
         public IList<string> ListAuxiliaryStates()

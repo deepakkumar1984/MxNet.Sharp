@@ -45,6 +45,7 @@ namespace ORGate
                     var outputs = new NDArrayList();
                     using (var ag = Autograd.Record())
                     {
+                        
                         for (var i = 0; i < data.Length; i++)
                         {
                             var x = data[i];

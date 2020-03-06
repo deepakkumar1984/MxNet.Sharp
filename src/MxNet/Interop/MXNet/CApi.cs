@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using AtomicSymbolCreator = System.IntPtr;
 using DataIterCreator = System.IntPtr;
 using DataIterHandle = System.IntPtr;
@@ -10,6 +11,8 @@ using NDArrayHandle = System.IntPtr;
 using ProfileHandle = System.IntPtr;
 using size_t = System.UInt64;
 using SymbolHandle = System.IntPtr;
+using CudaModuleHandle = System.IntPtr;
+using CudaKernelHandle = System.IntPtr;
 using uint64_t = System.UInt64;
 
 // ReSharper disable once CheckNamespace
@@ -243,6 +246,9 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayWaitToWrite(NDArrayHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern unsafe int MXLibInfoFeatures(out IntPtr features, out int size);
 
         #endregion
 
@@ -567,6 +573,34 @@ namespace MxNet.Interop
             out int** aux_shape_data,
             out int complete);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern unsafe int MXSymbolInferType(SymbolHandle sym,
+            uint num_args,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            int[] arg_type_data,
+            int* in_type_size,
+            int** in_type_data,
+            out int out_type_size,
+            out int* out_type_data,
+            out int aux_type_size,
+            out int* aux_type_data,
+            out int complete);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern unsafe int MXSymbolInferTypePartial(SymbolHandle sym,
+            uint num_args,
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] keys,
+            int[] arg_type_data,
+            int* in_type_size,
+            int** in_type_data,
+            out int out_type_size,
+            out int* out_type_data,
+            out int aux_type_size,
+            out int* aux_type_data,
+            out int complete);
+
         /// <summary>
         ///     List arguments in the symbol.
         /// </summary>
@@ -599,6 +633,11 @@ namespace MxNet.Interop
         public static extern int MXSymbolListAuxiliaryStates(SymbolHandle symbol,
             out uint out_size,
             out AtomicSymbolCreator out_str_array);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolListAttr(SymbolHandle symbol,
+          out uint out_size,
+          out AtomicSymbolCreator out_str_array);
 
         /// <summary>
         ///     List returns in the symbol.
@@ -1071,6 +1110,50 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXProfileSetMarker(ProfileHandle handle, string name, string scope);
 
+        #endregion
+
+        #region Cuda Module API
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRtcCudaModuleCreate(string source, int num_options, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] options, int num_exports, [In][MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] exports, out CudaModuleHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRtcCudaModuleFree(CudaModuleHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRtcCudaKernelFree(CudaKernelHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRtcCudaKernelCreate(CudaModuleHandle handle, string name, int num_args, bool[] is_ndarray, bool[] is_const, int[] arg_types, out CudaKernelHandle 
+                    kernelHandle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRtcCudaKernelCall(CudaKernelHandle handle, int dev_id, IntPtr[] args, int grid_dim_x, int grid_dim_y, int grid_dim_z, int block_dim_x, int block_dim_y, int block_dim_z, int shared_mem);
+        #endregion
+
+        #region RecordIO API
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOWriterCreate(string uri, out IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOReaderCreate(string uri, out IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOWriterFree(IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOReaderFree(IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOWriterWriteRecord(IntPtr handle, byte[] buff, int size);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOReaderReadRecord(IntPtr handle, out IntPtr buff_ptr, out int size);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOReaderSeek(IntPtr handle, int pos);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRecordIOWriterTell(IntPtr handle, out int pos);
         #endregion
 
         #endregion

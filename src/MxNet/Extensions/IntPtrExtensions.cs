@@ -2,7 +2,7 @@
 
 namespace MxNet
 {
-    internal static class NatoveMethodsExtensions
+    internal static class NativeMethodsExtensions
     {
         public static int ToInt32(this bool source)
         {

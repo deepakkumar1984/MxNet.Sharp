@@ -8,6 +8,7 @@ namespace ConsoleTest
         private static void Main(string[] args)
         {
             mx.SetDevice(DeviceType.CPU);
+            var feat = Runtime.FeatureList();
             var x = new NDArray(new float[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, new Shape(3, 3)).Reshape(new Shape(3, 3));
             var buff = x.GetBuffer();
             var x1 = NDArray.LoadFromBuffer(buff);

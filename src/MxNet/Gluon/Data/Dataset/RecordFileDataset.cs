@@ -3,7 +3,7 @@ using MxNet.Recordio;
 
 namespace MxNet.Gluon.Data
 {
-    public class RecordFileDataset : Dataset<string>
+    public class RecordFileDataset : Dataset<byte[]>
     {
         private readonly MXIndexedRecordIO _record;
 
@@ -18,8 +18,8 @@ namespace MxNet.Gluon.Data
 
         public string Filename { get; set; }
 
-        public override string this[int idx] => _record.ReadIdx(idx);
+        public override byte[] this[int idx] => _record.ReadIdx(idx);
 
-        public override int Length => _record.Keys.Length;
+        public override int Length => _record.Keys.Count;
     }
 }

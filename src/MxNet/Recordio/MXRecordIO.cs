@@ -1,61 +1,122 @@
-﻿using System;
+﻿using MxNet.Interop;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using RecordIOHandle = System.IntPtr;
 
 namespace MxNet.Recordio
 {
     public class MXRecordIO : IDisposable
     {
-        private RecordIOHandle handle;
+        internal RecordIOHandle handle;
+
+        public string Uri { get; private set; }
+        public string Flag { get; private set; }
+        public int PID { get; private set; }
+        public bool IsOpen { get; private set; }
+        public bool Writable { get; private set; }
 
         public MXRecordIO(string uri, string flag)
         {
-            throw new NotImplementedException();
+            Uri = uri;
+            Flag = flag;
+            Open();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Close();
         }
 
         public virtual void Open()
         {
-            throw new NotImplementedException();
+            if (Flag == "w")
+            {
+                NativeMethods.MXRecordIOWriterCreate(Uri, out handle);
+                Writable = true;
+            }
+            else if (Flag == "r")
+            {
+                NativeMethods.MXRecordIOReaderCreate(Uri, out handle);
+                Writable = false;
+            }
+
+            PID = Process.GetCurrentProcess().Id;
+            IsOpen = true;
         }
 
         public virtual void Close()
         {
-            throw new NotImplementedException();
+            if (!IsOpen)
+                return;
+
+            if (Writable)
+                NativeMethods.MXRecordIOWriterFree(handle);
+            else
+                NativeMethods.MXRecordIOReaderFree(handle);
         }
 
         public virtual void Reset()
         {
-            throw new NotImplementedException();
+            Close();
+            Open();
         }
 
         public virtual void Write(byte[] buf)
         {
-            throw new NotImplementedException();
+            if (!Writable)
+                throw new Exception("Not writable!");
+
+            CheckPID(false);
+            NativeMethods.MXRecordIOWriterWriteRecord(handle, buf, buf.Length);
         }
 
         public virtual byte[] Read()
         {
-            throw new NotImplementedException();
+            if (Writable)
+                throw new Exception("Not readable!");
+
+            CheckPID(false);
+            
+            NativeMethods.MXRecordIOReaderReadRecord(handle, out var buff_ptr, out int size);
+            unsafe
+            {
+                Span<byte> byteArray = new Span<byte>(buff_ptr.ToPointer(), size);
+                return byteArray.ToArray();
+            }
         }
 
         public virtual Dictionary<string, object> GetState()
         {
-            throw new NotImplementedException();
+            bool is_open = IsOpen;
+            Close();
+            Dictionary<string, object> d = new Dictionary<string, object>();
+            d["is_open"] = is_open;
+            if(d.ContainsKey("handle"))
+                d.Remove("handle");
+
+            d["uri"] = Uri;
+            return d;
         }
 
-        public virtual void SetState(Dictionary<string, string> d)
+        public virtual void SetState(Dictionary<string, object> d)
         {
-            throw new NotImplementedException();
+            var is_open = (bool)d["is_open"];
+            IsOpen = false;
+            handle = IntPtr.Zero;
+            if (is_open)
+                Open();
         }
 
-        private void CheckPID(bool allow_reset = false)
+        internal void CheckPID(bool allow_reset = false)
         {
-            throw new NotImplementedException();
+            if (PID != Process.GetCurrentProcess().Id)
+                if (allow_reset)
+                    Reset();
+                else
+                    throw new Exception("Forbidden operation in multiple processes");
+
         }
     }
 }
