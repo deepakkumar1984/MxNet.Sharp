@@ -657,6 +657,9 @@ namespace MxNet
         /// <returns>returns new NDArray</returns>
         public NDArray ToSType(StorageStype stype)
         {
+            if (this.SType == stype)
+                return this;
+
             return new Operator("cast_storage")
                 .SetParam("stype", MxUtil.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
                 .SetInput("data", this)

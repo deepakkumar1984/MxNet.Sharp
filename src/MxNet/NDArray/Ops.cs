@@ -1839,9 +1839,8 @@ namespace MxNet
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
         public static NDArrayList MultiSgdUpdate(NDArrayList data, float[] lrs, float[] wds, float rescale_grad = 1f,
-            float clip_gradient = -1f, int num_weights = 1)
+            float clip_gradient = -1f, int num_weights = 1, NDArrayList outputs = null)
         {
-            var result = new NDArrayList();
             new Operator("multi_sgd_update")
                 .SetParam("lrs", lrs)
                 .SetParam("wds", wds)
@@ -1849,8 +1848,8 @@ namespace MxNet
                 .SetParam("clip_gradient", clip_gradient)
                 .SetParam("num_weights", num_weights)
                 .SetInput(data)
-                .Invoke(result);
-            return result.ToArray();
+                .Invoke(outputs);
+            return outputs.ToArray();
         }
 
         /// <summary>
@@ -1889,9 +1888,8 @@ namespace MxNet
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
         public static NDArrayList MultiSgdMomUpdate(NDArrayList data, float[] lrs, float[] wds, float momentum = 0f,
-            float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+            float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, NDArrayList outputs = null)
         {
-            var result = new NDArrayList();
             new Operator("multi_sgd_mom_update")
                 .SetParam("lrs", lrs)
                 .SetParam("wds", wds)
@@ -1900,9 +1898,9 @@ namespace MxNet
                 .SetParam("clip_gradient", clip_gradient)
                 .SetParam("num_weights", num_weights)
                 .SetInput(data)
-                .Invoke(result);
+                .Invoke(outputs);
 
-            return result.ToArray();
+            return outputs.ToArray();
         }
 
         /// <summary>
@@ -1928,9 +1926,8 @@ namespace MxNet
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
         public static NDArrayList MultiMpSgdUpdate(NDArrayList data, float[] lrs, float[] wds, float rescale_grad = 1f,
-            float clip_gradient = -1f, int num_weights = 1)
+            float clip_gradient = -1f, int num_weights = 1, NDArrayList outputs = null)
         {
-            var result = new NDArrayList();
             new Operator("multi_mp_sgd_update")
                 .SetParam("lrs", lrs)
                 .SetParam("wds", wds)
@@ -1938,9 +1935,9 @@ namespace MxNet
                 .SetParam("clip_gradient", clip_gradient)
                 .SetParam("num_weights", num_weights)
                 .SetInput(data)
-                .Invoke(result);
+                .Invoke(outputs);
 
-            return result.ToArray();
+            return outputs.ToArray();
         }
 
         /// <summary>
@@ -1979,9 +1976,8 @@ namespace MxNet
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new NDArray</returns>
         public static NDArrayList MultiMpSgdMomUpdate(NDArrayList data, float[] lrs, float[] wds, float momentum = 0f,
-            float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1)
+            float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, NDArrayList outputs = null)
         {
-            var result = new NDArrayList();
             new Operator("multi_mp_sgd_mom_update")
                 .SetParam("lrs", lrs)
                 .SetParam("wds", wds)
@@ -1990,9 +1986,9 @@ namespace MxNet
                 .SetParam("clip_gradient", clip_gradient)
                 .SetParam("num_weights", num_weights)
                 .SetInput(data)
-                .Invoke(result);
+                .Invoke(outputs);
 
-            return result.ToArray();
+            return outputs.ToArray();
         }
 
         /// <summary>

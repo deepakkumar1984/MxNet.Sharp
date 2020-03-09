@@ -20,7 +20,7 @@ namespace MxNet.Metrics
             float loss = 0;
             var num = 0;
 
-            labels = labels.AsInContext(preds.context).Reshape(preds.Size);
+            labels = labels.AsInContext(preds.Context).Reshape(preds.Size);
             preds = nd.Pick(preds, labels.AsType(DType.Int32), Axis);
             if (IgnoreLabel.HasValue)
             {

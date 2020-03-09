@@ -16,7 +16,9 @@ namespace MxNet
 
         public NDArrayList(int length)
         {
-            data = new List<NDArray>(length);
+            data = new List<NDArray>();
+            for (int i = 0; i < length; i++)
+                data.Add(new NDArray());
         }
 
         public NDArrayList(params NDArray[] args)
@@ -26,17 +28,33 @@ namespace MxNet
 
         public NDArrayList((NDArray, NDArray) args)
         {
-            data = new List<NDArray> {args.Item1, args.Item2};
+            data = new List<NDArray> { args.Item1, args.Item2 };
         }
 
         public NDArrayList((NDArray, NDArray, NDArray) args)
         {
-            data = new List<NDArray> {args.Item1, args.Item2, args.Item3};
+            data = new List<NDArray> { args.Item1, args.Item2, args.Item3 };
         }
 
         public NDArray[] Data => data.ToArray();
 
-        public IntPtr[] Handles => data.Select(x => x.NativePtr).ToArray();
+        public IntPtr[] Handles
+        {
+            get
+            {
+                List<IntPtr> ret = new List<IntPtr>();
+                foreach (var item in Data)
+                {
+                    if (item == null)
+                        continue;
+
+                    ret.Add(item.NativePtr);
+                }
+
+                return ret.ToArray();
+            }
+
+        }
 
         public NDArrayOrSymbol[] NDArrayOrSymbols => data.Select(x => new NDArrayOrSymbol(x)).ToArray();
 

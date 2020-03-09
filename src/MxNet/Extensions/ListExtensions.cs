@@ -88,5 +88,17 @@ namespace MxNet
 
             return result;
         }
+
+        public static string ToValueString(this List<float> source)
+        {
+            string line = string.Join(",", source);
+            return $"({line})";
+        }
+
+        public static string ToValueString(this float[] source)
+        {
+            string line = string.Join(",", source);
+            return $"({line})";
+        }
     }
 }

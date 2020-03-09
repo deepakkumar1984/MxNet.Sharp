@@ -107,7 +107,23 @@ namespace MxNet.Optimizers
             return (CreateState(index, weight), weight);
         }
 
+        public virtual void Update(int[] indices, NDArrayList weights, NDArrayList grads, NDArrayDict[] states)
+        {
+            for (int i = 0; i < indices.Length; i++)
+            {
+                Update(indices[i], weights[i], grads[i], states[i]);
+            }
+        }
+
         public abstract void Update(int index, NDArray weight, NDArray grad, NDArrayDict state);
+
+        public virtual void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states)
+        {
+            for(int i = 0;i<indices.Length;i++)
+            {
+                UpdateMultiPrecision(indices[i], weights[i], grads[i], states[i]);
+            }
+        }
 
         public virtual void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, (NDArrayDict, NDArray) state)
         {
@@ -253,10 +269,23 @@ namespace MxNet.Optimizers
             return GetWds(new[] {index})[0];
         }
 
-        internal static NDArrayList FlattenList(params NDArrayList[] nested_list)
+        internal static NDArrayList FlattenList(NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states = null)
         {
             var result = new NDArrayList();
-            foreach (var item in nested_list) result.Add(item);
+            for (int i = 0; i < weights.Length; i++)
+            {
+                result.Add(weights[i]);
+                result.Add(grads[i]);
+                if(states != null)
+                {
+                    var state = states[i];
+                    if (state.Item1 != null)
+                        result.Add(state.Item1.Values.ToArray());
+
+                    if (state.Item2 != null)
+                        result.Add(state.Item2);
+                }
+            }
 
             return result.ToArray();
         }

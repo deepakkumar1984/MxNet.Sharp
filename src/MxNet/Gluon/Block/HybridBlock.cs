@@ -304,7 +304,7 @@ namespace MxNet.Gluon
 
             if (x.IsNDArray)
             {
-                var ctx = x.NdX.context;
+                var ctx = x.NdX.Context;
                 var list = args.ToList();
                 list.Insert(0, x);
 

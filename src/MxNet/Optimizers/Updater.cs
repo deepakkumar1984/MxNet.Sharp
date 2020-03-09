@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MxNet.Optimizers
 {
@@ -26,7 +27,7 @@ namespace MxNet.Optimizers
         public void Call(int[] indices, NDArrayList grads, NDArrayList weights)
         {
             if (weights != null)
-                optimizer.SetCurrentContext(weights[0].context.GetDeviceId());
+                optimizer.SetCurrentContext(weights[0].Context.GetDeviceId());
 
             for (var i = 0; i < indices.Length; i++)
             {
@@ -38,7 +39,7 @@ namespace MxNet.Optimizers
                 }
                 else if (!states_synced[index])
                 {
-                    states[i] = SyncStateContext(states[i], weights[i].context);
+                    states[i] = SyncStateContext(states[i], weights[i].Context);
                     states_synced[index] = true;
                 }
             }
@@ -63,16 +64,21 @@ namespace MxNet.Optimizers
 
                 foreach (var item in type_map)
                 {
+                    var idx = item.Key;
                     var current_index = 0;
-                    while (current_index < item.Value.Count)
+                    (indices, weights, grads) = (item.Value.Select(x => (x.Item1)).ToArray(), item.Value.Select(x => (x.Item2)).ToArray(),                                  item.Value.Select(x => (x.Item3)).ToArray());
+
+                    while (current_index < indices.Length)
                     {
                         var local_states = new Dictionary<int, (NDArrayDict, NDArray)>();
-                        var step = Math.Min(optimizer.AggregateNum, item.Value.Count - current_index);
-                        var (index, weight, grad) = item.Value[current_index + optimizer.AggregateNum];
-                        for (var j = 0; j < step; j++)
-                            local_states.Add(j, states[item.Value[current_index + j].Item1]);
+                        var step = Math.Min(optimizer.AggregateNum, indices.Length - current_index);
+                        
+                        for (var j = 0; j < step; j++) 
+                            local_states.Add(j, states[indices[current_index + j]]);
 
-                        optimizer.UpdateMultiPrecision(index, weight, grad, local_states[0]); //ToDo: revisit code
+                        var forupdate = item.Value.Skip(current_index).Take(current_index + optimizer.AggregateNum).ToArray();
+                        var (index, weight, grad) = (forupdate.Select(x => (x.Item1)).ToArray(), forupdate.Select(x => (x.Item2)).ToArray(), forupdate.Select(x => (x.Item3)).ToArray());
+                        optimizer.UpdateMultiPrecision(index, weight, grad, local_states.Values.ToArray()); //ToDo: revisit code
 
                         current_index += optimizer.AggregateNum;
                     }

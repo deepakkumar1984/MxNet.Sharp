@@ -16,8 +16,8 @@
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
             var state = new NDArrayDict();
-            state["z"] = nd.Zeros(weight.Shape, weight.context, weight.DataType);
-            state["n"] = nd.Zeros(weight.Shape, weight.context, weight.DataType);
+            state["z"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
+            state["n"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
             return state;
         }
 

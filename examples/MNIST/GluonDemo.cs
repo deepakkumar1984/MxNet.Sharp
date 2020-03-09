@@ -15,7 +15,7 @@ namespace MNIST
         public static void Run()
         {
             var mnist = TestUtils.GetMNIST();
-            var batch_size = 100;
+            var batch_size = 200;
             var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
             var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
 
@@ -25,16 +25,18 @@ namespace MNIST
             net.Add(new Dense(10));
 
             var gpus = TestUtils.ListGpus();
-            var ctxList = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] {Context.Cpu()};
+            var ctxList = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] {Context.Cpu(0)};
 
-            net.Initialize(new Xavier(magnitude: 2.24f), ctxList.ToArray());
+            net.Initialize(new Xavier(), ctxList.ToArray());
             var trainer = new Trainer(net.CollectParams(), new SGD());
-            var epoch = 10;
+            var epoch = 100;
             var metric = new Accuracy();
             var softmax_cross_entropy_loss = new SoftmaxCrossEntropyLoss();
+            float lossVal = 0;
             for (var iter = 0; iter < epoch; iter++)
             {
                 train_data.Reset();
+                lossVal = 0;
                 while (!train_data.End())
                 {
                     var batch = train_data.Next();
@@ -52,6 +54,7 @@ namespace MNIST
                             var z = net.Call(x);
                             NDArray loss = softmax_cross_entropy_loss.Call(z, y);
                             loss.Backward();
+                            lossVal += loss.Mean();
                             outputs.Add(z);
                         }
 
@@ -60,8 +63,9 @@ namespace MNIST
                         //    var z = net.Call(x);
                         //    NDArray loss = softmax_cross_entropy_loss.Call(z, y);
                         //    loss.Backward();
+                        //    lossVal += loss.Mean();
                         //    return z;
-                        //}).ToList().ToNDArrays();
+                        //}).ToList();
                     }
 
                     metric.Update(label, outputs.ToArray());
@@ -70,6 +74,7 @@ namespace MNIST
 
                 var (name, acc) = metric.Get();
                 metric.Reset();
+                Console.WriteLine($"Loss: {lossVal}");
                 Console.WriteLine($"Training acc at epoch {iter}: {name}={acc}");
             }
         }

@@ -38,8 +38,8 @@ namespace MxNet.Optimizers
         {
             var stype = LazyUpdate ? weight.SType : StorageStype.Default;
             var state = new NDArrayDict("mean", "variance");
-            state["mean"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(stype);
-            state["variance"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(stype);
+            state["mean"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(stype);
+            state["variance"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(stype);
             return state;
         }
 

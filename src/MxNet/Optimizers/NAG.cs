@@ -13,7 +13,7 @@
         {
             var state = new NDArrayDict("momentum");
             if (Momentum != 0)
-                state["momentum"] = nd.Zeros(weight.Shape, weight.context, weight.DataType);
+                state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
 
             return state;
         }

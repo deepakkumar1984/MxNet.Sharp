@@ -23,24 +23,35 @@ namespace MxNet.Optimizers
             if (momentum != 0)
             {
                 var stype = lazy_update ? weight.SType : StorageStype.Default;
-                m = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
+                m = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
             }
 
             return new NDArrayDict {{"mom", m}};
         }
 
+        public override void Update(int[] indices, NDArrayList weights, NDArrayList grads, NDArrayDict[] states)
+        {
+            _update_impl(indices, weights, grads, states.Select(x=>(ValueTuple.Create<NDArrayDict, NDArray>(x, null))).ToArray());
+        }
+
         public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
-            _update_impl(new[] {index}, weight, grad, (state, null));
+            _update_impl(new[] {index}, weight, grad, new (NDArrayDict, NDArray)[] { (state, null) });
+        }
+
+        public override void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states)
+        {
+            var use_multi_precision = MultiPrecision && weights[0].DataType.Name == DType.Float16.Name;
+            _update_impl(indices, weights, grads, states, use_multi_precision);
         }
 
         public override void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, (NDArrayDict, NDArray) state)
         {
             var use_multi_precision = MultiPrecision && weight.DataType.Name == DType.Float16.Name;
-            _update_impl(new[] {index}, weight, grad, state, true);
+            _update_impl(new[] { index }, weight, grad, new (NDArrayDict, NDArray)[] { (state) }, use_multi_precision);
         }
 
-        private void _update_impl(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray) states,
+        private void _update_impl(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states,
             bool multi_precision = false)
         {
             var aggregate = true;
@@ -59,22 +70,22 @@ namespace MxNet.Optimizers
                 if (!multi_precision)
                 {
                     if (momentum > 0)
-                        weights = nd.MultiSgdMomUpdate(FlattenList(weights, grads, states.Item1.Values.ToArray()), lrs,
+                        weights = nd.MultiSgdMomUpdate(FlattenList(weights, grads, states), lrs,
                             wds, momentum, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1,
-                            weights.Length);
+                            weights.Length, weights);
                     else
-                        weights = nd.MultiSgdUpdate(FlattenList(weights, grads, states.Item1.Values.ToArray()), lrs,
-                            wds, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1, weights.Length);
+                        weights = nd.MultiSgdUpdate(FlattenList(weights, grads), lrs,
+                            wds, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1, weights.Length, weights);
                 }
                 else
                 {
                     if (momentum > 0)
-                        weights = nd.MultiMpSgdMomUpdate(FlattenList(weights, grads, states.Item1.Values.ToArray()),
+                        weights = nd.MultiMpSgdMomUpdate(FlattenList(weights, grads, states),
                             lrs, wds, momentum, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1,
-                            weights.Length);
+                            weights.Length, weights);
                     else
-                        weights = nd.MultiMpSgdUpdate(FlattenList(weights, grads, states.Item1.Values.ToArray()), lrs,
-                            wds, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1, weights.Length);
+                        weights = nd.MultiMpSgdUpdate(FlattenList(weights, grads, states), lrs,
+                            wds, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1, weights.Length, weights);
                 }
             }
             else
@@ -83,28 +94,27 @@ namespace MxNet.Optimizers
                 {
                     var weight = weights[i];
                     var grad = grads[i];
-
+                    var state = states[i];
                     var lr = lrs[i];
                     var wd = wds[i];
 
                     if (!multi_precision)
                     {
-                        var state = states.Item1.Count > i ? states.Item1.Values.ToArray()[i] : null;
-                        if (state != null)
-                            weight = nd.SgdMomUpdate(weight, grad, state, lr, momentum, wd, RescaleGrad,
+                        if (state.Item1["mom"] != null)
+                            weights[i] = nd.SgdMomUpdate(weight, grad, state.Item1["mom"], lr, momentum, wd, RescaleGrad,
                                 ClipGradient.HasValue ? ClipGradient.Value : -1, lazy_update);
                         else
-                            weight = nd.SgdMomUpdate(weight, grad, null, lr, momentum, wd, RescaleGrad,
+                            weights[i] = nd.SgdMomUpdate(weight, grad, null, lr, momentum, wd, RescaleGrad,
                                 ClipGradient.HasValue ? ClipGradient.Value : -1, lazy_update);
                     }
                     else
                     {
-                        if (states.Item1.Count > 0)
-                            weight = nd.MpSgdMomUpdate(weight, grad, states.Item1.First().Value, states.Item2, lr,
+                        if (state.Item1["mom"] != null)
+                            weights[i] = nd.MpSgdMomUpdate(weight, grad, state.Item1["mom"], state.Item2, lr,
                                 momentum, wd, RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1,
                                 lazy_update);
                         else
-                            weight = nd.MpSgdMomUpdate(weight, grad, null, states.Item2, lr, momentum, wd, RescaleGrad,
+                            weights[i] = nd.MpSgdMomUpdate(weight, grad, null, state.Item2, lr, momentum, wd, RescaleGrad,
                                 ClipGradient.HasValue ? ClipGradient.Value : -1, lazy_update);
                     }
                 }

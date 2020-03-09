@@ -84,7 +84,7 @@ namespace MxNet.Gluon
             if (arrays.Length == 0)
                 throw new ArgumentException("arrays.Length == 0");
 
-            var ctx = arrays[0].context;
+            var ctx = arrays[0].Context;
             var total_norm = nd.AddN(arrays.Select(x => x.AsInContext(ctx)).ToArray());
             total_norm = total_norm.Sqrt();
             if (check_isfinite)
@@ -94,7 +94,7 @@ namespace MxNet.Gluon
 
             var scale = max_norm / (total_norm + 1e-8f);
             scale = nd.Min(nd.Concat(new NDArrayList(scale, nd.Ones(new Shape(1), ctx)), 0));
-            for (var i = 0; i < arrays.Length; i++) arrays[i] *= scale.AsInContext(arrays[i].context);
+            for (var i = 0; i < arrays.Length; i++) arrays[i] *= scale.AsInContext(arrays[i].Context);
 
             return total_norm;
         }

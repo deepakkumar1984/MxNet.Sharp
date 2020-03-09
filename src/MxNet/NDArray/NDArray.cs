@@ -18,7 +18,13 @@ namespace MxNet
 
         internal NDBlob _Blob;
 
-        public Context context = mx.Device;
+        public Context Context
+        {
+            get
+            {
+                return GetContext();
+            }
+        }
 
         public Shape Shape => new Shape(GetShape());
 
@@ -30,22 +36,16 @@ namespace MxNet
 
         #region Constructors
 
-        public NDArray(Context ctx = null)
+        public NDArray()
         {
-            if (ctx != null)
-                context = ctx;
-
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateNone(out var @out), NativeMethods.OK);
 
             NativePtr = @out;
             _Blob = new NDBlob(@out);
         }
 
-        internal NDArray(NDArrayHandle handle, Context ctx = null)
+        internal NDArray(NDArrayHandle handle)
         {
-            if (ctx != null)
-                context = ctx;
-
             if (handle == NDArrayHandle.Zero)
                 throw new ArgumentException("Can not pass IntPtr.Zero", nameof(handle));
 
@@ -55,16 +55,16 @@ namespace MxNet
 
         public NDArray(Shape shape, bool delayAlloc = true, Context ctx = null)
         {
-            if (ctx != null)
-                context = ctx;
+            if (ctx == null)
+                ctx = Context.CurrentContext;
 
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data,
                 shape.Dimension,
-                context.GetDeviceType(),
-                context.GetDeviceId(),
+                ctx.GetDeviceType(),
+                ctx.GetDeviceId(),
                 delayAlloc.ToInt32(),
                 out var @out), NativeMethods.OK);
             NativePtr = @out;
@@ -73,10 +73,8 @@ namespace MxNet
 
         public NDArray(Array data, Shape shape, Context ctx = null)
         {
-            if (ctx != null)
-                context = ctx;
-            else
-                context = Context.CurrentContext;
+            if (ctx == null)
+                ctx = Context.CurrentContext;
 
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
@@ -85,8 +83,8 @@ namespace MxNet
 
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data,
                 shape.Dimension,
-                context.GetDeviceType(),
-                context.GetDeviceId(),
+                ctx.GetDeviceType(),
+                ctx.GetDeviceId(),
                 false.ToInt32(),
                 out var @out), NativeMethods.OK);
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
@@ -440,7 +438,7 @@ namespace MxNet
 
         public NDArray AsInContext(Context context)
         {
-            if (this.context == context)
+            if (this.Context == context)
                 return this;
 
             return ChangeContext(context);
@@ -530,12 +528,12 @@ namespace MxNet
         {
             var ograd_handles = new List<NDArrayHandle>();
             var var_handles = new List<NDArrayHandle>();
-            var grad_handles = new List<NDArrayHandle>();
+            //var grad_handles = new List<NDArrayHandle>();
             if (out_grad != null) ograd_handles.Add(out_grad.GetHandle());
 
             NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] {NativePtr}, ograd_handles.ToArray(),
                 0, var_handles.ToArray(), retain_graph ? 1 : 0,
-                0, train_mode ? 1 : 0, grad_handles.ToArray(), new int[0]);
+                0, train_mode ? 1 : 0, out var grad_handles, out var grad_count);
         }
 
         #region Operators

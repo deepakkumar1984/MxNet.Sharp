@@ -19,7 +19,7 @@
             state["momentum"] = null;
 
             if (Momentum != 0)
-                state["momentum"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
+                state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
             return state;
         }
 

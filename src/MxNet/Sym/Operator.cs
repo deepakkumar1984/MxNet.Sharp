@@ -154,31 +154,42 @@ namespace MxNet
             var outputHandles = outputs.Select(s => s.GetHandle()).ToArray();
             var outputsReceiver = IntPtr.Zero;
             GCHandle? gcHandle = null;
-            if (outputs.Length > 0)
+            try
             {
-                gcHandle = GCHandle.Alloc(outputHandles, GCHandleType.Pinned);
-                outputsReceiver = gcHandle.Value.AddrOfPinnedObject();
+                if (outputs.Length > 0)
+                {
+                    gcHandle = GCHandle.Alloc(outputHandles, GCHandleType.Pinned);
+                    outputsReceiver = gcHandle.Value.AddrOfPinnedObject();
+                }
+
+                NDArrayHandle[] outputsReceivers = { outputsReceiver };
+
+                NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs,
+                    ref outputsReceiver,
+                    paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray());
+
+                if (outputs.Length > 0)
+                {
+                    gcHandle?.Free();
+                    return;
+                }
+
+                outputHandles = new NDArrayHandle[numOutputs];
+
+                Marshal.Copy(outputsReceiver, outputHandles, 0, numOutputs);
+
+                foreach (var outputHandle in outputHandles) outputs.Add(new NDArray(outputHandle));
+
+                gcHandle?.Free();
             }
-
-            NDArrayHandle[] outputsReceivers = {outputsReceiver};
-
-            NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs,
-                ref outputsReceiver,
-                paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray());
-
-            if (outputs.Length > 0)
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
             {
                 gcHandle?.Free();
-                return;
             }
-
-            outputHandles = new NDArrayHandle[numOutputs];
-
-            Marshal.Copy(outputsReceiver, outputHandles, 0, numOutputs);
-
-            foreach (var outputHandle in outputHandles) outputs.Add(new NDArray(outputHandle));
-
-            gcHandle?.Free();
         }
 
         public void PushInput(Symbol symbol)
@@ -245,12 +256,20 @@ namespace MxNet
 
         public Operator SetInput(NDArrayList ndlist)
         {
-            foreach (var item in ndlist) _InputSymbols.Add(item.GetHandle());
+            foreach (var item in ndlist.Handles) _InputNdarrays.Add(item);
 
             return this;
         }
 
         public Operator SetParam(string key, object value)
+        {
+            if (value == null) return this;
+
+            _Params[key] = value.ToValueString();
+            return this;
+        }
+
+        public Operator SetParam(string key, float[] value)
         {
             if (value == null) return this;
 

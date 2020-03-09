@@ -56,6 +56,14 @@ namespace MxNet
             Logging.CHECK_EQ(NativeMethods.MXNotifyShutdown(), NativeMethods.OK);
         }
 
+        public static string Version()
+        {
+            Logging.CHECK_EQ(NativeMethods.MXGetVersion(out int version), NativeMethods.OK);
+            string ver_string = Math.Round(((float)version / 1000) - 9, 2).ToString();
+
+            return ver_string;
+        }
+
         #endregion
     }
 

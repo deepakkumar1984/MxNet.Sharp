@@ -22,7 +22,7 @@
             }
             else
             {
-                state["momentum"] = nd.Zeros(weight.Shape, weight.context, weight.DataType);
+                state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
                 state["prev_weight"] = weight.Copy();
             }
 

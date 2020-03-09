@@ -40,8 +40,8 @@
         {
             return new NDArrayDict
             {
-                {"acc_g", nd.Zeros(weight.Shape, weight.context)},
-                {"acc_delta", nd.Zeros(weight.Shape, weight.context)}
+                {"acc_g", nd.Zeros(weight.Shape, weight.Context)},
+                {"acc_delta", nd.Zeros(weight.Shape, weight.Context)}
             };
         }
     }

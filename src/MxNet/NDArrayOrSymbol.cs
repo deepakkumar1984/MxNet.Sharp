@@ -46,21 +46,29 @@
 
         public static implicit operator NDArrayOrSymbol(NDArray x)
         {
+            if (x == null)
+                return null;
             return new NDArrayOrSymbol(x);
         }
 
         public static implicit operator NDArrayOrSymbol(Symbol x)
         {
+            if (x == null)
+                return null;
             return new NDArrayOrSymbol(x);
         }
 
         public static implicit operator NDArray(NDArrayOrSymbol x)
         {
+            if (x == null)
+                return null;
             return x.NdX;
         }
 
         public static implicit operator Symbol(NDArrayOrSymbol x)
         {
+            if (x == null)
+                return null;
             return x.SymX;
         }
     }

@@ -284,7 +284,7 @@ namespace MxNet.Gluon
 
             _grad = new NDArrayList();
             for (var i = 0; i < _data.Length; i++)
-                _grad.Add(nd.Zeros(_data[i].Shape, _data[i].context, _data[i].DataType).ToSType(Stype));
+                _grad.Add(nd.Zeros(_data[i].Shape, _data[i].Context, _data[i].DataType).ToSType(Stype));
 
             Autograd.MarkVariables(CheckAndGet(_data, null), _grad.ToArray(), GradReg);
         }
@@ -395,7 +395,7 @@ namespace MxNet.Gluon
                                     $"list_row_sparse_data() because its storage type is {Stype}. Please " +
                                     "use data() instead.");
 
-            return GetRowSparse(_data, row_id.context, row_id).FirstOrDefault();
+            return GetRowSparse(_data, row_id.Context, row_id).FirstOrDefault();
         }
 
         public NDArrayList ListRowSparseData(NDArray row_id)

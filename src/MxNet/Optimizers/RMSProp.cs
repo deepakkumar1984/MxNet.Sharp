@@ -22,9 +22,9 @@
         public override NDArrayDict CreateState(int index, NDArray weight)
         {
             var state = new NDArrayDict("n", "g", "delta");
-            state["n"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
-            state["g"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
-            state["delta"] = nd.Zeros(weight.Shape, weight.context, weight.DataType).ToSType(weight.SType);
+            state["n"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+            state["g"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+            state["delta"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
             return state;
         }
 

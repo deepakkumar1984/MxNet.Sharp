@@ -20,7 +20,7 @@ namespace MxNet.Optimizers
 
             weight += -lr / 2 * (grad + wd * weight);
             weight += nd.Random.Normal(0, (float) Math.Sqrt(lr), weight.Shape, dtype: weight.DataType,
-                ctx: weight.context);
+                ctx: weight.Context);
         }
     }
 }

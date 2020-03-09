@@ -19,9 +19,9 @@
             NDArrayOrSymbol sample_weight = null, params object[] args)
         {
             if (pred.IsNDArray)
-                return F(pred.NdX, label.NdX, sample_weight.NdX);
+                return F(pred.NdX, label.NdX, sample_weight != null ? sample_weight.NdX : null);
 
-            return F(pred.SymX, label.SymX, sample_weight.SymX);
+            return F(pred.SymX, label.SymX, sample_weight != null ? sample_weight.SymX : null);
         }
 
         private NDArray F(NDArray pred, NDArray label, NDArray sample_weight = null)
@@ -47,7 +47,7 @@
         private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
         {
             Symbol loss = null;
-            if (!_from_logits)
+            if (_from_logits)
                 pred = sym.LogSoftmax(pred, _axis);
 
             if (_sparse_label)

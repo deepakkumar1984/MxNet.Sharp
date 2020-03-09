@@ -51,6 +51,9 @@ namespace MxNet.Interop
         [DllImport("Kernel32.dll")]
         public static extern ExecutorHandle LoadLibrary(string path);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXGetVersion(out int version);
+
         #endregion
 
         #region Part 1: NDArray creation and deletion
@@ -1059,9 +1062,9 @@ namespace MxNet.Interop
         public static extern int MXAutogradBackwardEx(int num_output, NDArrayHandle[] output_handles,
             NDArrayHandle[] ograd_handles, int num_variables,
             NDArrayHandle[] var_handles, int retain_graph, int create_graph, int is_train,
-            [Out] NDArrayHandle[] grad_handles,
+            out NDArrayHandle[] grad_handles,
             [Out] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.SysInt)]
-            int[] grad_stypes);
+            out int[] grad_stypes);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXAutogradGetSymbol(NDArrayHandle handle, SymbolHandle @out);

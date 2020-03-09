@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>1.5.0.1</Version>
+    <Version>1.5.1.0</Version>
     <Authors>Deepak Battini</Authors>
     <Product />
     <Description>C# Binding for the Apache MxNet library. NDArray, Symbolic and Gluon Supported
@@ -17,9 +17,11 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
     <RepositoryType>git</RepositoryType>
     <PackageTags>deep learning, mxnet, csharp, .net, neural network</PackageTags>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <PackageIconUrl>https://raw.githubusercontent.com/tech-quantum/MxNet/master/icon_32.PNG</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageId>MxNet.Sharp</PackageId>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageIcon>icon_64.PNG</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,6 +45,14 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
     <Compile Remove="NN\**" />
     <EmbeddedResource Remove="NN\**" />
     <None Remove="NN\**" />
+    <None Include="..\..\icon_64.PNG">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

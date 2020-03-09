@@ -311,6 +311,10 @@ namespace MxNet.Gluon
         private void _update(bool ignore_stale_grad = false)
         {
             var updates = new List<(int[], NDArrayList, NDArrayList)>();
+            var indices = new List<int>();
+            var grads = new NDArrayList();
+            var arrays = new NDArrayList();
+
             for (var i = 0; i < _params.Count; i++)
             {
                 var param = _params[i];
@@ -323,7 +327,7 @@ namespace MxNet.Gluon
                     foreach (var data in datalist)
                         if (!data.FreshGrad)
                             Logger.Warning(
-                                $"Gradient of Parameter `{param.Name}` on context {data.context} has not been updated " +
+                                $"Gradient of Parameter `{param.Name}` on context {data.Context} has not been updated " +
                                 "by backward since last `step`. This could mean a bug in your " +
                                 "model that made it only use a subset of the Parameters (Blocks) " +
                                 "for this iteration. If you are intentionally only using a subset, " +
@@ -339,30 +343,51 @@ namespace MxNet.Gluon
                     continue;
                 }
 
-                var indices = new List<int>();
-                var grads = new NDArrayList();
-                var arrays = new NDArrayList();
-                updates = param.ListData().Zip(param.ListGrad(), (arr, grad) =>
-                {
-                    if (!ignore_stale_grad || arr.FreshGrad)
-                    {
-                        indices.Add(i);
-                        grads.Add(grad);
-                        arrays.Add(arr);
-                        arr.FreshGrad = false;
-                    }
 
-                    return (indices.ToArray(), new NDArrayList(grads.ToArray()), new NDArrayList(arrays.ToArray()));
-                }).ToList();
+                var data_list = param.ListData();
+                var grad_list = param.ListGrad();
+                for (int idx = 0; idx < data_list.Length; idx++)
+                {
+                    indices.Add(i);
+                    grads.Add(grad_list[idx]);
+                    arrays.Add(data_list[idx]);
+                }
+
+                //var ulist = param.ListData().Zip(param.ListGrad(), (arr, grad) =>
+                //{
+                //    if (!ignore_stale_grad || arr.FreshGrad)
+                //    {
+                //        indices.Add(i);
+                //        grads.Add(grad);
+                //        arrays.Add(arr);
+                //        arr.FreshGrad = false;
+                //    }
+
+                //    return (i, grad, arr);
+                //}).ToList();
+
+            }
+
+            foreach (var u in _updaters)
+            {
+                updates.Add((indices.ToArray(), arrays, grads));
             }
 
             if (!(_kvstore == null && _update_on_kvstore.Value))
-                _updaters.Zip(updates, (updater, upd) =>
+            {
+                int ui = 0;
+                foreach (var updater in _updaters)
                 {
-                    var (i, w, g) = upd;
+                    var (i, w, g) = updates[ui];
                     updater.Call(i, g, w);
-                    return true;
-                });
+                }
+            }
+            //_updaters.Zip(updates, (updater, upd) =>
+            //{
+            //    var (i, w, g) = upd;
+            //    updater.Call(i, g, w);
+            //    return true;
+            //});
         }
 
         public void SaveStates(string fname)

@@ -77,8 +77,8 @@ namespace MxNet
 
             if (head_grads == null)
             {
-                headHandles = new IntPtr[heads.Length];
-                for (var i = 0; i < headHandles.Length; i++) headHandles[i] = IntPtr.Zero;
+                headGradHandles = new IntPtr[heads.Length];
+                for (var i = 0; i < headHandles.Length; i++) headGradHandles[i] = IntPtr.Zero;
             }
             else
             {
@@ -98,7 +98,7 @@ namespace MxNet
 
             NativeMethods.MXAutogradBackwardEx(head_handles.Length, head_handles, head_grads_handles, 0,
                 new IntPtr[] { }, Convert.ToInt32(retain_graph),
-                0, Convert.ToInt32(train_mode), new IntPtr[] { }, new int[] { });
+                0, Convert.ToInt32(train_mode), out var grad_handles, out var grad_count);
         }
 
         public static NDArrayList Grad(NDArrayList heads, NDArrayList variables, NDArrayList head_grads = null,
@@ -106,12 +106,12 @@ namespace MxNet
         {
             var (head_handles, head_grads_handles) = ParseHead(heads, head_grads);
 
-            var grad_handles = new IntPtr[head_handles.Length];
-            var grad_stypes = new int[head_handles.Length];
+            //var grad_handles = new IntPtr[head_handles.Length];
+            //var grad_stypes = new int[head_handles.Length];
 
             NativeMethods.MXAutogradBackwardEx(head_handles.Length, head_handles, head_grads_handles, variables.Length,
                 MxUtil.GetNDArrayHandles(variables), Convert.ToInt32(retain_graph),
-                Convert.ToInt32(create_graph), Convert.ToInt32(train_mode), grad_handles, grad_stypes);
+                Convert.ToInt32(create_graph), Convert.ToInt32(train_mode), out var grad_handles, out var grad_stypes);
 
             var result = new NDArrayList();
             foreach (var item in grad_handles) result.Add(new NDArray(item));
@@ -148,7 +148,7 @@ namespace MxNet
                     _prev_is_record = SetRecording(_enter_is_record.Value);
 
                 if (_enter_train_mode.HasValue)
-                    _prev_train_mode = SetRecording(_enter_train_mode.Value);
+                    _prev_train_mode = SetTraining(_enter_train_mode.Value);
                 return this;
             }
 
@@ -158,7 +158,7 @@ namespace MxNet
                     SetRecording(_prev_is_record.Value);
 
                 if (_enter_train_mode.HasValue && _prev_train_mode != _enter_train_mode)
-                    SetRecording(_prev_train_mode.Value);
+                    SetTraining(_prev_train_mode.Value);
             }
         }
     }

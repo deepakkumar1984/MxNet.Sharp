@@ -92,7 +92,7 @@ namespace MxNet.Gluon.RNN
             {
                 if (inputs.IsNDArray)
                 {
-                    var ctx = inputs.NdX.context;
+                    var ctx = inputs.NdX.Context;
                     var args = new FuncArgs();
                     args.Add("ctx", ctx);
                     begin_state = cell.BeginState(batch_size, "nd.Zeros", args);
@@ -113,7 +113,7 @@ namespace MxNet.Gluon.RNN
             {
                 if (inputs[0].IsNDArray)
                 {
-                    var ctx = inputs[0].NdX.context;
+                    var ctx = inputs[0].NdX.Context;
                     var args = new FuncArgs();
                     args.Add("ctx", ctx);
                     begin_state = cell.BeginState(batch_size, "nd.Zeros", args);
