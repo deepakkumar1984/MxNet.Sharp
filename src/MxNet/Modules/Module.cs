@@ -12,30 +12,30 @@ namespace MxNet.Modules
 {
     public class Module : BaseModule
     {
-        private NDArrayDict _arg_params;
-        private readonly string[] _aux_names;
-        private NDArrayDict _aux_params;
-        private readonly Dictionary<string, object> _compression_params;
-        private Context[] _context;
-        private readonly string[] _data_names;
-        private DataDesc[] _data_shapes;
-        private DataParallelExecutorGroup _exec_group;
-        private readonly string[] _fixed_param_names;
-        private OpGradReq _grad_req;
-        private readonly Dictionary<string, Context> _group2ctxs;
-        private KVStore _kvstore;
-        private readonly string[] _label_names;
-        private DataDesc[] _label_shapes;
-        private Optimizer _optimizer;
-        private readonly string[] _param_names;
-        private bool _params_dirty;
-        private string _preload_opt_states;
-        private readonly string[] _state_names;
-        private bool? _update_on_kvstore;
-        private Updater _updater;
-        private int[] _work_load_list;
+        internal NDArrayDict _arg_params;
+        internal readonly string[] _aux_names;
+        internal NDArrayDict _aux_params;
+        internal readonly Dictionary<string, object> _compression_params;
+        internal Context[] _context;
+        internal readonly string[] _data_names;
+        internal DataDesc[] _data_shapes;
+        internal DataParallelExecutorGroup _exec_group;
+        internal readonly string[] _fixed_param_names;
+        internal OpGradReq _grad_req;
+        internal readonly Dictionary<string, Context> _group2ctxs;
+        internal KVStore _kvstore;
+        internal readonly string[] _label_names;
+        internal DataDesc[] _label_shapes;
+        internal Optimizer _optimizer;
+        internal readonly string[] _param_names;
+        internal bool _params_dirty;
+        internal string _preload_opt_states;
+        internal readonly string[] _state_names;
+        internal bool? _update_on_kvstore;
+        internal Updater _updater;
+        internal int[] _work_load_list;
 
-        public Module(Symbol symbol, string[] data_names = null, string[] label_names = null, Logger logging = null,
+        public Module(Symbol symbol, string[] data_names = null, string[] label_names = null, 
             Context[] context = null, int[] work_load_list = null, string[] fixed_param_names = null,
             string[] state_names = null,
             Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null)
