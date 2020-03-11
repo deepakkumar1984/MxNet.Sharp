@@ -691,6 +691,10 @@ namespace MxNet.Interop
             [Out] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
             string[] @out);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolCompose(SymbolHandle symbol, string name, int num_args,
+           [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] keys, SymbolHandle[] args);
+
         #endregion
 
         #region Part 4: Executor interface

@@ -226,24 +226,24 @@ namespace MxNet.Gluon
             }
         }
 
-        internal static (List<NDArrayOrSymbol[]>, List<int>) Flatten(NDArrayOrSymbol[] args, string inout_str)
+        internal static (NDArrayOrSymbol[], int[]) Flatten(NDArrayOrSymbol[] args, string inout_str)
         {
-            var flat = new List<NDArrayOrSymbol[]>();
+            var flat = new List<NDArrayOrSymbol>();
             var fmts = new List<int>();
             foreach (var arg in args)
                 if (arg.IsNDArray)
                 {
-                    flat.Add(new NDArrayOrSymbol[] {arg.NdX});
+                    flat.Add(arg.NdX);
                     fmts.Add(1);
                 }
                 else if (arg.IsSymbol)
                 {
                     var len = arg.SymX.ListOutputs().Count;
-                    flat.Add(new NDArrayOrSymbol[] {arg.SymX});
+                    flat.Add(arg.SymX);
                     fmts.Add(len);
                 }
 
-            return (flat, fmts);
+            return (flat.ToArray(), fmts.ToArray());
         }
 
         internal static (NDArrayOrSymbol[], NDArrayOrSymbol[]) Regroup(List<NDArrayOrSymbol[]> args, List<int> fmt)

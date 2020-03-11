@@ -197,8 +197,8 @@ namespace MxNet.Modules
             if (shared_group != null)
             {
                 ParamsInitialized = true;
-                _arg_params = shared_group._arg_params;
-                _aux_params = shared_group._aux_params;
+                _arg_params = shared_group.ArgParams;
+                _aux_params = shared_group.AuxParams;
             }
             else if (ParamsInitialized)
             {

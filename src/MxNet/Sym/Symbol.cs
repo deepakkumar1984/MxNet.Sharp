@@ -732,6 +732,21 @@ namespace MxNet
             }
         }
 
+        public Symbol Shallowcopy()
+        {
+            return (Symbol)MemberwiseClone();
+        }
+
+        public Symbol Compose(Dictionary<string, Symbol> kwargs, string name = "")
+        {
+            if (kwargs == null)
+                throw new ArgumentNullException("kwargs");
+
+            int num_args = kwargs.Count;
+            NativeMethods.MXSymbolCompose(NativePtr, name, num_args, kwargs.Keys.ToArray(), kwargs.Values.Select(x => x.NativePtr).ToArray());
+            return this;
+        }
+
         public Executor SimpleBind(Context context,
             NDArrayDict argsMap)
         {

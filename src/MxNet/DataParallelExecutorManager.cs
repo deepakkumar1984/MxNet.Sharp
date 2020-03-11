@@ -8,21 +8,20 @@ namespace MxNet
 {
     public class DataParallelExecutorManager
     {
-        private readonly string[] arg_names;
-        private readonly string[] aux_names;
-        private readonly Context[] contexts;
-        private DataParallelExecutorGroup curr_execgrp;
-        private DataParallelExecutorGroup execgrp;
+        internal readonly string[] arg_names;
+        internal readonly string[] aux_names;
+        internal readonly Context[] contexts;
+        internal DataParallelExecutorGroup curr_execgrp;
+        internal DataParallelExecutorGroup execgrp;
 
-        private readonly Dictionary<int, DataParallelExecutorGroup> execgrp_bucket =
+        internal readonly Dictionary<int, DataParallelExecutorGroup> execgrp_bucket =
             new Dictionary<int, DataParallelExecutorGroup>();
 
-        private Logger logging;
-        private readonly int num_device;
-        private readonly string[] param_names;
-        private readonly Slice[] slices;
-        private readonly Func<int, Symbol> sym_gen;
-        private Symbol symbol;
+        internal readonly int num_device;
+        internal readonly string[] param_names;
+        internal readonly Slice[] slices;
+        internal readonly Func<int, Symbol> sym_gen;
+        internal Symbol symbol;
 
         public DataParallelExecutorManager(Symbol symbol, Context[] ctx, DataIter train_data, string[] arg_names,
             string[] param_names,
@@ -120,7 +119,7 @@ namespace MxNet
             curr_execgrp.Forward(is_train);
         }
 
-        public void Backward(NDArrayList grads)
+        public void Backward()
         {
             curr_execgrp.Backward();
         }

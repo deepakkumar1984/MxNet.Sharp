@@ -25,13 +25,13 @@ namespace MxNet.Gluon
 
     public abstract class HybridBlock : Block
     {
-        private bool _active;
-        private (Symbol[], Symbol)? _cached_graph;
-        private CachedOp _cached_op;
-        private readonly List<CachedOpArg> _cached_op_args = new List<CachedOpArg>();
-        private readonly NDArrayDict _flags = new NDArrayDict();
-        private List<int> _in_format;
-        private List<int> _out_format;
+        internal bool _active;
+        internal (Symbol[], Symbol)? _cached_graph;
+        internal CachedOp _cached_op;
+        internal readonly List<CachedOpArg> _cached_op_args = new List<CachedOpArg>();
+        internal readonly NDArrayDict _flags = new NDArrayDict();
+        internal List<int> _in_format;
+        internal List<int> _out_format;
 
         public HybridBlock(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
@@ -43,8 +43,8 @@ namespace MxNet.Gluon
             {
                 var inputs = new List<Symbol>();
                 var (args_sym, _in_format) = Flatten(args.Select(x => new NDArrayOrSymbol(x)).ToArray(), "input");
-                if (args_sym.Count > 1)
-                    for (var i = 0; i < args_sym.Count; i++)
+                if (args_sym.Length > 1)
+                    for (var i = 0; i < args_sym.Length; i++)
                         inputs.Add(Symbol.Variable($"data{i}"));
                 else
                     inputs.Add(Symbol.Variable("data"));
@@ -61,7 +61,7 @@ namespace MxNet.Gluon
                     outputs.Add(HybridForward(input, @params.Values.ToList().ToNDArrayOrSymbols()));
 
                 var (@out, _out_format) = Flatten(outputs.ToArray(), "output");
-                _cached_graph = (inputs.ToArray(), Symbol.Group(@out[0].ToList().ToSymbols()));
+                _cached_graph = (inputs.ToArray(), Symbol.Group(@out.ToList().ToSymbols()));
             }
 
             return _cached_graph.Value;
@@ -152,13 +152,13 @@ namespace MxNet.Gluon
             }
         }
 
-        private NDArrayList CallCachedOp(NDArrayList args)
+        internal NDArrayList CallCachedOp(NDArrayList args)
         {
             if (_cached_op == null)
                 BuildCache(args);
 
             var (args_sym, fmt) = Flatten(args.NDArrayOrSymbols, "input");
-            args = args_sym[0].ToList().ToNDArrays();
+            args = args_sym.ToList().ToNDArrays();
             var cargs = new List<NDArrayOrSymbol>();
             try
             {
@@ -189,7 +189,7 @@ namespace MxNet.Gluon
                 .ToNDArrays();
         }
 
-        private void ClearCachedOp()
+        public virtual void ClearCachedOp()
         {
             _cached_graph = null;
             _cached_op = null;
@@ -230,7 +230,7 @@ namespace MxNet.Gluon
             {
                 var args_shape = new Dictionary<string, Shape>();
                 var sdict = new Dictionary<string, Shape>();
-                for (var i = 0; i < args[0].Length; i++) args_shape.Add(inputs[i].Name, args[0][i].NdX.Shape);
+                for (var i = 0; i < args.Length; i++) args_shape.Add(inputs[i].Name, args[i].NdX.Shape);
 
                 var (arg_attrs, _, aux_attrs) = @out.InferShape(args_shape);
                 if (arg_attrs == null)
@@ -250,7 +250,7 @@ namespace MxNet.Gluon
             {
                 var args_shape = new Dictionary<string, DType>();
                 var sdict = new Dictionary<string, DType>();
-                for (var i = 0; i < args[0].Length; i++) args_shape.Add(inputs[i].Name, args[0][i].NdX.DataType);
+                for (var i = 0; i < args.Length; i++) args_shape.Add(inputs[i].Name, args[i].NdX.DataType);
 
                 var (arg_attrs, _, aux_attrs) = @out.InferType(args_shape);
                 if (arg_attrs == null)
