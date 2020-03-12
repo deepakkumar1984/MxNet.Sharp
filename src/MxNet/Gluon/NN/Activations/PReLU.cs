@@ -17,9 +17,9 @@ namespace MxNet.Gluon.NN
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             if (x.IsNDArray)
-                return nd.LeakyReLU(x.NdX, alpha, LeakyreluActType.Prelu);
+                return nd.LeakyReLU(x.NdX, alpha, ReluActType.Prelu);
 
-            return sym.LeakyReLU(x.SymX, alpha, LeakyreluActType.Prelu, symbol_name: "fwd");
+            return sym.LeakyReLU(x.SymX, alpha, ReluActType.Prelu, symbol_name: "fwd");
         }
     }
 }

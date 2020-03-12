@@ -32,10 +32,10 @@
                 {
                     if (label.IsNDArray)
                         loss = nd.Relu(pred) - pred.NdX * label.NdX +
-                               nd.Activation(nd.Negative(nd.Abs(pred)), ActivationActType.Softrelu);
+                               nd.Activation(nd.Negative(nd.Abs(pred)), ActivationType.Softrelu);
                     else
                         loss = sym.Relu(pred) - pred.SymX * label.SymX +
-                               sym.Activation(sym.Negative(sym.Abs(pred)), ActivationActType.Softrelu);
+                               sym.Activation(sym.Negative(sym.Abs(pred)), ActivationType.Softrelu);
                 }
                 else
                 {
@@ -44,7 +44,7 @@
                         var log_weight = 1 + nd.BroadcastMul(pos_weight.NdX - 1, label);
                         loss = nd.Relu(pred) - pred.NdX * label.NdX + log_weight
                                                                     + nd.Activation(nd.Negative(nd.Abs(pred)),
-                                                                        ActivationActType.Softrelu)
+                                                                        ActivationType.Softrelu)
                                                                     + nd.Relu(nd.Negative(pred));
                     }
                     else
@@ -52,7 +52,7 @@
                         var log_weight = 1 + sym.BroadcastMul(pos_weight.SymX - 1, label);
                         loss = sym.Relu(pred) - pred.SymX * label.SymX + log_weight
                                                                        + sym.Activation(sym.Negative(sym.Abs(pred)),
-                                                                           ActivationActType.Softrelu)
+                                                                           ActivationType.Softrelu)
                                                                        + sym.Relu(sym.Negative(pred));
                     }
                 }

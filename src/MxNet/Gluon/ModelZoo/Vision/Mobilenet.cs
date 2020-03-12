@@ -97,7 +97,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 if (relu6)
                     @out.Add(new RELU6());
                 else
-                    @out.Add(new Activation(ActivationActType.Relu));
+                    @out.Add(new Activation(ActivationType.Relu));
             }
         }
 

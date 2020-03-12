@@ -42,7 +42,7 @@ namespace MxNet
     /// <summary>
     ///     <para>Activation function to be applied.</para>
     /// </summary>
-    public enum LeakyreluActType
+    public enum ReluActType
     {
         Elu,
         Gelu,
@@ -55,7 +55,7 @@ namespace MxNet
     /// <summary>
     ///     <para>Activation function to be applied.</para>
     /// </summary>
-    public enum ActivationActType
+    public enum ActivationType
     {
         Relu,
         Sigmoid,
@@ -138,7 +138,7 @@ namespace MxNet
     /// <summary>
     ///     <para>Pooling type to be applied.</para>
     /// </summary>
-    public enum PoolingPoolType
+    public enum PoolingType
     {
         Avg,
         Lp,
@@ -149,7 +149,7 @@ namespace MxNet
     /// <summary>
     ///     <para>Pooling convention to be applied.</para>
     /// </summary>
-    public enum PoolingPoolingConvention
+    public enum PoolingConvention
     {
         Full,
         Same,
@@ -176,7 +176,7 @@ namespace MxNet
     ///         to ``channel``, It computes cross channel softmax for each position of each instance.
     ///     </para>
     /// </summary>
-    public enum SoftmaxactivationMode
+    public enum SoftmaxMode
     {
         Channel,
         Instance

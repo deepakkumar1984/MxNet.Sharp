@@ -31,7 +31,7 @@ namespace MxNet.Gluon
                 label = (label + 1) / 2;
 
             var loss = nd.Relu(pred) - pred * label +
-                       nd.Activation(nd.Negative(nd.Abs(pred)), ActivationActType.Softrelu);
+                       nd.Activation(nd.Negative(nd.Abs(pred)), ActivationType.Softrelu);
             loss = ApplyWeighting(loss, Weight, sample_weight);
             return nd.Mean(loss, BatchAxis.Value, exclude: true);
         }
@@ -43,7 +43,7 @@ namespace MxNet.Gluon
                 label = (label + 1) / 2;
 
             var loss = sym.Relu(pred) - pred * label +
-                       sym.Activation(sym.Negative(sym.Abs(pred)), ActivationActType.Softrelu);
+                       sym.Activation(sym.Negative(sym.Abs(pred)), ActivationType.Softrelu);
             loss = ApplyWeighting(loss, Weight, sample_weight);
             return sym.Mean(loss, BatchAxis.Value, exclude: true);
         }

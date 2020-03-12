@@ -249,15 +249,15 @@ namespace MxNet.Gluon.RNN
             switch (activation.ToLower())
             {
                 case "tanh":
-                    return sym.Activation(input, ActivationActType.Tanh, name);
+                    return sym.Activation(input, ActivationType.Tanh, name);
                 case "relu":
-                    return sym.Activation(input, ActivationActType.Relu, name);
+                    return sym.Activation(input, ActivationType.Relu, name);
                 case "sigmoid":
-                    return sym.Activation(input, ActivationActType.Sigmoid, name);
+                    return sym.Activation(input, ActivationType.Sigmoid, name);
                 case "softrelu":
-                    return sym.Activation(input, ActivationActType.Softrelu, name);
+                    return sym.Activation(input, ActivationType.Softrelu, name);
                 case "softsign":
-                    return sym.Activation(input, ActivationActType.Softsign, name);
+                    return sym.Activation(input, ActivationType.Softsign, name);
                 case "leakyrely":
                     return sym.LeakyReLU(input);
             }
@@ -270,15 +270,15 @@ namespace MxNet.Gluon.RNN
             switch (activation.ToLower())
             {
                 case "tanh":
-                    return nd.Activation(input, ActivationActType.Tanh);
+                    return nd.Activation(input, ActivationType.Tanh);
                 case "relu":
-                    return nd.Activation(input, ActivationActType.Relu);
+                    return nd.Activation(input, ActivationType.Relu);
                 case "sigmoid":
-                    return nd.Activation(input, ActivationActType.Sigmoid);
+                    return nd.Activation(input, ActivationType.Sigmoid);
                 case "softrelu":
-                    return nd.Activation(input, ActivationActType.Softrelu);
+                    return nd.Activation(input, ActivationType.Softrelu);
                 case "softsign":
-                    return nd.Activation(input, ActivationActType.Softsign);
+                    return nd.Activation(input, ActivationType.Softsign);
                 case "leakyrely":
                     return nd.LeakyReLU(input);
             }

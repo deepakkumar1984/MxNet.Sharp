@@ -23,7 +23,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             Features = new HybridSequential(prefix = "");
             Features.Add(new Conv2D(num_init_features, (7, 7), (2, 2), (3, 3), use_bias: false));
             Features.Add(new BatchNorm());
-            Features.Add(new Activation(ActivationActType.Relu));
+            Features.Add(new Activation(ActivationType.Relu));
             Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
 
             var num_features = num_init_features;
@@ -40,7 +40,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             }
 
             Features.Add(new BatchNorm());
-            Features.Add(new Activation(ActivationActType.Relu));
+            Features.Add(new Activation(ActivationType.Relu));
             Features.Add(new AvgPool2D((7, 7)));
 
             Output = new Dense(classes);
@@ -103,10 +103,10 @@ namespace MxNet.Gluon.ModelZoo.Vision
         {
             var new_features = new HybridSequential("");
             new_features.Add(new BatchNorm());
-            new_features.Add(new Activation(ActivationActType.Relu));
+            new_features.Add(new Activation(ActivationType.Relu));
             new_features.Add(new Conv2D(bn_size * growth_rate, (1, 1), use_bias: false));
             new_features.Add(new BatchNorm());
-            new_features.Add(new Activation(ActivationActType.Relu));
+            new_features.Add(new Activation(ActivationType.Relu));
             new_features.Add(new Conv2D(bn_size * growth_rate, (3, 3), padding: (1, 1), use_bias: false));
 
             if (dropout.HasValue)
@@ -123,7 +123,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         {
             var block = new HybridSequential("");
             block.Add(new BatchNorm());
-            block.Add(new Activation(ActivationActType.Relu));
+            block.Add(new Activation(ActivationType.Relu));
             block.Add(new Conv2D(num_output_features, (1, 1), use_bias: false));
             block.Add(new AvgPool2D((2, 2), (2, 1)));
 

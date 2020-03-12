@@ -23,9 +23,6 @@
             var label = labels.Ravel();
             pred_label = pred_label.Ravel();
 
-            var labelData = label.AsArray<float>();
-            var predData = pred_label.AsArray<float>();
-
             var num_correct = nd.Equal(pred_label, label).AsType(DType.Float32).Sum();
 
             sum_metric += num_correct;

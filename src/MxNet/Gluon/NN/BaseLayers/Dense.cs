@@ -4,7 +4,7 @@ namespace MxNet.Gluon.NN
 {
     public class Dense : HybridBlock
     {
-        public Dense(int units, ActivationActType? activation = null, bool use_bias = true, bool flatten = true,
+        public Dense(int units, ActivationType? activation = null, bool use_bias = true, bool flatten = true,
             DType dtype = null, Initializer weight_initializer = null, string bias_initializer = "zeros",
             int in_units = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {

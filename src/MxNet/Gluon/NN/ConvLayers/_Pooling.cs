@@ -3,7 +3,7 @@
     public abstract class _Pooling : HybridBlock
     {
         public _Pooling(int[] pool_size, int[] strides, int[] padding, bool ceil_mode, bool global_pool,
-            PoolingPoolType pool_type, string layout, bool? count_include_pad = null, string prefix = null,
+            PoolingType pool_type, string layout, bool? count_include_pad = null, string prefix = null,
             ParameterDict @params = null) : base(prefix, @params)
         {
             Kernel = pool_size;
@@ -24,7 +24,7 @@
 
         public bool GlobalPool { get; set; }
 
-        public PoolingPoolType PoolType { get; set; }
+        public PoolingType PoolType { get; set; }
 
         public string Layout { get; set; }
 

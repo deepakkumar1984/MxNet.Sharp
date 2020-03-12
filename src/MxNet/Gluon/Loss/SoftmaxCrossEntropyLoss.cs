@@ -1,4 +1,6 @@
-﻿namespace MxNet.Gluon
+﻿using System.Linq;
+
+namespace MxNet.Gluon
 {
     public class SoftmaxCrossEntropyLoss : Loss
     {
@@ -41,6 +43,7 @@
             }
 
             loss = ApplyWeighting(loss, Weight, sample_weight).NdX;
+
             return nd.Mean(loss, BatchAxis.Value, exclude: true);
         }
 
@@ -62,6 +65,15 @@
 
             loss = ApplyWeighting(loss, Weight, sample_weight).SymX;
             return sym.Mean(loss, BatchAxis.Value, exclude: true);
+        }
+    }
+
+    public class SoftmaxCELoss : SoftmaxCrossEntropyLoss
+    {
+        public SoftmaxCELoss(int axis = -1, bool sparse_label = true, bool from_logits = false,
+            float? weight = null, int? batch_axis = 0, string prefix = null, ParameterDict @params = null) : base(
+            axis, sparse_label, from_logits, weight, batch_axis, prefix, @params)
+        {
         }
     }
 }

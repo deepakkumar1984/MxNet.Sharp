@@ -134,7 +134,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             body = new HybridSequential("");
             body.Add(ResNet.Conv3x3(channels, stride, in_channels));
             body.Add(new BatchNorm());
-            body.Add(new Activation(ActivationActType.Relu));
+            body.Add(new Activation(ActivationType.Relu));
             body.Add(ResNet.Conv3x3(channels, 1, in_channels));
             body.Add(new BatchNorm());
             if (downsample)
@@ -158,9 +158,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 residual = ds.Call(residual, args);
 
             if (x.IsNDArray)
-                x = nd.Activation(x.NdX + residual.NdX, ActivationActType.Relu);
+                x = nd.Activation(x.NdX + residual.NdX, ActivationType.Relu);
             else
-                x = sym.Activation(x.SymX + residual.SymX, ActivationActType.Relu);
+                x = sym.Activation(x.SymX + residual.SymX, ActivationType.Relu);
 
             return x;
         }
@@ -192,9 +192,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             var residual = x;
             x = bn1.Call(x, args);
             if (x.IsNDArray)
-                x = nd.Activation(x.NdX, ActivationActType.Relu);
+                x = nd.Activation(x.NdX, ActivationType.Relu);
             else
-                x = sym.Activation(x.SymX, ActivationActType.Relu);
+                x = sym.Activation(x.SymX, ActivationType.Relu);
 
             if (ds != null)
                 residual = ds.Call(x, args);
@@ -203,9 +203,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             x = bn2.Call(x, args);
             if (x.IsNDArray)
-                x = nd.Activation(x.NdX, ActivationActType.Relu);
+                x = nd.Activation(x.NdX, ActivationType.Relu);
             else
-                x = sym.Activation(x.SymX, ActivationActType.Relu);
+                x = sym.Activation(x.SymX, ActivationType.Relu);
             x = conv2.Call(x, args);
 
             if (x.IsNDArray)
@@ -227,10 +227,10 @@ namespace MxNet.Gluon.ModelZoo.Vision
             body = new HybridSequential("");
             body.Add(new Conv2D(channel_one_fourth, (1, 1), (stride, stride)));
             body.Add(new BatchNorm());
-            body.Add(new Activation(ActivationActType.Relu));
+            body.Add(new Activation(ActivationType.Relu));
             body.Add(ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth));
             body.Add(new BatchNorm());
-            body.Add(new Activation(ActivationActType.Relu));
+            body.Add(new Activation(ActivationType.Relu));
             body.Add(new Conv2D(channels, (1, 1), (1, 1)));
             body.Add(new BatchNorm());
             if (downsample)
@@ -254,9 +254,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 residual = ds.Call(residual, args);
 
             if (x.IsNDArray)
-                x = nd.Activation(x.NdX + residual.NdX, ActivationActType.Relu);
+                x = nd.Activation(x.NdX + residual.NdX, ActivationType.Relu);
             else
-                x = sym.Activation(x.SymX + residual.SymX, ActivationActType.Relu);
+                x = sym.Activation(x.SymX + residual.SymX, ActivationType.Relu);
 
             return x;
         }
@@ -293,9 +293,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             var residual = x;
             x = bn1.Call(x, args);
             if (x.IsNDArray)
-                x = nd.Activation(x.NdX, ActivationActType.Relu);
+                x = nd.Activation(x.NdX, ActivationType.Relu);
             else
-                x = sym.Activation(x.SymX, ActivationActType.Relu);
+                x = sym.Activation(x.SymX, ActivationType.Relu);
 
             if (ds != null)
                 residual = ds.Call(x, args);
@@ -304,16 +304,16 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             x = bn2.Call(x, args);
             if (x.IsNDArray)
-                x = nd.Activation(x.NdX, ActivationActType.Relu);
+                x = nd.Activation(x.NdX, ActivationType.Relu);
             else
-                x = sym.Activation(x.SymX, ActivationActType.Relu);
+                x = sym.Activation(x.SymX, ActivationType.Relu);
             x = conv2.Call(x, args);
 
             x = bn3.Call(x, args);
             if (x.IsNDArray)
-                x = nd.Activation(x.NdX, ActivationActType.Relu);
+                x = nd.Activation(x.NdX, ActivationType.Relu);
             else
-                x = sym.Activation(x.SymX, ActivationActType.Relu);
+                x = sym.Activation(x.SymX, ActivationType.Relu);
             x = conv3.Call(x, args);
 
             if (x.IsNDArray)
@@ -340,7 +340,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             {
                 Features.Add(new Conv2D(channels[0], (7, 7), (2, 2), (3, 3), use_bias: false));
                 Features.Add(new BatchNorm());
-                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new Activation(ActivationType.Relu));
                 Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
             }
 
@@ -405,7 +405,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             {
                 Features.Add(new Conv2D(channels[0], (7, 7), (2, 2), (3, 3), use_bias: false));
                 Features.Add(new BatchNorm());
-                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new Activation(ActivationType.Relu));
                 Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
             }
 
@@ -418,7 +418,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             }
 
             Features.Add(new BatchNorm());
-            Features.Add(new Activation(ActivationActType.Relu));
+            Features.Add(new Activation(ActivationType.Relu));
             Features.Add(new GlobalAvgPool2D());
             Features.Add(new Flatten());
 

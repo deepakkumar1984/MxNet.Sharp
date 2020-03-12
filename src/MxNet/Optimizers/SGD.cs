@@ -8,7 +8,8 @@ namespace MxNet.Optimizers
         private readonly bool lazy_update;
         private readonly float momentum;
 
-        public SGD(float momentum = 0, bool lazy_update = true)
+        public SGD(float learning_rate= 0.1f, float momentum = 0, bool lazy_update = true, bool multi_precision = false)
+            : base(learning_rate: learning_rate, multi_precision: multi_precision)
         {
             this.momentum = momentum;
             this.lazy_update = lazy_update;

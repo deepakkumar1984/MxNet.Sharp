@@ -9,9 +9,9 @@
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
             if (x.IsNDArray)
-                return nd.LeakyReLU(x.NdX, act_type: LeakyreluActType.Gelu);
+                return nd.LeakyReLU(x.NdX, act_type: ReluActType.Gelu);
 
-            return sym.LeakyReLU(x.SymX, act_type: LeakyreluActType.Gelu, symbol_name: "fwd");
+            return sym.LeakyReLU(x.SymX, act_type: ReluActType.Gelu, symbol_name: "fwd");
         }
     }
 }

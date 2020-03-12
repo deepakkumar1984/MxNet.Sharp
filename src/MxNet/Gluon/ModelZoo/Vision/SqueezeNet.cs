@@ -16,7 +16,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             if (version == "1.0")
             {
                 Features.Add(new Conv2D(96, (7, 7), (2, 2)));
-                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new Activation(ActivationType.Relu));
                 Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
                 Features.Add(MakeFire(16, 64, 64));
                 Features.Add(MakeFire(16, 64, 64));
@@ -32,7 +32,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             else if (version == "1.1")
             {
                 Features.Add(new Conv2D(64, (3, 3), (2, 2)));
-                Features.Add(new Activation(ActivationActType.Relu));
+                Features.Add(new Activation(ActivationType.Relu));
                 Features.Add(new MaxPool2D((3, 3), (2, 2), ceil_mode: true));
                 Features.Add(MakeFire(16, 64, 64));
                 Features.Add(MakeFire(16, 64, 64));
@@ -51,7 +51,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             Output = new HybridSequential();
             Output.Add(new Conv2D(classes, (1, 1)));
-            Output.Add(new Activation(ActivationActType.Relu));
+            Output.Add(new Activation(ActivationType.Relu));
             Output.Add(new AvgPool2D((13, 13)));
             Output.Add(new Flatten());
         }
@@ -84,7 +84,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         {
             var output = new HybridSequential("");
             output.Add(new Conv2D(channels, kernel_size, padding));
-            output.Add(new Activation(ActivationActType.Relu));
+            output.Add(new Activation(ActivationType.Relu));
 
             return output;
         }

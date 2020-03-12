@@ -6,7 +6,7 @@ namespace MxNet.Gluon.NN
     {
         public Conv2D(int channels, (int, int) kernel_size, (int, int)? strides = null, (int, int)? padding = null,
             (int, int) dilation = default, int groups = 1, string layout = "NCHW", int in_channels = 0,
-            ActivationActType? activation = null, bool use_bias = true, Initializer weight_initializer = null,
+            ActivationType? activation = null, bool use_bias = true, Initializer weight_initializer = null,
             string bias_initializer = "zeros", string prefix = null, ParameterDict @params = null)
             : base(channels, new[] {kernel_size.Item1, kernel_size.Item2},
                 !strides.HasValue ? new[] {1, 1} : new[] {strides.Value.Item1, strides.Value.Item2},

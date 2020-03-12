@@ -11,7 +11,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             var output = new HybridSequential("");
             output.Add(new Conv2D(channels, kernel_size, strides, padding, use_bias: false));
             output.Add(new BatchNorm(epsilon: 0.001f));
-            output.Add(new Activation(ActivationActType.Relu));
+            output.Add(new Activation(ActivationType.Relu));
 
             return output;
         }

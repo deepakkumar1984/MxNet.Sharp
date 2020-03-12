@@ -22,8 +22,7 @@ namespace ORGate
             var val_data = new NDArrayIter(trainX, trainY, batch_size);
 
             var net = new Sequential();
-            net.Add(new Dense(64, ActivationActType.Relu));
-            net.Add(new Dense(32, ActivationActType.Relu));
+            net.Add(new Dense(64, ActivationType.Relu));
             net.Add(new Dense(1));
 
             var gpus = TestUtils.ListGpus();
@@ -32,7 +31,7 @@ namespace ORGate
             net.Initialize(new Uniform(), ctxList.ToArray());
             var trainer = new Trainer(net.CollectParams(), new Adam());
             var epoch = 1000;
-            var metric = new F1();
+            var metric = new BinaryAccuracy();
             var binary_crossentropy = new SigmoidBinaryCrossEntropyLoss();
             float lossVal = 0;
             for (var iter = 0; iter < epoch; iter++)
@@ -47,20 +46,16 @@ namespace ORGate
                     var outputs = new NDArrayList();
                     using (var ag = Autograd.Record())
                     {
-                        for (var i = 0; i < data.Length; i++)
+                        outputs = Enumerable.Zip(data, label, (x, y) =>
                         {
-                            var x = data[i];
-                            var y = label[i];
-
                             var z = net.Call(x);
-                            //Console.WriteLine(z.NdX.ArrayData.Cast<float>().ToArray().ToValueString());
                             NDArray loss = binary_crossentropy.Call(z, y);
                             loss.Backward();
                             lossVal += loss.Mean();
-                            outputs.Add(z);
-                        }
+                            return z;
+                        }).ToList();
                     }
-                    
+
                     metric.Update(label, outputs.ToArray());
                     trainer.Step(batch.Data[0].Shape[0]);
                 }
@@ -68,7 +63,7 @@ namespace ORGate
                 var (name, acc) = metric.Get();
                 metric.Reset();
                 Console.WriteLine($"Loss: {lossVal}");
-                Console.WriteLine($"Training acc at epoch {iter}: {name}={acc}");
+                Console.WriteLine($"Training acc at epoch {iter}: {name}={acc * 100}%");
             }
         }
     }

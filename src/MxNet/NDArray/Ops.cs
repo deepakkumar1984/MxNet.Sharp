@@ -663,11 +663,11 @@ namespace MxNet
         /// <param name="upper_bound">Upper bound of random slope. (For rrelu only)</param>
         /// <returns>returns new NDArray</returns>
         public static NDArray LeakyReLU(NDArray data, NDArray gamma = null,
-            LeakyreluActType act_type = LeakyreluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f,
+            ReluActType act_type = ReluActType.Leaky, float slope = 0.25f, float lower_bound = 0.125f,
             float upper_bound = 0.334f)
         {
             return new Operator("LeakyReLU")
-                .SetParam("act_type", MxUtil.EnumToString<LeakyreluActType>(act_type, LeakyreluActTypeConvert))
+                .SetParam("act_type", MxUtil.EnumToString<ReluActType>(act_type, LeakyreluActTypeConvert))
                 .SetParam("slope", slope)
                 .SetParam("lower_bound", lower_bound)
                 .SetParam("upper_bound", upper_bound)
@@ -738,10 +738,10 @@ namespace MxNet
         /// <param name="data">The input array.</param>
         /// <param name="act_type">Activation function to be applied.</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray Activation(NDArray data, ActivationActType act_type)
+        public static NDArray Activation(NDArray data, ActivationType act_type)
         {
             return new Operator("Activation")
-                .SetParam("act_type", MxUtil.EnumToString<ActivationActType>(act_type, ActivationActTypeConvert))
+                .SetParam("act_type", MxUtil.EnumToString<ActivationType>(act_type, ActivationActTypeConvert))
                 .SetInput("data", data)
                 .Invoke();
         }
@@ -1482,8 +1482,8 @@ namespace MxNet
         /// </param>
         /// <returns>returns new NDArray</returns>
         public static NDArray Pooling(NDArray data, Shape kernel = null,
-            PoolingPoolType pool_type = PoolingPoolType.Max, bool global_pool = false, bool cudnn_off = false,
-            PoolingPoolingConvention pooling_convention = PoolingPoolingConvention.Valid, Shape stride = null,
+            PoolingType pool_type = PoolingType.Max, bool global_pool = false, bool cudnn_off = false,
+            PoolingConvention pooling_convention = PoolingConvention.Valid, Shape stride = null,
             Shape pad = null, int? p_value = null, bool? count_include_pad = null, string layout = null)
         {
             if (kernel == null) kernel = new Shape();
@@ -1492,11 +1492,11 @@ namespace MxNet
 
             return new Operator("Pooling")
                 .SetParam("kernel", kernel)
-                .SetParam("pool_type", MxUtil.EnumToString<PoolingPoolType>(pool_type, PoolingPoolTypeConvert))
+                .SetParam("pool_type", MxUtil.EnumToString<PoolingType>(pool_type, PoolingPoolTypeConvert))
                 .SetParam("global_pool", global_pool)
                 .SetParam("cudnn_off", cudnn_off)
                 .SetParam("pooling_convention",
-                    MxUtil.EnumToString<PoolingPoolingConvention>(pooling_convention, PoolingPoolingConventionConvert))
+                    MxUtil.EnumToString<PoolingConvention>(pooling_convention, PoolingPoolingConventionConvert))
                 .SetParam("stride", stride)
                 .SetParam("pad", pad)
                 .SetParam("p_value", p_value)
@@ -1668,10 +1668,10 @@ namespace MxNet
         /// </param>
         /// <returns>returns new NDArray</returns>
         public static NDArray SoftmaxActivation(NDArray data,
-            SoftmaxactivationMode mode = SoftmaxactivationMode.Instance)
+            SoftmaxMode mode = SoftmaxMode.Instance)
         {
             return new Operator("SoftmaxActivation")
-                .SetParam("mode", MxUtil.EnumToString<SoftmaxactivationMode>(mode, SoftmaxactivationModeConvert))
+                .SetParam("mode", MxUtil.EnumToString<SoftmaxMode>(mode, SoftmaxactivationModeConvert))
                 .SetInput("data", data)
                 .Invoke();
         }
