@@ -76,7 +76,7 @@ MxNet Version Build: https://github.com/apache/incubator-mxnet/releases/tag/1.5.
 | MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | **Yet to publish**                                |
 | MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | **Yet to publish**                                |
   
-```csharp
+
 ## Gluon MNIST Example
 
 Demo as per: https://mxnet.apache.org/api/python/docs/tutorials/packages/gluon/image/mnist.html
