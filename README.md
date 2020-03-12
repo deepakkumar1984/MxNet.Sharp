@@ -76,16 +76,6 @@ MxNet Version Build: https://github.com/apache/incubator-mxnet/releases/tag/1.5.
 | MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | **Yet to publish**                                |
 | MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | **Yet to publish**                                |
   
-## Symbolic Example
-```csharp
-model.SetInput(784);
-
-var x = Symbol.Variable("X");
-var fc1 = sym.Relu(sym.FullyConnected(x, Symbol.Variable("fc1_w"), 128));
-var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), 128));
-var fc3 = sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), 10);
-var output = sym.SoftmaxOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
-
 ```
 ## Gluon MNIST Example
 
@@ -93,35 +83,37 @@ Demo as per: https://mxnet.apache.org/api/python/docs/tutorials/packages/gluon/i
 
 ```csharp
 var mnist = TestUtils.GetMNIST();
-int batch_size = 100;
+var batch_size = 200;
 var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
 var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
 
 var net = new Sequential();
-net.Add(new Dense(128, activation: ActivationActType.Relu));
-net.Add(new Dense(64, activation: ActivationActType.Relu));
+net.Add(new Dense(128, ActivationType.Relu));
+net.Add(new Dense(64, ActivationType.Relu));
 net.Add(new Dense(10));
 
 var gpus = TestUtils.ListGpus();
-Context[] ctxList = gpus.Count > 0 ?
-                            gpus.Select(x => (Context.Gpu(x))).ToArray() :
-                            new Context[] { Context.Cpu(0), Context.Cpu(1) }; //Set Multiple GPU's
+var ctx = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] {Context.Cpu(0)};
 
-net.Initialize(new Xavier(magnitude: 2.24f), ctxList.ToArray());
-var trainer = new Trainer(net.CollectParams(), new SGD());
-int epoch = 10;
+net.Initialize(new Xavier(magnitude: 2.24f), ctx);
+var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.02f));
+
+var epoch = 10;
 var metric = new Accuracy();
-var softmax_cross_entropy_loss = new SoftmaxCrossEntropyLoss();
-for (int iter = 0; iter < epoch; iter++)
+var softmax_cross_entropy_loss = new SoftmaxCELoss();
+float lossVal = 0;
+for (var iter = 0; iter < epoch; iter++)
 {
+    var tic = DateTime.Now;
     train_data.Reset();
+    lossVal = 0;
     while (!train_data.End())
     {
         var batch = train_data.Next();
-        var data = Utils.SplitAndLoad(batch.Data[0], ctx_list: ctxList, batch_axis: 0);
-        var label = Utils.SplitAndLoad(batch.Label[0], ctx_list: ctxList, batch_axis: 0);
+        var data = Utils.SplitAndLoad(batch.Data[0], ctx, batch_axis: 0);
+        var label = Utils.SplitAndLoad(batch.Label[0], ctx, batch_axis: 0);
 
-        NDArray[] outputs = null;
+        var outputs = new NDArrayList();
         using (var ag = Autograd.Record())
         {
             outputs = Enumerable.Zip(data, label, (x, y) =>
@@ -129,16 +121,20 @@ for (int iter = 0; iter < epoch; iter++)
                 var z = net.Call(x);
                 NDArray loss = softmax_cross_entropy_loss.Call(z, y);
                 loss.Backward();
+                lossVal += loss.Mean();
                 return z;
-            }).ToList().ToNDArrays();
+            }).ToList();
         }
 
-        metric.Update(label, outputs);
+        metric.Update(label, outputs.ToArray());
         trainer.Step(batch.Data[0].Shape[0]);
     }
 
+    var toc = DateTime.Now;
+
     var (name, acc) = metric.Get();
     metric.Reset();
-    Console.WriteLine($"Training acc at epoch {iter}: {name}={acc}");
+    Console.Write($"Loss: {lossVal} ");
+    Console.WriteLine($"Training acc at epoch {iter}: {name}={(acc * 100).ToString("0.##")}%, Duration: {(toc - tic).TotalSeconds.ToString("0.#")}s");
 }
 ```
