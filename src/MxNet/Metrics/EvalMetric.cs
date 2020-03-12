@@ -13,28 +13,37 @@ namespace MxNet.Metrics
         internal int num_inst;
         internal float sum_metric;
 
-        public EvalMetric(string name, string output_name = null, string label_name = null,
+        public EvalMetric(string name, string[] output_names = null, string[] label_names = null,
             bool has_global_stats = false)
         {
             Name = name;
-            OutputName = output_name;
-            LabelName = label_name;
+            OutputNames = output_names;
+            LabelNames = label_names;
+            hasGlobalStats = has_global_stats;
+        }
+
+        public EvalMetric(string name, string output_name = null, string label_name = null,
+           bool has_global_stats = false)
+        {
+            Name = name;
+            OutputNames = new string[] { output_name };
+            LabelNames = new string[] { label_name };
             hasGlobalStats = has_global_stats;
         }
 
         public string Name { get; internal set; }
 
-        public string OutputName { get; internal set; }
+        public string[] OutputNames { get; internal set; }
 
-        public string LabelName { get; internal set; }
+        public string[] LabelNames { get; internal set; }
 
         public virtual ConfigData GetConfig()
         {
             var config = new ConfigData();
             config.Add("metric", GetType().Name);
             config.Add("name", Name);
-            config.Add("output_names", new[] {OutputName});
-            config.Add("label_names", new[] {LabelName});
+            config.Add("output_names", OutputNames);
+            config.Add("label_names", LabelNames);
 
             return config;
         }
@@ -46,6 +55,11 @@ namespace MxNet.Metrics
             if (labels.Length != preds.Length) throw new ArgumentException("Labels and Predictions are unequal length");
 
             for (var i = 0; i < labels.Length; i++) Update(labels[i], preds[i]);
+        }
+
+        public void UpdateDict(NDArrayDict label, NDArrayDict pred)
+        {
+            throw new NotImplementedException();
         }
 
         public virtual void Reset()

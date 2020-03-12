@@ -17,7 +17,7 @@ namespace MxNet.Modules
         private string[] _state_names;
         private Context[] _context;
         private int[] _work_load_list;
-        private Dictionary<string, Context> _group2ctxs;
+        private Dictionary<string, Context>[] _group2ctxs;
         private Dictionary<int, Module> _buckets;
         private Module _curr_module;
         private int? _curr_bucket_key;
@@ -29,7 +29,7 @@ namespace MxNet.Modules
             Logger logging = null,
             Context[] context = null, int[] work_load_list = null, string[] fixed_param_names = null,
             string[] state_names = null,
-            Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null)
+            Dictionary<string, Context>[] group2ctxs = null, Dictionary<string, object> compression_params = null)
         {
             _sym_Gen = sym_gen;
             _default_bucket_key = default_bucket_key;

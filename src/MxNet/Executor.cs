@@ -4,6 +4,7 @@ using System.Linq;
 using MxNet.Interop;
 using mx_uint = System.UInt32;
 using ExecutorHandle = System.IntPtr;
+using MxNet.IO;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
@@ -113,7 +114,9 @@ namespace MxNet
                 Outputs.Add(new NDArray(outArrayArray[i]));
         }
 
-        public Executor(ExecutorHandle h)
+        public Executor(ExecutorHandle h, Context context,
+            List<OpGradReq> gradReqs,
+            Dictionary<string, Context> groupToCtx)
         {
             if (h == IntPtr.Zero)
                 throw new ArgumentException("Can not pass IntPtr.Zero", nameof(h));
@@ -131,11 +134,11 @@ namespace MxNet
 
         public NDArray Output => Outputs.First();
 
-        public NDArrayList ArgmentArrays { get; }
+        public NDArrayList ArgmentArrays { get; internal set; }
 
-        public NDArrayList GradientArrays { get; }
+        public NDArrayList GradientArrays { get; internal set; }
 
-        public NDArrayList AuxiliaryArrays { get; }
+        public NDArrayList AuxiliaryArrays { get; internal set; }
 
         #endregion
 
@@ -214,6 +217,11 @@ namespace MxNet
                 {
                     throw new Exception($"Find name \"{item.Key}\" that is not in the auxiliary states");
                 }
+        }
+
+        public Executor Reshape(bool partial_shaping = false, bool allow_up_sizing = false, DataDesc[] newShapes = null)
+        {
+            throw new NotImplementedException();
         }
 
         #region Overrids

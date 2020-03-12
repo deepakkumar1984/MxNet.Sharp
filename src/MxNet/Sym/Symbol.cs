@@ -4,8 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using MxNet.Initializers;
 using MxNet.Interop;
+using MxNet.IO;
 using mx_uint = System.UInt32;
 using SymbolHandle = System.IntPtr;
+using ExecutorHandle = System.IntPtr;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
@@ -747,89 +749,118 @@ namespace MxNet
             return this;
         }
 
-        public Executor SimpleBind(Context context,
-            NDArrayDict argsMap)
+        public Executor SimpleBind(Context ctx, Dictionary<string, OpGradReq> grad_req = null, Dictionary<string, DType> type_dict = null, Dictionary<string, StorageStype> stype_dict = null, Dictionary<string, Context> group2ctx = null, string[] shared_arg_names = null, Executor shared_exec = null, NDArrayDict shared_buffer = null, DataDesc[] kwargs = null)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (argsMap == null)
-                throw new ArgumentNullException(nameof(argsMap));
 
-            ThrowIfDisposed();
+            int num_provided_arg_types = 0;
+            string[] provided_arg_type_names = new string[0];
+            int[] provided_arg_type_data = new int[0];
+            if (type_dict != null)
+            {
+                provided_arg_type_names = type_dict.Keys.ToArray();
+                provided_arg_type_data = type_dict.Values.Select(x => x.Index).ToArray();
+                num_provided_arg_types = type_dict.Count;
+            }
 
-            return SimpleBind(context, argsMap, new NDArrayDict());
-        }
+            int num_provided_arg_stypes = 0;
+            string[] provided_arg_stype_names = new string[0];
+            int[] provided_arg_stype_data = new int[0];
+            if (type_dict != null)
+            {
+                provided_arg_stype_names = stype_dict.Keys.ToArray();
+                provided_arg_stype_data = stype_dict.Values.Select(x => (int)x).ToArray();
+                num_provided_arg_stypes = stype_dict.Count;
+            }
 
-        public Executor SimpleBind(Context context,
-            NDArrayDict argsMap,
-            NDArrayDict argGradStore)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (argsMap == null)
-                throw new ArgumentNullException(nameof(argsMap));
-            if (argGradStore == null)
-                throw new ArgumentNullException(nameof(argGradStore));
+            List<int> provided_arg_shape_data = new List<int>();
+            List<int> provided_arg_shape_idx = new List<int>() { 0 };
+            List<string> provided_arg_shape_names = new List<string>();
+            foreach (var desc in kwargs)
+            {
+                provided_arg_shape_names.Add(desc.Name);
+                provided_arg_shape_data.AddRange(desc.Shape.Data);
+                provided_arg_shape_idx.Add(desc.Shape.Data.Length);
+            }
 
-            ThrowIfDisposed();
+            int provided_req_type_list_len = 0;
+            string[] provided_grad_req_names = new string[0];
+            string[] provided_grad_req_types = new string[0];
+            if (grad_req != null)
+            {
+                provided_grad_req_names = grad_req.Keys.ToArray();
+                provided_grad_req_types = grad_req.Values.Select(x => Enum.GetName(x.GetType(), x).ToLower()).ToArray();
+                provided_req_type_list_len = grad_req.Count;
+            }
 
-            return SimpleBind(context, argsMap, argGradStore, new Dictionary<string, OpGradReq>());
-        }
+            int num_ctx_map_keys = 0;
+            string[] ctx_map_keys = new string[0];
+            int[] ctx_map_dev_types = new int[0];
+            int[] ctx_map_dev_ids = new int[0];
+            if (group2ctx != null)
+            {
+                ctx_map_keys = group2ctx.Keys.ToArray();
+                ctx_map_dev_types = group2ctx.Values.Select(x => (int)x.GetDeviceType()).ToArray();
+                ctx_map_dev_ids = group2ctx.Values.Select(x => x.GetDeviceId()).ToArray();
+                num_ctx_map_keys = group2ctx.Count;
+            }
 
-        public Executor SimpleBind(Context context,
-            NDArrayDict argsMap,
-            NDArrayDict argGradStore,
-            IDictionary<string, OpGradReq> gradReqType)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (argsMap == null)
-                throw new ArgumentNullException(nameof(argsMap));
-            if (argGradStore == null)
-                throw new ArgumentNullException(nameof(argGradStore));
-            if (gradReqType == null)
-                throw new ArgumentNullException(nameof(gradReqType));
+            string[] shared_arg_name_list = new string[0];
+            if (shared_arg_names != null)
+                shared_arg_name_list = shared_arg_names;
 
-            ThrowIfDisposed();
+            unsafe
+            {
+                int shared_start = 0;
+                int* shared_buffer_len = &shared_start;
+                string[] shared_buffer_names = new string[0];
+                IntPtr[] shared_buffer_handles = new IntPtr[0];
+                if (shared_buffer != null)
+                {
+                    shared_buffer_len[0] = shared_buffer.Count;
+                    shared_buffer_names = shared_buffer.Keys;
+                    shared_buffer_handles = shared_buffer.Values.Handles;
+                }
 
-            return SimpleBind(context, argsMap, argGradStore, gradReqType, new NDArrayDict());
-        }
+                var shared_exec_handle = shared_exec != null ? shared_exec.Handle : new ExecutorHandle();
 
-        public Executor SimpleBind(Context context,
-            NDArrayDict argsMap,
-            NDArrayDict argGradStore,
-            IDictionary<string, OpGradReq> gradReqType,
-            NDArrayDict auxMap)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (argsMap == null)
-                throw new ArgumentNullException(nameof(argsMap));
-            if (argGradStore == null)
-                throw new ArgumentNullException(nameof(argGradStore));
-            if (gradReqType == null)
-                throw new ArgumentNullException(nameof(gradReqType));
-            if (auxMap == null)
-                throw new ArgumentNullException(nameof(auxMap));
+                NativeMethods.MXExecutorSimpleBindEx(NativePtr, (int)ctx.GetDeviceType(), ctx.GetDeviceId(), num_ctx_map_keys, ctx_map_keys, ctx_map_dev_types, ctx_map_dev_ids, provided_req_type_list_len, provided_grad_req_names, provided_grad_req_types, provided_arg_shape_names.Count, provided_arg_shape_names.ToArray(), provided_arg_shape_data.ToArray(), provided_arg_shape_idx.ToArray(), num_provided_arg_types, provided_arg_type_names, provided_arg_type_data, num_provided_arg_stypes, provided_arg_stype_names, provided_arg_stype_data, shared_arg_name_list.Length, shared_arg_name_list, out shared_buffer_len, shared_buffer_names, shared_buffer_handles, out var updated_shared_buffer_names, out var updated_shared_buffer_handles, out var num_in_args, out var in_arg_handles, out var arg_grad_handles, out var num_aux_states, out var aux_state_handles, shared_exec_handle, out var exe_handle);
 
-            ThrowIfDisposed();
+                if(shared_buffer != null)
+                {
+                    int l = shared_buffer_len[0];
+                    for (int i = 0; i < l; i++)
+                    {
+                        string k = new string(updated_shared_buffer_names[0][i]);
+                        NDArray v = new NDArray(updated_shared_buffer_handles[0][i]);
+                        shared_buffer[k] = v;
+                    }
+                }
 
-            var argArrays = new NDArrayList();
-            var gradArrays = new NDArrayList();
-            var gradReqs = new List<OpGradReq>();
-            var auxArrays = new NDArrayList();
+                NDArrayList arg_arrays = new NDArrayList();
+                for (int i = 0; i < num_in_args[0]; i++)
+                {
+                    arg_arrays.Add(new NDArray(in_arg_handles[0][i]));
+                }
 
-            InferExecutorArrays(context,
-                argArrays,
-                gradArrays,
-                gradReqs,
-                auxArrays,
-                argsMap,
-                argGradStore,
-                gradReqType,
-                auxMap);
+                NDArrayList grad_arrays = new NDArrayList();
+                for (int i = 0; i < num_in_args[0]; i++)
+                {
+                    grad_arrays.Add(new NDArray(arg_grad_handles[0][i]));
+                }
 
-            return new Executor(this, context, argArrays, gradArrays, gradReqs, auxArrays);
+                NDArrayList aux_arrays = new NDArrayList();
+                for (int i = 0; i < num_aux_states[0]; i++)
+                {
+                    aux_arrays.Add(new NDArray(aux_state_handles[0][i]));
+                }
+
+                var executor = new Executor(exe_handle[0], ctx, grad_req.Values.ToList(), group2ctx);
+                executor.ArgmentArrays = arg_arrays;
+                executor.GradientArrays = grad_arrays;
+                executor.AuxiliaryArrays = aux_arrays;
+
+                return executor;
+            }
         }
 
         public string ToJSON()

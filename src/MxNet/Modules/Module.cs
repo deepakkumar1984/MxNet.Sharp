@@ -22,7 +22,7 @@ namespace MxNet.Modules
         internal DataParallelExecutorGroup _exec_group;
         internal readonly string[] _fixed_param_names;
         internal OpGradReq _grad_req;
-        internal readonly Dictionary<string, Context> _group2ctxs;
+        internal readonly Dictionary<string, Context>[] _group2ctxs;
         internal KVStore _kvstore;
         internal readonly string[] _label_names;
         internal DataDesc[] _label_shapes;
@@ -38,7 +38,7 @@ namespace MxNet.Modules
         public Module(Symbol symbol, string[] data_names = null, string[] label_names = null, 
             Context[] context = null, int[] work_load_list = null, string[] fixed_param_names = null,
             string[] state_names = null,
-            Dictionary<string, Context> group2ctxs = null, Dictionary<string, object> compression_params = null)
+            Dictionary<string, Context>[] group2ctxs = null, Dictionary<string, object> compression_params = null)
         {
             if (context == null)
                 context = new[] {Context.Cpu()};
@@ -185,7 +185,7 @@ namespace MxNet.Modules
                     throw new Exception("shared_module not bounded or initialized");
 
                 shared_group = shared_module._exec_group;
-                if (shared_group.Execs.Length < _context.Length)
+                if (shared_group.Execs.Count < _context.Length)
                     throw new Exception("shared_group execs length is less than context length");
             }
 
@@ -496,7 +496,7 @@ namespace MxNet.Modules
 
         private void SyncParamsFromDevices()
         {
-            _exec_group.GetParams(ref _arg_params, ref _aux_params);
+            _exec_group.GetParams(_arg_params, _aux_params);
             if (_kvstore != null && _update_on_kvstore.HasValue && _update_on_kvstore.Value)
                 foreach (var p in _arg_params)
                     if (p.Value.SType == StorageStype.RowSparse)
