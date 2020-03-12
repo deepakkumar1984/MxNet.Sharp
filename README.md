@@ -76,69 +76,92 @@ MxNet Version Build: https://github.com/apache/incubator-mxnet/releases/tag/1.5.
 | MxNet-CU80     | MxNet for Cuda 8.0 and CuDnn 7           | **Yet to publish**                                |
 | MxNet-CU80MKL  | MxNet with MKL for Cuda 8.0 and CuDnn 7  | **Yet to publish**                                |
   
-## Symbolic Example
-```csharp
-model.SetInput(784);
 
-var x = Symbol.Variable("X");
-var fc1 = sym.Relu(sym.FullyConnected(x, Symbol.Variable("fc1_w"), 128));
-var fc2 = sym.Relu(sym.FullyConnected(fc1, Symbol.Variable("fc2_w"), 128));
-var fc3 = sym.FullyConnected(fc2, Symbol.Variable("fc3_w"), 10);
-var output = sym.SoftmaxOutput(fc3, Symbol.Variable("label"), symbol_name: "model");
-
-```
 ## Gluon MNIST Example
 
 Demo as per: https://mxnet.apache.org/api/python/docs/tutorials/packages/gluon/image/mnist.html
 
 ```csharp
-var mnist = TestUtils.GetMNIST();
-int batch_size = 100;
+var mnist = TestUtils.GetMNIST(); //Get the MNIST dataset, it will download if not found
+var batch_size = 200; //Set training batch size
 var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
 var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
 
+// Define simple network with dense layers
 var net = new Sequential();
-net.Add(new Dense(128, activation: ActivationActType.Relu));
-net.Add(new Dense(64, activation: ActivationActType.Relu));
+net.Add(new Dense(128, ActivationType.Relu));
+net.Add(new Dense(64, ActivationType.Relu));
 net.Add(new Dense(10));
 
+//Set context, multi-gpu supported
 var gpus = TestUtils.ListGpus();
-Context[] ctxList = gpus.Count > 0 ?
-                            gpus.Select(x => (Context.Gpu(x))).ToArray() :
-                            new Context[] { Context.Cpu(0), Context.Cpu(1) }; //Set Multiple GPU's
+var ctx = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] {Context.Cpu(0)};
 
-net.Initialize(new Xavier(magnitude: 2.24f), ctxList.ToArray());
-var trainer = new Trainer(net.CollectParams(), new SGD());
-int epoch = 10;
-var metric = new Accuracy();
-var softmax_cross_entropy_loss = new SoftmaxCrossEntropyLoss();
-for (int iter = 0; iter < epoch; iter++)
+//Initialize the weights
+net.Initialize(new Xavier(magnitude: 2.24f), ctx);
+
+//Create the trainer with all the network parameters and set the optimizer
+var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.02f));
+
+var epoch = 10;
+var metric = new Accuracy(); //Use Accuracy as the evaluation metric.
+var softmax_cross_entropy_loss = new SoftmaxCELoss();
+float lossVal = 0; //For loss calculation
+for (var iter = 0; iter < epoch; iter++)
 {
+    var tic = DateTime.Now;
+    // Reset the train data iterator.
     train_data.Reset();
+    lossVal = 0;
+
+    // Loop over the train data iterator.
     while (!train_data.End())
     {
         var batch = train_data.Next();
-        var data = Utils.SplitAndLoad(batch.Data[0], ctx_list: ctxList, batch_axis: 0);
-        var label = Utils.SplitAndLoad(batch.Label[0], ctx_list: ctxList, batch_axis: 0);
 
-        NDArray[] outputs = null;
+        // Splits train data into multiple slices along batch_axis
+        // and copy each slice into a context.
+        var data = Utils.SplitAndLoad(batch.Data[0], ctx, batch_axis: 0);
+
+        // Splits train labels into multiple slices along batch_axis
+        // and copy each slice into a context.
+        var label = Utils.SplitAndLoad(batch.Label[0], ctx, batch_axis: 0);
+
+        var outputs = new NDArrayList();
+
+        // Inside training scope
         using (var ag = Autograd.Record())
         {
             outputs = Enumerable.Zip(data, label, (x, y) =>
             {
                 var z = net.Call(x);
+
+                // Computes softmax cross entropy loss.
                 NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+
+                // Backpropagate the error for one iteration.
                 loss.Backward();
+                lossVal += loss.Mean();
                 return z;
-            }).ToList().ToNDArrays();
+            }).ToList();
         }
 
-        metric.Update(label, outputs);
+        // Updates internal evaluation
+        metric.Update(label, outputs.ToArray());
+
+        // Make one step of parameter update. Trainer needs to know the
+        // batch size of data to normalize the gradient by 1/batch_size.
         trainer.Step(batch.Data[0].Shape[0]);
     }
 
+    var toc = DateTime.Now;
+
+    // Gets the evaluation result.
     var (name, acc) = metric.Get();
+
+    // Reset evaluation result to initial state.
     metric.Reset();
-    Console.WriteLine($"Training acc at epoch {iter}: {name}={acc}");
+    Console.Write($"Loss: {lossVal} ");
+    Console.WriteLine($"Training acc at epoch {iter}: {name}={(acc * 100).ToString("0.##")}%, Duration: {(toc - tic).TotalSeconds.ToString("0.#")}s");
 }
 ```
