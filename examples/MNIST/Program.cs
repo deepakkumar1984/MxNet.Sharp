@@ -4,7 +4,7 @@
     {
         private static void Main(string[] args)
         {
-            GluonDemo.Run();
+            GluonDemo.RunSimple();
         }
     }
 }

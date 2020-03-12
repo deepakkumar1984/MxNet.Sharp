@@ -43,7 +43,7 @@ namespace ORGate
                     var batch = train_data.Next();
                     var data = Utils.SplitAndLoad(batch.Data[0], ctxList);
                     var label = Utils.SplitAndLoad(batch.Label[0], ctxList);
-                    var outputs = new NDArrayList();
+                    NDArrayList outputs = null;
                     using (var ag = Autograd.Record())
                     {
                         outputs = Enumerable.Zip(data, label, (x, y) =>
