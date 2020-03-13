@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Gluon.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace MxNet.Gluon.Data.Vision
         public Dataset<NDArray> Arg { get; }
     }
 
-    public class DataLoader : IEnumerable<NDArrayList>
+    public partial class DataLoader : IEnumerable<NDArrayList>
     {
         private readonly BatchSampler _batch_sampler;
         private readonly Func<NDArrayList, NDArrayList> _batchify_fn;
@@ -103,7 +104,7 @@ namespace MxNet.Gluon.Data.Vision
 
         public int Length => _batch_sampler.Length;
 
-        public IEnumerator<NDArrayList> GetEnumerator()
+        public virtual IEnumerator<NDArrayList> GetEnumerator()
         {
             if (_num_workers == 0)
                 foreach (var batch in _batch_sampler)

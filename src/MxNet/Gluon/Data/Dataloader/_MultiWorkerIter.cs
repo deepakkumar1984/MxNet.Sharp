@@ -70,7 +70,7 @@ namespace MxNet.Gluon.Data.Vision
             return batch;
         }
 
-        private void PushNext()
+        public virtual void PushNext()
         {
             if (!_iter.MoveNext())
                 return;
