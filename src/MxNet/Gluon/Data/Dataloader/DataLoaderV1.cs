@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-namespace MxNet.Gluon.Data.Vision
+namespace MxNet.Gluon.Data
 {
     public class DataLoaderV1 : IEnumerable
     {

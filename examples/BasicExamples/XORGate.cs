@@ -1,21 +1,23 @@
-﻿using System;
-using System.Linq;
-using MxNet;
+﻿using MxNet;
 using MxNet.Gluon;
 using MxNet.Gluon.NN;
 using MxNet.Initializers;
 using MxNet.IO;
 using MxNet.Metrics;
 using MxNet.Optimizers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace ORGate
+namespace BasicExamples
 {
-    internal class Program
+    public class XORGate
     {
-        private static void Main(string[] args)
+        public static void Run()
         {
-            var trainX = new NDArray(new float[] {0, 0, 0, 1, 1, 0, 1, 1}).Reshape(4, 2);
-            var trainY = new NDArray(new float[] {0, 1, 1, 0});
+            var trainX = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }).Reshape(4, 2);
+            var trainY = new NDArray(new float[] { 0, 1, 1, 0 });
 
             var batch_size = 2;
             var train_data = new NDArrayIter(trainX, trainY, batch_size);
@@ -26,7 +28,7 @@ namespace ORGate
             net.Add(new Dense(1));
 
             var gpus = TestUtils.ListGpus();
-            var ctxList = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] {Context.Cpu()};
+            var ctxList = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] { Context.Cpu() };
 
             net.Initialize(new Uniform(), ctxList.ToArray());
             var trainer = new Trainer(net.CollectParams(), new Adam());

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace MxNet.Gluon.Data.Vision
+namespace MxNet.Gluon.Data
 {
     public class WorkerPool
     {

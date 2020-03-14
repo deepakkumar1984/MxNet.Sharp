@@ -43,7 +43,6 @@ namespace MxNet.Gluon
             }
 
             loss = ApplyWeighting(loss, Weight, sample_weight).NdX;
-
             return nd.Mean(loss, BatchAxis.Value, exclude: true);
         }
 
@@ -62,6 +61,8 @@ namespace MxNet.Gluon
                 label = sym.ReshapeLike(label, pred);
                 loss = sym.Negative(sym.Sum(pred * label, _axis, true));
             }
+
+            
 
             loss = ApplyWeighting(loss, Weight, sample_weight).SymX;
             return sym.Mean(loss, BatchAxis.Value, exclude: true);

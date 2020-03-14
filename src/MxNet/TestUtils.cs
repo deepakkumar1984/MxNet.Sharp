@@ -154,7 +154,7 @@ namespace MxNet
                     stream.Seek(8, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
 
-                    label = new NDArray(data.Select(x => (float) x).ToArray(), new Shape(n));
+                    label = new NDArray(data, new Shape(n), dtype: DType.Int8);
                 }
             }
 
@@ -170,19 +170,11 @@ namespace MxNet
                     stream.Seek(16, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
                     var x = np.frombuffer(data, typeof(byte));
-                    images = new NDArray(data.Select(y => (float) y).ToArray(), new Shape(n, 1, 28, 28)) / 255;
+                    images = new NDArray(data.Select(i=>(float)i).ToArray(), new Shape(n, 728)) / 255;
                 }
             }
 
             return (label, images);
         }
-
-        //public static NDArrayDict GetMnistPkl() => throw new NotImplementedException();
-
-        //public static NDArrayDict GetMnistUByte() => throw new NotImplementedException();
-
-        //public static NDArrayDict GetCifar10() => throw new NotImplementedException();
-
-        //public static (NDArrayIter, NDArrayIter) GetMnistIterator(int batch_size, Shape input_shape, int num_parts= 1, int part_index= 0) => throw new NotImplementedException();
     }
 }

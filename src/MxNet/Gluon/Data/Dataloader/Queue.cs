@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 
-namespace MxNet.Gluon.Data.Vision
+namespace MxNet.Gluon.Data
 {
     public class Queue<T> : ConcurrentQueue<QueueItem<T>>
     {

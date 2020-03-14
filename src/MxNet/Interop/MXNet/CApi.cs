@@ -973,6 +973,16 @@ namespace MxNet.Interop
             out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayCreateEx(
+           [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U4)]
+            int[] shape,
+           int ndim, DeviceType devType,
+           int devId,
+           int delayAlloc,
+           int dtype,
+           out AtomicSymbolCreator @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStoreCreate(string type, out KVStoreHandle handle);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]

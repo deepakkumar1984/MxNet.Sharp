@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace MxNet.Gluon.Data.Vision
+namespace MxNet.Gluon.Data
 {
     public class _MultiWorkerIterV1 : IDisposable
     {

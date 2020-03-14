@@ -3,14 +3,14 @@ using System.IO;
 
 namespace MxNet.Gluon.Data
 {
-    public abstract class _DownloadedDataset : Dataset<NDArrayList>
+    public abstract class DownloadedDataset : Dataset<NDArrayList>
     {
         internal NDArrayList _data;
         internal NDArrayList _label;
         internal string _root;
         internal Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
 
-        public _DownloadedDataset(string root, Func<NDArray, NDArray, (NDArray, NDArray)> transform)
+        public DownloadedDataset(string root, Func<NDArray, NDArray, (NDArray, NDArray)> transform)
         {
             _transform = transform;
             _data = null;

@@ -71,21 +71,26 @@ namespace MxNet
             _Blob = new NDBlob(@out);
         }
 
-        public NDArray(Array data, Shape shape, Context ctx = null)
+        public NDArray(Array data, Shape shape, Context ctx = null, DType dtype = null)
         {
             if (ctx == null)
                 ctx = Context.CurrentContext;
+
+            if (dtype == null)
+                dtype = DType.Float32;
 
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data,
+            
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data,
                 shape.Dimension,
                 ctx.GetDeviceType(),
                 ctx.GetDeviceId(),
                 false.ToInt32(),
+                dtype.Index,
                 out var @out), NativeMethods.OK);
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint) shape.Size);
@@ -679,6 +684,7 @@ namespace MxNet
         {
             return nd.LesserEqualScalar(rhs, lhs);
         }
+
 
         public virtual NDArray Reshape(Shape shape, bool reverse = false)
         {

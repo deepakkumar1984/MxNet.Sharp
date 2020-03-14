@@ -6,7 +6,7 @@ using NumSharp;
 
 namespace MxNet.Gluon.Data.Vision.Datasets
 {
-    public class MNIST : _DownloadedDataset
+    public class MNIST : DownloadedDataset
     {
         internal string _namespace;
         internal (string, string) _test_data;

@@ -64,6 +64,10 @@ namespace MxNet
             return ver_string;
         }
 
+        public static Context Cpu(int id = 0) => Context.Cpu(id);
+
+        public static Context Gpu(int id = 0) => Context.Gpu(id);
+
         #endregion
     }
 

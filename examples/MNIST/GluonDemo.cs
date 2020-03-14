@@ -15,13 +15,13 @@ namespace MNIST
         public static void RunSimple()
         {
             var mnist = TestUtils.GetMNIST(); //Get the MNIST dataset, it will download if not found
-            var batch_size = 200; //Set training batch size
+            var batch_size = 100; //Set training batch size
             var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
             var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
 
             // Define simple network with dense layers
             var net = new Sequential();
-            net.Add(new Dense(128, ActivationType.Relu));
+            net.Add(new Dense(128, ActivationType.Relu, in_units: 728));
             net.Add(new Dense(64, ActivationType.Relu));
             net.Add(new Dense(10));
 
@@ -33,11 +33,11 @@ namespace MNIST
             net.Initialize(new Xavier(magnitude: 2.24f), ctx);
 
             //Create the trainer with all the network parameters and set the optimizer
-            var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.02f));
+            var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.001f));
 
-            var epoch = 10;
+            var epoch = 100;
             var metric = new Accuracy(); //Use Accuracy as the evaluation metric.
-            var softmax_cross_entropy_loss = new SoftmaxCELoss();
+            var softmax_cross_entropy_loss = new SoftmaxCrossEntropyLoss();
             float lossVal = 0; //For loss calculation
             for (var iter = 0; iter < epoch; iter++)
             {
@@ -64,8 +64,10 @@ namespace MNIST
                     // Inside training scope
                     using (var ag = Autograd.Record())
                     {
-                        outputs = Enumerable.Zip(data, label, (x, y) =>
+                        for(int i = 0;i < data.Length;i++)
                         {
+                            var x = data[i];
+                            var y = label[i];
                             var z = net.Call(x);
 
                             // Computes softmax cross entropy loss.
@@ -74,8 +76,20 @@ namespace MNIST
                             // Backpropagate the error for one iteration.
                             loss.Backward();
                             lossVal += loss.Mean();
-                            return z;
-                        }).ToList();
+                            outputs.Add(z);
+                        }
+                        //outputs = Enumerable.Zip(data, label, (x, y) =>
+                        //{
+                        //    var z = net.Call(x);
+
+                        //    // Computes softmax cross entropy loss.
+                        //    NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+
+                        //    // Backpropagate the error for one iteration.
+                        //    loss.Backward();
+                        //    lossVal += loss.Mean();
+                        //    return z;
+                        //}).ToList();
                     }
 
                     // Updates internal evaluation
@@ -101,7 +115,7 @@ namespace MNIST
         public static void RunConv()
         {
             var mnist = TestUtils.GetMNIST();
-            var batch_size = 200;
+            var batch_size = 128;
             var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
             var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
 

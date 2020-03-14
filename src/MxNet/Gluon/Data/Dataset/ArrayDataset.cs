@@ -3,37 +3,37 @@ using System.Collections.Generic;
 
 namespace MxNet.Gluon.Data
 {
-    public class ArrayDataset<T> : Dataset<T[]>
+    public class ArrayDataset : Dataset<NDArray>
     {
-        private readonly List<T[]> _data;
+        private readonly NDArrayList _data;
 
-        public ArrayDataset(List<T[]> args)
+        public ArrayDataset(params NDArray[] args)
         {
-            if (args.Count == 0)
+            if (args.Length == 0)
                 throw new ArgumentException("Need atleast 1 array");
-            _data = new List<T[]>();
-            Length = args.Count;
+            _data = new NDArrayList();
+            Length = args[0].Shape[0];
 
-            if (typeof(T).Name == "Array" || typeof(T).Name == "NDArray")
-                for (var i = 0; i < args.Count; i++)
-                    _data.Add(args[i]);
-            else
-                throw new Exception("Array or NDArray type supported");
+            for (var i = 0; i < args.Length; i++)
+                _data.Add(args[i]);
         }
 
-        public override T[] this[int idx]
+        public override NDArray this[int idx]
         {
             get
             {
-                if (_data.Count == 1)
-                    return new[] {_data[0][idx]};
+                return _data[idx];
 
-                var ret = new List<T>();
-                foreach (var item in _data) ret.Add(item[idx]);
+                //if (_data.Count == 1)
+                    
 
-                return ret.ToArray();
+                //var ret = new List<T>();
+                //foreach (var item in _data) ret.Add(item[idx]);
+
+                //return ret.ToArray();
             }
         }
+
 
         public override int Length { get; }
     }
