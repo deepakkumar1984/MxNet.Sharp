@@ -27,7 +27,16 @@ Install the package: Install-Package MxNet.Sharp
 
 https://www.nuget.org/packages/MxNet.Sharp
 
-Add the MxNet redistributed package available as per below. For GPU please make sure you have the correct version of CUDA installed as per package. 
+Add the MxNet redistributed package available as per below.
+
+**Important: Make sure your installed CUDA version matches the CUDA version in the nuget package.**
+
+Check your CUDA version with the following command:
+```
+nvcc --version
+```
+
+You can either upgrade your CUDA install or install the MXNet package that supports your CUDA version.
 
 MxNet Version Build: https://github.com/apache/incubator-mxnet/releases/tag/1.5.0
 
