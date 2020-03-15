@@ -14,6 +14,6 @@ namespace MxNet.GluonCV.Data
 
         public abstract string[] Classes { get; }
 
-        public virtual int NumClass => Classes.Count;
+        public virtual int NumClass => Classes.Length;
     }
 }

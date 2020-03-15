@@ -8,7 +8,7 @@ namespace BasicExamples
         {
             //Console.WriteLine("Runnin XOR Example......");
             //XORGate.Run();
-
+            
             LogisticRegressionExplained.Run();
         }
     }

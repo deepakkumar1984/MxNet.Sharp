@@ -696,15 +696,17 @@ namespace MxNet
 
         public virtual NDArray Reshape(params int[] shape)
         {
-            var targetShape = new int[shape.Length];
-            var prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
-            for (var i = 0; i < targetShape.Length; i++)
-                if (shape[i] > 0)
-                    targetShape[i] = shape[i];
-                else
-                    targetShape[i] = Size / (int) prod;
+            //var targetShape = new int[shape.Length];
+            //var prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
+            //for (var i = 0; i < targetShape.Length; i++)
+            //    if (shape[i] != -1)
+            //        targetShape[i] = shape[i];
+            //    else
+            //        targetShape[i] = Size / (int) prod;
 
-            return Reshape(new Shape(targetShape));
+            //return Reshape(new Shape(targetShape));
+
+            return Reshape(new Shape(shape));
         }
 
         public NDArray Ravel()

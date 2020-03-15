@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MxNet.Gluon.Data
 {
@@ -6,10 +8,10 @@ namespace MxNet.Gluon.Data
     {
         public Dataset(params T[] data)
         {
-            Data = data;
+            Data = data.ToList();
         }
 
-        public T[] Data { get; set; }
+        public List<T> Data { get; set; }
 
         public abstract int Length { get; }
 
@@ -21,7 +23,7 @@ namespace MxNet.Gluon.Data
             if (lazy)
                 return trans;
 
-            return new SimpleDataset<T>(trans.Data);
+            return new SimpleDataset<T>(trans.Data.ToArray());
         }
 
         public Dataset<T> TransformFirst(Func<T, T> fn, bool lazy = true)

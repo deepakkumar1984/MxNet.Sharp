@@ -15,6 +15,12 @@ namespace BasicExamples
 {
     public class LogisticRegressionExplained
     {
+        private static HybridSequential net = null;
+        private static SigmoidBinaryCrossEntropyLoss loss = null;
+        private static Trainer trainer = null;
+        private static Accuracy accuracy = null;
+        private static F1 f1 = null;
+
         public static void Run()
         {
             //Logistic Regression is one of the first models newcomers to Deep Learning are implementing. 
@@ -26,33 +32,80 @@ namespace BasicExamples
             int batch_size = 10;
 
             var (train_x, train_ground_truth_class) = GetRandomState(train_data_size, ctx);
-            var train_dataset = new ArrayDataset(train_x, train_ground_truth_class);
-            var train_dataloader  = new DataLoader(train_dataset, batch_size: batch_size, shuffle: true);
+            var train_dataset = new ArrayDataset((train_x, train_ground_truth_class));
+            var train_dataloader = new DataLoader(train_dataset, batch_size: batch_size, shuffle: true);
 
             var (val_x, val_ground_truth_class) = GetRandomState(val_data_size, ctx);
-            var val_dataset = new ArrayDataset(val_x, val_ground_truth_class);
+            var val_dataset = new ArrayDataset((val_x, val_ground_truth_class));
             var val_dataloader = new DataLoader(val_dataset, batch_size: batch_size, shuffle: true);
 
-            var net = new HybridSequential();
+            net = new HybridSequential();
             net.Add(new Dense(units: 10, activation: ActivationType.Relu));
             net.Add(new Dense(units: 10, activation: ActivationType.Relu));
             net.Add(new Dense(units: 10, activation: ActivationType.Relu));
             net.Add(new Dense(units: 1));
 
             net.Initialize(new Xavier());
-            var loss = new SigmoidBinaryCrossEntropyLoss();
-            var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.1f));
+            loss = new SigmoidBinaryCrossEntropyLoss();
+            trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.1f));
 
-            var accuracy = new Accuracy();
-            var f1 = new F1();
+            accuracy = new Accuracy();
+            f1 = new F1();
 
+            int epochs = 10;
+            float threshold = 0.5f;
+
+            foreach (var e in Enumerable.Range(0, epochs))
+            {
+                var avg_train_loss = TrainModel(batch_size, train_dataloader) / train_data_size;
+                var avg_val_loss = ValidateModel(batch_size, train_dataloader, threshold) / val_data_size;
+                Console.WriteLine($"Epoch: {e}, Training loss: {avg_train_loss}, Validation loss: {avg_val_loss}, Validation accuracy: {accuracy.Get().Item2}, F1 score: {f1.Get().Item2}");
+            }
+        }
+
+        private static float TrainModel(int batch_size, DataLoader train_dataloader)
+        {
             float cumulative_train_loss = 0;
             int i = 0;
-            foreach (var item in train_dataloader)
+            foreach (var (data, label) in train_dataloader)
             {
-                var data = item[0];
-                var label = item[1];
+                NDArray loss_result = null;
+                using (var ag = Autograd.Record())
+                {
+                    var output = net.Call(data);
+                    loss_result = loss.Call(output, label);
+                    loss_result.Backward();
+                }
+
+                
+                trainer.Step(batch_size);
+                cumulative_train_loss += nd.Sum(loss_result).AsScalar<float>();
             }
+
+            return cumulative_train_loss;
+        }
+
+        private static float ValidateModel(int batch_size, DataLoader val_dataloader, float threshold)
+        {
+            float cumulative_val_loss = 0;
+            int i = 0;
+            foreach (var (val_data, val_ground_truth_class) in val_dataloader)
+            {
+                var output = net.Call(val_data);
+                NDArray loss_result = loss.Call(output, val_ground_truth_class);
+                
+                cumulative_val_loss += nd.Sum(loss_result).AsScalar<float>();
+
+                NDArray prediction = net.Call(val_data);
+                prediction = prediction.Sigmoid();
+                var predicted_classes = nd.Ceil(prediction - threshold);
+                accuracy.Update(val_ground_truth_class, predicted_classes.Reshape(-1));
+                prediction = prediction.Reshape(-1);
+                var probabilities = nd.Stack(new NDArrayList(1 - prediction, prediction), 2, axis: 1);
+                f1.Update(val_ground_truth_class, probabilities);
+            }
+
+            return cumulative_val_loss;
         }
 
         /// <summary>

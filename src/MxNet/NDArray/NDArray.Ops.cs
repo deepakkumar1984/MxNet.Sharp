@@ -975,6 +975,13 @@ namespace MxNet
                 .Invoke();
         }
 
+        public NDArray Sigmoid()
+        {
+            return new Operator("sigmoid")
+                .SetInput("data", this)
+                .Invoke();
+        }
+
         /// <summary>
         ///     <para>Returns element-wise rounded value to the nearest integer of the input.</para>
         ///     <para> </para>

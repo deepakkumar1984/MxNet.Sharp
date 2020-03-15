@@ -7,14 +7,14 @@ namespace MxNet.Gluon.Data
 {
     public class _MultiWorkerIter
     {
-        public delegate NDArrayList WorkerFn(int[] r, Func<NDArrayList, NDArrayList> _batchify_fn,
-            Dataset<NDArray> dataset);
+        public delegate (NDArray, NDArray) WorkerFn(int[] r, Func<(NDArray, NDArray)[], (NDArray, NDArray)> _batchify_fn,
+            Dataset<(NDArray, NDArray)> dataset);
 
         private readonly BatchSampler _batch_sampler;
-        private readonly Func<NDArrayList, NDArrayList> _batchify_fn;
-        private readonly Dictionary<int, NDArrayList> _data_buffer;
+        private readonly Func<(NDArray, NDArray)[], (NDArray, NDArray)> _batchify_fn;
+        private readonly Dictionary<int, (NDArray, NDArray)> _data_buffer;
         private DataLoader _data_loader;
-        private readonly Dataset<NDArray> _dataset;
+        private readonly Dataset<(NDArray, NDArray)> _dataset;
         private readonly IEnumerator<int[]> _iter;
         private readonly int _pin_device_id;
         private readonly bool _pin_memory;
@@ -23,15 +23,15 @@ namespace MxNet.Gluon.Data
         private readonly WorkerFn _worker_fn;
         private WorkerPool _worker_pool;
 
-        public _MultiWorkerIter(WorkerPool worker_pool, Func<NDArrayList, NDArrayList> batchify_fn,
+        public _MultiWorkerIter(WorkerPool worker_pool, Func<(NDArray, NDArray)[], (NDArray, NDArray)> batchify_fn,
             BatchSampler batch_sampler,
             bool pin_memory = false, int pin_device_id = 0, WorkerFn worker_fn = null,
-            int prefetch = 0, Dataset<NDArray> dataset = null, DataLoader data_loader = null)
+            int prefetch = 0, Dataset<(NDArray, NDArray)> dataset = null, DataLoader data_loader = null)
         {
             _worker_pool = worker_pool;
             _batchify_fn = batchify_fn;
             _batch_sampler = batch_sampler;
-            _data_buffer = new Dictionary<int, NDArrayList>();
+            _data_buffer = new Dictionary<int, (NDArray, NDArray)>();
             _rcvd_idx = 0;
             _sent_idx = 0;
             _iter = _batch_sampler.GetEnumerator();
@@ -45,12 +45,12 @@ namespace MxNet.Gluon.Data
 
         public int Length => _batch_sampler.Length;
 
-        public NDArrayList Next()
+        public (NDArray, NDArray) Next()
         {
             PushNext();
             if (_rcvd_idx == _sent_idx)
             {
-                if (_data_buffer != null)
+                if (_data_buffer.Count > 0)
                     throw new Exception("Data buffer should be empty at this moment");
 
                 throw new Exception("Stop Iteration");

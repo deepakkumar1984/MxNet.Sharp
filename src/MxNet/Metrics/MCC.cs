@@ -2,13 +2,13 @@
 {
     public class MCC : EvalMetric
     {
-        private readonly _BinaryClassificationMetrics metrics;
+        private readonly BinaryClassificationMetrics metrics;
 
         public MCC(string output_name = null, string label_name = null, string average = "macro") : base("mcc",
             output_name, label_name, true)
         {
             Average = average;
-            metrics = new _BinaryClassificationMetrics();
+            metrics = new BinaryClassificationMetrics();
         }
 
         public string Average { get; }

@@ -33,7 +33,7 @@ namespace MNIST
             net.Initialize(new Xavier(magnitude: 2.24f), ctx);
 
             //Create the trainer with all the network parameters and set the optimizer
-            var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.001f));
+            var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.02f));
 
             var epoch = 100;
             var metric = new Accuracy(); //Use Accuracy as the evaluation metric.

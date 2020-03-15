@@ -2,13 +2,13 @@
 {
     public class F1 : EvalMetric
     {
-        private readonly _BinaryClassificationMetrics metrics;
+        private readonly BinaryClassificationMetrics metrics;
 
         public F1(string output_name = null, string label_name = null, string average = "macro") : base("f1",
             output_name, label_name, true)
         {
             Average = average;
-            metrics = new _BinaryClassificationMetrics();
+            metrics = new BinaryClassificationMetrics();
         }
 
         public string Average { get; }

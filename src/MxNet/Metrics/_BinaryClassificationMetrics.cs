@@ -2,7 +2,7 @@
 
 namespace MxNet.Metrics
 {
-    internal class _BinaryClassificationMetrics : Base
+    internal class BinaryClassificationMetrics : Base
     {
         public int false_negatives;
         public int false_positives;
