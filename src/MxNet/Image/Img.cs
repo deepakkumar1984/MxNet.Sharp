@@ -74,7 +74,7 @@ namespace MxNet.Image
             return interp;
         }
 
-        public static NDArray ResizeShort(NDArray src, int size, ImgInterp interp = ImgInterp.Area_Based)
+        public static NDArray ResizeShort(NDArray src, int size, ImgInterp interp = ImgInterp.Bilinear)
         {
             var (h, w, _) = (src.Shape[0], src.Shape[1], src.Shape[2]);
             int new_h;

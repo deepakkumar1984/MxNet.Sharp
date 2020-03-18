@@ -157,7 +157,7 @@ namespace MxNet
         public static NDArray Cvimresize(NDArray data, int w, int h, int interp = 1)
         {
             return new Operator("_cvimresize")
-                .SetParam("data", data)
+                .SetInput("data", data)
                 .SetParam("w", w)
                 .SetParam("h", h)
                 .SetParam("interp", interp)

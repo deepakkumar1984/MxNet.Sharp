@@ -13,7 +13,7 @@ namespace MxNet.Gluon
         internal Shape _shape;
         internal Symbol _var;
         internal bool allow_deferred_init;
-        internal Dictionary<int, List<Context>> ctx_map;
+        internal Dictionary<int, List<int>> _ctx_map;
         internal (Initializer, Context[], Initializer, NDArray)? deferred_init;
         internal bool differentiable;
         private OpGradReq grad_req;
@@ -36,7 +36,7 @@ namespace MxNet.Gluon
             Grad_Stype = grad_stype;
             this.allow_deferred_init = allow_deferred_init;
             grad_req = OpGradReq.Null;
-            ctx_map = new Dictionary<int, List<Context>>();
+            _ctx_map = new Dictionary<int, List<int>>();
         }
 
         public virtual OpGradReq GradReg
@@ -109,22 +109,21 @@ namespace MxNet.Gluon
                 {
                     if (arr_list.Length == 1)
                         return arr_list.ToArray();
-                    ctx = Context.CurrentContext;
+                    else
+                        ctx = Context.CurrentContext;
                 }
 
-                var ctx_list = ctx_map[(int) ctx.GetDeviceType() & 1];
+                var ctx_list = _ctx_map[ctx.GetDeviceId()];
 
                 if (ctx.GetDeviceId() < ctx_list.Count)
                 {
                     var idx = ctx_list[ctx.GetDeviceId()];
-                    if (idx != null)
+                    if (idx != -1)
                         return arr_list.ToArray();
                 }
-                else
-                {
-                    throw new Exception($"Parameter '{Name}' was not initialized on context {ctx}. " +
+
+                throw new Exception($"Parameter '{Name}' was not initialized on context {ctx}. " +
                                         $"It was only initialized on {ctx_list[0]}.");
-                }
             }
 
             if (deferred_init.HasValue)
@@ -257,15 +256,20 @@ namespace MxNet.Gluon
         internal void InitImpl(NDArray data, Context[] ctx_list)
         {
             _ctx_list = ctx_list.ToList();
-            ctx_map = new Dictionary<int, List<Context>> {{0, new List<Context>()}, {1, new List<Context>()}};
+            _ctx_map = new Dictionary<int, List<int>>();
 
             for (var i = 0; i < ctx_list.Length; i++)
             {
+                var ctx = ctx_list[i];
+                var dev_list = _ctx_map.ContainsKey((int)ctx.GetDeviceId() & 1) ? _ctx_map[(int)ctx.GetDeviceId() & 1] : new List<int>();
+                
                 var key = (int) ctx_list[i].GetDeviceType() & 1;
-                while (ctx_map[key].Count <= ctx_list[i].GetDeviceId())
-                    ctx_map[key].Add(null);
+                while (dev_list.Count <= ctx.GetDeviceId())
+                    dev_list.Add(-1);
 
-                ctx_map[key][ctx_list[i].GetDeviceId()] = ctx_list[i];
+                dev_list[ctx.GetDeviceId()] = i;
+                _ctx_map[i] = dev_list;
+                //_ctx_map[key][ctx_list[i].GetDeviceId()] = ctx_list[i];
             }
 
             _data = new NDArrayList();

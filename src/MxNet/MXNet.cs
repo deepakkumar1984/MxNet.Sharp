@@ -12,7 +12,7 @@ namespace MxNet
         private static readonly string[] DllWhiteList =
             {"libgcc_s_seh-1.dll", "libgfortran-3.dll", "libquadmath-0.dll", "libopenblas.dll", "libmxnet.dll"};
 
-        internal static string AppPath =
+        public static string AppPath =
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\MxNet");
 
         #region Methods

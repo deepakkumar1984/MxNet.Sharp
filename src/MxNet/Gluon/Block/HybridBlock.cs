@@ -168,7 +168,7 @@ namespace MxNet.Gluon
                     else
                         cargs.Add(item.Param.Data());
             }
-            catch (DeferredInitializationException ex)
+            catch (DeferredInitializationException)
             {
                 DeferredInferShape(args);
                 cargs.Clear();
