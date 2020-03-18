@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.GluonCV.ModelZoo
 {
-    class Activation
+    class CActivation
     {
 
     }

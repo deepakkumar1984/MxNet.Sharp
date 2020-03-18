@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
-namespace MxNet.Gluon.ModelZoo
+namespace MxNet.GluonCV.ModelZoo
 {
     public class ModelStore
     {
@@ -69,7 +69,7 @@ namespace MxNet.Gluon.ModelZoo
             var shal1_hash = model_sha1[name];
             if (File.Exists(file_path))
             {
-                if (Utils.CheckSha1(file_path, shal1_hash))
+                if (MxNet.Gluon.Utils.CheckSha1(file_path, shal1_hash))
                     return file_path;
                 Logger.Warning("Mismatch in the content of model file detected. Downloading again.");
             }
@@ -86,11 +86,11 @@ namespace MxNet.Gluon.ModelZoo
             if (!repo_url.EndsWith("/"))
                 repo_url += "/";
 
-            Utils.Download(string.Format(_url_format, repo_url, file_name), zip_file_path, true);
+            MxNet.Gluon.Utils.Download(string.Format(_url_format, repo_url, file_name), zip_file_path, true);
             ZipFile.ExtractToDirectory(zip_file_path, root);
             File.Delete(zip_file_path);
 
-            if (Utils.CheckSha1(file_path, shal1_hash))
+            if (MxNet.Gluon.Utils.CheckSha1(file_path, shal1_hash))
                 return file_path;
             throw new Exception("Downloaded file has different hash. Please try again.");
         }
