@@ -81,7 +81,6 @@ namespace MxNet.Metrics
 
         public void UpdateBinaryStats(NDArray label, NDArray pred)
         {
-            label = label.AsType(DType.Int32);
             var pred_label = nd.Argmax(pred, 1);
             CheckLabelShapes(label, pred);
             //ToDo: check unique values and throw error for binary classification

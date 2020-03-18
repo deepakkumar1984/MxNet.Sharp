@@ -20,7 +20,9 @@ namespace BasicExamples
         private static Trainer trainer = null;
         private static Accuracy accuracy = null;
         private static F1 f1 = null;
-
+        private static int batch_size = 10;
+        private static DataLoader train_dataloader = null;
+        private static DataLoader val_dataloader = null;
         public static void Run()
         {
             //Logistic Regression is one of the first models newcomers to Deep Learning are implementing. 
@@ -29,15 +31,14 @@ namespace BasicExamples
             var ctx = mx.Cpu();
             int train_data_size = 1000;
             int val_data_size = 100;
-            int batch_size = 10;
-
+            
             var (train_x, train_ground_truth_class) = GetRandomState(train_data_size, ctx);
             var train_dataset = new ArrayDataset((train_x, train_ground_truth_class));
-            var train_dataloader = new DataLoader(train_dataset, batch_size: batch_size, shuffle: true);
+            train_dataloader = new DataLoader(train_dataset, batch_size: batch_size, shuffle: true);
 
             var (val_x, val_ground_truth_class) = GetRandomState(val_data_size, ctx);
             var val_dataset = new ArrayDataset((val_x, val_ground_truth_class));
-            var val_dataloader = new DataLoader(val_dataset, batch_size: batch_size, shuffle: true);
+            val_dataloader = new DataLoader(val_dataset, batch_size: batch_size, shuffle: true);
 
             net = new HybridSequential();
             net.Add(new Dense(units: 10, activation: ActivationType.Relu));
@@ -57,13 +58,13 @@ namespace BasicExamples
 
             foreach (var e in Enumerable.Range(0, epochs))
             {
-                var avg_train_loss = TrainModel(batch_size, train_dataloader) / train_data_size;
-                var avg_val_loss = ValidateModel(batch_size, train_dataloader, threshold) / val_data_size;
+                var avg_train_loss = TrainModel() / train_data_size;
+                var avg_val_loss = ValidateModel(threshold) / val_data_size;
                 Console.WriteLine($"Epoch: {e}, Training loss: {avg_train_loss}, Validation loss: {avg_val_loss}, Validation accuracy: {accuracy.Get().Item2}, F1 score: {f1.Get().Item2}");
             }
         }
 
-        private static float TrainModel(int batch_size, DataLoader train_dataloader)
+        private static float TrainModel()
         {
             float cumulative_train_loss = 0;
             int i = 0;
@@ -85,7 +86,7 @@ namespace BasicExamples
             return cumulative_train_loss;
         }
 
-        private static float ValidateModel(int batch_size, DataLoader val_dataloader, float threshold)
+        private static float ValidateModel(float threshold)
         {
             float cumulative_val_loss = 0;
             int i = 0;
