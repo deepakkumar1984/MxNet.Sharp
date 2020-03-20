@@ -93,7 +93,7 @@ namespace MxNet.Gluon
             return ret;
         }
 
-        private ParameterDict CollectParamsWithPrefix(string prefix = "")
+        public virtual ParameterDict CollectParamsWithPrefix(string prefix = "")
         {
             if (!string.IsNullOrWhiteSpace(prefix)) prefix += ".";
 
