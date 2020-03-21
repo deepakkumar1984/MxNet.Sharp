@@ -21,19 +21,19 @@ namespace MNIST
 
             // Define simple network with dense layers
             var net = new Sequential();
-            net.Add(new Dense(128, ActivationType.Relu, in_units: 728));
-            net.Add(new Dense(64, ActivationType.Relu));
-            net.Add(new Dense(10));
+            net.Add(new Dense(128, ActivationType.Relu, in_units: 784));
+            net.Add(new Dense(64, ActivationType.Relu, in_units: 128));
+            net.Add(new Dense(10, in_units: 64));
 
             //Set context, multi-gpu supported
             var gpus = TestUtils.ListGpus();
-            var ctx = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] {Context.Cpu(0)};
+            var ctx = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] { Context.Cpu(0) };
 
             //Initialize the weights
             net.Initialize(new Xavier(magnitude: 2.24f), ctx);
 
             //Create the trainer with all the network parameters and set the optimizer
-            var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.02f));
+            var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.1f));
 
             var epoch = 100;
             var metric = new Accuracy(); //Use Accuracy as the evaluation metric.
@@ -62,35 +62,38 @@ namespace MNIST
                     var outputs = new NDArrayList();
 
                     // Inside training scope
-                    using (var ag = Autograd.Record())
+                    NDArray loss = null;
+                    for (int i = 0; i < data.Length; i++)
                     {
-                        for(int i = 0;i < data.Length;i++)
+                        using (var ag = Autograd.Record())
                         {
                             var x = data[i];
                             var y = label[i];
                             var z = net.Call(x);
-
-                            // Computes softmax cross entropy loss.
-                            NDArray loss = softmax_cross_entropy_loss.Call(z, y);
-
-                            // Backpropagate the error for one iteration.
-                            loss.Backward();
-                            lossVal += loss.Mean();
+                            loss = softmax_cross_entropy_loss.Call(z, y);
                             outputs.Add(z);
                         }
-                        //outputs = Enumerable.Zip(data, label, (x, y) =>
-                        //{
-                        //    var z = net.Call(x);
 
-                        //    // Computes softmax cross entropy loss.
-                        //    NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+                        // Computes softmax cross entropy loss.
+                        
 
-                        //    // Backpropagate the error for one iteration.
-                        //    loss.Backward();
-                        //    lossVal += loss.Mean();
-                        //    return z;
-                        //}).ToList();
+                        // Backpropagate the error for one iteration.
+                        loss.Backward();
+                        lossVal += loss.Mean();
+                        
                     }
+                    //outputs = Enumerable.Zip(data, label, (x, y) =>
+                    //{
+                    //    var z = net.Call(x);
+
+                    //    // Computes softmax cross entropy loss.
+                    //    NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+
+                    //    // Backpropagate the error for one iteration.
+                    //    loss.Backward();
+                    //    lossVal += loss.Mean();
+                    //    return z;
+                    //}).ToList();
 
                     // Updates internal evaluation
                     metric.Update(label, outputs.ToArray());

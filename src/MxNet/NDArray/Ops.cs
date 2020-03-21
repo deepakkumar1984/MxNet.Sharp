@@ -840,45 +840,6 @@ namespace MxNet
         }
 
         /// <summary>
-        ///     <para>Joins input arrays along a given axis.</para>
-        ///     <para> </para>
-        ///     <para>.. note:: `Concat` is deprecated. Use `concat` instead.</para>
-        ///     <para> </para>
-        ///     <para>The dimensions of the input arrays should be the same except the axis along</para>
-        ///     <para>which they will be concatenated.</para>
-        ///     <para>The dimension of the output array along the concatenated axis will be equal</para>
-        ///     <para>to the sum of the corresponding dimensions of the input arrays.</para>
-        ///     <para> </para>
-        ///     <para>The storage type of ``concat`` output depends on storage types of inputs</para>
-        ///     <para> </para>
-        ///     <para>- concat(csr, csr, ..., csr, dim=0) = csr</para>
-        ///     <para>- otherwise, ``concat`` generates output with default storage</para>
-        ///     <para> </para>
-        ///     <para>Example::</para>
-        ///     <para> </para>
-        ///     <para>   x = [[1,1],[2,2]]</para>
-        ///     <para>   y = [[3,3],[4,4],[5,5]]</para>
-        ///     <para>   z = [[6,6], [7,7],[8,8]]</para>
-        ///     <para> </para>
-        ///     <para>   concat(x,y,z,dim=0) = [[ 1.,  1.],</para>
-        ///     <para>                          [ 2.,  2.],</para>
-        ///     <para>                          [ 3.,  3.],</para>
-        ///     <para>                          [ 4.,  4.],</para>
-        ///     <para>                          [ 5.,  5.],</para>
-        ///     <para>                          [ 6.,  6.],</para>
-        ///     <para>                          [ 7.,  7.],</para>
-        ///     <para>                          [ 8.,  8.]]</para>
-        ///     <para> </para>
-        ///     <para>   Note that you cannot concat x,y,z along dimension 1 since dimension</para>
-        ///     <para>   0 is not the same for all the input arrays.</para>
-        ///     <para> </para>
-        ///     <para>   concat(y,z,dim=1) = [[ 3.,  3.,  6.,  6.],</para>
-        ///     <para>                         [ 4.,  4.,  7.,  7.],</para>
-        ///     <para>                         [ 5.,  5.,  8.,  8.]]</para>
-        ///     <para> </para>
-        ///     <para> </para>
-        ///     <para> </para>
-        ///     <para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\nn\concat.cc:L371</para>
         /// </summary>
         /// <param name="data">List of arrays to concatenate</param>
         /// <param name="num_args">Number of inputs to be concated.</param>
@@ -909,80 +870,6 @@ namespace MxNet
         }
 
         /// <summary>
-        ///     <para>Compute *N*-D convolution on *(N+2)*-D input.</para>
-        ///     <para> </para>
-        ///     <para>In the 2-D convolution, given input data with shape *(batch_size,</para>
-        ///     <para>channel, height, width)*, the output is computed by</para>
-        ///     <para> </para>
-        ///     <para>.. math::</para>
-        ///     <para> </para>
-        ///     <para>   out[n,i,:,:] = bias[i] + \sum_{j=0}^{channel} data[n,j,:,:] \star</para>
-        ///     <para>   weight[i,j,:,:]</para>
-        ///     <para> </para>
-        ///     <para>where :math:`\star` is the 2-D cross-correlation operator.</para>
-        ///     <para> </para>
-        ///     <para>For general 2-D convolution, the shapes are</para>
-        ///     <para> </para>
-        ///     <para>- **data**: *(batch_size, channel, height, width)*</para>
-        ///     <para>- **weight**: *(num_filter, channel, kernel[0], kernel[1])*</para>
-        ///     <para>- **bias**: *(num_filter,)*</para>
-        ///     <para>- **out**: *(batch_size, num_filter, out_height, out_width)*.</para>
-        ///     <para> </para>
-        ///     <para>Define::</para>
-        ///     <para> </para>
-        ///     <para>  f(x,k,p,s,d) = floor((x+2*p-d*(k-1)-1)/s)+1</para>
-        ///     <para> </para>
-        ///     <para>then we have::</para>
-        ///     <para> </para>
-        ///     <para>  out_height=f(height, kernel[0], pad[0], stride[0], dilate[0])</para>
-        ///     <para>  out_width=f(width, kernel[1], pad[1], stride[1], dilate[1])</para>
-        ///     <para> </para>
-        ///     <para>If ``no_bias`` is set to be true, then the ``bias`` term is ignored.</para>
-        ///     <para> </para>
-        ///     <para>The default data ``layout`` is *NCHW*, namely *(batch_size, channel, height,</para>
-        ///     <para>width)*. We can choose other layouts such as *NWC*.</para>
-        ///     <para> </para>
-        ///     <para>If ``num_group`` is larger than 1, denoted by *g*, then split the input ``data``</para>
-        ///     <para>evenly into *g* parts along the channel axis, and also evenly split ``weight``</para>
-        ///     <para>along the first dimension. Next compute the convolution on the *i*-th part of</para>
-        ///     <para>the data with the *i*-th weight part. The output is obtained by concatenating all</para>
-        ///     <para>the *g* results.</para>
-        ///     <para> </para>
-        ///     <para>1-D convolution does not have *height* dimension but only *width* in space.</para>
-        ///     <para> </para>
-        ///     <para>- **data**: *(batch_size, channel, width)*</para>
-        ///     <para>- **weight**: *(num_filter, channel, kernel[0])*</para>
-        ///     <para>- **bias**: *(num_filter,)*</para>
-        ///     <para>- **out**: *(batch_size, num_filter, out_width)*.</para>
-        ///     <para> </para>
-        ///     <para>3-D convolution adds an additional *depth* dimension besides *height* and</para>
-        ///     <para>*width*. The shapes are</para>
-        ///     <para> </para>
-        ///     <para>- **data**: *(batch_size, channel, depth, height, width)*</para>
-        ///     <para>- **weight**: *(num_filter, channel, kernel[0], kernel[1], kernel[2])*</para>
-        ///     <para>- **bias**: *(num_filter,)*</para>
-        ///     <para>- **out**: *(batch_size, num_filter, out_depth, out_height, out_width)*.</para>
-        ///     <para> </para>
-        ///     <para>Both ``weight`` and ``bias`` are learnable parameters.</para>
-        ///     <para> </para>
-        ///     <para>There are other options to tune the performance.</para>
-        ///     <para> </para>
-        ///     <para>- **cudnn_tune**: enable this option leads to higher startup time but may give</para>
-        ///     <para>  faster speed. Options are</para>
-        ///     <para> </para>
-        ///     <para>  - **off**: no tuning</para>
-        ///     <para>  - **limited_workspace**:run test and pick the fastest algorithm that doesn't</para>
-        ///     <para>    exceed workspace limit.</para>
-        ///     <para>  - **fastest**: pick the fastest algorithm and ignore workspace limit.</para>
-        ///     <para>  - **None** (default): the behavior is determined by environment variable</para>
-        ///     <para>    ``MXNET_CUDNN_AUTOTUNE_DEFAULT``. 0 for off, 1 for limited workspace</para>
-        ///     <para>    (default), 2 for fastest.</para>
-        ///     <para> </para>
-        ///     <para>- **workspace**: A large number leads to more (GPU) memory usage but may improve</para>
-        ///     <para>  the performance.</para>
-        ///     <para> </para>
-        ///     <para> </para>
-        ///     <para> </para>
         ///     <para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\nn\convolution.cc:L472</para>
         /// </summary>
         /// <param name="data">Input data to the ConvolutionOp.</param>

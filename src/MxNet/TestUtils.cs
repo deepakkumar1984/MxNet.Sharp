@@ -154,7 +154,7 @@ namespace MxNet
                     stream.Seek(8, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
 
-                    label = new NDArray(data, new Shape(n), dtype: DType.Int8);
+                    label = new NDArray(data.Select(i => (float)i).ToArray(), new Shape(n));
                 }
             }
 
@@ -170,11 +170,19 @@ namespace MxNet
                     stream.Seek(16, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
                     var x = np.frombuffer(data, typeof(byte));
-                    images = new NDArray(data.Select(i=>(float)i).ToArray(), new Shape(n, 728)) / 255;
+                    images = new NDArray(data.Select(i => (float)i).ToArray(), new Shape(n, 1, 28, 28)) / 255;
                 }
             }
 
             return (label, images);
+        }
+
+        public static string[] GetImagenetLabels()
+        {
+            string url = "https://raw.githubusercontent.com/dmlc/web-data/master/mxnet/doc/tutorials/onnx/image_net_labels.json";
+            Utils.Download(url, "image_net_labels.json");
+            var labels = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>(File.ReadAllText("image_net_labels.json"));
+            return labels;
         }
     }
 }

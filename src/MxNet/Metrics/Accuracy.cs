@@ -20,8 +20,8 @@
             else
                 pred_label = preds;
 
-            var label = labels.Ravel();
-            pred_label = pred_label.Ravel();
+            var label = labels.Ravel().AsType(DType.Int32);
+            pred_label = pred_label.Ravel().AsType(DType.Int32);
 
             var num_correct = nd.Equal(pred_label, label).AsType(DType.Float32).Sum();
 

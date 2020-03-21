@@ -7,10 +7,10 @@ namespace MxNet.Gluon.NN
         public MaxPool2D((int, int)? pool_size = null, (int, int)? strides = null, (int, int)? padding = null,
             string layout = "NCHW",
             bool ceil_mode = false, string prefix = null, ParameterDict @params = null)
-            : base(pool_size.HasValue ? new[] {2, 2} : new[] {pool_size.Value.Item1, pool_size.Value.Item2}
+            : base(pool_size.HasValue ? new[] {pool_size.Value.Item1, pool_size.Value.Item2} : new[] { 2, 2 }
                 , strides.HasValue
                     ? new[] {strides.Value.Item1, strides.Value.Item2}
-                    : new[] {pool_size.Value.Item1, pool_size.Value.Item2}
+                    : null
                 , padding.HasValue ? new[] {padding.Value.Item1, padding.Value.Item2} : new[] {0, 0}
                 , ceil_mode, false, PoolingType.Max, layout, null, prefix, @params)
         {

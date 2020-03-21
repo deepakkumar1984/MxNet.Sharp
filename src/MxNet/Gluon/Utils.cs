@@ -144,6 +144,15 @@ namespace MxNet.Gluon
             if (string.IsNullOrWhiteSpace(path))
                 path = "./";
 
+            if(!overwrite && File.Exists(path))
+            {
+                if (sha1_hash != "")
+                    if (!CheckSha1(path, sha1_hash))
+                        throw new Exception("File hash not matching");
+
+                return path;
+            }
+
             using (var client = new WebClient())
             {
                 var ur = new Uri(url);

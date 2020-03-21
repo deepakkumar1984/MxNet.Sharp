@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MxNet;
 using MxNet.Gluon.ModelZoo.Vision;
 using MxNet.Image;
@@ -10,14 +11,21 @@ namespace ImageClassification
         private static void Main(string[] args)
         {
             var alex_net = AlexNet.GetAlexNet(true);
-            var image = Img.ImRead("test1.jpg").AsType(DType.Float32);
-            image = Img.ResizeShort(image, 256);
-            image = image / 255;
+            var image = Img.ImRead("goldfish.jpg");
+            image = Img.ResizeShort(image, 227);
+            image = image.AsType(DType.Float32) / 255;
             var normalized = Img.ColorNormalize(image, new NDArray(new[] {0.485f, 0.456f, 0.406f}),
                 new NDArray(new[] {0.229f, 0.224f, 0.225f}));
-            var pred = alex_net.Call(image);
-            var prob = nd.Softmax(pred);
-            var ind = nd.Topk(prob, k: 5).AsArray<float>().OfType<float>();
+            normalized = normalized.Transpose(new Shape(2, 0, 1));
+            normalized = normalized.ExpandDims(axis: 0);
+            var pred = alex_net.Call(normalized);
+            var prob = nd.Softmax(pred).Topk(k: 5);
+            var label_index = prob.ArrayData.OfType<float>().ToList();
+            var imagenet_labels = TestUtils.GetImagenetLabels();
+            foreach (int i in label_index)
+            {
+                Console.WriteLine(imagenet_labels[i]);
+            }
         }
     }
 }

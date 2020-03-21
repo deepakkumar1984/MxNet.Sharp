@@ -53,7 +53,7 @@ namespace MxNet
             _Blob = new NDBlob(handle);
         }
 
-        public NDArray(Shape shape, bool delayAlloc = true, Context ctx = null)
+        public NDArray(Shape shape, bool delayAlloc = true, Context ctx = null, DType dtype = null)
         {
             if (ctx == null)
                 ctx = Context.CurrentContext;
@@ -61,11 +61,15 @@ namespace MxNet
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data,
+            if (dtype == null)
+                dtype = DType.Float32;
+
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data,
                 shape.Dimension,
                 ctx.GetDeviceType(),
                 ctx.GetDeviceId(),
                 delayAlloc.ToInt32(),
+                dtype.Index,
                 out var @out), NativeMethods.OK);
             NativePtr = @out;
             _Blob = new NDBlob(@out);
@@ -165,20 +169,20 @@ namespace MxNet
 
         public NDArray ChangeContext(Context ctx)
         {
-            var result = new NDArray(Shape, true, ctx);
+            var result = new NDArray(Shape, true, ctx, DataType);
             CopyTo(result);
             return result;
         }
 
         public Context GetContext()
         {
-            NativeMethods.MXNDArrayGetContext(_Blob.Handle, out var out_dev_type, out var out_dev_id);
+            NativeMethods.MXNDArrayGetContext(NativePtr, out var out_dev_type, out var out_dev_id);
             return new Context((DeviceType) out_dev_type, out_dev_id);
         }
 
         public NDArrayHandle GetData()
         {
-            NativeMethods.MXNDArrayGetData(_Blob.Handle, out var ret);
+            NativeMethods.MXNDArrayGetData(NativePtr, out var ret);
             if (GetDType() != 0)
                 return IntPtr.Zero;
 
@@ -187,7 +191,7 @@ namespace MxNet
 
         public int GetDType()
         {
-            NativeMethods.MXNDArrayGetDType(_Blob.Handle, out var ret);
+            NativeMethods.MXNDArrayGetDType(NativePtr, out var ret);
             return ret;
         }
 
@@ -358,7 +362,7 @@ namespace MxNet
             var resize = size > 0;
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
 
-            NativeMethods.MXNDArraySyncCopyFromCPU(_Blob.Handle, datagch.AddrOfPinnedObject(), (uint) size);
+            NativeMethods.MXNDArraySyncCopyFromCPU(NativePtr, datagch.AddrOfPinnedObject(), (uint) size);
         }
 
         public virtual void SyncCopyFromCPU(Array data)
@@ -367,7 +371,7 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(data));
 
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
-            NativeMethods.MXNDArraySyncCopyFromCPU(_Blob.Handle, datagch.AddrOfPinnedObject(), (uint) data.Length);
+            NativeMethods.MXNDArraySyncCopyFromCPU(NativePtr, datagch.AddrOfPinnedObject(), (uint) data.Length);
         }
 
         public void SyncCopyToCPU(Array data)
@@ -380,7 +384,7 @@ namespace MxNet
             var resize = size > 0;
             size = resize ? size : GetShape().Count();
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
-            NativeMethods.MXNDArraySyncCopyToCPU(_Blob.Handle, datagch.AddrOfPinnedObject(), (ulong) size);
+            NativeMethods.MXNDArraySyncCopyToCPU(NativePtr, datagch.AddrOfPinnedObject(), (ulong) size);
 
             datagch.Free();
         }
@@ -406,7 +410,7 @@ namespace MxNet
             var size = Size;
             var data = new T[size];
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
-            NativeMethods.MXNDArraySyncCopyToCPU(_Blob.Handle, datagch.AddrOfPinnedObject(), (ulong) size);
+            NativeMethods.MXNDArraySyncCopyToCPU(NativePtr, datagch.AddrOfPinnedObject(), (ulong) size);
             datagch.Free();
             return data;
         }
@@ -428,12 +432,12 @@ namespace MxNet
 
         public void WaitToRead()
         {
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitToRead(_Blob.Handle), NativeMethods.OK);
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitToRead(NativePtr), NativeMethods.OK);
         }
 
         public void WaitToWrite()
         {
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitToWrite(_Blob.Handle), NativeMethods.OK);
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayWaitToWrite(NativePtr), NativeMethods.OK);
         }
 
         public virtual NDArray AsType(DType dtype)
@@ -534,7 +538,10 @@ namespace MxNet
             var ograd_handles = new List<NDArrayHandle>();
             var var_handles = new List<NDArrayHandle>();
             //var grad_handles = new List<NDArrayHandle>();
-            if (out_grad != null) ograd_handles.Add(out_grad.GetHandle());
+            if (out_grad != null)
+                ograd_handles.Add(out_grad.GetHandle());
+            else
+                ograd_handles.Add(new NDArrayHandle());
 
             NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] {NativePtr}, ograd_handles.ToArray(),
                 0, var_handles.ToArray(), retain_graph ? 1 : 0,
@@ -545,7 +552,7 @@ namespace MxNet
 
         public static NDArray operator +(NDArray lhs, NDArray rhs)
         {
-            return nd.ElemwiseAdd(lhs, rhs);
+            return nd.BroadcastAdd(lhs, rhs);
         }
 
         public static NDArray operator +(NDArray lhs, float scalar)
@@ -560,7 +567,7 @@ namespace MxNet
 
         public static NDArray operator -(NDArray lhs, NDArray rhs)
         {
-            return nd.ElemwiseSub(lhs, rhs);
+            return nd.BroadcastSub(lhs, rhs);
         }
 
         public static NDArray operator -(NDArray lhs, float scalar)
@@ -575,7 +582,7 @@ namespace MxNet
 
         public static NDArray operator *(NDArray lhs, NDArray rhs)
         {
-            return nd.ElemwiseMul(lhs, rhs);
+            return nd.BroadcastMul(lhs, rhs);
         }
 
         public static NDArray operator *(NDArray lhs, float scalar)
@@ -590,7 +597,7 @@ namespace MxNet
 
         public static NDArray operator /(NDArray lhs, NDArray rhs)
         {
-            return nd.ElemwiseDiv(lhs, rhs);
+            return nd.BroadcastDiv(lhs, rhs);
         }
 
         public static NDArray operator /(NDArray lhs, float scalar)
@@ -627,12 +634,12 @@ namespace MxNet
 
         public static NDArray operator >(NDArray lhs, NDArray rhs)
         {
-            return nd.Greater(lhs, rhs);
+            return nd.BroadcastGreater(lhs, rhs);
         }
 
         public static NDArray operator >=(NDArray lhs, NDArray rhs)
         {
-            return nd.GreaterEqual(lhs, rhs);
+            return nd.BroadcastGreaterEqual(lhs, rhs);
         }
 
         public static NDArray operator >(NDArray lhs, float rhs)
@@ -657,12 +664,12 @@ namespace MxNet
 
         public static NDArray operator <(NDArray lhs, NDArray rhs)
         {
-            return nd.Lesser(lhs, rhs);
+            return nd.BroadcastLesser(lhs, rhs);
         }
 
         public static NDArray operator <=(NDArray lhs, NDArray rhs)
         {
-            return nd.LesserEqual(lhs, rhs);
+            return nd.BroadcastLesserEqual(lhs, rhs);
         }
 
         public static NDArray operator <(NDArray lhs, float rhs)
@@ -696,17 +703,17 @@ namespace MxNet
 
         public virtual NDArray Reshape(params int[] shape)
         {
-            //var targetShape = new int[shape.Length];
-            //var prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
-            //for (var i = 0; i < targetShape.Length; i++)
-            //    if (shape[i] != -1)
-            //        targetShape[i] = shape[i];
-            //    else
-            //        targetShape[i] = Size / (int) prod;
+            var targetShape = new int[shape.Length];
+            var prod = -1 * shape.Aggregate(1, (a, b) => a * b);
+            for (var i = 0; i < targetShape.Length; i++)
+                if (shape[i] != -1)
+                    targetShape[i] = shape[i];
+                else
+                    targetShape[i] = Size / (int)prod;
 
-            //return Reshape(new Shape(targetShape));
+            return Reshape(new Shape(targetShape));
 
-            return Reshape(new Shape(shape));
+            //return Reshape(new Shape(shape));
         }
 
         public NDArray Ravel()

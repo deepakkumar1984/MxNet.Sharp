@@ -6,7 +6,7 @@ namespace MxNet.Gluon
 {
     public class HookHandle : MxDisposable
     {
-        private WeakReference<SortedDictionary<int, Hook>> _hooks_dict_ref;
+        private WeakReference<Dictionary<int, Hook>> _hooks_dict_ref;
         private int _id;
 
         public HookHandle()
@@ -14,13 +14,13 @@ namespace MxNet.Gluon
             _hooks_dict_ref = null;
         }
 
-        public (WeakReference<SortedDictionary<int, Hook>>, int) State
+        public (WeakReference<Dictionary<int, Hook>>, int) State
         {
             get => (_hooks_dict_ref, _id);
             set
             {
                 if (value.Item1 == null)
-                    _hooks_dict_ref = new WeakReference<SortedDictionary<int, Hook>>(new SortedDictionary<int, Hook>());
+                    _hooks_dict_ref = new WeakReference<Dictionary<int, Hook>>(new Dictionary<int, Hook>());
                 else
                     _hooks_dict_ref = value.Item1;
 
@@ -28,14 +28,14 @@ namespace MxNet.Gluon
             }
         }
 
-        public void Attach(SortedDictionary<int, Hook> hooks_dict, Hook hook)
+        public void Attach(Dictionary<int, Hook> hooks_dict, Hook hook)
         {
             if (_hooks_dict_ref == null)
                 throw new Exception("The same handle cannot be attached twice.");
 
             _id = hook.GetHashCode();
             hooks_dict[_id] = hook;
-            _hooks_dict_ref = new WeakReference<SortedDictionary<int, Hook>>(hooks_dict);
+            _hooks_dict_ref = new WeakReference<Dictionary<int, Hook>>(hooks_dict);
         }
 
         public void Detach()

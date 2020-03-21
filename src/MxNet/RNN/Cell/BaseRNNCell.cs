@@ -42,7 +42,7 @@ namespace MxNet.RecurrentLayer
 
         public abstract void Call(Symbol inputs, Symbol[] states);
 
-        public virtual Symbol[] BeginState(string func = "zeros", FuncArgs kwargs)
+        public virtual Symbol[] BeginState(string func = "zeros", FuncArgs kwargs = null)
         {
             throw new NotImplementedException();
         }

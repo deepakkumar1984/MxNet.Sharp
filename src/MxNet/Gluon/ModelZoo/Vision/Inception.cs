@@ -26,7 +26,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 output.Add(new MaxPool2D((3, 3), (1, 1)));
 
             if (channels.HasValue)
-                output.Add(MakeBasicConv(channels.Value, kernel_size.Value, strides.Value, padding.Value));
+                output.Add(MakeBasicConv(channels.Value, kernel_size.Value, strides, padding));
 
             return output;
         }

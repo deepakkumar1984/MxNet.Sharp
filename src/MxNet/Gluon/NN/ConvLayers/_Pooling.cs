@@ -35,11 +35,12 @@
             if (x.IsNDArray)
                 return nd.Pooling(x, new Shape(Kernel), PoolType, GlobalPool, stride: new Shape(Strides),
                     pad: new Shape(Padding),
-                    count_include_pad: CountIncludePad, layout: Layout);
+                    count_include_pad: CountIncludePad, layout: Layout, 
+                    pooling_convention: CeilMode ? PoolingConvention.Full : PoolingConvention.Valid);
 
             return sym.Pooling(x, new Shape(Kernel), PoolType, GlobalPool, stride: new Shape(Strides),
                 pad: new Shape(Padding),
-                count_include_pad: CountIncludePad, layout: Layout);
+                count_include_pad: CountIncludePad, layout: Layout, pooling_convention: CeilMode ? PoolingConvention.Full : PoolingConvention.Valid, symbol_name: "fwd");
         }
 
         public override string Alias()

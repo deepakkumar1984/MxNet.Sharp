@@ -80,9 +80,9 @@ namespace MxNet.Image
             int new_h;
             int new_w;
             if (h > w)
-                (new_h, new_w) = (size * h / w, size);
+                (new_h, new_w) = (size * (int)Math.Round((double)h / w), size);
             else
-                (new_h, new_w) = (size, size * w / h);
+                (new_h, new_w) = (size, size * (int)Math.Round((double)w / h));
 
             return ImResize(src, new_w, new_h, GetInterpMethod(interp, (h, w, new_h, new_w)));
         }
