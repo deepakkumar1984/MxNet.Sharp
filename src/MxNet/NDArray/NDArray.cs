@@ -313,6 +313,15 @@ namespace MxNet
             return new NDArray(handle);
         }
 
+        public static NDArray LoadCV2Mat(OpenCvSharp.Mat img)
+        {
+            Shape s = new Shape(1, img.Channels(), img.Height, img.Width);
+            byte[] bytes = new byte[s.Size];
+            Marshal.Copy(img.Data, bytes, 0, s.Size);
+            var ret = new NDArray(bytes, s, dtype: DType.Uint8);
+            return ret;
+        }
+
         public static NDArray NewFromSharedMem(int shared_pid, int shared_id, Shape shape, DType dtype)
         {
             NativeMethods.MXNDArrayCreateFromSharedMemEx(shared_pid, shared_id, shape.Data, shape.Dimension,

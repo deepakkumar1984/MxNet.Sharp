@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MxNet.IO;
+using System.Linq;
 
 namespace MxNet.Modules
 {
@@ -8,28 +9,80 @@ namespace MxNet.Modules
     {
         internal static void LoadGeneral(List<NDArrayList> data, List<NDArrayList> targets, int[] major_axis)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < data.Count; i++)
+            {
+                var d_src = data[i];
+                var d_targets = targets[i];
+                int axis = major_axis[i];
+                for (int j = 0; i < d_src.Length; j++)
+                {
+                    var src = d_src[j];
+                    var dst = d_targets[j];
+                    src.CopyTo(dst);
+                }
+            }
         }
 
         internal static void LoadData(DataBatch batch, List<List<(Slice, NDArray)>> targets, int[] major_axis)
         {
-            throw new NotImplementedException();
+            var datalist = new List<NDArrayList>() { batch.Data };
+            List<NDArrayList> targetlist = new List<NDArrayList>();
+            foreach (var item in targets)
+            {
+                targetlist.Add(item.Select(x => x.Item2).ToArray());
+            }
+
+            LoadGeneral(datalist, targetlist, major_axis);
         }
 
         internal static void LoadLabel(DataBatch batch, List<List<(Slice, NDArray)>> targets, int[] major_axis)
         {
-            throw new NotImplementedException();
+            var datalist = new List<NDArrayList>() { batch.Label };
+            List<NDArrayList> targetlist = new List<NDArrayList>();
+            foreach (var item in targets)
+            {
+                targetlist.Add(item.Select(x => x.Item2).ToArray());
+            }
+
+            LoadGeneral(datalist, targetlist, major_axis);
         }
 
         internal static NDArrayList MergeMultiContext(List<NDArrayList> outputs, int[] major_axis)
         {
-            throw new NotImplementedException();
+            var ret = Enumerable.Zip(outputs, major_axis, (tensors, axis) =>
+            {
+                if(axis >= 0)
+                {
+                    if (tensors.Length == 1)
+                        return tensors[0];
+                    else
+                    {
+                        return nd.Concat(tensors.Select(x => x.AsInContext(tensors[0].Context)).ToArray(), dim: axis);
+                    }
+                }
+
+                return tensors[0];
+
+            }).ToList();
+
+            return ret;
         }
 
-        internal static Dictionary<string, Context>[] PrepareGroup2Ctxs(Dictionary<string, Context>[] group2ctxs,
-            int ctx_len)
+        internal static Dictionary<string, Context>[] PrepareGroup2Ctxs(Dictionary<string, Context>[] group2ctxs, int ctx_len)
         {
-            throw new NotImplementedException();
+            List<Dictionary<string, Context>> ret = new List<Dictionary<string, Context>>();
+            if(group2ctxs == null)
+            {
+                for (int i = 0; i < ctx_len; i++)
+                    ret.Add(null);
+
+                return ret.ToArray();
+            }
+
+            if (group2ctxs.Length == ctx_len)
+                return group2ctxs;
+
+            throw new Exception("Length of group2ctxs should be " + ctx_len);
         }
     }
 }

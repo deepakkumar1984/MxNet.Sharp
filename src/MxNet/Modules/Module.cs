@@ -43,11 +43,15 @@ namespace MxNet.Modules
             if (context == null)
                 context = new[] {Context.Cpu()};
 
+            _context = context;
+
             if (work_load_list == null)
             {
                 work_load_list = new int[context.Length];
                 for (var i = 0; i < work_load_list.Length; i++) work_load_list[i] = 1;
             }
+
+            _work_load_list = work_load_list;
 
             if (context.Length != work_load_list.Length)
                 throw new Exception("Context and WorkLoadList length are not equal");

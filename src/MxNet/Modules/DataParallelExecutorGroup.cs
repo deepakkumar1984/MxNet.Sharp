@@ -22,7 +22,7 @@ namespace MxNet.Modules
         public string[] FixedParamNames { get; }
         public string[] StateNames { get; }
         public string[] OutputNames { get; }
-        public Dictionary<string, Context>[] Group2Ctxs { get; }
+        public Dictionary<string, Context>[]Group2Ctxs { get; }
         public Dictionary<string, OpGradReq> GradReq { get; }
         public string[] ArgNames { get; set; }
         public string[] AuxNames { get; set; }
@@ -90,6 +90,10 @@ namespace MxNet.Modules
             else
             {
                 SharedDataArrays = new List<NDArrayDict>();
+                for (int i = 0; i < contexts.Length; i++)
+                {
+                    SharedDataArrays.Add(new NDArrayDict());
+                }
             }
 
             OutputNames = symbol.ListOutputs().ToArray();
@@ -104,8 +108,11 @@ namespace MxNet.Modules
                 throw new ArgumentNullException("data_shapes", "null ot 0 element");
 
             var major_axis = data_shapes.Select(x => (DataDesc.GetBatchAxis(x.Layout))).ToArray();
-            Enumerable.Zip(data_shapes, major_axis, (ds, axis) => {
-                if(axis != -1)
+            for (int i = 0; i < data_shapes.Length; i++)
+            {
+                int axis = major_axis[i];
+                var ds = data_shapes[i];
+                if (axis != -1)
                 {
                     int batch_size = ds.Shape[axis];
                     if (BatchSize.HasValue && batch_size != BatchSize.Value)
@@ -117,9 +124,7 @@ namespace MxNet.Modules
                     }
 
                 }
-
-                return 1;
-            });
+            }
 
             return major_axis;
         }
@@ -225,7 +230,7 @@ namespace MxNet.Modules
         public void BindExec(DataDesc[] data_shapes, DataDesc[] label_shapes, DataParallelExecutorGroup shared_group = null,
             bool reshape = false)
         {
-            if(!reshape || Execs == null )
+            if(!reshape && Execs == null )
             {
                 throw new Exception("reshape = false or Execs is null");
             }

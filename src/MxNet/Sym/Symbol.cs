@@ -102,18 +102,22 @@ namespace MxNet
             }
         }
 
-        public Symbol this[string slice]
+        public Symbol this[string name]
         {
             get
             {
-                if (string.IsNullOrEmpty(slice))
-                    return this;
+                var names = this.ListOutputs().ToList();
+                ThrowIfDisposed();
 
-                var split = slice.Split(':');
+                NativeMethods.MXSymbolGetOutput(NativePtr, (uint)names.IndexOf(name), out var @out);
+                return new Symbol(@out);
+            }
+        }
 
-                var rowBegin = Convert.ToInt32(split[0]);
-                var rowEnd = Convert.ToInt32(split[1]);
-
+        public Symbol this[int rowBegin, int rowEnd]
+        {
+            get
+            {
                 return sym.Slice(this, new Shape(rowBegin), new Shape(rowEnd));
             }
         }
@@ -749,7 +753,7 @@ namespace MxNet
             return this;
         }
 
-        public Executor SimpleBind(Context ctx, Dictionary<string, OpGradReq> grad_req = null, Dictionary<string, DType> type_dict = null, Dictionary<string, StorageStype> stype_dict = null, Dictionary<string, Context> group2ctx = null, string[] shared_arg_names = null, Executor shared_exec = null, NDArrayDict shared_buffer = null, DataDesc[] kwargs = null)
+        public unsafe Executor SimpleBind(Context ctx, Dictionary<string, OpGradReq> grad_req = null, Dictionary<string, DType> type_dict = null, Dictionary<string, StorageStype> stype_dict = null, Dictionary<string, Context> group2ctx = null, string[] shared_arg_names = null, Executor shared_exec = null, NDArrayDict shared_buffer = null, DataDesc[] kwargs = null)
         {
 
             int num_provided_arg_types = 0;
@@ -765,7 +769,7 @@ namespace MxNet
             int num_provided_arg_stypes = 0;
             string[] provided_arg_stype_names = new string[0];
             int[] provided_arg_stype_data = new int[0];
-            if (type_dict != null)
+            if (stype_dict != null)
             {
                 provided_arg_stype_names = stype_dict.Keys.ToArray();
                 provided_arg_stype_data = stype_dict.Values.Select(x => (int)x).ToArray();
@@ -808,59 +812,64 @@ namespace MxNet
             if (shared_arg_names != null)
                 shared_arg_name_list = shared_arg_names;
 
-            unsafe
+
+            int shared_start = -1;
+            int* shared_buffer_len = &shared_start;
+            string[] shared_buffer_names = null;
+            IntPtr[] shared_buffer_handles = null;
+            if (shared_buffer.Count > 0)
             {
-                int shared_start = 0;
-                int* shared_buffer_len = &shared_start;
-                string[] shared_buffer_names = new string[0];
-                IntPtr[] shared_buffer_handles = new IntPtr[0];
-                if (shared_buffer != null)
-                {
-                    shared_buffer_len[0] = shared_buffer.Count;
-                    shared_buffer_names = shared_buffer.Keys;
-                    shared_buffer_handles = shared_buffer.Values.Handles;
-                }
-
-                var shared_exec_handle = shared_exec != null ? shared_exec.Handle : new ExecutorHandle();
-
-                NativeMethods.MXExecutorSimpleBindEx(NativePtr, (int)ctx.GetDeviceType(), ctx.GetDeviceId(), num_ctx_map_keys, ctx_map_keys, ctx_map_dev_types, ctx_map_dev_ids, provided_req_type_list_len, provided_grad_req_names, provided_grad_req_types, provided_arg_shape_names.Count, provided_arg_shape_names.ToArray(), provided_arg_shape_data.ToArray(), provided_arg_shape_idx.ToArray(), num_provided_arg_types, provided_arg_type_names, provided_arg_type_data, num_provided_arg_stypes, provided_arg_stype_names, provided_arg_stype_data, shared_arg_name_list.Length, shared_arg_name_list, out shared_buffer_len, shared_buffer_names, shared_buffer_handles, out var updated_shared_buffer_names, out var updated_shared_buffer_handles, out var num_in_args, out var in_arg_handles, out var arg_grad_handles, out var num_aux_states, out var aux_state_handles, shared_exec_handle, out var exe_handle);
-
-                if(shared_buffer != null)
-                {
-                    int l = shared_buffer_len[0];
-                    for (int i = 0; i < l; i++)
-                    {
-                        string k = new string(updated_shared_buffer_names[0][i]);
-                        NDArray v = new NDArray(updated_shared_buffer_handles[0][i]);
-                        shared_buffer[k] = v;
-                    }
-                }
-
-                NDArrayList arg_arrays = new NDArrayList();
-                for (int i = 0; i < num_in_args[0]; i++)
-                {
-                    arg_arrays.Add(new NDArray(in_arg_handles[0][i]));
-                }
-
-                NDArrayList grad_arrays = new NDArrayList();
-                for (int i = 0; i < num_in_args[0]; i++)
-                {
-                    grad_arrays.Add(new NDArray(arg_grad_handles[0][i]));
-                }
-
-                NDArrayList aux_arrays = new NDArrayList();
-                for (int i = 0; i < num_aux_states[0]; i++)
-                {
-                    aux_arrays.Add(new NDArray(aux_state_handles[0][i]));
-                }
-
-                var executor = new Executor(exe_handle[0], ctx, grad_req.Values.ToList(), group2ctx);
-                executor.ArgmentArrays = arg_arrays;
-                executor.GradientArrays = grad_arrays;
-                executor.AuxiliaryArrays = aux_arrays;
-
-                return executor;
+                shared_buffer_len[0] = shared_buffer.Count;
+                shared_buffer_names = shared_buffer.Keys;
+                shared_buffer_handles = shared_buffer.Values.Handles;
             }
+
+            var shared_exec_handle = shared_exec != null ? shared_exec.Handle : new ExecutorHandle();
+
+            NativeMethods.MXExecutorSimpleBindEx(NativePtr, (int)ctx.GetDeviceType(), ctx.GetDeviceId(), num_ctx_map_keys, ctx_map_keys,
+                                                ctx_map_dev_types, ctx_map_dev_ids, provided_req_type_list_len, provided_grad_req_names, provided_grad_req_types,
+                                                provided_arg_shape_names.Count, provided_arg_shape_names.ToArray(), provided_arg_shape_data.ToArray(),
+                                                provided_arg_shape_idx.ToArray(), num_provided_arg_types, provided_arg_type_names, provided_arg_type_data,
+                                                num_provided_arg_stypes, provided_arg_stype_names, provided_arg_stype_data, shared_arg_name_list.Length,
+                                                shared_arg_name_list, out shared_buffer_len, shared_buffer_names, shared_buffer_handles, out var updated_shared_buffer_names,
+                                                out var updated_shared_buffer_handles, out var num_in_args, out var in_arg_handles, out var arg_grad_handles,
+                                                out var num_aux_states, out var aux_state_handles, shared_exec_handle, out var exe_handle);
+
+            if (shared_buffer.Count > 0)
+            {
+                int l = shared_buffer_len[0];
+                for (int i = 0; i < l; i++)
+                {
+                    string k = new string(updated_shared_buffer_names[0][i]);
+                    NDArray v = new NDArray(updated_shared_buffer_handles[0][i]);
+                    shared_buffer[k] = v;
+                }
+            }
+
+            NDArrayList arg_arrays = new NDArrayList();
+            for (int i = 0; i < num_in_args[0]; i++)
+            {
+                arg_arrays.Add(new NDArray(in_arg_handles[0][i]));
+            }
+
+            NDArrayList grad_arrays = new NDArrayList();
+            for (int i = 0; i < num_in_args[0]; i++)
+            {
+                grad_arrays.Add(new NDArray(arg_grad_handles[0][i]));
+            }
+
+            NDArrayList aux_arrays = new NDArrayList();
+            for (int i = 0; i < num_aux_states[0]; i++)
+            {
+                aux_arrays.Add(new NDArray(aux_state_handles[0][i]));
+            }
+
+            var executor = new Executor(exe_handle[0], ctx, grad_req.Values.ToList(), group2ctx);
+            executor.ArgmentArrays = arg_arrays;
+            executor.GradientArrays = grad_arrays;
+            executor.AuxiliaryArrays = aux_arrays;
+
+            return executor;
         }
 
         public string ToJSON()

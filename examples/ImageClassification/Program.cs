@@ -10,22 +10,8 @@ namespace ImageClassification
     {
         private static void Main(string[] args)
         {
-            var alex_net = AlexNet.GetAlexNet(true);
-            var image = Img.ImRead("goldfish.jpg");
-            image = Img.ResizeShort(image, 227);
-            image = image.AsType(DType.Float32) / 255;
-            var normalized = Img.ColorNormalize(image, new NDArray(new[] {0.485f, 0.456f, 0.406f}),
-                new NDArray(new[] {0.229f, 0.224f, 0.225f}));
-            normalized = normalized.Transpose(new Shape(2, 0, 1));
-            normalized = normalized.ExpandDims(axis: 0);
-            var pred = alex_net.Call(normalized);
-            var prob = nd.Softmax(pred).Topk(k: 5);
-            var label_index = prob.ArrayData.OfType<float>().ToList();
-            var imagenet_labels = TestUtils.GetImagenetLabels();
-            foreach (int i in label_index)
-            {
-                Console.WriteLine(imagenet_labels[i]);
-            }
+            //AlexnetGluon.Run();
+            ResnetModule.Run();
         }
     }
 }

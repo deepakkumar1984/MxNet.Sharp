@@ -161,6 +161,12 @@ namespace MxNet.Modules
             return output_list;
         }
 
+        public NDArrayList Predict(NDArray eval)
+        {
+            DataIter eval_batch = new NDArrayIter(eval);
+            return Predict(eval_batch)[0];
+        }
+
         public void Fit(DataIter train_data, DataIter eval_data = null, string eval_metric = "acc",
             IEpochEndCallback[] epoch_end_callback = null, IBatchEndCallback[] batch_end_callback = null,
             string kvstore = "local",
