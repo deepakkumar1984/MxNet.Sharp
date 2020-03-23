@@ -13,13 +13,14 @@ At its core, MXNet contains a dynamic dependency scheduler that automatically pa
 A graph optimization layer on top of that makes symbolic execution fast and memory efficient.
 MXNet is portable and lightweight, scaling effectively to multiple GPUs and multiple machines.
 
-MXNet is more than a deep learning project. It is a collection of
-[blue prints and guidelines](https://mxnet.apache.org/api/architecture/overview) for building
-deep learning systems, and interesting insights of DL systems for hackers.
-
 **MxNet.Sharp**
 
 MxNet.Sharp is a CSharp binding coving all the Imperative, Symbolic and Gluon API's with an easy to use interface. The Gluon library in Apache MXNet provides a clear, concise, and simple API for deep learning. It makes it easy to prototype, build, and train deep learning models without sacrificing training speed.
+
+**High Level Arch**
+
+
+![High Level Arch](https://raw.githubusercontent.com/SciSharp/MxNet.Sharp/master/HLA.PNG)
 
 ## Nuget
 
