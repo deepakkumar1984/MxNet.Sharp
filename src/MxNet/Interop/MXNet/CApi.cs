@@ -682,13 +682,8 @@ namespace MxNet.Interop
         public static extern int MXSymbolSetAttr(SymbolHandle symbol, string key, string value);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXSymbolListAttr(SymbolHandle symbol, out int out_size,
-            [Out] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
-            string[] @out);
-
-        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolListAttrShallow(SymbolHandle symbol, out int out_size,
-            [Out] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] out
             string[] @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
@@ -809,18 +804,18 @@ namespace MxNet.Interop
                                    int[] provided_arg_stypes,
                                    int num_shared_arg_names,
                                    [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] shared_arg_name_list,
-                                   out int* shared_buffer_len,
+                                   int* shared_buffer_len,
                                    [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)] string[] shared_buffer_name_list,
                                    NDArrayHandle[] shared_buffer_handle_list,
-                                   out char*** updated_shared_buffer_name_list,
-                                   out NDArrayHandle** updated_shared_buffer_handle_list,
-                                   out int* num_in_args,
-                                   out NDArrayHandle** in_args,
-                                   out NDArrayHandle** arg_grads,
-                                   out int* num_aux_states,
-                                   out NDArrayHandle** aux_states,
+                                   char*** updated_shared_buffer_name_list,
+                                   NDArrayHandle** updated_shared_buffer_handle_list,
+                                   int* num_in_args,
+                                   NDArrayHandle** in_args,
+                                   NDArrayHandle** arg_grads,
+                                   int* num_aux_states,
+                                   NDArrayHandle** aux_states,
                                    ExecutorHandle shared_exec_handle,
-                                   out ExecutorHandle* @out);
+                                   ExecutorHandle* @out);
 
         #endregion
 

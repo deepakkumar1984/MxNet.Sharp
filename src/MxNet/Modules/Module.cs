@@ -414,6 +414,8 @@ namespace MxNet.Modules
             var attr = Symbol.AttrDict();
             foreach (var name in _arg_params.Keys)
             {
+                if (name == "data")
+                    continue;
                 var arr = _arg_params[name];
                 var desc = new InitDesc(name, attr.ContainsKey(name) ? attr[name] : null);
                 impl(desc, ref arr, arg_params);

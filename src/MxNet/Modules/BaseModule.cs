@@ -161,10 +161,10 @@ namespace MxNet.Modules
             return output_list;
         }
 
-        public NDArrayList Predict(NDArray eval)
+        public NDArray Predict(NDArray eval)
         {
-            DataIter eval_batch = new NDArrayIter(eval);
-            return Predict(eval_batch)[0];
+            Forward(new DataBatch(eval), false);
+            return GetOutputs()[0].FirstOrDefault();
         }
 
         public void Fit(DataIter train_data, DataIter eval_data = null, string eval_metric = "acc",

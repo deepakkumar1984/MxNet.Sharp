@@ -531,8 +531,9 @@ namespace MxNet.Modules
 
             var executor = Symbol.SimpleBind(ctx: context, grad_req: GradReq,
                                            type_dict: input_types, stype_dict: null, group2ctx: group2ctx, shared_arg_names: ParamNames,
-                                           shared_exec: shared_exec, 
+                                           shared_exec: shared_exec,
                                            shared_buffer: shared_data_arrays, input_shapes.ToArray());
+
             return executor;
         }
 

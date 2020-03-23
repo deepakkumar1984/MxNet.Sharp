@@ -23,13 +23,17 @@ namespace ImageClassification
             TestUtils.Download(resnet50symbolUrl);
             TestUtils.Download(resnet50paramsUrl);
 
-            string testimg = "dog.jpg";
+            string testimg = "cat.jpg";
             var imgbytes = File.ReadAllBytes(testimg);
             var array = prepareNDArray(imgbytes);
             var model = LoadModel("resnet-50", gpu: false);
-            model.Predict(array);
-            var prob = model.GetOutputs()[0];
-            var predictIndexes = nd.Squeeze(prob).AsArray<float>().OfType<float>().ToList();
+            var prob = model.Predict(array);
+            var predictIndexes = nd.Softmax(prob).Topk(k: 5).AsArray<float>().OfType<float>().ToList();
+            var imagenet_labels = TestUtils.GetImagenetLabels();
+            foreach (int i in predictIndexes)
+            {
+                Console.WriteLine(imagenet_labels[i]);
+            }
         }
 
         private static Module LoadModel(string prefix, int epoch = 0, bool gpu = true)

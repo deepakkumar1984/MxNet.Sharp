@@ -13,7 +13,7 @@ namespace MxNet
     {
         #region Fields
 
-        private readonly Symbol _Symbol;
+        internal Symbol _Symbol;
 
         #endregion
 
@@ -120,8 +120,12 @@ namespace MxNet
         {
             if (h == IntPtr.Zero)
                 throw new ArgumentException("Can not pass IntPtr.Zero", nameof(h));
-
+            Outputs = new NDArrayList();
             Handle = h;
+            Logging.CHECK_EQ(NativeMethods.MXExecutorOutputs(Handle, out var outSize, out var outArray), 0);
+            var outArrayArray = InteropHelper.ToPointerArray(outArray, outSize);
+            for (uint i = 0; i < outSize; ++i)
+                Outputs.Add(new NDArray(outArrayArray[i]));
         }
 
         #endregion
@@ -243,7 +247,7 @@ namespace MxNet
             var set = new HashSet<string>();
             foreach (var s in names)
             {
-                Logging.CHECK(set.Contains(s), $"Duplicate names detected, {s}");
+                Logging.CHECK(!set.Contains(s), $"Duplicate names detected, {s}");
                 set.Add(s);
             }
 

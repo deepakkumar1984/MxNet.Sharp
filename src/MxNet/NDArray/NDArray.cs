@@ -315,7 +315,7 @@ namespace MxNet
 
         public static NDArray LoadCV2Mat(OpenCvSharp.Mat img)
         {
-            Shape s = new Shape(1, img.Channels(), img.Height, img.Width);
+            Shape s = new Shape(img.Height, img.Width, img.Channels());
             byte[] bytes = new byte[s.Size];
             Marshal.Copy(img.Data, bytes, 0, s.Size);
             var ret = new NDArray(bytes, s, dtype: DType.Uint8);

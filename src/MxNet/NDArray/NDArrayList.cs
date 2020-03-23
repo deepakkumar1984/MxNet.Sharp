@@ -78,6 +78,9 @@ namespace MxNet
 
         public void Add(params NDArray[] x)
         {
+            if (x == null)
+                return;
+
             data.AddRange(x);
         }
 
@@ -123,6 +126,9 @@ namespace MxNet
 
         public static implicit operator NDArray[](NDArrayList x)
         {
+            if (x == null)
+                return null;
+
             return x.data.ToArray();
         }
     }

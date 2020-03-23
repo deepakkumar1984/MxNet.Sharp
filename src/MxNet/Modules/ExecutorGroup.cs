@@ -14,7 +14,7 @@ namespace MxNet.Modules
                 var d_src = data[i];
                 var d_targets = targets[i];
                 int axis = major_axis[i];
-                for (int j = 0; i < d_src.Length; j++)
+                for (int j = 0; j < d_src.Length; j++)
                 {
                     var src = d_src[j];
                     var dst = d_targets[j];
