@@ -1,0 +1,1195 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class RowSparseNDArray
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class RowSparseNDArray
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MxNet.Sparse.RowSparseNDArray">
+  
+  
+  <h1 id="MxNet_Sparse_RowSparseNDArray" data-uid="MxNet.Sparse.RowSparseNDArray" class="text-break">Class RowSparseNDArray
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="MxNet.MXNetObject.html">MXNetObject</a></div>
+    <div class="level2"><a class="xref" href="MxNet.DisposableMXNetObject.html">DisposableMXNetObject</a></div>
+    <div class="level3"><a class="xref" href="MxNet.NDArray.html">NDArray</a></div>
+    <div class="level4"><a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html">BaseSparseNDArray</a></div>
+    <div class="level5"><span class="xref">RowSparseNDArray</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_Size">BaseSparseNDArray.Size</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_SyncCopyFromCPU_System_Array_">BaseSparseNDArray.SyncCopyFromCPU(Array)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_Reshape_System_Int32___">BaseSparseNDArray.Reshape(Int32[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_Reshape_MxNet_Shape_System_Boolean_">BaseSparseNDArray.Reshape(Shape, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_Slice_System_Int32_System_Nullable_System_Int32__">BaseSparseNDArray.Slice(Int32, Nullable&lt;Int32&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_AsNumpy">BaseSparseNDArray.AsNumpy()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_AsType_MxNet_DType_">BaseSparseNDArray.AsType(DType)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Sparse.BaseSparseNDArray.html#MxNet_Sparse_BaseSparseNDArray_CheckFormat_System_Boolean_">BaseSparseNDArray.CheckFormat(Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Context">NDArray.Context</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Shape">NDArray.Shape</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_DataType">NDArray.DataType</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SType">NDArray.SType</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Dimension">NDArray.Dimension</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_FreshGrad">NDArray.FreshGrad</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ArrayData">NDArray.ArrayData</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Copy">NDArray.Copy()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ChangeContext_MxNet_Context_">NDArray.ChangeContext(Context)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_GetContext">NDArray.GetContext()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_GetData">NDArray.GetData()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_GetDType">NDArray.GetDType()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_GetHandle">NDArray.GetHandle()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_GetShape">NDArray.GetShape()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadToMap_System_String_">NDArray.LoadToMap(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Save_System_String_MxNet_NDArrayDict_">NDArray.Save(String, NDArrayDict)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Save_System_String_MxNet_NDArrayList_">NDArray.Save(String, NDArrayList)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_GetBuffer">NDArray.GetBuffer()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Load_System_String_MxNet_NDArrayDict__">NDArray.Load(String, NDArrayDict)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Load_System_String_">NDArray.Load(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadFromBuffer_System_Byte___">NDArray.LoadFromBuffer(Byte[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadCV2Mat_OpenCvSharp_Mat_">NDArray.LoadCV2Mat(Mat)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_NewFromSharedMem_System_Int32_System_Int32_MxNet_Shape_MxNet_DType_">NDArray.NewFromSharedMem(Int32, Int32, Shape, DType)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ToSharedMem">NDArray.ToSharedMem()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Constant_System_Single_">NDArray.Constant(Single)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SliceAxis_System_Int32_System_Int32_System_Nullable_System_Int32__">NDArray.SliceAxis(Int32, Int32, Nullable&lt;Int32&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SyncCopyFromCPU_System_Array_System_UInt64_">NDArray.SyncCopyFromCPU(Array, UInt64)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SyncCopyToCPU_System_Array_">NDArray.SyncCopyToCPU(Array)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SyncCopyToCPU_System_Array_System_Int32_">NDArray.SyncCopyToCPU(Array, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SampleGaussian_System_Single_System_Single_">NDArray.SampleGaussian(Single, Single)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SampleUniform_System_Single_System_Single_">NDArray.SampleUniform(Single, Single)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_AsArray__1">NDArray.AsArray&lt;T&gt;()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_GetValues__1">NDArray.GetValues&lt;T&gt;()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_AsScalar__1">NDArray.AsScalar&lt;T&gt;()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_WaitAll">NDArray.WaitAll()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_WaitToRead">NDArray.WaitToRead()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_WaitToWrite">NDArray.WaitToWrite()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_AsInContext_MxNet_Context_">NDArray.AsInContext(Context)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Item_System_String_">NDArray.Item[String]</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Item_MxNet_NDArray_">NDArray.Item[NDArray]</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Detach">NDArray.Detach()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Backward_MxNet_NDArray_System_Boolean_System_Boolean_">NDArray.Backward(NDArray, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Ravel">NDArray.Ravel()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ToString">NDArray.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_DisposeUnmanaged">NDArray.DisposeUnmanaged()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Argmax_System_Nullable_System_Int32__System_Boolean_">NDArray.Argmax(Nullable&lt;Int32&gt;, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Argmin_System_Nullable_System_Int32__System_Boolean_">NDArray.Argmin(Nullable&lt;Int32&gt;, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ArgmaxChannel">NDArray.ArgmaxChannel()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Pick_MxNet_NDArray_System_Nullable_System_Int32__System_Boolean_MxNet_PickMode_">NDArray.Pick(NDArray, Nullable&lt;Int32&gt;, Boolean, PickMode)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sum_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.Sum(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sum_System_Int32_System_Boolean_System_Boolean_">NDArray.Sum(Int32, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sum">NDArray.Sum()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Mean_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.Mean(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Mean_System_Int32_System_Boolean_System_Boolean_">NDArray.Mean(Int32, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Mean">NDArray.Mean()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Prod_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.Prod(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Prod_System_Int32_System_Boolean_System_Boolean_">NDArray.Prod(Int32, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Nansum_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.Nansum(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Nanprod_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.Nanprod(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Max_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.Max(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Max_System_Int32_System_Boolean_System_Boolean_">NDArray.Max(Int32, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Min_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.Min(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Min_System_Int32_System_Boolean_System_Boolean_">NDArray.Min(Int32, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_BroadcastAxis_MxNet_Shape_MxNet_Shape_">NDArray.BroadcastAxis(Shape, Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_BroadcastTo_MxNet_Shape_">NDArray.BroadcastTo(Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Norm_System_Int32_MxNet_Shape_System_Nullable_MxNet_NormOutDtype__System_Boolean_">NDArray.Norm(Int32, Shape, Nullable&lt;NormOutDtype&gt;, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Diag_System_Int32_System_Int32_System_Int32_">NDArray.Diag(Int32, Int32, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ReshapeLike_MxNet_NDArray_MxNet_NDArray_">NDArray.ReshapeLike(NDArray, NDArray)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ShapeArray_System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__System_Nullable_System_Int32__">NDArray.ShapeArray(Nullable&lt;Int32&gt;, Nullable&lt;Int32&gt;, Nullable&lt;Int32&gt;, Nullable&lt;Int32&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SizeArray">NDArray.SizeArray()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Cast_MxNet_DType_">NDArray.Cast(DType)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Negative">NDArray.Negative()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Reciprocal">NDArray.Reciprocal()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Abs">NDArray.Abs()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sign">NDArray.Sign()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sigmoid">NDArray.Sigmoid()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Round">NDArray.Round()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Rint">NDArray.Rint()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Ceil">NDArray.Ceil()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Floor">NDArray.Floor()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Trunc">NDArray.Trunc()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Fix">NDArray.Fix()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Square">NDArray.Square()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sqrt">NDArray.Sqrt()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Rsqrt">NDArray.Rsqrt()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Cbrt">NDArray.Cbrt()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Erf">NDArray.Erf()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Erfinv">NDArray.Erfinv()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Rcbrt">NDArray.Rcbrt()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Exp">NDArray.Exp()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Log">NDArray.Log()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Log10">NDArray.Log10()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Log2">NDArray.Log2()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Log1P">NDArray.Log1P()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Expm1">NDArray.Expm1()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Gamma">NDArray.Gamma()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Gammaln">NDArray.Gammaln()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LogicalNot">NDArray.LogicalNot()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sin">NDArray.Sin()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Cos">NDArray.Cos()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Tan">NDArray.Tan()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Arcsin">NDArray.Arcsin()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Arccos">NDArray.Arccos()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Arctan">NDArray.Arctan()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Degrees">NDArray.Degrees()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Radians">NDArray.Radians()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sinh">NDArray.Sinh()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Cosh">NDArray.Cosh()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Tanh">NDArray.Tanh()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Arcsinh">NDArray.Arcsinh()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Arccosh">NDArray.Arccosh()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Arctanh">NDArray.Arctanh()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ZerosLike">NDArray.ZerosLike()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_OnesLike">NDArray.OnesLike()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Transpose_MxNet_Shape_">NDArray.Transpose(Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ExpandDims_System_Int32_">NDArray.ExpandDims(Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Slice_MxNet_Shape_MxNet_Shape_MxNet_Shape_">NDArray.Slice(Shape, Shape, Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Clip_System_Single_System_Single_">NDArray.Clip(Single, Single)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Repeat_System_Int32_System_Nullable_System_Int32__">NDArray.Repeat(Int32, Nullable&lt;Int32&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Tile_MxNet_Shape_">NDArray.Tile(Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Reverse_MxNet_Shape_">NDArray.Reverse(Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SplitV2_MxNet_Shape_System_Int32_System_Boolean_System_Int32_">NDArray.SplitV2(Shape, Int32, Boolean, Int32)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Topk_System_Nullable_System_Int32__System_Int32_MxNet_TopkRetTyp_System_Boolean_MxNet_DType_">NDArray.Topk(Nullable&lt;Int32&gt;, Int32, TopkRetTyp, Boolean, DType)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Sort_System_Nullable_System_Int32__System_Boolean_">NDArray.Sort(Nullable&lt;Int32&gt;, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Argsort_System_Nullable_System_Int32__System_Boolean_MxNet_DType_">NDArray.Argsort(Nullable&lt;Int32&gt;, Boolean, DType)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_RavelMultiIndex_MxNet_Shape_">NDArray.RavelMultiIndex(Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_UnravelIndex_MxNet_Shape_">NDArray.UnravelIndex(Shape)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SparseRetain_MxNet_NDArray_">NDArray.SparseRetain(NDArray)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SquareSum_MxNet_Shape_System_Boolean_System_Boolean_">NDArray.SquareSum(Shape, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsDisposed">DisposableMXNetObject.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsEnableDispose">DisposableMXNetObject.IsEnableDispose</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsMutable">DisposableMXNetObject.IsMutable</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_ThrowIfDisposed">DisposableMXNetObject.ThrowIfDisposed()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_DisposeManaged">DisposableMXNetObject.DisposeManaged()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_Dispose">DisposableMXNetObject.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.MXNetObject.html#MxNet_MXNetObject_NativePtr">MXNetObject.NativePtr</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Sparse.html">MxNet.Sparse</a></h6>
+  <h6><strong>Assembly</strong>: MxNet.dll</h6>
+  <h5 id="MxNet_Sparse_RowSparseNDArray_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class RowSparseNDArray : BaseSparseNDArray, IDisposable</code></pre>
+  </div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_Data.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.Data%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L12">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_Data_" data-uid="MxNet.Sparse.RowSparseNDArray.Data*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_Data" data-uid="MxNet.Sparse.RowSparseNDArray.Data">Data</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RowSparseNDArray Data { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_Indices.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.Indices%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L10">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_Indices_" data-uid="MxNet.Sparse.RowSparseNDArray.Indices*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_Indices" data-uid="MxNet.Sparse.RowSparseNDArray.Indices">Indices</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public RowSparseNDArray Indices { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_CopyTo_MxNet_Context_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.CopyTo(MxNet.Context)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L61">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_CopyTo_" data-uid="MxNet.Sparse.RowSparseNDArray.CopyTo*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_CopyTo_MxNet_Context_" data-uid="MxNet.Sparse.RowSparseNDArray.CopyTo(MxNet.Context)">CopyTo(Context)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CopyTo(Context other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a></td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_CopyTo_MxNet_NDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.CopyTo(MxNet.NDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L54">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_CopyTo_" data-uid="MxNet.Sparse.RowSparseNDArray.CopyTo*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_CopyTo_MxNet_NDArray_" data-uid="MxNet.Sparse.RowSparseNDArray.CopyTo(MxNet.NDArray)">CopyTo(NDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CopyTo(NDArray other)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td><span class="parametername">other</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_ToSType_MxNet_StorageStype_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.ToSType(MxNet.StorageStype)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L66">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_ToSType_" data-uid="MxNet.Sparse.RowSparseNDArray.ToSType*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_ToSType_MxNet_StorageStype_" data-uid="MxNet.Sparse.RowSparseNDArray.ToSType(MxNet.StorageStype)">ToSType(StorageStype)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CSRNDArray ToSType(StorageStype stype)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.StorageStype.html">StorageStype</a></td>
+        <td><span class="parametername">stype</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.CSRNDArray.html">CSRNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="operators">Operators
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Addition_MxNet_Sparse_RowSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Addition(MxNet.Sparse.RowSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L14">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Addition_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Addition*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Addition_MxNet_Sparse_RowSparseNDArray_System_Single_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Addition(MxNet.Sparse.RowSparseNDArray,System.Single)">Addition(RowSparseNDArray, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator +(RowSparseNDArray lhs, float scalar)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">lhs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Addition_System_Single_MxNet_Sparse_RowSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Addition(System.Single%2CMxNet.Sparse.RowSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L19">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Addition_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Addition*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Addition_System_Single_MxNet_Sparse_RowSparseNDArray_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Addition(System.Single,MxNet.Sparse.RowSparseNDArray)">Addition(Single, RowSparseNDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator +(float scalar, RowSparseNDArray rhs)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">rhs</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Division_MxNet_Sparse_RowSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Division(MxNet.Sparse.RowSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L44">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Division_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Division*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Division_MxNet_Sparse_RowSparseNDArray_System_Single_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Division(MxNet.Sparse.RowSparseNDArray,System.Single)">Division(RowSparseNDArray, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator /(RowSparseNDArray lhs, float scalar)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">lhs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Division_System_Single_MxNet_Sparse_RowSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Division(System.Single%2CMxNet.Sparse.RowSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L49">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Division_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Division*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Division_System_Single_MxNet_Sparse_RowSparseNDArray_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Division(System.Single,MxNet.Sparse.RowSparseNDArray)">Division(Single, RowSparseNDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator /(float scalar, RowSparseNDArray rhs)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">rhs</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Multiply_MxNet_Sparse_RowSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Multiply(MxNet.Sparse.RowSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L34">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Multiply_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Multiply*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Multiply_MxNet_Sparse_RowSparseNDArray_System_Single_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Multiply(MxNet.Sparse.RowSparseNDArray,System.Single)">Multiply(RowSparseNDArray, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator *(RowSparseNDArray lhs, float scalar)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">lhs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Multiply_System_Single_MxNet_Sparse_RowSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Multiply(System.Single%2CMxNet.Sparse.RowSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L39">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Multiply_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Multiply*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Multiply_System_Single_MxNet_Sparse_RowSparseNDArray_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Multiply(System.Single,MxNet.Sparse.RowSparseNDArray)">Multiply(Single, RowSparseNDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator *(float scalar, RowSparseNDArray rhs)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">rhs</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Subtraction_MxNet_Sparse_RowSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Subtraction(MxNet.Sparse.RowSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L24">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Subtraction_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Subtraction*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Subtraction_MxNet_Sparse_RowSparseNDArray_System_Single_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Subtraction(MxNet.Sparse.RowSparseNDArray,System.Single)">Subtraction(RowSparseNDArray, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator -(RowSparseNDArray lhs, float scalar)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">lhs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray_op_Subtraction_System_Single_MxNet_Sparse_RowSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray.op_Subtraction(System.Single%2CMxNet.Sparse.RowSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L29">View Source</a>
+  </span>
+  <a id="MxNet_Sparse_RowSparseNDArray_op_Subtraction_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Subtraction*"></a>
+  <h4 id="MxNet_Sparse_RowSparseNDArray_op_Subtraction_System_Single_MxNet_Sparse_RowSparseNDArray_" data-uid="MxNet.Sparse.RowSparseNDArray.op_Subtraction(System.Single,MxNet.Sparse.RowSparseNDArray)">Subtraction(Single, RowSparseNDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static RowSparseNDArray operator -(float scalar, RowSparseNDArray rhs)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">scalar</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td><span class="parametername">rhs</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Sparse.RowSparseNDArray.html">RowSparseNDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_RowSparseNDArray.md&amp;value=---%0Auid%3A%20MxNet.Sparse.RowSparseNDArray%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/RowSparseNDArray.cs/#L8" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

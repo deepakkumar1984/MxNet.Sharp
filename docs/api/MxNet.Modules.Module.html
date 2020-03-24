@@ -1,0 +1,1392 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Module
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Module
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MxNet.Modules.Module">
+  
+  
+  <h1 id="MxNet_Modules_Module" data-uid="MxNet.Modules.Module" class="text-break">Class Module
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="MxNet.Modules.BaseModule.html">BaseModule</a></div>
+    <div class="level2"><span class="xref">Module</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Binded">BaseModule.Binded</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_ForTraining">BaseModule.ForTraining</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_InputsNeedGrad">BaseModule.InputsNeedGrad</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_ParamsInitialized">BaseModule.ParamsInitialized</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_OptimizerInitialized">BaseModule.OptimizerInitialized</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Symbol">BaseModule.Symbol</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_ForwardBackward_MxNet_IO_DataBatch_">BaseModule.ForwardBackward(DataBatch)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Score_MxNet_IO_DataIter_MxNet_Metrics_EvalMetric_System_Nullable_System_Int32__MxNet_Callbacks_IBatchEndCallback___MxNet_Callbacks_IScoreEndCallback___System_Boolean_System_Int32_System_Func_MxNet_IO_DataBatch_MxNet_NDArrayDict__">BaseModule.Score(DataIter, EvalMetric, Nullable&lt;Int32&gt;, IBatchEndCallback[], IScoreEndCallback[], Boolean, Int32, Func&lt;DataBatch, NDArrayDict&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_IterPredict_MxNet_IO_DataIter_System_Nullable_System_Int32__System_Boolean_System_Int32_System_Func_MxNet_IO_DataBatch_MxNet_NDArrayDict__">BaseModule.IterPredict(DataIter, Nullable&lt;Int32&gt;, Boolean, Int32, Func&lt;DataBatch, NDArrayDict&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Predict_MxNet_IO_DataIter_System_Nullable_System_Int32__System_Boolean_System_Boolean_System_Boolean_System_Func_MxNet_IO_DataBatch_MxNet_NDArrayDict__">BaseModule.Predict(DataIter, Nullable&lt;Int32&gt;, Boolean, Boolean, Boolean, Func&lt;DataBatch, NDArrayDict&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Predict_MxNet_NDArray_">BaseModule.Predict(NDArray)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Fit_MxNet_IO_DataIter_MxNet_IO_DataIter_System_String_MxNet_Callbacks_IEpochEndCallback___MxNet_Callbacks_IBatchEndCallback___System_String_System_String_System_Collections_Generic_Dictionary_System_String_System_Object__MxNet_Callbacks_IBatchEndCallback___MxNet_Callbacks_IBatchEndCallback___MxNet_Initializers_Initializer_MxNet_NDArrayDict_MxNet_NDArrayDict_System_Boolean_System_Boolean_System_Boolean_System_Int32_System_Nullable_System_Int32__MxNet_Metrics_EvalMetric_MxNet_Monitor_System_Func_MxNet_IO_DataBatch_MxNet_NDArrayDict__">BaseModule.Fit(DataIter, DataIter, String, IEpochEndCallback[], IBatchEndCallback[], String, String, Dictionary&lt;String, Object&gt;, IBatchEndCallback[], IBatchEndCallback[], Initializer, NDArrayDict, NDArrayDict, Boolean, Boolean, Boolean, Int32, Nullable&lt;Int32&gt;, EvalMetric, Monitor, Func&lt;DataBatch, NDArrayDict&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_SaveParams_System_String_">BaseModule.SaveParams(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_LoadParams_System_String_">BaseModule.LoadParams(String)</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Modules.html">MxNet.Modules</a></h6>
+  <h6><strong>Assembly</strong>: MxNet.dll</h6>
+  <h5 id="MxNet_Modules_Module_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Module : BaseModule</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module__ctor_MxNet_Symbol_System_String___System_String___MxNet_Context___System_Int32___System_String___System_String___System_Collections_Generic_Dictionary_System_String_MxNet_Context____System_Collections_Generic_Dictionary_System_String_System_Object__.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.%23ctor(MxNet.Symbol%2CSystem.String%5B%5D%2CSystem.String%5B%5D%2CMxNet.Context%5B%5D%2CSystem.Int32%5B%5D%2CSystem.String%5B%5D%2CSystem.String%5B%5D%2CSystem.Collections.Generic.Dictionary%7BSystem.String%2CMxNet.Context%7D%5B%5D%2CSystem.Collections.Generic.Dictionary%7BSystem.String%2CSystem.Object%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L38">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module__ctor_" data-uid="MxNet.Modules.Module.#ctor*"></a>
+  <h4 id="MxNet_Modules_Module__ctor_MxNet_Symbol_System_String___System_String___MxNet_Context___System_Int32___System_String___System_String___System_Collections_Generic_Dictionary_System_String_MxNet_Context____System_Collections_Generic_Dictionary_System_String_System_Object__" data-uid="MxNet.Modules.Module.#ctor(MxNet.Symbol,System.String[],System.String[],MxNet.Context[],System.Int32[],System.String[],System.String[],System.Collections.Generic.Dictionary{System.String,MxNet.Context}[],System.Collections.Generic.Dictionary{System.String,System.Object})">Module(Symbol, String[], String[], Context[], Int32[], String[], String[], Dictionary&lt;String, Context&gt;[], Dictionary&lt;String, Object&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Module(Symbol symbol, string[] data_names = null, string[] label_names = null, Context[] context = null, int[] work_load_list = null, string[] fixed_param_names = null, string[] state_names = null, Dictionary&lt;string, Context&gt;[] group2ctxs = null, Dictionary&lt;string, object&gt; compression_params = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Symbol.html">Symbol</a></td>
+        <td><span class="parametername">symbol</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">data_names</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">label_names</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a>[]</td>
+        <td><span class="parametername">context</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">work_load_list</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">fixed_param_names</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">state_names</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="MxNet.Context.html">Context</a>&gt;[]</td>
+        <td><span class="parametername">group2ctxs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">compression_params</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_DataNames.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.DataNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L96">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_DataNames_" data-uid="MxNet.Modules.Module.DataNames*"></a>
+  <h4 id="MxNet_Modules_Module_DataNames" data-uid="MxNet.Modules.Module.DataNames">DataNames</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string[] DataNames { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_DataNames">BaseModule.DataNames</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_DataShapes.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.DataShapes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L102">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_DataShapes_" data-uid="MxNet.Modules.Module.DataShapes*"></a>
+  <h4 id="MxNet_Modules_Module_DataShapes" data-uid="MxNet.Modules.Module.DataShapes">DataShapes</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DataDesc[] DataShapes { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_DataShapes">BaseModule.DataShapes</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_LabelNames.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.LabelNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L100">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_LabelNames_" data-uid="MxNet.Modules.Module.LabelNames*"></a>
+  <h4 id="MxNet_Modules_Module_LabelNames" data-uid="MxNet.Modules.Module.LabelNames">LabelNames</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string[] LabelNames { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_LabelNames">BaseModule.LabelNames</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_LabelShapes.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.LabelShapes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L104">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_LabelShapes_" data-uid="MxNet.Modules.Module.LabelShapes*"></a>
+  <h4 id="MxNet_Modules_Module_LabelShapes" data-uid="MxNet.Modules.Module.LabelShapes">LabelShapes</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DataDesc[] LabelShapes { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_LabelShapes">BaseModule.LabelShapes</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_OutputNames.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.OutputNames%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L98">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_OutputNames_" data-uid="MxNet.Modules.Module.OutputNames*"></a>
+  <h4 id="MxNet_Modules_Module_OutputNames" data-uid="MxNet.Modules.Module.OutputNames">OutputNames</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string[] OutputNames { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_OutputNames">BaseModule.OutputNames</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_OutputShapes.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.OutputShapes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L106">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_OutputShapes_" data-uid="MxNet.Modules.Module.OutputShapes*"></a>
+  <h4 id="MxNet_Modules_Module_OutputShapes" data-uid="MxNet.Modules.Module.OutputShapes">OutputShapes</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DataDesc[] OutputShapes { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_OutputShapes">BaseModule.OutputShapes</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_Backward_MxNet_NDArrayList_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.Backward(MxNet.NDArrayList)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L155">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_Backward_" data-uid="MxNet.Modules.Module.Backward*"></a>
+  <h4 id="MxNet_Modules_Module_Backward_MxNet_NDArrayList_" data-uid="MxNet.Modules.Module.Backward(MxNet.NDArrayList)">Backward(NDArrayList)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Backward(NDArrayList out_grads = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td><span class="parametername">out_grads</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Backward_MxNet_NDArrayList_">BaseModule.Backward(NDArrayList)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_Bind_MxNet_IO_DataDesc___MxNet_IO_DataDesc___System_Boolean_System_Boolean_System_Boolean_MxNet_Modules_Module_MxNet_OpGradReq_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.Bind(MxNet.IO.DataDesc%5B%5D%2CMxNet.IO.DataDesc%5B%5D%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Boolean%2CMxNet.Modules.Module%2CMxNet.OpGradReq)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L162">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_Bind_" data-uid="MxNet.Modules.Module.Bind*"></a>
+  <h4 id="MxNet_Modules_Module_Bind_MxNet_IO_DataDesc___MxNet_IO_DataDesc___System_Boolean_System_Boolean_System_Boolean_MxNet_Modules_Module_MxNet_OpGradReq_" data-uid="MxNet.Modules.Module.Bind(MxNet.IO.DataDesc[],MxNet.IO.DataDesc[],System.Boolean,System.Boolean,System.Boolean,MxNet.Modules.Module,MxNet.OpGradReq)">Bind(DataDesc[], DataDesc[], Boolean, Boolean, Boolean, Module, OpGradReq)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Bind(DataDesc[] data_shapes, DataDesc[] label_shapes = null, bool for_training = true, bool inputs_need_grad = false, bool force_rebind = false, Module shared_module = null, OpGradReq grad_req = OpGradReq.Write)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td><span class="parametername">data_shapes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td><span class="parametername">label_shapes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">for_training</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">inputs_need_grad</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">force_rebind</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Modules.Module.html">Module</a></td>
+        <td><span class="parametername">shared_module</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.OpGradReq.html">OpGradReq</a></td>
+        <td><span class="parametername">grad_req</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Bind_MxNet_IO_DataDesc___MxNet_IO_DataDesc___System_Boolean_System_Boolean_System_Boolean_MxNet_Modules_Module_MxNet_OpGradReq_">BaseModule.Bind(DataDesc[], DataDesc[], Boolean, Boolean, Boolean, Module, OpGradReq)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_BorrowOptimizer_MxNet_Modules_Module_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.BorrowOptimizer(MxNet.Modules.Module)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L491">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_BorrowOptimizer_" data-uid="MxNet.Modules.Module.BorrowOptimizer*"></a>
+  <h4 id="MxNet_Modules_Module_BorrowOptimizer_MxNet_Modules_Module_" data-uid="MxNet.Modules.Module.BorrowOptimizer(MxNet.Modules.Module)">BorrowOptimizer(Module)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void BorrowOptimizer(Module shared_module)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Modules.Module.html">Module</a></td>
+        <td><span class="parametername">shared_module</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_Forward_MxNet_IO_DataBatch_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.Forward(MxNet.IO.DataBatch%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L231">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_Forward_" data-uid="MxNet.Modules.Module.Forward*"></a>
+  <h4 id="MxNet_Modules_Module_Forward_MxNet_IO_DataBatch_System_Boolean_" data-uid="MxNet.Modules.Module.Forward(MxNet.IO.DataBatch,System.Boolean)">Forward(DataBatch, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Forward(DataBatch data_batch, bool is_train = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataBatch.html">DataBatch</a></td>
+        <td><span class="parametername">data_batch</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">is_train</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Forward_MxNet_IO_DataBatch_System_Boolean_">BaseModule.Forward(DataBatch, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_GetInputGrads_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.GetInputGrads(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L262">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_GetInputGrads_" data-uid="MxNet.Modules.Module.GetInputGrads*"></a>
+  <h4 id="MxNet_Modules_Module_GetInputGrads_System_Boolean_" data-uid="MxNet.Modules.Module.GetInputGrads(System.Boolean)">GetInputGrads(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;NDArrayList&gt; GetInputGrads(bool merge_multi_context = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">merge_multi_context</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_GetInputGrads_System_Boolean_">BaseModule.GetInputGrads(Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_GetOutputs_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.GetOutputs(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L269">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_GetOutputs_" data-uid="MxNet.Modules.Module.GetOutputs*"></a>
+  <h4 id="MxNet_Modules_Module_GetOutputs_System_Boolean_" data-uid="MxNet.Modules.Module.GetOutputs(System.Boolean)">GetOutputs(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;NDArrayList&gt; GetOutputs(bool merge_multi_context = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">merge_multi_context</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_GetOutputs_System_Boolean_">BaseModule.GetOutputs(Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_GetParams.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.GetParams%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L290">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_GetParams_" data-uid="MxNet.Modules.Module.GetParams*"></a>
+  <h4 id="MxNet_Modules_Module_GetParams" data-uid="MxNet.Modules.Module.GetParams">GetParams()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override (NDArrayDict, NDArrayDict) GetParams()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a>, <a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_GetParams">BaseModule.GetParams()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_GetStates_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.GetStates(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L276">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_GetStates_" data-uid="MxNet.Modules.Module.GetStates*"></a>
+  <h4 id="MxNet_Modules_Module_GetStates_System_Boolean_" data-uid="MxNet.Modules.Module.GetStates(System.Boolean)">GetStates(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override List&lt;NDArrayList&gt; GetStates(bool merge_multi_context = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">merge_multi_context</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_GetStates_System_Boolean_">BaseModule.GetStates(Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_InitOptimizer_System_String_MxNet_Optimizers_Optimizer_System_Collections_Generic_Dictionary_System_String_System_Object__System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.InitOptimizer(System.String%2CMxNet.Optimizers.Optimizer%2CSystem.Collections.Generic.Dictionary%7BSystem.String%2CSystem.Object%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L300">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_InitOptimizer_" data-uid="MxNet.Modules.Module.InitOptimizer*"></a>
+  <h4 id="MxNet_Modules_Module_InitOptimizer_System_String_MxNet_Optimizers_Optimizer_System_Collections_Generic_Dictionary_System_String_System_Object__System_Boolean_" data-uid="MxNet.Modules.Module.InitOptimizer(System.String,MxNet.Optimizers.Optimizer,System.Collections.Generic.Dictionary{System.String,System.Object},System.Boolean)">InitOptimizer(String, Optimizer, Dictionary&lt;String, Object&gt;, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void InitOptimizer(string kv = &quot;local&quot;, Optimizer optimizer = null, Dictionary&lt;string, object&gt; optimizer_params = null, bool force_init = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">kv</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Optimizers.Optimizer.html">Optimizer</a></td>
+        <td><span class="parametername">optimizer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;</td>
+        <td><span class="parametername">optimizer_params</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">force_init</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_InitOptimizer_System_String_MxNet_Optimizers_Optimizer_System_Collections_Generic_Dictionary_System_String_System_Object__System_Boolean_">BaseModule.InitOptimizer(String, Optimizer, Dictionary&lt;String, Object&gt;, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_InitParams_MxNet_Initializers_Initializer_MxNet_NDArrayDict_MxNet_NDArrayDict_System_Boolean_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.InitParams(MxNet.Initializers.Initializer%2CMxNet.NDArrayDict%2CMxNet.NDArrayDict%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L378">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_InitParams_" data-uid="MxNet.Modules.Module.InitParams*"></a>
+  <h4 id="MxNet_Modules_Module_InitParams_MxNet_Initializers_Initializer_MxNet_NDArrayDict_MxNet_NDArrayDict_System_Boolean_System_Boolean_System_Boolean_" data-uid="MxNet.Modules.Module.InitParams(MxNet.Initializers.Initializer,MxNet.NDArrayDict,MxNet.NDArrayDict,System.Boolean,System.Boolean,System.Boolean)">InitParams(Initializer, NDArrayDict, NDArrayDict, Boolean, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void InitParams(Initializer initializer = null, NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Initializers.Initializer.html">Initializer</a></td>
+        <td><span class="parametername">initializer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a></td>
+        <td><span class="parametername">arg_params</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a></td>
+        <td><span class="parametername">aux_params</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">allow_missing</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">force_init</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">allow_extra</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_InitParams_MxNet_Initializers_Initializer_MxNet_NDArrayDict_MxNet_NDArrayDict_System_Boolean_System_Boolean_System_Boolean_">BaseModule.InitParams(Initializer, NDArrayDict, NDArrayDict, Boolean, Boolean, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_InstallMonitor_MxNet_Monitor_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.InstallMonitor(MxNet.Monitor)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L456">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_InstallMonitor_" data-uid="MxNet.Modules.Module.InstallMonitor*"></a>
+  <h4 id="MxNet_Modules_Module_InstallMonitor_MxNet_Monitor_" data-uid="MxNet.Modules.Module.InstallMonitor(MxNet.Monitor)">InstallMonitor(Monitor)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void InstallMonitor(Monitor mon)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Monitor.html">Monitor</a></td>
+        <td><span class="parametername">mon</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_InstallMonitor_MxNet_Monitor_">BaseModule.InstallMonitor(Monitor)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_Load_System_String_System_Int32_System_Boolean_System_String___System_String___MxNet_Logger_MxNet_Context_System_Int32___System_String___.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.Load(System.String%2CSystem.Int32%2CSystem.Boolean%2CSystem.String%5B%5D%2CSystem.String%5B%5D%2CMxNet.Logger%2CMxNet.Context%2CSystem.Int32%5B%5D%2CSystem.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L132">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_Load_" data-uid="MxNet.Modules.Module.Load*"></a>
+  <h4 id="MxNet_Modules_Module_Load_System_String_System_Int32_System_Boolean_System_String___System_String___MxNet_Logger_MxNet_Context_System_Int32___System_String___" data-uid="MxNet.Modules.Module.Load(System.String,System.Int32,System.Boolean,System.String[],System.String[],MxNet.Logger,MxNet.Context,System.Int32[],System.String[])">Load(String, Int32, Boolean, String[], String[], Logger, Context, Int32[], String[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Module Load(string prefix, int epoch, bool load_optimizer_states = false, string[] data_names = null, string[] label_names = null, Logger logging = null, Context context = null, int[] work_load_list = null, string[] fixed_param_names = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prefix</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">epoch</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">load_optimizer_states</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">data_names</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">label_names</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Logger.html">Logger</a></td>
+        <td><span class="parametername">logging</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a></td>
+        <td><span class="parametername">context</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td><span class="parametername">work_load_list</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">fixed_param_names</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Modules.Module.html">Module</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_LoadOptimizerStates_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.LoadOptimizerStates(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L528">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_LoadOptimizerStates_" data-uid="MxNet.Modules.Module.LoadOptimizerStates*"></a>
+  <h4 id="MxNet_Modules_Module_LoadOptimizerStates_System_String_" data-uid="MxNet.Modules.Module.LoadOptimizerStates(System.String)">LoadOptimizerStates(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadOptimizerStates(string fname)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fname</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_Prepare_MxNet_IO_DataBatch_System_Func_MxNet_IO_DataBatch_MxNet_NDArrayDict__.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.Prepare(MxNet.IO.DataBatch%2CSystem.Func%7BMxNet.IO.DataBatch%2CMxNet.NDArrayDict%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L539">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_Prepare_" data-uid="MxNet.Modules.Module.Prepare*"></a>
+  <h4 id="MxNet_Modules_Module_Prepare_MxNet_IO_DataBatch_System_Func_MxNet_IO_DataBatch_MxNet_NDArrayDict__" data-uid="MxNet.Modules.Module.Prepare(MxNet.IO.DataBatch,System.Func{MxNet.IO.DataBatch,MxNet.NDArrayDict})">Prepare(DataBatch, Func&lt;DataBatch, NDArrayDict&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Prepare(DataBatch data_batch, Func&lt;DataBatch, NDArrayDict&gt; sparse_row_id_fn = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataBatch.html">DataBatch</a></td>
+        <td><span class="parametername">data_batch</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;<a class="xref" href="MxNet.IO.DataBatch.html">DataBatch</a>, <a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a>&gt;</td>
+        <td><span class="parametername">sparse_row_id_fn</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Prepare_MxNet_IO_DataBatch_System_Func_MxNet_IO_DataBatch_MxNet_NDArrayDict__">BaseModule.Prepare(DataBatch, Func&lt;DataBatch, NDArrayDict&gt;)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_Reshape_MxNet_IO_DataDesc___MxNet_IO_DataDesc___.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.Reshape(MxNet.IO.DataDesc%5B%5D%2CMxNet.IO.DataDesc%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L482">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_Reshape_" data-uid="MxNet.Modules.Module.Reshape*"></a>
+  <h4 id="MxNet_Modules_Module_Reshape_MxNet_IO_DataDesc___MxNet_IO_DataDesc___" data-uid="MxNet.Modules.Module.Reshape(MxNet.IO.DataDesc[],MxNet.IO.DataDesc[])">Reshape(DataDesc[], DataDesc[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Reshape(DataDesc[] data_shapes, DataDesc[] label_shapes = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td><span class="parametername">data_shapes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td><span class="parametername">label_shapes</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_SaveCheckpoint_System_String_System_Int32_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.SaveCheckpoint(System.String%2CSystem.Int32%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L117">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_SaveCheckpoint_" data-uid="MxNet.Modules.Module.SaveCheckpoint*"></a>
+  <h4 id="MxNet_Modules_Module_SaveCheckpoint_System_String_System_Int32_System_Boolean_System_Boolean_" data-uid="MxNet.Modules.Module.SaveCheckpoint(System.String,System.Int32,System.Boolean,System.Boolean)">SaveCheckpoint(String, Int32, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SaveCheckpoint(string prefix, int epoch, bool save_optimizer_states = false, bool remove_amp_cast = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prefix</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">epoch</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">save_optimizer_states</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">remove_amp_cast</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_SaveOptimizerStates_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.SaveOptimizerStates(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L517">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_SaveOptimizerStates_" data-uid="MxNet.Modules.Module.SaveOptimizerStates*"></a>
+  <h4 id="MxNet_Modules_Module_SaveOptimizerStates_System_String_" data-uid="MxNet.Modules.Module.SaveOptimizerStates(System.String)">SaveOptimizerStates(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SaveOptimizerStates(string fname)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fname</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_SetParams_MxNet_NDArrayDict_MxNet_NDArrayDict_System_Boolean_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.SetParams(MxNet.NDArrayDict%2CMxNet.NDArrayDict%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L436">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_SetParams_" data-uid="MxNet.Modules.Module.SetParams*"></a>
+  <h4 id="MxNet_Modules_Module_SetParams_MxNet_NDArrayDict_MxNet_NDArrayDict_System_Boolean_System_Boolean_System_Boolean_" data-uid="MxNet.Modules.Module.SetParams(MxNet.NDArrayDict,MxNet.NDArrayDict,System.Boolean,System.Boolean,System.Boolean)">SetParams(NDArrayDict, NDArrayDict, Boolean, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void SetParams(NDArrayDict arg_params = null, NDArrayDict aux_params = null, bool allow_missing = false, bool force_init = false, bool allow_extra = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a></td>
+        <td><span class="parametername">arg_params</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a></td>
+        <td><span class="parametername">aux_params</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">allow_missing</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">force_init</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">allow_extra</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_SetParams_MxNet_NDArrayDict_MxNet_NDArrayDict_System_Boolean_System_Boolean_System_Boolean_">BaseModule.SetParams(NDArrayDict, NDArrayDict, Boolean, Boolean, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_SetStates_System_Collections_Generic_List_MxNet_NDArrayList__System_Int32_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.SetStates(System.Collections.Generic.List%7BMxNet.NDArrayList%7D%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L283">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_SetStates_" data-uid="MxNet.Modules.Module.SetStates*"></a>
+  <h4 id="MxNet_Modules_Module_SetStates_System_Collections_Generic_List_MxNet_NDArrayList__System_Int32_" data-uid="MxNet.Modules.Module.SetStates(System.Collections.Generic.List{MxNet.NDArrayList},System.Int32)">SetStates(List&lt;NDArrayList&gt;, Int32)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void SetStates(List&lt;NDArrayList&gt; states, int value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a>&gt;</td>
+        <td><span class="parametername">states</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">value</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_SetStates_System_Collections_Generic_List_MxNet_NDArrayList__System_Int32_">BaseModule.SetStates(List&lt;NDArrayList&gt;, Int32)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_Update.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.Update%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L463">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_Update_" data-uid="MxNet.Modules.Module.Update*"></a>
+  <h4 id="MxNet_Modules_Module_Update" data-uid="MxNet.Modules.Module.Update">Update()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Update()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_Update">BaseModule.Update()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module_UpdateMetric_MxNet_Metrics_EvalMetric_MxNet_NDArrayList_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module.UpdateMetric(MxNet.Metrics.EvalMetric%2CMxNet.NDArrayList%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L477">View Source</a>
+  </span>
+  <a id="MxNet_Modules_Module_UpdateMetric_" data-uid="MxNet.Modules.Module.UpdateMetric*"></a>
+  <h4 id="MxNet_Modules_Module_UpdateMetric_MxNet_Metrics_EvalMetric_MxNet_NDArrayList_System_Boolean_" data-uid="MxNet.Modules.Module.UpdateMetric(MxNet.Metrics.EvalMetric,MxNet.NDArrayList,System.Boolean)">UpdateMetric(EvalMetric, NDArrayList, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void UpdateMetric(EvalMetric eval_metric, NDArrayList labels, bool pre_sliced = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Metrics.EvalMetric.html">EvalMetric</a></td>
+        <td><span class="parametername">eval_metric</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td><span class="parametername">labels</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">pre_sliced</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Modules.BaseModule.html#MxNet_Modules_BaseModule_UpdateMetric_MxNet_Metrics_EvalMetric_MxNet_NDArrayList_System_Boolean_">BaseModule.UpdateMetric(EvalMetric, NDArrayList, Boolean)</a></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Modules_Module.md&amp;value=---%0Auid%3A%20MxNet.Modules.Module%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Modules/Module.cs/#L13" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

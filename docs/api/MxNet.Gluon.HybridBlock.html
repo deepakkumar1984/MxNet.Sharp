@@ -1,0 +1,659 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class HybridBlock
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class HybridBlock
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MxNet.Gluon.HybridBlock">
+  
+  
+  <h1 id="MxNet_Gluon_HybridBlock" data-uid="MxNet.Gluon.HybridBlock" class="text-break">Class HybridBlock
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="MxNet.Gluon.Block.html">Block</a></div>
+    <div class="level2"><span class="xref">HybridBlock</span></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Contrib.CNN.DeformableConvolution.html">DeformableConvolution</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Contrib.NN.Identity.html">Identity</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Contrib.NN.PixelShuffle1D.html">PixelShuffle1D</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Contrib.NN.PixelShuffle2D.html">PixelShuffle2D</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Contrib.NN.PixelShuffle3D.html">PixelShuffle3D</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.Cast.html">Cast</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.CropResize.html">CropResize</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.Normalize.html">Normalize</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomBrightness.html">RandomBrightness</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomColorJitter.html">RandomColorJitter</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomContrast.html">RandomContrast</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomFlipLeftRight.html">RandomFlipLeftRight</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomFlipTopBottom.html">RandomFlipTopBottom</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomHue.html">RandomHue</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomLighting.html">RandomLighting</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomSaturation.html">RandomSaturation</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.Resize.html">Resize</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.ToTensor.html">ToTensor</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Loss.html">Loss</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.AlexNet.html">AlexNet</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.BasicBlockV1.html">BasicBlockV1</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.BasicBlockV2.html">BasicBlockV2</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.BottleneckV1.html">BottleneckV1</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.BottleneckV2.html">BottleneckV2</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.DenseNet.html">DenseNet</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.Inception3.html">Inception3</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.LinearBottleneck.html">LinearBottleneck</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.MobileNet.html">MobileNet</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.html">MobileNetV2</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.RELU6.html">RELU6</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.ResNetV1.html">ResNetV1</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.ResNetV2.html">ResNetV2</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.SqueezeNet.html">SqueezeNet</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.VGG.html">VGG</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN._Conv.html">_Conv</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN._Pooling.html">_Pooling</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.Activation.html">Activation</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.BatchNorm.html">BatchNorm</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.Dense.html">Dense</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.Dropout.html">Dropout</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.ELU.html">ELU</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.Embedding.html">Embedding</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.Flatten.html">Flatten</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.GELU.html">GELU</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.HybridLambda.html">HybridLambda</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.HybridSequential.html">HybridSequential</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.InstanceNorm.html">InstanceNorm</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.LayerNorm.html">LayerNorm</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.LeakyReLU.html">LeakyReLU</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.PReLU.html">PReLU</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.ReflectionPad2D.html">ReflectionPad2D</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.SELU.html">SELU</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.NN.Swish.html">Swish</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.RecurrentNN.RNNLayer.html">RNNLayer</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.SymbolBlock.html">SymbolBlock</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Prefix">Block.Prefix</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Params">Block.Params</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Name">Block.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_NameScope">Block.NameScope</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Item_System_String_">Block.Item[String]</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SetAttr_System_String_MxNet_Gluon_Block_">Block.SetAttr(String, Block)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SetAttr_System_String_MxNet_Gluon_Parameter_">Block.SetAttr(String, Parameter)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Alias">Block.Alias()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_CollectParams_System_String_">Block.CollectParams(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_CollectParamsWithPrefix_System_String_">Block.CollectParamsWithPrefix(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SaveParameters_System_String_">Block.SaveParameters(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_LoadParameters_System_String_MxNet_Context_System_Boolean_System_Boolean_System_Boolean_System_String_">Block.LoadParameters(String, Context, Boolean, Boolean, Boolean, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_LoadParameters_System_String_MxNet_Context___System_Boolean_System_Boolean_System_Boolean_System_String_">Block.LoadParameters(String, Context[], Boolean, Boolean, Boolean, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_RegisterForwardPreHook_MxNet_Gluon_Block_Hook_">Block.RegisterForwardPreHook(Block.Hook)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_RegisterForwardHook_MxNet_Gluon_Block_Hook_">Block.RegisterForwardHook(Block.Hook)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Apply_MxNet_Gluon_Block_ApplyFn_">Block.Apply(Block.ApplyFn)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Initialize_MxNet_Initializers_Initializer_MxNet_Context___System_Boolean_System_Boolean_">Block.Initialize(Initializer, Context[], Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Call_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">Block.Call(NDArrayOrSymbol, NDArrayOrSymbol[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Summary_MxNet_NDArrayList_">Block.Summary(NDArrayList)</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Gluon.html">MxNet.Gluon</a></h6>
+  <h6><strong>Assembly</strong>: MxNet.dll</h6>
+  <h5 id="MxNet_Gluon_HybridBlock_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract class HybridBlock : Block</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock__ctor_System_String_MxNet_Gluon_ParameterDict_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.%23ctor(System.String%2CMxNet.Gluon.ParameterDict)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L36">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock__ctor_" data-uid="MxNet.Gluon.HybridBlock.#ctor*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock__ctor_System_String_MxNet_Gluon_ParameterDict_" data-uid="MxNet.Gluon.HybridBlock.#ctor(System.String,MxNet.Gluon.ParameterDict)">HybridBlock(String, ParameterDict)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public HybridBlock(string prefix = null, ParameterDict params = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prefix</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ParameterDict.html">ParameterDict</a></td>
+        <td><span class="parametername">params</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Cast_MxNet_DType_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Cast(MxNet.DType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L218">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_Cast_" data-uid="MxNet.Gluon.HybridBlock.Cast*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_Cast_MxNet_DType_" data-uid="MxNet.Gluon.HybridBlock.Cast(MxNet.DType)">Cast(DType)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Cast(DType dtype)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.DType.html">DType</a></td>
+        <td><span class="parametername">dtype</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Cast_MxNet_DType_">Block.Cast(DType)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_ClearCachedOp.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.ClearCachedOp%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L192">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_ClearCachedOp_" data-uid="MxNet.Gluon.HybridBlock.ClearCachedOp*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_ClearCachedOp" data-uid="MxNet.Gluon.HybridBlock.ClearCachedOp">ClearCachedOp()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public virtual void ClearCachedOp()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Export_System_String_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Export(System.String%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L281">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_Export_" data-uid="MxNet.Gluon.HybridBlock.Export*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_Export_System_String_System_Int32_System_Boolean_" data-uid="MxNet.Gluon.HybridBlock.Export(System.String,System.Int32,System.Boolean)">Export(String, Int32, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Export(string path, int epoch = 0, bool remove_amp_cast = true)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">epoch</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">remove_amp_cast</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Forward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Forward(MxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L300">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_Forward_" data-uid="MxNet.Gluon.HybridBlock.Forward*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_Forward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___" data-uid="MxNet.Gluon.HybridBlock.Forward(MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol[])">Forward(NDArrayOrSymbol, NDArrayOrSymbol[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a>[]</td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Forward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">Block.Forward(NDArrayOrSymbol, NDArrayOrSymbol[])</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.HybridForward(MxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L338">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_HybridForward_" data-uid="MxNet.Gluon.HybridBlock.HybridForward*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___" data-uid="MxNet.Gluon.HybridBlock.HybridForward(MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol[])">HybridForward(NDArrayOrSymbol, NDArrayOrSymbol[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a>[]</td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Hybridize_System_Boolean_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Hybridize(System.Boolean%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L208">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_Hybridize_" data-uid="MxNet.Gluon.HybridBlock.Hybridize*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_Hybridize_System_Boolean_System_Boolean_System_Boolean_" data-uid="MxNet.Gluon.HybridBlock.Hybridize(System.Boolean,System.Boolean,System.Boolean)">Hybridize(Boolean, Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">active</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">static_alloc</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">static_shape</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Hybridize_System_Boolean_System_Boolean_System_Boolean_">Block.Hybridize(Boolean, Boolean, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_InferShape_MxNet_NDArrayList_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.InferShape(MxNet.NDArrayList)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L271">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_InferShape_" data-uid="MxNet.Gluon.HybridBlock.InferShape*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_InferShape_MxNet_NDArrayList_" data-uid="MxNet.Gluon.HybridBlock.InferShape(MxNet.NDArrayList)">InferShape(NDArrayList)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InferShape(NDArrayList args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_InferType_MxNet_NDArrayList_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.InferType(MxNet.NDArrayList)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L276">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_InferType_" data-uid="MxNet.Gluon.HybridBlock.InferType*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_InferType_MxNet_NDArrayList_" data-uid="MxNet.Gluon.HybridBlock.InferType(MxNet.NDArrayList)">InferType(NDArrayList)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InferType(NDArrayList args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_RegisterChild_MxNet_Gluon_Block_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.RegisterChild(MxNet.Gluon.Block%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L198">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock_RegisterChild_" data-uid="MxNet.Gluon.HybridBlock.RegisterChild*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock_RegisterChild_MxNet_Gluon_Block_System_String_" data-uid="MxNet.Gluon.HybridBlock.RegisterChild(MxNet.Gluon.Block,System.String)">RegisterChild(Block, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void RegisterChild(Block block, string name = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.Block.html">Block</a></td>
+        <td><span class="parametername">block</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_RegisterChild_MxNet_Gluon_Block_System_String_">Block.RegisterChild(Block, String)</a></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L26" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

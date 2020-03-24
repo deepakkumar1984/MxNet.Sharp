@@ -1,0 +1,5652 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/git/MxNet.Sharp/docs-raw",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ActivationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ActivationType.html",
+          "hash": "lR+h4H6PJ4r55tLe5peT8Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Autograd._RecordingStateScope.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Autograd._RecordingStateScope.html",
+          "hash": "DiHnzsFdDWUEUA0PEj9FbQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Autograd.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Autograd.html",
+          "hash": "KSXDL8RVNKBTsF6/3tfR9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.BatchDotForwardStype.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.BatchDotForwardStype.html",
+          "hash": "gRxqE3UrPE/uwKAk87DfwQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.CachedOp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.CachedOp.html",
+          "hash": "RIN63msxtC48sgUJ4tFyvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.DoCheckPoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.DoCheckPoint.html",
+          "hash": "nCnlb9h2uiuCU870/r2D8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.IBatchEndCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.IBatchEndCallback.html",
+          "hash": "hv+ZUvrCWrTjgPae+5e47A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.IEpochEndCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.IEpochEndCallback.html",
+          "hash": "XvtBxtA+MJHi9k7ovQQiJA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.IEvalBatchEndCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.IEvalBatchEndCallback.html",
+          "hash": "DWykjbiF3UgNvwy0479gmw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.IEvalEndCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.IEvalEndCallback.html",
+          "hash": "w//1ayWtdBZ1WKye2IRZ9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.IIterEndCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.IIterEndCallback.html",
+          "hash": "i03AAcku+3INiya78+aPHg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.IIterEpochCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.IIterEpochCallback.html",
+          "hash": "HBXXkvPqQcUquaifAoSYoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.IScoreEndCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.IScoreEndCallback.html",
+          "hash": "/SyD+NOKtAgHizhWRPryAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.LogTrainMetric.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.LogTrainMetric.html",
+          "hash": "WuOUmaZqDDT+IHe5FCIBuA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.LogValidationMetricsCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.LogValidationMetricsCallback.html",
+          "hash": "SVVM4rCuZML8oqJtnhEopQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.ModuleCheckpoint.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.ModuleCheckpoint.html",
+          "hash": "x5MHsL8zyVsyR3E7JgRe7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.ProgressBar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.ProgressBar.html",
+          "hash": "GwCxxXAGJXOjhHQUDYhO6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.Speedometer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.Speedometer.html",
+          "hash": "AhCY2FTHD+IpJ+sTU6HdfQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Callbacks.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Callbacks.html",
+          "hash": "xxAC908Sal3nbRVqbS7qdQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ConfigData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ConfigData.html",
+          "hash": "k9Fe1E8MHJeFqIY3bmAk4w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Context.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Context.html",
+          "hash": "Y0b0RBxZPfJZVZm/+C/0nQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribBoxIouFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribBoxIouFormat.html",
+          "hash": "3hcnl1BfWuC/y7YjrNZF7A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribBoxNmsInFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribBoxNmsInFormat.html",
+          "hash": "ohuAAVIgqaidy/x83b3HMA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribBoxNmsOutFormat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribBoxNmsOutFormat.html",
+          "hash": "EyYc86xjqIOiRxOKggmT6g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribDeformableconvolutionLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribDeformableconvolutionLayout.html",
+          "hash": "TXpJOv7hqcW2DESaAgy8Gw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribDequantizeOutType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribDequantizeOutType.html",
+          "hash": "xvNbLcv9sp+6EFzEmKurPw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizeOutType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizeOutType.html",
+          "hash": "ALG8dGPcK23A1fj/2GF4KA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizeV2OutType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizeV2OutType.html",
+          "hash": "knoukRF1nvb66pcFlI+NiQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizedActActType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizedActActType.html",
+          "hash": "O9e8Fm8F/ouWE9AXl+ly9Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizedConvCudnnTune.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizedConvCudnnTune.html",
+          "hash": "WYbgEn178dxgJIzFwsjPfw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizedConvLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizedConvLayout.html",
+          "hash": "LHux88yR0zSVRC4GMk2DCw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizedPoolingLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizedPoolingLayout.html",
+          "hash": "eTz4vMC5bGpl5mPZX8qYpQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizedPoolingPoolType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizedPoolingPoolType.html",
+          "hash": "7bWbBG1WHSG5u4ewvuKIRA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribQuantizedPoolingPoolingConvention.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribQuantizedPoolingPoolingConvention.html",
+          "hash": "gJyptj1qvcJkhjgnU1/3Ug=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ContribRequantizeOutType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ContribRequantizeOutType.html",
+          "hash": "lEdErXoBzJaP1IhiikAtnw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ConvolutionCudnnTune.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ConvolutionCudnnTune.html",
+          "hash": "tMru9noMJ8i86jYOffG3Tg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ConvolutionLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ConvolutionLayout.html",
+          "hash": "YAhBB6BPYcZkoM1XHj+dDg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ConvolutionV1CudnnTune.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ConvolutionV1CudnnTune.html",
+          "hash": "426pJMPy66HanQSGuuW8ig=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ConvolutionV1Layout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ConvolutionV1Layout.html",
+          "hash": "y6GHugZdy4U6Z/VCPTsDqQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.CtclossBlankLabel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.CtclossBlankLabel.html",
+          "hash": "vfIQ6LcGc34rU6LaaAknnQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DType.html",
+          "hash": "6m8wxK3tEUkSvfM5KssKoQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DataParallelExecutorGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DataParallelExecutorGroup.html",
+          "hash": "lRHIuAuRplKke/ZaCbdPnw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DataParallelExecutorManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DataParallelExecutorManager.html",
+          "hash": "0GUn0yYjBdmYUQjwOdPRdw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DeconvolutionCudnnTune.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DeconvolutionCudnnTune.html",
+          "hash": "IjqiZVSvq0jMiNH1oI9H4g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DeconvolutionLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DeconvolutionLayout.html",
+          "hash": "CacWSHbGiufFjBZYaZGLRw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DeferredInitializationException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DeferredInitializationException.html",
+          "hash": "fPkc5Gfi96aOM5pTXLgLhA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DeviceType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DeviceType.html",
+          "hash": "hr3+U2TxdLy6Q4oqiAhv6w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DisposableMXNetObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DisposableMXNetObject.html",
+          "hash": "P/r4SzZy495iLIxVJUwZLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DotForwardStype.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DotForwardStype.html",
+          "hash": "SAMgL7BFTmWGXoVrE9cbog=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.DropoutMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.DropoutMode.html",
+          "hash": "7xIn78bXQV4E3+uhg558OA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Engine._BulkScope.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Engine._BulkScope.html",
+          "hash": "uwAYpokPys0Pdpxggk3JmQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Engine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Engine.html",
+          "hash": "ESH3h/5QqcKahvkbwBL04Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.EventArgs.BatchEndEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.EventArgs.BatchEndEventArgs.html",
+          "hash": "oDKcOWcfMrdC3wC7VVeEOA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.EventArgs.BatchStartEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.EventArgs.BatchStartEventArgs.html",
+          "hash": "tgICcIUpc/IprF8fIPQUNQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.EventArgs.EpochEndEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.EventArgs.EpochEndEventArgs.html",
+          "hash": "EtUDOAOdimN/LRFIGjS86Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.EventArgs.EpochStartEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.EventArgs.EpochStartEventArgs.html",
+          "hash": "sQ0EbtSg4jpoOEML1cAINw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.EventArgs.TrainingEndEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.EventArgs.TrainingEndEventArgs.html",
+          "hash": "gLdzKoLxiUW+ZB5bD/8fDA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.EventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.EventArgs.html",
+          "hash": "/NKvE7BbRqiWfqmop5Uq5g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ExecuterManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ExecuterManager.html",
+          "hash": "OE9l66rg9kORkz0GjwQ8ig=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Executor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Executor.html",
+          "hash": "eCX6KZbPByWgNlFUoGfS1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Extensions.html",
+          "hash": "2bEv6QRFzuwGyJgDC6BNHA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.FactorScheduler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.FactorScheduler.html",
+          "hash": "P+BUlMFWO/nmSmxf7SmPvg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.FuncArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.FuncArgs.html",
+          "hash": "JgcM6pgEIgWgyWfwTrUEGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Block.ApplyFn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Block.ApplyFn.html",
+          "hash": "pcrSjzuZt/5EvzK0QtwF7Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Block.Hook.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Block.Hook.html",
+          "hash": "W9HFdN/IISCD9XQeRw00Rg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Block.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Block.html",
+          "hash": "2U5F14U5OPxqhHus3OxO6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.CTCLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.CTCLoss.html",
+          "hash": "HGpOCDiG6ffz5Pqt1ZU5VA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.CachedOpArg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.CachedOpArg.html",
+          "hash": "MhRom0BaBCcOfLMr+VNelg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Constant.CInit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Constant.CInit.html",
+          "hash": "nmxL9jzn75uElTpGyCXVWQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Constant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Constant.html",
+          "hash": "KDSzHovUW9WUaQS6k2YevQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.CNN.DeformableConvolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.CNN.DeformableConvolution.html",
+          "hash": "ncJDAgpWDCIRjyS686QR9w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.CNN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.CNN.html",
+          "hash": "/jEw1xsQV5SphKZp6b411g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.Data.IntervalSampler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.Data.IntervalSampler.html",
+          "hash": "thchzZ6+4e6K0uO2Usg/6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.Data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.Data.html",
+          "hash": "CQEMVuN7Swd7UbkG3GnJPg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.Concurrent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.Concurrent.html",
+          "hash": "sx7GbsS4FGUS7RPPhfqNYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.HybridConcurrent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.HybridConcurrent.html",
+          "hash": "cr3CbhttkI5oy6XshejcDg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.Identity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.Identity.html",
+          "hash": "lKMeQIpDl8/UgFqx0ra53w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle1D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle1D.html",
+          "hash": "y2VYd3WYvBWNRhD+Liy8zA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle2D.html",
+          "hash": "+CN9PTiGLU0Wi90gFhziFA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle3D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle3D.html",
+          "hash": "CjfrCZ24kUjHKVZWvVfiSw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.SparseEmbedding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.SparseEmbedding.html",
+          "hash": "JkpqGRvVpWUOPWcwZ93K6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.SyncBatchNorm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.SyncBatchNorm.html",
+          "hash": "xVD7W7wwqspL8wHap9czlw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Contrib.NN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Contrib.NN.html",
+          "hash": "A3SkcMZbCR40twsCOxYXZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.CosineEmbeddingLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.CosineEmbeddingLoss.html",
+          "hash": "DPCTtcRSJpyIuGTcnd4rIw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.ArrayDataset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.ArrayDataset.html",
+          "hash": "ty5KJ52EVTv811i3k7EtwA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.BatchSampler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.BatchSampler.html",
+          "hash": "cY1HCOrhoYxriszkjI0j3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.ConnectionWrapper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.ConnectionWrapper.html",
+          "hash": "qpVN5vW01u5M68pcoc8zbw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.DataLoader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.DataLoader.html",
+          "hash": "4iScm32OQ5TpHuWtXSXg0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.DataLoaderV1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.DataLoaderV1.html",
+          "hash": "aBm7T4iKtewRPiNLv7hSLw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Dataset-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Dataset-1.html",
+          "hash": "8dBg48XZrO9sCLjHU7ByUg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.DownloadedDataset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.DownloadedDataset.html",
+          "hash": "2htXIfEk4bsCPKVcl02hjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Queue-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Queue-1.html",
+          "hash": "Am/wQL7NA/eUnX5cRLu/4Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.QueueItem-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.QueueItem-1.html",
+          "hash": "uH4UpZDlqMlOungeda1n1w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.RandomSampler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.RandomSampler.html",
+          "hash": "1yIWdsLmT4XV5ulyDgRFaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.RecordFileDataset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.RecordFileDataset.html",
+          "hash": "J50SjYo4G9TS7AyFZPrtHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Sampler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Sampler.html",
+          "hash": "R6rOspgEYaBz+ZxgneMbJg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.SequentialSampler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.SequentialSampler.html",
+          "hash": "f39a5sviOQNqfxBooa3q/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.SimpleQueue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.SimpleQueue.html",
+          "hash": "QhhEXvQMRkGHcfDWDY4Epw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.CIFAR10.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.CIFAR10.html",
+          "hash": "ZAvK7LjZV3AP/jgfjfBm9w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.CIFAR100.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.CIFAR100.html",
+          "hash": "1LuNZIcd8AMT2swq5Ba/6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.FashionMNIST.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.FashionMNIST.html",
+          "hash": "vhOx0tb2WX8LcRCv+TH7Yg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.ImageFolderDataset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.ImageFolderDataset.html",
+          "hash": "dNG4Vv1GKBmKx/ae53l9Yw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.ImageRecordDataset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.ImageRecordDataset.html",
+          "hash": "7F4Kj7cVddVSiCuSVDvNZw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.MNIST.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.MNIST.html",
+          "hash": "kNMu0lOlWOGd7+o9ei1KWQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.html",
+          "hash": "R02sZWj2ira1RvrskS+Wgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Cast.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Cast.html",
+          "hash": "Fkm4G+1brNsAAQXp+15KMA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.CenterCrop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.CenterCrop.html",
+          "hash": "M5BhgKVUHXyBu53dYpz43g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Compose.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Compose.html",
+          "hash": "NaQH2qHEni0RWTHkD4y/rQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.CropResize.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.CropResize.html",
+          "hash": "BAsIUeVVmyaQH5sg7W0Ynw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Normalize.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Normalize.html",
+          "hash": "En+pccEd4KymDpFtb5f+qw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomBrightness.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomBrightness.html",
+          "hash": "XgGzczoSOsatc1ri5DfUZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomColorJitter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomColorJitter.html",
+          "hash": "softg1LTA42FO5Ulk6KZZg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomContrast.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomContrast.html",
+          "hash": "C3XqEatxKEyr+jHmcZKnqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomFlipLeftRight.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomFlipLeftRight.html",
+          "hash": "ZOgQsxl7yynJQ9qaBYFpeQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomFlipTopBottom.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomFlipTopBottom.html",
+          "hash": "K9EGpr9EqHpgrw67PAmL1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomHue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomHue.html",
+          "hash": "P8f/n7VBFeEaTy5M0Fz7pg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomLighting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomLighting.html",
+          "hash": "WkY1mzclvX6GgCJvdHAUFw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomResizedCrop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomResizedCrop.html",
+          "hash": "G3YKvh7pOIOwN0xxJPY6+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomSaturation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomSaturation.html",
+          "hash": "KnvLyZcPnBPMjda/E86BKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Resize.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Resize.html",
+          "hash": "sUoTBG1VHhrT71xhssXeQA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.ToTensor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.ToTensor.html",
+          "hash": "UX5xxb2kQ5DGNvL5y5fjyw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.html",
+          "hash": "xACa/Fnjhr8m0rtTEWNjbw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.WorkerPool.WorkerInit.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.WorkerPool.WorkerInit.html",
+          "hash": "kyMLsC9lD4hq6NLEvlxGbQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.WorkerPool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.WorkerPool.html",
+          "hash": "oH3Zk748cyW0fhuiat7ABQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data._LazyTransformDataset-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data._LazyTransformDataset-1.html",
+          "hash": "Ql9C4opIqJAMU6X/HVf9ew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data._MultiWorkerIter.WorkerFn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIter.WorkerFn.html",
+          "hash": "I/olxc5K1JjFZDysa0VJpA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data._MultiWorkerIter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIter.html",
+          "hash": "n4sqQ7Pb+Hd2AEuC2/LlXw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data._MultiWorkerIterV1.WorkerFn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIterV1.WorkerFn.html",
+          "hash": "GDc6NicrvPC666opVOjyaw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data._MultiWorkerIterV1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIterV1.html",
+          "hash": "26b8spmc+nEfIzOa8Tuq9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data._TransformFirstClosure-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data._TransformFirstClosure-1.html",
+          "hash": "MSCSk5CGudQ8OC8HM1NQUw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Data.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Data.html",
+          "hash": "BAFBKO/CjVfy94jMBhNX1w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.HingeLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.HingeLoss.html",
+          "hash": "09kUYhIBnsfiY+QB1Rskcg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.HookHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.HookHandle.html",
+          "hash": "VB1WvPr3rTUfetjR3jbc1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.HuberLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.HuberLoss.html",
+          "hash": "WIr9OWYKoLtzn90Yt2+efA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.HybridBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.HybridBlock.html",
+          "hash": "vwYyUws4arKZRWi9pgphlQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.KLDivLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.KLDivLoss.html",
+          "hash": "p4eTrz/cpeIZTVNAPTiaUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.L1Loss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.L1Loss.html",
+          "hash": "F7LbTt22y+8yeCEe8gx80Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.L2Loss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.L2Loss.html",
+          "hash": "bjC4vGwMQPaY/QoZDrT8nA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.LogisticLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.LogisticLoss.html",
+          "hash": "1YQwwF6vM4wKDf8Y0vrJbQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Loss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Loss.html",
+          "hash": "BS+0vkQQvmitbd5XkVdUYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.ModelStore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.ModelStore.html",
+          "hash": "YRBTjCFKLbyPD6NI11eQFg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.AlexNet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.AlexNet.html",
+          "hash": "fiHwAeU2kyK2v+xR8qfOLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BasicBlockV1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BasicBlockV1.html",
+          "hash": "DPf3FSsyaeQV9BTbo6LCdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BasicBlockV2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BasicBlockV2.html",
+          "hash": "lKODpcSDYemkn2aDv5X7Pg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BottleneckV1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BottleneckV1.html",
+          "hash": "ZC9diOoBoKNYezP9/SDsVg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BottleneckV2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BottleneckV2.html",
+          "hash": "VARI+sHBnsIfyoDbQ87K7w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.DenseNet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.DenseNet.html",
+          "hash": "cG6FWUNCsCp77EUSyCP3rg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.Inception.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.Inception.html",
+          "hash": "OvDCCAtuO+2ZDAonmw69Uw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.Inception3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.Inception3.html",
+          "hash": "3EVtzl6J+1PBCGn7/SMj9Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.LinearBottleneck.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.LinearBottleneck.html",
+          "hash": "saCWeLwSUWnyiqRLIQYQgQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.MobileNet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.MobileNet.html",
+          "hash": "KN46paavYEsV9xIN/oIBdA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.MobileNetV2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.MobileNetV2.html",
+          "hash": "jbs4i7uiADo3M7YtK01IFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.RELU6.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.RELU6.html",
+          "hash": "0zIU2VFd2Qe76NeyvX2cHA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNet.html",
+          "hash": "JFebzh/8NtLRzBA+teNa1g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNetV1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNetV1.html",
+          "hash": "dDGHhnbL8SYyyQdfcXEheg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNetV2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNetV2.html",
+          "hash": "SdW7/10JObomcRZKXlaxJA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.SqueezeNet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.SqueezeNet.html",
+          "hash": "G5OTNtQ6pwowls2R8fm5cw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.VGG.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.VGG.html",
+          "hash": "vO9WMixetF9GWM1izY6Nhg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.Vision.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.html",
+          "hash": "xhPDbYwf/R7GqFQo2pMLxg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ModelZoo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ModelZoo.html",
+          "hash": "emR+5FQEp+2mDY2cpAu+sw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Activation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Activation.html",
+          "hash": "R04FMPlWvl44Z2iyySc1lQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.AvgPool1D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.AvgPool1D.html",
+          "hash": "2qkgWhXMNNPM4PrccYwKRw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.AvgPool2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.AvgPool2D.html",
+          "hash": "ni/JD2Ppw6qNgEvjZ1s52w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.AvgPool3D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.AvgPool3D.html",
+          "hash": "lrx7FywqWXv41EqzKeKCTA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.BatchNorm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.BatchNorm.html",
+          "hash": "y3Z/feCZw0NzQ5Yx+W9HGQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Conv1D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Conv1D.html",
+          "hash": "dZDsMitpuYWoL6pSn/ddKg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Conv1DTranspose.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Conv1DTranspose.html",
+          "hash": "VRX0xgvZzKlAN5Xc4IDmWg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Conv2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Conv2D.html",
+          "hash": "wi5hDxsKT7QX2lnmYjfdlw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Conv2DTranspose.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Conv2DTranspose.html",
+          "hash": "vOFV71T5g7wb4juz9kC58A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Conv3D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Conv3D.html",
+          "hash": "WgyNotSA1We15CHtOCketg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Conv3DTranspose.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Conv3DTranspose.html",
+          "hash": "0Vq6MM5OAI1RDOal/48/7A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Dense.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Dense.html",
+          "hash": "SqEtvmYcPeSTYSOzztJb2Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Dropout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Dropout.html",
+          "hash": "5CaazovsAytLdtAbfmzN6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.ELU.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.ELU.html",
+          "hash": "hA7RoPC07kaHHLHCygEXFA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Embedding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Embedding.html",
+          "hash": "1JwPobB5Qm4wTGBY46D9KQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Flatten.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Flatten.html",
+          "hash": "+RQKtL/klVQKwoobR5KHQw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.GELU.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.GELU.html",
+          "hash": "EPW2JyF7FrxjqUE0Jr+/Sw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool1D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool1D.html",
+          "hash": "jaakUx3wvm74BaTEckGzPg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool2D.html",
+          "hash": "BjlPP38E4Gm7IfS5alpwzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool3D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool3D.html",
+          "hash": "46rdYSmG9h8ghUE2f8XGVA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool1D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool1D.html",
+          "hash": "yVPRLcsFzBDjowDK+jbhnA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool2D.html",
+          "hash": "xcaKerpaqPRvDg/PMl+BVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool3D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool3D.html",
+          "hash": "2ajxrs8wu8nQ4xHHyrvaiw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.HybridLambda.LambdaFn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.HybridLambda.LambdaFn.html",
+          "hash": "2UsJ7pMYCRz7ktEaBqN72Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.HybridLambda.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.HybridLambda.html",
+          "hash": "aVS2FczykdrOqpQa8IKngg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.HybridSequential.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.HybridSequential.html",
+          "hash": "lQeorsZkeapnn6qHHGhesA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.InstanceNorm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.InstanceNorm.html",
+          "hash": "M3+BGkIh40a0GYgj1C/P4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Lambda.LambdaFn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Lambda.LambdaFn.html",
+          "hash": "aZvMmnZ1tcV9ZZ2ZLvaopg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Lambda.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Lambda.html",
+          "hash": "r4mAuA+OBuPAzdQ7mmly6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.LayerNorm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.LayerNorm.html",
+          "hash": "un/qHIoOZoVd183ynGPC2g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.LeakyReLU.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.LeakyReLU.html",
+          "hash": "WV1esnjlqWHHhJUZ3eXHaQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.MaxPool1D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.MaxPool1D.html",
+          "hash": "cJp1Cl90FUsEaXfS+q4gfg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.MaxPool2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.MaxPool2D.html",
+          "hash": "Hy1g/AWBCmareKBxLr0ZmQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.MaxPool3D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.MaxPool3D.html",
+          "hash": "8NNCyIi1vSykcselR3VGYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.PReLU.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.PReLU.html",
+          "hash": "BdkOCOhdgCtxWHlAwd+m4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.ReflectionPad2D.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.ReflectionPad2D.html",
+          "hash": "E55KKkers8PT58x2o8fDQg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.SELU.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.SELU.html",
+          "hash": "NqbhT72t526F0xiU2hL40A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Sequential.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Sequential.html",
+          "hash": "nOBJwJ4QpC7nT/EeLfyU+Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.Swish.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.Swish.html",
+          "hash": "BBfPKH8FWwCzNLvT7HBQnA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN._Conv.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN._Conv.html",
+          "hash": "U08g3IcRUfKukgtQtr6g5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN._Pooling.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN._Pooling.html",
+          "hash": "25iqlhwtR1+8T7hSr1B3Kg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.NN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.NN.html",
+          "hash": "MDbYCPkjvC6BIzH20DpFUA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Parameter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Parameter.html",
+          "hash": "ZIgAVbj/00/AhbG8/g+tsA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.ParameterDict.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.ParameterDict.html",
+          "hash": "+GBC7DZ46ZbjcAHt7ugm1A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.PoissonNLLLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.PoissonNLLLoss.html",
+          "hash": "NabHyxWyjFfvH4ZayTkpjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.BidirectionalCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.BidirectionalCell.html",
+          "hash": "v/cOLODrvroWMcrNW0Dq4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.DropoutCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.DropoutCell.html",
+          "hash": "O+QGAX6OzSbqL5JxqVVdxQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.GRUCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.GRUCell.html",
+          "hash": "xJPpAR4ZYkslC0AfqD132w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.HybridRecurrentCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.HybridRecurrentCell.html",
+          "hash": "HhumF/CKi5R7LAfW+rUz5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.HybridSequentialRNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.HybridSequentialRNNCell.html",
+          "hash": "KAy8emQvBj1/nlfimBqIVg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.LSTMCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.LSTMCell.html",
+          "hash": "sRhUGnYdHC8PvDpbG8ipNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.ModifierCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.ModifierCell.html",
+          "hash": "FU6bsnF7B8bcKp3yPk4tGQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.RNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.RNNCell.html",
+          "hash": "Sa02KRQiCSCNr/nrfpquYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.RecurrentCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.RecurrentCell.html",
+          "hash": "7sEAEHVdiHaD9lqg2mH74A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.ResidualCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.ResidualCell.html",
+          "hash": "olyj1VLfWgu/JurX8sPuWw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.SequentialRNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.SequentialRNNCell.html",
+          "hash": "pkUadhFk2lkoo8U8eLQ0EQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.StateInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.StateInfo.html",
+          "hash": "CGMjE2FHvz1NazCRFf/eqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.ZoneoutCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.ZoneoutCell.html",
+          "hash": "qDlQypCn7TZu7yTUVXeaxw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RNN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RNN.html",
+          "hash": "agSnkeb479q1IdWeCw4HVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RecurrentNN.GRU.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RecurrentNN.GRU.html",
+          "hash": "qDWnRFqHo5w7Z/fO8NyrHg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RecurrentNN.LSTM.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RecurrentNN.LSTM.html",
+          "hash": "J+dxU8j9AqS+C55g/D48Gg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RecurrentNN.RNN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RecurrentNN.RNN.html",
+          "hash": "QQ6xHEk7vHfWAyk7swmIWw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RecurrentNN.RNNLayer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RecurrentNN.RNNLayer.html",
+          "hash": "84n5BpwuEgYpWagvKz8EbQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.RecurrentNN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.RecurrentNN.html",
+          "hash": "d6kX2pZcHZTnXVZwFLMetg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.SigmoidBinaryCrossEntropyLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.SigmoidBinaryCrossEntropyLoss.html",
+          "hash": "O4P/fiGA1YACOrP0NmsZww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.SoftmaxCELoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.SoftmaxCELoss.html",
+          "hash": "AKxJkidTLivJaA92YZihsA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.SoftmaxCrossEntropyLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.SoftmaxCrossEntropyLoss.html",
+          "hash": "JJXuddsz4SdcfMLWVdCs5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.SquaredHingeLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.SquaredHingeLoss.html",
+          "hash": "HBVnlbeDNmYmgcIudp+4ag=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.SymbolBlock.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.SymbolBlock.html",
+          "hash": "MDxWBazEjCTvkBvlJjwAqA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Trainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Trainer.html",
+          "hash": "umNbDAK+bD6ubXaIYQv5mw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.TripletLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.TripletLoss.html",
+          "hash": "WcY9Mp0+th0LFmZ2+rwGow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Utils.html",
+          "hash": "PYS4n8c93/QWntIrnx0cpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon._BlockScope.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon._BlockScope.html",
+          "hash": "I9gpH6S+dorX9KO9NO+rmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.html",
+          "hash": "fB+ukndpePQtT06Bs7CR9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.GridgeneratorTransformType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.GridgeneratorTransformType.html",
+          "hash": "F4RXG5ldsE+s9Wandir6iw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.IO.DataBatch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.IO.DataBatch.html",
+          "hash": "7tuA/pwsYZl8e2a/Q/cJqg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.IO.DataDesc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.IO.DataDesc.html",
+          "hash": "1O/Cd6r618oa6WdHpmtI8g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.IO.DataIter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.IO.DataIter.html",
+          "hash": "PNwypqS+hukAgeQrebY6dg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.IO.MXDataIter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.IO.MXDataIter.html",
+          "hash": "x+eCeDe4QOfD93/bcx+uoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.IO.NDArrayIter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.IO.NDArrayIter.html",
+          "hash": "dB60PwVNrbPr1QJ5VkseAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.IO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.IO.html",
+          "hash": "YbHRKunkQ22z1UQmS9isqQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.Augmenter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.Augmenter.html",
+          "hash": "dmEOtd7MO8ViLwKnC4VQ3w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.BrightnessJitterAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.BrightnessJitterAug.html",
+          "hash": "e6chLZ5ERkNtBe1zOBO5qg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.CastAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.CastAug.html",
+          "hash": "vwGodqiFbTHiZCajoTtO8Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.CenterCropAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.CenterCropAug.html",
+          "hash": "SKqkR5MfNzyiWo948rrMOg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.ColorJitterAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.ColorJitterAug.html",
+          "hash": "bQpjLiqqWIEFdzvsE4FRwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.ColorNormalizeAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.ColorNormalizeAug.html",
+          "hash": "WPBlsd0hyqsDbYPqUEjTWg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.ContrastJitterAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.ContrastJitterAug.html",
+          "hash": "+HQcJ37KQV59CTduzNZ57w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.DetAugmenter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.DetAugmenter.html",
+          "hash": "Nc0ugwwGGfWEdQJDzoXq0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.DetBorrowAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.DetBorrowAug.html",
+          "hash": "/9y91AO/AMvWpd/T9U1VhQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.DetHorizontalFlipAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.DetHorizontalFlipAug.html",
+          "hash": "6/M+sctBiH2lXQPO73gpwg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.DetRandomCropAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.DetRandomCropAug.html",
+          "hash": "8TUYK3249tm5y9YoJ6AWbg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.DetRandomPadAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.DetRandomPadAug.html",
+          "hash": "7KEBXinHjy7zpIk7P8l66Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.DetRandomSelectAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.DetRandomSelectAug.html",
+          "hash": "OgxF5EVYqlQouL3TFIyLvA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.Detection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.Detection.html",
+          "hash": "NVhZyhOQERzG5hn3eyPZ6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.ForceResizeAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.ForceResizeAug.html",
+          "hash": "xlyCryP4RSWDFIyAtUnn0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.HorizontalFlipAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.HorizontalFlipAug.html",
+          "hash": "qupkCLih0tjK05G2diC+5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.HueJitterAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.HueJitterAug.html",
+          "hash": "UaRR6P7hPgFcC+8A4gYwgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.ImageIter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.ImageIter.html",
+          "hash": "f2wYyfm9mefKQXuh8vjLqQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.Img.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.Img.html",
+          "hash": "9SN/53w4GcLU4h2RTxGChw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.ImgInterp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.ImgInterp.html",
+          "hash": "t1b2r9agveGKU7d5UU54Vg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.LightingAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.LightingAug.html",
+          "hash": "5nyddq3qu+mOyA9ghbHzlQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.RandomCropAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.RandomCropAug.html",
+          "hash": "ALlvAaurijbTU1DAjX08MA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.RandomGrayAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.RandomGrayAug.html",
+          "hash": "KKn5km3ojnvX+4Jx7eh+bA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.RandomOrderAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.RandomOrderAug.html",
+          "hash": "RCABHr6/JffykmSQOIoKhw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.RandomSizedCropAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.RandomSizedCropAug.html",
+          "hash": "jofa/wsgZPooNYIQEHfpAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.ResizeAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.ResizeAug.html",
+          "hash": "JM1JaN7bxx8dsVYZMruyYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.SaturationJitterAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.SaturationJitterAug.html",
+          "hash": "s3vcF6SnvOVL2A8i5Rc7NA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.SequentialAug.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.SequentialAug.html",
+          "hash": "I0s55hlWsM3dl24uz3eUZw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Image.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Image.html",
+          "hash": "O+ETMv8LJIX9Opkc/puY4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Bilinear.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Bilinear.html",
+          "hash": "Rg1LcDMGXrPvktn7O3aPJw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Constant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Constant.html",
+          "hash": "+xz3F3h7t8CVk+54f6iOuQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.FusedRNN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.FusedRNN.html",
+          "hash": "a9zi/9CSRTq7I4aPhwDrfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.InitDesc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.InitDesc.html",
+          "hash": "DvW4M4cGz1offV4eFvcNiw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Initializer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Initializer.html",
+          "hash": "MXyAaj8JXZ5OmQCdk27Xjw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.LSTMBias.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.LSTMBias.html",
+          "hash": "KCHAcv4pnV5e31vOYO7LYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Load.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Load.html",
+          "hash": "T+AK0oHjkhk+z/RL6z/oZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.MSRAPrelu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.MSRAPrelu.html",
+          "hash": "BjaIO2CwTwPdyR+IS3H9ww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Mixed.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Mixed.html",
+          "hash": "I3goQDVJsLKqOJWK9of5xA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Normal.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Normal.html",
+          "hash": "YwAoJDSQJZmz/RFewbrFYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.One.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.One.html",
+          "hash": "SiuA3ljAAEl46L5/i145vA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Orthogonal.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Orthogonal.html",
+          "hash": "4aEothEQTJDPMknq7drMAA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Uniform.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Uniform.html",
+          "hash": "0eRCOVxap4HgVtPRmkMNzA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Xavier.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Xavier.html",
+          "hash": "P7GcIoM0iJxsrj21k1H4HQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.Zero.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.Zero.html",
+          "hash": "YBSt1K39H48npctKKtXcSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Initializers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Initializers.html",
+          "hash": "LsjwUgRHoCbj1LzCWuxUfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Interop.MXKVStoreServerController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Interop.MXKVStoreServerController.html",
+          "hash": "yCrw/0q28mk5EHKymQi/+g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Interop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Interop.html",
+          "hash": "B0SHajA4KzZRqdUyVIjSFw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.KVstore.KVStore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.KVstore.KVStore.html",
+          "hash": "1h+lxDiiQu6CbIo2/wgl0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.KVstore.KVStoreBase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.KVstore.KVStoreBase.html",
+          "hash": "nc1SkN7hqf0k+WfvQ6i5NQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.KVstore.KVStoreCommandType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.KVstore.KVStoreCommandType.html",
+          "hash": "OdgaF2wHAeUa0LQhIhG75Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.KVstore.KVStoreServer.ServerController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.KVstore.KVStoreServer.ServerController.html",
+          "hash": "CNtKZKG7Q6Ok2cZG/qbEww=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.KVstore.KVStoreServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.KVstore.KVStoreServer.html",
+          "hash": "NnhZP1SpM9Pv2yH3kf9gLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.KVstore.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.KVstore.html",
+          "hash": "TthHE6Pr6YVMWAQDmbRdUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.L2normalizationMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.L2normalizationMode.html",
+          "hash": "AdDV9lEnZFrYtqnaDFOJCg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.LRScheduler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.LRScheduler.html",
+          "hash": "3C/AxzKV8J3OTVx53j5CGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.LibFeature.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.LibFeature.html",
+          "hash": "n8UXatLiiZSMlz14DortrA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ListExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ListExtensions.html",
+          "hash": "4zZn2RK85LX9n6+CKyUHKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Logger.Formatter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Logger.Formatter.html",
+          "hash": "alCmNhZO1LkPhKT5gZkJpw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Logger.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Logger.html",
+          "hash": "fB/vqre9N1Isv313TBUJWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Logging.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Logging.html",
+          "hash": "rYxz+WjADNAwgBwDb2AIjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MXDataIterBlob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MXDataIterBlob.html",
+          "hash": "G9geEQ22hA4FLoWtesKH+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MXDataIterMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MXDataIterMap.html",
+          "hash": "F2RsccQSKVCUvuJ+15uRow=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MXNetException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MXNetException.html",
+          "hash": "6eTbzU5/y7wSuSPAQj/6lQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MXNetObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MXNetObject.html",
+          "hash": "rxwZJhZ3qXncKdDwDokYLQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MXNetSharedObject.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MXNetSharedObject.html",
+          "hash": "S/NK8bmcFcPTehx0KjMLTA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MakelossNormalization.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MakelossNormalization.html",
+          "hash": "ZekGl10AV3FAq8aan86apA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.Accuracy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.Accuracy.html",
+          "hash": "fJRct1F4JTKb7/rmI6VpdA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.Base.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.Base.html",
+          "hash": "kgIKQXUuXYSs1Sk4yvOc8A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.BinaryAccuracy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.BinaryAccuracy.html",
+          "hash": "MPg5fTjCahLFBxq9hOJFPw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.Caffe.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.Caffe.html",
+          "hash": "d/eZO6mv2VEkrAWM2XSPGg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.CrossEntropy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.CrossEntropy.html",
+          "hash": "m83mFQOCxxtJHE5wilL+Pw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.CustomMetric.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.CustomMetric.html",
+          "hash": "KTJzCmpSUqSkkdYAOWS6AA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.EvalMetric.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.EvalMetric.html",
+          "hash": "705vfme4povAGzmas6FoJg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.F1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.F1.html",
+          "hash": "1CeAjzuSnpaPdUK+nYdGTA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.Loss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.Loss.html",
+          "hash": "VWdntOtAeQ9QKEGABT1i5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.MAE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.MAE.html",
+          "hash": "DdIPf4tKmifrasm9hGL7hA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.MCC.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.MCC.html",
+          "hash": "r1qJ3aEqehePEItSfBq5tA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.MSE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.MSE.html",
+          "hash": "6DdBtZbLEwHH1nRYmXoQsw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.NegativeLogLikelihood.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.NegativeLogLikelihood.html",
+          "hash": "oj7UXl6nvTjjNgJznKKcJQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.PCC.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.PCC.html",
+          "hash": "qhVFo2fVKmIhfYtuIn8Yxg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.PearsonCorrelation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.PearsonCorrelation.html",
+          "hash": "kv/6p2vcIgtCMYTpGgNmAw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.Perplexity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.Perplexity.html",
+          "hash": "By5c0TMpM1m5NhXHgT+naw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.RMSE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.RMSE.html",
+          "hash": "03aJFsS8UP7+XwVqOcvyfA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.TopKAccuracy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.TopKAccuracy.html",
+          "hash": "o8yUwgHai9W9Q5QlwoBi/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.Torch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.Torch.html",
+          "hash": "PHBqXh5ZcsAxIxAZtPLMDg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Metrics.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Metrics.html",
+          "hash": "cbOHQ0UkmTeof4hOFwjgXQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Model.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Model.html",
+          "hash": "LFGmocCN9S2RLkKGNanZAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Modules.BaseModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Modules.BaseModule.html",
+          "hash": "cx0FBy7oz2S5rqRD3vk8Ww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Modules.BucketingModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Modules.BucketingModule.html",
+          "hash": "lzPqxtDlCOz4izCxYXW3tQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Modules.DataParallelExecutorGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Modules.DataParallelExecutorGroup.html",
+          "hash": "MnwpTMjRwKlyuSoFJ0DKcA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Modules.ExecutorGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Modules.ExecutorGroup.html",
+          "hash": "K2Dsw5jIqVlRBlIqgSYcjg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Modules.Module.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Modules.Module.html",
+          "hash": "ONuRpl+uq93/LOOrVfMA6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Modules.SequentialModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Modules.SequentialModule.html",
+          "hash": "m1YuIr+jUu1mEDV+gBZHaw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Modules.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Modules.html",
+          "hash": "nNSPiZpnGRzWS6vODlo6OQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Monitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Monitor.html",
+          "hash": "MaVKbhLNeNZqe5+GcSE9lQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MxDisposable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MxDisposable.html",
+          "hash": "40fAEVk5UFvH8wao65p+rw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.MxUtil.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.MxUtil.html",
+          "hash": "eQOc/NzufpNHJytFNIz75g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDArray.html",
+          "hash": "uQI6kHNWHH69ulIp6T3wOw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDArrayDict.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDArrayDict.html",
+          "hash": "mWKiduj/0RuyRBuzfb9dZw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDArrayList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDArrayList.html",
+          "hash": "fG70ybJj6aAjBgH66HYDog=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDArrayOrSymbol.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDArrayOrSymbol.html",
+          "hash": "dakymuyXB4sNUcTDuRX4XQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDBlob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDBlob.html",
+          "hash": "b5MYiurJDF4OAHIAxwHlWw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDContribApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDContribApi.html",
+          "hash": "JKl9Vh++vOX4TGJqGRG2hw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDImgApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDImgApi.html",
+          "hash": "dc/T4PUd85PNg3Jl0fnOUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDListHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDListHandle.html",
+          "hash": "8oho+WZx8qOE83Lg272BXw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Name.NameManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Name.NameManager.html",
+          "hash": "yTKsR375x9twUqReI2t5dg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Name.Prefix.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Name.Prefix.html",
+          "hash": "Y3S3Bl0ZLb9FyRRWVbAQIA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Name.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Name.html",
+          "hash": "nhj+WZlP97b67682m/9OfA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NormOutDtype.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NormOutDtype.html",
+          "hash": "Kj5xG7QlX0g5vFzHuHj3Ew=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ObjectExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ObjectExtensions.html",
+          "hash": "LCVI07q+kQQgdEJMTPHldA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.OpGradReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.OpGradReq.html",
+          "hash": "kS9SKVWSzSBZhsfbXxvESg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.OpMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.OpMap.html",
+          "hash": "F4KScXXpr9yTZxiFp9ZVuA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Operator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Operator.html",
+          "hash": "9vBn0m99V2b6eG68hrIEyg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.OperatorSupply.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.OperatorSupply.html",
+          "hash": "6gBgSVpPHyYaKp4oJudD5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.OptimAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.OptimAttribute.html",
+          "hash": "RwB2Gkt/xHUJhR8FVDHpWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.AdaDelta.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.AdaDelta.html",
+          "hash": "9eH7dztjUNQAyXs2UhRykQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.AdaGrad.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.AdaGrad.html",
+          "hash": "qVoceeEsKK8YW13jMsQrhg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.Adam.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.Adam.html",
+          "hash": "/uOmSd/9ltkp5UzmZS3RGg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.Adamax.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.Adamax.html",
+          "hash": "OnM/RNCLXMsMtXv1bs4M5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.CumGrad.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.CumGrad.html",
+          "hash": "3mEAW5EXV3SSz6BXU/TOdA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.DCASGD.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.DCASGD.html",
+          "hash": "zDt9av1Hr9tyujuivnqRoQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.FTML.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.FTML.html",
+          "hash": "amYQpuJnP7/XD2/l/W8zUg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.Ftlr.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.Ftlr.html",
+          "hash": "VBTco4Sk2MZhqCq3qb/Eww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.LBSGD.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.LBSGD.html",
+          "hash": "nF75eQsbRFqnwfctVh17RQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.NAG.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.NAG.html",
+          "hash": "Bvi1l9olgTKkOO7Tz4tCjA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.Nadam.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.Nadam.html",
+          "hash": "5CM8c1zjjPxY5+hRoAcPRw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.OptimState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.OptimState.html",
+          "hash": "+T8oA1o9MBt+l6wNOYB8Nw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.Optimizer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.Optimizer.html",
+          "hash": "RBDnBVhkgqAaNEAYbmXOnw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.RMSProp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.RMSProp.html",
+          "hash": "pbQz5mj+2YnaJ8FYOIxjtQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.SGD.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.SGD.html",
+          "hash": "J91I49gcA1s3BnaDgCZPXA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.SGLD.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.SGLD.html",
+          "hash": "alT5GknWURftlyVCr/yWNg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.Signum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.Signum.html",
+          "hash": "Dp9n9nZBnIWyi9uusK/N/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.Updater.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.Updater.html",
+          "hash": "yCxKypAK5VuSD+ztqd/XOg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Optimizers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Optimizers.html",
+          "hash": "JhfzWrLU8QhKrZPphpA1pg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PadMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PadMode.html",
+          "hash": "Nyh3hWRMBD8W60GQEZDKZg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PickMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PickMode.html",
+          "hash": "nnT/e3bPAlCy0G9yxFS8gA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PickedStates.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PickedStates.html",
+          "hash": "EgmUfR8qGC+IZBTetQFzxw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Pickle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Pickle.html",
+          "hash": "6tmJXJJOeAkTb6OngvGBdg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PoolingConvention.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PoolingConvention.html",
+          "hash": "fZESVt9niVDAYMRjwYhulA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PoolingLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PoolingLayout.html",
+          "hash": "atmH4XxULGURTFXoTsSm6A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PoolingType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PoolingType.html",
+          "hash": "M9bDIMS8HYuLBzUtcD9JBw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PoolingV1PoolType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PoolingV1PoolType.html",
+          "hash": "JmmZTjmcoF1rYKMuEEAqkw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PoolingV1PoolingConvention.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PoolingV1PoolingConvention.html",
+          "hash": "aoU8NRnG8yz8sybGiU9uDA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PredictException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PredictException.html",
+          "hash": "7k8wvPW4TipPcBH4uGOZnw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.PredictorHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.PredictorHandle.html",
+          "hash": "xdQN5YX+hyYFouiYEM/HsQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Profiler.Counter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Profiler.Counter.html",
+          "hash": "gu7pBWjiJEXvJk7baGgZYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Profiler.Domain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Profiler.Domain.html",
+          "hash": "W5sjKU3yv9VSc7XQqt4lpA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Profiler.Event.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Profiler.Event.html",
+          "hash": "maa54D41IxigVq0/chXKqA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Profiler.Frame.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Profiler.Frame.html",
+          "hash": "ocNL2VPFp4yhMLo048Z24Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Profiler.Marker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Profiler.Marker.html",
+          "hash": "e3itZX5UPEeX/OD6aa9WdQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Profiler.Task.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Profiler.Task.html",
+          "hash": "kJLabSZrM+tlJQBUYXZWiQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Profiler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Profiler.html",
+          "hash": "pD0d9OLAWj+aXPmSkrmarQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RNN.RNN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RNN.RNN.html",
+          "hash": "qH97Dlpe9Jc6DED4rztD9w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RNN.RNNCheckPointCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RNN.RNNCheckPointCallback.html",
+          "hash": "1SnWQ0YMVYFEcPmosdgicQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RNN.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RNN.html",
+          "hash": "SaSQpacW/XAqVFzoUkOSaw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RNNMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RNNMode.html",
+          "hash": "5yVm3Qjg3fDt6K5ZZObcqQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RTC.CudaKernel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RTC.CudaKernel.html",
+          "hash": "c+Pw/E3lcFAyLbUqCfJGyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RTC.CudaModule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RTC.CudaModule.html",
+          "hash": "9R/QQ6FV2uF3GpQaQUGu7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RTC.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RTC.html",
+          "hash": "NFgh7VeDTfqckc/QgBqZvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Recordio.IRHeader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Recordio.IRHeader.html",
+          "hash": "dnvDbjfVIzhsqUsXTHbGXw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Recordio.MXIndexedRecordIO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Recordio.MXIndexedRecordIO.html",
+          "hash": "LhjeUM0QQ5KKrCgQmwd2dA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Recordio.MXRecordIO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Recordio.MXRecordIO.html",
+          "hash": "dpeqQGm9WMSOfuMwPS1Rww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Recordio.RecordIO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Recordio.RecordIO.html",
+          "hash": "dtZ6og0LlWST5jLTv7/JCA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Recordio.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Recordio.html",
+          "hash": "alpF4+Y2IXW7tR3isefwHA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.BaseConvRNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.BaseConvRNNCell.html",
+          "hash": "0AA3hTL+nwM38ny7zCFZ9g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.BaseRNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.BaseRNNCell.html",
+          "hash": "sHcig62ZVodyY0O1emRW5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.BidirectionalCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.BidirectionalCell.html",
+          "hash": "dXv+38qTxKxk4pSHvMqNww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.BucketSentenceIter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.BucketSentenceIter.html",
+          "hash": "QRKDhDl5aQVUqqKamwrFjw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.ConvGRUCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.ConvGRUCell.html",
+          "hash": "2Fw3mK4Mku0vgIt9ztnulA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.ConvLSTMCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.ConvLSTMCell.html",
+          "hash": "wUtax/Mm7gP69hAvxIswKw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.ConvRNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.ConvRNNCell.html",
+          "hash": "+XZxqxnPJn8f/7VbQZcu5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.DropoutCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.DropoutCell.html",
+          "hash": "pFoggOC3J4r0OuDPProgcA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.FusedRNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.FusedRNNCell.html",
+          "hash": "SilgNlLVx1Yqwk7ckUPuiA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.GRUCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.GRUCell.html",
+          "hash": "IHftH1v2SOUmDIgSZ0ikAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.LSTMCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.LSTMCell.html",
+          "hash": "e9fNEeV/1ggeZwPlWYoamQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.ModifierCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.ModifierCell.html",
+          "hash": "kue5V5uuQHKBD7lgStprpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.RNNActivation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.RNNActivation.html",
+          "hash": "hUROfXlLFNICf9OOvv8EbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.RNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.RNNCell.html",
+          "hash": "m5GClsSju1H2xs4Tiaod6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.RNNParams.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.RNNParams.html",
+          "hash": "1HjXyWAAmgxLfjQnOmKAkw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.ResidualCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.ResidualCell.html",
+          "hash": "CXSxi23KApr6s/o5xXKbSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.SequentialRNNCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.SequentialRNNCell.html",
+          "hash": "jjHmqjsy6kx6REFKfvKiBA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.ZoneoutCell.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.ZoneoutCell.html",
+          "hash": "kIJtk1sGKAkZ1Rx6m48o6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.RecurrentLayer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.RecurrentLayer.html",
+          "hash": "B7NcyxZBc+VtMZmRR+9UMA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.ReluActType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.ReluActType.html",
+          "hash": "1BtUtaaI7IgFWqm7Msk5Ig=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Runtime.Feature.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Runtime.Feature.html",
+          "hash": "whJg9arFkSCwg2h52/ohjA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Runtime.Features.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Runtime.Features.html",
+          "hash": "r/oXwYnZd75xcGGrE66lzA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Runtime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Runtime.html",
+          "hash": "kkQftRm2QKzUAD98vPJvHw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Schedulers.CosineScheduler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Schedulers.CosineScheduler.html",
+          "hash": "dQgyEB0W9e4m8ivTYWMgpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Schedulers.MultiFactorScheduler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Schedulers.MultiFactorScheduler.html",
+          "hash": "nCE04DuufeWtLLycjIRhuQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Schedulers.PolyScheduler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Schedulers.PolyScheduler.html",
+          "hash": "mJ6kjpKfiOQt+N/oxKXRbg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Schedulers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Schedulers.html",
+          "hash": "fP8BTROajKrdQqlsQDVFKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Shape.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Shape.html",
+          "hash": "NHBH/IKhH0cqqGcwnV/dMw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Slice.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Slice.html",
+          "hash": "R+uanE9YeNYwQYtJik9QIw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SoftmaxMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SoftmaxMode.html",
+          "hash": "gfXS7Gepn2J3EbpUOY7LSg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SoftmaxoutputNormalization.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SoftmaxoutputNormalization.html",
+          "hash": "pZMLRj1MvC7x/3vp8GwENw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Sparse.BaseSparseNDArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Sparse.BaseSparseNDArray.html",
+          "hash": "+//bU/2GIw4/pW87bjhMRA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Sparse.CSRNDArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Sparse.CSRNDArray.html",
+          "hash": "Imf6qe05VSRhAU81YXpt7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Sparse.RowSparseNDArray.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Sparse.RowSparseNDArray.html",
+          "hash": "LyJH33UrLc2mIXfCOA/tpQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Sparse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Sparse.html",
+          "hash": "H9/yvCmTi8jI+0ipzl9x5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SpatialtransformerSamplerType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SpatialtransformerSamplerType.html",
+          "hash": "u1XKlENpQcFQOpt/qrTqrA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SpatialtransformerTransformType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SpatialtransformerTransformType.html",
+          "hash": "K6myOiJeKKxhPmsIHXX+xw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.StorageStype.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.StorageStype.html",
+          "hash": "OavpaQ0+JlznBKD6SZ9J8g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SymBlob.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SymBlob.html",
+          "hash": "Krh1o1Z9krgFTS2oMwLtoA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SymContribApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SymContribApi.html",
+          "hash": "J3LImYwRJzxM6f+pHR+NvA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SymImgApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SymImgApi.html",
+          "hash": "3pZuu+6lonvE1ECR8Diyow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Symbol.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Symbol.html",
+          "hash": "C4taCDLUvUKh6lpQTziu+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SymbolDict.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SymbolDict.html",
+          "hash": "vn1epI0pIfWB0YrvARg6SA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.TakeMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.TakeMode.html",
+          "hash": "Z9H0lqevPgKQj3swp4BnJQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.TestUtils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.TestUtils.html",
+          "hash": "vm1eJu3OwxvPg1+0/vC88g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.TopkRetTyp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.TopkRetTyp.html",
+          "hash": "gTZOZSBBTUXVDEw9he0NBQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Tuple-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Tuple-1.html",
+          "hash": "zESuNnNk2b5Wdpu9dXTQwg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.UniquePtr-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.UniquePtr-1.html",
+          "hash": "uwXPxs+vasovP7OojsshUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.UpsamplingMultiInputMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.UpsamplingMultiInputMode.html",
+          "hash": "AwLEO5XPRsIEKHneyXKL1g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.UpsamplingSampleType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.UpsamplingSampleType.html",
+          "hash": "bypsjtxJzM7JjHiqvK1gOw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.mx.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.mx.html",
+          "hash": "xQZtICYD69UuJjXrVhvimg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.nd.Random.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.nd.Random.html",
+          "hash": "VzOdDZ1ET5VwuOmji51XGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.nd.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.nd.html",
+          "hash": "BrRRKhUDJcLD2ked3zz0fw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.sym.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.sym.html",
+          "hash": "CFbCdz6q24sCDNF1+OP5hw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.html",
+          "hash": "Bs8UNFLwZw/juZsiqCVPYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "PF3JovBnXLDgYei3l89wgQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "M0+6oNblFKHE/wMeuPYnoQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "omRqOiL/AjuKVyIBq0qTGg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "gB8AESyvNru97tzIZofEEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "8rjthU+vvlsurwgfRPunrg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "+rHUkRZHZRi5gd1aTU6lJA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 460,
+          "skipped_file_count": 180
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

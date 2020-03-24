@@ -1,0 +1,813 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ImageIter
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ImageIter
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MxNet.Image.ImageIter">
+  
+  
+  <h1 id="MxNet_Image_ImageIter" data-uid="MxNet.Image.ImageIter" class="text-break">Class ImageIter
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="MxNet.MXNetObject.html">MXNetObject</a></div>
+    <div class="level2"><a class="xref" href="MxNet.DisposableMXNetObject.html">DisposableMXNetObject</a></div>
+    <div class="level3"><a class="xref" href="MxNet.IO.DataIter.html">DataIter</a></div>
+    <div class="level4"><span class="xref">ImageIter</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_BatchSize">DataIter.BatchSize</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_ProvideData">DataIter.ProvideData</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_ProvideLabel">DataIter.ProvideLabel</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_DefaultBucketKey">DataIter.DefaultBucketKey</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_Cursor">DataIter.Cursor</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsDisposed">DisposableMXNetObject.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsEnableDispose">DisposableMXNetObject.IsEnableDispose</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsMutable">DisposableMXNetObject.IsMutable</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_ThrowIfDisposed">DisposableMXNetObject.ThrowIfDisposed()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_DisposeManaged">DisposableMXNetObject.DisposeManaged()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_DisposeUnmanaged">DisposableMXNetObject.DisposeUnmanaged()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_Dispose">DisposableMXNetObject.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.MXNetObject.html#MxNet_MXNetObject_NativePtr">MXNetObject.NativePtr</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Image.html">MxNet.Image</a></h6>
+  <h6><strong>Assembly</strong>: MxNet.dll</h6>
+  <h5 id="MxNet_Image_ImageIter_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ImageIter : DataIter, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter__ctor_System_Int32_MxNet_Shape_System_Int32_System_String_System_String___System_String_System_String_System_Boolean_System_Int32_System_Int32_MxNet_Image_Augmenter___System_Collections_Generic_Dictionary_System_String_System_Single__System_String_System_String_MxNet_DType_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.%23ctor(System.Int32%2CMxNet.Shape%2CSystem.Int32%2CSystem.String%2CSystem.String%5B%5D%2CSystem.String%2CSystem.String%2CSystem.Boolean%2CSystem.Int32%2CSystem.Int32%2CMxNet.Image.Augmenter%5B%5D%2CSystem.Collections.Generic.Dictionary%7BSystem.String%2CSystem.Single%7D%2CSystem.String%2CSystem.String%2CMxNet.DType%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L9">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter__ctor_" data-uid="MxNet.Image.ImageIter.#ctor*"></a>
+  <h4 id="MxNet_Image_ImageIter__ctor_System_Int32_MxNet_Shape_System_Int32_System_String_System_String___System_String_System_String_System_Boolean_System_Int32_System_Int32_MxNet_Image_Augmenter___System_Collections_Generic_Dictionary_System_String_System_Single__System_String_System_String_MxNet_DType_System_String_" data-uid="MxNet.Image.ImageIter.#ctor(System.Int32,MxNet.Shape,System.Int32,System.String,System.String[],System.String,System.String,System.Boolean,System.Int32,System.Int32,MxNet.Image.Augmenter[],System.Collections.Generic.Dictionary{System.String,System.Single},System.String,System.String,MxNet.DType,System.String)">ImageIter(Int32, Shape, Int32, String, String[], String, String, Boolean, Int32, Int32, Augmenter[], Dictionary&lt;String, Single&gt;, String, String, DType, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ImageIter(int batch_size, Shape data_shape, int label_width = 1, string path_imgrec = null, string[] path_imglist = null, string path_root = null, string path_imgidx = null, bool shuffle = false, int part_index = 0, int num_parts = 1, Augmenter[] aug_list = null, Dictionary&lt;string, float&gt; imglist = null, string data_name = &quot;data&quot;, string label_name = &quot;softmax_label&quot;, DType dtype = null, string last_batch_handle = &quot;pad&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">batch_size</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Shape.html">Shape</a></td>
+        <td><span class="parametername">data_shape</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">label_width</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path_imgrec</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">path_imglist</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path_root</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">path_imgidx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">shuffle</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">part_index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">num_parts</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Image.Augmenter.html">Augmenter</a>[]</td>
+        <td><span class="parametername">aug_list</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Single</span>&gt;</td>
+        <td><span class="parametername">imglist</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">data_name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">label_name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.DType.html">DType</a></td>
+        <td><span class="parametername">dtype</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">last_batch_handle</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_AugmentationTransform_MxNet_NDArray_.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.AugmentationTransform(MxNet.NDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L89">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_AugmentationTransform_" data-uid="MxNet.Image.ImageIter.AugmentationTransform*"></a>
+  <h4 id="MxNet_Image_ImageIter_AugmentationTransform_MxNet_NDArray_" data-uid="MxNet.Image.ImageIter.AugmentationTransform(MxNet.NDArray)">AugmentationTransform(NDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NDArray AugmentationTransform(NDArray data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_CheckDataShape_MxNet_Shape_.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.CheckDataShape(MxNet.Shape)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L74">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_CheckDataShape_" data-uid="MxNet.Image.ImageIter.CheckDataShape*"></a>
+  <h4 id="MxNet_Image_ImageIter_CheckDataShape_MxNet_Shape_" data-uid="MxNet.Image.ImageIter.CheckDataShape(MxNet.Shape)">CheckDataShape(Shape)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CheckDataShape(Shape data_shape)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Shape.html">Shape</a></td>
+        <td><span class="parametername">data_shape</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_CheckValidImage_MxNet_NDArray_.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.CheckValidImage(MxNet.NDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L79">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_CheckValidImage_" data-uid="MxNet.Image.ImageIter.CheckValidImage*"></a>
+  <h4 id="MxNet_Image_ImageIter_CheckValidImage_MxNet_NDArray_" data-uid="MxNet.Image.ImageIter.CheckValidImage(MxNet.NDArray)">CheckValidImage(NDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CheckValidImage(NDArray data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_End.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.End%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L44">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_End_" data-uid="MxNet.Image.ImageIter.End*"></a>
+  <h4 id="MxNet_Image_ImageIter_End" data-uid="MxNet.Image.ImageIter.End">End()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool End()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_End">DataIter.End()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_GetData.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.GetData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L19">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_GetData_" data-uid="MxNet.Image.ImageIter.GetData*"></a>
+  <h4 id="MxNet_Image_ImageIter_GetData" data-uid="MxNet.Image.ImageIter.GetData">GetData()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override NDArrayList GetData()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetData">DataIter.GetData()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_GetIndex.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.GetIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L24">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_GetIndex_" data-uid="MxNet.Image.ImageIter.GetIndex*"></a>
+  <h4 id="MxNet_Image_ImageIter_GetIndex" data-uid="MxNet.Image.ImageIter.GetIndex">GetIndex()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int[] GetIndex()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetIndex">DataIter.GetIndex()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_GetLabel.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.GetLabel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L29">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_GetLabel_" data-uid="MxNet.Image.ImageIter.GetLabel*"></a>
+  <h4 id="MxNet_Image_ImageIter_GetLabel" data-uid="MxNet.Image.ImageIter.GetLabel">GetLabel()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override NDArrayList GetLabel()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetLabel">DataIter.GetLabel()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_GetPad.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.GetPad%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L34">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_GetPad_" data-uid="MxNet.Image.ImageIter.GetPad*"></a>
+  <h4 id="MxNet_Image_ImageIter_GetPad" data-uid="MxNet.Image.ImageIter.GetPad">GetPad()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetPad()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetPad">DataIter.GetPad()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_HardReset.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.HardReset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L64">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_HardReset_" data-uid="MxNet.Image.ImageIter.HardReset*"></a>
+  <h4 id="MxNet_Image_ImageIter_HardReset" data-uid="MxNet.Image.ImageIter.HardReset">HardReset()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void HardReset()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_IterNext.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.IterNext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L39">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_IterNext_" data-uid="MxNet.Image.ImageIter.IterNext*"></a>
+  <h4 id="MxNet_Image_ImageIter_IterNext" data-uid="MxNet.Image.ImageIter.IterNext">IterNext()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool IterNext()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_IterNext">DataIter.IterNext()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_Next.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.Next%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L49">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_Next_" data-uid="MxNet.Image.ImageIter.Next*"></a>
+  <h4 id="MxNet_Image_ImageIter_Next" data-uid="MxNet.Image.ImageIter.Next">Next()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DataBatch Next()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataBatch.html">DataBatch</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_Next">DataIter.Next()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_NextSample.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.NextSample%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L54">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_NextSample_" data-uid="MxNet.Image.ImageIter.NextSample*"></a>
+  <h4 id="MxNet_Image_ImageIter_NextSample" data-uid="MxNet.Image.ImageIter.NextSample">NextSample()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DataBatch NextSample()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataBatch.html">DataBatch</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_PostProcessData_MxNet_NDArray_.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.PostProcessData(MxNet.NDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L94">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_PostProcessData_" data-uid="MxNet.Image.ImageIter.PostProcessData*"></a>
+  <h4 id="MxNet_Image_ImageIter_PostProcessData_MxNet_NDArray_" data-uid="MxNet.Image.ImageIter.PostProcessData(MxNet.NDArray)">PostProcessData(NDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NDArray PostProcessData(NDArray datum)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td><span class="parametername">datum</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_ReadImage_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.ReadImage(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L84">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_ReadImage_" data-uid="MxNet.Image.ImageIter.ReadImage*"></a>
+  <h4 id="MxNet_Image_ImageIter_ReadImage_System_String_" data-uid="MxNet.Image.ImageIter.ReadImage(System.String)">ReadImage(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NDArray ReadImage(string fname)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">fname</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter_Reset.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter.Reset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L59">View Source</a>
+  </span>
+  <a id="MxNet_Image_ImageIter_Reset_" data-uid="MxNet.Image.ImageIter.Reset*"></a>
+  <h4 id="MxNet_Image_ImageIter_Reset" data-uid="MxNet.Image.ImageIter.Reset">Reset()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Reset()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_Reset">DataIter.Reset()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Image_ImageIter.md&amp;value=---%0Auid%3A%20MxNet.Image.ImageIter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Image/ImageIter.cs/#L7" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
