@@ -289,7 +289,7 @@ namespace MxNet.Gluon
             return prefix;
         }
 
-        internal static (DType[], DType[]) InferParamTypes(Symbol[] in_params, Symbol out_params, string[] arg_params,
+        internal static (DType[], DType[]) InferParamTypes(SymbolList in_params, Symbol out_params, string[] arg_params,
             string[] aux_params, DType default_dtype = null)
         {
             DType[] arg_types = null;

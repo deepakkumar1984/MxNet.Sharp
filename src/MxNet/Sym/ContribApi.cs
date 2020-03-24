@@ -377,7 +377,7 @@ namespace MxNet
         /// <param name="num_neighbor">Number of neighbor.</param>
         /// <param name="max_num_vertices">Max number of vertices.</param>
         /// <returns>returns new symbol</returns>
-        public Symbol DglCsrNeighborUniformSample(Symbol csr_matrix, Symbol[] seed_arrays, int num_args,
+        public Symbol DglCsrNeighborUniformSample(Symbol csr_matrix, SymbolList seed_arrays, int num_args,
             int num_hops = 1, int num_neighbor = 2, int max_num_vertices = 100, string symbol_name = "")
         {
             return new Operator("_contrib_dgl_csr_neighbor_uniform_sample")
@@ -456,7 +456,7 @@ namespace MxNet
         /// <param name="num_neighbor">Number of neighbor.</param>
         /// <param name="max_num_vertices">Max number of vertices.</param>
         /// <returns>returns new symbol</returns>
-        public Symbol DglCsrNeighborNonUniformSample(Symbol csr_matrix, Symbol probability, Symbol[] seed_arrays,
+        public Symbol DglCsrNeighborNonUniformSample(Symbol csr_matrix, Symbol probability, SymbolList seed_arrays,
             int num_args, int num_hops = 1, int num_neighbor = 2, int max_num_vertices = 100, string symbol_name = "")
         {
             return new Operator("_contrib_dgl_csr_neighbor_non_uniform_sample")
@@ -504,7 +504,7 @@ namespace MxNet
         /// <param name="num_args">Number of input arguments, including all symbol inputs.</param>
         /// <param name="return_mapping">Return mapping of vid and eid between the subgraph and the parent graph.</param>
         /// <returns>returns new symbol</returns>
-        public Symbol DglSubgraph(Symbol graph, Symbol[] data, int num_args, bool return_mapping,
+        public Symbol DglSubgraph(Symbol graph, SymbolList data, int num_args, bool return_mapping,
             string symbol_name = "")
         {
             return new Operator("_contrib_dgl_subgraph")
@@ -623,7 +623,7 @@ namespace MxNet
         /// <param name="return_mapping">Return mapping of vid and eid between the subgraph and the parent graph.</param>
         /// <param name="graph_sizes">the number of vertices in each graph.</param>
         /// <returns>returns new symbol</returns>
-        public Symbol DglGraphCompact(Symbol[] graph_data, int num_args, bool return_mapping, Tuple<double> graph_sizes,
+        public Symbol DglGraphCompact(SymbolList graph_data, int num_args, bool return_mapping, Tuple<double> graph_sizes,
             string symbol_name = "")
         {
             return new Operator("_contrib_dgl_graph_compact")
@@ -1146,7 +1146,7 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new symbol</returns>
-        public Symbol QuantizedConcat(Symbol[] data, int num_args, int dim = 1, string symbol_name = "")
+        public Symbol QuantizedConcat(SymbolList data, int num_args, int dim = 1, string symbol_name = "")
         {
             return new Operator("_contrib_quantized_concat")
                 .SetParam("num_args", num_args)

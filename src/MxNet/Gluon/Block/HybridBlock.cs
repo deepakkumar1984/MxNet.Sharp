@@ -26,7 +26,7 @@ namespace MxNet.Gluon
     public abstract class HybridBlock : Block
     {
         internal bool _active;
-        internal (Symbol[], Symbol)? _cached_graph;
+        internal (SymbolList, Symbol)? _cached_graph;
         internal CachedOp _cached_op;
         internal readonly List<CachedOpArg> _cached_op_args = new List<CachedOpArg>();
         internal readonly NDArrayDict _flags = new NDArrayDict();
@@ -37,11 +37,11 @@ namespace MxNet.Gluon
         {
         }
 
-        private (Symbol[], Symbol) GetGraph(NDArrayList args)
+        private (SymbolList, Symbol) GetGraph(NDArrayList args)
         {
             if (!_cached_graph.HasValue)
             {
-                var inputs = new List<Symbol>();
+                var inputs = new SymbolList();
                 var (args_sym, _in_format) = Flatten(args.Select(x => new NDArrayOrSymbol(x)).ToArray(), "input");
                 if (args_sym.Length > 1)
                     for (var i = 0; i < args_sym.Length; i++)
@@ -52,13 +52,13 @@ namespace MxNet.Gluon
                 var grouped_inputs = Regroup(new List<NDArrayOrSymbol[]> {inputs.ToNDArrayOrSymbols()},
                     _in_format.ToList()).Item1;
 
-                var @params = new Dictionary<string, Symbol>();
+                var @params = new SymbolDict();
                 foreach (var item in _reg_params) @params[item.Key] = item.Value.Var();
 
                 var outputs = new List<NDArrayOrSymbol>();
 
                 foreach (var input in grouped_inputs)
-                    outputs.Add(HybridForward(input, @params.Values.ToList().ToNDArrayOrSymbols()));
+                    outputs.Add(HybridForward(input, @params.Values.ToNDArrayOrSymbols()));
 
                 var (@out, _out_format) = Flatten(outputs.ToArray(), "output");
                 _cached_graph = (inputs.ToArray(), Symbol.Group(@out.ToList().ToSymbols()));

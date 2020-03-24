@@ -237,7 +237,7 @@ namespace MxNet
             return this;
         }
 
-        public Operator SetInput(Symbol[] symbols)
+        public Operator SetInput(SymbolList symbols)
         {
             foreach (var item in symbols) _InputSymbols.Add(item.GetHandle());
 

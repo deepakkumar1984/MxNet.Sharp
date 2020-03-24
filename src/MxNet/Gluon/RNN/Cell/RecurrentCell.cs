@@ -181,6 +181,7 @@ namespace MxNet.Gluon.RNN
             {
                 var info = state_info[i];
                 _init_counter++;
+                args.Add("name", $"{Prefix}begin_state_{_init_counter}");
                 if (info != null)
                     info.Update(args);
                 else
@@ -189,7 +190,6 @@ namespace MxNet.Gluon.RNN
                 if (func.StartsWith("sym."))
                 {
                     var obj = new sym();
-                    args.Add("name", $"{Prefix}begin_state_{_init_counter}");
                     var m = typeof(sym).GetMethod(func.Replace("sym.", ""), BindingFlags.Static);
                     var keys = m.GetParameters().Select(x => x.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);

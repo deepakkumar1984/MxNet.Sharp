@@ -26,12 +26,12 @@ namespace MxNet.RecurrentLayer
             }
         }
 
-        public override void Call(Symbol inputs, Symbol[] states)
+        public override void Call(Symbol inputs, SymbolList states)
         {
             throw new NotImplementedException();
         }
 
-        private (Symbol, Symbol) ConvForward(Symbol inputs, Symbol[] states, string name)
+        private (Symbol, Symbol) ConvForward(Symbol inputs, SymbolList states, string name)
         {
             throw new NotImplementedException();
         }

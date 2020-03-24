@@ -195,7 +195,7 @@ namespace MxNet
             return NativePtr;
         }
 
-        public static Symbol Group(IList<Symbol> symbols)
+        public static Symbol Group(SymbolList symbols)
         {
             var handleList = symbols.Select(symbol => symbol.GetHandle()).ToArray();
             NativeMethods.MXSymbolCreateGroup((uint) handleList.Length, handleList, out var @out);
@@ -743,7 +743,7 @@ namespace MxNet
             return (Symbol)MemberwiseClone();
         }
 
-        public Symbol Compose(Dictionary<string, Symbol> kwargs, string name = "")
+        public Symbol Compose(SymbolDict kwargs, string name = "")
         {
             if (kwargs == null)
                 throw new ArgumentNullException("kwargs");
