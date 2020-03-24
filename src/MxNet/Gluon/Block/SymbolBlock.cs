@@ -6,14 +6,14 @@ namespace MxNet.Gluon
 {
     public class SymbolBlock : HybridBlock
     {
-        public SymbolBlock(Symbol[] outputs, Symbol[] inputs, ParameterDict @params = null)
+        public SymbolBlock(SymbolList outputs, SymbolList inputs, ParameterDict @params = null)
             : base("", new ParameterDict("", @params))
         {
-            Symbol[] syms = null;
+            SymbolList syms = null;
             Symbol @out = null;
 
-            var (s, _in_format) = Flatten(inputs.ToList().ToNDArrayOrSymbols(), "input");
-            var (o, _out_format) = Flatten(outputs.ToList().ToNDArrayOrSymbols(), "output");
+            var (s, _in_format) = Flatten(inputs.ToNDArrayOrSymbols(), "input");
+            var (o, _out_format) = Flatten(outputs.ToNDArrayOrSymbols(), "output");
             syms = s.ToList().ToSymbols();
             @out = Symbol.Group(o.ToList().ToSymbols());
 
@@ -75,7 +75,7 @@ namespace MxNet.Gluon
                 throw new Exception("Invalid input format");
 
             var ret = _cached_graph.Value.Item2.Shallowcopy();
-            Dictionary<string, Symbol> composeArgs = new Dictionary<string, Symbol>();
+            SymbolDict composeArgs = new SymbolDict();
             for(int i = 0;i< _cached_graph.Value.Item1.Length;i++)
             {
                 composeArgs.Add(_cached_graph.Value.Item1[0].Name, args[i]);
@@ -90,13 +90,13 @@ namespace MxNet.Gluon
             Context[] ctx = null)
         {
             Symbol sym = Symbol.Load(symbol_file);
-            Symbol[] inputs = null;
+            SymbolList inputs = null;
             if (string.IsNullOrWhiteSpace(param_file))
                 inputs = input_names.Select(x => (Symbol.Var(x, dtype: DType.Float32))).ToArray();
             else
                 inputs = input_names.Select(x => (Symbol.Var(x))).ToArray();
 
-            var ret = new SymbolBlock(new Symbol[] { sym }, inputs);
+            var ret = new SymbolBlock(new SymbolList { sym }, inputs);
 
             if(!string.IsNullOrWhiteSpace(param_file))
             {

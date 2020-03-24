@@ -16,7 +16,7 @@ namespace MxNet.Gluon.RNN
             _output_prefix = output_prefix;
         }
 
-        public (Symbol, List<Symbol[]>) Call(Symbol inputs, List<Symbol[]> states)
+        public (Symbol, List<SymbolList>) Call(Symbol inputs, List<SymbolList> states)
         {
             throw new NotSupportedException("Bidirectional cannot be stepped. Please use unroll");
         }
@@ -87,7 +87,7 @@ namespace MxNet.Gluon.RNN
                     if (l_o.IsNDArray)
                         outputs_temp.Add(nd.Concat(new NDArray[] {l_o, r_o}));
                     else
-                        outputs_temp.Add(sym.Concat(new Symbol[] {l_o, r_o}, 1, symbol_name: $"{_output_prefix}t{i}"));
+                        outputs_temp.Add(sym.Concat(new SymbolList {l_o, r_o}, 1, symbol_name: $"{_output_prefix}t{i}"));
                 }
 
                 outputs = outputs_temp.ToArray();

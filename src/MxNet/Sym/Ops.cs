@@ -101,7 +101,7 @@ namespace MxNet
         /// </summary>
         /// <param name="data">input data list</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol CachedOp(Symbol[] data, string symbol_name = "")
+        public static Symbol CachedOp(SymbolList data, string symbol_name = "")
         {
             return new Operator("_CachedOp")
                 .SetInput(data)
@@ -458,7 +458,7 @@ namespace MxNet
         /// </summary>
         /// <param name="args">Positional input matrices</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol KhatriRao(Symbol[] args, string symbol_name = "")
+        public static Symbol KhatriRao(SymbolList args, string symbol_name = "")
         {
             return new Operator("khatri_rao")
                 .SetInput(args)
@@ -479,7 +479,7 @@ namespace MxNet
         /// <param name="in_data_locs">The locations of input data among the inputs.</param>
         /// <param name="remain_locs">The locations of remaining data among the inputs.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Foreach(Symbol fn, Symbol[] data, int num_args, int num_outputs, int num_out_data,
+        public static Symbol Foreach(Symbol fn, SymbolList data, int num_args, int num_outputs, int num_out_data,
             Tuple<double> in_state_locs, Tuple<double> in_data_locs, Tuple<double> remain_locs, string symbol_name = "")
         {
             return new Operator("_foreach")
@@ -510,7 +510,7 @@ namespace MxNet
         /// <param name="func_input_locs">The locations of func's inputs in the given inputs.</param>
         /// <param name="func_var_locs">The locations of loop_vars among func's inputs.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol WhileLoop(Symbol cond, Symbol func, Symbol[] data, int num_args, int num_outputs,
+        public static Symbol WhileLoop(Symbol cond, Symbol func, SymbolList data, int num_args, int num_outputs,
             int num_out_data, int max_iterations, Tuple<double> cond_input_locs, Tuple<double> func_input_locs,
             Tuple<double> func_var_locs, string symbol_name = "")
         {
@@ -543,7 +543,7 @@ namespace MxNet
         /// <param name="then_input_locs">The locations of then's inputs in the given inputs.</param>
         /// <param name="else_input_locs">The locations of else's inputs in the given inputs.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Cond(Symbol cond, Symbol then_branch, Symbol else_branch, Symbol[] data, int num_args,
+        public static Symbol Cond(Symbol cond, Symbol then_branch, Symbol else_branch, SymbolList data, int num_args,
             int num_outputs, Tuple<double> cond_input_locs, Tuple<double> then_input_locs,
             Tuple<double> else_input_locs, string symbol_name = "")
         {
@@ -577,7 +577,7 @@ namespace MxNet
         ///     register the operator.
         /// </param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Custom(Symbol[] data, string op_type, string symbol_name = "")
+        public static Symbol Custom(SymbolList data, string op_type, string symbol_name = "")
         {
             return new Operator("Custom")
                 .SetParam("op_type", op_type)
@@ -857,7 +857,7 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Concat(Symbol[] data, int num_args, int dim = 1, string symbol_name = "")
+        public static Symbol Concat(SymbolList data, int num_args, int dim = 1, string symbol_name = "")
         {
             return new Operator("Concat")
                 .SetParam("num_args", num_args)
@@ -873,7 +873,7 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol RnnParamConcat(Symbol[] data, int num_args, int dim = 1, string symbol_name = "")
+        public static Symbol RnnParamConcat(SymbolList data, int num_args, int dim = 1, string symbol_name = "")
         {
             return new Operator("_rnn_param_concat")
                 .SetParam("num_args", num_args)
@@ -1608,7 +1608,7 @@ namespace MxNet
         /// </param>
         /// <param name="workspace">Tmp workspace for deconvolution (MB)</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol UpSampling(Symbol[] data, int scale, UpsamplingSampleType sample_type, int num_args,
+        public static Symbol UpSampling(SymbolList data, int scale, UpsamplingSampleType sample_type, int num_args,
             int num_filter = 0, UpsamplingMultiInputMode multi_input_mode = UpsamplingMultiInputMode.Concat,
             ulong workspace = 512, string symbol_name = "")
         {
@@ -1744,7 +1744,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiSgdUpdate(Symbol[] data, Tuple<double> lrs, Tuple<double> wds,
+        public static Symbol MultiSgdUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds,
             float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, string symbol_name = "")
         {
             return new Operator("multi_sgd_update")
@@ -1792,7 +1792,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiSgdMomUpdate(Symbol[] data, Tuple<double> lrs, Tuple<double> wds, float momentum = 0f,
+        public static Symbol MultiSgdMomUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds, float momentum = 0f,
             float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, string symbol_name = "")
         {
             return new Operator("multi_sgd_mom_update")
@@ -1828,7 +1828,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiMpSgdUpdate(Symbol[] data, Tuple<double> lrs, Tuple<double> wds,
+        public static Symbol MultiMpSgdUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds,
             float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, string symbol_name = "")
         {
             return new Operator("multi_mp_sgd_update")
@@ -1876,7 +1876,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiMpSgdMomUpdate(Symbol[] data, Tuple<double> lrs, Tuple<double> wds,
+        public static Symbol MultiMpSgdMomUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds,
             float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1,
             string symbol_name = "")
         {
@@ -3937,7 +3937,7 @@ namespace MxNet
         /// <param name="dim1">the first axis to be swapped.</param>
         /// <param name="dim2">the second axis to be swapped.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol SwapAxis(Symbol data, uint dim1 = 0, uint dim2 = 0, string symbol_name = "")
+        public static Symbol SwapAxis(Symbol data, int dim1 = 0, int dim2 = 0, string symbol_name = "")
         {
             return new Operator("SwapAxis")
                 .SetParam("dim1", dim1)
@@ -6152,7 +6152,7 @@ namespace MxNet
         /// </summary>
         /// <param name="args">Positional input arguments</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol AddN(Symbol[] args, string symbol_name = "")
+        public static Symbol AddN(SymbolList args, string symbol_name = "")
         {
             return new Operator("add_n")
                 .SetInput(args)
@@ -9227,7 +9227,7 @@ namespace MxNet
         /// <param name="axis">The axis in the result array along which the input arrays are stacked.</param>
         /// <param name="num_args">Number of inputs to be stacked.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Stack(Symbol[] data, int num_args, int axis = 0, string symbol_name = "")
+        public static Symbol Stack(SymbolList data, int num_args, int axis = 0, string symbol_name = "")
         {
             return new Operator("stack")
                 .SetParam("axis", axis)
@@ -9260,7 +9260,7 @@ namespace MxNet
         ///     entry greater than one, an error is raised.
         /// </param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Squeeze(Symbol[] data, Shape axis = null, string symbol_name = "")
+        public static Symbol Squeeze(SymbolList data, Shape axis = null, string symbol_name = "")
         {
             return new Operator("squeeze")
                 .SetParam("axis", axis)
@@ -9383,73 +9383,6 @@ namespace MxNet
 
         /// <summary>
         ///     <para>Splits an array along a particular axis into multiple sub-arrays.</para>
-        ///     <para> </para>
-        ///     <para>Example::</para>
-        ///     <para> </para>
-        ///     <para>   x  = [[[ 1.]</para>
-        ///     <para>          [ 2.]]</para>
-        ///     <para>         [[ 3.]</para>
-        ///     <para>          [ 4.]]</para>
-        ///     <para>         [[ 5.]</para>
-        ///     <para>          [ 6.]]]</para>
-        ///     <para>   x.shape = (3, 2, 1)</para>
-        ///     <para> </para>
-        ///     <para>   y = split_v2(x, axis=1, indices_or_sections=2) // a list of 2 arrays with shape (3, 1, 1)</para>
-        ///     <para>   y = [[[ 1.]]</para>
-        ///     <para>        [[ 3.]]</para>
-        ///     <para>        [[ 5.]]]</para>
-        ///     <para> </para>
-        ///     <para>       [[[ 2.]]</para>
-        ///     <para>        [[ 4.]]</para>
-        ///     <para>        [[ 6.]]]</para>
-        ///     <para> </para>
-        ///     <para>   y[0].shape = (3, 1, 1)</para>
-        ///     <para> </para>
-        ///     <para>   z = split_v2(x, axis=0, indices_or_sections=3) // a list of 3 arrays with shape (1, 2, 1)</para>
-        ///     <para>   z = [[[ 1.]</para>
-        ///     <para>         [ 2.]]]</para>
-        ///     <para> </para>
-        ///     <para>       [[[ 3.]</para>
-        ///     <para>         [ 4.]]]</para>
-        ///     <para> </para>
-        ///     <para>       [[[ 5.]</para>
-        ///     <para>         [ 6.]]]</para>
-        ///     <para> </para>
-        ///     <para>   z[0].shape = (1, 2, 1)</para>
-        ///     <para> </para>
-        ///     <para>   w = split_v2(x, axis=0, indices_or_sections=(1,)) // a list of 2 arrays with shape [(1, 2, 1), (2, 2, 1)]</para>
-        ///     <para>   w = [[[ 1.]</para>
-        ///     <para>         [ 2.]]]</para>
-        ///     <para> </para>
-        ///     <para>       [[[3.]</para>
-        ///     <para>         [4.]]</para>
-        ///     <para> </para>
-        ///     <para>        [[5.]</para>
-        ///     <para>         [6.]]]</para>
-        ///     <para> </para>
-        ///     <para>  w[0].shape = (1, 2, 1)</para>
-        ///     <para>  w[1].shape = (2, 2, 1)</para>
-        ///     <para> </para>
-        ///     <para>`squeeze_axis=True` removes the axis with length 1 from the shapes of the output arrays.</para>
-        ///     <para>**Note** that setting `squeeze_axis` to ``1`` removes axis with length 1 only</para>
-        ///     <para>along the `axis` which it is split.</para>
-        ///     <para>Also `squeeze_axis` can be set to true only if ``input.shape[axis] == indices_or_sections``.</para>
-        ///     <para> </para>
-        ///     <para>Example::</para>
-        ///     <para> </para>
-        ///     <para>   z = split_v2(x, axis=0, indices_or_sections=3, squeeze_axis=1) // a list of 3 arrays with shape (2, 1)</para>
-        ///     <para>   z = [[ 1.]</para>
-        ///     <para>        [ 2.]]</para>
-        ///     <para> </para>
-        ///     <para>       [[ 3.]</para>
-        ///     <para>        [ 4.]]</para>
-        ///     <para> </para>
-        ///     <para>       [[ 5.]</para>
-        ///     <para>        [ 6.]]</para>
-        ///     <para>   z[0].shape = (2, 1)</para>
-        ///     <para> </para>
-        ///     <para> </para>
-        ///     <para> </para>
         ///     <para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\tensor\matrix_op.cc:L1214</para>
         /// </summary>
         /// <param name="data">The input</param>
@@ -10035,7 +9968,7 @@ namespace MxNet
         ///     crop_like
         /// </param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Crop(List<Symbol> data, int num_args, Shape offset = null, Shape h_w = null,
+        public static Symbol Crop(SymbolList data, int num_args, Shape offset = null, Shape h_w = null,
             bool center_crop = false, string symbol_name = "")
         {
             if (offset == null) offset = new Shape();
@@ -10067,7 +10000,7 @@ namespace MxNet
         /// <param name="info"></param>
         /// <param name="need_top_grad">Whether this layer needs out grad for backward. Should be false for loss layers.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Native(Symbol[] data, IntPtr info, bool need_top_grad = true, string symbol_name = "")
+        public static Symbol Native(SymbolList data, IntPtr info, bool need_top_grad = true, string symbol_name = "")
         {
             return new Operator("_Native")
                 .SetParam("info", info)

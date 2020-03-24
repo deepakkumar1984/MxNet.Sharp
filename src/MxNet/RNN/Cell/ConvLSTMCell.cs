@@ -24,7 +24,7 @@ namespace MxNet.RecurrentLayer
 
         public override string[] GateNames => throw new NotImplementedException();
 
-        public override void Call(Symbol inputs, Symbol[] states)
+        public override void Call(Symbol inputs, SymbolList states)
         {
             throw new NotImplementedException();
         }

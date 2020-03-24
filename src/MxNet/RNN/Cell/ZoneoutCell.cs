@@ -11,7 +11,7 @@ namespace MxNet.RecurrentLayer
             throw new NotImplementedException();
         }
 
-        public override void Call(Symbol inputs, Symbol[] states)
+        public override void Call(Symbol inputs, SymbolList states)
         {
             throw new NotImplementedException();
         }

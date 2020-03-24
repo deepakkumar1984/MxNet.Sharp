@@ -457,7 +457,7 @@ namespace MxNet.Interop
         ///         number of positional arguments.
         ///     </para>
         /// </param>
-        /// <param name="return_type">Return type of the function, can be Symbol or Symbol[]</param>
+        /// <param name="return_type">Return type of the function, can be Symbol or SymbolList</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolGetAtomicSymbolInfo(AtomicSymbolCreator creator,
@@ -488,7 +488,7 @@ namespace MxNet.Interop
         ///         number of positional arguments.
         ///     </para>
         /// </param>
-        /// <param name="return_type">Return type of the function, can be Symbol or Symbol[]</param>
+        /// <param name="return_type">Return type of the function, can be Symbol or SymbolList</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolGetAtomicSymbolInfo(AtomicSymbolCreator creator,

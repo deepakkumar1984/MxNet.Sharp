@@ -5,7 +5,7 @@ namespace MxNet
 {
     public static class ListExtensions
     {
-        public static Symbol[] ToSymbols(this List<NDArrayOrSymbol> source)
+        public static SymbolList ToSymbols(this List<NDArrayOrSymbol> source)
         {
             return source.Select(x => x.SymX).ToArray();
         }
@@ -15,12 +15,32 @@ namespace MxNet
             return source.Select(x => x.NdX).ToArray();
         }
 
+        public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this SymbolList source)
+        {
+            return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
+        }
+
+        public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this Symbol[] source)
+        {
+            return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
+        }
+
         public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this List<Symbol> source)
         {
             return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
         }
 
         public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this NDArrayList source)
+        {
+            return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
+        }
+
+        public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this NDArray[] source)
+        {
+            return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
+        }
+
+        public static NDArrayOrSymbol[] ToNDArrayOrSymbols(this List<NDArray> source)
         {
             return source.Select(x => new NDArrayOrSymbol(x)).ToArray();
         }

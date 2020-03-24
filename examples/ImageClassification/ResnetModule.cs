@@ -23,7 +23,7 @@ namespace ImageClassification
             TestUtils.Download(resnet50symbolUrl);
             TestUtils.Download(resnet50paramsUrl);
 
-            string testimg = "cat.jpg";
+            string testimg = "goldfish.jpg";
             var imgbytes = File.ReadAllBytes(testimg);
             var array = prepareNDArray(imgbytes);
             var model = LoadModel("resnet-50", gpu: false);

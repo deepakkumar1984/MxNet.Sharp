@@ -14,12 +14,12 @@ namespace MxNet.RecurrentLayer
 
         public override StateInfo[] StateInfo => throw new NotImplementedException();
 
-        public override void Call(Symbol inputs, Symbol[] states)
+        public override void Call(Symbol inputs, SymbolList states)
         {
             throw new NotImplementedException();
         }
 
-        public override (Symbol, Symbol[]) Unroll(int length, Symbol[] inputs, Symbol[] begin_state = null, string layout = null, bool? merge_outputs = null)
+        public override (Symbol, SymbolList) Unroll(int length, SymbolList inputs, SymbolList begin_state = null, string layout = null, bool? merge_outputs = null)
         {
             throw new NotImplementedException();
         }

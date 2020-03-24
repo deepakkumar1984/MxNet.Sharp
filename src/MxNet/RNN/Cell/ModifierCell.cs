@@ -15,12 +15,12 @@ namespace MxNet.RecurrentLayer
 
         public override SymbolDict Params => throw new NotImplementedException();
 
-        public override void Call(Symbol inputs, Symbol[] states)
+        public override void Call(Symbol inputs, SymbolList states)
         {
             throw new NotImplementedException();
         }
 
-        public override Symbol[] BeginState(string func = "zeros", FuncArgs kwargs = null)
+        public override SymbolList BeginState(string func = "zeros", FuncArgs kwargs = null)
         {
             throw new NotImplementedException();
         }
