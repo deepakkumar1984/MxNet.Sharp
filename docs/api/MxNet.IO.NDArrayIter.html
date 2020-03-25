@@ -1,0 +1,625 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class NDArrayIter
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class NDArrayIter
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MxNet.IO.NDArrayIter">
+  
+  
+  <h1 id="MxNet_IO_NDArrayIter" data-uid="MxNet.IO.NDArrayIter" class="text-break">Class NDArrayIter
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="MxNet.MXNetObject.html">MXNetObject</a></div>
+    <div class="level2"><a class="xref" href="MxNet.DisposableMXNetObject.html">DisposableMXNetObject</a></div>
+    <div class="level3"><a class="xref" href="MxNet.IO.DataIter.html">DataIter</a></div>
+    <div class="level4"><span class="xref">NDArrayIter</span></div>
+  </div>
+  <div classs="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">System.IDisposable</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_BatchSize">DataIter.BatchSize</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_DefaultBucketKey">DataIter.DefaultBucketKey</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_Cursor">DataIter.Cursor</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsDisposed">DisposableMXNetObject.IsDisposed</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsEnableDispose">DisposableMXNetObject.IsEnableDispose</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_IsMutable">DisposableMXNetObject.IsMutable</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_ThrowIfDisposed">DisposableMXNetObject.ThrowIfDisposed()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_DisposeManaged">DisposableMXNetObject.DisposeManaged()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_DisposeUnmanaged">DisposableMXNetObject.DisposeUnmanaged()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.DisposableMXNetObject.html#MxNet_DisposableMXNetObject_Dispose">DisposableMXNetObject.Dispose()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.MXNetObject.html#MxNet_MXNetObject_NativePtr">MXNetObject.NativePtr</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.IO.html">MxNet.IO</a></h6>
+  <h6><strong>Assembly</strong>: MxNet.dll</h6>
+  <h5 id="MxNet_IO_NDArrayIter_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class NDArrayIter : DataIter, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter__ctor_MxNet_NDArrayList_MxNet_NDArrayList_System_Int32_System_Boolean_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.%23ctor(MxNet.NDArrayList%2CMxNet.NDArrayList%2CSystem.Int32%2CSystem.Boolean%2CSystem.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L21">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter__ctor_" data-uid="MxNet.IO.NDArrayIter.#ctor*"></a>
+  <h4 id="MxNet_IO_NDArrayIter__ctor_MxNet_NDArrayList_MxNet_NDArrayList_System_Int32_System_Boolean_System_String_System_String_System_String_" data-uid="MxNet.IO.NDArrayIter.#ctor(MxNet.NDArrayList,MxNet.NDArrayList,System.Int32,System.Boolean,System.String,System.String,System.String)">NDArrayIter(NDArrayList, NDArrayList, Int32, Boolean, String, String, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NDArrayIter(NDArrayList data, NDArrayList label = null, int batch_size = 1, bool shuffle = false, string last_batch_handle = &quot;pad&quot;, string data_name = &quot;data&quot;, string label_name = &quot;softmax_label&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td><span class="parametername">label</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">batch_size</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">shuffle</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">last_batch_handle</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">data_name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">label_name</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_ProvideData.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.ProvideData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L39">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_ProvideData_" data-uid="MxNet.IO.NDArrayIter.ProvideData*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_ProvideData" data-uid="MxNet.IO.NDArrayIter.ProvideData">ProvideData</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DataDesc[] ProvideData { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_ProvideData">DataIter.ProvideData</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_ProvideLabel.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.ProvideLabel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L56">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_ProvideLabel_" data-uid="MxNet.IO.NDArrayIter.ProvideLabel*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_ProvideLabel" data-uid="MxNet.IO.NDArrayIter.ProvideLabel">ProvideLabel</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DataDesc[] ProvideLabel { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataDesc.html">DataDesc</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_ProvideLabel">DataIter.ProvideLabel</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_End.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.End%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L103">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_End_" data-uid="MxNet.IO.NDArrayIter.End*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_End" data-uid="MxNet.IO.NDArrayIter.End">End()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool End()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_End">DataIter.End()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_FromBatch_MxNet_IO_DataBatch_.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.FromBatch(MxNet.IO.DataBatch)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L149">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_FromBatch_" data-uid="MxNet.IO.NDArrayIter.FromBatch*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_FromBatch_MxNet_IO_DataBatch_" data-uid="MxNet.IO.NDArrayIter.FromBatch(MxNet.IO.DataBatch)">FromBatch(DataBatch)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static NDArrayIter FromBatch(DataBatch data_batch)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataBatch.html">DataBatch</a></td>
+        <td><span class="parametername">data_batch</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.NDArrayIter.html">NDArrayIter</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_GetData.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.GetData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L73">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_GetData_" data-uid="MxNet.IO.NDArrayIter.GetData*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_GetData" data-uid="MxNet.IO.NDArrayIter.GetData">GetData()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override NDArrayList GetData()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetData">DataIter.GetData()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_GetIndex.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.GetIndex%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L78">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_GetIndex_" data-uid="MxNet.IO.NDArrayIter.GetIndex*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_GetIndex" data-uid="MxNet.IO.NDArrayIter.GetIndex">GetIndex()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int[] GetIndex()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetIndex">DataIter.GetIndex()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_GetLabel.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.GetLabel%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L83">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_GetLabel_" data-uid="MxNet.IO.NDArrayIter.GetLabel*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_GetLabel" data-uid="MxNet.IO.NDArrayIter.GetLabel">GetLabel()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override NDArrayList GetLabel()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayList.html">NDArrayList</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetLabel">DataIter.GetLabel()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_GetPad.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.GetPad%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L88">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_GetPad_" data-uid="MxNet.IO.NDArrayIter.GetPad*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_GetPad" data-uid="MxNet.IO.NDArrayIter.GetPad">GetPad()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetPad()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_GetPad">DataIter.GetPad()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_IterNext.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.IterNext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L97">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_IterNext_" data-uid="MxNet.IO.NDArrayIter.IterNext*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_IterNext" data-uid="MxNet.IO.NDArrayIter.IterNext">IterNext()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool IterNext()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_IterNext">DataIter.IterNext()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_Next.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.Next%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L108">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_Next_" data-uid="MxNet.IO.NDArrayIter.Next*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_Next" data-uid="MxNet.IO.NDArrayIter.Next">Next()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override DataBatch Next()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.IO.DataBatch.html">DataBatch</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_Next">DataIter.Next()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter_Reset.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter.Reset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L137">View Source</a>
+  </span>
+  <a id="MxNet_IO_NDArrayIter_Reset_" data-uid="MxNet.IO.NDArrayIter.Reset*"></a>
+  <h4 id="MxNet_IO_NDArrayIter_Reset" data-uid="MxNet.IO.NDArrayIter.Reset">Reset()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Reset()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.IO.DataIter.html#MxNet_IO_DataIter_Reset">DataIter.Reset()</a></div>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">System.IDisposable</span>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_IO_NDArrayIter.md&amp;value=---%0Auid%3A%20MxNet.IO.NDArrayIter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/IO/NDArrayIter.cs/#L7" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

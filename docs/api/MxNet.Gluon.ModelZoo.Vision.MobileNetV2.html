@@ -1,0 +1,716 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MobileNetV2
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MobileNetV2
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2">
+  
+  
+  <h1 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2" class="text-break">Class MobileNetV2
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="MxNet.Gluon.Block.html">Block</a></div>
+    <div class="level2"><a class="xref" href="MxNet.Gluon.HybridBlock.html">HybridBlock</a></div>
+    <div class="level3"><span class="xref">MobileNetV2</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_ClearCachedOp">HybridBlock.ClearCachedOp()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_RegisterChild_MxNet_Gluon_Block_System_String_">HybridBlock.RegisterChild(Block, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_Hybridize_System_Boolean_System_Boolean_System_Boolean_">HybridBlock.Hybridize(Boolean, Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_Cast_MxNet_DType_">HybridBlock.Cast(DType)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_InferShape_MxNet_NDArrayList_">HybridBlock.InferShape(NDArrayList)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_InferType_MxNet_NDArrayList_">HybridBlock.InferType(NDArrayList)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_Export_System_String_System_Int32_System_Boolean_">HybridBlock.Export(String, Int32, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_Forward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">HybridBlock.Forward(NDArrayOrSymbol, NDArrayOrSymbol[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Prefix">Block.Prefix</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Params">Block.Params</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Name">Block.Name</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_NameScope">Block.NameScope</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Item_System_String_">Block.Item[String]</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SetAttr_System_String_MxNet_Gluon_Block_">Block.SetAttr(String, Block)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SetAttr_System_String_MxNet_Gluon_Parameter_">Block.SetAttr(String, Parameter)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Alias">Block.Alias()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_CollectParams_System_String_">Block.CollectParams(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_CollectParamsWithPrefix_System_String_">Block.CollectParamsWithPrefix(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SaveParameters_System_String_">Block.SaveParameters(String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_LoadParameters_System_String_MxNet_Context_System_Boolean_System_Boolean_System_Boolean_System_String_">Block.LoadParameters(String, Context, Boolean, Boolean, Boolean, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_LoadParameters_System_String_MxNet_Context___System_Boolean_System_Boolean_System_Boolean_System_String_">Block.LoadParameters(String, Context[], Boolean, Boolean, Boolean, String)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_RegisterForwardPreHook_MxNet_Gluon_Block_Hook_">Block.RegisterForwardPreHook(Block.Hook)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_RegisterForwardHook_MxNet_Gluon_Block_Hook_">Block.RegisterForwardHook(Block.Hook)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Apply_MxNet_Gluon_Block_ApplyFn_">Block.Apply(Block.ApplyFn)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Initialize_MxNet_Initializers_Initializer_MxNet_Context___System_Boolean_System_Boolean_">Block.Initialize(Initializer, Context[], Boolean, Boolean)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Call_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">Block.Call(NDArrayOrSymbol, NDArrayOrSymbol[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Summary_MxNet_NDArrayList_">Block.Summary(NDArrayList)</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Gluon.ModelZoo.Vision.html">MxNet.Gluon.ModelZoo.Vision</a></h6>
+  <h6><strong>Assembly</strong>: MxNet.dll</h6>
+  <h5 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MobileNetV2 : HybridBlock</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2__ctor_System_Single_System_Int32_System_String_MxNet_Gluon_ParameterDict_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.%23ctor(System.Single%2CSystem.Int32%2CSystem.String%2CMxNet.Gluon.ParameterDict)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L152">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2__ctor_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.#ctor*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2__ctor_System_Single_System_Int32_System_String_MxNet_Gluon_ParameterDict_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.#ctor(System.Single,System.Int32,System.String,MxNet.Gluon.ParameterDict)">MobileNetV2(Single, Int32, String, ParameterDict)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MobileNetV2(float multiplier = 1F, int classes = 1000, string prefix = null, ParameterDict params = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">multiplier</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">classes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prefix</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ParameterDict.html">ParameterDict</a></td>
+        <td><span class="parametername">params</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_Features.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.Features%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L177">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_Features_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.Features*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_Features" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.Features">Features</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public HybridSequential Features { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.NN.HybridSequential.html">HybridSequential</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_Output.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.Output%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L178">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_Output_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.Output*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_Output" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.Output">Output</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public HybridSequential Output { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.NN.HybridSequential.html">HybridSequential</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_GetMobileNetV2_System_Single_System_Boolean_MxNet_Context_System_String_System_Int32_System_String_MxNet_Gluon_ParameterDict_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.GetMobileNetV2(System.Single%2CSystem.Boolean%2CMxNet.Context%2CSystem.String%2CSystem.Int32%2CSystem.String%2CMxNet.Gluon.ParameterDict)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L187">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_GetMobileNetV2_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.GetMobileNetV2*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_GetMobileNetV2_System_Single_System_Boolean_MxNet_Context_System_String_System_Int32_System_String_MxNet_Gluon_ParameterDict_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.GetMobileNetV2(System.Single,System.Boolean,MxNet.Context,System.String,System.Int32,System.String,MxNet.Gluon.ParameterDict)">GetMobileNetV2(Single, Boolean, Context, String, Int32, String, ParameterDict)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MobileNet GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null, string root = &quot;&quot;, int classes = 1000, string prefix = null, ParameterDict params = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">multiplier</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">pretrained</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a></td>
+        <td><span class="parametername">ctx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">root</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">classes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prefix</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ParameterDict.html">ParameterDict</a></td>
+        <td><span class="parametername">params</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.MobileNet.html">MobileNet</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.HybridForward(MxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L180">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_HybridForward_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.HybridForward*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.HybridForward(MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol[])">HybridForward(NDArrayOrSymbol, NDArrayOrSymbol[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a></td>
+        <td><span class="parametername">x</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a>[]</td>
+        <td><span class="parametername">args</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">HybridBlock.HybridForward(NDArrayOrSymbol, NDArrayOrSymbol[])</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_25_System_Boolean_MxNet_Context_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_25(System.Boolean%2CMxNet.Context%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L211">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_25_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_25*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_25_System_Boolean_MxNet_Context_System_String_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_25(System.Boolean,MxNet.Context,System.String)">MobileNetV2_0_25(Boolean, Context, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MobileNet MobileNetV2_0_25(bool pretrained = false, Context ctx = null, string root = &quot;&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">pretrained</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a></td>
+        <td><span class="parametername">ctx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">root</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.MobileNet.html">MobileNet</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_5_System_Boolean_MxNet_Context_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_5(System.Boolean%2CMxNet.Context%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L206">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_5_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_5*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_5_System_Boolean_MxNet_Context_System_String_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_5(System.Boolean,MxNet.Context,System.String)">MobileNetV2_0_5(Boolean, Context, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MobileNet MobileNetV2_0_5(bool pretrained = false, Context ctx = null, string root = &quot;&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">pretrained</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a></td>
+        <td><span class="parametername">ctx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">root</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.MobileNet.html">MobileNet</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_75_System_Boolean_MxNet_Context_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_75(System.Boolean%2CMxNet.Context%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L201">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_75_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_75*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_0_75_System_Boolean_MxNet_Context_System_String_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_0_75(System.Boolean,MxNet.Context,System.String)">MobileNetV2_0_75(Boolean, Context, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MobileNet MobileNetV2_0_75(bool pretrained = false, Context ctx = null, string root = &quot;&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">pretrained</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a></td>
+        <td><span class="parametername">ctx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">root</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.MobileNet.html">MobileNet</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_1_0_System_Boolean_MxNet_Context_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_1_0(System.Boolean%2CMxNet.Context%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L196">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_1_0_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_1_0*"></a>
+  <h4 id="MxNet_Gluon_ModelZoo_Vision_MobileNetV2_MobileNetV2_1_0_System_Boolean_MxNet_Context_System_String_" data-uid="MxNet.Gluon.ModelZoo.Vision.MobileNetV2.MobileNetV2_1_0(System.Boolean,MxNet.Context,System.String)">MobileNetV2_1_0(Boolean, Context, String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MobileNet MobileNetV2_1_0(bool pretrained = false, Context ctx = null, string root = &quot;&quot;)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">pretrained</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.Context.html">Context</a></td>
+        <td><span class="parametername">ctx</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">root</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.MobileNet.html">MobileNet</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_ModelZoo_Vision_MobileNetV2.md&amp;value=---%0Auid%3A%20MxNet.Gluon.ModelZoo.Vision.MobileNetV2%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/ModelZoo/Vision/Mobilenet.cs/#L141" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

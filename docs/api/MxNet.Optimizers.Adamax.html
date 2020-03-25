@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Adamax
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Adamax
+   ">
+    <meta name="generator" content="docfx 2.51.0.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="MxNet.Optimizers.Adamax">
+  
+  
+  <h1 id="MxNet_Optimizers_Adamax" data-uid="MxNet.Optimizers.Adamax" class="text-break">Class Adamax
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><a class="xref" href="MxNet.Optimizers.Optimizer.html">Optimizer</a></div>
+    <div class="level2"><span class="xref">Adamax</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_LearningRate">Optimizer.LearningRate</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_WD">Optimizer.WD</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_ClipGradient">Optimizer.ClipGradient</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_RescaleGrad">Optimizer.RescaleGrad</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_Scheduler">Optimizer.Scheduler</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_MultiPrecision">Optimizer.MultiPrecision</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_BeginNumUpdate">Optimizer.BeginNumUpdate</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_NumUpdate">Optimizer.NumUpdate</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_AggregateNum">Optimizer.AggregateNum</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_Idx2Name">Optimizer.Idx2Name</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_ParamDict">Optimizer.ParamDict</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_CreateStateMultiPrecision_System_Int32_MxNet_NDArray_">Optimizer.CreateStateMultiPrecision(Int32, NDArray)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_Update_System_Int32___MxNet_NDArrayList_MxNet_NDArrayList_MxNet_NDArrayDict___">Optimizer.Update(Int32[], NDArrayList, NDArrayList, NDArrayDict[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_UpdateMultiPrecision_System_Int32___MxNet_NDArrayList_MxNet_NDArrayList_System_ValueTuple_MxNet_NDArrayDict_MxNet_NDArray____">Optimizer.UpdateMultiPrecision(Int32[], NDArrayList, NDArrayList, ValueTuple&lt;NDArrayDict, NDArray&gt;[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_UpdateMultiPrecision_System_Int32_MxNet_NDArray_MxNet_NDArray_System_ValueTuple_MxNet_NDArrayDict_MxNet_NDArray__">Optimizer.UpdateMultiPrecision(Int32, NDArray, NDArray, ValueTuple&lt;NDArrayDict, NDArray&gt;)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_SetLearningRate_System_Single_">Optimizer.SetLearningRate(Single)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_GetUpdater_MxNet_Optimizers_Optimizer_">Optimizer.GetUpdater(Optimizer)</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_GetUpdater">Optimizer.GetUpdater()</a>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Optimizers.html">MxNet.Optimizers</a></h6>
+  <h6><strong>Assembly</strong>: MxNet.dll</h6>
+  <h5 id="MxNet_Optimizers_Adamax_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class Adamax : Optimizer</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Optimizers_Adamax__ctor_System_Single_System_Single_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Optimizers.Adamax.%23ctor(System.Single%2CSystem.Single%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Optimizers/Adamax.cs/#L7">View Source</a>
+  </span>
+  <a id="MxNet_Optimizers_Adamax__ctor_" data-uid="MxNet.Optimizers.Adamax.#ctor*"></a>
+  <h4 id="MxNet_Optimizers_Adamax__ctor_System_Single_System_Single_System_Single_" data-uid="MxNet.Optimizers.Adamax.#ctor(System.Single,System.Single,System.Single)">Adamax(Single, Single, Single)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Adamax(float learning_rate = 0F, float beta1 = 0.9F, float beta2 = 0.999F)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">learning_rate</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">beta1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">beta2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Optimizers_Adamax_Beta1.md&amp;value=---%0Auid%3A%20MxNet.Optimizers.Adamax.Beta1%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Optimizers/Adamax.cs/#L20">View Source</a>
+  </span>
+  <a id="MxNet_Optimizers_Adamax_Beta1_" data-uid="MxNet.Optimizers.Adamax.Beta1*"></a>
+  <h4 id="MxNet_Optimizers_Adamax_Beta1" data-uid="MxNet.Optimizers.Adamax.Beta1">Beta1</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the beta 1 value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Beta1 { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><p>The beta1.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Optimizers_Adamax_Beta2.md&amp;value=---%0Auid%3A%20MxNet.Optimizers.Adamax.Beta2%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Optimizers/Adamax.cs/#L28">View Source</a>
+  </span>
+  <a id="MxNet_Optimizers_Adamax_Beta2_" data-uid="MxNet.Optimizers.Adamax.Beta2*"></a>
+  <h4 id="MxNet_Optimizers_Adamax_Beta2" data-uid="MxNet.Optimizers.Adamax.Beta2">Beta2</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the beta 2 value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Beta2 { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><p>The beta2.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Optimizers_Adamax_CreateState_System_Int32_MxNet_NDArray_.md&amp;value=---%0Auid%3A%20MxNet.Optimizers.Adamax.CreateState(System.Int32%2CMxNet.NDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Optimizers/Adamax.cs/#L30">View Source</a>
+  </span>
+  <a id="MxNet_Optimizers_Adamax_CreateState_" data-uid="MxNet.Optimizers.Adamax.CreateState*"></a>
+  <h4 id="MxNet_Optimizers_Adamax_CreateState_System_Int32_MxNet_NDArray_" data-uid="MxNet.Optimizers.Adamax.CreateState(System.Int32,MxNet.NDArray)">CreateState(Int32, NDArray)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override NDArrayDict CreateState(int index, NDArray weight)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td><span class="parametername">weight</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_CreateState_System_Int32_MxNet_NDArray_">Optimizer.CreateState(Int32, NDArray)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Optimizers_Adamax_Update_System_Int32_MxNet_NDArray_MxNet_NDArray_MxNet_NDArrayDict_.md&amp;value=---%0Auid%3A%20MxNet.Optimizers.Adamax.Update(System.Int32%2CMxNet.NDArray%2CMxNet.NDArray%2CMxNet.NDArrayDict)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Optimizers/Adamax.cs/#L38">View Source</a>
+  </span>
+  <a id="MxNet_Optimizers_Adamax_Update_" data-uid="MxNet.Optimizers.Adamax.Update*"></a>
+  <h4 id="MxNet_Optimizers_Adamax_Update_System_Int32_MxNet_NDArray_MxNet_NDArray_MxNet_NDArrayDict_" data-uid="MxNet.Optimizers.Adamax.Update(System.Int32,MxNet.NDArray,MxNet.NDArray,MxNet.NDArrayDict)">Update(Int32, NDArray, NDArray, NDArrayDict)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td><span class="parametername">weight</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArray.html">NDArray</a></td>
+        <td><span class="parametername">grad</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="MxNet.NDArrayDict.html">NDArrayDict</a></td>
+        <td><span class="parametername">state</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><a class="xref" href="MxNet.Optimizers.Optimizer.html#MxNet_Optimizers_Optimizer_Update_System_Int32_MxNet_NDArray_MxNet_NDArray_MxNet_NDArrayDict_">Optimizer.Update(Int32, NDArray, NDArray, NDArrayDict)</a></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
+  </div>
+  <div>
+      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Optimizers_Adamax.md&amp;value=---%0Auid%3A%20MxNet.Optimizers.Adamax%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Optimizers/Adamax.cs/#L5" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
