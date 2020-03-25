@@ -977,7 +977,8 @@ namespace MxNet
                 var keys = pairs[i].Split('$');
                 if(!dict.ContainsKey(keys[0]))
                     dict[keys[0]] = new Dictionary<string, string>();
-                dict[keys[0]][keys[1]] = pairs[i + 1];
+                if ((i + 1) != pairs.Count) 
+                    dict[keys[0]][keys[1]] = pairs[i + 1];
                 i = i + 2;
             }
 
