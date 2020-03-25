@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.GluonCV
+namespace MxNet.GluonCV.Losses
 {
     public class SSDMultiBoxLoss : Block
     {

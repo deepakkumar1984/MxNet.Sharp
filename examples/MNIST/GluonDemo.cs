@@ -2,6 +2,7 @@
 using System.Linq;
 using MxNet;
 using MxNet.Gluon;
+using MxNet.Gluon.Losses;
 using MxNet.Gluon.NN;
 using MxNet.Initializers;
 using MxNet.IO;

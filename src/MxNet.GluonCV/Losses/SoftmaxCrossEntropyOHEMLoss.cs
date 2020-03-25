@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using MxNet;
 using MxNet.Gluon;
-namespace MxNet.GluonCV
+using MxNet.Gluon.Losses;
+
+namespace MxNet.GluonCV.Losses
 {
-    public class MaskedL1Loss : Loss
+    public class SoftmaxCrossEntropyOHEMLoss : Loss
     {
-        public MaskedL1Loss(float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public SoftmaxCrossEntropyOHEMLoss(bool sparse_label= true, bool from_logits= false, float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             throw new NotImplementedException();
         }

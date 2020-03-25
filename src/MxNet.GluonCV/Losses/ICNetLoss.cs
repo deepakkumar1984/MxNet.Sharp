@@ -3,8 +3,9 @@ using MxNet;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using MxNet.Gluon.Losses;
 
-namespace MxNet.GluonCV
+namespace MxNet.GluonCV.Losses
 {
     public class ICNetLoss : SoftmaxCrossEntropyLoss
     {

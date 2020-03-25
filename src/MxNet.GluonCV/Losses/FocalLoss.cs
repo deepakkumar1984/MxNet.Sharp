@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using MxNet;
 using MxNet.Gluon;
-namespace MxNet.GluonCV
+using MxNet.Gluon.Losses;
+
+namespace MxNet.GluonCV.Losses
 {
-    public class YOLOV3Loss : Loss
+    public class FocalLoss : Loss
     {
-        public YOLOV3Loss(float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public FocalLoss(int axis= -1, float alpha= 0.25f, float gamma= 2, bool sparse_label= true, bool from_logits= false, float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             throw new NotImplementedException();
         }
