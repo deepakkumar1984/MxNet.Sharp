@@ -994,6 +994,16 @@ namespace MxNet
             return sym.Reshape(this, shape, reverse);
         }
 
+        public virtual Symbol SliceAxis(int axis, int begin, int? end)
+        {
+            return sym.SliceAxis(this, axis, begin, end);
+        }
+
+        public virtual Symbol Prod()
+        {
+            return sym.Prod(this);
+        }
+
         public virtual Symbol Reshape(params int[] shape)
         {
             //int[] targetShape = new int[shape.Length];

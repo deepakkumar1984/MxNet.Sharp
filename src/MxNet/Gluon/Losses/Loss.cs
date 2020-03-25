@@ -38,7 +38,7 @@ namespace MxNet.Gluon.Losses
             return pred;
         }
 
-        internal NDArrayOrSymbol ApplyWeighting(NDArrayOrSymbol loss, float? weight = null,
+        public NDArrayOrSymbol ApplyWeighting(NDArrayOrSymbol loss, float? weight = null,
             NDArrayOrSymbol sample_weight = null)
         {
             if (sample_weight != null)
