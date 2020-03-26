@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.GluonCV.Data.Transforms.Presets
+namespace MxNet.GluonCV.Data
 {
-    class SSDDALIPipeline
+    public class COCO
     {
     }
 }

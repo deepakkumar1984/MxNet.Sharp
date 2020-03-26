@@ -86,5 +86,198 @@ namespace MxNet
                 return null;
             return x.SymX;
         }
+
+        #region Operators
+
+        public static NDArrayOrSymbol operator +(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            if(lhs.IsNDArray)
+                return nd.BroadcastAdd(lhs, rhs);
+
+            return sym.BroadcastAdd(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator +(NDArrayOrSymbol lhs, float scalar)
+        {
+            if (lhs.IsNDArray)
+                return nd.PlusScalar(lhs, scalar);
+
+            return sym.PlusScalar(lhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator +(float scalar, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.PlusScalar(rhs, scalar);
+
+            return sym.PlusScalar(rhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator -(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.BroadcastSub(lhs, rhs);
+
+            return sym.BroadcastSub(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator -(NDArrayOrSymbol lhs, float scalar)
+        {
+            if (lhs.IsNDArray)
+                return nd.MinusScalar(lhs, scalar);
+
+            return sym.MinusScalar(lhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator -(float scalar, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.RminusScalar(rhs, scalar);
+
+            return sym.RminusScalar(rhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator *(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.BroadcastMul(lhs, rhs);
+
+            return sym.BroadcastMul(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator *(NDArrayOrSymbol lhs, float scalar)
+        {
+            if (lhs.IsNDArray)
+                return nd.MulScalar(lhs, scalar);
+
+            return sym.MulScalar(lhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator *(float scalar, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.MulScalar(rhs, scalar);
+
+            return sym.MulScalar(rhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator /(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            return nd.BroadcastDiv(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator /(NDArrayOrSymbol lhs, float scalar)
+        {
+            if (lhs.IsNDArray)
+                return nd.DivScalar(lhs, scalar);
+
+            return sym.DivScalar(lhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator /(float scalar, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.RdivScalar(rhs, scalar);
+
+            return sym.RdivScalar(rhs, scalar);
+        }
+
+        public static NDArrayOrSymbol operator >(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.BroadcastGreater(lhs, rhs);
+
+            return sym.BroadcastGreater(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator >=(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.BroadcastGreaterEqual(lhs, rhs);
+
+            return sym.BroadcastGreaterEqual(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator >(NDArrayOrSymbol lhs, float rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.GreaterScalar(lhs, rhs);
+
+            return sym.GreaterScalar(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator >=(NDArrayOrSymbol lhs, float rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.GreaterEqualScalar(lhs, rhs);
+
+            return nd.GreaterEqualScalar(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator >(float lhs, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.GreaterScalar(rhs, lhs);
+
+            return nd.GreaterScalar(rhs, lhs);
+        }
+
+        public static NDArrayOrSymbol operator >=(float lhs, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.GreaterEqualScalar(rhs, lhs);
+
+            return nd.GreaterEqualScalar(rhs, lhs);
+        }
+
+        public static NDArrayOrSymbol operator <(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.BroadcastLesser(lhs, rhs);
+
+            return nd.BroadcastLesser(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator <=(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.BroadcastLesserEqual(lhs, rhs);
+
+            return nd.BroadcastLesserEqual(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator <(NDArrayOrSymbol lhs, float rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.LesserScalar(lhs, rhs);
+
+            return nd.LesserScalar(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator <=(NDArrayOrSymbol lhs, float rhs)
+        {
+            if (lhs.IsNDArray)
+                return nd.LesserEqualScalar(lhs, rhs);
+
+            return nd.LesserEqualScalar(lhs, rhs);
+        }
+
+        public static NDArrayOrSymbol operator <(float lhs, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.LesserScalar(rhs, lhs);
+
+            return nd.LesserScalar(rhs, lhs);
+        }
+
+        public static NDArrayOrSymbol operator <=(float lhs, NDArrayOrSymbol rhs)
+        {
+            if (rhs.IsNDArray)
+                return nd.LesserEqualScalar(rhs, lhs);
+
+            return nd.LesserEqualScalar(rhs, lhs);
+        }
+
+        #endregion
     }
 }

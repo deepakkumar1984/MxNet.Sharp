@@ -4,7 +4,11 @@ using System.Text;
 
 namespace MxNet.GluonCV.Data.Transforms.Presets
 {
-    class Segmentation
+    public class Segmentation
     {
+        public static NDArray TestTransform(NDArray img, Context ctx)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

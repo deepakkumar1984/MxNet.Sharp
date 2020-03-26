@@ -7,16 +7,43 @@ using MxNet.Gluon.Losses;
 
 namespace MxNet.GluonCV.Losses
 {
-    public class DistillationSoftmaxCrossEntropyLoss : Loss
+    public class DistillationSoftmaxCrossEntropyLoss : HybridBlock
     {
-        public DistillationSoftmaxCrossEntropyLoss(float temperature = 1, float hard_weight = 0.5f, bool sparse_label= true, bool from_logits= false, float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        private float _hard_weight;
+
+        private float _temperature;
+
+        public SoftmaxCrossEntropyLoss HardLoss;
+
+        public SoftmaxCrossEntropyLoss SoftLoss;
+
+        public DistillationSoftmaxCrossEntropyLoss(float temperature = 1, float hard_weight = 0.5f, bool sparse_label= true, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
+            this._temperature = temperature;
+            this._hard_weight = hard_weight;
+            this.SoftLoss = new SoftmaxCrossEntropyLoss(sparse_label: false, prefix: prefix, @params: @params);
+            this.HardLoss = new SoftmaxCrossEntropyLoss(sparse_label: sparse_label, prefix: prefix, @params: @params);
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol output, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            NDArrayOrSymbol label = args[0];
+            NDArrayOrSymbol soft_target = args[1];
+
+            if (this._hard_weight == 0)
+            {
+                return (float)Math.Pow(this._temperature, 2) * this.SoftLoss.Call(output / this._temperature, soft_target);
+            }
+            else if (this._hard_weight == 1)
+            {
+                return this.HardLoss.Call(output, label);
+            }
+            else
+            {
+                var soft_loss = (float)Math.Pow(this._temperature, 2) * this.SoftLoss.Call(output / this._temperature, soft_target);
+                var hard_loss = this.HardLoss.Call(output, label);
+                return (1 - this._hard_weight) * soft_loss + this._hard_weight * hard_loss;
+            }
         }
     }
 }

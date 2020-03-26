@@ -26,7 +26,7 @@ namespace ImageClassification
             string testimg = "goldfish.jpg";
             var imgbytes = File.ReadAllBytes(testimg);
             var array = prepareNDArray(imgbytes);
-            var model = LoadModel("resnet-50", gpu: false);
+            var model = LoadModel("resnet-50", gpu: true);
             var prob = model.Predict(array);
             var predictIndexes = nd.Softmax(prob).Topk(k: 5).AsArray<float>().OfType<float>().ToList();
             var imagenet_labels = TestUtils.GetImagenetLabels();

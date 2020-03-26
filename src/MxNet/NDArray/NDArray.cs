@@ -716,7 +716,6 @@ namespace MxNet
             return nd.LesserEqualScalar(rhs, lhs);
         }
 
-
         public virtual NDArray Reshape(Shape shape, bool reverse = false)
         {
             NDArrayHandle handle;
