@@ -87,10 +87,10 @@ namespace MxNet.Gluon.Losses
                 else
                 {
                     if (label.IsNDArray)
-                        loss = nd.Negative(nd.BroadcastMul(nd.Log(pred.NdX + eps) * label, pos_weight)
+                        loss = nd.Negative(nd.BroadcastMul(nd.Log(pred.NdX + eps) * label.NdX, pos_weight)
                                            + nd.Log(1 - pred.NdX + eps) * (1 - label.NdX));
                     else
-                        loss = sym.Negative(sym.BroadcastMul(sym.Log(pred.SymX + eps) * label, pos_weight)
+                        loss = sym.Negative(sym.BroadcastMul(sym.Log(pred.SymX + eps) * label.SymX, pos_weight)
                                             + sym.Log(1 - pred.SymX + eps) * (1 - label.SymX));
                 }
             }

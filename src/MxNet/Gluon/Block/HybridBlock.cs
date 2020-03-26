@@ -347,7 +347,6 @@ namespace MxNet.Gluon
             argsList.AddRange(@params.Values.ToArray());
 
             return HybridForward(x, argsList.ToArray());
-            ;
         }
 
         public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);

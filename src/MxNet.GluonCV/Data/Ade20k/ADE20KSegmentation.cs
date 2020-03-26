@@ -33,16 +33,16 @@ namespace MxNet.GluonCV.Data
                "flower", "book", "hill", "bench", "countertop",
                "stove, kitchen stove, range, kitchen range, cooking stove",
                "palm, palm tree", "kitchen island",
-               "computer, computing machine, computing device, data processor, "
+               "computer, computing machine, computing device, data processor",
                "electronic computer, information processing system",
                "swivel chair", "boat", "bar", "arcade machine",
                "hovel, hut, hutch, shack, shanty",
-               "bus, autobus, coach, charabanc, double-decker, jitney, motorbus, "
+               "bus, autobus, coach, charabanc, double-decker, jitney, motorbus",
                "motorcoach, omnibus, passenger vehicle",
                "towel", "light, light source", "truck, motortruck", "tower",
                "chandelier, pendant, pendent", "awning, sunshade, sunblind",
                "streetlight, street lamp", "booth, cubicle, stall, kiosk",
-               "television receiver, television, television set, tv, tv set, idiot "
+               "television receiver, television, television set, tv, tv set",
                "box, boob tube, telly, goggle box",
                "airplane, aeroplane, plane", "dirt track",
                "apparel, wearing apparel, dress, clothes",

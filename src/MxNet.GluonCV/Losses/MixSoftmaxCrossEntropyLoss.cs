@@ -26,9 +26,9 @@ namespace MxNet.GluonCV.Losses
             var loss1 = base.HybridForward(pred1, label, sample_weight);
             var loss2 = base.HybridForward(pred2, label, sample_weight);
             if(loss1.IsNDArray)
-                return loss1 + this.AuxWeight * loss2.NdX;
+                return loss1.NdX + this.AuxWeight * loss2.NdX;
 
-            return loss1 + this.AuxWeight * loss2.SymX;
+            return loss1.SymX + this.AuxWeight * loss2.SymX;
         }
 
         private NDArrayOrSymbol AuxMixupForward(NDArrayOrSymbol pred1, NDArrayOrSymbol pred2, NDArrayOrSymbol label1, NDArrayOrSymbol label2, NDArrayOrSymbol lam, NDArrayOrSymbol sample_weight = null, params object[] args)
@@ -36,9 +36,9 @@ namespace MxNet.GluonCV.Losses
             var loss1 = this.MixupForward(pred1, label1, label2, lam);
             var loss2 = this.MixupForward(pred2, label1, label2, lam);
             if (loss1.IsNDArray)
-                return loss1 + this.AuxWeight * loss2.NdX;
+                return loss1.NdX + this.AuxWeight * loss2.NdX;
 
-            return loss1 + this.AuxWeight * loss2.SymX;
+            return loss1.SymX + this.AuxWeight * loss2.SymX;
         }
 
         private NDArrayOrSymbol MixupForward(NDArrayOrSymbol pred, NDArrayOrSymbol label1, NDArrayOrSymbol label2, NDArrayOrSymbol lam, NDArrayOrSymbol sample_weight = null, params object[] args)
@@ -55,9 +55,9 @@ namespace MxNet.GluonCV.Losses
                 loss1 = nd.Negative(nd.Pick(pred, label1, axis: this._axis, keepdims: true));
                 loss2 = nd.Negative(nd.Pick(pred, label2, axis: this._axis, keepdims: true));
                 if(loss1.IsNDArray)
-                    loss = lam * loss1.NdX + (1 - lam.NdX) * loss2;
+                    loss = lam.NdX * loss1.NdX + (1 - lam.NdX) * loss2.NdX;
                 else
-                    loss = lam * loss1.SymX + (1 - lam.SymX) * loss2;
+                    loss = lam.SymX * loss1.SymX + (1 - lam.SymX) * loss2.SymX;
             }
             else
             {
@@ -65,17 +65,17 @@ namespace MxNet.GluonCV.Losses
                 {
                     label1 = nd.ReshapeLike(label1, pred);
                     label2 = nd.ReshapeLike(label2, pred);
-                    loss1 = nd.Negative(nd.Sum(pred.NdX * label1, axis: this._axis, keepdims: true));
-                    loss2 = nd.Negative(nd.Sum(pred.NdX * label2, axis: this._axis, keepdims: true));
-                    loss = lam.NdX * loss1 + (1 - lam.NdX) * loss2;
+                    loss1 = nd.Negative(nd.Sum(pred.NdX * label1.NdX, axis: this._axis, keepdims: true));
+                    loss2 = nd.Negative(nd.Sum(pred.NdX * label2.NdX, axis: this._axis, keepdims: true));
+                    loss = lam.NdX * loss1.NdX + (1 - lam.NdX) * loss2.NdX;
                 }
                 else
                 {
                     label1 = sym.ReshapeLike(label1, pred);
                     label2 = sym.ReshapeLike(label2, pred);
-                    loss1 = sym.Negative(sym.Sum(pred.SymX * label1, axis: this._axis, keepdims: true));
-                    loss2 = sym.Negative(sym.Sum(pred.SymX * label2, axis: this._axis, keepdims: true));
-                    loss = lam.SymX * loss1 + (1 - lam.SymX) * loss2;
+                    loss1 = sym.Negative(sym.Sum(pred.SymX * label1.SymX, axis: this._axis, keepdims: true));
+                    loss2 = sym.Negative(sym.Sum(pred.SymX * label2.SymX, axis: this._axis, keepdims: true));
+                    loss = lam.SymX * loss1.SymX + (1 - lam.SymX) * loss2.SymX;
                 }
             }
 

@@ -7,11 +7,12 @@ namespace MxNet.GluonCV.Data
 {
     public class KeyPointDataset : VisionDataset
     {
-        public KeyPointDataset()
+        public KeyPointDataset(string root) : base(root)
         {
+            throw new NotImplementedException();
         }
 
-        public override NDArrayList this[int idx] => throw new NotImplementedException();
+        public override (NDArray, NDArray) this[int idx] => throw new NotImplementedException();
 
         public override int Length => throw new NotImplementedException();
 

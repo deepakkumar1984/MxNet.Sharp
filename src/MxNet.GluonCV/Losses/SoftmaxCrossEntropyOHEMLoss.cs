@@ -15,7 +15,7 @@ namespace MxNet.GluonCV.Losses
 
         private bool _sparse_label;
 
-        public SoftmaxCrossEntropyOHEMLoss(bool sparse_label= true, int batch_axis = 0, int ignore_label = -1, bool size_average = true, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public SoftmaxCrossEntropyOHEMLoss(bool sparse_label= true, int batch_axis = 0, int ignore_label = -1, bool size_average = true, float? weight = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             this._sparse_label = sparse_label;
             this._ignore_label = ignore_label;

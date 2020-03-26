@@ -13,6 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MxNet
 {
     public class NDArrayOrSymbol
@@ -279,5 +283,73 @@ namespace MxNet
         }
 
         #endregion
+    }
+
+    public class NDArrayOrSymbolList : IEnumerable<NDArrayOrSymbol>
+    {
+        public List<NDArrayOrSymbol> data;
+
+        public NDArrayOrSymbolList()
+        {
+            data = new List<NDArrayOrSymbol>();
+        }
+
+        public NDArrayOrSymbolList(params NDArrayOrSymbol[] args)
+        {
+            data = args.ToList();
+        }
+
+        public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol) args)
+        {
+            data = new List<NDArrayOrSymbol> { args.Item1, args.Item2 };
+        }
+
+        public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol) args)
+        {
+            data = new List<NDArrayOrSymbol> { args.Item1, args.Item2, args.Item3 };
+        }
+
+        public NDArrayOrSymbol[] Data => data.ToArray();
+        
+        public NDArrayOrSymbol this[int i]
+        {
+            get => data[i];
+            set => data[i] = value;
+        }
+
+        public int Length => data.Count;
+
+        public IEnumerator<NDArrayOrSymbol> GetEnumerator()
+        {
+            return data.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return data.GetEnumerator();
+        }
+
+        public void Add(params NDArrayOrSymbol[] x)
+        {
+            if (x == null)
+                return;
+
+            data.AddRange(x);
+        }
+
+        public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol[] x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
+
+        public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
+
+        public static implicit operator NDArrayOrSymbolList(List<NDArrayOrSymbol> x)
+        {
+            return new NDArrayOrSymbolList(x.ToArray());
+        }
     }
 }
