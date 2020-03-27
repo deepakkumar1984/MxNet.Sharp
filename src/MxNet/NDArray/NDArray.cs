@@ -328,12 +328,15 @@ namespace MxNet
             return new NDArray(handle);
         }
 
-        public static NDArray LoadCV2Mat(OpenCvSharp.Mat img)
+        public static NDArray LoadCV2Mat(OpenCvSharp.Mat img, Context context = null)
         {
+            if (context == null)
+                context = mx.Cpu();
+
             Shape s = new Shape(img.Height, img.Width, img.Channels());
             byte[] bytes = new byte[s.Size];
             Marshal.Copy(img.Data, bytes, 0, s.Size);
-            var ret = new NDArray(bytes, s, dtype: DType.Uint8);
+            var ret = new NDArray(bytes, s, context, dtype: DType.Uint8);
             return ret;
         }
 

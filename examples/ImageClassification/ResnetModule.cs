@@ -25,8 +25,9 @@ namespace ImageClassification
 
             string testimg = "goldfish.jpg";
             var imgbytes = File.ReadAllBytes(testimg);
-            var array = prepareNDArray(imgbytes);
-            var model = LoadModel("resnet-50", gpu: true);
+            bool useGpu = true;
+            var array = prepareNDArray(imgbytes, useGpu);
+            var model = LoadModel("resnet-50", gpu: useGpu);
             var prob = model.Predict(array);
             var predictIndexes = nd.Softmax(prob).Topk(k: 5).AsArray<float>().OfType<float>().ToList();
             var imagenet_labels = TestUtils.GetImagenetLabels();
@@ -52,11 +53,12 @@ namespace ImageClassification
             return mod;
         }
 
-        private static NDArray prepareNDArray(byte[] image)
+        private static NDArray prepareNDArray(byte[] image, bool gpu = true)
         {
             var img  = Cv2.ImDecode(image, ImreadModes.Color);
             Cv2.Resize(img, img, new OpenCvSharp.Size(224, 224));
-            var x = NDArray.LoadCV2Mat(img);
+            var ctx = gpu ? mx.Gpu(0) : mx.Cpu();
+            var x = NDArray.LoadCV2Mat(img, ctx);
             x = x.Transpose(new Shape(2, 0, 1));
             x = x.ExpandDims(axis: 0);
 

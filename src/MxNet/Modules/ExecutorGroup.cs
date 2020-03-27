@@ -53,7 +53,7 @@ namespace MxNet.Modules
         internal static void LoadLabel(DataBatch batch, List<List<(Slice, NDArray)>> targets, int[] major_axis)
         {
             var datalist = new List<NDArrayList>() { batch.Label };
-            List<NDArrayList> targetlist = new List<NDArrayList>();
+            List<NDArrayList> targetlist = new List<NDArrayList>(); 
             foreach (var item in targets)
             {
                 targetlist.Add(item.Select(x => x.Item2).ToArray());
