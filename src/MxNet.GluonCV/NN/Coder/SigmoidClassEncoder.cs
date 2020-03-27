@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.GluonCV.NN.Coder
+namespace MxNet.GluonCV.NN
 {
-    class SigmoidClassEncoder
+    public class SigmoidClassEncoder
     {
+        public (NDArray, NDArray) Call(NDArray samples)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

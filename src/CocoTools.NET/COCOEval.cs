@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.GluonCV.Data
+namespace CocoTools.NET
 {
-    public class COCO
+    public class COCOEval
     {
     }
 }

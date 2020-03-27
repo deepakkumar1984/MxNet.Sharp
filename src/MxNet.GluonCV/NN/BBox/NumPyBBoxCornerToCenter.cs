@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.GluonCV.NN.BBox
+namespace MxNet.GluonCV.NN
 {
     public class NumPyBBoxCornerToCenter
     {
