@@ -4,7 +4,16 @@ using System.Text;
 
 namespace MxNet.GluonCV.ModelZoo.SimplePose
 {
-    class SimplePoseGaussianTargetGenerator
+    public class SimplePoseGaussianTargetGenerator
     {
+        public SimplePoseGaussianTargetGenerator(int num_joints, (int, int) image_size, (int, int) heatmap_size, float sigma= 2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public (NDArray, NDArray) Call(NDArray joints_3d)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

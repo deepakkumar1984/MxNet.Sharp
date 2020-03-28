@@ -4,7 +4,16 @@ using System.Text;
 
 namespace MxNet.GluonCV.ModelZoo.Rpn
 {
-    class RPNTargetSampler
+    public class RPNTargetSampler
     {
+        public RPNTargetSampler(int num_sample, float pos_iou_thresh, float neg_iou_thresh, float pos_ratio)
+        {
+            throw new NotImplementedException();
+        }
+
+        public (NDArray, NDArray) Call((int, int) ious)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

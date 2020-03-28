@@ -26,7 +26,7 @@ namespace MxNet.Gluon.NN
 
         public List<Block> Blocks => _childrens.Values.ToList();
 
-        public Sequential this[string key]
+        public new Sequential this[string key]
         {
             get
             {
