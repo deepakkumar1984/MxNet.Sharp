@@ -16,6 +16,7 @@ namespace MxNet.GluonCV.ModelZoo
                 {50, ("bottle_neck", new[] {3, 4, 6, 3}, new[] {64, 256, 512, 1024, 2048})},
                 {101, ("bottle_neck", new[] {3, 4, 23, 3}, new[] {64, 256, 512, 1024, 2048})},
                 {152, ("bottle_neck", new[] {3, 8, 36, 3}, new[] {64, 256, 512, 1024, 2048})}
+                //ToDo: Add more in the list
             };
 
         internal static Conv2D Conv3x3(int channels, int stride, int in_channels)

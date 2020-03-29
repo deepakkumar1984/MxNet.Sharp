@@ -22,12 +22,18 @@ namespace MxNet.Gluon.Data.Vision.Datasets
     {
         public ImageFolderDataset(string root, int flag = 1, Func<(NDArray, int), (NDArray, int)> transform = null)
         {
-            throw new NotImplementedException();
+            Root = root;
+            Flag = flag;
+            TransformFn = transform;
         }
 
         public override (NDArray, int) this[int idx] => throw new NotImplementedException();
 
         public override int Length => throw new NotImplementedException();
+
+        public string Root { get; set; }
+        public int Flag { get; set; }
+        public Func<(NDArray, int), (NDArray, int)> TransformFn { get; }
 
         private List<(string, int)> ListImages(string root)
         {

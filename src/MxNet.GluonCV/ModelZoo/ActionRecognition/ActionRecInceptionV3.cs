@@ -33,7 +33,7 @@ namespace MxNet.GluonCV.ModelZoo.ActionRecognition
             throw new NotImplementedException();
         }
 
-        public static ActionRecInceptionV3 InceptionV1_SthSthv2(int nclass = 174`11 `, bool pretrained = false, bool pretrained_base = true, bool use_tsn = false, int num_segments = 1, int num_crop = 1, bool partial_bn = true, Context ctx = null, string root = "~/.mxnet/models")
+        public static ActionRecInceptionV3 InceptionV1_SthSthv2(int nclass = 174, bool pretrained = false, bool pretrained_base = true, bool use_tsn = false, int num_segments = 1, int num_crop = 1, bool partial_bn = true, Context ctx = null, string root = "~/.mxnet/models")
         {
             throw new NotImplementedException();
         }
