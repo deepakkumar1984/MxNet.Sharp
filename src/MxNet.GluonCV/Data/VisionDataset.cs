@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MxNet.GluonCV.Data
 {
-    public class VisionDataset : Dataset<(NDArray, NDArray)>
+    public class VisionDataset : Dataset<(NDArray, NDArray, NDArray)>
     {
         public VisionDataset(string root)
         {
@@ -19,7 +19,7 @@ namespace MxNet.GluonCV.Data
             }
         }
 
-        public override (NDArray, NDArray) this[int idx]
+        public override (NDArray, NDArray, NDArray) this[int idx]
         {
             get
             {

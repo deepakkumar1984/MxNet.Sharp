@@ -25,22 +25,26 @@ namespace MxNet.GluonCV.ModelZoo
 
         public static WiderResNetA2 WiderResNetA2_16(bool pretrained = false, Context ctx = null, string root = "", HybridSequential norm_act = null, bool dilation = false, bool dist_bn = false)
         {
-            throw new NotImplementedException();
+            return GetWiderResNetA2(new int[] { 1, 1, 1, 1, 1, 1 }, pretrained, ctx, root, norm_act, dilation, dist_bn);
         }
 
         public static WiderResNetA2 WiderResNetA2_20(bool pretrained = false, Context ctx = null, string root = "", HybridSequential norm_act = null, bool dilation = false, bool dist_bn = false)
         {
-            throw new NotImplementedException();
+            return GetWiderResNetA2(new int[] { 1, 1, 1, 3, 1, 1 }, pretrained, ctx, root, norm_act, dilation, dist_bn);
         }
 
         public static WiderResNetA2 WiderResNetA2_38(bool pretrained = false, Context ctx = null, string root = "", HybridSequential norm_act = null, bool dilation = false, bool dist_bn = false)
         {
-            throw new NotImplementedException();
+            return GetWiderResNetA2(new int[] { 3, 3, 6, 3, 1, 1 }, pretrained, ctx, root, norm_act, dilation, dist_bn);
         }
 
         public HybridSequential BNRelu(int channels, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null)
         {
-            throw new NotImplementedException();
+            var @out = new HybridSequential(prefix: "");
+            var bn = LayerUtils.NormLayer(norm_layer, norm_kwargs);
+            @out.Add(LayerUtils.NormLayer(norm_layer, norm_kwargs));
+            @out.Add(new Activation(ActivationType.Relu));
+            return @out;
         }
     }
 

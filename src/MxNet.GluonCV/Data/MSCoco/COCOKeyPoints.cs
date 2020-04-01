@@ -20,7 +20,7 @@ namespace MxNet.GluonCV.Data
 
         public COCO Coco => throw new NotImplementedException();
 
-        public override (NDArray, NDArray) this[int idx] => throw new NotImplementedException();
+        public override (NDArray, NDArray, NDArray) this[int idx] => throw new NotImplementedException();
 
         internal (string[], NDArrayList) LoadJsons() => throw new NotImplementedException();
 

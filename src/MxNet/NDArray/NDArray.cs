@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MxNet.Interop;
-using NumSharp;
+using NumpyDotNet;
 using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
@@ -486,9 +486,9 @@ namespace MxNet
             return out_storage_type;
         }
 
-        public virtual NumSharp.NDArray AsNumpy()
+        public virtual ndarray AsNumpy()
         {
-            NumSharp.NDArray x = null;
+            ndarray x = null;
 
             switch (DataType.Name)
             {
@@ -524,7 +524,7 @@ namespace MxNet
                 npShape.Add(item);
             }
 
-            return x.reshape(new NumSharp.Shape(npShape.ToArray()));
+            return x.reshape(new shape(npShape.ToArray()));
         }
 
         public NDArray this[string slice]

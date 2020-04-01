@@ -47,6 +47,11 @@ namespace MxNet
             return GetEnumerator();
         }
 
+        public bool Contains(string key)
+        {
+            return args.ContainsKey(key);
+        }
+
         public void Add(string name, object value)
         {
             args.Add(name, value);
@@ -63,6 +68,14 @@ namespace MxNet
                 return default;
 
             return (T) args[name];
+        }
+
+        public T Get<T>(string name, T val)
+        {
+            if (!args.ContainsKey(name))
+                return val;
+
+            return (T)args[name];
         }
     }
 }

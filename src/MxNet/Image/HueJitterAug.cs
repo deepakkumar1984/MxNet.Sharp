@@ -14,7 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using System;
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet.Image
 {
@@ -36,9 +36,9 @@ namespace MxNet.Image
 
         public override NDArray Call(NDArray src)
         {
-            float alpha = np.random.uniform(-Hue, Hue);
-            var u = (float) Math.Cos(alpha * np.pi);
-            var w = (float) Math.Sin(alpha * np.pi);
+            float alpha = FloatRnd.Uniform(-Hue, Hue);
+            var u = (float) Math.Cos(alpha * Math.PI);
+            var w = (float) Math.Sin(alpha * Math.PI);
             var bt = new NDArray(new[] {1, 0, 0, 0, u, -w, 0, w, u}).Reshape(3, 3);
             var t = nd.Dot(nd.Dot(ITyiq, bt), Tyiq).Transpose();
             src = nd.Dot(src, t);

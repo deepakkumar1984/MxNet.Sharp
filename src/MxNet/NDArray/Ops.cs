@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MxNet.Interop;
+using NumpyDotNet;
 
 namespace MxNet
 {
@@ -236,6 +237,29 @@ namespace MxNet
                 out var @out), NativeMethods.OK);
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint) data.Length);
+
+            var result = new NDArray();
+            result.NativePtr = @out;
+            result._Blob = new NDBlob(@out);
+
+            return result;
+        }
+
+        public static NDArray Array(ndarray data, Context ctx = null)
+        {
+            if (ctx == null)
+                ctx = Context.CurrentContext;
+
+            var shape = data.shape.iDims.Select(x=>(int)x).ToArray();
+
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape,
+                data.shape.iDims.Length,
+                ctx.GetDeviceType(),
+                ctx.GetDeviceId(),
+                false.ToInt32(),
+                out var @out), NativeMethods.OK);
+            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
+            NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint)data.size);
 
             var result = new NDArray();
             result.NativePtr = @out;

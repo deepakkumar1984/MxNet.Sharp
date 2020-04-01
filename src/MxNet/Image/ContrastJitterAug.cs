@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet.Image
 {
@@ -31,9 +31,9 @@ namespace MxNet.Image
 
         public override NDArray Call(NDArray src)
         {
-            var alpha = 1f + np.random.uniform(-Contrast, Contrast);
+            var alpha = 1f + nd.Random.Uniform(-Contrast, Contrast);
             var gray = src * coef;
-            gray = 3.0 * (1.0 - alpha) / gray.Size * nd.Sum(gray);
+            gray = 3 * (1 - alpha) / gray.Size * nd.Sum(gray);
             src *= alpha;
             src += gray;
             return src;

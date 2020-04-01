@@ -11,7 +11,7 @@ namespace MxNet.GluonCV.Data
             throw new NotImplementedException();
         }
 
-        public override (NDArray, NDArray) this[int idx] => base[idx];
+        public override (NDArray, NDArray, NDArray) this[int idx] => base[idx];
 
         public override int Length => throw new NotImplementedException();
 

@@ -14,7 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using System;
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet.Metrics
 {
@@ -35,21 +35,22 @@ namespace MxNet.Metrics
         public override void Update(NDArray labels, NDArray preds)
         {
             CheckLabelShapes(labels, preds);
-            var pred_label = preds.Argsort().AsNumpy().astype(NPTypeCode.Int32); //ToDo: Use numpy argpartition
-            var label = labels.AsNumpy().astype(NPTypeCode.Int32);
-            var num_samples = pred_label.shape[0];
-            var num_dims = pred_label.shape.Length;
+            var pred_label = preds.Argsort().AsType(DType.Int32); //ToDo: Use numpy argpartition
+            var label = labels.AsType(DType.Int32);
+            var num_samples = pred_label.Shape[0];
+            var num_dims = pred_label.Shape.Dimension;
             if (num_dims == 1)
             {
-                sum_metric += (pred_label.flat == label.flat).sum();
+                sum_metric += nd.Equal(pred_label.Ravel(), label.Ravel()).Sum();
             }
+
             else if (num_dims == 2)
             {
-                var num_classes = pred_label.shape[1];
+                var num_classes = pred_label.Shape[1];
                 TopK = Math.Min(num_classes, TopK);
                 for (var j = 0; j < TopK; j++)
                 {
-                    float num_correct = (pred_label[":", num_classes - 1 - j].flat == label.flat).sum();
+                    float num_correct = nd.Equal(pred_label[$":,{num_classes - 1 - j}"].Ravel(), label.Ravel()).Sum();
                     sum_metric += num_correct;
                     global_sum_metric += num_correct;
                 }

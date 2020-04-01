@@ -17,7 +17,7 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet.Gluon.Data.Vision.Datasets
 {
@@ -90,7 +90,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                     var buffer = new byte[stream.Length - 16];
                     stream.Seek(16, SeekOrigin.Begin);
                     stream.Read(buffer, 0, buffer.Length);
-                    var x = np.frombuffer(buffer, typeof(byte));
+                    var x = np.array(buffer);
                     _data = new NDArray(buffer.Select(y => (float) y).ToArray(), new Shape(60000, 28, 28, 1)) / 255;
                 }
             }

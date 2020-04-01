@@ -14,7 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using System;
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet.Metrics
 {
@@ -36,12 +36,12 @@ namespace MxNet.Metrics
 
             l = l.ravel();
             var p = preds.AsNumpy();
-            var prob = p[np.arange(l.shape[0]), l.astype(NPTypeCode.Int64)];
-            var cross_entropy = np.sum(-np.log(prob + eps)).Data<float>()[0];
+            var prob = p[np.arange(l.shape.iDims[0]), l.astype(np.Int64)];
+            var cross_entropy = np.sum(-np.log((ndarray)prob + eps)).asscalar<float>();
             sum_metric += sum_metric;
             global_sum_metric += sum_metric;
-            num_inst += l.shape[0];
-            global_num_inst += l.shape[0];
+            num_inst += (int)l.shape.iDims[0];
+            global_num_inst += (int)l.shape.iDims[0];
         }
     }
 }

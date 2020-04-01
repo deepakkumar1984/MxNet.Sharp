@@ -14,7 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using System;
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet.Image
 {
@@ -138,7 +138,7 @@ namespace MxNet.Image
             var max_area = AreaRange.Item2 * height * width;
             for (var i = 0; i < MaxAttempts; i++)
             {
-                float ratio = np.random.uniform(AspectRatioRange.Item1, AspectRatioRange.Item2);
+                float ratio = FloatRnd.Uniform(AspectRatioRange.Item1, AspectRatioRange.Item2);
                 if (ratio <= 0)
                     continue;
                 var h = (int) Math.Round(Math.Pow(min_area / ratio, 2));
@@ -153,7 +153,7 @@ namespace MxNet.Image
                 if (h > max_h)
                     h = max_h;
                 if (h < max_h)
-                    h = np.random.randint(h, max_h); // generate random h in range [h, max_h]
+                    h = IntRnd.Uniform(h, max_h); // generate random h in range [h, max_h]
 
                 var w = (int) Math.Round(h * ratio);
                 if (w <= width)
@@ -179,8 +179,8 @@ namespace MxNet.Image
 
                 NDArray new_label = null;
 
-                var y = np.random.randint(0, Math.Max(0, height - h));
-                var x = np.random.randint(0, Math.Max(0, width - w));
+                var y = IntRnd.Uniform(0, Math.Max(0, height - h));
+                var x = IntRnd.Uniform(0, Math.Max(0, width - w));
                 if (CheckSatisfyConstraints(label, x, y, x + w, y + h, width, height))
                     new_label = UpdateLabels(label, new int[] {x, y, w, h}, height, width);
                 if (new_label != null)

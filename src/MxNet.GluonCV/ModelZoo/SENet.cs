@@ -28,14 +28,14 @@ namespace MxNet.GluonCV.ModelZoo
             throw new NotImplementedException();
         }
 
-        public static SENet SENet_154(int cardinality = 64, int bottleneck_width = 4, bool avg_down = false, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
+        public static SENet SENet_154(int cardinality = 64, int bottleneck_width = 4, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
         {
-            throw new NotImplementedException();
+            return GetSENet(152, cardinality, bottleneck_width, false, pretrained, ctx, root);
         }
 
-        public static SENet SENet_154e(int cardinality = 64, int bottleneck_width = 4, bool avg_down = false, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
+        public static SENet SENet_154e(int cardinality = 64, int bottleneck_width = 4, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
         {
-            throw new NotImplementedException();
+            return GetSENet(152, cardinality, bottleneck_width, true, pretrained, ctx, root);
         }
     }
 

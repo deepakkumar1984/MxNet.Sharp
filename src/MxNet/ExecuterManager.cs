@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MxNet.IO;
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet
 {
@@ -150,7 +150,7 @@ namespace MxNet
                     if (shared_data_arrays != null && shared_data_arrays.Contains(name))
                     {
                         arg_arr = shared_data_arrays[name];
-                        if (np.prod(arg_arr.Shape.Data) >= np.prod(arg_shape[i].Data))
+                        if (arg_arr.Shape.Size >= arg_shape[i].Size)
                         {
                             if (arg_types[i].Name != arg_arr.DataType.Name)
                                 throw new ArgumentException("arg_type and arg_arr datatype mismatch");

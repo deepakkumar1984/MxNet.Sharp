@@ -14,7 +14,8 @@
    limitations under the License.
 ******************************************************************************/
 using System.Linq;
-using NumSharp;
+using System.Threading.Tasks;
+using NumpyDotNet;
 
 namespace MxNet.Metrics
 {
@@ -44,33 +45,32 @@ namespace MxNet.Metrics
 
         private float CalcMcc(NDArray cmatArr)
         {
-            var cmat = cmatArr.AsNumpy();
-            var n = cmat.sum();
-            var x = cmat.sum(1);
-            var y = cmat.sum(0);
-            var cov_xx = np.sum(x * (n - x)).Data<float>()[0];
-            var cov_yy = np.sum(y * (n - y)).Data<float>()[0];
+            var n = cmatArr.Sum();
+            var x = cmatArr.Sum(1);
+            var y = cmatArr.Sum(0);
+            var cov_xx = nd.Sum(x * (n - x)).AsScalar<float>();
+            var cov_yy = nd.Sum(y * (n - y)).AsScalar<float>();
 
             if (cov_xx == 0 || cov_yy == 0)
                 return float.NaN;
 
-            var i = cmatArr.Diag().AsNumpy();
-            var cov_xy = np.sum(i * n - x * y);
-            return np.power(cov_xy / (cov_xx * cov_yy), 0.5);
+            var i = cmatArr.Diag();
+            var cov_xy = nd.Sum(i * n - x * y).Sum();
+            return (float)System.Math.Pow(cov_xy / (cov_xx * cov_yy), 0.5);
         }
 
         public override void Update(NDArray labels, NDArray preds)
         {
-            var label = labels.AsType(DType.Int32).AsNumpy();
-            var pred = np.argmax(preds.AsNumpy(), 1).astype(NPTypeCode.Int32);
-            var n = np.max(pred.max(), label.max()).Data<int>()[0];
+            var pred = nd.Argmax(preds, 1).AsType(DType.Int32);
+            var n = nd.Maximum(pred.Max(), labels.Max()).AsScalar<int>();
             if (n >= k)
                 Grow(n + 1 - k);
 
-            var bcm = np.zeros(k, k);
-            pred.Data<int>().Zip(label.Data<int>(), (i, j) =>
-            {
-                bcm[i, j] += 1;
+            var bcm = nd.Zeros(new Shape(k, k));
+            var pred_data = pred.GetValues<int>();
+            var label_data = labels.GetValues<int>();
+            Enumerable.Zip(pred_data, label_data, (i, j) => {
+                bcm[$"{i},{j}"] += 1;
                 return true;
             });
 

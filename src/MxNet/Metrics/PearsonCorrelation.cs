@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using NumpyDotNet;
+
 namespace MxNet.Metrics
 {
     public class PearsonCorrelation : EvalMetric
@@ -26,9 +28,9 @@ namespace MxNet.Metrics
         {
             CheckLabelShapes(labels, preds, true);
 
-            var pearson_corr = nd.Correlation(labels.Ravel(), preds.Ravel()).AsNumpy()[0, 1].Data<float>()[0];
-            sum_metric += pearson_corr;
-            global_sum_metric += pearson_corr;
+            ndarray pearson_corr = (ndarray)nd.Correlation(labels.Ravel(), preds.Ravel()).AsNumpy()[0, 1];
+            sum_metric += pearson_corr.asscalar<float>();
+            global_sum_metric += pearson_corr.asscalar<float>();
             num_inst += 1;
             global_num_inst += 1;
         }

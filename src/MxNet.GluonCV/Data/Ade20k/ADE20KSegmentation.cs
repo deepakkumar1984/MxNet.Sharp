@@ -90,7 +90,7 @@ namespace MxNet.GluonCV.Data
             }
         }
 
-        public override (NDArray, NDArray) this[int idx]
+        public override (NDArray, NDArray, NDArray) this[int idx]
         {
             get
             {
@@ -103,7 +103,7 @@ namespace MxNet.GluonCV.Data
                         img = this.Transform(img);
                     }
 
-                    return (img, null);
+                    return (img, null, null);
                 }
 
                 var mask = Img.ImRead(Masks[idx]);
@@ -127,7 +127,7 @@ namespace MxNet.GluonCV.Data
                 {
                     img = this.Transform(img);
                 }
-                return (img, mask);
+                return (img, mask, null);
             }
         }
 

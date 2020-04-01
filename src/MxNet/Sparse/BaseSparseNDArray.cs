@@ -20,6 +20,7 @@ using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
+using NumpyDotNet;
 
 namespace MxNet.Sparse
 {
@@ -76,7 +77,7 @@ namespace MxNet.Sparse
             return aux_types.ToArray();
         }
 
-        public override NumSharp.NDArray AsNumpy()
+        public override ndarray AsNumpy()
         {
             return ToSType(StorageStype.Default).AsNumpy();
         }

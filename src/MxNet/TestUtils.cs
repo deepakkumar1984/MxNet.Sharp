@@ -18,7 +18,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using MxNet.Gluon;
-using NumSharp;
+using NumpyDotNet;
 
 namespace MxNet
 {
@@ -184,7 +184,7 @@ namespace MxNet
                     var data = new byte[stream.Length - 16];
                     stream.Seek(16, SeekOrigin.Begin);
                     stream.Read(data, 0, data.Length);
-                    var x = np.frombuffer(data, typeof(byte));
+                    var x = np.array(data);
                     images = new NDArray(data.Select(i => (float)i).ToArray(), new Shape(n, 1, 28, 28)) / 255;
                 }
             }

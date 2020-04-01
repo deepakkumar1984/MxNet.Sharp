@@ -320,6 +320,7 @@ namespace MxNet.GluonCV.Data
                     }
                 }
             }
+
             return sampled_list;
         }
 

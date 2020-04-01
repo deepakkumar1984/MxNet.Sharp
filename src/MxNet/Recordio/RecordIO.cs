@@ -21,7 +21,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using OpenCvSharp;
 using System.Linq;
 using System.Runtime.InteropServices;
-using NumSharp;
+using NumpyDotNet;
+using NumpyDotNet;
 
 namespace MxNet.Recordio
 {
@@ -81,7 +82,7 @@ namespace MxNet.Recordio
             return (header, img);
         }
 
-        public static byte[] PackImg(IRHeader header, NumSharp.NDArray img, int quality = 95, string img_fmt = ".jpg")
+        public static byte[] PackImg(IRHeader header, ndarray img, int quality = 95, string img_fmt = ".jpg")
         {
             int[] encodeParams = null;
             OpenCvSharp.ImageEncodingParam imageEncodingParam = new ImageEncodingParam(ImwriteFlags.JpegQuality, quality);

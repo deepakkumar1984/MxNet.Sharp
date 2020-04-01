@@ -14,8 +14,8 @@
    limitations under the License.
 ******************************************************************************/
 using System;
-using NumSharp;
-using SharpCV;
+using NumpyDotNet;
+using OpenCvSharp;
 
 namespace MxNet.Image
 {
@@ -60,7 +60,7 @@ namespace MxNet.Image
         }
 
         public static NDArray CopyMakeBorder(NDArray src, int top, int bot, int left, int right,
-            BorderTypes type = BorderTypes.BORDER_CONSTANT)
+            BorderTypes type = BorderTypes.Constant)
         {
             return nd.CvcopyMakeBorder(src, top, bot, left, right, (int) type);
         }
@@ -155,9 +155,9 @@ namespace MxNet.Image
             var src_area = h * w;
             for (var i = 0; i < 10; i++)
             {
-                float target_area = np.random.uniform(area.Item1, area.Item2, new NumSharp.Shape(1)) * src_area;
+                float target_area = FloatRnd.Uniform(area.Item1, area.Item2) * src_area;
                 var log_ratio = ((float) Math.Log(ratio.Item1), (float) Math.Log(ratio.Item2));
-                var new_ratio = np.exp(np.random.uniform(log_ratio.Item1, log_ratio.Item2, new NumSharp.Shape(1)));
+                var new_ratio = Math.Exp(FloatRnd.Uniform(log_ratio.Item1, log_ratio.Item2));
                 var new_w = (int) Math.Round(Math.Pow(target_area * new_ratio, 2));
                 var new_h = (int) Math.Round(Math.Pow(target_area / new_ratio, 2));
                 if (new_w <= w && new_h <= h)

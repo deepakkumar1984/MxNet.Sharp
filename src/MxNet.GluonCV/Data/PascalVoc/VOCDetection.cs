@@ -15,7 +15,7 @@ namespace MxNet.GluonCV.Data
 
         public override string[] Classes => throw new NotImplementedException();
 
-        public override (NDArray, NDArray) this[int idx] => throw new NotImplementedException();
+        public override (NDArray, NDArray, NDArray) this[int idx] => throw new NotImplementedException();
 
         private string[] LoadItems(Dictionary<int, string> splits) => throw new NotImplementedException();
 
