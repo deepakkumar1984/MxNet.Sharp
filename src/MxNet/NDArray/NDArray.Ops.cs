@@ -2329,6 +2329,11 @@ namespace MxNet
                 .Invoke();
         }
 
+        public NDArrayList Split(int num_outputs, int axis = 1, bool squeeze_axis = false)
+        {
+            return nd.Split(this, num_outputs, axis, squeeze_axis);
+        }
+
         /// <summary>
         ///     <para>Returns the top *k* elements in an input array along the given axis.</para>
         ///     <para> The returned elements will be sorted.</para>
@@ -2383,19 +2388,21 @@ namespace MxNet
         ///     selected data type cannot precisely represent the indices.
         /// </param>
         /// <returns>returns new NDArray</returns>
-        public NDArray Topk(int? axis = -1, int k = 1, TopkRetTyp ret_typ = TopkRetTyp.Indices, bool is_ascend = false,
+        public NDArrayList Topk(int? axis = -1, int k = 1, TopkRetTyp ret_typ = TopkRetTyp.Indices, bool is_ascend = false,
             DType dtype = null)
         {
             if (dtype == null) dtype = DType.Float32;
-
-            return new Operator("topk")
+            NDArrayList outputs = new NDArrayList();
+            new Operator("topk")
                 .SetParam("axis", axis)
                 .SetParam("k", k)
                 .SetParam("ret_typ", MxUtil.EnumToString<TopkRetTyp>(ret_typ, TopkRetTypConvert))
                 .SetParam("is_ascend", is_ascend)
                 .SetParam("dtype", dtype)
                 .SetInput("data", this)
-                .Invoke();
+                .Invoke(outputs);
+
+            return outputs;
         }
 
         /// <summary>

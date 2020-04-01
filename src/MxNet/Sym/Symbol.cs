@@ -1005,9 +1005,24 @@ namespace MxNet
             return sym.ExpandDims(this, axis);
         }
 
+        public virtual Symbol Tile(Shape reps)
+        {
+            return sym.Tile(this, reps);
+        }
+
+        public virtual Symbol Squeeze(int axis)
+        {
+            return sym.Squeeze(this, new Shape(axis));
+        }
+
         public virtual Symbol Transpose()
         {
             return sym.Transpose(this);
+        }
+
+        public virtual Symbol Transpose(Shape axes)
+        {
+            return sym.Transpose(this, axes);
         }
 
         public virtual Symbol Prod()
@@ -1018,6 +1033,11 @@ namespace MxNet
         public virtual Symbol Mean(int axis)
         {
             return sym.Mean(this, axis);
+        }
+
+        public virtual Symbol AsType(DType dtype)
+        {
+            return sym.Cast(this, dtype);
         }
 
         public virtual Symbol Reshape(params int[] shape)
@@ -1196,6 +1216,66 @@ namespace MxNet
             rhs.ThrowIfDisposed();
 
             return OperatorSupply.RModScalar(lhs, rhs);
+        }
+
+        public static Symbol operator >(Symbol lhs, Symbol rhs)
+        {
+            return sym.BroadcastGreater(lhs, rhs);
+        }
+
+        public static Symbol operator >=(Symbol lhs, Symbol rhs)
+        {
+            return sym.BroadcastGreaterEqual(lhs, rhs);
+        }
+
+        public static Symbol operator >(Symbol lhs, float rhs)
+        {
+            return sym.GreaterScalar(lhs, rhs);
+        }
+
+        public static Symbol operator >=(Symbol lhs, float rhs)
+        {
+            return sym.GreaterEqualScalar(lhs, rhs);
+        }
+
+        public static Symbol operator >(float lhs, Symbol rhs)
+        {
+            return sym.GreaterScalar(rhs, lhs);
+        }
+
+        public static Symbol operator >=(float lhs, Symbol rhs)
+        {
+            return sym.GreaterEqualScalar(rhs, lhs);
+        }
+
+        public static Symbol operator <(Symbol lhs, Symbol rhs)
+        {
+            return sym.BroadcastLesser(lhs, rhs);
+        }
+
+        public static Symbol operator <=(Symbol lhs, Symbol rhs)
+        {
+            return sym.BroadcastLesserEqual(lhs, rhs);
+        }
+
+        public static Symbol operator <(Symbol lhs, float rhs)
+        {
+            return sym.LesserScalar(lhs, rhs);
+        }
+
+        public static Symbol operator <=(Symbol lhs, float rhs)
+        {
+            return sym.LesserEqualScalar(lhs, rhs);
+        }
+
+        public static Symbol operator <(float lhs, Symbol rhs)
+        {
+            return sym.LesserScalar(rhs, lhs);
+        }
+
+        public static Symbol operator <=(float lhs, Symbol rhs)
+        {
+            return sym.LesserEqualScalar(rhs, lhs);
         }
 
         #endregion

@@ -749,6 +749,11 @@ namespace MxNet
             return Reshape(new Shape(n, m));
         }
 
+        public NDArray Squeeze(int axis)
+        {
+            return nd.Squeeze(this, new Shape(axis));
+        }
+
         #endregion
 
         #region Overrides

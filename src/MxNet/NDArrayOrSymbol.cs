@@ -54,7 +54,29 @@ namespace MxNet
             }
         }
 
+        public NDArrayList NdXList
+        {
+            get
+            {
+                if (IsNDArray)
+                    return ndx;
+
+                return null;
+            }
+        }
+
         public Symbol SymX
+        {
+            get
+            {
+                if (IsSymbol)
+                    return symx;
+
+                return null;
+            }
+        }
+
+        public SymbolList SymXList
         {
             get
             {

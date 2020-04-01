@@ -21,7 +21,7 @@ namespace ImageClassification
             normalized = normalized.Transpose(new Shape(2, 0, 1));
             normalized = normalized.ExpandDims(axis: 0);
             var pred = alex_net.Call(normalized);
-            var prob = nd.Softmax(pred).Topk(k: 5);
+            NDArray prob = nd.Softmax(pred).Topk(k: 5);
             var label_index = prob.ArrayData.OfType<float>().ToList();
             var imagenet_labels = TestUtils.GetImagenetLabels();
             foreach (int i in label_index)
