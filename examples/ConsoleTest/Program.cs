@@ -1,5 +1,6 @@
 ﻿using System;
 using MxNet;
+using NumpyDotNet;
 
 namespace ConsoleTest
 {
@@ -7,9 +8,12 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-            mx.SetDevice(DeviceType.CPU);
-            var feat = Runtime.FeatureList();
-            var x = new NDArray(new float[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, new Shape(3, 3)).Reshape(new Shape(3, 3));
+            var npx = new np.random().uniform(newdims: new shape(3, 3));
+            var x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
+            var ndx = nd.Array(npx.astype(np.Int8));
+
+
+            
             var buff = x.GetBuffer();
             var x1 = NDArray.LoadFromBuffer(buff);
 

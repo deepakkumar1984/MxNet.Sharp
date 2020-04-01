@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MNIST\MNIST.csproj" />
+    <ProjectReference Include="..\..\src\MxNet\MxNet.csproj" />
   </ItemGroup>
 
 </Project>

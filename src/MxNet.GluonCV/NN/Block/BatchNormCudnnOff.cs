@@ -14,7 +14,16 @@ namespace MxNet.GluonCV.NN
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var gamma = args[0];
+            var beta = args[1];
+            var running_mean = args[2];
+            var running_var = args[3];
+
+            if (x.IsNDArray)
+                return nd.BatchNorm(x.NdX, gamma.NdX, beta.NdX, running_mean.NdX, running_var.NdX, eps: Epsilon, momentum: Momentum, axis: Axis, cudnn_off: true);
+
+            return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX, eps: Epsilon, momentum: Momentum, axis: Axis, cudnn_off: true,
+                symbol_name: "fwd");
         }
     }
 }

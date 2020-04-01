@@ -46,8 +46,8 @@ namespace MxNet.Gluon.NN
         public float Epsilon { get; }
         public bool Center { get; }
         public bool Scale { get; }
-        public bool Use_Global_Stats { get; }
-        public int In_Channels { get; }
+        public bool Use_Global_Stats { get; set; }
+        public int In_Channels { get; set; }
         public Parameter Gamma { get; set; }
         public Parameter Beta { get; set; }
         public Parameter RunningMean { get; set; }
@@ -61,9 +61,9 @@ namespace MxNet.Gluon.NN
             var running_var = args[3];
 
             if (x.IsNDArray)
-                return nd.BatchNorm(x.NdX, gamma.NdX, beta.NdX, running_mean.NdX, running_var.NdX);
+                return nd.BatchNorm(x.NdX, gamma.NdX, beta.NdX, running_mean.NdX, running_var.NdX, eps: Epsilon, momentum: Momentum, axis: Axis);
 
-            return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX,
+            return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX, eps: Epsilon, momentum: Momentum, axis: Axis,
                 symbol_name: "fwd");
         }
     }

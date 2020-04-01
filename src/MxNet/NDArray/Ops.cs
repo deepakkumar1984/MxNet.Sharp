@@ -247,25 +247,36 @@ namespace MxNet
 
         public static NDArray Array(ndarray data, Context ctx = null)
         {
-            if (ctx == null)
-                ctx = Context.CurrentContext;
+            if(data.Dtype == np.Int8)
+            {
+                return Array(data.AsByteArray()).AsType(DType.Int8);
+            }
+            else if (data.Dtype == np.Int16)
+            {
+                return Array(data.AsInt16Array()).AsType(DType.Int32); ;
+            }
+            else if (data.Dtype == np.Int32)
+            {
+                return Array(data.AsInt32Array()).AsType(DType.Int32); ;
+            }
+            else if (data.Dtype == np.Int64)
+            {
+                return Array(data.AsInt64Array()).AsType(DType.Int64); ;
+            }
+            else if (data.Dtype == np.Float32)
+            {
+                return Array(data.AsFloatArray()).AsType(DType.Float32); ;
+            }
+            else if (data.Dtype == np.Float64)
+            {
+                return Array(data.AsDoubleArray()).AsType(DType.Float64); ;
+            }
+            else if (data.Dtype == np.UInt8)
+            {
+                return Array(data.AsSByteArray()).AsType(DType.Uint8); ;
+            }
 
-            var shape = data.shape.iDims.Select(x=>(int)x).ToArray();
-
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape,
-                data.shape.iDims.Length,
-                ctx.GetDeviceType(),
-                ctx.GetDeviceId(),
-                false.ToInt32(),
-                out var @out), NativeMethods.OK);
-            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
-            NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint)data.size);
-
-            var result = new NDArray();
-            result.NativePtr = @out;
-            result._Blob = new NDBlob(@out);
-
-            return result;
+            return Array(data.AsFloatArray());
         }
 
         /// <summary>
@@ -10454,6 +10465,24 @@ namespace MxNet
                 .SetParam("c", c)
                 .SetParam("size", size)
                 .SetInput("mean", mean)
+                .Invoke();
+        }
+
+        public static NDArray Linspace(float start, float stop, int num, bool endpoint = true, Context ctx = null, DType dtype = null)
+        {
+            if (ctx == null)
+                ctx = Context.CurrentContext;
+
+            if (dtype == null)
+                dtype = DType.Float32;
+
+            return new Operator("linspace")
+                .SetParam("start", start)
+                .SetParam("stop", stop)
+                .SetParam("num", num)
+                .SetParam("endpoint", endpoint)
+                .SetParam("ctx", ctx)
+                .SetParam("dtype", dtype)
                 .Invoke();
         }
     }

@@ -13,7 +13,10 @@ namespace MxNet.GluonCV.NN
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            if(x.IsNDArray)
+                return nd.Clip(x, 0, 6);
+
+            return sym.Clip(x, 0, 6, symbol_name: "relu6");
         }
     }
 }

@@ -102,7 +102,7 @@ namespace MxNet.RNN.Cell
                 if(merge)
                 {
                     inputs = inputs.Select(i => sym.ExpandDims(i, axis)).ToList();
-                    inputs = sym.Concat(inputs, inputs.Length, axis);
+                    inputs = sym.Concat(inputs, axis);
                     in_axis = axis;
                 }
             }

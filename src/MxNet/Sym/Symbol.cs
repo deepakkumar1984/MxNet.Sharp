@@ -1000,9 +1000,24 @@ namespace MxNet
             return sym.SliceAxis(this, axis, begin, end);
         }
 
+        public virtual Symbol ExpandDims(int axis)
+        {
+            return sym.ExpandDims(this, axis);
+        }
+
+        public virtual Symbol Transpose()
+        {
+            return sym.Transpose(this);
+        }
+
         public virtual Symbol Prod()
         {
             return sym.Prod(this);
+        }
+
+        public virtual Symbol Mean(int axis)
+        {
+            return sym.Mean(this, axis);
         }
 
         public virtual Symbol Reshape(params int[] shape)

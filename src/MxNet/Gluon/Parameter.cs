@@ -98,9 +98,9 @@ namespace MxNet.Gluon
 
         public string Name { get; }
 
-        public float Lr_Mult { get; }
+        public float Lr_Mult { get; set; }
 
-        public float Wd_Mult { get; }
+        public float Wd_Mult { get; set; }
 
         public Initializer Init { get; set; }
         public StorageStype Stype { get; }

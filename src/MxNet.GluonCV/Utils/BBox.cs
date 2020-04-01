@@ -22,11 +22,6 @@ namespace MxNet.GluonCV.Utils
             return (ndarray)(area_i / ((ndarray)area_a[":", null] + area_b - area_i));
         }
 
-        public static (int, int, int, int) BBoxIOU((int, int, int, int) bbox_a, (int, int, int, int) bbox_b, float offset = 0)
-        {
-            throw new NotImplementedException();
-        }
-
         public static ndarray BBox_XYWH_XYXY(ndarray xywh)
         {
             if (!(xywh.Size % 4 == 0))
@@ -40,27 +35,52 @@ namespace MxNet.GluonCV.Utils
 
         public static (int, int, int, int) BBox_XYWH_XYXY((int, int, int, int) xywh)
         {
-            throw new NotImplementedException();
+            var w = Math.Max(xywh.Item3 - 1, 0);
+            var h = Math.Max(xywh.Item4 - 1, 0);
+            return (xywh.Item1, xywh.Item2, xywh.Item1 + w, xywh.Item2 + h);
         }
 
-        public static NDArray BBox_XYXY_XYWH(NDArray xyxy)
+        public static ndarray BBox_XYXY_XYWH(ndarray xyxy)
         {
-            throw new NotImplementedException();
+            if (!(xyxy.Size % 4 == 0))
+            {
+                throw new Exception($"Bounding boxes must have n * 4 elements, given {xyxy.shape}");
+            }
+
+            var xywh = np.hstack(new List<object>() { xyxy[":", ":2"], ((ndarray)xyxy[":", "2:4"] + xyxy[":", ":2"] + 1) });
+            return xywh;
         }
 
         public static (int, int, int, int) BBox_XYXY_XYWH((int, int, int, int) xyxy)
         {
-            throw new NotImplementedException();
+            var x1 = xyxy.Item1;
+            var y1 = xyxy.Item2;
+            var w = xyxy.Item3 - x1 + 1;
+            var h = xyxy.Item4 - y1 + 1;
+            return (x1, y1, w, h);
         }
 
-        public static NDArray BBoxClipXYXY(NDArray xyxy, int width, int height)
+        public static ndarray BBoxClipXYXY(ndarray xyxy, int width, int height)
         {
-            throw new NotImplementedException();
+            if (!(xyxy.size % 4 == 0))
+            {
+                throw new Exception($"Bounding boxes must have n * 4 elements, given {xyxy.shape}");
+            }
+
+            var x1 = np.minimum(width - 1, np.maximum(0, xyxy[":", 0]));
+            var y1 = np.minimum(height - 1, np.maximum(0, xyxy[":", 1]));
+            var x2 = np.minimum(width - 1, np.maximum(0, xyxy[":", 2]));
+            var y2 = np.minimum(height - 1, np.maximum(0, xyxy[":", 3]));
+            return np.hstack(new List<object>() { x1, y1, x2, y2 });
         }
 
         public static (int, int, int, int) BBoxClipXYXY((int, int, int, int) xyxy, int width, int height)
         {
-            throw new NotImplementedException();
+            int x1 = Math.Min(width - 1, Math.Max(0, xyxy.Item1));
+            int y1 = Math.Min(height - 1, Math.Max(0, xyxy.Item2));
+            int x2 = Math.Min(width - 1, Math.Max(0, xyxy.Item3));
+            int y2 = Math.Min(height - 1, Math.Max(0, xyxy.Item4));
+            return (x1, y1, x2, y2);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace MxNet
 
         #region Properties
 
-        internal float BaseLearningRate { get; set; }
+        public float BaseLearningRate { get; set; }
 
         public int WarmupSteps { get; }
         public float WarmupBeginLr { get; }

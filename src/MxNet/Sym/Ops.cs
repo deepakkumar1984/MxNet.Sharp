@@ -872,10 +872,10 @@ namespace MxNet
         /// <param name="num_args">Number of inputs to be concated.</param>
         /// <param name="dim">the dimension to be concated.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Concat(SymbolList data, int num_args, int dim = 1, string symbol_name = "")
+        public static Symbol Concat(SymbolList data, int dim = 1, string symbol_name = "")
         {
             return new Operator("Concat")
-                .SetParam("num_args", num_args)
+                .SetParam("num_args", data.Length)
                 .SetParam("dim", dim)
                 .SetInput(data)
                 .CreateSymbol(symbol_name);
@@ -10754,6 +10754,24 @@ namespace MxNet
                 .SetParam("c", c)
                 .SetParam("size", size)
                 .SetInput("mean", mean)
+                .CreateSymbol(symbol_name);
+        }
+
+        public static Symbol Linspace(float start, float stop, int num, bool endpoint = true, Context ctx = null, DType dtype = null, string symbol_name = "")
+        {
+            if (ctx == null)
+                ctx = Context.CurrentContext;
+
+            if (dtype == null)
+                dtype = DType.Float32;
+
+            return new Operator("linspace")
+                .SetParam("start", start)
+                .SetParam("stop", stop)
+                .SetParam("num", num)
+                .SetParam("endpoint", endpoint)
+                .SetParam("ctx", ctx)
+                .SetParam("dtype", dtype)
                 .CreateSymbol(symbol_name);
         }
     }

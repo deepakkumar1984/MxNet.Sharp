@@ -27,7 +27,7 @@ namespace MxNet.Gluon
 
         public delegate void Hook(Block block, NDArrayOrSymbol input);
 
-        internal Dictionary<string, Block> _childrens;
+        public Dictionary<string, Block> _childrens;
         internal Dictionary<int, Hook> _forward_hooks;
         internal Dictionary<int, Hook> _forward_pre_hooks;
         internal Dictionary<string, Parameter> _reg_params;

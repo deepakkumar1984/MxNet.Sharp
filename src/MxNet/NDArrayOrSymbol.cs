@@ -21,20 +21,22 @@ namespace MxNet
 {
     public class NDArrayOrSymbol
     {
-        private readonly object X;
+        private readonly NDArrayList ndx;
 
-        public NDArrayOrSymbol(NDArray x)
+        private readonly SymbolList symx;
+
+        public NDArrayOrSymbol(params NDArray[] x)
         {
             IsNDArray = true;
             IsSymbol = false;
-            X = x;
+            ndx = x;
         }
 
-        public NDArrayOrSymbol(Symbol x)
+        public NDArrayOrSymbol(params Symbol[] x)
         {
             IsNDArray = false;
             IsSymbol = true;
-            X = x;
+            symx = x;
         }
 
         public bool IsSymbol { get; set; }
@@ -46,7 +48,7 @@ namespace MxNet
             get
             {
                 if (IsNDArray)
-                    return (NDArray) X;
+                    return ndx;
 
                 return null;
             }
@@ -57,9 +59,20 @@ namespace MxNet
             get
             {
                 if (IsSymbol)
-                    return (Symbol) X;
+                    return symx;
 
                 return null;
+            }
+        }
+
+        public NDArrayOrSymbol this[int index]
+        {
+            get
+            {
+                if (IsNDArray)
+                    return ndx[index];
+
+                return symx[index];
             }
         }
 

@@ -206,6 +206,27 @@ namespace MxNet
             return this == other;
         }
 
+        public void Deconstruct(out int s0, out int s1)
+        {
+            s0 = this[0];
+            s1 = this[1];
+        }
+
+        public void Deconstruct(out int s0, out int s1, out int s2)
+        {
+            s0 = this[0];
+            s1 = this[1];
+            s2 = this[2];
+        }
+
+        public void Deconstruct(out int s0, out int s1, out int s2, out int s3)
+        {
+            s0 = this[0];
+            s1 = this[1];
+            s2 = this[2];
+            s3 = this[3];
+        }
+
         #endregion
 
         #endregion
