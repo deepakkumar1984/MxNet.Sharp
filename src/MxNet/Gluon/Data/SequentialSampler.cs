@@ -18,7 +18,7 @@ using System.Linq;
 
 namespace MxNet.Gluon.Data
 {
-    public class SequentialSampler : Sampler
+    public class SequentialSampler : Sampler<int>
     {
         private readonly int _length;
 

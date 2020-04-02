@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MxNet.GluonCV.Data
 {
-    public class SplitSampler : Sampler
+    public class SplitSampler : Sampler<int>
     {
         public SplitSampler(int length, int num_parts= 1, int part_index= 0)
         {

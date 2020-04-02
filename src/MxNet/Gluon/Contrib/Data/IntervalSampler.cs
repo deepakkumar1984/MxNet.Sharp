@@ -18,7 +18,7 @@ using MxNet.Gluon.Data;
 
 namespace MxNet.Gluon.Contrib.Data
 {
-    public class IntervalSampler : Sampler
+    public class IntervalSampler : Sampler<int>
     {
         private readonly int _interval;
 

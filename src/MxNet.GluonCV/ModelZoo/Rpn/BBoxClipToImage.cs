@@ -16,7 +16,7 @@ namespace MxNet.GluonCV.ModelZoo.Rpn
             throw new NotImplementedException();
         }
 
-        public override NDArray Forward(bool is_train, OpGradReq[] req, NDArrayList in_data, NDArrayList out_data, NDArrayList aux)
+        public override void Forward(bool is_train, OpGradReq[] req, NDArrayList in_data, NDArrayList out_data, NDArrayList aux)
         {
             throw new NotImplementedException();
         }

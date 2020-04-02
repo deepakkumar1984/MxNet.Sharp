@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MxNet.GluonCV.Data
 {
-    public class ShuffleSplitSampler : Sampler
+    public class ShuffleSplitSampler : Sampler<int>
     {
         public ShuffleSplitSampler(int length, int num_parts= 1, int part_index= 0, int seed = 0)
         {

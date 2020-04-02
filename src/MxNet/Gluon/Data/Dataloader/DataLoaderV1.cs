@@ -29,7 +29,7 @@ namespace MxNet.Gluon.Data
         private readonly bool _pin_memory;
 
         public DataLoaderV1(Dataset<NDArray> dataset, int? batch_size = null, bool shuffle = false,
-            Sampler sampler = null,
+            Sampler<int> sampler = null,
             string last_batch = null, BatchSampler batch_sampler = null,
             Func<NDArrayList, NDArrayList> batchify_fn = null,
             int num_workers = 0, bool pin_memory = false, int pin_device_id = 0)

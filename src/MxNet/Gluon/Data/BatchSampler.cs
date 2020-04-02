@@ -24,9 +24,9 @@ namespace MxNet.Gluon.Data
         private readonly int _batch_size;
         private readonly string _last_batch;
         private List<int> _prev;
-        private readonly Sampler _sampler;
+        private readonly Sampler<int> _sampler;
 
-        public BatchSampler(Sampler sampler, int batch_size, string last_batch = "keep")
+        public BatchSampler(Sampler<int> sampler, int batch_size, string last_batch = "keep")
         {
             _sampler = sampler;
             _batch_size = batch_size;

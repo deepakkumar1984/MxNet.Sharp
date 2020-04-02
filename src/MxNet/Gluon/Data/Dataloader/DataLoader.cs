@@ -58,7 +58,7 @@ namespace MxNet.Gluon.Data
         private readonly WorkerPool _worker_pool;
 
         public DataLoader(Dataset<(NDArray, NDArray)> dataset, int? batch_size = null, bool shuffle = false,
-            Sampler sampler = null,
+            Sampler<int> sampler = null,
             string last_batch = null, BatchSampler batch_sampler = null,
             Func<(NDArray, NDArray)[], (NDArray, NDArray)> batchify_fn = null,
             int num_workers = 0, bool pin_memory = false, int pin_device_id = 0, int? prefetch = null,

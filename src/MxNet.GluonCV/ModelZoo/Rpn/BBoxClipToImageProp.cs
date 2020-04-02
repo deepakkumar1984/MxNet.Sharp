@@ -21,12 +21,12 @@ namespace MxNet.GluonCV.ModelZoo.Rpn
             throw new NotImplementedException();
         }
 
-        public override (Shape[], Shape[], Shape[]) InferShape(Shape in_shape)
+        public override (Shape[], Shape[], Shape[]) InferShape(Shape[] in_shape)
         {
             throw new NotImplementedException();
         }
 
-        public override (DType[], DType[], DType[]) InferType(DType in_type)
+        public override (DType[], DType[], DType[]) InferType(DType[] in_type)
         {
             throw new NotImplementedException();
         }

@@ -18,11 +18,11 @@ using System.Collections.Generic;
 
 namespace MxNet.Gluon.Data
 {
-    public abstract class Sampler : IEnumerable<int>
+    public abstract class Sampler<T> : IEnumerable<T>
     {
         public abstract int Length { get; }
 
-        public abstract IEnumerator<int> GetEnumerator();
+        public abstract IEnumerator<T> GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
         {

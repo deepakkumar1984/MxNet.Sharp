@@ -11,17 +11,17 @@ namespace MxNet
             throw new NotImplementedException();
         }
 
-        public virtual (Shape[], Shape[], Shape[]) InferShape(Shape in_shape)
+        public virtual (Shape[], Shape[], Shape[]) InferShape(Shape[] in_shape)
         {
             throw new NotImplementedException();
         }
 
-        public virtual (DType[], DType[], DType[]) InferType(DType in_type)
+        public virtual (DType[], DType[], DType[]) InferType(DType[] in_type)
         {
             throw new NotImplementedException();
         }
 
-        public virtual (StorageStype[], StorageStype[], StorageStype[]) InferStorageType(StorageStype in_stype)
+        public virtual (StorageStype[], StorageStype[], StorageStype[]) InferStorageType(StorageStype[] in_stype)
         {
             throw new NotImplementedException();
         }

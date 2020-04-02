@@ -527,6 +527,14 @@ namespace MxNet
             return x.reshape(new shape(npShape.ToArray()));
         }
 
+        public NDArray this[int index]
+        {
+            get
+            {
+                return SliceAxis(0, index, null);
+            }
+        }
+
         public NDArray this[string slice]
         {
             get
