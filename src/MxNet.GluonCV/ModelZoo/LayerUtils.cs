@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 
-namespace MxNet.GluonCV.ModelZoo
+namespace MxNet.GluonCV
 {
     public class LayerUtils
     {

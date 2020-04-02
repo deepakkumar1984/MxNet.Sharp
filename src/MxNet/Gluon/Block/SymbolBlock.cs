@@ -24,6 +24,11 @@ namespace MxNet.Gluon
         public SymbolBlock(SymbolList outputs, SymbolList inputs, ParameterDict @params = null)
             : base("", new ParameterDict("", @params))
         {
+            Construct(outputs, inputs, @params);
+        }
+
+        public void Construct(SymbolList outputs, SymbolList inputs, ParameterDict @params = null)
+        {
             SymbolList syms = null;
             Symbol @out = null;
 
@@ -50,10 +55,10 @@ namespace MxNet.Gluon
             var aux_params = @out.ListAuxiliaryStates().ToArray();
             var (arg_types, aux_types) = InferParamTypes(syms, @out, arg_params, aux_params);
 
-            for(int i = 0;i< arg_params.Length;i++)
+            for (int i = 0; i < arg_params.Length; i++)
             {
                 var arg = arg_params[i];
-                if(!input_names.Contains(arg))
+                if (!input_names.Contains(arg))
                 {
                     Params.Get(arg, OpGradReq.Null, allow_deferred_init: true, dtype: arg_types[i]);
                 }

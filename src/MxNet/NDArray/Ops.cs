@@ -798,56 +798,6 @@ namespace MxNet
 
         /// <summary>
         ///     <para>Batch normalization.</para>
-        ///     <para> </para>
-        ///     <para>Normalizes a data batch by mean and variance, and applies a scale ``gamma`` as</para>
-        ///     <para>well as offset ``beta``.</para>
-        ///     <para> </para>
-        ///     <para>Assume the input has more than one dimension and we normalize along axis 1.</para>
-        ///     <para>We first compute the mean and variance along this axis:</para>
-        ///     <para> </para>
-        ///     <para>.. math::</para>
-        ///     <para> </para>
-        ///     <para>  data\_mean[i] = mean(data[:,i,:,...]) \\</para>
-        ///     <para>  data\_var[i] = var(data[:,i,:,...])</para>
-        ///     <para> </para>
-        ///     <para>Then compute the normalized output, which has the same shape as input, as following:</para>
-        ///     <para> </para>
-        ///     <para>.. math::</para>
-        ///     <para> </para>
-        ///     <para>  out[:,i,:,...] = \frac{data[:,i,:,...] - data\_mean[i]}{\sqrt{data\_var[i]+\epsilon}} * gamma[i] + beta[i]</para>
-        ///     <para> </para>
-        ///     <para>Both *mean* and *var* returns a scalar by treating the input as a vector.</para>
-        ///     <para> </para>
-        ///     <para>Assume the input has size *k* on axis 1, then both ``gamma`` and ``beta``</para>
-        ///     <para>have shape *(k,)*. If ``output_mean_var`` is set to be true, then outputs both ``data_mean`` and</para>
-        ///     <para>the inverse of ``data_var``, which are needed for the backward pass. Note that gradient of these</para>
-        ///     <para>two outputs are blocked.</para>
-        ///     <para> </para>
-        ///     <para>Besides the inputs and the outputs, this operator accepts two auxiliary</para>
-        ///     <para>states, ``moving_mean`` and ``moving_var``, which are *k*-length</para>
-        ///     <para>vectors. They are global statistics for the whole dataset, which are updated</para>
-        ///     <para>by::</para>
-        ///     <para> </para>
-        ///     <para>  moving_mean = moving_mean * momentum + data_mean * (1 - momentum)</para>
-        ///     <para>  moving_var = moving_var * momentum + data_var * (1 - momentum)</para>
-        ///     <para> </para>
-        ///     <para>If ``use_global_stats`` is set to be true, then ``moving_mean`` and</para>
-        ///     <para>``moving_var`` are used instead of ``data_mean`` and ``data_var`` to compute</para>
-        ///     <para>the output. It is often used during inference.</para>
-        ///     <para> </para>
-        ///     <para>The parameter ``axis`` specifies which axis of the input shape denotes</para>
-        ///     <para>the 'channel' (separately normalized groups).  The default is 1.  Specifying -1 sets the channel</para>
-        ///     <para>axis to be the last item in the input shape.</para>
-        ///     <para> </para>
-        ///     <para>Both ``gamma`` and ``beta`` are learnable parameters. But if ``fix_gamma`` is true,</para>
-        ///     <para>then set ``gamma`` to 1 and its gradient to 0.</para>
-        ///     <para> </para>
-        ///     <para>.. Note::</para>
-        ///     <para>  When ``fix_gamma`` is set to True, no sparse support is provided. If ``fix_gamma is`` set to False,</para>
-        ///     <para>  the sparse tensors will fallback.</para>
-        ///     <para> </para>
-        ///     <para> </para>
-        ///     <para> </para>
         ///     <para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\nn\batch_norm.cc:L574</para>
         /// </summary>
         /// <param name="data">Input data to batch normalization</param>
