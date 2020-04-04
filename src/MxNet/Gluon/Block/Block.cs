@@ -65,6 +65,14 @@ namespace MxNet.Gluon
             }
         }
 
+        public Block this[int i]
+        {
+            get
+            {
+                return _childrens.Values.ToArray()[i]; ;
+            }
+        }
+
         public void SetAttr(string name, Block value)
         {
             RegisterChild(value, name);

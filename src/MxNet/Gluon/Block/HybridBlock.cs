@@ -38,7 +38,7 @@ namespace MxNet.Gluon
         }
     }
 
-    public abstract class HybridBlock : Block
+    public class HybridBlock : Block
     {
         internal bool _active;
         internal (SymbolList, Symbol)? _cached_graph;
@@ -50,6 +50,15 @@ namespace MxNet.Gluon
 
         public HybridBlock(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
+        }
+
+        public HybridBlock(Dictionary<string, Block> blocks)
+            : this()
+        {
+            foreach (var item in blocks)
+            {
+                RegisterChild(item.Value, item.Key);
+            }
         }
 
         private (SymbolList, Symbol) GetGraph(NDArrayList args)
@@ -349,6 +358,9 @@ namespace MxNet.Gluon
             return HybridForward(x, argsList.ToArray());
         }
 
-        public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);
+        public virtual NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            return x;
+        }
     }
 }

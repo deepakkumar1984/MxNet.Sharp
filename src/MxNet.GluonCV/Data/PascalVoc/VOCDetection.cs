@@ -6,6 +6,7 @@ namespace MxNet.GluonCV.Data
 {
     public class VOCDetection : VisionDataset
     {
+        public static string[] CLASSES { get; set; }
         public VOCDetection(string root = "/mxnet/datasets/voc", Dictionary<int, string> splits = null, Func<NDArray, NDArray, (NDArray, NDArray)> transform = null, Dictionary<int, string> index_map = null, bool preload_label = true) : base(root)
         {
             throw new NotImplementedException();

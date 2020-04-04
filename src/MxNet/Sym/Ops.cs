@@ -10725,5 +10725,12 @@ namespace MxNet
                 .SetParam("dtype", dtype)
                 .CreateSymbol(symbol_name);
         }
+
+        public static Symbol StopGradient(Symbol data, string symbol_name = "")
+        {
+            return new Operator("stop_gradient")
+                .SetInput("data", data)
+                .CreateSymbol(symbol_name);
+        }
     }
 }

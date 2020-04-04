@@ -10435,5 +10435,12 @@ namespace MxNet
                 .SetParam("dtype", dtype)
                 .Invoke();
         }
+
+        public static NDArray StopGradient(NDArray data)
+        {
+            return new Operator("stop_gradient")
+                .SetInput("data", data)
+                .Invoke();
+        }
     }
 }

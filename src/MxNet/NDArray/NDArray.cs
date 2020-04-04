@@ -777,6 +777,10 @@ namespace MxNet
             _Blob.Dispose();
         }
 
+        public static implicit operator ndarray(NDArray x) => x.AsNumpy();
+
+        public static implicit operator NDArray(ndarray x) => nd.Array(x);
+
         #endregion
 
         #endregion
