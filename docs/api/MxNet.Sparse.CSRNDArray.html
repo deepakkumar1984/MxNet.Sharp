@@ -178,7 +178,7 @@
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadFromBuffer_System_Byte___">NDArray.LoadFromBuffer(Byte[])</a>
     </div>
     <div>
-      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadCV2Mat_OpenCvSharp_Mat_">NDArray.LoadCV2Mat(Mat)</a>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadCV2Mat_OpenCvSharp_Mat_MxNet_Context_">NDArray.LoadCV2Mat(Mat, Context)</a>
     </div>
     <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_NewFromSharedMem_System_Int32_System_Int32_MxNet_Shape_MxNet_DType_">NDArray.NewFromSharedMem(Int32, Int32, Shape, DType)</a>
@@ -229,6 +229,9 @@
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_AsInContext_MxNet_Context_">NDArray.AsInContext(Context)</a>
     </div>
     <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Item_System_Int32_">NDArray.Item[Int32]</a>
+    </div>
+    <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Item_System_String_">NDArray.Item[String]</a>
     </div>
     <div>
@@ -242,6 +245,9 @@
     </div>
     <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Ravel">NDArray.Ravel()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Squeeze_System_Int32_">NDArray.Squeeze(Int32)</a>
     </div>
     <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ToString">NDArray.ToString()</a>
@@ -481,6 +487,9 @@
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SplitV2_MxNet_Shape_System_Int32_System_Boolean_System_Int32_">NDArray.SplitV2(Shape, Int32, Boolean, Int32)</a>
     </div>
     <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Split_System_Int32_System_Int32_System_Boolean_">NDArray.Split(Int32, Int32, Boolean)</a>
+    </div>
+    <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Topk_System_Nullable_System_Int32__System_Int32_MxNet_TopkRetTyp_System_Boolean_MxNet_DType_">NDArray.Topk(Nullable&lt;Int32&gt;, Int32, TopkRetTyp, Boolean, DType)</a>
     </div>
     <div>
@@ -554,7 +563,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_Data.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.Data%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L14">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L29">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_Data_" data-uid="MxNet.Sparse.CSRNDArray.Data*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_Data" data-uid="MxNet.Sparse.CSRNDArray.Data">Data</h4>
@@ -584,7 +593,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_Indices.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.Indices%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L10">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L25">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_Indices_" data-uid="MxNet.Sparse.CSRNDArray.Indices*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_Indices" data-uid="MxNet.Sparse.CSRNDArray.Indices">Indices</h4>
@@ -614,7 +623,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_IndPtr.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.IndPtr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L12">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L27">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_IndPtr_" data-uid="MxNet.Sparse.CSRNDArray.IndPtr*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_IndPtr" data-uid="MxNet.Sparse.CSRNDArray.IndPtr">IndPtr</h4>
@@ -646,7 +655,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_CopyTo_MxNet_Context_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.CopyTo(MxNet.Context)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L63">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L78">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_CopyTo_" data-uid="MxNet.Sparse.CSRNDArray.CopyTo*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_CopyTo_MxNet_Context_" data-uid="MxNet.Sparse.CSRNDArray.CopyTo(MxNet.Context)">CopyTo(Context)</h4>
@@ -678,7 +687,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_CopyTo_MxNet_NDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.CopyTo(MxNet.NDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L56">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L71">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_CopyTo_" data-uid="MxNet.Sparse.CSRNDArray.CopyTo*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_CopyTo_MxNet_NDArray_" data-uid="MxNet.Sparse.CSRNDArray.CopyTo(MxNet.NDArray)">CopyTo(NDArray)</h4>
@@ -710,7 +719,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_ToSType_MxNet_StorageStype_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.ToSType(MxNet.StorageStype)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L68">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L83">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_ToSType_" data-uid="MxNet.Sparse.CSRNDArray.ToSType*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_ToSType_MxNet_StorageStype_" data-uid="MxNet.Sparse.CSRNDArray.ToSType(MxNet.StorageStype)">ToSType(StorageStype)</h4>
@@ -759,7 +768,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Addition_MxNet_Sparse_CSRNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Addition(MxNet.Sparse.CSRNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L16">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L31">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Addition_" data-uid="MxNet.Sparse.CSRNDArray.op_Addition*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Addition_MxNet_Sparse_CSRNDArray_System_Single_" data-uid="MxNet.Sparse.CSRNDArray.op_Addition(MxNet.Sparse.CSRNDArray,System.Single)">Addition(CSRNDArray, Single)</h4>
@@ -811,7 +820,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Addition_System_Single_MxNet_Sparse_CSRNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Addition(System.Single%2CMxNet.Sparse.CSRNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L21">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L36">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Addition_" data-uid="MxNet.Sparse.CSRNDArray.op_Addition*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Addition_System_Single_MxNet_Sparse_CSRNDArray_" data-uid="MxNet.Sparse.CSRNDArray.op_Addition(System.Single,MxNet.Sparse.CSRNDArray)">Addition(Single, CSRNDArray)</h4>
@@ -863,7 +872,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Division_MxNet_Sparse_CSRNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Division(MxNet.Sparse.CSRNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L46">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L61">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Division_" data-uid="MxNet.Sparse.CSRNDArray.op_Division*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Division_MxNet_Sparse_CSRNDArray_System_Single_" data-uid="MxNet.Sparse.CSRNDArray.op_Division(MxNet.Sparse.CSRNDArray,System.Single)">Division(CSRNDArray, Single)</h4>
@@ -915,7 +924,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Division_System_Single_MxNet_Sparse_CSRNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Division(System.Single%2CMxNet.Sparse.CSRNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L51">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L66">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Division_" data-uid="MxNet.Sparse.CSRNDArray.op_Division*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Division_System_Single_MxNet_Sparse_CSRNDArray_" data-uid="MxNet.Sparse.CSRNDArray.op_Division(System.Single,MxNet.Sparse.CSRNDArray)">Division(Single, CSRNDArray)</h4>
@@ -967,7 +976,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Multiply_MxNet_Sparse_CSRNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Multiply(MxNet.Sparse.CSRNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L36">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L51">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Multiply_" data-uid="MxNet.Sparse.CSRNDArray.op_Multiply*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Multiply_MxNet_Sparse_CSRNDArray_System_Single_" data-uid="MxNet.Sparse.CSRNDArray.op_Multiply(MxNet.Sparse.CSRNDArray,System.Single)">Multiply(CSRNDArray, Single)</h4>
@@ -1019,7 +1028,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Multiply_System_Single_MxNet_Sparse_CSRNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Multiply(System.Single%2CMxNet.Sparse.CSRNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L41">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L56">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Multiply_" data-uid="MxNet.Sparse.CSRNDArray.op_Multiply*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Multiply_System_Single_MxNet_Sparse_CSRNDArray_" data-uid="MxNet.Sparse.CSRNDArray.op_Multiply(System.Single,MxNet.Sparse.CSRNDArray)">Multiply(Single, CSRNDArray)</h4>
@@ -1071,7 +1080,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Subtraction_MxNet_Sparse_CSRNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Subtraction(MxNet.Sparse.CSRNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L26">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L41">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Subtraction_" data-uid="MxNet.Sparse.CSRNDArray.op_Subtraction*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Subtraction_MxNet_Sparse_CSRNDArray_System_Single_" data-uid="MxNet.Sparse.CSRNDArray.op_Subtraction(MxNet.Sparse.CSRNDArray,System.Single)">Subtraction(CSRNDArray, Single)</h4>
@@ -1123,7 +1132,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray_op_Subtraction_System_Single_MxNet_Sparse_CSRNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray.op_Subtraction(System.Single%2CMxNet.Sparse.CSRNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L31">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L46">View Source</a>
   </span>
   <a id="MxNet_Sparse_CSRNDArray_op_Subtraction_" data-uid="MxNet.Sparse.CSRNDArray.op_Subtraction*"></a>
   <h4 id="MxNet_Sparse_CSRNDArray_op_Subtraction_System_Single_MxNet_Sparse_CSRNDArray_" data-uid="MxNet.Sparse.CSRNDArray.op_Subtraction(System.Single,MxNet.Sparse.CSRNDArray)">Subtraction(Single, CSRNDArray)</h4>
@@ -1192,7 +1201,7 @@
                     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_CSRNDArray.md&amp;value=---%0Auid%3A%20MxNet.Sparse.CSRNDArray%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L8" class="contribution-link">View Source</a>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/CSRNDArray.cs/#L23" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

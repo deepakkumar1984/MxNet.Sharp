@@ -98,7 +98,7 @@
       <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.RandomSaturation.html">RandomSaturation</a></div>
       <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.Resize.html">Resize</a></div>
       <div class="level3"><a class="xref" href="MxNet.Gluon.Data.Vision.Transforms.ToTensor.html">ToTensor</a></div>
-      <div class="level3"><a class="xref" href="MxNet.Gluon.Loss.html">Loss</a></div>
+      <div class="level3"><a class="xref" href="MxNet.Gluon.Losses.Loss.html">Loss</a></div>
       <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.AlexNet.html">AlexNet</a></div>
       <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.BasicBlockV1.html">BasicBlockV1</a></div>
       <div class="level3"><a class="xref" href="MxNet.Gluon.ModelZoo.Vision.BasicBlockV2.html">BasicBlockV2</a></div>
@@ -139,6 +139,9 @@
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block__childrens">Block._childrens</a>
+    </div>
+    <div>
       <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Prefix">Block.Prefix</a>
     </div>
     <div>
@@ -152,6 +155,9 @@
     </div>
     <div>
       <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Item_System_String_">Block.Item[String]</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Item_System_Int32_">Block.Item[Int32]</a>
     </div>
     <div>
       <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SetAttr_System_String_MxNet_Gluon_Block_">Block.SetAttr(String, Block)</a>
@@ -221,16 +227,48 @@
   <h6><strong>Assembly</strong>: MxNet.dll</h6>
   <h5 id="MxNet_Gluon_HybridBlock_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class HybridBlock : Block</code></pre>
+    <pre><code class="lang-csharp hljs">public class HybridBlock : Block</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock__ctor_System_Collections_Generic_Dictionary_System_String_MxNet_Gluon_Block__.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.%23ctor(System.Collections.Generic.Dictionary%7BSystem.String%2CMxNet.Gluon.Block%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L55">View Source</a>
+  </span>
+  <a id="MxNet_Gluon_HybridBlock__ctor_" data-uid="MxNet.Gluon.HybridBlock.#ctor*"></a>
+  <h4 id="MxNet_Gluon_HybridBlock__ctor_System_Collections_Generic_Dictionary_System_String_MxNet_Gluon_Block__" data-uid="MxNet.Gluon.HybridBlock.#ctor(System.Collections.Generic.Dictionary{System.String,MxNet.Gluon.Block})">HybridBlock(Dictionary&lt;String, Block&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public HybridBlock(Dictionary&lt;string, Block&gt; blocks)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.Dictionary</span>&lt;<span class="xref">System.String</span>, <a class="xref" href="MxNet.Gluon.Block.html">Block</a>&gt;</td>
+        <td><span class="parametername">blocks</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock__ctor_System_String_MxNet_Gluon_ParameterDict_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.%23ctor(System.String%2CMxNet.Gluon.ParameterDict)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L36">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L51">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock__ctor_" data-uid="MxNet.Gluon.HybridBlock.#ctor*"></a>
   <h4 id="MxNet_Gluon_HybridBlock__ctor_System_String_MxNet_Gluon_ParameterDict_" data-uid="MxNet.Gluon.HybridBlock.#ctor(System.String,MxNet.Gluon.ParameterDict)">HybridBlock(String, ParameterDict)</h4>
@@ -269,7 +307,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Cast_MxNet_DType_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Cast(MxNet.DType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L218">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L242">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_Cast_" data-uid="MxNet.Gluon.HybridBlock.Cast*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_Cast_MxNet_DType_" data-uid="MxNet.Gluon.HybridBlock.Cast(MxNet.DType)">Cast(DType)</h4>
@@ -303,7 +341,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_ClearCachedOp.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.ClearCachedOp%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L192">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L216">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_ClearCachedOp_" data-uid="MxNet.Gluon.HybridBlock.ClearCachedOp*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_ClearCachedOp" data-uid="MxNet.Gluon.HybridBlock.ClearCachedOp">ClearCachedOp()</h4>
@@ -318,7 +356,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Export_System_String_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Export(System.String%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L281">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L305">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_Export_" data-uid="MxNet.Gluon.HybridBlock.Export*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_Export_System_String_System_Int32_System_Boolean_" data-uid="MxNet.Gluon.HybridBlock.Export(System.String,System.Int32,System.Boolean)">Export(String, Int32, Boolean)</h4>
@@ -360,7 +398,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Forward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Forward(MxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L300">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L324">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_Forward_" data-uid="MxNet.Gluon.HybridBlock.Forward*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_Forward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___" data-uid="MxNet.Gluon.HybridBlock.Forward(MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol[])">Forward(NDArrayOrSymbol, NDArrayOrSymbol[])</h4>
@@ -414,7 +452,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.HybridForward(MxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L338">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L361">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_HybridForward_" data-uid="MxNet.Gluon.HybridBlock.HybridForward*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___" data-uid="MxNet.Gluon.HybridBlock.HybridForward(MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol[])">HybridForward(NDArrayOrSymbol, NDArrayOrSymbol[])</h4>
@@ -422,7 +460,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)</code></pre>
+    <pre><code class="lang-csharp hljs">public virtual NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -466,7 +504,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_Hybridize_System_Boolean_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.Hybridize(System.Boolean%2CSystem.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L208">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L232">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_Hybridize_" data-uid="MxNet.Gluon.HybridBlock.Hybridize*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_Hybridize_System_Boolean_System_Boolean_System_Boolean_" data-uid="MxNet.Gluon.HybridBlock.Hybridize(System.Boolean,System.Boolean,System.Boolean)">Hybridize(Boolean, Boolean, Boolean)</h4>
@@ -510,7 +548,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_InferShape_MxNet_NDArrayList_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.InferShape(MxNet.NDArrayList)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L271">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L295">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_InferShape_" data-uid="MxNet.Gluon.HybridBlock.InferShape*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_InferShape_MxNet_NDArrayList_" data-uid="MxNet.Gluon.HybridBlock.InferShape(MxNet.NDArrayList)">InferShape(NDArrayList)</h4>
@@ -542,7 +580,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_InferType_MxNet_NDArrayList_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.InferType(MxNet.NDArrayList)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L276">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L300">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_InferType_" data-uid="MxNet.Gluon.HybridBlock.InferType*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_InferType_MxNet_NDArrayList_" data-uid="MxNet.Gluon.HybridBlock.InferType(MxNet.NDArrayList)">InferType(NDArrayList)</h4>
@@ -574,7 +612,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock_RegisterChild_MxNet_Gluon_Block_System_String_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock.RegisterChild(MxNet.Gluon.Block%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L198">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L222">View Source</a>
   </span>
   <a id="MxNet_Gluon_HybridBlock_RegisterChild_" data-uid="MxNet.Gluon.HybridBlock.RegisterChild*"></a>
   <h4 id="MxNet_Gluon_HybridBlock_RegisterChild_MxNet_Gluon_Block_System_String_" data-uid="MxNet.Gluon.HybridBlock.RegisterChild(MxNet.Gluon.Block,System.String)">RegisterChild(Block, String)</h4>
@@ -626,7 +664,7 @@
                     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_HybridBlock.md&amp;value=---%0Auid%3A%20MxNet.Gluon.HybridBlock%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L26" class="contribution-link">View Source</a>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Block/HybridBlock.cs/#L41" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

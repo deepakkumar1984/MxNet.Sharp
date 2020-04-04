@@ -158,7 +158,7 @@
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadFromBuffer_System_Byte___">NDArray.LoadFromBuffer(Byte[])</a>
     </div>
     <div>
-      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadCV2Mat_OpenCvSharp_Mat_">NDArray.LoadCV2Mat(Mat)</a>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_LoadCV2Mat_OpenCvSharp_Mat_MxNet_Context_">NDArray.LoadCV2Mat(Mat, Context)</a>
     </div>
     <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_NewFromSharedMem_System_Int32_System_Int32_MxNet_Shape_MxNet_DType_">NDArray.NewFromSharedMem(Int32, Int32, Shape, DType)</a>
@@ -209,6 +209,9 @@
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_AsInContext_MxNet_Context_">NDArray.AsInContext(Context)</a>
     </div>
     <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Item_System_Int32_">NDArray.Item[Int32]</a>
+    </div>
+    <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Item_System_String_">NDArray.Item[String]</a>
     </div>
     <div>
@@ -222,6 +225,9 @@
     </div>
     <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Ravel">NDArray.Ravel()</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Squeeze_System_Int32_">NDArray.Squeeze(Int32)</a>
     </div>
     <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_ToString">NDArray.ToString()</a>
@@ -464,6 +470,9 @@
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_SplitV2_MxNet_Shape_System_Int32_System_Boolean_System_Int32_">NDArray.SplitV2(Shape, Int32, Boolean, Int32)</a>
     </div>
     <div>
+      <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Split_System_Int32_System_Int32_System_Boolean_">NDArray.Split(Int32, Int32, Boolean)</a>
+    </div>
+    <div>
       <a class="xref" href="MxNet.NDArray.html#MxNet_NDArray_Topk_System_Nullable_System_Int32__System_Int32_MxNet_TopkRetTyp_System_Boolean_MxNet_DType_">NDArray.Topk(Nullable&lt;Int32&gt;, Int32, TopkRetTyp, Boolean, DType)</a>
     </div>
     <div>
@@ -537,7 +546,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_Size.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.Size%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L27">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L43">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_Size_" data-uid="MxNet.Sparse.BaseSparseNDArray.Size*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_Size" data-uid="MxNet.Sparse.BaseSparseNDArray.Size">Size</h4>
@@ -571,7 +580,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_AsNumpy.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.AsNumpy%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L64">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L80">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_AsNumpy_" data-uid="MxNet.Sparse.BaseSparseNDArray.AsNumpy*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_AsNumpy" data-uid="MxNet.Sparse.BaseSparseNDArray.AsNumpy">AsNumpy()</h4>
@@ -579,7 +588,7 @@
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override NDArray AsNumpy()</code></pre>
+    <pre><code class="lang-csharp hljs">public override ndarray AsNumpy()</code></pre>
   </div>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -591,7 +600,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">NumSharp.NDArray</span></td>
+        <td><span class="xref">NumpyDotNet.ndarray</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -603,7 +612,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_AsType_MxNet_DType_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.AsType(MxNet.DType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L69">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L85">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_AsType_" data-uid="MxNet.Sparse.BaseSparseNDArray.AsType*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_AsType_MxNet_DType_" data-uid="MxNet.Sparse.BaseSparseNDArray.AsType(MxNet.DType)">AsType(DType)</h4>
@@ -652,7 +661,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_CheckFormat_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.CheckFormat(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L74">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L90">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_CheckFormat_" data-uid="MxNet.Sparse.BaseSparseNDArray.CheckFormat*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_CheckFormat_System_Boolean_" data-uid="MxNet.Sparse.BaseSparseNDArray.CheckFormat(System.Boolean)">CheckFormat(Boolean)</h4>
@@ -684,7 +693,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_Data.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.Data%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L79">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L95">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_Data_" data-uid="MxNet.Sparse.BaseSparseNDArray.Data*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_Data" data-uid="MxNet.Sparse.BaseSparseNDArray.Data">Data()</h4>
@@ -714,7 +723,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_Reshape_MxNet_Shape_System_Boolean_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.Reshape(MxNet.Shape%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L39">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L55">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_Reshape_" data-uid="MxNet.Sparse.BaseSparseNDArray.Reshape*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_Reshape_MxNet_Shape_System_Boolean_" data-uid="MxNet.Sparse.BaseSparseNDArray.Reshape(MxNet.Shape,System.Boolean)">Reshape(Shape, Boolean)</h4>
@@ -768,7 +777,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_Reshape_System_Int32___.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.Reshape(System.Int32%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L34">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L50">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_Reshape_" data-uid="MxNet.Sparse.BaseSparseNDArray.Reshape*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_Reshape_System_Int32___" data-uid="MxNet.Sparse.BaseSparseNDArray.Reshape(System.Int32[])">Reshape(Int32[])</h4>
@@ -817,7 +826,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_Slice_System_Int32_System_Nullable_System_Int32__.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.Slice(System.Int32%2CSystem.Nullable%7BSystem.Int32%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L44">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L60">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_Slice_" data-uid="MxNet.Sparse.BaseSparseNDArray.Slice*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_Slice_System_Int32_System_Nullable_System_Int32__" data-uid="MxNet.Sparse.BaseSparseNDArray.Slice(System.Int32,System.Nullable{System.Int32})">Slice(Int32, Nullable&lt;Int32&gt;)</h4>
@@ -871,7 +880,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_SyncCopyFromCPU_System_Array_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.SyncCopyFromCPU(System.Array)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L29">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L45">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_SyncCopyFromCPU_" data-uid="MxNet.Sparse.BaseSparseNDArray.SyncCopyFromCPU*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_SyncCopyFromCPU_System_Array_" data-uid="MxNet.Sparse.BaseSparseNDArray.SyncCopyFromCPU(System.Array)">SyncCopyFromCPU(Array)</h4>
@@ -907,7 +916,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Addition_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Addition(MxNet.Sparse.BaseSparseNDArray%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L95">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L111">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Addition_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Addition*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Addition_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Addition(MxNet.Sparse.BaseSparseNDArray,MxNet.Sparse.BaseSparseNDArray)">Addition(BaseSparseNDArray, BaseSparseNDArray)</h4>
@@ -959,7 +968,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Addition_MxNet_Sparse_BaseSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Addition(MxNet.Sparse.BaseSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L100">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L116">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Addition_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Addition*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Addition_MxNet_Sparse_BaseSparseNDArray_System_Single_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Addition(MxNet.Sparse.BaseSparseNDArray,System.Single)">Addition(BaseSparseNDArray, Single)</h4>
@@ -1011,7 +1020,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Addition_System_Single_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Addition(System.Single%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L105">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L121">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Addition_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Addition*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Addition_System_Single_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Addition(System.Single,MxNet.Sparse.BaseSparseNDArray)">Addition(Single, BaseSparseNDArray)</h4>
@@ -1063,7 +1072,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Division_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Division(MxNet.Sparse.BaseSparseNDArray%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L140">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L156">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Division_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Division*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Division_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Division(MxNet.Sparse.BaseSparseNDArray,MxNet.Sparse.BaseSparseNDArray)">Division(BaseSparseNDArray, BaseSparseNDArray)</h4>
@@ -1115,7 +1124,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Division_MxNet_Sparse_BaseSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Division(MxNet.Sparse.BaseSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L145">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L161">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Division_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Division*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Division_MxNet_Sparse_BaseSparseNDArray_System_Single_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Division(MxNet.Sparse.BaseSparseNDArray,System.Single)">Division(BaseSparseNDArray, Single)</h4>
@@ -1167,7 +1176,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Division_System_Single_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Division(System.Single%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L150">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L166">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Division_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Division*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Division_System_Single_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Division(System.Single,MxNet.Sparse.BaseSparseNDArray)">Division(Single, BaseSparseNDArray)</h4>
@@ -1219,7 +1228,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Multiply_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Multiply(MxNet.Sparse.BaseSparseNDArray%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L125">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L141">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Multiply_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Multiply*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Multiply_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Multiply(MxNet.Sparse.BaseSparseNDArray,MxNet.Sparse.BaseSparseNDArray)">Multiply(BaseSparseNDArray, BaseSparseNDArray)</h4>
@@ -1271,7 +1280,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Multiply_MxNet_Sparse_BaseSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Multiply(MxNet.Sparse.BaseSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L130">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L146">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Multiply_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Multiply*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Multiply_MxNet_Sparse_BaseSparseNDArray_System_Single_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Multiply(MxNet.Sparse.BaseSparseNDArray,System.Single)">Multiply(BaseSparseNDArray, Single)</h4>
@@ -1323,7 +1332,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Multiply_System_Single_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Multiply(System.Single%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L135">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L151">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Multiply_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Multiply*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Multiply_System_Single_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Multiply(System.Single,MxNet.Sparse.BaseSparseNDArray)">Multiply(Single, BaseSparseNDArray)</h4>
@@ -1375,7 +1384,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Subtraction_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Subtraction(MxNet.Sparse.BaseSparseNDArray%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L110">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L126">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Subtraction_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Subtraction*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Subtraction_MxNet_Sparse_BaseSparseNDArray_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Subtraction(MxNet.Sparse.BaseSparseNDArray,MxNet.Sparse.BaseSparseNDArray)">Subtraction(BaseSparseNDArray, BaseSparseNDArray)</h4>
@@ -1427,7 +1436,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Subtraction_MxNet_Sparse_BaseSparseNDArray_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Subtraction(MxNet.Sparse.BaseSparseNDArray%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L115">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L131">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Subtraction_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Subtraction*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Subtraction_MxNet_Sparse_BaseSparseNDArray_System_Single_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Subtraction(MxNet.Sparse.BaseSparseNDArray,System.Single)">Subtraction(BaseSparseNDArray, Single)</h4>
@@ -1479,7 +1488,7 @@
     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray_op_Subtraction_System_Single_MxNet_Sparse_BaseSparseNDArray_.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray.op_Subtraction(System.Single%2CMxNet.Sparse.BaseSparseNDArray)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L120">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L136">View Source</a>
   </span>
   <a id="MxNet_Sparse_BaseSparseNDArray_op_Subtraction_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Subtraction*"></a>
   <h4 id="MxNet_Sparse_BaseSparseNDArray_op_Subtraction_System_Single_MxNet_Sparse_BaseSparseNDArray_" data-uid="MxNet.Sparse.BaseSparseNDArray.op_Subtraction(System.Single,MxNet.Sparse.BaseSparseNDArray)">Subtraction(Single, BaseSparseNDArray)</h4>
@@ -1548,7 +1557,7 @@
                     <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Sparse_BaseSparseNDArray.md&amp;value=---%0Auid%3A%20MxNet.Sparse.BaseSparseNDArray%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Sparse/BaseSparseNDArray.cs/#L27" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

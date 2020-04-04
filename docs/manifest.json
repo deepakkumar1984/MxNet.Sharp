@@ -9,7 +9,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ActivationType.html",
-          "hash": "lR+h4H6PJ4r55tLe5peT8Q=="
+          "hash": "d+gnv+5Imil6GQa9yFZcIg=="
         }
       },
       "is_incremental": true,
@@ -21,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Autograd._RecordingStateScope.html",
-          "hash": "DiHnzsFdDWUEUA0PEj9FbQ=="
+          "hash": "CKtVTW5ueOVclrkvGgHeAg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -33,10 +33,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Autograd.html",
-          "hash": "KSXDL8RVNKBTsF6/3tfR9A=="
+          "hash": "mNHCfaPhsLAxaM4c+AnMnA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.BatchDotForwardStype.html",
-          "hash": "gRxqE3UrPE/uwKAk87DfwQ=="
+          "hash": "pRs33MsFI5wOvZnhxhTIkw=="
         }
       },
       "is_incremental": true,
@@ -57,10 +57,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.CachedOp.html",
-          "hash": "RIN63msxtC48sgUJ4tFyvQ=="
+          "hash": "mcLXUVYuu+G6pbmY/e64QQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -69,10 +69,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.DoCheckPoint.html",
-          "hash": "nCnlb9h2uiuCU870/r2D8w=="
+          "hash": "22J6hCzAVt+lQAR5UKJwvQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -81,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.IBatchEndCallback.html",
-          "hash": "hv+ZUvrCWrTjgPae+5e47A=="
+          "hash": "kw/RvMvdMg6vP2QIJjwLkA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -93,10 +93,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.IEpochEndCallback.html",
-          "hash": "XvtBxtA+MJHi9k7ovQQiJA=="
+          "hash": "YwJyxl5N2sUZVyVewIGz3A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -105,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.IEvalBatchEndCallback.html",
-          "hash": "DWykjbiF3UgNvwy0479gmw=="
+          "hash": "CCGZvBwwOv5KwAg1o0e3lQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -117,10 +117,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.IEvalEndCallback.html",
-          "hash": "w//1ayWtdBZ1WKye2IRZ9A=="
+          "hash": "fXx8ABPKAAV7KVOS9vWHlw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -129,7 +129,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.IIterEndCallback.html",
-          "hash": "i03AAcku+3INiya78+aPHg=="
+          "hash": "YmYadZvFPSS/7PfTA4YDOA=="
         }
       },
       "is_incremental": true,
@@ -141,10 +141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.IIterEpochCallback.html",
-          "hash": "HBXXkvPqQcUquaifAoSYoA=="
+          "hash": "0bdlgk3enwk8zTPIYxULUA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -153,10 +153,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.IScoreEndCallback.html",
-          "hash": "/SyD+NOKtAgHizhWRPryAg=="
+          "hash": "mcTai7BV/sqpTuNVx4vOKA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -165,10 +165,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.LogTrainMetric.html",
-          "hash": "WuOUmaZqDDT+IHe5FCIBuA=="
+          "hash": "v0Qmzmv+yk9mszMltdVMsA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -177,10 +177,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.LogValidationMetricsCallback.html",
-          "hash": "SVVM4rCuZML8oqJtnhEopQ=="
+          "hash": "zXgi9C77AB2U/PySened4g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -189,10 +189,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.ModuleCheckpoint.html",
-          "hash": "x5MHsL8zyVsyR3E7JgRe7Q=="
+          "hash": "DQ1NCkJ0SaJsuj7yoCsdQw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -201,10 +201,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.ProgressBar.html",
-          "hash": "GwCxxXAGJXOjhHQUDYhO6g=="
+          "hash": "+PDJPI4PjtgzhQS1vtbuMw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -213,10 +213,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Callbacks.Speedometer.html",
-          "hash": "AhCY2FTHD+IpJ+sTU6HdfQ=="
+          "hash": "9MQUzHq+ZgdgOIBkzZ6Elw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -228,7 +228,7 @@
           "hash": "xxAC908Sal3nbRVqbS7qdQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -237,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ConfigData.html",
-          "hash": "k9Fe1E8MHJeFqIY3bmAk4w=="
+          "hash": "LUW+Q+reE3yXC/b9w/N2Xw=="
         }
       },
       "is_incremental": true,
@@ -249,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Context.html",
-          "hash": "Y0b0RBxZPfJZVZm/+C/0nQ=="
+          "hash": "W2oPK3nfIkrlTYPxbInbYQ=="
         }
       },
       "is_incremental": true,
@@ -261,7 +261,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribBoxIouFormat.html",
-          "hash": "3hcnl1BfWuC/y7YjrNZF7A=="
+          "hash": "8Q24tIy/ZgRk3S73JSnKXQ=="
         }
       },
       "is_incremental": true,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribBoxNmsInFormat.html",
-          "hash": "ohuAAVIgqaidy/x83b3HMA=="
+          "hash": "M4EXIZpbhUihSGpPzAwUOQ=="
         }
       },
       "is_incremental": true,
@@ -285,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribBoxNmsOutFormat.html",
-          "hash": "EyYc86xjqIOiRxOKggmT6g=="
+          "hash": "HWmM9OWv9Fvu/CfbuPEX0Q=="
         }
       },
       "is_incremental": true,
@@ -297,7 +297,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribDeformableconvolutionLayout.html",
-          "hash": "TXpJOv7hqcW2DESaAgy8Gw=="
+          "hash": "RYaoo9D/MWlTz0Ik5SK3zA=="
         }
       },
       "is_incremental": true,
@@ -309,7 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribDequantizeOutType.html",
-          "hash": "xvNbLcv9sp+6EFzEmKurPw=="
+          "hash": "ONBAOoN1gSfkUNalYU/m0A=="
         }
       },
       "is_incremental": true,
@@ -321,7 +321,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizeOutType.html",
-          "hash": "ALG8dGPcK23A1fj/2GF4KA=="
+          "hash": "NeSzsZWsNTzGBG4FqUIwgA=="
         }
       },
       "is_incremental": true,
@@ -333,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizeV2OutType.html",
-          "hash": "knoukRF1nvb66pcFlI+NiQ=="
+          "hash": "OFI1FxVhzFXl1KeJcnAeyA=="
         }
       },
       "is_incremental": true,
@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizedActActType.html",
-          "hash": "O9e8Fm8F/ouWE9AXl+ly9Q=="
+          "hash": "SiRsDTsNFxV4m5jlKI17Dw=="
         }
       },
       "is_incremental": true,
@@ -357,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizedConvCudnnTune.html",
-          "hash": "WYbgEn178dxgJIzFwsjPfw=="
+          "hash": "VWWnULFhnaD8Lf12/6KL/Q=="
         }
       },
       "is_incremental": true,
@@ -369,7 +369,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizedConvLayout.html",
-          "hash": "LHux88yR0zSVRC4GMk2DCw=="
+          "hash": "DDrSt7/sjsFAeCZk3UQjUQ=="
         }
       },
       "is_incremental": true,
@@ -381,7 +381,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizedPoolingLayout.html",
-          "hash": "eTz4vMC5bGpl5mPZX8qYpQ=="
+          "hash": "gyV5Efh464JZMxhfT6pcVg=="
         }
       },
       "is_incremental": true,
@@ -393,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizedPoolingPoolType.html",
-          "hash": "7bWbBG1WHSG5u4ewvuKIRA=="
+          "hash": "fC03MmmEQBViT7w7k5uYvA=="
         }
       },
       "is_incremental": true,
@@ -405,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribQuantizedPoolingPoolingConvention.html",
-          "hash": "gJyptj1qvcJkhjgnU1/3Ug=="
+          "hash": "HvOCAmb7AVmbJdRwk9joTA=="
         }
       },
       "is_incremental": true,
@@ -417,7 +417,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ContribRequantizeOutType.html",
-          "hash": "lEdErXoBzJaP1IhiikAtnw=="
+          "hash": "VCtXrYCEiFdW/a8s4VNLYQ=="
         }
       },
       "is_incremental": true,
@@ -429,7 +429,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ConvolutionCudnnTune.html",
-          "hash": "tMru9noMJ8i86jYOffG3Tg=="
+          "hash": "8/SZ6wMW3PH3zme0TtEJ1g=="
         }
       },
       "is_incremental": true,
@@ -441,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ConvolutionLayout.html",
-          "hash": "YAhBB6BPYcZkoM1XHj+dDg=="
+          "hash": "7+qREzpCzT4IWTzS01RA+w=="
         }
       },
       "is_incremental": true,
@@ -453,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ConvolutionV1CudnnTune.html",
-          "hash": "426pJMPy66HanQSGuuW8ig=="
+          "hash": "W8jO0uljPEwGFOMc0smZcg=="
         }
       },
       "is_incremental": true,
@@ -465,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ConvolutionV1Layout.html",
-          "hash": "y6GHugZdy4U6Z/VCPTsDqQ=="
+          "hash": "pWUOXGcNoSVg6DUIu13XoA=="
         }
       },
       "is_incremental": true,
@@ -477,7 +477,31 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.CtclossBlankLabel.html",
-          "hash": "vfIQ6LcGc34rU6LaaAknnQ=="
+          "hash": "Tn1+WTULlKkTS33Mh1FZ1g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.CustomOp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.CustomOp.html",
+          "hash": "52O+OrgIOhSECHuxhYkn3A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.CustomOpProp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.CustomOpProp.html",
+          "hash": "tJf8UUQR4mBxtgKsDR1tXw=="
         }
       },
       "is_incremental": true,
@@ -489,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DType.html",
-          "hash": "6m8wxK3tEUkSvfM5KssKoQ=="
+          "hash": "qSgyXrj/xJafqw4bhv5+2Q=="
         }
       },
       "is_incremental": true,
@@ -501,10 +525,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DataParallelExecutorGroup.html",
-          "hash": "lRHIuAuRplKke/ZaCbdPnw=="
+          "hash": "Nj5D0gCS8lMzSAkNyCm9Ow=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -513,10 +537,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DataParallelExecutorManager.html",
-          "hash": "0GUn0yYjBdmYUQjwOdPRdw=="
+          "hash": "EzKXmgL6SId00D93NorMIg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -525,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DeconvolutionCudnnTune.html",
-          "hash": "IjqiZVSvq0jMiNH1oI9H4g=="
+          "hash": "TlATyUyXsJbO6dIY7UVmVA=="
         }
       },
       "is_incremental": true,
@@ -537,7 +561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DeconvolutionLayout.html",
-          "hash": "CacWSHbGiufFjBZYaZGLRw=="
+          "hash": "1idCSi5RuAQy8CU1gVFMYw=="
         }
       },
       "is_incremental": true,
@@ -549,10 +573,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DeferredInitializationException.html",
-          "hash": "fPkc5Gfi96aOM5pTXLgLhA=="
+          "hash": "oKXqOdNr7y85z8yymK+fpg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -561,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DeviceType.html",
-          "hash": "hr3+U2TxdLy6Q4oqiAhv6w=="
+          "hash": "3j6O1gkwAOsRC+6Lvoat3A=="
         }
       },
       "is_incremental": true,
@@ -573,10 +597,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DisposableMXNetObject.html",
-          "hash": "P/r4SzZy495iLIxVJUwZLg=="
+          "hash": "MW05rjWAGjvEMIgugFOydw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -585,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DotForwardStype.html",
-          "hash": "SAMgL7BFTmWGXoVrE9cbog=="
+          "hash": "311rDfAeK7AEsuSq0wemSw=="
         }
       },
       "is_incremental": true,
@@ -597,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.DropoutMode.html",
-          "hash": "7xIn78bXQV4E3+uhg558OA=="
+          "hash": "3qVXLBr+adIEY3MeJzYFWg=="
         }
       },
       "is_incremental": true,
@@ -609,10 +633,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Engine._BulkScope.html",
-          "hash": "uwAYpokPys0Pdpxggk3JmQ=="
+          "hash": "DsyxmbaQ7sHGxXFOQeOSUg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -621,10 +645,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Engine.html",
-          "hash": "ESH3h/5QqcKahvkbwBL04Q=="
+          "hash": "HDo/GU2YMlZkmvx3RrrUGg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -633,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.EventArgs.BatchEndEventArgs.html",
-          "hash": "oDKcOWcfMrdC3wC7VVeEOA=="
+          "hash": "OGSOPWVy+Mwu6ybDrUfZgA=="
         }
       },
       "is_incremental": true,
@@ -645,10 +669,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.EventArgs.BatchStartEventArgs.html",
-          "hash": "tgICcIUpc/IprF8fIPQUNQ=="
+          "hash": "8z/DYeKQc4Ue8ZEBfo79Fw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -657,10 +681,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.EventArgs.EpochEndEventArgs.html",
-          "hash": "EtUDOAOdimN/LRFIGjS86Q=="
+          "hash": "E+rLjLVW9ACYxeRaUn1jtg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -669,10 +693,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.EventArgs.EpochStartEventArgs.html",
-          "hash": "sQ0EbtSg4jpoOEML1cAINw=="
+          "hash": "N3P7K1N4iMX+mGOi8MJn4Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -681,10 +705,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.EventArgs.TrainingEndEventArgs.html",
-          "hash": "gLdzKoLxiUW+ZB5bD/8fDA=="
+          "hash": "rNEOsNsWsDwlIBS5+nYiew=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -696,7 +720,7 @@
           "hash": "/NKvE7BbRqiWfqmop5Uq5g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -705,7 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ExecuterManager.html",
-          "hash": "OE9l66rg9kORkz0GjwQ8ig=="
+          "hash": "QEuidkl5Jf4V6pDlw9+Ekw=="
         }
       },
       "is_incremental": true,
@@ -717,10 +741,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Executor.html",
-          "hash": "eCX6KZbPByWgNlFUoGfS1A=="
+          "hash": "5PRmxvsbCdCTwsC9QhkcKA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -729,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Extensions.html",
-          "hash": "2bEv6QRFzuwGyJgDC6BNHA=="
+          "hash": "kEKUWhfNSwEd72SkzUifTQ=="
         }
       },
       "is_incremental": true,
@@ -741,10 +765,22 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.FactorScheduler.html",
-          "hash": "P+BUlMFWO/nmSmxf7SmPvg=="
+          "hash": "jduWww2rONr8LkxzHdBB1A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.FloatRnd.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.FloatRnd.html",
+          "hash": "8t4LyAWRYIX170nj66GICQ=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -753,10 +789,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.FuncArgs.html",
-          "hash": "JgcM6pgEIgWgyWfwTrUEGw=="
+          "hash": "ZCT4usyOctT867e+J8CcXA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -765,7 +801,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Block.ApplyFn.html",
-          "hash": "pcrSjzuZt/5EvzK0QtwF7Q=="
+          "hash": "gojo9rGKPpABS4saRmpQdg=="
         }
       },
       "is_incremental": true,
@@ -777,7 +813,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Block.Hook.html",
-          "hash": "W9HFdN/IISCD9XQeRw00Rg=="
+          "hash": "AfRNa1r1bd8nCnfDCHDR8Q=="
         }
       },
       "is_incremental": true,
@@ -789,22 +825,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Block.html",
-          "hash": "2U5F14U5OPxqhHus3OxO6g=="
+          "hash": "k98T+/72vZLgp6W9X6kJ8A=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.CTCLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.CTCLoss.html",
-          "hash": "HGpOCDiG6ffz5Pqt1ZU5VA=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -813,7 +837,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.CachedOpArg.html",
-          "hash": "MhRom0BaBCcOfLMr+VNelg=="
+          "hash": "5gwRIGPDARwcHzKHPlb7WQ=="
         }
       },
       "is_incremental": true,
@@ -825,10 +849,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Constant.CInit.html",
-          "hash": "nmxL9jzn75uElTpGyCXVWQ=="
+          "hash": "95Zu1McrSbhrZiNAr0Hgyg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -837,10 +861,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Constant.html",
-          "hash": "KDSzHovUW9WUaQS6k2YevQ=="
+          "hash": "j5hHiByHsIfj+3mQU2YJEw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -849,10 +873,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.CNN.DeformableConvolution.html",
-          "hash": "ncJDAgpWDCIRjyS686QR9w=="
+          "hash": "vT9zNsfXrgnkRmm6C/ZK4Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -864,7 +888,7 @@
           "hash": "/jEw1xsQV5SphKZp6b411g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -873,10 +897,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.Data.IntervalSampler.html",
-          "hash": "thchzZ6+4e6K0uO2Usg/6g=="
+          "hash": "r0ZAe/EIeRBVrqyak+TnRA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -888,7 +912,7 @@
           "hash": "CQEMVuN7Swd7UbkG3GnJPg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -897,10 +921,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.Concurrent.html",
-          "hash": "sx7GbsS4FGUS7RPPhfqNYA=="
+          "hash": "JdGq79iMg2v6Eplv5bhDUQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -909,10 +933,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.HybridConcurrent.html",
-          "hash": "cr3CbhttkI5oy6XshejcDg=="
+          "hash": "liVIreoglzKEX/DCHFjvKA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -921,10 +945,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.Identity.html",
-          "hash": "lKMeQIpDl8/UgFqx0ra53w=="
+          "hash": "/YNo6FNOsIqz3BBmvIlXAA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -933,10 +957,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle1D.html",
-          "hash": "y2VYd3WYvBWNRhD+Liy8zA=="
+          "hash": "2hR6PnhxOphzeNAeq0nnww=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -945,10 +969,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle2D.html",
-          "hash": "+CN9PTiGLU0Wi90gFhziFA=="
+          "hash": "w7DaC5t2GP7FWeWTYsg2Mw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -957,10 +981,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.PixelShuffle3D.html",
-          "hash": "CjfrCZ24kUjHKVZWvVfiSw=="
+          "hash": "2m7LRi6TufqgiBvHvkd0Xg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -969,10 +993,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.SparseEmbedding.html",
-          "hash": "JkpqGRvVpWUOPWcwZ93K6A=="
+          "hash": "kZkP8pryhbTjghcWwgwuOA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -981,10 +1005,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Contrib.NN.SyncBatchNorm.html",
-          "hash": "xVD7W7wwqspL8wHap9czlw=="
+          "hash": "SG6Poz7/4zRgXlJ2HCSr7w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -996,19 +1020,7 @@
           "hash": "A3SkcMZbCR40twsCOxYXZg=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.CosineEmbeddingLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.CosineEmbeddingLoss.html",
-          "hash": "DPCTtcRSJpyIuGTcnd4rIw=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1017,10 +1029,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.ArrayDataset.html",
-          "hash": "ty5KJ52EVTv811i3k7EtwA=="
+          "hash": "/AdStSx6RIpuxhhZ6ySpSQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1029,10 +1041,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.BatchSampler.html",
-          "hash": "cY1HCOrhoYxriszkjI0j3g=="
+          "hash": "NxEEoZ3LfdXOlr6pROxWAg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1041,10 +1053,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.ConnectionWrapper.html",
-          "hash": "qpVN5vW01u5M68pcoc8zbw=="
+          "hash": "je9MJxs8v4rZa1EjAq4djQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1053,10 +1065,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.DataLoader.html",
-          "hash": "4iScm32OQ5TpHuWtXSXg0Q=="
+          "hash": "ttPrgwBcw26V9NS6eOXhvg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1065,10 +1077,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.DataLoaderV1.html",
-          "hash": "aBm7T4iKtewRPiNLv7hSLw=="
+          "hash": "kUknU0K1uuugo7bcuhmhZg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1077,10 +1089,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Dataset-1.html",
-          "hash": "8dBg48XZrO9sCLjHU7ByUg=="
+          "hash": "/vDzICEgAnCjGEISI0QQZw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1089,10 +1101,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.DownloadedDataset.html",
-          "hash": "2htXIfEk4bsCPKVcl02hjQ=="
+          "hash": "wt+rGiJzIJx5XyzS8IHGpg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1101,10 +1113,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Queue-1.html",
-          "hash": "Am/wQL7NA/eUnX5cRLu/4Q=="
+          "hash": "D9qqQAixs5I/czIH24eHNA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1113,7 +1125,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.QueueItem-1.html",
-          "hash": "uH4UpZDlqMlOungeda1n1w=="
+          "hash": "Yz+xQYxngl36x89muMKjgA=="
         }
       },
       "is_incremental": true,
@@ -1125,10 +1137,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.RandomSampler.html",
-          "hash": "1yIWdsLmT4XV5ulyDgRFaQ=="
+          "hash": "MVR+/5OPzvILoRxhOvJcNw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1137,22 +1149,22 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.RecordFileDataset.html",
-          "hash": "J50SjYo4G9TS7AyFZPrtHQ=="
+          "hash": "qVIV+D0zT/VZ844LL4OhJA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.Data.Sampler.yml",
+      "source_relative_path": "api/MxNet.Gluon.Data.Sampler-1.yml",
       "output": {
         ".html": {
-          "relative_path": "api/MxNet.Gluon.Data.Sampler.html",
-          "hash": "R6rOspgEYaBz+ZxgneMbJg=="
+          "relative_path": "api/MxNet.Gluon.Data.Sampler-1.html",
+          "hash": "7/thM9OIALyKjRnMN8trsQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1161,10 +1173,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.SequentialSampler.html",
-          "hash": "f39a5sviOQNqfxBooa3q/w=="
+          "hash": "qrj2+yQW9Iml3tbg60Qpwg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1173,10 +1185,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.SimpleQueue.html",
-          "hash": "QhhEXvQMRkGHcfDWDY4Epw=="
+          "hash": "3TAY8FjSTqysfoZQlt0amw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1185,10 +1197,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.CIFAR10.html",
-          "hash": "ZAvK7LjZV3AP/jgfjfBm9w=="
+          "hash": "wdTgOZcBZXeHrlcrq9jBpQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1197,10 +1209,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.CIFAR100.html",
-          "hash": "1LuNZIcd8AMT2swq5Ba/6Q=="
+          "hash": "iU65z/lkeAktBFtTf2EoDg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1209,10 +1221,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.FashionMNIST.html",
-          "hash": "vhOx0tb2WX8LcRCv+TH7Yg=="
+          "hash": "JfQnLd65S2XqbE/2vMm1/A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1221,10 +1233,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.ImageFolderDataset.html",
-          "hash": "dNG4Vv1GKBmKx/ae53l9Yw=="
+          "hash": "YS2SZScWPaBFiC5z/D8RkA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1233,10 +1245,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.ImageRecordDataset.html",
-          "hash": "7F4Kj7cVddVSiCuSVDvNZw=="
+          "hash": "6jBKE9qjuAqfTprrDqzOwA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1245,10 +1257,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Datasets.MNIST.html",
-          "hash": "kNMu0lOlWOGd7+o9ei1KWQ=="
+          "hash": "Xeoj86s7F7d1Wd+oZ1sFRg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1260,7 +1272,7 @@
           "hash": "R02sZWj2ira1RvrskS+Wgw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1269,10 +1281,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Cast.html",
-          "hash": "Fkm4G+1brNsAAQXp+15KMA=="
+          "hash": "mss5v92N/iXklOGibA/xYQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1281,10 +1293,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.CenterCrop.html",
-          "hash": "M5BhgKVUHXyBu53dYpz43g=="
+          "hash": "1Xo545cAEHgbfgOZ0Te6JQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1293,10 +1305,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Compose.html",
-          "hash": "NaQH2qHEni0RWTHkD4y/rQ=="
+          "hash": "mdbFsdbItHW+38bVnOObNA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1305,10 +1317,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.CropResize.html",
-          "hash": "BAsIUeVVmyaQH5sg7W0Ynw=="
+          "hash": "AvCJxnqhqc8ObOcfghstnA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1317,10 +1329,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Normalize.html",
-          "hash": "En+pccEd4KymDpFtb5f+qw=="
+          "hash": "M0YKcmj6U8yaI5hOlrhsMQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1329,10 +1341,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomBrightness.html",
-          "hash": "XgGzczoSOsatc1ri5DfUZQ=="
+          "hash": "T++hwcklVsr4Yn53adVOyg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1341,10 +1353,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomColorJitter.html",
-          "hash": "softg1LTA42FO5Ulk6KZZg=="
+          "hash": "EFscN7cikxbciPJ4n3Crvg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1353,10 +1365,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomContrast.html",
-          "hash": "C3XqEatxKEyr+jHmcZKnqw=="
+          "hash": "/DW034wMGH4r7XOgNfhYQg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1365,10 +1377,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomFlipLeftRight.html",
-          "hash": "ZOgQsxl7yynJQ9qaBYFpeQ=="
+          "hash": "XQhVCixcttPRqRiL0Dd/Sw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1377,10 +1389,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomFlipTopBottom.html",
-          "hash": "K9EGpr9EqHpgrw67PAmL1A=="
+          "hash": "NQ5giZ32Byu1Ery9ynQGOw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1389,10 +1401,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomHue.html",
-          "hash": "P8f/n7VBFeEaTy5M0Fz7pg=="
+          "hash": "W80DTHaC0kQWkuVAaM1svA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1401,10 +1413,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomLighting.html",
-          "hash": "WkY1mzclvX6GgCJvdHAUFw=="
+          "hash": "sbh7avnVbU0ZSezSzi9juQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1413,10 +1425,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomResizedCrop.html",
-          "hash": "G3YKvh7pOIOwN0xxJPY6+A=="
+          "hash": "ylzbpx6bJYipPhuIyuXAgQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1425,10 +1437,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.RandomSaturation.html",
-          "hash": "KnvLyZcPnBPMjda/E86BKA=="
+          "hash": "dQoClbJE4EntjfKERjzsXQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1437,10 +1449,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.Resize.html",
-          "hash": "sUoTBG1VHhrT71xhssXeQA=="
+          "hash": "0yBjrzNy0IC3mukSmZgX2w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1449,10 +1461,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.Vision.Transforms.ToTensor.html",
-          "hash": "UX5xxb2kQ5DGNvL5y5fjyw=="
+          "hash": "2oJczAxwJd/LHFq9Y/8BXQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1464,7 +1476,7 @@
           "hash": "xACa/Fnjhr8m0rtTEWNjbw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1473,7 +1485,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.WorkerPool.WorkerInit.html",
-          "hash": "kyMLsC9lD4hq6NLEvlxGbQ=="
+          "hash": "0sSdI3xnSaT9oYVk//2vWA=="
         }
       },
       "is_incremental": true,
@@ -1485,7 +1497,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.WorkerPool.html",
-          "hash": "oH3Zk748cyW0fhuiat7ABQ=="
+          "hash": "IuabZT/AkzIqVCBGvzcmgA=="
         }
       },
       "is_incremental": true,
@@ -1497,10 +1509,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data._LazyTransformDataset-1.html",
-          "hash": "Ql9C4opIqJAMU6X/HVf9ew=="
+          "hash": "mmXocLKHjoEAem88GULNMg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1509,7 +1521,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIter.WorkerFn.html",
-          "hash": "I/olxc5K1JjFZDysa0VJpA=="
+          "hash": "NbzPEiKJstYAgmXTJlp7ZA=="
         }
       },
       "is_incremental": true,
@@ -1521,10 +1533,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIter.html",
-          "hash": "n4sqQ7Pb+Hd2AEuC2/LlXw=="
+          "hash": "TfihUMSZX4W8il7sbpRljQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1533,7 +1545,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIterV1.WorkerFn.html",
-          "hash": "GDc6NicrvPC666opVOjyaw=="
+          "hash": "FgrAXipwVN2GTBnQ39dhwA=="
         }
       },
       "is_incremental": true,
@@ -1545,10 +1557,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data._MultiWorkerIterV1.html",
-          "hash": "26b8spmc+nEfIzOa8Tuq9g=="
+          "hash": "yNncyIL5bdmy1HljNfQhXg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1557,7 +1569,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data._TransformFirstClosure-1.html",
-          "hash": "MSCSk5CGudQ8OC8HM1NQUw=="
+          "hash": "VdeExLkBGUjff3TKb43FuA=="
         }
       },
       "is_incremental": true,
@@ -1569,22 +1581,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Data.html",
-          "hash": "BAFBKO/CjVfy94jMBhNX1w=="
+          "hash": "vljy9grUjcVcwmBPT3109Q=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.HingeLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.HingeLoss.html",
-          "hash": "09kUYhIBnsfiY+QB1Rskcg=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1593,22 +1593,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.HookHandle.html",
-          "hash": "VB1WvPr3rTUfetjR3jbc1A=="
+          "hash": "qh9gm5+F5RRtpqVZakF6PQ=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.HuberLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.HuberLoss.html",
-          "hash": "WIr9OWYKoLtzn90Yt2+efA=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1617,70 +1605,202 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.HybridBlock.html",
-          "hash": "vwYyUws4arKZRWi9pgphlQ=="
+          "hash": "etsiRcl3EdR1O3VeIpjaqg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.KLDivLoss.yml",
+      "source_relative_path": "api/MxNet.Gluon.Losses.CTCLoss.yml",
       "output": {
         ".html": {
-          "relative_path": "api/MxNet.Gluon.KLDivLoss.html",
-          "hash": "p4eTrz/cpeIZTVNAPTiaUQ=="
+          "relative_path": "api/MxNet.Gluon.Losses.CTCLoss.html",
+          "hash": "O8tPusnYCiJjNNpWTX3gAw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.L1Loss.yml",
+      "source_relative_path": "api/MxNet.Gluon.Losses.CosineEmbeddingLoss.yml",
       "output": {
         ".html": {
-          "relative_path": "api/MxNet.Gluon.L1Loss.html",
-          "hash": "F7LbTt22y+8yeCEe8gx80Q=="
+          "relative_path": "api/MxNet.Gluon.Losses.CosineEmbeddingLoss.html",
+          "hash": "cygYaJswT+u0p2O6CQxhdQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.L2Loss.yml",
+      "source_relative_path": "api/MxNet.Gluon.Losses.HingeLoss.yml",
       "output": {
         ".html": {
-          "relative_path": "api/MxNet.Gluon.L2Loss.html",
-          "hash": "bjC4vGwMQPaY/QoZDrT8nA=="
+          "relative_path": "api/MxNet.Gluon.Losses.HingeLoss.html",
+          "hash": "UX448nL3H1psw0Iujb6gAA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.LogisticLoss.yml",
+      "source_relative_path": "api/MxNet.Gluon.Losses.HuberLoss.yml",
       "output": {
         ".html": {
-          "relative_path": "api/MxNet.Gluon.LogisticLoss.html",
-          "hash": "1YQwwF6vM4wKDf8Y0vrJbQ=="
+          "relative_path": "api/MxNet.Gluon.Losses.HuberLoss.html",
+          "hash": "QPcE3XPYGQxcYU+O1PztBw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
       "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.Loss.yml",
+      "source_relative_path": "api/MxNet.Gluon.Losses.KLDivLoss.yml",
       "output": {
         ".html": {
-          "relative_path": "api/MxNet.Gluon.Loss.html",
-          "hash": "BS+0vkQQvmitbd5XkVdUYg=="
+          "relative_path": "api/MxNet.Gluon.Losses.KLDivLoss.html",
+          "hash": "VSO62VOni58A47SLE94oHw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.L1Loss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.L1Loss.html",
+          "hash": "8qh9jW+rcuK2yNTC1gzZ5g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.L2Loss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.L2Loss.html",
+          "hash": "ngF1PnM7QGIDMN6+4F0RGg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.LogisticLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.LogisticLoss.html",
+          "hash": "dibvLXY+BhHM2ltU8KEGOw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.Loss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.Loss.html",
+          "hash": "INm9Q8+Ja5w8NSjL3/bIFA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.PoissonNLLLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.PoissonNLLLoss.html",
+          "hash": "Ulqxuke6PmecjaJM3aFHOg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.SigmoidBinaryCrossEntropyLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.SigmoidBinaryCrossEntropyLoss.html",
+          "hash": "8kxW9D+qLPiNZqyDuJf6DA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.SoftmaxCELoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.SoftmaxCELoss.html",
+          "hash": "xwMKPcEqI/fSqB1PnL7H7Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.SoftmaxCrossEntropyLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.SoftmaxCrossEntropyLoss.html",
+          "hash": "LsntLls9Gm27w/HVMziU8g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.SquaredHingeLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.SquaredHingeLoss.html",
+          "hash": "f2r9s4KNMImx01+HqvWbqA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.TripletLoss.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.TripletLoss.html",
+          "hash": "tPTptaApbn9xXeer7QA1Pw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.Gluon.Losses.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.Gluon.Losses.html",
+          "hash": "vxRoh+zKBXL4eyYcd8yPNA=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1689,7 +1809,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.ModelStore.html",
-          "hash": "YRBTjCFKLbyPD6NI11eQFg=="
+          "hash": "opQt7a5WD4v6dizUQoTTMQ=="
         }
       },
       "is_incremental": true,
@@ -1701,10 +1821,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.AlexNet.html",
-          "hash": "fiHwAeU2kyK2v+xR8qfOLg=="
+          "hash": "8sckTdznx+GLY5QCKp+x0A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1713,10 +1833,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BasicBlockV1.html",
-          "hash": "DPf3FSsyaeQV9BTbo6LCdg=="
+          "hash": "qer6U1wMsplG2zteGmR4ow=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1725,10 +1845,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BasicBlockV2.html",
-          "hash": "lKODpcSDYemkn2aDv5X7Pg=="
+          "hash": "RIuoD5iTWwPolMMkF3EAsg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1737,10 +1857,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BottleneckV1.html",
-          "hash": "ZC9diOoBoKNYezP9/SDsVg=="
+          "hash": "UkV5ikI8gxsh0mjMoac2/g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1749,10 +1869,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.BottleneckV2.html",
-          "hash": "VARI+sHBnsIfyoDbQ87K7w=="
+          "hash": "5mNocQMkT5aEtjnz2luYYw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1761,10 +1881,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.DenseNet.html",
-          "hash": "cG6FWUNCsCp77EUSyCP3rg=="
+          "hash": "a+pZ2EkqMQXDVcwEQDehuw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1773,10 +1893,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.Inception.html",
-          "hash": "OvDCCAtuO+2ZDAonmw69Uw=="
+          "hash": "nVmbQXb/5VbsXPLY1POdAg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1785,10 +1905,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.Inception3.html",
-          "hash": "3EVtzl6J+1PBCGn7/SMj9Q=="
+          "hash": "sL4vjAyEQtKmDrL4vdlRyA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1797,10 +1917,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.LinearBottleneck.html",
-          "hash": "saCWeLwSUWnyiqRLIQYQgQ=="
+          "hash": "XP4gukoNbccWMwznnED0yg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1809,10 +1929,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.MobileNet.html",
-          "hash": "KN46paavYEsV9xIN/oIBdA=="
+          "hash": "UwisfnJc9Py9mbnrLrlIgA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1821,10 +1941,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.MobileNetV2.html",
-          "hash": "jbs4i7uiADo3M7YtK01IFQ=="
+          "hash": "HNd+vpYldxvepzojDYTnEw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1833,10 +1953,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.RELU6.html",
-          "hash": "0zIU2VFd2Qe76NeyvX2cHA=="
+          "hash": "3XEfOdlYA8fel6sx/Q/SOg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1845,10 +1965,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNet.html",
-          "hash": "JFebzh/8NtLRzBA+teNa1g=="
+          "hash": "BiwxsWrARClpS43o6zFSvg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1857,10 +1977,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNetV1.html",
-          "hash": "dDGHhnbL8SYyyQdfcXEheg=="
+          "hash": "lYq8eLwlveI/czc+Lk2PIg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1869,10 +1989,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.ResNetV2.html",
-          "hash": "SdW7/10JObomcRZKXlaxJA=="
+          "hash": "OdRlfatmke0MYPlTVAjwuA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1881,10 +2001,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.SqueezeNet.html",
-          "hash": "G5OTNtQ6pwowls2R8fm5cw=="
+          "hash": "FtXvHbbMOOo4/n+OMTLv6w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1893,10 +2013,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ModelZoo.Vision.VGG.html",
-          "hash": "vO9WMixetF9GWM1izY6Nhg=="
+          "hash": "FyrxKuM3ZvbPKhJNnmfv0A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1908,7 +2028,7 @@
           "hash": "xhPDbYwf/R7GqFQo2pMLxg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1929,10 +2049,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Activation.html",
-          "hash": "R04FMPlWvl44Z2iyySc1lQ=="
+          "hash": "8ghHvKbqrtn4STpOTifzUw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1941,10 +2061,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.AvgPool1D.html",
-          "hash": "2qkgWhXMNNPM4PrccYwKRw=="
+          "hash": "2+/HOzia7ylDrN39KvAJgQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1953,10 +2073,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.AvgPool2D.html",
-          "hash": "ni/JD2Ppw6qNgEvjZ1s52w=="
+          "hash": "jSzkRbpADFlKO6GbjtZuxw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1965,10 +2085,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.AvgPool3D.html",
-          "hash": "lrx7FywqWXv41EqzKeKCTA=="
+          "hash": "bwHDNhpBKhx3OH5TRzgsoA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1977,10 +2097,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.BatchNorm.html",
-          "hash": "y3Z/feCZw0NzQ5Yx+W9HGQ=="
+          "hash": "rCg88go6cTD5cS00nq6K+Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -1989,10 +2109,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Conv1D.html",
-          "hash": "dZDsMitpuYWoL6pSn/ddKg=="
+          "hash": "m7R/twtd75PTFYaLMjPDfw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2001,10 +2121,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Conv1DTranspose.html",
-          "hash": "VRX0xgvZzKlAN5Xc4IDmWg=="
+          "hash": "wvHcWhvUnSiUCF+nipZFqA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2013,10 +2133,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Conv2D.html",
-          "hash": "wi5hDxsKT7QX2lnmYjfdlw=="
+          "hash": "8exV9md0niM4Ow8WchXzmQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2025,10 +2145,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Conv2DTranspose.html",
-          "hash": "vOFV71T5g7wb4juz9kC58A=="
+          "hash": "JP1pqZaG7wBrOqG80df8uA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2037,10 +2157,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Conv3D.html",
-          "hash": "WgyNotSA1We15CHtOCketg=="
+          "hash": "w7ccnVS9oN8KPlLEkj5LuA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2049,10 +2169,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Conv3DTranspose.html",
-          "hash": "0Vq6MM5OAI1RDOal/48/7A=="
+          "hash": "UkdNWvPg0xRK/OGKDbJSYg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2061,10 +2181,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Dense.html",
-          "hash": "SqEtvmYcPeSTYSOzztJb2Q=="
+          "hash": "H4gdOiKdfilZfJeGYq8aWg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2073,10 +2193,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Dropout.html",
-          "hash": "5CaazovsAytLdtAbfmzN6w=="
+          "hash": "Up1wuePPubhqF2YeaoK1Dw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2085,10 +2205,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.ELU.html",
-          "hash": "hA7RoPC07kaHHLHCygEXFA=="
+          "hash": "ug0Ko9RAiMBr4DrUYZ5G7g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2097,10 +2217,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Embedding.html",
-          "hash": "1JwPobB5Qm4wTGBY46D9KQ=="
+          "hash": "OIrRAW9zDZrY+ZmIYrddRg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2109,10 +2229,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Flatten.html",
-          "hash": "+RQKtL/klVQKwoobR5KHQw=="
+          "hash": "5ZemCFXFksGH0Ha6ro3Ecg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2121,10 +2241,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.GELU.html",
-          "hash": "EPW2JyF7FrxjqUE0Jr+/Sw=="
+          "hash": "tf9Ockooica7u7lODQkAmQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2133,10 +2253,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool1D.html",
-          "hash": "jaakUx3wvm74BaTEckGzPg=="
+          "hash": "m8qAzw1YwmMG1ZUdXYFT6w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2145,10 +2265,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool2D.html",
-          "hash": "BjlPP38E4Gm7IfS5alpwzg=="
+          "hash": "iQ79dEjCVGqB4Psa7hEIQg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2157,10 +2277,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.GlobalAvgPool3D.html",
-          "hash": "46rdYSmG9h8ghUE2f8XGVA=="
+          "hash": "K0UvOUu8Np3WZKvysi7b3Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2169,10 +2289,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool1D.html",
-          "hash": "yVPRLcsFzBDjowDK+jbhnA=="
+          "hash": "jRPqxiNrAuMq0L2TjkoBQw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2181,10 +2301,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool2D.html",
-          "hash": "xcaKerpaqPRvDg/PMl+BVQ=="
+          "hash": "rDyZIvsf5pVGRTJvL3o3Og=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2193,10 +2313,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.GlobalMaxPool3D.html",
-          "hash": "2ajxrs8wu8nQ4xHHyrvaiw=="
+          "hash": "c/MhiqKanT3DAIyH96rM/w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2205,7 +2325,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.HybridLambda.LambdaFn.html",
-          "hash": "2UsJ7pMYCRz7ktEaBqN72Q=="
+          "hash": "WVQcbp0UkMh9X93aMQbDdg=="
         }
       },
       "is_incremental": true,
@@ -2217,10 +2337,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.HybridLambda.html",
-          "hash": "aVS2FczykdrOqpQa8IKngg=="
+          "hash": "0wHDWqXQtFLx23ExOnHuWw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2229,10 +2349,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.HybridSequential.html",
-          "hash": "lQeorsZkeapnn6qHHGhesA=="
+          "hash": "VlysTA8Arkg/2zX3jdW2jQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2241,10 +2361,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.InstanceNorm.html",
-          "hash": "M3+BGkIh40a0GYgj1C/P4w=="
+          "hash": "mvOpG20kxRb0w/csocZTzg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2253,10 +2373,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Lambda.LambdaFn.html",
-          "hash": "aZvMmnZ1tcV9ZZ2ZLvaopg=="
+          "hash": "WLIL75I0OWEdoGysP9VgFw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2265,10 +2385,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Lambda.html",
-          "hash": "r4mAuA+OBuPAzdQ7mmly6g=="
+          "hash": "T9b/ck+aQQ/WmyGYIV3mDQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2277,10 +2397,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.LayerNorm.html",
-          "hash": "un/qHIoOZoVd183ynGPC2g=="
+          "hash": "5q3mLdVjPncNIIxV/xnvXQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2289,10 +2409,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.LeakyReLU.html",
-          "hash": "WV1esnjlqWHHhJUZ3eXHaQ=="
+          "hash": "EM54Uh0iUdlqJ8F+T75mIQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2301,10 +2421,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.MaxPool1D.html",
-          "hash": "cJp1Cl90FUsEaXfS+q4gfg=="
+          "hash": "PaqQ8JGh2DgbD9d50iz+YA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2313,10 +2433,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.MaxPool2D.html",
-          "hash": "Hy1g/AWBCmareKBxLr0ZmQ=="
+          "hash": "dhmIObmH6sLXz3y06RdNZw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2325,10 +2445,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.MaxPool3D.html",
-          "hash": "8NNCyIi1vSykcselR3VGYA=="
+          "hash": "re7JAO7q1Rw/2ZYCStrQ9w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2337,10 +2457,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.PReLU.html",
-          "hash": "BdkOCOhdgCtxWHlAwd+m4w=="
+          "hash": "p/Q8kg6iiu1SIw0ob/CcCw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2349,10 +2469,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.ReflectionPad2D.html",
-          "hash": "E55KKkers8PT58x2o8fDQg=="
+          "hash": "h9OAabAS8gR6Udft//XlBw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2361,10 +2481,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.SELU.html",
-          "hash": "NqbhT72t526F0xiU2hL40A=="
+          "hash": "isSbKJXbNN6iZIS5Uf3Xrw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2373,10 +2493,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Sequential.html",
-          "hash": "nOBJwJ4QpC7nT/EeLfyU+Q=="
+          "hash": "crOXxSaOdzltCg+TpZBefA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2385,10 +2505,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN.Swish.html",
-          "hash": "BBfPKH8FWwCzNLvT7HBQnA=="
+          "hash": "f5OUOhkVrW55TuTC7I9uuQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2397,10 +2517,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN._Conv.html",
-          "hash": "U08g3IcRUfKukgtQtr6g5A=="
+          "hash": "3Aj8cYW2YpbWCoixoDbs8Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2409,10 +2529,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.NN._Pooling.html",
-          "hash": "25iqlhwtR1+8T7hSr1B3Kg=="
+          "hash": "pbKIVHk81n1cCE1uA6iy5g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2424,7 +2544,7 @@
           "hash": "MDbYCPkjvC6BIzH20DpFUA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2433,10 +2553,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Parameter.html",
-          "hash": "ZIgAVbj/00/AhbG8/g+tsA=="
+          "hash": "3m3HxKT8OtL4L90AgS7vsw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2445,22 +2565,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.ParameterDict.html",
-          "hash": "+GBC7DZ46ZbjcAHt7ugm1A=="
+          "hash": "rx+meMXoIpriIvtFT6pSAQ=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.PoissonNLLLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.PoissonNLLLoss.html",
-          "hash": "NabHyxWyjFfvH4ZayTkpjg=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2469,10 +2577,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.BidirectionalCell.html",
-          "hash": "v/cOLODrvroWMcrNW0Dq4g=="
+          "hash": "uG6MAJkfAS+YT5ev2iVUew=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2481,10 +2589,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.DropoutCell.html",
-          "hash": "O+QGAX6OzSbqL5JxqVVdxQ=="
+          "hash": "0eEA4l09lz2xw9Go02DGsw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2493,10 +2601,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.GRUCell.html",
-          "hash": "xJPpAR4ZYkslC0AfqD132w=="
+          "hash": "4GoxgxIKJCwdSggfkcGvNg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2505,10 +2613,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.HybridRecurrentCell.html",
-          "hash": "HhumF/CKi5R7LAfW+rUz5A=="
+          "hash": "YvxCb9jnkOzsHcEoooLrnw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2517,10 +2625,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.HybridSequentialRNNCell.html",
-          "hash": "KAy8emQvBj1/nlfimBqIVg=="
+          "hash": "FOJO8wbeN2Vu2msU1U6UbQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2529,10 +2637,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.LSTMCell.html",
-          "hash": "sRhUGnYdHC8PvDpbG8ipNw=="
+          "hash": "fQXLBWrq1vVvfn9UEg8Kdg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2541,10 +2649,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.ModifierCell.html",
-          "hash": "FU6bsnF7B8bcKp3yPk4tGQ=="
+          "hash": "HjeUqIJ813Ss5Wow9pKj5Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2553,10 +2661,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.RNNCell.html",
-          "hash": "Sa02KRQiCSCNr/nrfpquYg=="
+          "hash": "jA73XTvdHSqohsRYx7oJGA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2565,10 +2673,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.RecurrentCell.html",
-          "hash": "7sEAEHVdiHaD9lqg2mH74A=="
+          "hash": "D+p5me3hcFuyGO/zsrERsg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2577,10 +2685,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.ResidualCell.html",
-          "hash": "olyj1VLfWgu/JurX8sPuWw=="
+          "hash": "Zk7IvWnUS89wTbAgvOAt1A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2589,10 +2697,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.SequentialRNNCell.html",
-          "hash": "pkUadhFk2lkoo8U8eLQ0EQ=="
+          "hash": "zxYdXCMNUyspFOLt8appaA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2601,10 +2709,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.StateInfo.html",
-          "hash": "CGMjE2FHvz1NazCRFf/eqw=="
+          "hash": "vp2O0noBt6uUbQ7fa9fp/Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2613,10 +2721,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RNN.ZoneoutCell.html",
-          "hash": "qDlQypCn7TZu7yTUVXeaxw=="
+          "hash": "eW+vFOHJmrJ9aig+ABSdrA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2628,7 +2736,7 @@
           "hash": "agSnkeb479q1IdWeCw4HVQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2637,10 +2745,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RecurrentNN.GRU.html",
-          "hash": "qDWnRFqHo5w7Z/fO8NyrHg=="
+          "hash": "ceGmThHclStEPpW5BWGvuA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2649,10 +2757,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RecurrentNN.LSTM.html",
-          "hash": "J+dxU8j9AqS+C55g/D48Gg=="
+          "hash": "ke6dI/D35c2YtDW8Cnc/ag=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2661,10 +2769,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RecurrentNN.RNN.html",
-          "hash": "QQ6xHEk7vHfWAyk7swmIWw=="
+          "hash": "Xst0mwSK/hOvyyij3FNq8A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2673,10 +2781,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.RecurrentNN.RNNLayer.html",
-          "hash": "84n5BpwuEgYpWagvKz8EbQ=="
+          "hash": "yD0elCZyj3TZxOSHZRhP6g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2688,55 +2796,7 @@
           "hash": "d6kX2pZcHZTnXVZwFLMetg=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.SigmoidBinaryCrossEntropyLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.SigmoidBinaryCrossEntropyLoss.html",
-          "hash": "O4P/fiGA1YACOrP0NmsZww=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.SoftmaxCELoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.SoftmaxCELoss.html",
-          "hash": "AKxJkidTLivJaA92YZihsA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.SoftmaxCrossEntropyLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.SoftmaxCrossEntropyLoss.html",
-          "hash": "JJXuddsz4SdcfMLWVdCs5w=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.SquaredHingeLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.SquaredHingeLoss.html",
-          "hash": "HBVnlbeDNmYmgcIudp+4ag=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2745,10 +2805,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.SymbolBlock.html",
-          "hash": "MDxWBazEjCTvkBvlJjwAqA=="
+          "hash": "eKfOOVy0fTE9832fTRagGA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2757,22 +2817,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Trainer.html",
-          "hash": "umNbDAK+bD6ubXaIYQv5mw=="
+          "hash": "2HZud6x52Fd7P1wUv6esxw=="
         }
       },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "ManagedReference",
-      "source_relative_path": "api/MxNet.Gluon.TripletLoss.yml",
-      "output": {
-        ".html": {
-          "relative_path": "api/MxNet.Gluon.TripletLoss.html",
-          "hash": "WcY9Mp0+th0LFmZ2+rwGow=="
-        }
-      },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2781,10 +2829,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.Utils.html",
-          "hash": "PYS4n8c93/QWntIrnx0cpg=="
+          "hash": "h5WqUTMdL+1JkbxiDSY2YQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2793,10 +2841,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon._BlockScope.html",
-          "hash": "I9gpH6S+dorX9KO9NO+rmg=="
+          "hash": "fQCQe/bZRS0v1ixBypVmsw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2805,10 +2853,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Gluon.html",
-          "hash": "fB+ukndpePQtT06Bs7CR9A=="
+          "hash": "2dMIk70k/NLQ0yNfKYKBDA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2817,7 +2865,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.GridgeneratorTransformType.html",
-          "hash": "F4RXG5ldsE+s9Wandir6iw=="
+          "hash": "WmnuQGZVvXQtWmQPVCllOA=="
         }
       },
       "is_incremental": true,
@@ -2829,10 +2877,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.IO.DataBatch.html",
-          "hash": "7tuA/pwsYZl8e2a/Q/cJqg=="
+          "hash": "VsRVqb95Mv8pqDis66ujqQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2841,7 +2889,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.IO.DataDesc.html",
-          "hash": "1O/Cd6r618oa6WdHpmtI8g=="
+          "hash": "dG9PR4Pcpqssf5CJ9dQ/rQ=="
         }
       },
       "is_incremental": true,
@@ -2853,10 +2901,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.IO.DataIter.html",
-          "hash": "PNwypqS+hukAgeQrebY6dg=="
+          "hash": "d07ji6yBHZs5u2Xq5t6SMQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2865,10 +2913,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.IO.MXDataIter.html",
-          "hash": "x+eCeDe4QOfD93/bcx+uoA=="
+          "hash": "eLBhfJea7UNVF0DBwWZa5w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2877,10 +2925,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.IO.NDArrayIter.html",
-          "hash": "dB60PwVNrbPr1QJ5VkseAg=="
+          "hash": "BzKwL1ljdU6QRCYE66t8Fg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2892,7 +2940,7 @@
           "hash": "YbHRKunkQ22z1UQmS9isqQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2901,10 +2949,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.Augmenter.html",
-          "hash": "dmEOtd7MO8ViLwKnC4VQ3w=="
+          "hash": "7cmJi+Uu3xm7lJO34cYvcQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2913,10 +2961,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.BrightnessJitterAug.html",
-          "hash": "e6chLZ5ERkNtBe1zOBO5qg=="
+          "hash": "txVM3+h8P1kkSzbT055G4A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2925,10 +2973,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.CastAug.html",
-          "hash": "vwGodqiFbTHiZCajoTtO8Q=="
+          "hash": "7ya8Onedg7ip+P/rQF+sEg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2937,10 +2985,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.CenterCropAug.html",
-          "hash": "SKqkR5MfNzyiWo948rrMOg=="
+          "hash": "MQ0urK/+bxZzHqrIbSxWOg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2949,10 +2997,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.ColorJitterAug.html",
-          "hash": "bQpjLiqqWIEFdzvsE4FRwQ=="
+          "hash": "lMSVZQpbYFaXBgAItgwpvQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2961,10 +3009,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.ColorNormalizeAug.html",
-          "hash": "WPBlsd0hyqsDbYPqUEjTWg=="
+          "hash": "Z6RoetK0iAms6IMG15UAoA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2973,10 +3021,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.ContrastJitterAug.html",
-          "hash": "+HQcJ37KQV59CTduzNZ57w=="
+          "hash": "VVE59RQ+Y5NNg18jVWyx+w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2985,10 +3033,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.DetAugmenter.html",
-          "hash": "Nc0ugwwGGfWEdQJDzoXq0g=="
+          "hash": "gwpeaJzcxyjeaHEoXxyY6Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -2997,10 +3045,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.DetBorrowAug.html",
-          "hash": "/9y91AO/AMvWpd/T9U1VhQ=="
+          "hash": "rIAvJm8E2AQ7HUBjW9isjQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3009,10 +3057,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.DetHorizontalFlipAug.html",
-          "hash": "6/M+sctBiH2lXQPO73gpwg=="
+          "hash": "72oHk+k4Y8nIGzzIyN6+JA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3021,10 +3069,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.DetRandomCropAug.html",
-          "hash": "8TUYK3249tm5y9YoJ6AWbg=="
+          "hash": "XncJSKGPqY38wqMc4RiOJg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3033,10 +3081,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.DetRandomPadAug.html",
-          "hash": "7KEBXinHjy7zpIk7P8l66Q=="
+          "hash": "EhnyWb3OPDbIC5H2bIIjJw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3045,10 +3093,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.DetRandomSelectAug.html",
-          "hash": "OgxF5EVYqlQouL3TFIyLvA=="
+          "hash": "LVbcbesiTnjDorgzQst85g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3057,10 +3105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.Detection.html",
-          "hash": "NVhZyhOQERzG5hn3eyPZ6w=="
+          "hash": "Y9ngoaxzhK82NNGUjcmEYA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3069,10 +3117,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.ForceResizeAug.html",
-          "hash": "xlyCryP4RSWDFIyAtUnn0g=="
+          "hash": "YMXHIW2cmqbI5Y5dcllYow=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3081,10 +3129,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.HorizontalFlipAug.html",
-          "hash": "qupkCLih0tjK05G2diC+5w=="
+          "hash": "1xGUajc8xYfu1I0g/9XRng=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3093,10 +3141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.HueJitterAug.html",
-          "hash": "UaRR6P7hPgFcC+8A4gYwgw=="
+          "hash": "Gt1uk7wC3O0KCvJq6HNoFQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3105,10 +3153,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.ImageIter.html",
-          "hash": "f2wYyfm9mefKQXuh8vjLqQ=="
+          "hash": "I5eoA3/VDQCIgzJ5hJpr+w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3117,10 +3165,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.Img.html",
-          "hash": "9SN/53w4GcLU4h2RTxGChw=="
+          "hash": "hjcPLlBb/vpgoghG/F8ORg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3129,7 +3177,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.ImgInterp.html",
-          "hash": "t1b2r9agveGKU7d5UU54Vg=="
+          "hash": "wscRSWRGrfA8yYHSYhRwbA=="
         }
       },
       "is_incremental": true,
@@ -3141,10 +3189,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.LightingAug.html",
-          "hash": "5nyddq3qu+mOyA9ghbHzlQ=="
+          "hash": "6gH1mYyq6vwP/VAnhTddvg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3153,10 +3201,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.RandomCropAug.html",
-          "hash": "ALlvAaurijbTU1DAjX08MA=="
+          "hash": "Oj2b91y94yU8Nx86Ig+BoA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3165,10 +3213,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.RandomGrayAug.html",
-          "hash": "KKn5km3ojnvX+4Jx7eh+bA=="
+          "hash": "LP9ziJZ6EzpbVKz7EPycsA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3177,10 +3225,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.RandomOrderAug.html",
-          "hash": "RCABHr6/JffykmSQOIoKhw=="
+          "hash": "2RKZaJ4aUTk5KTSXfAa+Qw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3189,10 +3237,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.RandomSizedCropAug.html",
-          "hash": "jofa/wsgZPooNYIQEHfpAQ=="
+          "hash": "3cestXMrLCkutmObDWu+lg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3201,10 +3249,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.ResizeAug.html",
-          "hash": "JM1JaN7bxx8dsVYZMruyYw=="
+          "hash": "W1K+nF+si/jXFsu/jSkUlw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3213,10 +3261,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.SaturationJitterAug.html",
-          "hash": "s3vcF6SnvOVL2A8i5Rc7NA=="
+          "hash": "+qM44zhbD8OWQ/lFJZKQDw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3225,10 +3273,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Image.SequentialAug.html",
-          "hash": "I0s55hlWsM3dl24uz3eUZw=="
+          "hash": "L4eKkCGOR/f6B60vphGouQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3240,7 +3288,7 @@
           "hash": "O+ETMv8LJIX9Opkc/puY4g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3249,10 +3297,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Bilinear.html",
-          "hash": "Rg1LcDMGXrPvktn7O3aPJw=="
+          "hash": "2wsSf8qs9KjwV1W0Ubzasg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3261,10 +3309,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Constant.html",
-          "hash": "+xz3F3h7t8CVk+54f6iOuQ=="
+          "hash": "8YKkq9ns9Ecd7J0fYpBiOw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3273,10 +3321,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.FusedRNN.html",
-          "hash": "a9zi/9CSRTq7I4aPhwDrfw=="
+          "hash": "cGc0NI3YPdYtrhGWJgv0Xg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3285,7 +3333,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.InitDesc.html",
-          "hash": "DvW4M4cGz1offV4eFvcNiw=="
+          "hash": "jCWXzu9fO8DkilPjim1iBA=="
         }
       },
       "is_incremental": true,
@@ -3297,10 +3345,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Initializer.html",
-          "hash": "MXyAaj8JXZ5OmQCdk27Xjw=="
+          "hash": "BZJwx3gwqSY0Df1U7FEYyg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3309,10 +3357,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.LSTMBias.html",
-          "hash": "KCHAcv4pnV5e31vOYO7LYg=="
+          "hash": "ZIGfA2D8QgqwG/kgwOyJFw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3321,10 +3369,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Load.html",
-          "hash": "T+AK0oHjkhk+z/RL6z/oZQ=="
+          "hash": "aES0iqI5NjOeyoZbBrxBeg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3333,10 +3381,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.MSRAPrelu.html",
-          "hash": "BjaIO2CwTwPdyR+IS3H9ww=="
+          "hash": "qaRgsojzr4Ji1WAGPPzUag=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3345,10 +3393,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Mixed.html",
-          "hash": "I3goQDVJsLKqOJWK9of5xA=="
+          "hash": "/xaODy2YFuyjJumjMrryEw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3357,10 +3405,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Normal.html",
-          "hash": "YwAoJDSQJZmz/RFewbrFYA=="
+          "hash": "JHB6TkiEh+1aGgICCrNyEQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3369,10 +3417,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.One.html",
-          "hash": "SiuA3ljAAEl46L5/i145vA=="
+          "hash": "XmXvPId8/XOKgBZU/Nw19A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3381,10 +3429,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Orthogonal.html",
-          "hash": "4aEothEQTJDPMknq7drMAA=="
+          "hash": "BWQyIyI50EFdRrf9qp6STw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3393,10 +3441,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Uniform.html",
-          "hash": "0eRCOVxap4HgVtPRmkMNzA=="
+          "hash": "1IRvJHPEd4C+g6cX2+p+mQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3405,10 +3453,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Xavier.html",
-          "hash": "P7GcIoM0iJxsrj21k1H4HQ=="
+          "hash": "sSdlghVjxdFAgTrFUHqdUw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3417,10 +3465,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Initializers.Zero.html",
-          "hash": "YBSt1K39H48npctKKtXcSg=="
+          "hash": "EqNUxt8kEF9spriSWEKUVA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3432,7 +3480,19 @@
           "hash": "LsjwUgRHoCbj1LzCWuxUfw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.IntRnd.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.IntRnd.html",
+          "hash": "v32ZKPIM801TMM734dwtkA=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3441,7 +3501,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Interop.MXKVStoreServerController.html",
-          "hash": "yCrw/0q28mk5EHKymQi/+g=="
+          "hash": "ezORP1Nml1abQYRkZneExQ=="
         }
       },
       "is_incremental": true,
@@ -3465,10 +3525,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.KVstore.KVStore.html",
-          "hash": "1h+lxDiiQu6CbIo2/wgl0g=="
+          "hash": "F9xJnoFfcKPmz9jioms9Fg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3477,10 +3537,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.KVstore.KVStoreBase.html",
-          "hash": "nc1SkN7hqf0k+WfvQ6i5NQ=="
+          "hash": "iKvXlJNYUA3E3LcyLTjW+A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3489,7 +3549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.KVstore.KVStoreCommandType.html",
-          "hash": "OdgaF2wHAeUa0LQhIhG75Q=="
+          "hash": "Ml3mDr8KtAfdhS8VNBnJaw=="
         }
       },
       "is_incremental": true,
@@ -3501,7 +3561,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.KVstore.KVStoreServer.ServerController.html",
-          "hash": "CNtKZKG7Q6Ok2cZG/qbEww=="
+          "hash": "v+TMEClicgl+VVwdso+elg=="
         }
       },
       "is_incremental": true,
@@ -3513,10 +3573,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.KVstore.KVStoreServer.html",
-          "hash": "NnhZP1SpM9Pv2yH3kf9gLg=="
+          "hash": "8X5p7XlEhQ8ooJY7JQ1VeA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3528,7 +3588,7 @@
           "hash": "TthHE6Pr6YVMWAQDmbRdUQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3537,7 +3597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.L2normalizationMode.html",
-          "hash": "AdDV9lEnZFrYtqnaDFOJCg=="
+          "hash": "bGvVzdJ/no8apVVLA381zA=="
         }
       },
       "is_incremental": true,
@@ -3549,10 +3609,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.LRScheduler.html",
-          "hash": "3C/AxzKV8J3OTVx53j5CGA=="
+          "hash": "2LKp3W7ejNq/jPQnR++LTQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3561,7 +3621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.LibFeature.html",
-          "hash": "n8UXatLiiZSMlz14DortrA=="
+          "hash": "J7MwviTmONfD1SFIW0ftkw=="
         }
       },
       "is_incremental": true,
@@ -3573,10 +3633,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ListExtensions.html",
-          "hash": "4zZn2RK85LX9n6+CKyUHKA=="
+          "hash": "Z/LyIaIJz99xqP5Fxxy56Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3585,7 +3645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Logger.Formatter.html",
-          "hash": "alCmNhZO1LkPhKT5gZkJpw=="
+          "hash": "0M+iuVzsIpJsB6Dz8DWnhA=="
         }
       },
       "is_incremental": true,
@@ -3597,10 +3657,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Logger.html",
-          "hash": "fB/vqre9N1Isv313TBUJWA=="
+          "hash": "d5RY6g39y0K4XjuphVbVkA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3609,10 +3669,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Logging.html",
-          "hash": "rYxz+WjADNAwgBwDb2AIjQ=="
+          "hash": "q7+outtixV+s7JsV3znKyw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3621,10 +3681,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MXDataIterBlob.html",
-          "hash": "G9geEQ22hA4FLoWtesKH+A=="
+          "hash": "fNOPX3D7QZND7RqPyTcmZA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3633,7 +3693,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MXDataIterMap.html",
-          "hash": "F2RsccQSKVCUvuJ+15uRow=="
+          "hash": "LqskvwbI9pwMD47iipBgJw=="
         }
       },
       "is_incremental": true,
@@ -3645,10 +3705,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MXNetException.html",
-          "hash": "6eTbzU5/y7wSuSPAQj/6lQ=="
+          "hash": "zfb4K2yms3fQyGSK6bgh+g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3657,10 +3717,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MXNetObject.html",
-          "hash": "rxwZJhZ3qXncKdDwDokYLQ=="
+          "hash": "AqmoZSkUXDo39LPyoO/IEA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3669,10 +3729,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MXNetSharedObject.html",
-          "hash": "S/NK8bmcFcPTehx0KjMLTA=="
+          "hash": "dAgbLEDunMia0JezAG4thw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3681,7 +3741,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MakelossNormalization.html",
-          "hash": "ZekGl10AV3FAq8aan86apA=="
+          "hash": "Hpxb/iBJehCEHOBkWflEKA=="
         }
       },
       "is_incremental": true,
@@ -3693,10 +3753,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.Accuracy.html",
-          "hash": "fJRct1F4JTKb7/rmI6VpdA=="
+          "hash": "ZIESOBOj63MklAMebC4XvA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3705,10 +3765,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.Base.html",
-          "hash": "kgIKQXUuXYSs1Sk4yvOc8A=="
+          "hash": "tyVJEqmof5cIxRZh31UFaQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3717,10 +3777,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.BinaryAccuracy.html",
-          "hash": "MPg5fTjCahLFBxq9hOJFPw=="
+          "hash": "EEnj2jknFqhmzxKBOxd3iw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3729,10 +3789,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.Caffe.html",
-          "hash": "d/eZO6mv2VEkrAWM2XSPGg=="
+          "hash": "2IJxlpYb5x6wOo2DN2bR6Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3741,10 +3801,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.CrossEntropy.html",
-          "hash": "m83mFQOCxxtJHE5wilL+Pw=="
+          "hash": "DoyBxGyEoi1ywomKzJK4Dw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3753,10 +3813,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.CustomMetric.html",
-          "hash": "KTJzCmpSUqSkkdYAOWS6AA=="
+          "hash": "SxriZ4Zei1xWiB6TuMxBFA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3765,10 +3825,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.EvalMetric.html",
-          "hash": "705vfme4povAGzmas6FoJg=="
+          "hash": "adAaaWWDavBmRec205nfBg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3777,10 +3837,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.F1.html",
-          "hash": "1CeAjzuSnpaPdUK+nYdGTA=="
+          "hash": "LL2H7Zwkwl2oqX9RPdXoYw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3789,10 +3849,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.Loss.html",
-          "hash": "VWdntOtAeQ9QKEGABT1i5Q=="
+          "hash": "cXMStLGmvXeU3my87q3zgw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3801,10 +3861,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.MAE.html",
-          "hash": "DdIPf4tKmifrasm9hGL7hA=="
+          "hash": "/X6yp6/SLbtDAXmo6j146Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3813,10 +3873,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.MCC.html",
-          "hash": "r1qJ3aEqehePEItSfBq5tA=="
+          "hash": "u/BBKpl3tJDdBUXy3rE6Jg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3825,10 +3885,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.MSE.html",
-          "hash": "6DdBtZbLEwHH1nRYmXoQsw=="
+          "hash": "IxqiLBCRcPVGJwXHE6lCpQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3837,10 +3897,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.NegativeLogLikelihood.html",
-          "hash": "oj7UXl6nvTjjNgJznKKcJQ=="
+          "hash": "YXnFVFL1H7kud/P8HRykeQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3849,10 +3909,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.PCC.html",
-          "hash": "qhVFo2fVKmIhfYtuIn8Yxg=="
+          "hash": "tcm8r7mxl5/qVe3XiW+aqw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3861,10 +3921,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.PearsonCorrelation.html",
-          "hash": "kv/6p2vcIgtCMYTpGgNmAw=="
+          "hash": "348kNck0vsQ/fz1N++RNvg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3873,10 +3933,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.Perplexity.html",
-          "hash": "By5c0TMpM1m5NhXHgT+naw=="
+          "hash": "uKz/FJS9vo+gyosJVzoEdw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3885,10 +3945,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.RMSE.html",
-          "hash": "03aJFsS8UP7+XwVqOcvyfA=="
+          "hash": "jPFgi+XYrFIBw9k/TeCycg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3897,10 +3957,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.TopKAccuracy.html",
-          "hash": "o8yUwgHai9W9Q5QlwoBi/A=="
+          "hash": "kGi/JQ5q+ewkkQfGTUe/FQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3909,10 +3969,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Metrics.Torch.html",
-          "hash": "PHBqXh5ZcsAxIxAZtPLMDg=="
+          "hash": "J545Bh3969FUXiaw7ojXfw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3924,7 +3984,7 @@
           "hash": "cbOHQ0UkmTeof4hOFwjgXQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3933,10 +3993,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Model.html",
-          "hash": "LFGmocCN9S2RLkKGNanZAQ=="
+          "hash": "gfXw927JP/bvrm1oQ0xoNg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3945,10 +4005,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Modules.BaseModule.html",
-          "hash": "cx0FBy7oz2S5rqRD3vk8Ww=="
+          "hash": "z8DImsd+K5oe7xONCgOtvQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3957,10 +4017,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Modules.BucketingModule.html",
-          "hash": "lzPqxtDlCOz4izCxYXW3tQ=="
+          "hash": "MDXdc3tMEFtKS5pfPgA9fg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3969,10 +4029,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Modules.DataParallelExecutorGroup.html",
-          "hash": "MnwpTMjRwKlyuSoFJ0DKcA=="
+          "hash": "WHYnjJZ6jbQrwMtDBkiNgg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -3981,7 +4041,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Modules.ExecutorGroup.html",
-          "hash": "K2Dsw5jIqVlRBlIqgSYcjg=="
+          "hash": "Hw7enXTMtvPdme65q/Ug/g=="
         }
       },
       "is_incremental": true,
@@ -3993,10 +4053,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Modules.Module.html",
-          "hash": "ONuRpl+uq93/LOOrVfMA6g=="
+          "hash": "QbtOuYO32cstU1hy7hHTEw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4005,10 +4065,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Modules.SequentialModule.html",
-          "hash": "m1YuIr+jUu1mEDV+gBZHaw=="
+          "hash": "zRlyta2Tb+v7BeswGOSlUg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4020,7 +4080,7 @@
           "hash": "nNSPiZpnGRzWS6vODlo6OQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4029,10 +4089,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Monitor.html",
-          "hash": "MaVKbhLNeNZqe5+GcSE9lQ=="
+          "hash": "nzZhFoOXKj/J2YmUKDM5gA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4041,10 +4101,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MxDisposable.html",
-          "hash": "40fAEVk5UFvH8wao65p+rw=="
+          "hash": "9Q+fz5CDbaVTY3Fc0a8nMA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4053,10 +4113,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.MxUtil.html",
-          "hash": "eQOc/NzufpNHJytFNIz75g=="
+          "hash": "Akrw+YfyfKvGWxSxQAGpcA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4065,10 +4125,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDArray.html",
-          "hash": "uQI6kHNWHH69ulIp6T3wOw=="
+          "hash": "M6++djWjskfEVj4m24QPFA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4077,10 +4137,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDArrayDict.html",
-          "hash": "mWKiduj/0RuyRBuzfb9dZw=="
+          "hash": "fPXxr6SblPpVoLDgBHkFhw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4089,10 +4149,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDArrayList.html",
-          "hash": "fG70ybJj6aAjBgH66HYDog=="
+          "hash": "UMR4VTJ48SVstTWbetk1Pw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4101,10 +4161,22 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDArrayOrSymbol.html",
-          "hash": "dakymuyXB4sNUcTDuRX4XQ=="
+          "hash": "LPcjgXZns94Qd1x3ysj7Sw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NDArrayOrSymbolList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NDArrayOrSymbolList.html",
+          "hash": "1bH/rY25d9Wn6EbIiOdS6Q=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4113,10 +4185,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDBlob.html",
-          "hash": "b5MYiurJDF4OAHIAxwHlWw=="
+          "hash": "vt91hjwlliOcGfL+Iv/Ucg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4125,10 +4197,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDContribApi.html",
-          "hash": "JKl9Vh++vOX4TGJqGRG2hw=="
+          "hash": "LbZ9F0w5nKLRsRN6cWiyNg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4137,10 +4209,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDImgApi.html",
-          "hash": "dc/T4PUd85PNg3Jl0fnOUQ=="
+          "hash": "u98bzgO1buvgi+xMWXEBmg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4149,10 +4221,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NDListHandle.html",
-          "hash": "8oho+WZx8qOE83Lg272BXw=="
+          "hash": "ZS2iSroATSV2XMCbfxZk+w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4161,10 +4233,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Name.NameManager.html",
-          "hash": "yTKsR375x9twUqReI2t5dg=="
+          "hash": "6pNJBqt1QGUuPX1JIgRHHA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4173,10 +4245,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Name.Prefix.html",
-          "hash": "Y3S3Bl0ZLb9FyRRWVbAQIA=="
+          "hash": "cJ4nVqJo3m6JMw0loabrXQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4185,7 +4257,19 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Name.html",
-          "hash": "nhj+WZlP97b67682m/9OfA=="
+          "hash": "bNPgQcwUul6iEsVw0iNY1w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.NdarrayExt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.NdarrayExt.html",
+          "hash": "x9pQBUXXV8U0EV7M65fTLw=="
         }
       },
       "is_incremental": true,
@@ -4197,7 +4281,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.NormOutDtype.html",
-          "hash": "Kj5xG7QlX0g5vFzHuHj3Ew=="
+          "hash": "RyBT8386SiJOxW3kuPRAtw=="
         }
       },
       "is_incremental": true,
@@ -4209,7 +4293,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ObjectExtensions.html",
-          "hash": "LCVI07q+kQQgdEJMTPHldA=="
+          "hash": "WdTcBM+GPzRzctwcCDKrrg=="
         }
       },
       "is_incremental": true,
@@ -4221,7 +4305,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.OpGradReq.html",
-          "hash": "kS9SKVWSzSBZhsfbXxvESg=="
+          "hash": "EvNvrPYSDKsmjEeBqklh6g=="
         }
       },
       "is_incremental": true,
@@ -4233,7 +4317,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.OpMap.html",
-          "hash": "F4KScXXpr9yTZxiFp9ZVuA=="
+          "hash": "ynO2+yonWsbJvn5hiU2Kbg=="
         }
       },
       "is_incremental": true,
@@ -4245,10 +4329,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Operator.html",
-          "hash": "9vBn0m99V2b6eG68hrIEyg=="
+          "hash": "BkyrItsoFkcdbs+C3tOHLA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4257,10 +4341,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.OperatorSupply.html",
-          "hash": "6gBgSVpPHyYaKp4oJudD5w=="
+          "hash": "mESPGQqowbwUBf902+9/ZQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4269,10 +4353,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.OptimAttribute.html",
-          "hash": "RwB2Gkt/xHUJhR8FVDHpWA=="
+          "hash": "YTxKFaOL0lOYeQ2ryX+A7A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4281,10 +4365,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.AdaDelta.html",
-          "hash": "9eH7dztjUNQAyXs2UhRykQ=="
+          "hash": "PxcYxt8JJ0dMKfKj1QI1wA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4293,10 +4377,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.AdaGrad.html",
-          "hash": "qVoceeEsKK8YW13jMsQrhg=="
+          "hash": "TvjyjQOJk/lYDEkcAHXF9A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4305,10 +4389,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.Adam.html",
-          "hash": "/uOmSd/9ltkp5UzmZS3RGg=="
+          "hash": "qRo5B41NL1OxF4DL4ku5YA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4317,10 +4401,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.Adamax.html",
-          "hash": "OnM/RNCLXMsMtXv1bs4M5w=="
+          "hash": "tcv/zwKD1xTGp3SYLOsDtg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4329,10 +4413,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.CumGrad.html",
-          "hash": "3mEAW5EXV3SSz6BXU/TOdA=="
+          "hash": "B0w/dX5+owbgkm3tAfktRQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4341,10 +4425,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.DCASGD.html",
-          "hash": "zDt9av1Hr9tyujuivnqRoQ=="
+          "hash": "+gJLqIX1pRAKWngKfxieMQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4353,10 +4437,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.FTML.html",
-          "hash": "amYQpuJnP7/XD2/l/W8zUg=="
+          "hash": "lCRQIFaTtEAL38TL6wl50Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4365,10 +4449,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.Ftlr.html",
-          "hash": "VBTco4Sk2MZhqCq3qb/Eww=="
+          "hash": "I7ZAHYo7HBmwjQ08DMgCTQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4377,10 +4461,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.LBSGD.html",
-          "hash": "nF75eQsbRFqnwfctVh17RQ=="
+          "hash": "mEti5kOSruUX+HfdpYViwA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4389,10 +4473,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.NAG.html",
-          "hash": "Bvi1l9olgTKkOO7Tz4tCjA=="
+          "hash": "3G9vwJVOk81xYViC4QDoHw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4401,10 +4485,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.Nadam.html",
-          "hash": "5CM8c1zjjPxY5+hRoAcPRw=="
+          "hash": "LsIBIX8x5DELZponq2KvCQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4413,10 +4497,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.OptimState.html",
-          "hash": "+T8oA1o9MBt+l6wNOYB8Nw=="
+          "hash": "9BXdYyBDCDB5XSUWDJdoww=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4425,10 +4509,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.Optimizer.html",
-          "hash": "RBDnBVhkgqAaNEAYbmXOnw=="
+          "hash": "+PC4BZ1dprsENiDsQ/25cg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4437,10 +4521,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.RMSProp.html",
-          "hash": "pbQz5mj+2YnaJ8FYOIxjtQ=="
+          "hash": "1YepQ6jnzExO5NG4GLTMdw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4449,10 +4533,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.SGD.html",
-          "hash": "J91I49gcA1s3BnaDgCZPXA=="
+          "hash": "RQDrn1C+gbbCNotZOJSfrQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4461,10 +4545,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.SGLD.html",
-          "hash": "alT5GknWURftlyVCr/yWNg=="
+          "hash": "+kTjYbSTbIWZw+l6ozvUZA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4473,10 +4557,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.Signum.html",
-          "hash": "Dp9n9nZBnIWyi9uusK/N/Q=="
+          "hash": "vPxnYiXDyjql/3Tk3/7heQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4485,10 +4569,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Optimizers.Updater.html",
-          "hash": "yCxKypAK5VuSD+ztqd/XOg=="
+          "hash": "azQWwifflGaZZ4++JSvwsg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4500,7 +4584,7 @@
           "hash": "JhfzWrLU8QhKrZPphpA1pg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4509,7 +4593,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PadMode.html",
-          "hash": "Nyh3hWRMBD8W60GQEZDKZg=="
+          "hash": "OeQu8rLin2hXXoefaskGfA=="
         }
       },
       "is_incremental": true,
@@ -4521,7 +4605,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PickMode.html",
-          "hash": "nnT/e3bPAlCy0G9yxFS8gA=="
+          "hash": "lLg44Wj6QLI6LIzGhXi57A=="
         }
       },
       "is_incremental": true,
@@ -4533,7 +4617,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PickedStates.html",
-          "hash": "EgmUfR8qGC+IZBTetQFzxw=="
+          "hash": "/FSzW6ogOLH51GgWwJTGTg=="
         }
       },
       "is_incremental": true,
@@ -4545,7 +4629,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Pickle.html",
-          "hash": "6tmJXJJOeAkTb6OngvGBdg=="
+          "hash": "1SuLTCZvucChYwtr0AdS9A=="
         }
       },
       "is_incremental": true,
@@ -4557,7 +4641,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PoolingConvention.html",
-          "hash": "fZESVt9niVDAYMRjwYhulA=="
+          "hash": "DG3p3sjAq9EdD02qV5ODtg=="
         }
       },
       "is_incremental": true,
@@ -4569,7 +4653,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PoolingLayout.html",
-          "hash": "atmH4XxULGURTFXoTsSm6A=="
+          "hash": "SgRXFkENRk5ch9FanW61DA=="
         }
       },
       "is_incremental": true,
@@ -4581,7 +4665,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PoolingType.html",
-          "hash": "M9bDIMS8HYuLBzUtcD9JBw=="
+          "hash": "3ImznF6Q7w/fYr8Y8qOQEQ=="
         }
       },
       "is_incremental": true,
@@ -4593,7 +4677,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PoolingV1PoolType.html",
-          "hash": "JmmZTjmcoF1rYKMuEEAqkw=="
+          "hash": "iOsEBkpdOf/z1Gez4xLbvA=="
         }
       },
       "is_incremental": true,
@@ -4605,7 +4689,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PoolingV1PoolingConvention.html",
-          "hash": "aoU8NRnG8yz8sybGiU9uDA=="
+          "hash": "duMCONV6ha2vTn9Ou3PYXA=="
         }
       },
       "is_incremental": true,
@@ -4617,10 +4701,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PredictException.html",
-          "hash": "7k8wvPW4TipPcBH4uGOZnw=="
+          "hash": "Jo9iYo81UsEMUpNf6gewmA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4629,10 +4713,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.PredictorHandle.html",
-          "hash": "xdQN5YX+hyYFouiYEM/HsQ=="
+          "hash": "ji8i2pzdWF/Eb1dpWLKIeQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4641,10 +4725,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Profiler.Counter.html",
-          "hash": "gu7pBWjiJEXvJk7baGgZYg=="
+          "hash": "xXzS8Qj5+gjRANTvnsMz1g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4653,10 +4737,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Profiler.Domain.html",
-          "hash": "W5sjKU3yv9VSc7XQqt4lpA=="
+          "hash": "Z/wR0Mn6CgxGJcqxPev3Hw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4665,10 +4749,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Profiler.Event.html",
-          "hash": "maa54D41IxigVq0/chXKqA=="
+          "hash": "fFXep8CpmusbTNp5lnvvTg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4677,10 +4761,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Profiler.Frame.html",
-          "hash": "ocNL2VPFp4yhMLo048Z24Q=="
+          "hash": "aLH15RT+9fjQoEs+x7TEWA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4689,7 +4773,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Profiler.Marker.html",
-          "hash": "e3itZX5UPEeX/OD6aa9WdQ=="
+          "hash": "Bw0oewFUfTRsdkOg3HFXZg=="
         }
       },
       "is_incremental": true,
@@ -4701,10 +4785,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Profiler.Task.html",
-          "hash": "kJLabSZrM+tlJQBUYXZWiQ=="
+          "hash": "/yJhucnqeZmTXzaDSimn4g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4713,7 +4797,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Profiler.html",
-          "hash": "pD0d9OLAWj+aXPmSkrmarQ=="
+          "hash": "Q0H0OoAeBVj+wtkJYEUwfQ=="
         }
       },
       "is_incremental": true,
@@ -4725,10 +4809,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RNN.RNN.html",
-          "hash": "qH97Dlpe9Jc6DED4rztD9w=="
+          "hash": "iDlxTqMdNQ7qBmibkVYMDg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4737,10 +4821,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RNN.RNNCheckPointCallback.html",
-          "hash": "1SnWQ0YMVYFEcPmosdgicQ=="
+          "hash": "msfwYCwP4hWGuXHZbtPENw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4752,7 +4836,7 @@
           "hash": "SaSQpacW/XAqVFzoUkOSaw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4761,7 +4845,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RNNMode.html",
-          "hash": "5yVm3Qjg3fDt6K5ZZObcqQ=="
+          "hash": "2LQI+NgUf5ojzWLQUfB1+Q=="
         }
       },
       "is_incremental": true,
@@ -4773,10 +4857,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RTC.CudaKernel.html",
-          "hash": "c+Pw/E3lcFAyLbUqCfJGyA=="
+          "hash": "3ZMT0197xpyYOtjs40FvQQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4785,10 +4869,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RTC.CudaModule.html",
-          "hash": "9R/QQ6FV2uF3GpQaQUGu7Q=="
+          "hash": "lo2qC5yRupZcEeyBpz9Huw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4800,7 +4884,7 @@
           "hash": "NFgh7VeDTfqckc/QgBqZvQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4809,7 +4893,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Recordio.IRHeader.html",
-          "hash": "dnvDbjfVIzhsqUsXTHbGXw=="
+          "hash": "ZDPdKA9ibLGggIapqGSS7g=="
         }
       },
       "is_incremental": true,
@@ -4821,10 +4905,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Recordio.MXIndexedRecordIO.html",
-          "hash": "LhjeUM0QQ5KKrCgQmwd2dA=="
+          "hash": "QKCsMj60PAo0J3ocU/Tmnw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4833,10 +4917,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Recordio.MXRecordIO.html",
-          "hash": "dpeqQGm9WMSOfuMwPS1Rww=="
+          "hash": "G19jWfu9kYZtSUuknydjXQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4845,7 +4929,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Recordio.RecordIO.html",
-          "hash": "dtZ6og0LlWST5jLTv7/JCA=="
+          "hash": "y0ly2W0p1odesEeJcZOZXQ=="
         }
       },
       "is_incremental": true,
@@ -4860,7 +4944,7 @@
           "hash": "alpF4+Y2IXW7tR3isefwHA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4869,10 +4953,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.BaseConvRNNCell.html",
-          "hash": "0AA3hTL+nwM38ny7zCFZ9g=="
+          "hash": "a5MQjCvWM42bdHk2GrfhGw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4881,10 +4965,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.BaseRNNCell.html",
-          "hash": "sHcig62ZVodyY0O1emRW5A=="
+          "hash": "TSc/0/Hg1EHG7MRS8CG/qg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4893,10 +4977,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.BidirectionalCell.html",
-          "hash": "dXv+38qTxKxk4pSHvMqNww=="
+          "hash": "LcdeGGggZ+clkUO1jgtI8w=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4905,10 +4989,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.BucketSentenceIter.html",
-          "hash": "QRKDhDl5aQVUqqKamwrFjw=="
+          "hash": "I4nhbiyHl/sdiFN9dH4d6A=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4917,10 +5001,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.ConvGRUCell.html",
-          "hash": "2Fw3mK4Mku0vgIt9ztnulA=="
+          "hash": "NLFbIAusUTawm6dcwb72lQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4929,10 +5013,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.ConvLSTMCell.html",
-          "hash": "wUtax/Mm7gP69hAvxIswKw=="
+          "hash": "uzwn8KOfffA9Y6XEbAwgzA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4941,10 +5025,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.ConvRNNCell.html",
-          "hash": "+XZxqxnPJn8f/7VbQZcu5Q=="
+          "hash": "jRL7ENTV2ctZWT3RWZWqGQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4953,10 +5037,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.DropoutCell.html",
-          "hash": "pFoggOC3J4r0OuDPProgcA=="
+          "hash": "3ZzWRvtlxBQ+pO0VcY7Pbg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4965,10 +5049,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.FusedRNNCell.html",
-          "hash": "SilgNlLVx1Yqwk7ckUPuiA=="
+          "hash": "4X5On1iK9ACD1U4y8A+fXg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4977,10 +5061,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.GRUCell.html",
-          "hash": "IHftH1v2SOUmDIgSZ0ikAg=="
+          "hash": "HnD6qbFd9N+7s8jqmzLmhg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -4989,10 +5073,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.LSTMCell.html",
-          "hash": "e9fNEeV/1ggeZwPlWYoamQ=="
+          "hash": "34TJTdz43a4KlK5utbkaFg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5001,10 +5085,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.ModifierCell.html",
-          "hash": "kue5V5uuQHKBD7lgStprpg=="
+          "hash": "jTxpWLVlpmniOC4JsWtncg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5013,10 +5097,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.RNNActivation.html",
-          "hash": "hUROfXlLFNICf9OOvv8EbA=="
+          "hash": "mkQFlCzYYXb5jXmstqLyiQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5025,10 +5109,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.RNNCell.html",
-          "hash": "m5GClsSju1H2xs4Tiaod6A=="
+          "hash": "t/VZOKPpTXHSPaZG/QAVMg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5037,10 +5121,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.RNNParams.html",
-          "hash": "1HjXyWAAmgxLfjQnOmKAkw=="
+          "hash": "flgGiASHIHHh0yhoNgDbyg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5049,10 +5133,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.ResidualCell.html",
-          "hash": "CXSxi23KApr6s/o5xXKbSA=="
+          "hash": "X70sZSBNhfaCsRP2ABUKSA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5061,10 +5145,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.SequentialRNNCell.html",
-          "hash": "jjHmqjsy6kx6REFKfvKiBA=="
+          "hash": "ORvWSGatYsUUNYO2HqhIkg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5073,10 +5157,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.RecurrentLayer.ZoneoutCell.html",
-          "hash": "kIJtk1sGKAkZ1Rx6m48o6Q=="
+          "hash": "a0Dmno8eyQuLLnXJ+qXduA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5088,7 +5172,7 @@
           "hash": "B7NcyxZBc+VtMZmRR+9UMA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5097,7 +5181,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.ReluActType.html",
-          "hash": "1BtUtaaI7IgFWqm7Msk5Ig=="
+          "hash": "TOnJzMzp+2UZ48g5p2hKPw=="
         }
       },
       "is_incremental": true,
@@ -5109,7 +5193,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Runtime.Feature.html",
-          "hash": "whJg9arFkSCwg2h52/ohjA=="
+          "hash": "0dJGlK/PMVYvGqmr2q1TlA=="
         }
       },
       "is_incremental": true,
@@ -5121,7 +5205,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Runtime.Features.html",
-          "hash": "r/oXwYnZd75xcGGrE66lzA=="
+          "hash": "8p+T0nJcMP4AcFL+wcO0MA=="
         }
       },
       "is_incremental": true,
@@ -5133,7 +5217,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Runtime.html",
-          "hash": "kkQftRm2QKzUAD98vPJvHw=="
+          "hash": "aURovIqP4/9x8HduFtCtMA=="
         }
       },
       "is_incremental": true,
@@ -5145,10 +5229,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Schedulers.CosineScheduler.html",
-          "hash": "dQgyEB0W9e4m8ivTYWMgpg=="
+          "hash": "TLtOD0mL8v30qPpA5HyqwQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5157,10 +5241,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Schedulers.MultiFactorScheduler.html",
-          "hash": "nCE04DuufeWtLLycjIRhuQ=="
+          "hash": "m6oHYOl4IIJaORjE14YRqQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5169,10 +5253,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Schedulers.PolyScheduler.html",
-          "hash": "mJ6kjpKfiOQt+N/oxKXRbg=="
+          "hash": "/fnKcZbARGIt8LT21FPPFA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5184,7 +5268,7 @@
           "hash": "fP8BTROajKrdQqlsQDVFKA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5193,7 +5277,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Shape.html",
-          "hash": "NHBH/IKhH0cqqGcwnV/dMw=="
+          "hash": "Jzm2baC3ACp5eQJMMECgIg=="
         }
       },
       "is_incremental": true,
@@ -5205,7 +5289,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Slice.html",
-          "hash": "R+uanE9YeNYwQYtJik9QIw=="
+          "hash": "BNHTyyO2jy+xmbCm4NEGGA=="
         }
       },
       "is_incremental": true,
@@ -5217,7 +5301,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SoftmaxMode.html",
-          "hash": "gfXS7Gepn2J3EbpUOY7LSg=="
+          "hash": "JWQwpylw11hCajVhodKeYQ=="
         }
       },
       "is_incremental": true,
@@ -5229,7 +5313,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SoftmaxoutputNormalization.html",
-          "hash": "pZMLRj1MvC7x/3vp8GwENw=="
+          "hash": "yR+gVczDFnHVbpJVqVcIQA=="
         }
       },
       "is_incremental": true,
@@ -5241,10 +5325,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Sparse.BaseSparseNDArray.html",
-          "hash": "+//bU/2GIw4/pW87bjhMRA=="
+          "hash": "CiCyI2mvu8KM2L8dvqRXcQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5253,10 +5337,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Sparse.CSRNDArray.html",
-          "hash": "Imf6qe05VSRhAU81YXpt7Q=="
+          "hash": "HZR3omZxGwMpVHRyLhKEkA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5265,10 +5349,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Sparse.RowSparseNDArray.html",
-          "hash": "LyJH33UrLc2mIXfCOA/tpQ=="
+          "hash": "YLmfqYO2KOr3BspVqB8TtQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5280,7 +5364,7 @@
           "hash": "H9/yvCmTi8jI+0ipzl9x5Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5289,7 +5373,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SpatialtransformerSamplerType.html",
-          "hash": "u1XKlENpQcFQOpt/qrTqrA=="
+          "hash": "amxqJK0CPK51s4Yo89w2yA=="
         }
       },
       "is_incremental": true,
@@ -5301,7 +5385,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SpatialtransformerTransformType.html",
-          "hash": "K6myOiJeKKxhPmsIHXX+xw=="
+          "hash": "o9Hz5QxMjh9xYRYwfaE1Hw=="
         }
       },
       "is_incremental": true,
@@ -5313,7 +5397,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.StorageStype.html",
-          "hash": "OavpaQ0+JlznBKD6SZ9J8g=="
+          "hash": "81zubgA6cGzQkmYY2FLoIg=="
         }
       },
       "is_incremental": true,
@@ -5325,10 +5409,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SymBlob.html",
-          "hash": "Krh1o1Z9krgFTS2oMwLtoA=="
+          "hash": "f3MhUS/BdhoGI2Gecj/Lxw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5337,10 +5421,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SymContribApi.html",
-          "hash": "J3LImYwRJzxM6f+pHR+NvA=="
+          "hash": "qPpIUcVWYdfN1wBKKzxf0g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5349,10 +5433,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SymImgApi.html",
-          "hash": "3pZuu+6lonvE1ECR8Diyow=="
+          "hash": "aJgFn38XqQOAnFX5p0g0Ww=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5361,10 +5445,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Symbol.html",
-          "hash": "C4taCDLUvUKh6lpQTziu+A=="
+          "hash": "+1Jswx70CdvzXC3yOgc4eA=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5373,10 +5457,22 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.SymbolDict.html",
-          "hash": "vn1epI0pIfWB0YrvARg6SA=="
+          "hash": "/9UE6MvWu5Qu/L7ErIld7g=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/MxNet.SymbolList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/MxNet.SymbolList.html",
+          "hash": "oqy8i7/W5tdcPBiMJOepXg=="
+        }
+      },
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5385,7 +5481,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.TakeMode.html",
-          "hash": "Z9H0lqevPgKQj3swp4BnJQ=="
+          "hash": "rtf2GDYGgytI3G9dLKrvMQ=="
         }
       },
       "is_incremental": true,
@@ -5397,10 +5493,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.TestUtils.html",
-          "hash": "vm1eJu3OwxvPg1+0/vC88g=="
+          "hash": "zQ20A4H6msXPhQGNKo1Ghw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5409,7 +5505,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.TopkRetTyp.html",
-          "hash": "gTZOZSBBTUXVDEw9he0NBQ=="
+          "hash": "ck+yOE0xXvSQPOEvjjEa2g=="
         }
       },
       "is_incremental": true,
@@ -5421,7 +5517,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.Tuple-1.html",
-          "hash": "zESuNnNk2b5Wdpu9dXTQwg=="
+          "hash": "DVUhiWQM2qhtPpLGwB/6hw=="
         }
       },
       "is_incremental": true,
@@ -5433,10 +5529,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.UniquePtr-1.html",
-          "hash": "uwXPxs+vasovP7OojsshUw=="
+          "hash": "pZFVRv2Flu1Ub1/PKPevFQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5445,7 +5541,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.UpsamplingMultiInputMode.html",
-          "hash": "AwLEO5XPRsIEKHneyXKL1g=="
+          "hash": "S/GQeP8dn2S3H7ECnK+Drw=="
         }
       },
       "is_incremental": true,
@@ -5457,7 +5553,7 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.UpsamplingSampleType.html",
-          "hash": "bypsjtxJzM7JjHiqvK1gOw=="
+          "hash": "ZZQIU+JQZIoa9T5h7ZiX6g=="
         }
       },
       "is_incremental": true,
@@ -5469,10 +5565,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.mx.html",
-          "hash": "xQZtICYD69UuJjXrVhvimg=="
+          "hash": "e1nGr7UrK3kUAO41dWvAhg=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5481,10 +5577,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.nd.Random.html",
-          "hash": "VzOdDZ1ET5VwuOmji51XGA=="
+          "hash": "3m6Gj5VvvE+5Psr2TBMrsQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5496,10 +5592,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.nd.html",
-          "hash": "BrRRKhUDJcLD2ked3zz0fw=="
+          "hash": "IbsOu/P3RgUtz2n3zUrskw=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5511,10 +5607,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.sym.html",
-          "hash": "CFbCdz6q24sCDNF1+OP5hw=="
+          "hash": "Io2avQQEG52ouIYAVc/PpQ=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5523,10 +5619,10 @@
       "output": {
         ".html": {
           "relative_path": "api/MxNet.html",
-          "hash": "Bs8UNFLwZw/juZsiqCVPYg=="
+          "hash": "/5onelrxO/4b/4czGAKk9Q=="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -5535,7 +5631,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "PF3JovBnXLDgYei3l89wgQ=="
+          "hash": "a+oxQLlBFbI+hUNn50Qa4Q=="
         }
       },
       "is_incremental": true,
@@ -5547,7 +5643,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "M0+6oNblFKHE/wMeuPYnoQ=="
+          "hash": "J94VKndBl58pDVqZ18tXSQ=="
         }
       },
       "is_incremental": false,
@@ -5555,14 +5651,14 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "articles/intro.md",
+      "source_relative_path": "articles/start.md",
       "output": {
         ".html": {
-          "relative_path": "articles/intro.html",
-          "hash": "omRqOiL/AjuKVyIBq0qTGg=="
+          "relative_path": "articles/start.html",
+          "hash": "ptLKQRz1wD8rDBP41MOUww=="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -5571,7 +5667,7 @@
       "output": {
         ".html": {
           "relative_path": "articles/toc.html",
-          "hash": "gB8AESyvNru97tzIZofEEg=="
+          "hash": "YVf12el0QYxg6OlOwPRF2Q=="
         }
       },
       "is_incremental": false,
@@ -5583,19 +5679,23 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "8rjthU+vvlsurwgfRPunrg=="
+          "hash": "GhiJuZmLMtFjb+0OWMNBbg=="
         }
       },
       "is_incremental": true,
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink",
+        "EmptyTocItemName"
+      ],
       "type": "Toc",
       "source_relative_path": "toc.yml",
       "output": {
         ".html": {
           "relative_path": "toc.html",
-          "hash": "+rHUkRZHZRi5gd1aTU6lJA=="
+          "hash": "K3l8CUnDNST1U/uNDTqzjw=="
         }
       },
       "is_incremental": false,
@@ -5615,13 +5715,13 @@
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 3,
-          "skipped_file_count": 3
+          "skipped_file_count": 2
         },
         "ManagedReferenceDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 460,
-          "skipped_file_count": 180
+          "total_file_count": 468,
+          "skipped_file_count": 468
         },
         "TocDocumentProcessor": {
           "can_incremental": false,

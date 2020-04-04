@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class CosineEmbeddingLoss
+    <title>Class LogisticLoss
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class CosineEmbeddingLoss
+    <meta name="title" content="Class LogisticLoss
    ">
     <meta name="generator" content="docfx 2.51.0.0">
     
@@ -68,10 +68,10 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="MxNet.Gluon.CosineEmbeddingLoss">
+            <article class="content wrap" id="_content" data-uid="MxNet.Gluon.Losses.LogisticLoss">
   
   
-  <h1 id="MxNet_Gluon_CosineEmbeddingLoss" data-uid="MxNet.Gluon.CosineEmbeddingLoss" class="text-break">Class CosineEmbeddingLoss
+  <h1 id="MxNet_Gluon_Losses_LogisticLoss" data-uid="MxNet.Gluon.Losses.LogisticLoss" class="text-break">Class LogisticLoss
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
@@ -80,19 +80,22 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><a class="xref" href="MxNet.Gluon.Block.html">Block</a></div>
     <div class="level2"><a class="xref" href="MxNet.Gluon.HybridBlock.html">HybridBlock</a></div>
-    <div class="level3"><a class="xref" href="MxNet.Gluon.Loss.html">Loss</a></div>
-    <div class="level4"><span class="xref">CosineEmbeddingLoss</span></div>
+    <div class="level3"><a class="xref" href="MxNet.Gluon.Losses.Loss.html">Loss</a></div>
+    <div class="level4"><span class="xref">LogisticLoss</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
     <div>
-      <a class="xref" href="MxNet.Gluon.Loss.html#MxNet_Gluon_Loss_Weight">Loss.Weight</a>
+      <a class="xref" href="MxNet.Gluon.Losses.Loss.html#MxNet_Gluon_Losses_Loss_Weight">Loss.Weight</a>
     </div>
     <div>
-      <a class="xref" href="MxNet.Gluon.Loss.html#MxNet_Gluon_Loss_BatchAxis">Loss.BatchAxis</a>
+      <a class="xref" href="MxNet.Gluon.Losses.Loss.html#MxNet_Gluon_Losses_Loss_BatchAxis">Loss.BatchAxis</a>
     </div>
     <div>
-      <a class="xref" href="MxNet.Gluon.Loss.html#MxNet_Gluon_Loss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">Loss.HybridForward(NDArrayOrSymbol, NDArrayOrSymbol[])</a>
+      <a class="xref" href="MxNet.Gluon.Losses.Loss.html#MxNet_Gluon_Losses_Loss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">Loss.HybridForward(NDArrayOrSymbol, NDArrayOrSymbol[])</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Losses.Loss.html#MxNet_Gluon_Losses_Loss_ApplyWeighting_MxNet_NDArrayOrSymbol_System_Nullable_System_Single__MxNet_NDArrayOrSymbol_">Loss.ApplyWeighting(NDArrayOrSymbol, Nullable&lt;Single&gt;, NDArrayOrSymbol)</a>
     </div>
     <div>
       <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_ClearCachedOp">HybridBlock.ClearCachedOp()</a>
@@ -119,6 +122,9 @@
       <a class="xref" href="MxNet.Gluon.HybridBlock.html#MxNet_Gluon_HybridBlock_Forward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol___">HybridBlock.Forward(NDArrayOrSymbol, NDArrayOrSymbol[])</a>
     </div>
     <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block__childrens">Block._childrens</a>
+    </div>
+    <div>
       <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Prefix">Block.Prefix</a>
     </div>
     <div>
@@ -132,6 +138,9 @@
     </div>
     <div>
       <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Item_System_String_">Block.Item[String]</a>
+    </div>
+    <div>
+      <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_Item_System_Int32_">Block.Item[Int32]</a>
     </div>
     <div>
       <a class="xref" href="MxNet.Gluon.Block.html#MxNet_Gluon_Block_SetAttr_System_String_MxNet_Gluon_Block_">Block.SetAttr(String, Block)</a>
@@ -197,28 +206,28 @@
       <span class="xref">System.Object.ToString()</span>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Gluon.html">MxNet.Gluon</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Gluon.Losses.html">MxNet.Gluon.Losses</a></h6>
   <h6><strong>Assembly</strong>: MxNet.dll</h6>
-  <h5 id="MxNet_Gluon_CosineEmbeddingLoss_syntax">Syntax</h5>
+  <h5 id="MxNet_Gluon_Losses_LogisticLoss_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class CosineEmbeddingLoss : Loss</code></pre>
+    <pre><code class="lang-csharp hljs">public class LogisticLoss : Loss</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_CosineEmbeddingLoss__ctor_System_Nullable_System_Single__System_Nullable_System_Int32__System_Single_System_String_MxNet_Gluon_ParameterDict_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.CosineEmbeddingLoss.%23ctor(System.Nullable%7BSystem.Single%7D%2CSystem.Nullable%7BSystem.Int32%7D%2CSystem.Single%2CSystem.String%2CMxNet.Gluon.ParameterDict)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Losses_LogisticLoss__ctor_System_Nullable_System_Single__System_Nullable_System_Int32__System_String_System_String_MxNet_Gluon_ParameterDict_.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Losses.LogisticLoss.%23ctor(System.Nullable%7BSystem.Single%7D%2CSystem.Nullable%7BSystem.Int32%7D%2CSystem.String%2CSystem.String%2CMxNet.Gluon.ParameterDict)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Loss/CosineEmbeddingLoss.cs/#L5">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Losses/LogisticLoss.cs/#L22">View Source</a>
   </span>
-  <a id="MxNet_Gluon_CosineEmbeddingLoss__ctor_" data-uid="MxNet.Gluon.CosineEmbeddingLoss.#ctor*"></a>
-  <h4 id="MxNet_Gluon_CosineEmbeddingLoss__ctor_System_Nullable_System_Single__System_Nullable_System_Int32__System_Single_System_String_MxNet_Gluon_ParameterDict_" data-uid="MxNet.Gluon.CosineEmbeddingLoss.#ctor(System.Nullable{System.Single},System.Nullable{System.Int32},System.Single,System.String,MxNet.Gluon.ParameterDict)">CosineEmbeddingLoss(Nullable&lt;Single&gt;, Nullable&lt;Int32&gt;, Single, String, ParameterDict)</h4>
+  <a id="MxNet_Gluon_Losses_LogisticLoss__ctor_" data-uid="MxNet.Gluon.Losses.LogisticLoss.#ctor*"></a>
+  <h4 id="MxNet_Gluon_Losses_LogisticLoss__ctor_System_Nullable_System_Single__System_Nullable_System_Int32__System_String_System_String_MxNet_Gluon_ParameterDict_" data-uid="MxNet.Gluon.Losses.LogisticLoss.#ctor(System.Nullable{System.Single},System.Nullable{System.Int32},System.String,System.String,MxNet.Gluon.ParameterDict)">LogisticLoss(Nullable&lt;Single&gt;, Nullable&lt;Int32&gt;, String, String, ParameterDict)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public CosineEmbeddingLoss(float? weight = default(float? ), int? batch_axis = default(int? ), float margin = 0F, string prefix = null, ParameterDict params = null)</code></pre>
+    <pre><code class="lang-csharp hljs">public LogisticLoss(float? weight = default(float? ), int? batch_axis, string label_format = &quot;signed&quot;, string prefix = null, ParameterDict params = null)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -241,8 +250,8 @@
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">System.Single</span></td>
-        <td><span class="parametername">margin</span></td>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">label_format</span></td>
         <td></td>
       </tr>
       <tr>
@@ -261,18 +270,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_CosineEmbeddingLoss_Margin.md&amp;value=---%0Auid%3A%20MxNet.Gluon.CosineEmbeddingLoss.Margin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Losses_LogisticLoss_LabelFormat.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Losses.LogisticLoss.LabelFormat%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Loss/CosineEmbeddingLoss.cs/#L11">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Losses/LogisticLoss.cs/#L31">View Source</a>
   </span>
-  <a id="MxNet_Gluon_CosineEmbeddingLoss_Margin_" data-uid="MxNet.Gluon.CosineEmbeddingLoss.Margin*"></a>
-  <h4 id="MxNet_Gluon_CosineEmbeddingLoss_Margin" data-uid="MxNet.Gluon.CosineEmbeddingLoss.Margin">Margin</h4>
+  <a id="MxNet_Gluon_Losses_LogisticLoss_LabelFormat_" data-uid="MxNet.Gluon.Losses.LogisticLoss.LabelFormat*"></a>
+  <h4 id="MxNet_Gluon_Losses_LogisticLoss_LabelFormat" data-uid="MxNet.Gluon.Losses.LogisticLoss.LabelFormat">LabelFormat</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public float Margin { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string LabelFormat { get; set; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -284,7 +293,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Single</span></td>
+        <td><span class="xref">System.String</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -293,18 +302,18 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_CosineEmbeddingLoss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_System_Object___.md&amp;value=---%0Auid%3A%20MxNet.Gluon.CosineEmbeddingLoss.HybridForward(MxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Losses_LogisticLoss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_System_Object___.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Losses.LogisticLoss.HybridForward(MxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%2CMxNet.NDArrayOrSymbol%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Loss/CosineEmbeddingLoss.cs/#L13">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Losses/LogisticLoss.cs/#L33">View Source</a>
   </span>
-  <a id="MxNet_Gluon_CosineEmbeddingLoss_HybridForward_" data-uid="MxNet.Gluon.CosineEmbeddingLoss.HybridForward*"></a>
-  <h4 id="MxNet_Gluon_CosineEmbeddingLoss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_System_Object___" data-uid="MxNet.Gluon.CosineEmbeddingLoss.HybridForward(MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol,System.Object[])">HybridForward(NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol, Object[])</h4>
+  <a id="MxNet_Gluon_Losses_LogisticLoss_HybridForward_" data-uid="MxNet.Gluon.Losses.LogisticLoss.HybridForward*"></a>
+  <h4 id="MxNet_Gluon_Losses_LogisticLoss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_System_Object___" data-uid="MxNet.Gluon.Losses.LogisticLoss.HybridForward(MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol,MxNet.NDArrayOrSymbol,System.Object[])">HybridForward(NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol, Object[])</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol input1, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)</code></pre>
+    <pre><code class="lang-csharp hljs">public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label, NDArrayOrSymbol sample_weight = null, params object[] args)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -318,7 +327,7 @@
     <tbody>
       <tr>
         <td><a class="xref" href="MxNet.NDArrayOrSymbol.html">NDArrayOrSymbol</a></td>
-        <td><span class="parametername">input1</span></td>
+        <td><span class="parametername">pred</span></td>
         <td></td>
       </tr>
       <tr>
@@ -354,7 +363,7 @@
     </tbody>
   </table>
   <h5 class="overrides">Overrides</h5>
-  <div><a class="xref" href="MxNet.Gluon.Loss.html#MxNet_Gluon_Loss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_System_Object___">Loss.HybridForward(NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol, Object[])</a></div>
+  <div><a class="xref" href="MxNet.Gluon.Losses.Loss.html#MxNet_Gluon_Losses_Loss_HybridForward_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_MxNet_NDArrayOrSymbol_System_Object___">Loss.HybridForward(NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol, Object[])</a></div>
   <h3 id="extensionmethods">Extension Methods</h3>
   <div>
       <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
@@ -370,10 +379,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_CosineEmbeddingLoss.md&amp;value=---%0Auid%3A%20MxNet.Gluon.CosineEmbeddingLoss%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Losses_LogisticLoss.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Losses.LogisticLoss%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Loss/CosineEmbeddingLoss.cs/#L3" class="contribution-link">View Source</a>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Losses/LogisticLoss.cs/#L20" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

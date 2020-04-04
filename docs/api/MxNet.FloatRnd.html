@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class Sampler
+    <title>Class FloatRnd
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class Sampler
+    <meta name="title" content="Class FloatRnd
    ">
     <meta name="generator" content="docfx 2.51.0.0">
     
@@ -68,25 +68,17 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="MxNet.Gluon.Data.Sampler">
+            <article class="content wrap" id="_content" data-uid="MxNet.FloatRnd">
   
   
-  <h1 id="MxNet_Gluon_Data_Sampler" data-uid="MxNet.Gluon.Data.Sampler" class="text-break">Class Sampler
+  <h1 id="MxNet_FloatRnd" data-uid="MxNet.FloatRnd" class="text-break">Class FloatRnd
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">Sampler</span></div>
-      <div class="level2"><a class="xref" href="MxNet.Gluon.Contrib.Data.IntervalSampler.html">IntervalSampler</a></div>
-      <div class="level2"><a class="xref" href="MxNet.Gluon.Data.RandomSampler.html">RandomSampler</a></div>
-      <div class="level2"><a class="xref" href="MxNet.Gluon.Data.SequentialSampler.html">SequentialSampler</a></div>
-  </div>
-  <div classs="implements">
-    <h5>Implements</h5>
-    <div><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Int32</span>&gt;</div>
-    <div><span class="xref">System.Collections.IEnumerable</span></div>
+    <div class="level1"><span class="xref">FloatRnd</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -112,30 +104,29 @@
       <span class="xref">System.Object.ToString()</span>
     </div>
   </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.Gluon.Data.html">MxNet.Gluon.Data</a></h6>
+  <h6><strong>Namespace</strong>: <a class="xref" href="MxNet.html">MxNet</a></h6>
   <h6><strong>Assembly</strong>: MxNet.dll</h6>
-  <h5 id="MxNet_Gluon_Data_Sampler_syntax">Syntax</h5>
+  <h5 id="MxNet_FloatRnd_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class Sampler : IEnumerable&lt;int&gt;, IEnumerable</code></pre>
+    <pre><code class="lang-csharp hljs">public static class FloatRnd</code></pre>
   </div>
-  <h3 id="properties">Properties
+  <h3 id="fields">Fields
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Data_Sampler_Length.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Data.Sampler.Length%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_FloatRnd_rnd.md&amp;value=---%0Auid%3A%20MxNet.FloatRnd.rnd%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Data/Sampler.cs/#L8">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/RandomSeed.cs/#L9">View Source</a>
   </span>
-  <a id="MxNet_Gluon_Data_Sampler_Length_" data-uid="MxNet.Gluon.Data.Sampler.Length*"></a>
-  <h4 id="MxNet_Gluon_Data_Sampler_Length" data-uid="MxNet.Gluon.Data.Sampler.Length">Length</h4>
+  <h4 id="MxNet_FloatRnd_rnd" data-uid="MxNet.FloatRnd.rnd">rnd</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract int Length { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public static Random rnd</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
+  <h5 class="fieldValue">Field Value</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
       <tr>
@@ -145,7 +136,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Int32</span></td>
+        <td><span class="xref">System.Random</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -154,19 +145,41 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Data_Sampler_GetEnumerator.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Data.Sampler.GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_FloatRnd_Uniform_System_Single_System_Single_.md&amp;value=---%0Auid%3A%20MxNet.FloatRnd.Uniform(System.Single%2CSystem.Single)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Data/Sampler.cs/#L10">View Source</a>
+    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/RandomSeed.cs/#L11">View Source</a>
   </span>
-  <a id="MxNet_Gluon_Data_Sampler_GetEnumerator_" data-uid="MxNet.Gluon.Data.Sampler.GetEnumerator*"></a>
-  <h4 id="MxNet_Gluon_Data_Sampler_GetEnumerator" data-uid="MxNet.Gluon.Data.Sampler.GetEnumerator">GetEnumerator()</h4>
+  <a id="MxNet_FloatRnd_Uniform_" data-uid="MxNet.FloatRnd.Uniform*"></a>
+  <h4 id="MxNet_FloatRnd_Uniform_System_Single_System_Single_" data-uid="MxNet.FloatRnd.Uniform(System.Single,System.Single)">Uniform(Single, Single)</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract IEnumerator&lt;int&gt; GetEnumerator()</code></pre>
+    <pre><code class="lang-csharp hljs">public static float Uniform(float low, float high)</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">low</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td><span class="parametername">high</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-striped table-condensed">
     <thead>
@@ -177,57 +190,11 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerator</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><span class="xref">System.Single</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h3 id="eii">Explicit Interface Implementations
-  </h3>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Data_Sampler_System_Collections_IEnumerable_GetEnumerator.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Data.Sampler.System%23Collections%23IEnumerable%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Data/Sampler.cs/#L12">View Source</a>
-  </span>
-  <a id="MxNet_Gluon_Data_Sampler_System_Collections_IEnumerable_GetEnumerator_" data-uid="MxNet.Gluon.Data.Sampler.System#Collections#IEnumerable#GetEnumerator*"></a>
-  <h4 id="MxNet_Gluon_Data_Sampler_System_Collections_IEnumerable_GetEnumerator" data-uid="MxNet.Gluon.Data.Sampler.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>
-  </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Collections.IEnumerator</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="implements">Implements</h3>
-  <div>
-      <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>
-  </div>
-  <div>
-      <span class="xref">System.Collections.IEnumerable</span>
-  </div>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_ToValueString_System_Object_">ObjectExtensions.ToValueString(Object)</a>
-  </div>
-  <div>
-      <a class="xref" href="MxNet.ObjectExtensions.html#MxNet_ObjectExtensions_GetMemPtr_System_Object_">ObjectExtensions.GetMemPtr(Object)</a>
-  </div>
 </article>
           </div>
           
@@ -236,10 +203,10 @@
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_Gluon_Data_Sampler.md&amp;value=---%0Auid%3A%20MxNet.Gluon.Data.Sampler%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/new/master/apiSpec/new?filename=MxNet_FloatRnd.md&amp;value=---%0Auid%3A%20MxNet.FloatRnd%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/Gluon/Data/Sampler.cs/#L6" class="contribution-link">View Source</a>
+                    <a href="https://github.com/SciSharp/MxNet.Sharp/blob/master/src/MxNet/RandomSeed.cs/#L7" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
