@@ -175,3 +175,6 @@ for (var iter = 0; iter < epoch; iter++)
     Console.WriteLine($"Training acc at epoch {iter}: {name}={(acc * 100).ToString("0.##")}%, Duration: {(toc - tic).TotalSeconds.ToString("0.#")}s");
 }
 ```
+
+# Documentation
+Here is the link to the API and guides: https://scisharp.github.io/MxNet.Sharp/
