@@ -206,7 +206,7 @@ namespace MxNet.GluonCV.ModelZoo
             var file_name = $"{name}-{ShortHash(name)}";
             if (!string.IsNullOrWhiteSpace(tag))
             {
-                file_name = $"{name}-{ShortHash(tag)}";
+                file_name = $"{name}-{tag}";
             }
 
             var file_path = $"{root}\\{file_name}.params";

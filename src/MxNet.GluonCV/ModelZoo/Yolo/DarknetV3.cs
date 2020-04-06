@@ -36,6 +36,9 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
 
             // output
             this.output = new Dense(classes);
+
+            RegisterChild(features);
+            RegisterChild(output);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -69,7 +72,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             var net = new DarknetV3(layers, channels, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
             if (pretrained)
             {
-                net.LoadParameters(ModelStore.GetModelFile(String.Format("darknet%d", num_layers), tag: "pretrained", root: root), ctx: ctx);
+                net.LoadParameters(ModelStore.GetModelFile($"darknet{num_layers}", tag: "", root: root), ctx: ctx);
             }
             return net;
         }

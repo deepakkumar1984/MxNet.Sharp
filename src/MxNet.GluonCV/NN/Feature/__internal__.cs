@@ -63,7 +63,7 @@ namespace MxNet.GluonCV.NN
 
         public static (SymbolList, SymbolList, ParameterDict) ParseNetwork(string network, string[] outputs, string[] inputs, bool pretrained, Context ctx)
         {
-            var net = Models.GetModel(network, pretrained: pretrained, ctx: ctx);
+            var net = Models.GetModel<ResNetV1>(network, pretrained: pretrained, ctx: ctx);
             return ParseNetwork(net, outputs, inputs, pretrained, ctx);
         }
     }

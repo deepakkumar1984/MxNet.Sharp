@@ -445,7 +445,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             }
             else
             {
-                YOLOV3 net = (YOLOV3)Models.GetModel("yolo3_darknet53_" + transfer.ToString(), pretrained: true, classes.Length, ctx, root);
+                YOLOV3 net = Models.GetModel<YOLOV3>( "YOLO3_Darknet53_" + transfer.ToString(), pretrained: true, classes, ctx, root);
                 var reuse_classes = (from x in classes
                                      where net.Classes.Contains(x)
                                      select classes.ToList().IndexOf(x)).ToDictionary(i => i, i => i);
@@ -514,7 +514,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             }
             else
             {
-                YOLOV3 net = (YOLOV3)Models.GetModel("yolo3_mobilenet1.0_" + transfer.ToString(), pretrained: true, classes.Length, ctx, root);
+                YOLOV3 net = Models.GetModel<YOLOV3>("YOLO3_Mobilenet1_0_" + transfer.ToString(), pretrained: true, classes, ctx, root);
                 var reuse_classes = (from x in classes
                                      where net.Classes.Contains(x)
                                      select classes.ToList().IndexOf(x)).ToDictionary(i => i, i => i);
@@ -583,7 +583,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             }
             else
             {
-                YOLOV3 net = (YOLOV3)Models.GetModel("yolo3_mobilenet0.25_" + transfer.ToString(), pretrained: true, classes.Length, ctx, root);
+                YOLOV3 net = Models.GetModel<YOLOV3>("yolo3_mobilenet0.25_" + transfer.ToString(), pretrained: true, classes, ctx, root);
                 var reuse_classes = (from x in classes
                                      where net.Classes.Contains(x)
                                      select classes.ToList().IndexOf(x)).ToDictionary(i => i, i => i);
