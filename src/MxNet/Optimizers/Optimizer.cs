@@ -31,7 +31,7 @@ namespace MxNet.Optimizers
 
         internal Dictionary<int, int> index_update_count = new Dictionary<int, int>();
 
-        private readonly float lr;
+        private float lr;
         private Dictionary<string, float> lr_mult = new Dictionary<string, float>();
 
         private Dictionary<string, Optimizer> opt_registry = new Dictionary<string, Optimizer>();
@@ -88,6 +88,10 @@ namespace MxNet.Optimizers
                 if (Scheduler != null)
                     return Scheduler.Call(NumUpdate);
                 return lr;
+            }
+            set
+            {
+                lr = value;
             }
         }
 
@@ -219,7 +223,7 @@ namespace MxNet.Optimizers
             }
         }
 
-        internal float[] GetLrs(int[] indices)
+        public virtual float[] GetLrs(int[] indices)
         {
             float lr = 0;
             if (Scheduler != null)
@@ -250,12 +254,12 @@ namespace MxNet.Optimizers
             return lrs;
         }
 
-        internal float GetLr(int index)
+        public virtual float GetLr(int index)
         {
             return GetLrs(new[] {index})[0];
         }
 
-        internal float[] GetWds(int[] indices)
+        public virtual float[] GetWds(int[] indices)
         {
             var wds = new float[indices.Length];
             for (var i = 0; i < indices.Length; i++)
@@ -279,7 +283,7 @@ namespace MxNet.Optimizers
             return wds;
         }
 
-        internal float GetWd(int index)
+        public virtual float GetWd(int index)
         {
             return GetWds(new[] {index})[0];
         }

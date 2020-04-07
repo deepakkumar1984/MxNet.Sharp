@@ -4,7 +4,21 @@ using System.Text;
 
 namespace MxNet.Keras.Initializer
 {
-    class Identity
+    public class Identity : Initializer
     {
+        public Identity(float gain = 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override KerasSymbol Call(Shape shap, DType dtype = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ConfigDict GetConfig()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

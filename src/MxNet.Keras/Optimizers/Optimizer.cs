@@ -4,16 +4,12 @@ using System.Text;
 
 namespace MxNet.Keras.Optimizers
 {
-    public abstract class Optimizer
+    public interface IOptimizer
     {
-        public Optimizer(float? clipnorm = null, float? clipvalue = null)
-        {
-            throw new NotImplementedException();
-        }
+        KerasSymbol Lr { get; set; }
 
-        public static KerasSymbol ClipNorm(KerasSymbol g, float c, KerasSymbol n)
-        {
-            throw new NotImplementedException();
-        }
+        KerasSymbol Decay { get; set; }
+
+        ConfigDict GetConfig();
     }
 }

@@ -4,7 +4,16 @@ using System.Text;
 
 namespace MxNet.Keras.Initializer
 {
-    class Zeros
+    public class Zeros : Initializer
     {
+        public override KerasSymbol Call(Shape shap, DType dtype = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ConfigDict GetConfig()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

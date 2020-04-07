@@ -4,19 +4,19 @@ using System.Text;
 
 namespace MxNet.Keras.Utils
 {
-    public class MultiGpuUtils
+    public class GeneratorEnqueuer : SequenceEnqueuer
     {
-        public static string[] GetAvailableDevices()
+        public GeneratorEnqueuer(Sequence sequence, bool use_multiprocessing = false, int? wait_time = null, int? random_seed = null) : base(sequence, use_multiprocessing)
         {
             throw new NotImplementedException();
         }
 
-        public static string NormalizeDeviceName(string name)
+        public override List<(NDArray, NDArray)> Get()
         {
             throw new NotImplementedException();
         }
 
-        public static Model MultiGpuModel(Model model, int gpus, bool cpu_merge = true, bool cpu_relocation = false)
+        public override void Run()
         {
             throw new NotImplementedException();
         }

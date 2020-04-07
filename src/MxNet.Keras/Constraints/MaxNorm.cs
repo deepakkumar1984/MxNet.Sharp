@@ -4,7 +4,16 @@ using System.Text;
 
 namespace MxNet.Keras.Constraints
 {
-    class MaxNorm
+    public class MaxNorm : Constraint
     {
+        public override KerasSymbol Call(KerasSymbol w)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ConfigDict GetConfig()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

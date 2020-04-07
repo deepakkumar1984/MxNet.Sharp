@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.Keras.Engine
 {
-    class Sequential
+    public class Sequential
     {
     }
 }

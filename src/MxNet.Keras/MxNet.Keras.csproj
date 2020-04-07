@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HDF.PInvoke.NETStandard" Version="1.10.502" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MxNet\MxNet.csproj" />
   </ItemGroup>
 

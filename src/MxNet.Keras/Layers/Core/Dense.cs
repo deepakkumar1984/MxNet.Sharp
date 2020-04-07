@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.Keras.Layers
 {
-    class Dense
+    public class Dense
     {
     }
 }

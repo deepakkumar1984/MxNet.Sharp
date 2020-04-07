@@ -4,7 +4,10 @@ using System.Text;
 
 namespace MxNet.Keras.Constraints
 {
-    public class Constraint
+    public abstract class Constraint
     {
+        public abstract KerasSymbol Call(KerasSymbol w);
+
+        public abstract ConfigDict GetConfig();
     }
 }

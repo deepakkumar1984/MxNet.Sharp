@@ -17,8 +17,9 @@ namespace MxNet.Optimizers
 {
     public class AdaGrad : Optimizer
     {
-        public AdaGrad(float epsilon = 1e-07f)
+        public AdaGrad(float lr, float epsilon = 1e-07f)
         {
+            LearningRate = lr;
             Epsilon = epsilon;
         }
 

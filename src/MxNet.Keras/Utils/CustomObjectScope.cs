@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Keras.Constraints
+namespace MxNet.Keras.Utils
 {
-    public class NonNeg : Constraint
+    public class CustomObjectScope : IDisposable
     {
-        public override KerasSymbol Call(KerasSymbol w)
+        public CustomObjectScope(FuncArgs args)
         {
             throw new NotImplementedException();
         }
 
-        public override ConfigDict GetConfig()
+        public void Dispose()
         {
             throw new NotImplementedException();
         }

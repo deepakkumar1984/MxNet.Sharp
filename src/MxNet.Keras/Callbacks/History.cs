@@ -4,7 +4,16 @@ using System.Text;
 
 namespace MxNet.Keras.Callbacks
 {
-    class History
+    public class History : Callback
     {
+        public override void OnTrainBegin(Dictionary<string, float> logs = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnEpochEnd(int epoch, Dictionary<string, float> logs = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
