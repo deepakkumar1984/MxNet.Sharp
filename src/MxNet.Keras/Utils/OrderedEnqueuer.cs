@@ -6,7 +6,7 @@ namespace MxNet.Keras.Utils
 {
     public class OrderedEnqueuer : SequenceEnqueuer
     {
-        public OrderedEnqueuer(Sequence sequence, bool use_multiprocessing = false, bool shuffle = false) : base(sequence, use_multiprocessing)
+        public OrderedEnqueuer(Sequence<(NDArray, NDArray)> sequence, bool use_multiprocessing = false, bool shuffle = false) : base(sequence, use_multiprocessing)
         {
             throw new NotImplementedException();
         }

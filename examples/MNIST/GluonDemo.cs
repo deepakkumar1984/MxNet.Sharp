@@ -8,6 +8,7 @@ using MxNet.Initializers;
 using MxNet.IO;
 using MxNet.Metrics;
 using MxNet.Optimizers;
+using NumpyDotNet;
 
 namespace MNIST
 {
@@ -19,7 +20,7 @@ namespace MNIST
             var batch_size = 100; //Set training batch size
             var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
             var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
-
+            
             // Define simple network with dense layers
             var net = new Sequential();
             net.Add(new Dense(128, ActivationType.Relu, in_units: 784));

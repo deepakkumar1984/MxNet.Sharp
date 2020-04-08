@@ -249,34 +249,34 @@ namespace MxNet
         {
             if(data.Dtype == np.Int8)
             {
-                return Array(data.AsByteArray()).AsType(DType.Int8);
+                return Array(data.AsByteArray()).AsType(DType.Int8).Reshape(new Shape(data.shape.iDims));
             }
             else if (data.Dtype == np.Int16)
             {
-                return Array(data.AsInt16Array()).AsType(DType.Int32); ;
+                return Array(data.AsInt16Array()).AsType(DType.Int32).Reshape(new Shape(data.shape.iDims));
             }
             else if (data.Dtype == np.Int32)
             {
-                return Array(data.AsInt32Array()).AsType(DType.Int32); ;
+                return Array(data.AsInt32Array()).AsType(DType.Int32).Reshape(new Shape(data.shape.iDims));
             }
             else if (data.Dtype == np.Int64)
             {
-                return Array(data.AsInt64Array()).AsType(DType.Int64); ;
+                return Array(data.AsInt64Array()).AsType(DType.Int64).Reshape(new Shape(data.shape.iDims));
             }
             else if (data.Dtype == np.Float32)
             {
-                return Array(data.AsFloatArray()).AsType(DType.Float32); ;
+                return Array(data.AsFloatArray()).AsType(DType.Float32).Reshape(new Shape(data.shape.iDims));
             }
             else if (data.Dtype == np.Float64)
             {
-                return Array(data.AsDoubleArray()).AsType(DType.Float64); ;
+                return Array(data.AsDoubleArray()).AsType(DType.Float64).Reshape(new Shape(data.shape.iDims));
             }
             else if (data.Dtype == np.UInt8)
             {
-                return Array(data.AsSByteArray()).AsType(DType.Uint8); ;
+                return Array(data.AsSByteArray()).AsType(DType.Uint8).Reshape(new Shape(data.shape.iDims));
             }
 
-            return Array(data.AsFloatArray());
+            return Array(data.AsFloatArray()).Reshape(new Shape(data.shape.iDims));
         }
 
         /// <summary>

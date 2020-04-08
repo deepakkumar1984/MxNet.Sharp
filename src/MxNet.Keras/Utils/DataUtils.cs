@@ -37,7 +37,7 @@ namespace MxNet.Keras.Utils
             throw new NotImplementedException();
         }
 
-        public static void InitPool(Sequence[] seqs)
+        public static void InitPool(Sequence<int>[] seqs)
         {
             throw new NotImplementedException();
         }
@@ -47,7 +47,7 @@ namespace MxNet.Keras.Utils
             throw new NotImplementedException();
         }
 
-        public static void InitPoolGenerator(Sequence[] gens, int? random_seed = null)
+        public static void InitPoolGenerator(Sequence<int>[] gens, int? random_seed = null)
         {
             throw new NotImplementedException();
         }

@@ -68,7 +68,6 @@ namespace BasicExamples
         private static float TrainModel()
         {
             float cumulative_train_loss = 0;
-            int i = 0;
             foreach (var (data, label) in train_dataloader)
             {
                 NDArray loss_result = null;
@@ -78,7 +77,6 @@ namespace BasicExamples
                     loss_result = loss.Call(output, label);
                     loss_result.Backward();
                 }
-
                 
                 trainer.Step(batch_size);
                 cumulative_train_loss += nd.Sum(loss_result).AsScalar<float>();
@@ -90,7 +88,6 @@ namespace BasicExamples
         private static float ValidateModel(float threshold)
         {
             float cumulative_val_loss = 0;
-            int i = 0;
             foreach (var (val_data, val_ground_truth_class) in val_dataloader)
             {
                 var output = net.Call(val_data);

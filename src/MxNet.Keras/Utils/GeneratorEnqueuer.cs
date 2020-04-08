@@ -6,7 +6,7 @@ namespace MxNet.Keras.Utils
 {
     public class GeneratorEnqueuer : SequenceEnqueuer
     {
-        public GeneratorEnqueuer(Sequence sequence, bool use_multiprocessing = false, int? wait_time = null, int? random_seed = null) : base(sequence, use_multiprocessing)
+        public GeneratorEnqueuer(Sequence<(NDArray, NDArray)> sequence, bool use_multiprocessing = false, int? wait_time = null, int? random_seed = null) : base(sequence, use_multiprocessing)
         {
             throw new NotImplementedException();
         }

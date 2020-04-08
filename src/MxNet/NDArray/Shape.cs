@@ -53,6 +53,20 @@ namespace MxNet
             _Data = data.ToList();
         }
 
+        public Shape(params long[] vl)
+        {
+            if (vl == null)
+                vl = new long[0];
+
+            var v = vl.Select(x => (int)x).ToArray();
+
+            Dimension = v.Length;
+
+            var data = new int[Dimension < StackCache ? StackCache : Dimension];
+            Array.Copy(v, data, v.Length);
+            _Data = data.ToList();
+        }
+
         public Shape(int s1)
             : this(new[] {s1})
         {

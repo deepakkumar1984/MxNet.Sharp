@@ -493,25 +493,25 @@ namespace MxNet
             switch (DataType.Name)
             {
                 case "float16":
-                    x = np.array(AsArray<float>());
+                    x = np.array(AsArray<float>()).reshape(Shape.Data);
                     break;
                 case "float32":
-                    x = np.array(AsArray<float>());
+                    x = np.array(AsArray<float>()).reshape(Shape.Data);
                     break;
                 case "float64":
-                    x = np.array(AsArray<double>());
+                    x = np.array(AsArray<double>()).reshape(Shape.Data);
                     break;
                 case "int8":
-                    x = np.array(AsArray<byte>());
+                    x = np.array(AsArray<byte>()).reshape(Shape.Data);
                     break;
                 case "uint8":
-                    x = np.array(AsArray<sbyte>());
+                    x = np.array(AsArray<sbyte>()).reshape(Shape.Data);
                     break;
                 case "int32":
-                    x = np.array(AsArray<int>());
+                    x = np.array(AsArray<int>()).reshape(Shape.Data);
                     break;
                 case "int64":
-                    x = np.array(AsArray<long>());
+                    x = np.array(AsArray<long>()).reshape(Shape.Data);
                     break;
             }
 

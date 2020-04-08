@@ -6,7 +6,7 @@ namespace MxNet.Keras.Utils
 {
     public abstract class SequenceEnqueuer
     {
-        public SequenceEnqueuer(Sequence sequence, bool use_multiprocessing= false)
+        public SequenceEnqueuer(Sequence<(NDArray, NDArray)> sequence, bool use_multiprocessing= false)
         {
             throw new NotImplementedException();
         }
