@@ -4,7 +4,11 @@ using System.Text;
 
 namespace MxNet.Keras.Engine
 {
-    class InputSpec
+    public class InputSpec
     {
+        public InputSpec(DType dtype= null, Shape shape= null, int? ndim= null, int? max_ndim= null, int? min_ndim= null, Dictionary<int, int> axes= null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

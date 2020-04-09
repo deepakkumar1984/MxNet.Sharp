@@ -4,7 +4,11 @@ using System.Text;
 
 namespace MxNet.Keras.Datasets
 {
-    class Cifar10
+    public class Cifar10
     {
+        public static ((NDArray, NDArray), (NDArray, NDArray)) LoadData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

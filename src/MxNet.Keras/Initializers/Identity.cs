@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Keras.Initializer
+namespace MxNet.Keras.Initializers
 {
-    public class Constant : Initializer
+    public class Identity : Initializer
     {
-        public Constant(float value = 0)
+        public Identity(float gain = 1)
         {
             throw new NotImplementedException();
         }

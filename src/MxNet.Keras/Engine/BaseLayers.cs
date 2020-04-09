@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Keras.Initializer
+namespace MxNet.Keras.Engine
 {
-    public class Orthogonal : Initializer
+    public class BaseLayers
     {
-        public Orthogonal(float gain = 1, int? seed = null)
+        public static Symbol[] CollectPreviousMask(Symbol[]  input_tensors)
         {
             throw new NotImplementedException();
         }
 
-        public override KerasSymbol Call(Shape shap, DType dtype = null)
+        public static string ToSnakeCase(string name)
         {
             throw new NotImplementedException();
         }
 
-        public override ConfigDict GetConfig()
+        public static Shape[] CollectInputShape(Symbol[] input_tensors)
         {
             throw new NotImplementedException();
         }

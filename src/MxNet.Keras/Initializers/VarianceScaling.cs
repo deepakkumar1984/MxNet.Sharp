@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Keras.Initializer
+namespace MxNet.Keras.Initializers
 {
-    public class Zeros : Initializer
+    public class VarianceScaling : Initializer
     {
+        public VarianceScaling(float scale= 1, string mode= "fan_in", string distribution= "normal", int? seed= null)
+        {
+            throw new NotImplementedException();
+        }
+
         public override KerasSymbol Call(Shape shap, DType dtype = null)
         {
             throw new NotImplementedException();

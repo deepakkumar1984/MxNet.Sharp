@@ -636,5 +636,276 @@ namespace MxNet.Keras
         {
             throw new NotImplementedException();
         }
+
+        public static KerasSymbol Sigmoid(KerasSymbol x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol HardSigmoid(KerasSymbol x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Tanh(KerasSymbol x)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Dropout(KerasSymbol x, float level, Shape noise_shape, int? seed = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol L2Normalize(KerasSymbol x, int axis = -1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol InTopK(KerasSymbol predictions, KerasSymbol targets, int k)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Conv1D(KerasSymbol x, KerasSymbol kernel, int strides= 1, string padding= "valid", string data_format= "",                                int dilation_rate= 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Conv2D(KerasSymbol x, KerasSymbol kernel, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Conv2DTranspose(KerasSymbol x, KerasSymbol kernel, Shape output_shape, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol SeparableConv2D(KerasSymbol x, KerasSymbol depthwise_kernel, KerasSymbol pointwise_kernel, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol DepthwiseConv2D(KerasSymbol x, KerasSymbol depthwise_kernel, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Conv3D(KerasSymbol x, KerasSymbol kernel, (int, int, int)? strides = null, string padding = "valid", string data_format = "", (int, int, int)? dilation_rate = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Conv3DTranspose(KerasSymbol x, KerasSymbol kernel, Shape output_shape, (int, int, int)? strides = null, string padding = "valid", string data_format = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Pool2D(KerasSymbol x, (int, int) pool_size, (int, int)? strides = null, string padding = "valid", string data_format = "", string pool_mode = "max")
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol Pool3D(KerasSymbol x, (int, int, int) pool_size, (int, int, int)? strides = null, string padding = "valid", string data_format = "", string pool_mode = "max")
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol BiasAdd(KerasSymbol x, KerasSymbol bias, string data_format= "channels_last")
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol RandomNormal(Shape shape, float mean = 0, float stddev = 1, DType dtype = null, int? seed = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol RandomUniform(Shape shape, float minval = 0, float maxval = 1, DType dtype = null, int? seed = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol NormalBinomial(Shape shape, float p = 0, DType dtype = null, int? seed = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol TruncatedNormal(Shape shape, float mean = 0, float stddev = 1, DType dtype = null, int? seed = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol CTCBatchCost(KerasSymbol y_true, KerasSymbol y_pred, KerasSymbol input_length, KerasSymbol label_length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static int GetUid(string prefix = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void ResetUids()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static string PrepareName(string name, string @default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol[] DfsGetBindValues(Symbol node_start)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static KerasSymbol ForwardPass(KerasSymbol x)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol KerasVariable(string name, Shape shape, DType dtype, StorageStype stype= StorageStype.Default, bool is_vector= false)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static DType ConvertStringDType(DType dtype)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static string ConvertDTypeString(DType dtype)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static Shape NormalizeAxis(Shape axis, int ndim)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ValidateDataFormat(string data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ValidatePoolMode(string pool_mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ValidatePaddingMode(string padding)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static int CalculateConvOutputSize(int input_length, int filter_size, int padding, int stride,int dilation= 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol PreprocessConvNDInput(KerasSymbol data_var, string data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol PreprocessConvNDOutput(KerasSymbol x, string data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol PreprocessConvNDKernel(KerasSymbol kernel, string data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol PreprocessConvDWKernel(KerasSymbol kernel, string data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol PreprocessConvNDTransposeOutput(Shape output_shape, string data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ValidateConvInputShape(Shape input_shape)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static int CalculatePaddingRequirement(Shape input_shape, KerasSymbol kernel, int strides, int dilation, string border_mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol LayoutKernel(KerasSymbol kernel)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol MxSpConv(KerasSymbol data, int num_in_channel, int num_out_channel, (int, int)? dw_kernel_shape= null,                           KerasSymbol dw_kernel_weight= null, (int,int)? pw_kernel_shape= null, KerasSymbol pw_kernel_weight = null,
+                                (int, int)? stride= null, (int, int)? pad = null, string name= "", float depth_mult= 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol SpConvNd(KerasSymbol x, KerasSymbol depthwise_kernel, KerasSymbol pointwise_kernel, int[] strides, int[] filter_dilation, string name= "", string padding_mode= "valid", string data_format= "default")
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol DWConv(KerasSymbol x, KerasSymbol kernel, int[] strides, int[] filter_dilation, string name= null, string padding_mode= "valid", string data_format= "default")
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol ConvNd(KerasSymbol x, KerasSymbol kernel, int[] strides, int[] filter_dilation, string name = null, string padding_mode = "valid", string data_format = "default")
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol ConvNdTranspose(KerasSymbol x, KerasSymbol kernel, Shape output_shape, int[] strides, int[] filter_dilation, string name = null, string padding_mode = "valid", string data_format = "default")
+        {
+            throw new NotImplementedException();
+        }
+
+        private static int CalculatePoolOutputSize(int input_length, int filter_size, int padding, int stride, int dilation= 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void ValidatePoolInputShape(Shape input_shape)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static (int, int, int) CalculatePoolPaddingRequirement(string padding_mode, Shape input_shape, int[] kernel, int[] strides)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static KerasSymbol PoolNd(KerasSymbol x, string name, int[] pool_size, int[] strides, string padding_mode= "valid", string data_format= "", string pool_mode= "max")
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Model GetMxNetModelInfo(Model model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static int GetNumGpus()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Context[] GetMxNetContexts(Context context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

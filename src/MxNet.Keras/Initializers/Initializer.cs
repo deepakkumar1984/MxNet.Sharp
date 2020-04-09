@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Keras.Initializer
+namespace MxNet.Keras.Initializers
 {
     public abstract class Initializer
     {

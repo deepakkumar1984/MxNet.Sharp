@@ -4,7 +4,11 @@ using System.Text;
 
 namespace MxNet.Keras.Datasets
 {
-    class BostonHousing
+    public class BostonHousing
     {
+        public static ((NDArray, NDArray), (NDArray, NDArray)) LoadData(string path= "boston_housing.npz", float test_split= 0.2f, int seed= 113)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

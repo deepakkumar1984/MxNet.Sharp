@@ -4,7 +4,11 @@ using System.Text;
 
 namespace MxNet.Keras.Datasets
 {
-    class FashionMNIST
+    public class FashionMNIST
     {
+        public static ((NDArray, NDArray), (NDArray, NDArray)) LoadData()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

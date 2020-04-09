@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Keras.Initializer
+namespace MxNet.Keras.Initializers
 {
-    public class TruncatedNormal : Initializer
+    public class Constant : Initializer
     {
-        public TruncatedNormal(float mean = 0, float stddev = 0.05f, int? seed = null)
+        public Constant(float value = 0)
         {
             throw new NotImplementedException();
         }

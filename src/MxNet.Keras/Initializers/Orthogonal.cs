@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Keras.Initializer
+namespace MxNet.Keras.Initializers
 {
-    public class Identity : Initializer
+    public class Orthogonal : Initializer
     {
-        public Identity(float gain = 1)
+        public Orthogonal(float gain = 1, int? seed = null)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,11 @@ using System.Text;
 
 namespace MxNet.Keras.Datasets
 {
-    class MNIST
+    public class MNIST
     {
+        public static ((NDArray, NDArray), (NDArray, NDArray)) LoadData(string path = "mnist.npz")
+        {
+            throw new NotImplementedException();
+        }
     }
 }
