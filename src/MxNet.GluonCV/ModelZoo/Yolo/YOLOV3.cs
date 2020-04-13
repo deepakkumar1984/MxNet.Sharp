@@ -2,6 +2,7 @@
 using MxNet.Gluon.NN;
 using MxNet.GluonCV.Data;
 using MxNet.GluonCV.Losses;
+using MxNet.Image;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
 
         public YOLOV3(HybridBlock[] stages, int[] channels, NDArray anchors, int[] strides, string[] classes, (int, int)? alloc_size= null,
                  float nms_thresh= 0.45f, int nms_topk= 400, int post_nms= 100, float pos_iou_thresh= 1,
-                 float ignore_iou_thresh= 0.7f, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                 float ignore_iou_thresh= 0.7f, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._classes = classes;
             this.nms_thresh = nms_thresh;
@@ -57,6 +58,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             {
                 throw new NotImplementedException($"pos_iou_thresh({pos_iou_thresh}) < 1.0 is not implemented!");
             }
+
             this._loss = new YOLOV3Loss();
             this.stages = new HybridSequential();
             this.transitions = new HybridSequential();
@@ -80,6 +82,11 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
                     this.transitions.Add(DarknetV3.Conv2d(channel, 1, 0, 1, norm_layer: norm_layer, norm_kwargs: norm_kwargs));
                 }
             }
+
+            RegisterChild(this.stages, "stages");
+            RegisterChild(transitions, "transitions");
+            RegisterChild(yolo_blocks, "yolo_blocks");
+            RegisterChild(yolo_outputs, "yolo_outputs");
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -151,6 +158,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
                 {
                     break;
                 }
+
                 // add transition layers
                 x = this.transitions[i].Call(x);
                 // upsample feature map reverse to shallow layers
@@ -196,11 +204,13 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             if (this.nms_thresh > 0 && this.nms_thresh < 1)
             {
                 result = nd.Contrib.BoxNms(result, overlap_thresh: this.nms_thresh, valid_thresh: 0.01f, topk: this.nms_topk, id_index: 0, score_index: 1, coord_start: 2, force_suppress: false);
+                var asssss = result.ArrayData.OfType<float>().Where(a => a > -1).ToList();
                 if (this.post_nms > 0)
                 {
                     result = result.SliceAxis(axis: 1, begin: 0, end: this.post_nms);
                 }
             }
+
             var ids = result.SliceAxis(axis: -1, begin: 0, end: 1);
             var scores = result.SliceAxis(axis: -1, begin: 1, end: 2);
             var bboxes = result.SliceAxis(axis: -1, begin: 2, end: null);
@@ -326,7 +336,16 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
 
         internal static NDArrayOrSymbol Upsample(NDArrayOrSymbol x, int stride= 2)
         {
-            return nd.Repeat(nd.Repeat(x, axis: -1, repeats: stride), axis: -2, repeats: stride);
+            NDArrayOrSymbol rep = null;
+
+            if (x.IsNDArray)
+            {
+                rep = nd.Repeat(x, axis: -1, repeats: stride);
+                return nd.Repeat(rep, axis: -2, repeats: stride);
+            }
+
+            rep = sym.Repeat(x, axis: -1, repeats: stride);
+            return sym.Repeat(rep, axis: -2, repeats: stride);
         }
 
         public void SetNms(float nms_thresh= 0.45f, int nms_topk= 400, int post_nms= 100)
@@ -374,29 +393,31 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
         }
 
         public static YOLOV3 GetYOLOV3(string name, HybridBlock[] stages, int[] filters, NDArray anchors, int[] strides, string[] classes,
-               string dataset, bool pretrained= false, Context ctx= null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+               string dataset, bool pretrained= false, Context ctx= null, string root = "", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
+            if (ctx == null)
+                ctx = Context.CurrentContext;
             var net = new YOLOV3(stages, filters, anchors, strides, classes: classes, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
             if (pretrained)
             {
                 var full_name = string.Join("_", "yolo3", name, dataset);
-                net.LoadParameters(ModelStore.GetModelFile(full_name, tag: "pretrained", root: root), ctx: ctx);
+                net.LoadParameters(ModelStore.GetModelFile(full_name, tag: "", root: root), ctx: ctx);
             }
 
             return net;
         }
 
-        public static YOLOV3 YOLO3_Darknet53_VOC(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Darknet53_VOC(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             pretrained_base = pretrained ? false : pretrained_base;
             var base_net = DarknetV3.Darknet53(pretrained: pretrained_base, norm_layer: norm_layer, norm_kwargs: norm_kwargs, ctx: ctx, root: root);
-            var stages = new List<HybridBlock> {
-                new HybridBlock(base_net.features._childrens.Take(15).ToDictionary(x=> x.Key, x=>x.Value)),
-                new HybridBlock(base_net.features._childrens.Skip(15).Take(9).ToDictionary(x=> x.Key, x=>x.Value)),
-                new HybridBlock(base_net.features._childrens.Skip(24).ToDictionary(x=> x.Key, x=>x.Value))
+            var stages = new List<HybridSequential> {
+                new HybridSequential(base_net.features._childrens.Take(15).ToDictionary(x=> x.Key, x=>x.Value)),
+                new HybridSequential(base_net.features._childrens.Skip(15).Take(9).ToDictionary(x=> x.Key, x=>x.Value)),
+                new HybridSequential(base_net.features._childrens.Skip(24).ToDictionary(x=> x.Key, x=>x.Value))
             };
 
-            Array anchorsArray = new int[,] { {10,13,16,30,33,23 },{ 30, 61, 62, 45, 59, 119 },{ 116, 90, 156, 198, 373, 326 } };
+            Array anchorsArray = new int[,] { { 10, 13, 16, 30, 33, 23 }, { 30, 61, 62, 45, 59, 119 }, { 116, 90, 156, 198, 373, 326 } };
             var anchors = nd.Array(anchorsArray);
             var strides = new int[] { 8, 16, 32 };
 
@@ -404,7 +425,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             return GetYOLOV3("darknet53", stages.ToArray(), new int[] { 512, 256, 128 }, anchors, strides, classes, "voc", pretrained: pretrained, ctx: ctx, root: root, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
         }
 
-        public static YOLOV3 YOLO3_Darknet53_COCO(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Darknet53_COCO(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             pretrained_base = pretrained ? false : pretrained_base;
             var base_net = DarknetV3.Darknet53(pretrained: pretrained_base, norm_layer: norm_layer, norm_kwargs: norm_kwargs, ctx: ctx, root: root);
@@ -422,7 +443,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             return GetYOLOV3("darknet53", stages.ToArray(), new int[] { 512, 256, 128 }, anchors, strides, classes, "coco", pretrained: pretrained, ctx: ctx, root: root, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
         }
 
-        public static YOLOV3 YOLO3_Darknet53_Custom(string[] classes, string transfer = "", bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Darknet53_Custom(string[] classes, string transfer = "", bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             if (pretrained)
                 Logger.Warning("Custom models don't provide `pretrained` weights, ignored.");
@@ -455,7 +476,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             }
         }
 
-        public static YOLOV3 YOLO3_Mobilenet1_0_VOC(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Mobilenet1_0_VOC(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             pretrained_base = pretrained ? false : pretrained_base;
             var base_net = MobileNet.GetMobileNet(multiplier: 1, pretrained: pretrained_base, ctx, root);
@@ -473,7 +494,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             return GetYOLOV3("mobilenet1.0", stages.ToArray(), new int[] { 512, 256, 128 }, anchors, strides, classes, "voc", pretrained: pretrained, ctx: ctx, root: root, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
         }
 
-        public static YOLOV3 YOLO3_Mobilenet1_0_COCO(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Mobilenet1_0_COCO(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             pretrained_base = pretrained ? false : pretrained_base;
             var base_net = MobileNet.GetMobileNet(multiplier: 1, pretrained: pretrained_base, ctx, root);
@@ -491,7 +512,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             return GetYOLOV3("mobilenet1.0", stages.ToArray(), new int[] { 512, 256, 128 }, anchors, strides, classes, "coco", pretrained: pretrained, ctx: ctx, root: root, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
         }
 
-        public static YOLOV3 YOLO3_Mobilenet1_0_Custom(string[] classes, string transfer = "", bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Mobilenet1_0_Custom(string[] classes, string transfer = "", bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             if (pretrained)
                 Logger.Warning("Custom models don't provide `pretrained` weights, ignored.");
@@ -524,7 +545,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             }
         }
 
-        public static YOLOV3 YOLO3_Mobilenet0_25_VOC(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Mobilenet0_25_VOC(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             pretrained_base = pretrained ? false : pretrained_base;
             var base_net = MobileNet.GetMobileNet(multiplier: 0.25f, pretrained: pretrained_base, ctx, root);
@@ -542,7 +563,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             return GetYOLOV3("mobilenet0.25", stages.ToArray(), new int[] { 512, 256, 128 }, anchors, strides, classes, "coco", pretrained: pretrained, ctx: ctx, root: root, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
         }
 
-        public static YOLOV3 YOLO3_Mobilenet0_25_COCO(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Mobilenet0_25_COCO(bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             pretrained_base = pretrained ? false : pretrained_base;
             var base_net = MobileNet.GetMobileNet(multiplier: 0.25f, pretrained: pretrained_base, ctx, root);
@@ -560,7 +581,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             return GetYOLOV3("mobilenet0.25", stages.ToArray(), new int[] { 512, 256, 128 }, anchors, strides, classes, "coco", pretrained: pretrained, ctx: ctx, root: root, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
         }
 
-        public static YOLOV3 YOLO3_Mobilenet0_25_Custom(string[] classes, string transfer = "", bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static YOLOV3 YOLO3_Mobilenet0_25_Custom(string[] classes, string transfer = "", bool pretrained_base = true, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             if (pretrained)
                 Logger.Warning("Custom models don't provide `pretrained` weights, ignored.");

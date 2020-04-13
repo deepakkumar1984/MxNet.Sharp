@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.NN
     public class HardSigmoid : HybridBlock
     {
         private ReLU6 _act;
-        public HardSigmoid(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public HardSigmoid(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             _act = new ReLU6(prefix, @params);
         }

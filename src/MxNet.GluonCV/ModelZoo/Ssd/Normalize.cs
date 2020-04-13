@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Ssd
 {
     public class Normalize : HybridBlock
     {
-        public Normalize(int n_channel, int initial= 1, float eps= 1e-5f, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Normalize(int n_channel, int initial= 1, float eps= 1e-5f, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

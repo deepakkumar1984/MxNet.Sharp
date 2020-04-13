@@ -17,7 +17,7 @@ namespace MxNet.Gluon.Losses
 {
     public class L2Loss : Loss
     {
-        public L2Loss(float? weight = 1, int? batch_axis = 0, string prefix = null, ParameterDict @params = null) :
+        public L2Loss(float? weight = 1, int? batch_axis = 0, string prefix = "", ParameterDict @params = null) :
             base(weight, batch_axis, prefix, @params)
         {
         }

@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class ReLU6 : HybridBlock
     {
-        public ReLU6(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public ReLU6(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

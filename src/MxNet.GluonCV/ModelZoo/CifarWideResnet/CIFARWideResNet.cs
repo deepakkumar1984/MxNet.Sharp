@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.CifarWideResnet
 {
     public class CIFARWideResNet : HybridBlock
     {
-        public CIFARWideResNet(HybridBlock block, int[] layers, int[] channels, float drop_rate, int classes= 10, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public CIFARWideResNet(HybridBlock block, int[] layers, int[] channels, float drop_rate, int classes= 10, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -23,22 +23,22 @@ namespace MxNet.GluonCV.ModelZoo.CifarWideResnet
             throw new NotImplementedException();
         }
 
-        public static CIFARWideResNet GetCIFARWideResNet(int num_layers, int width_factor= 1, float drop_rate= 0, bool pretrained= false, Context ctx= null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARWideResNet GetCIFARWideResNet(int num_layers, int width_factor= 1, float drop_rate= 0, bool pretrained= false, Context ctx= null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARWideResNet CifarWideResNet16_10(float drop_rate = 0, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARWideResNet CifarWideResNet16_10(float drop_rate = 0, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARWideResNet CifarWideResNet28_10(float drop_rate = 0, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARWideResNet CifarWideResNet28_10(float drop_rate = 0, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARWideResNet CifarWideResNet40_8(float drop_rate = 0, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARWideResNet CifarWideResNet40_8(float drop_rate = 0, bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }

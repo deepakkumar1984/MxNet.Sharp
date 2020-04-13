@@ -14,7 +14,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
 
         public int _num_class;
 
-        public YOLOV3DynamicTargetGeneratorSimple(int num_class, float ignore_iou_thresh, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public YOLOV3DynamicTargetGeneratorSimple(int num_class, float ignore_iou_thresh, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._num_class = num_class;
             this._ignore_iou_thresh = ignore_iou_thresh;

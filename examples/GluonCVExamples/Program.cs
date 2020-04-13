@@ -6,7 +6,8 @@ namespace GluonCVExamples
     {
         static void Main(string[] args)
         {
-            YoloSamples.RunDetection();
+            DarknetExamples.RunClassification();
+            //DarknetExamples.RunDetection();
         }
     }
 }

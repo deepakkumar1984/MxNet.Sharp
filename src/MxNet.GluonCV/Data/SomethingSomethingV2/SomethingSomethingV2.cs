@@ -10,7 +10,7 @@ namespace MxNet.GluonCV.Data
     public class SomethingSomethingV2 : Dataset<(NDArray, NDArray)>
     {
         public SomethingSomethingV2(string root= "/mxnet/datasets/somethingsomethingv2/20bn-something-something-v2-frames",
-                                     string setting= "~/.mxnet/datasets/somethingsomethingv2/train_videofolder.txt",
+                                     string setting= "/datasets/somethingsomethingv2/train_videofolder.txt",
                                      bool train= true,
                                      bool test_mode= false,
                                      string name_pattern= "%06d.jpg",

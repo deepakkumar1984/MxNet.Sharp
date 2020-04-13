@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class Consensus : HybridBlock
     {
-        public Consensus(int nclass, int num_segments, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Consensus(int nclass, int num_segments, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             NClass = nclass;
             NumSegments = num_segments;

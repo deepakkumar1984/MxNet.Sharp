@@ -47,7 +47,7 @@ namespace MxNet.Gluon
 
         public string Prefix { get; }
 
-        public virtual ParameterDict Params { get; }
+        public virtual ParameterDict Params { get; set; }
 
         public string Name { get; set; }
 
@@ -118,13 +118,12 @@ namespace MxNet.Gluon
 
         public virtual ParameterDict CollectParamsWithPrefix(string prefix = "")
         {
+            var ret = new ParameterDict();
             if (!string.IsNullOrWhiteSpace(prefix)) prefix += ".";
 
-            var ret = new ParameterDict();
+            foreach (var item in Params.Items()) ret[prefix + item.Value.Name] = item.Value;
 
-            foreach (var item in Params.Items()) ret[prefix + item.Key] = item.Value;
-
-            foreach (var item in _childrens.Values) ret.Update(item.CollectParamsWithPrefix(prefix + item.Name));
+            foreach (var item in _childrens) ret.Update(item.Value.CollectParamsWithPrefix(prefix + item.Key));
 
             return ret;
         }
@@ -149,10 +148,10 @@ namespace MxNet.Gluon
             bool ignore_extra = false, bool cast_dtype = false, string dtype_source = "current")
         {
             var loaded = new NDArrayDict();
-            var collected_params = CollectParamsWithPrefix();
+            var @params = CollectParamsWithPrefix();
             NDArray.Load(filename, out loaded);
 
-            if (loaded == null && collected_params == null)
+            if (loaded == null && Params == null)
                 return;
 
             if (!loaded.Keys.Any(x => x.Contains(".")))
@@ -163,18 +162,18 @@ namespace MxNet.Gluon
             }
 
             if (!allow_missing)
-                foreach (var name in Params.Keys())
+                foreach (var name in @params.Keys())
                     if (!loaded.Contains(name))
                         throw new Exception(string.Format("Parameter '{0}' is missing in file '{1}'", name, filename));
 
             foreach (var name in loaded.Keys)
             {
-                if (!ignore_extra && !Params.Contains(name))
+                if (!ignore_extra && !@params.Contains(name))
                     throw new Exception(string.Format(
                         "Parameter '{0}' loaded from file {1} is not present in ParameterDict", name, filename));
 
-                if (Params.Contains(name))
-                    Params[name].LoadInit(loaded[name], ctx, cast_dtype, dtype_source);
+                if (@params.Contains(name))
+                    @params[name].LoadInit(loaded[name], ctx, cast_dtype, dtype_source);
             }
         }
 

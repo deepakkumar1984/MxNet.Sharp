@@ -21,7 +21,7 @@ namespace MxNet.Gluon.Losses
     public class CTCLoss : Loss
     {
         public CTCLoss(string layout = "NTC", string label_layout = "NT", float? weight = null, int? batch_axis = 0,
-            string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             if (layout != "NTC" && layout != "TNC")
                 throw new ArgumentException($"Only 'NTC' and 'TNC' layouts for pred are supported. Got: {layout}");

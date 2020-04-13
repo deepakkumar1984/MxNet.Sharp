@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class DSNT : HybridBlock
     {
-        public DSNT((int, int) size, string norm = "sum", Shape axis = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public DSNT((int, int) size, string norm = "sum", Shape axis = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this.Size = size;
             this.Axis = axis;

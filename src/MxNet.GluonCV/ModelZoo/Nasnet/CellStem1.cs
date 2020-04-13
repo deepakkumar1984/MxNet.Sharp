@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Nasnet
 {
     public class CellStem1 : HybridBlock
     {
-        public CellStem1(int num_filters, string norm_layer, FuncArgs norm_kwargs, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public CellStem1(int num_filters, string norm_layer, FuncArgs norm_kwargs, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

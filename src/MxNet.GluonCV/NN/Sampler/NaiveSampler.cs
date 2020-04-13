@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class NaiveSampler : HybridBlock
     {
-        public NaiveSampler(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public NaiveSampler(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

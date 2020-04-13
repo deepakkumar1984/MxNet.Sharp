@@ -20,7 +20,7 @@ namespace MxNet.Gluon.Contrib.NN
 {
     public class Concurrent : Sequential
     {
-        public Concurrent(int axis = -1, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Concurrent(int axis = -1, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

@@ -19,7 +19,7 @@ namespace MxNet.Gluon.Contrib.NN
 {
     public class Identity : HybridBlock
     {
-        public Identity(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Identity(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

@@ -33,7 +33,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public DenseNet(int num_init_features, int growth_rate, int[] block_config,
             int bn_size = 4, float? dropout = null, int classes = 1000,
-            string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Features = new HybridSequential(prefix = "");
             Features.Add(new Conv2D(num_init_features, (7, 7), (2, 2), (3, 3), use_bias: false));

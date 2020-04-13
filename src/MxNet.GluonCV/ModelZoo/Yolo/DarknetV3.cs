@@ -14,16 +14,17 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
 
         internal Dense output;
 
-        public DarknetV3(int[] layers, int[] channels, int classes= 1000, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public DarknetV3(int[] layers, int[] channels, int classes= 1000, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Debug.Assert(layers.Length == channels.Length - 1, $"len(channels) should equal to len(layers) + 1, given {channels.Length} vs {layers.Length}");
+
             this.features = new HybridSequential();
             // first 3x3 conv
             this.features.Add(Conv2d(channels[0], 3, 1, 1, norm_layer: norm_layer, norm_kwargs: norm_kwargs));
             for (int i = 0; i < layers.Length; i++)
             {
                 int nlayer = layers[i];
-                int channel = channels[i];
+                int channel = channels[i + 1];
                 Debug.Assert(channel % 2 == 0, $"channel {channel} cannot be divided by 2");
                 // add downsample conv with stride=2
                 this.features.Add(Conv2d(channel, 3, 1, 2, norm_layer: norm_layer, norm_kwargs: norm_kwargs));
@@ -37,8 +38,8 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             // output
             this.output = new Dense(classes);
 
-            RegisterChild(features);
-            RegisterChild(output);
+            RegisterChild(features, "features");
+            RegisterChild(output, "output");
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -53,33 +54,40 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
 
         internal static HybridSequential Conv2d(int channel, int kernel, int padding, int stride, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null)
         {
-            var cell = new HybridSequential(prefix: "");
-            cell.Add(new Conv2D(channel, kernel_size: (kernel, kernel), strides: (stride, stride), padding: (padding, stride), use_bias: false));
+            var cell = new HybridSequential();
+            cell.Add(new Conv2D(channel, kernel_size: (kernel, kernel), strides: (stride, stride), padding: (padding, padding), use_bias: false));
+            if(norm_kwargs == null)
+                norm_kwargs = new FuncArgs();
+            norm_kwargs["epsilon"] = 1e-5f;
+            norm_kwargs["momentum"] = 0.9f;
             cell.Add(LayerUtils.NormLayer(norm_layer, norm_kwargs));
             cell.Add(new LeakyReLU(0.1f));
             return cell;
         }
 
-        public static Dictionary<int, (int[], int[])> darknet_spec = new Dictionary<int, (int[], int[])>()
+        public static Dictionary<int, (int[], int[])> darknetv3_spec = new Dictionary<int, (int[], int[])>()
         {
             { 53, (new int[]{1, 2, 8, 8, 4 }, new int[] { 32, 64, 128, 256, 512, 1024}) }
         };
 
-        public static DarknetV3 GetDarknet(string darknet_version, int num_layers, bool pretrained= false, Context ctx= null, string root = "/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static DarknetV3 GetDarknetV3(string darknet_version, int num_layers, bool pretrained= false, Context ctx= null, string root = "", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
-            Debug.Assert(darknet_spec.ContainsKey(num_layers), $"Invalid number of layers: {num_layers}");
-            var (layers, channels) = darknet_spec[num_layers];
+            Debug.Assert(darknetv3_spec.ContainsKey(num_layers), $"Invalid number of layers: {num_layers}");
+            var (layers, channels) = darknetv3_spec[num_layers];
             var net = new DarknetV3(layers, channels, norm_layer: norm_layer, norm_kwargs: norm_kwargs);
             if (pretrained)
             {
                 net.LoadParameters(ModelStore.GetModelFile($"darknet{num_layers}", tag: "", root: root), ctx: ctx);
             }
+
             return net;
         }
 
-        public static DarknetV3 Darknet53(bool pretrained = false, Context ctx = null, string root = "/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static DarknetV3 Darknet53(bool pretrained = false, Context ctx = null, string root = "", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
-            return GetDarknet("v3", 53, pretrained, ctx, root, norm_layer, norm_kwargs);
+            if (ctx == null)
+                ctx = Context.CurrentContext;
+            return GetDarknetV3("v3", 53, pretrained, ctx, root, norm_layer, norm_kwargs);
         }
     }
 }

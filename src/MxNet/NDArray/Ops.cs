@@ -847,8 +847,9 @@ namespace MxNet
         /// <returns>returns new NDArray</returns>
         public static NDArray Concat(NDArrayList data, int dim = 1)
         {
-            return new Operator("Concat")
+            return new Operator("concat")
                 .SetParam("dim", dim)
+                .SetParam("num_args", data.Length)
                 .SetInput(data)
                 .Invoke();
         }

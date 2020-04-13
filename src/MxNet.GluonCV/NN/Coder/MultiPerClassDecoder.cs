@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class MultiPerClassDecoder : HybridBlock
     {
-        public MultiPerClassDecoder(int num_class, int axis = -1, float thresh = 0.01f, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public MultiPerClassDecoder(int num_class, int axis = -1, float thresh = 0.01f, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             _fg_class = num_class;
             _axis = axis;

@@ -39,8 +39,8 @@ namespace MxNet.GluonCV.Data
         public List<(string, int, int)> Clips { get; }
         public Func<NDArrayList, NDArrayList> TransformFn { get; }
 
-        public Kinetics400(string root = "~/.mxnet/datasets/kinetics400/rawframes_train",
-                  string setting = "~/.mxnet/datasets/kinetics400/kinetics400_train_list_rawframes.txt",
+        public Kinetics400(string root = "/datasets/kinetics400/rawframes_train",
+                  string setting = "/datasets/kinetics400/kinetics400_train_list_rawframes.txt",
                   bool train = true,
                   bool test_mode = false,
                   string name_pattern = "img_%05d.jpg",

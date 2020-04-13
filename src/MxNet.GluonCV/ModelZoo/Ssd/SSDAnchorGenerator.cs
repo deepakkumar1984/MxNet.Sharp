@@ -9,7 +9,7 @@ namespace MxNet.GluonCV.ModelZoo.Ssd
     {
         public int NumDepth => throw new NotImplementedException();
 
-        public SSDAnchorGenerator(int index, (int, int) im_size, float[] sizes, float[] ratios, int step, (int, int)? alloc_size= null, (float, float)? offsets= null, bool clip= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public SSDAnchorGenerator(int index, (int, int) im_size, float[] sizes, float[] ratios, int step, (int, int)? alloc_size= null, (float, float)? offsets= null, bool clip= false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

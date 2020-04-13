@@ -27,7 +27,7 @@ namespace MxNet.Gluon.RecurrentNN
                  Initializer i2h_weight_initializer, Initializer h2h_weight_initializer, Initializer i2h_bias_initializer, 
                  Initializer h2h_bias_initializer, string mode, int? projection_size, Initializer h2r_weight_initializer,
                  float? lstm_state_clip_min, float? lstm_state_clip_max, bool? lstm_state_clip_nan,
-                 DType dtype, bool use_sequence_length= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                 DType dtype, bool use_sequence_length= false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

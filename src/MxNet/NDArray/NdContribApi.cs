@@ -251,6 +251,28 @@ namespace MxNet
                 .Invoke();
         }
 
+        public NDArray BoxNonMaximumSupression(NDArray data, float overlap_thresh = 0.5f, float valid_thresh = 0f, int topk = -1,
+           int coord_start = 2, int score_index = 1, int id_index = -1, int background_id = -1,
+           bool force_suppress = false, ContribBoxNmsInFormat in_format = ContribBoxNmsInFormat.Corner,
+           ContribBoxNmsOutFormat out_format = ContribBoxNmsOutFormat.Corner)
+        {
+            return new Operator("_contrib_box_non_maximum_suppression")
+                .SetParam("overlap_thresh", overlap_thresh)
+                .SetParam("valid_thresh", valid_thresh)
+                .SetParam("topk", topk)
+                .SetParam("coord_start", coord_start)
+                .SetParam("score_index", score_index)
+                .SetParam("id_index", id_index)
+                .SetParam("background_id", background_id)
+                .SetParam("force_suppress", force_suppress)
+                .SetParam("in_format",
+                    MxUtil.EnumToString<ContribBoxNmsInFormat>(in_format, ContribBoxNmsInFormatConvert))
+                .SetParam("out_format",
+                    MxUtil.EnumToString<ContribBoxNmsOutFormat>(out_format, ContribBoxNmsOutFormatConvert))
+                .SetInput("data", data)
+                .Invoke();
+        }
+
         /// <summary>
         ///     <para>Bounding box overlap of two arrays.</para>
         ///     <para>  The overlap is defined as Intersection-over-Union, aka, IOU.</para>

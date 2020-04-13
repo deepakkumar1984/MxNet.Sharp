@@ -19,7 +19,7 @@ namespace MxNet.Gluon.NN
     {
         public delegate NDArray LambdaFn(NDArray x, params object[] args);
 
-        public Lambda(LambdaFn function, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Lambda(LambdaFn function, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Function = function;
         }

@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class MultiClassEncoder : HybridBlock
     {
-        public MultiClassEncoder(int ignore_label = -1, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public MultiClassEncoder(int ignore_label = -1, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             IgnoreLabel = ignore_label;
         }

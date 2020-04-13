@@ -60,52 +60,52 @@ namespace MxNet.GluonCV.ModelZoo.Rcnn
             throw new NotImplementedException();
         }
 
-        public FasterRCNN GetFasterRCNN(string name, string dataset, bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN GetFasterRCNN(string name, string dataset, bool pretrained = false, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_Resnet50_V1B_VOC(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_Resnet50_V1B_VOC(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_Resnet50_V1B_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_Resnet50_V1B_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_FPN_Resnet50_V1B_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_FPN_Resnet50_V1B_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_FPN_BN_Resnet50_V1B_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_FPN_BN_Resnet50_V1B_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_Resnet50_V1B_Custom(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_Resnet50_V1B_Custom(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_Resnet101_V1D_VOC(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_Resnet101_V1D_VOC(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_Resnet101_V1D_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_Resnet101_V1D_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_FPN_Resnet101_V1D_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_FPN_Resnet101_V1D_COCO(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public FasterRCNN FasterRCNN_Resnet101_V1D_Custom(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet/models")
+        public FasterRCNN FasterRCNN_Resnet101_V1D_Custom(bool pretrained = false, bool pretrained_base = true, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }

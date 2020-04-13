@@ -12,7 +12,7 @@ namespace MxNet.GluonCV.ModelZoo.Ssd
                  float reduce_ratio= 1, int min_depth= 128, bool global_pool= false, bool pretrained= false,
                  float[] stds= null, float nms_thresh= 0.45f, int nms_topk= 400, int post_nms= 100,
                  (int, int)? anchor_alloc_size= null, Context ctx= null, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null,
-                 string root = "~/mxnet/models", string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                 string root = "~/mxnet", string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace MxNet.GluonCV.ModelZoo.Ssd
         }
 
         public static SSD GetSSD(int base_size, string[] features, float[] filters, float[] sizes, float[] ratios, int[] steps, string[] classes,
-            string dataset, bool pretrained= false, bool pretrained_base= true, Context ctx= null,  string root = "~/mxnet/models")
+            string dataset, bool pretrained= false, bool pretrained_base= true, Context ctx= null,  string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }

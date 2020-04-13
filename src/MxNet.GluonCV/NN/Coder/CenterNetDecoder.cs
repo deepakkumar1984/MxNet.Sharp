@@ -12,7 +12,7 @@ namespace MxNet.GluonCV.NN
 
         private int _topk;
 
-        public CenterNetDecoder(int topk= 100, float scale= 4, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public CenterNetDecoder(int topk= 100, float scale= 4, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._topk = topk;
             this._scale = scale;

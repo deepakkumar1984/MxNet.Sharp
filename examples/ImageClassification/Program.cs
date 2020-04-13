@@ -10,8 +10,8 @@ namespace ImageClassification
     {
         private static void Main(string[] args)
         {
-            //AlexnetGluon.Run();
-            ResnetModule.Run();
+            AlexnetGluon.Run();
+            //ResnetModule.Run();
         }
     }
 }

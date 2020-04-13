@@ -126,6 +126,27 @@ namespace MxNet
             return x.SymX;
         }
 
+        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1)
+        {
+            x0 = this[0];
+            x1 = this[1];
+        }
+
+        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2)
+        {
+            x0 = this[0];
+            x1 = this[1];
+            x2 = this[2];
+        }
+
+        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2, out NDArrayOrSymbol x3)
+        {
+            x0 = this[0];
+            x1 = this[1];
+            x2 = this[2];
+            x3 = this[3];
+        }
+
         #region Operators
 
         public static NDArrayOrSymbol operator +(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)

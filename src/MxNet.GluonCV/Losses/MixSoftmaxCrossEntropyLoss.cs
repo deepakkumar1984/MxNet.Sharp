@@ -14,7 +14,7 @@ namespace MxNet.GluonCV.Losses
 
         public bool Mixup { get; set; }
 
-        public MixSoftmaxCrossEntropyLoss(bool aux= true, bool mixup = false, float aux_weight= 0.2f, int axis = -1, bool sparse_label = true, bool from_logits = false, float? weight = null, int? batch_axis = 0, string prefix = null, ParameterDict @params = null) : base(axis, sparse_label, from_logits, weight, batch_axis, prefix, @params)
+        public MixSoftmaxCrossEntropyLoss(bool aux= true, bool mixup = false, float aux_weight= 0.2f, int axis = -1, bool sparse_label = true, bool from_logits = false, float? weight = null, int? batch_axis = 0, string prefix = "", ParameterDict @params = null) : base(axis, sparse_label, from_logits, weight, batch_axis, prefix, @params)
         {
             this.Aux = aux;
             this.Mixup = mixup;

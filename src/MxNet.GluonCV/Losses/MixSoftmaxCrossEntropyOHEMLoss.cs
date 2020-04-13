@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.Losses
 {
     public class MixSoftmaxCrossEntropyOHEMLoss : SoftmaxCrossEntropyOHEMLoss
     {
-        public MixSoftmaxCrossEntropyOHEMLoss(bool aux= true, float aux_weight= 0.2f, int axis = -1, bool sparse_label = true, bool from_logits = false, float? weight = null, int? batch_axis = 0, string prefix = null, ParameterDict @params = null) : base(sparse_label, batch_axis.Value, prefix: prefix, @params: @params)
+        public MixSoftmaxCrossEntropyOHEMLoss(bool aux= true, float aux_weight= 0.2f, int axis = -1, bool sparse_label = true, bool from_logits = false, float? weight = null, int? batch_axis = 0, string prefix = "", ParameterDict @params = null) : base(sparse_label, batch_axis.Value, prefix: prefix, @params: @params)
         {
             throw new NotSupportedException();
         }

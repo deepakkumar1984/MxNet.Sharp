@@ -6,7 +6,7 @@ namespace MxNet.GluonCV.Data
 {
     public class CitySegmentation : SegmentationDataset
     {
-        public CitySegmentation(string root = "~/.mxnet/datasets/citys", string split = "train", string mode = null, Func<NDArray, NDArray> transform = null, int base_size = 520, int crop_size = 480) : base(root, split, mode, transform, base_size, crop_size)
+        public CitySegmentation(string root = "/datasets/citys", string split = "train", string mode = null, Func<NDArray, NDArray> transform = null, int base_size = 520, int crop_size = 480) : base(root, split, mode, transform, base_size, crop_size)
         {
             throw new NotImplementedException();
         }

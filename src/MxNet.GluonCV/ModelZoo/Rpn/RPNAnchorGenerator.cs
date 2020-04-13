@@ -15,7 +15,7 @@ namespace MxNet.GluonCV.ModelZoo.Rpn
             }
         }
 
-        public RPNAnchorGenerator(int stride, (int, int) base_size, float[] ratios, float[] scales, (int, int) alloc_size, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public RPNAnchorGenerator(int stride, (int, int) base_size, float[] ratios, float[] scales, (int, int) alloc_size, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

@@ -332,7 +332,6 @@ namespace MxNet
         {
             if (context == null)
                 context = mx.Cpu();
-
             Shape s = new Shape(img.Height, img.Width, img.Channels());
             byte[] bytes = new byte[s.Size];
             Marshal.Copy(img.Data, bytes, 0, s.Size);
@@ -364,10 +363,18 @@ namespace MxNet
         public NDArray SliceAxis(int axis, int begin, int? end)
         {
             var @out = new NDArray();
-            new Operator("slice_axis")
+            if(end.HasValue)
+                new Operator("slice_axis")
+                    .SetParam("axis", axis)
+                    .SetParam("begin", begin)
+                    .SetParam("end", end.Value)
+                    .SetInput("data", this)
+                    .Invoke(@out);
+            else
+                new Operator("slice_axis")
                 .SetParam("axis", axis)
                 .SetParam("begin", begin)
-                .SetParam("end", end)
+                .SetParam("end", "None")
                 .SetInput("data", this)
                 .Invoke(@out);
 
@@ -493,25 +500,25 @@ namespace MxNet
             switch (DataType.Name)
             {
                 case "float16":
-                    x = np.array(AsArray<float>()).reshape(Shape.Data);
+                    x = np.array(AsArray<float>());
                     break;
                 case "float32":
-                    x = np.array(AsArray<float>()).reshape(Shape.Data);
+                    x = np.array(AsArray<float>());
                     break;
                 case "float64":
-                    x = np.array(AsArray<double>()).reshape(Shape.Data);
+                    x = np.array(AsArray<double>());
                     break;
                 case "int8":
-                    x = np.array(AsArray<byte>()).reshape(Shape.Data);
+                    x = np.array(AsArray<byte>());
                     break;
                 case "uint8":
-                    x = np.array(AsArray<sbyte>()).reshape(Shape.Data);
+                    x = np.array(AsArray<sbyte>());
                     break;
                 case "int32":
-                    x = np.array(AsArray<int>()).reshape(Shape.Data);
+                    x = np.array(AsArray<int>());
                     break;
                 case "int64":
-                    x = np.array(AsArray<long>()).reshape(Shape.Data);
+                    x = np.array(AsArray<long>());
                     break;
             }
 
@@ -531,7 +538,10 @@ namespace MxNet
         {
             get
             {
-                return SliceAxis(0, index, null);
+                var x = Slice(index, index + 1);
+                var new_shape = x.Shape.Data.Where(i => i > 0).ToList();
+                new_shape.RemoveAt(0);
+                return x.Reshape(new Shape(new_shape));
             }
         }
 
@@ -780,6 +790,17 @@ namespace MxNet
         public static implicit operator ndarray(NDArray x) => x.AsNumpy();
 
         public static implicit operator NDArray(ndarray x) => nd.Array(x);
+
+        public static implicit operator NDArray(OpenCvSharp.Mat x) => LoadCV2Mat(x);
+
+        public static implicit operator OpenCvSharp.Mat(NDArray x)
+        {
+            var buffer = x.AsType(DType.Uint8).GetBuffer();
+            var (h, w, c) = x.Shape;
+            OpenCvSharp.Mat mat = new OpenCvSharp.Mat(new OpenCvSharp.Size(w, h), OpenCvSharp.MatType.CV_8UC3);
+            Marshal.Copy(buffer, 0, mat.Data, buffer.Length);
+            return mat;
+        }
 
         #endregion
 

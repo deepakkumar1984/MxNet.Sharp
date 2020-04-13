@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class BBoxClipToImage : HybridBlock
     {
-        public BBoxClipToImage(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public BBoxClipToImage(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

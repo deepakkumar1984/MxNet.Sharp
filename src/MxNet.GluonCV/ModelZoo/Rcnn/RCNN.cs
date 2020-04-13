@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.Rcnn
     public class RCNN : HybridBlock
     {
         public RCNN(HybridBlock features, HybridBlock top_features, string[] classes, HybridBlock box_features, int @short, int max_size, string train_patterns,
-                    float nms_thresh, int nms_topk, int post_nms, string roi_mode, (int, int) roi_size, (int, int)  strides, float? clip, bool force_nms= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                    float nms_thresh, int nms_topk, int post_nms, string roi_mode, (int, int) roi_size, (int, int)  strides, float? clip, bool force_nms= false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

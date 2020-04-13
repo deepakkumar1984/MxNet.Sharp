@@ -15,7 +15,7 @@ namespace MxNet.GluonCV.Losses
 
         public (NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol) LossOutput { get; set; }
 
-        public YOLOV3Loss(float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public YOLOV3Loss(float? weight = null, int? batch_axis = null, string prefix = "", ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             _sigmoid_ce = new SigmoidBinaryCrossEntropyLoss(from_sigmoid: false);
             _l1_loss = new L1Loss();

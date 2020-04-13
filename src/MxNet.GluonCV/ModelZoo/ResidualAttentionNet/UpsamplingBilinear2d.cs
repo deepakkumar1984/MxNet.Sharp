@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.ResidualAttentionNet
 {
     public class UpsamplingBilinear2d : HybridBlock
     {
-        public UpsamplingBilinear2d(int size, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public UpsamplingBilinear2d(int size, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

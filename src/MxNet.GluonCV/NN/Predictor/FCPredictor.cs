@@ -10,7 +10,7 @@ namespace MxNet.GluonCV.NN
     {
         private Dense predictor;
 
-        public FCPredictor(int num_output, ActivationType activation= ActivationType.Relu, bool use_bias= true, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public FCPredictor(int num_output, ActivationType activation= ActivationType.Relu, bool use_bias= true, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this.predictor = new Dense(num_output, activation: activation, use_bias: use_bias);
         }

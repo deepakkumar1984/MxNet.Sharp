@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Ssd
 {
     public class VGGAtrousBase : HybridBlock
     {
-        public VGGAtrousBase(int[] layers, int[] filters, bool batch_norm= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public VGGAtrousBase(int[] layers, int[] filters, bool batch_norm= false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

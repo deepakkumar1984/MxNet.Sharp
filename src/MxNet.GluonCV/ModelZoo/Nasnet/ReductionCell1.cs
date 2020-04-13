@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Nasnet
 {
     public class ReductionCell1 : HybridBlock
     {
-        public ReductionCell1(int out_channels_left, int out_channels_right, string norm_layer, FuncArgs norm_kwargs, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public ReductionCell1(int out_channels_left, int out_channels_right, string norm_layer, FuncArgs norm_kwargs, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

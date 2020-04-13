@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.DeepLab
 {
     public class DeepLabWV3Plus : HybridBlock
     {
-        public DeepLabWV3Plus(int nclass, string backbone = "wideresnet", bool aux = false, Context ctx = null, bool pretrained_base = true, int? height = null, int? width = null, int base_size = 520, int crop_size = 480, bool dilated = true, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public DeepLabWV3Plus(int nclass, string backbone = "wideresnet", bool aux = false, Context ctx = null, bool pretrained_base = true, int? height = null, int? width = null, int base_size = 520, int crop_size = 480, bool dilated = true, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -28,12 +28,12 @@ namespace MxNet.GluonCV.ModelZoo.DeepLab
             throw new NotImplementedException();
         }
 
-        public static DeepLabV3Plus GetDeepLabV3Plus(string dataset = "citys", string backbone = "wideresnet", bool pretrained = false, string root = "~/.mxnet/models", Context ctx = null)
+        public static DeepLabV3Plus GetDeepLabV3Plus(string dataset = "citys", string backbone = "wideresnet", bool pretrained = false, string root = "", Context ctx = null)
         {
             throw new NotImplementedException();
         }
 
-        public static DeepLabV3Plus GetDeeplabPlus_V3_WiderResNet_Citys(bool pretrained = false, string root = "~/.mxnet/models", Context ctx = null)
+        public static DeepLabV3Plus GetDeeplabPlus_V3_WiderResNet_Citys(bool pretrained = false, string root = "", Context ctx = null)
         {
             throw new NotImplementedException();
         }
@@ -45,7 +45,7 @@ namespace MxNet.GluonCV.ModelZoo.DeepLab
 
         class _DeepLabHead : HybridBlock
         {
-            public _DeepLabHead(int nclass, int c1_channels = 128, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, int height = 240, int width = 240, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+            public _DeepLabHead(int nclass, int c1_channels = 128, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, int height = 240, int width = 240, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
             {
                 throw new NotImplementedException();
             }
@@ -58,7 +58,7 @@ namespace MxNet.GluonCV.ModelZoo.DeepLab
 
         class _AsppPooling : HybridBlock
         {
-            public _AsppPooling(int in_channels, int out_channels, string norm_layer, FuncArgs norm_kwargs, int height = 60, int width = 60, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+            public _AsppPooling(int in_channels, int out_channels, string norm_layer, FuncArgs norm_kwargs, int height = 60, int width = 60, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
             {
                 throw new NotImplementedException();
             }
@@ -71,7 +71,7 @@ namespace MxNet.GluonCV.ModelZoo.DeepLab
 
         class _ASPP : HybridBlock
         {
-            public _ASPP(int in_channels, int out_channels, string norm_layer, FuncArgs norm_kwargs, int height = 60, int width = 60, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+            public _ASPP(int in_channels, int out_channels, string norm_layer, FuncArgs norm_kwargs, int height = 60, int width = 60, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
             {
                 throw new NotImplementedException();
             }

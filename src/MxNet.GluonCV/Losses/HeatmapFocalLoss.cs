@@ -11,7 +11,7 @@ namespace MxNet.GluonCV.Losses
     {
         public bool _from_logits;
 
-        public HeatmapFocalLoss(bool from_logits= false, float? weight = null, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public HeatmapFocalLoss(bool from_logits= false, float? weight = null, int? batch_axis = null, string prefix = "", ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             this._from_logits = from_logits;
         }

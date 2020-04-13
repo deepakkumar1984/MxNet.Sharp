@@ -13,7 +13,7 @@ namespace MxNet.GluonCV.NN
 
         private HybridBlock _pre;
 
-        public BBoxBatchIOU(int axis = -1, string fmt = "corner", int offset = 0, float eps = 1e-15f, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public BBoxBatchIOU(int axis = -1, string fmt = "corner", int offset = 0, float eps = 1e-15f, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._offset = offset;
             this._eps = eps;

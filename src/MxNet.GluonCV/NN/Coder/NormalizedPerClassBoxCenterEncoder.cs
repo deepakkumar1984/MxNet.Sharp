@@ -21,7 +21,7 @@ namespace MxNet.GluonCV.NN
 
         public float[] Stds { get; }
 
-        public NormalizedPerClassBoxCenterEncoder(int num_class, int max_pos= 128, int per_device_batch_size= 1, float[] stds = null, float[] means = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public NormalizedPerClassBoxCenterEncoder(int num_class, int max_pos= 128, int per_device_batch_size= 1, float[] stds = null, float[] means = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             if (stds == null)
                 stds = new float[] { 0.1f, 0.1f, 0.2f, 0.2f };

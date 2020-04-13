@@ -13,11 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System.Collections.Generic;
+
 namespace MxNet.Gluon.NN
 {
     public class HybridSequential : HybridBlock
     {
-        public HybridSequential(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public HybridSequential(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 
@@ -28,6 +30,18 @@ namespace MxNet.Gluon.NN
                 var net = new HybridSequential(Prefix);
                 net.Add((HybridBlock) _childrens[key]);
                 return net;
+            }
+        }
+
+        public HybridSequential(Dictionary<string, Block> blocks, bool loadkeys = false)
+           : this()
+        {
+            foreach (var item in blocks)
+            {
+                if (loadkeys)
+                    RegisterChild(item.Value, item.Key);
+                else
+                    RegisterChild(item.Value);
             }
         }
 

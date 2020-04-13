@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.SEResnet
 {
     public class SE_ResNetV2 : HybridBlock
     {
-        public SE_ResNetV2(HybridBlock block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public SE_ResNetV2(HybridBlock block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

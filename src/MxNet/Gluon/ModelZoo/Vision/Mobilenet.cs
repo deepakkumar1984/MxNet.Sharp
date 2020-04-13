@@ -20,7 +20,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 {
     public class RELU6 : HybridBlock
     {
-        public RELU6(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public RELU6(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 
@@ -70,7 +70,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private readonly int[] dw_channels = {32, 64, 128, 128, 256, 256, 512, 512, 512, 512, 512, 512, 1024};
         private readonly int[] strides = {1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1};
 
-        public MobileNet(float multiplier = 1, int classes = 1000, string prefix = null, ParameterDict @params = null) :
+        public MobileNet(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null) :
             base(prefix, @params)
         {
             Features = new HybridSequential("");
@@ -124,7 +124,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         }
 
         public static MobileNet GetMobileNet(float multiplier, bool pretrained = false, Context ctx = null,
-            string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
+            string root = "", int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
             var net = new MobileNet(multiplier, classes, prefix, @params);
             if (pretrained) net.LoadParameters(ModelStore.GetModelFile($"mobilenet{multiplier}"), ctx);
@@ -164,7 +164,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private readonly int[] strides = {1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1};
         private readonly int[] ts = {1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
 
-        public MobileNetV2(float multiplier = 1, int classes = 1000, string prefix = null, ParameterDict @params = null)
+        public MobileNetV2(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null)
             : base(prefix, @params)
         {
             Features = new HybridSequential("");
@@ -200,7 +200,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         }
 
         public static MobileNet GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null,
-            string root = "", int classes = 1000, string prefix = null, ParameterDict @params = null)
+            string root = "", int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
             var net = new MobileNet(multiplier, classes, prefix, @params);
             if (pretrained) net.LoadParameters(ModelStore.GetModelFile($"mobilenetv2_{multiplier}"), ctx);

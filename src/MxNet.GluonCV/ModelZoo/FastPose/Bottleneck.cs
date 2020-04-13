@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.FastPose
 {
     public class Bottleneck : HybridBlock
     {
-        public Bottleneck(int planes, int inplanes, HybridBlock downsample = null, bool reduction = false, string norm_layer = "BatchNorm", FuncArgs kwargs = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Bottleneck(int planes, int inplanes, HybridBlock downsample = null, bool reduction = false, string norm_layer = "BatchNorm", FuncArgs kwargs = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

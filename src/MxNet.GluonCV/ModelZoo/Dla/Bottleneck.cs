@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Dla
 {
     public class Bottleneck : HybridBlock
     {
-        public Bottleneck(int inplanes, int planes, int stride = 1, int dilation = 1, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Bottleneck(int inplanes, int planes, int stride = 1, int dilation = 1, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

@@ -50,8 +50,8 @@ namespace MxNet.GluonCV.Data
                 ow = short_size;
                 oh = Convert.ToInt32(1.0 * h * ow / w);
             }
-            img = Img.ImResize(img, ow, oh, ImgInterp.Bilinear);
-            mask = Img.ImResize(mask, ow, oh, ImgInterp.Nearest_Neighbors);
+            img = Img.ImResize(img, ow, oh, InterpolationFlags.Linear);
+            mask = Img.ImResize(mask, ow, oh, InterpolationFlags.Nearest);
             // center crop
             w = img.Shape[1];
             h = img.Shape[2];
@@ -93,8 +93,8 @@ namespace MxNet.GluonCV.Data
                 oh = Convert.ToInt32(1.0 * h * long_size / w + 0.5);
                 short_size = oh;
             }
-            img = Img.ImResize(img, ow, oh, ImgInterp.Bilinear);
-            mask = Img.ImResize(mask, ow, oh, ImgInterp.Nearest_Neighbors);
+            img = Img.ImResize(img, ow, oh, InterpolationFlags.Linear);
+            mask = Img.ImResize(mask, ow, oh, InterpolationFlags.Nearest);
             // pad crop
             if (short_size < CropSize)
             {

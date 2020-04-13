@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Centernet
 {
     public class DLAUp : HybridBlock
     {
-        public DLAUp(int startp, int channels, int[] scales, int in_channels, bool use_dcnv2 = false, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public DLAUp(int startp, int channels, int[] scales, int in_channels, bool use_dcnv2 = false, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

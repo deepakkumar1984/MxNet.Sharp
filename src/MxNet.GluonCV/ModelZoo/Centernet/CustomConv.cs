@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Centernet
 {
     public class CustomConv : HybridBlock
     {
-        public CustomConv(int in_channels, int out_channels, bool use_dcnv2= false, float momentum= 0.9f, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public CustomConv(int in_channels, int out_channels, bool use_dcnv2= false, float momentum= 0.9f, string norm_layer= "BatchNorm", FuncArgs norm_kwargs= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

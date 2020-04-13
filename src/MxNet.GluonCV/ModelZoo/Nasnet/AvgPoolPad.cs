@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Nasnet
 {
     public class AvgPoolPad : HybridBlock
     {
-        public AvgPoolPad(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public AvgPoolPad(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

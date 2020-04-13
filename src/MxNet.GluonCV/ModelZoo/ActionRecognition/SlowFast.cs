@@ -36,7 +36,7 @@ namespace MxNet.GluonCV.ModelZoo.ActionRecognition
                  int fast_frames= 32,
                  string norm_layer= "BatchNorm",
                  FuncArgs norm_kwargs= null,
-                 Context ctx= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                 Context ctx= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -71,7 +71,7 @@ namespace MxNet.GluonCV.ModelZoo.ActionRecognition
         public class Bottleneck : HybridBlock
         {
             public Bottleneck(int inplanes, int planes, int strides= 1, bool downsample= false, int head_conv= 1, string norm_layer= "BatchNorm", FuncArgs norm_kwargs = null,
-                                string layer_name= "",string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                                string layer_name= "",string prefix = "", ParameterDict @params = null) : base(prefix, @params)
             {
                 throw new NotImplementedException();
             }

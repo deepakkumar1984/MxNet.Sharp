@@ -13,11 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using OpenCvSharp;
+
 namespace MxNet.Image
 {
     public class ResizeAug : Augmenter
     {
-        public ResizeAug(int size, ImgInterp interp = ImgInterp.Area_Based)
+        public ResizeAug(int size, InterpolationFlags interp = InterpolationFlags.Area)
         {
             Size = size;
             Interp = interp;
@@ -25,7 +27,7 @@ namespace MxNet.Image
 
         public int Size { get; set; }
 
-        public ImgInterp Interp { get; set; }
+        public InterpolationFlags Interp { get; set; }
 
         public override NDArray Call(NDArray src)
         {

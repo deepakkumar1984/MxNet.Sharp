@@ -20,7 +20,7 @@ namespace MxNet.Gluon.NN
     public class AvgPool1D : _Pooling
     {
         public AvgPool1D(int pool_size = 2, int? strides = null, int padding = 0, string layout = "NCW",
-            bool ceil_mode = false, string prefix = null, ParameterDict @params = null)
+            bool ceil_mode = false, string prefix = "", ParameterDict @params = null)
             : base(new[] {pool_size}
                 , strides.HasValue ? new[] {strides.Value} : new[] {pool_size}
                 , new[] {padding}, ceil_mode, false, PoolingType.Avg, layout, null, prefix, @params)

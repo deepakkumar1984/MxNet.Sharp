@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Ssd
 {
     public class VGGAtrousExtractor : VGGAtrousBase
     {
-        public VGGAtrousExtractor(int[] layers, int[] filters, bool batch_norm = false, string prefix = null, ParameterDict @params = null) : base(layers, filters, batch_norm, prefix, @params)
+        public VGGAtrousExtractor(int[] layers, int[] filters, bool batch_norm = false, string prefix = "", ParameterDict @params = null) : base(layers, filters, batch_norm, prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -17,17 +17,17 @@ namespace MxNet.GluonCV.ModelZoo.Ssd
             throw new NotImplementedException();
         }
 
-        public static VGGAtrousExtractor GetVGGAtrousExtractor(int num_layers, int im_size, bool pretrained= false, Context ctx= null, string root = "~/mxnet/models")
+        public static VGGAtrousExtractor GetVGGAtrousExtractor(int num_layers, int im_size, bool pretrained= false, Context ctx= null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public static VGGAtrousExtractor VGG16Atrous300(bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
+        public static VGGAtrousExtractor VGG16Atrous300(bool pretrained = false, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public static VGGAtrousExtractor VGG16Atrous512(bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
+        public static VGGAtrousExtractor VGG16Atrous512(bool pretrained = false, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }

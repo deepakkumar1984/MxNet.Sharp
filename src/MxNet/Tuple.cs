@@ -39,5 +39,10 @@ namespace MxNet
             sb.Append(")");
             return sb.ToString();
         }
+
+        public static implicit operator Tuple<TType>((TType, TType, TType) d)
+        {
+            return new Tuple<TType>(d.Item1, d.Item2, d.Item3);
+        }
     }
 }

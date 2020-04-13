@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.SegBase
 {
     public class SegBaseModel : HybridBlock
     {
-        public SegBaseModel(int nclass, bool aux, string backbone= "resnet50", int? height= null, int? width= null, int base_size= 520, int crop_size= 480, bool pretrained_base= true, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public SegBaseModel(int nclass, bool aux, string backbone= "resnet50", int? height= null, int? width= null, int base_size= 520, int crop_size= 480, bool pretrained_base= true, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

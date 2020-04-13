@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo
 {
     public class Models
     {
-        public static T GetModel<T>(string name, bool pretrained, string[] classes = null, Context ctx = null, string root = "/models")
+        public static T GetModel<T>(string name, bool pretrained, string[] classes = null, Context ctx = null, string root = "")
         {
             var type = typeof(T);
             var method = type.GetMethod(name);

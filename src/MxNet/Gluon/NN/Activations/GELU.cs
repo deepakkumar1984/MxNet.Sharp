@@ -17,7 +17,7 @@ namespace MxNet.Gluon.NN
 {
     public class GELU : HybridBlock
     {
-        public GELU(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public GELU(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.FastPose
 {
     public class FastSEResNet : HybridBlock
     {
-        public FastSEResNet(string architecture, string norm_layer = "BatchNorm", FuncArgs kwargs = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public FastSEResNet(string architecture, string norm_layer = "BatchNorm", FuncArgs kwargs = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

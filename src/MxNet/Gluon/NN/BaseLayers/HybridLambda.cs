@@ -19,7 +19,7 @@ namespace MxNet.Gluon.NN
     {
         public delegate NDArrayOrSymbol LambdaFn(NDArrayOrSymbol x, params NDArrayOrSymbol[] args);
 
-        public HybridLambda(LambdaFn function, string prefix = null, ParameterDict @params = null) : base(prefix,
+        public HybridLambda(LambdaFn function, string prefix = "", ParameterDict @params = null) : base(prefix,
             @params)
         {
             Function = function;

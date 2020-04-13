@@ -25,7 +25,7 @@ namespace MxNet.GluonCV.Losses
 
         private bool _sparse_label;
 
-        public FocalLoss(int axis= -1, float alpha= 0.25f, float gamma= 2, bool sparse_label= true, bool from_logits= false, float? weight = null, int? num_class = null, float eps = 1e-12f, bool size_average = true, int? batch_axis = null, string prefix = null, ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+        public FocalLoss(int axis= -1, float alpha= 0.25f, float gamma= 2, bool sparse_label= true, bool from_logits= false, float? weight = null, int? num_class = null, float eps = 1e-12f, bool size_average = true, int? batch_axis = null, string prefix = "", ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
         {
             this._axis = axis;
             this._alpha = alpha;

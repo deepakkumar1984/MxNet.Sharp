@@ -134,7 +134,7 @@ namespace MxNet.GluonCV.ModelZoo
         }
 
         public static Inception3 GetInception3(bool pretrained = false, Context ctx = null, string root = "",
-            int classes = 1000, string prefix = null, ParameterDict @params = null)
+            int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
             var net = new Inception3(classes, prefix, @params);
             if (pretrained) net.LoadParameters(ModelStore.GetModelFile("inceptionv3"), ctx);
@@ -145,7 +145,7 @@ namespace MxNet.GluonCV.ModelZoo
 
     public class Inception3 : HybridBlock
     {
-        public Inception3(int classes = 1000, string prefix = null, ParameterDict @params = null) : base(prefix,
+        public Inception3(int classes = 1000, string prefix = "", ParameterDict @params = null) : base(prefix,
             @params)
         {
             Features = new HybridSequential("");

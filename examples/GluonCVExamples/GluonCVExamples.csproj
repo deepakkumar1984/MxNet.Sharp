@@ -14,4 +14,16 @@
     <ProjectReference Include="..\..\src\MxNet.GluonCV\MxNet.GluonCV.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="cat.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="dog.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="goldfish.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

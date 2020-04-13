@@ -34,12 +34,41 @@ namespace MxNet.Image
     {
         public static NDArray ImRead(string filename, int flag = 1, bool to_rgb = true)
         {
+            //Mat mat = Cv2.ImRead(filename, (ImreadModes)flag);
+            //if (to_rgb)
+            //    Cv2.CvtColor(mat, mat, ColorConversionCodes.BGR2RGB);
+            //return mat;
             return nd.Cvimread(filename, flag, to_rgb);
         }
 
-        public static NDArray ImResize(NDArray src, int w, int h, ImgInterp interp = ImgInterp.Bilinear)
+        public static NDArray ImResize(NDArray src, int w, int h, InterpolationFlags interp = InterpolationFlags.Linear)
         {
+            //Mat mat = new Mat();
+            //Mat input = src;
+            //NDArray.WaitAll();
+            //Cv2.Resize(input, input, new Size(w, h), interpolation: interp);
+            //return input;
             return nd.Cvimresize(src, w, h, (int) interp);
+        }
+
+        public static void ImShow(NDArray x, string winname = "", bool wait = true, bool transpose = true)
+        {
+            if (winname == "")
+                winname = "test";
+
+            NDArray img = null;
+            if (x.Shape.Dimension == 4)
+                img = x.Reshape(x.Shape[1], x.Shape[2], x.Shape[3]).AsType(DType.Uint8);
+            else
+                img = x.AsType(DType.Uint8);
+
+            if (transpose)
+                img = img.Transpose(new Shape(1, 2, 0));
+            Mat mat = img;
+            Cv2.CvtColor(mat, mat, ColorConversionCodes.RGB2BGR);
+            Cv2.ImShow(winname, mat);
+            if (wait)
+                Cv2.WaitKey();
         }
 
         public static NDArray ImDecode(byte[] buf, int flag = 1, bool to_rgb = true)
@@ -65,31 +94,28 @@ namespace MxNet.Image
             return nd.CvcopyMakeBorder(src, top, bot, left, right, (int) type);
         }
 
-        public static ImgInterp GetInterpMethod(ImgInterp interp, (int, int, int, int)? sizes = null)
+        public static InterpolationFlags GetInterp(InterpolationFlags interp, (int, int, int, int)? sizes = null)
         {
-            if (interp == ImgInterp.Cubic_Area_Bilinear)
+            if (interp == InterpolationFlags.Cubic)
             {
                 if (sizes.HasValue)
                 {
                     var (oh, ow, nh, nw) = sizes.Value;
 
                     if (nh > oh && nw > ow)
-                        return ImgInterp.Area_Based;
+                        return InterpolationFlags.Area;
                     if (nh < oh && nw < ow)
-                        return ImgInterp.Bicubic;
-                    return ImgInterp.Bilinear;
+                        return InterpolationFlags.Cubic;
+                    return InterpolationFlags.Linear;
                 }
 
-                return ImgInterp.Area_Based;
+                return InterpolationFlags.Area;
             }
-
-            if (interp == ImgInterp.Random_Select)
-                return (ImgInterp) new Random().Next(0, 4);
 
             return interp;
         }
 
-        public static NDArray ResizeShort(NDArray src, int size, ImgInterp interp = ImgInterp.Bilinear)
+        public static NDArray ResizeShort(NDArray src, int size, InterpolationFlags interp = InterpolationFlags.Linear)
         {
             var (h, w, _) = (src.Shape[0], src.Shape[1], src.Shape[2]);
             int new_h;
@@ -99,24 +125,24 @@ namespace MxNet.Image
             else
                 (new_h, new_w) = (size, size * (int)Math.Round((double)w / h));
 
-            return ImResize(src, new_w, new_h, GetInterpMethod(interp, (h, w, new_h, new_w)));
+            return ImResize(src, new_w, new_h, GetInterp(interp, (h, w, new_h, new_w)));
         }
 
         public static NDArray FixedCrop(NDArray src, int x0, int y0, int w, int h,
-            (int, int)? size = null, ImgInterp interp = ImgInterp.Area_Based)
+            (int, int)? size = null, InterpolationFlags interp = InterpolationFlags.Area)
         {
             var output = nd.Slice(src, new Shape(y0, x0, 0), new Shape(y0 + h, x0 + w, src.Shape[2]));
             if (size.HasValue && size.Value.Item1 != w && size.Value.Item2 != h)
             {
                 var sizes = (h, w, size.Value.Item2, size.Value.Item1);
-                output = ImResize(output, size.Value.Item1, size.Value.Item2, GetInterpMethod(interp, sizes));
+                output = ImResize(output, size.Value.Item1, size.Value.Item2, GetInterp(interp, sizes));
             }
 
             return output;
         }
 
         public static (NDArray, (int, int, int, int)) RandomCrop(NDArray src, (int, int) size,
-            ImgInterp interp = ImgInterp.Area_Based)
+            InterpolationFlags interp = InterpolationFlags.Area)
         {
             var (h, w, _) = (src.Shape[0], src.Shape[1], src.Shape[2]);
             var (new_w, new_h) = ScaleDown((w, h), size);
@@ -127,7 +153,7 @@ namespace MxNet.Image
         }
 
         public static (NDArray, (int, int, int, int)) CenterCrop(NDArray src, (int, int) size,
-            ImgInterp interp = ImgInterp.Area_Based)
+            InterpolationFlags interp = InterpolationFlags.Area)
         {
             var (h, w, _) = (src.Shape[0], src.Shape[1], src.Shape[2]);
             var (new_w, new_h) = ScaleDown((w, h), size);
@@ -149,7 +175,7 @@ namespace MxNet.Image
         }
 
         public static (NDArray, (int, int, int, int)) RandomSizeCrop(NDArray src, (int, int) size, (float, float) area,
-            (float, float) ratio, ImgInterp interp = ImgInterp.Area_Based)
+            (float, float) ratio, InterpolationFlags interp = InterpolationFlags.Area)
         {
             var (h, w, _) = (src.Shape[0], src.Shape[1], src.Shape[2]);
             var src_area = h * w;

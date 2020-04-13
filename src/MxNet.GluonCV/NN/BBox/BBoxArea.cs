@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.NN.BBox
     public class BBoxArea : HybridBlock
     {
         private HybridBlock _pre;
-        public BBoxArea(int axis = -1, string fmt = "corner", string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public BBoxArea(int axis = -1, string fmt = "corner", string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             if (fmt.ToLower() == "corner")
             {

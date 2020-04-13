@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.Utils
 {
     public class DefaultPreprocess : HybridBlock
     {
-        public DefaultPreprocess(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public DefaultPreprocess(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             var mean = nd.Array(new float[] {
                         123.675f,

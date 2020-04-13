@@ -21,7 +21,7 @@ namespace MxNet.Gluon.NN
     {
         public Dense(int units, ActivationType? activation = null, bool use_bias = true, bool flatten = true,
             DType dtype = null, Initializer weight_initializer = null, string bias_initializer = "zeros",
-            int in_units = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+            int in_units = 0, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Units = units;
             Act = activation != null ? new Activation(activation.Value) : null;

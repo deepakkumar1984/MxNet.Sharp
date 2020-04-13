@@ -17,8 +17,8 @@ namespace ImageClassification
 
         public static void Run()
         {
-            string resnet50symbolUrl = "http://data.mxnet.io.s3-website-us-west-1.amazonaws.com/models/imagenet/resnet/50-layers/resnet-50-symbol.json";
-            string resnet50paramsUrl = "http://data.mxnet.io.s3-website-us-west-1.amazonaws.com/models/imagenet/resnet/50-layers/resnet-50-0000.params";
+            string resnet50symbolUrl = "http://data.mxnet.io.s3-website-us-west-1.amazonaws.com/imagenet/resnet/50-layers/resnet-50-symbol.json";
+            string resnet50paramsUrl = "http://data.mxnet.io.s3-website-us-west-1.amazonaws.com/imagenet/resnet/50-layers/resnet-50-0000.params";
 
             TestUtils.Download(resnet50symbolUrl);
             TestUtils.Download(resnet50paramsUrl);

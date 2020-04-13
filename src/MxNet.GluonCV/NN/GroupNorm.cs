@@ -13,7 +13,7 @@ namespace MxNet.GluonCV.NN
         public int Axis { get; }
         public float Epsilon { get; }
 
-        public GroupNorm(int ngroups= 32, int in_channels= 0, int axis= 1, float epsilon= 1e-5f, Initializer beta_initializer= null, Initializer gamma_initializer= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public GroupNorm(int ngroups= 32, int in_channels= 0, int axis= 1, float epsilon= 1e-5f, Initializer beta_initializer= null, Initializer gamma_initializer= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Ngroups = ngroups;
             InChannels = in_channels;

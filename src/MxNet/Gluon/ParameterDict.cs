@@ -89,6 +89,7 @@ namespace MxNet.Gluon
                                         "if you want to create a new constant.");
 
                 param = new Constant(name, value);
+                _params[name] = param;
             }
             else if (value != null)
             {
@@ -116,7 +117,7 @@ namespace MxNet.Gluon
             bool differentiable = true, StorageStype stype = StorageStype.Default,
             StorageStype grad_stype = StorageStype.Default)
         {
-            name = Prefix + "_" + name;
+            name = Prefix + name;
             var param = GetImpl(name);
             if (param == null)
             {

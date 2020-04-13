@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Rpn
 {
     public class RPNHead : HybridBlock
     {
-        public RPNHead(int channels, int anchor_depth, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public RPNHead(int channels, int anchor_depth, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

@@ -24,7 +24,7 @@ namespace MxNet.Gluon.Contrib.NN
             bool center = true, bool scale = true, bool use_global_stats = false, string beta_initializer = "zeros",
             string gamma_initializer = "ones", string running_mean_initializer = "zeros",
             string running_variance_initializer = "ones",
-            string prefix = null, ParameterDict @params = null)
+            string prefix = "", ParameterDict @params = null)
             : base(1, momentum, epsilon, center, scale, use_global_stats, beta_initializer, gamma_initializer,
                 running_mean_initializer, running_variance_initializer, in_channels, prefix, @params)
         {

@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Rpn
 {
     public class RPNProposal : HybridBlock
     {
-        public RPNProposal(float clip, int min_size, float[] stds, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public RPNProposal(float clip, int min_size, float[] stds, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

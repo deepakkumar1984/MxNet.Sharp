@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.CifarResnext
 {
     public class CIFARResNext : HybridBlock
     {
-        public CIFARResNext(int[] layers, int cardinality, int bottleneck_width, int classes = 10, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public CIFARResNext(int[] layers, int cardinality, int bottleneck_width, int classes = 10, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -23,17 +23,17 @@ namespace MxNet.GluonCV.ModelZoo.CifarResnext
             throw new NotImplementedException();
         }
 
-        public static CIFARResNext GetCIFARResNext(int num_layers, int cardinality= 16, int bottleneck_width= 64, bool pretrained= false, Context ctx= null, string root = "~/mxnet/models")
+        public static CIFARResNext GetCIFARResNext(int num_layers, int cardinality= 16, int bottleneck_width= 64, bool pretrained= false, Context ctx= null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARResNext Cifar_ResNext29_32x4d(bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
+        public static CIFARResNext Cifar_ResNext29_32x4d(bool pretrained = false, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARResNext Cifar_ResNext29_16x4d(bool pretrained = false, Context ctx = null, string root = "~/mxnet/models")
+        public static CIFARResNext Cifar_ResNext29_16x4d(bool pretrained = false, Context ctx = null, string root = "~/mxnet")
         {
             throw new NotImplementedException();
         }

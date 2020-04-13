@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.NN
     public class HardSwish : HybridBlock
     {
         private HardSigmoid _act;
-        public HardSwish(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public HardSwish(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             _act = new HardSigmoid(prefix, @params);
         }

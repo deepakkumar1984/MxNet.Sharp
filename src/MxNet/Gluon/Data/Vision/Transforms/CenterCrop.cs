@@ -14,15 +14,16 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Image;
+using OpenCvSharp;
 
 namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class CenterCrop : Block
     {
-        private readonly ImgInterp _interpolation;
+        private readonly InterpolationFlags _interpolation;
         private readonly (int, int) _size;
 
-        public CenterCrop((int, int) size, ImgInterp interpolation = ImgInterp.Bilinear) : base(null, null)
+        public CenterCrop((int, int) size, InterpolationFlags interpolation = InterpolationFlags.Linear) : base(null, null)
         {
             _size = size;
             _interpolation = interpolation;

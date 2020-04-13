@@ -18,7 +18,7 @@ namespace MxNet.GluonCV.NN
 
         private Activation relu;
 
-        public DUC(int planes, int upscale_factor = 2, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public DUC(int planes, int upscale_factor = 2, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this.conv = new Conv2D(planes, kernel_size: (3, 3), padding: (1, 1), use_bias: false);
             this.bn = new BatchNormCudnnOff(gamma_initializer: "ones", beta_initializer: "zeros");

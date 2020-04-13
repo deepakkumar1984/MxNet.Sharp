@@ -19,11 +19,10 @@ namespace MxNet.Gluon.NN
 {
     public class BatchNorm : HybridBlock
     {
-        public BatchNorm(int axis = 1, float momentum = 0.9f, float epsilon = 1e-5f, bool center = true,
-            bool scale = true,
+        public BatchNorm(int axis = 1, float momentum = 0.9f, float epsilon = 1e-5f, bool center = true, bool scale = true,
             bool use_global_stats = false, string beta_initializer = "zeros", string gamma_initializer = "ones",
             string running_mean_initializer = "zeros", string running_variance_initializer = "ones",
-            int in_channels = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+            int in_channels = 0, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Momentum = momentum;
             Epsilon = epsilon;
@@ -31,13 +30,13 @@ namespace MxNet.Gluon.NN
             Scale = scale;
             Use_Global_Stats = use_global_stats;
             In_Channels = in_channels;
-            Gamma = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
+            this["gamma"] = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
                 init: Initializer.Get(gamma_initializer), allow_deferred_init: true, differentiable: scale);
-            Beta = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
+            this["beta"] = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
                 init: Initializer.Get(beta_initializer), allow_deferred_init: true, differentiable: center);
-            RunningMean = Params.Get("running_mean", OpGradReq.Write, new Shape(in_channels),
+            this["running_mean"] = Params.Get("running_mean", OpGradReq.Write, new Shape(in_channels),
                 init: Initializer.Get(running_mean_initializer), allow_deferred_init: true);
-            RunningVar = Params.Get("running_var", OpGradReq.Write, new Shape(in_channels),
+            this["running_var"] = Params.Get("running_var", OpGradReq.Write, new Shape(in_channels),
                 init: Initializer.Get(running_variance_initializer), allow_deferred_init: true);
         }
 
@@ -55,15 +54,15 @@ namespace MxNet.Gluon.NN
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            var gamma = args[0];
-            var beta = args[1];
-            var running_mean = args[2];
-            var running_var = args[3];
+            var gamma = args.Length > 0 ? args[0] : null;
+            var beta = args.Length > 1 ? args[1] : null;
+            var running_mean = args.Length > 2 ? args[2] : null;
+            var running_var = args.Length > 3 ? args[3] : null;
 
             if (x.IsNDArray)
-                return nd.BatchNorm(x.NdX, gamma.NdX, beta.NdX, running_mean.NdX, running_var.NdX, eps: Epsilon, momentum: Momentum, axis: Axis);
+                return nd.BatchNorm(x.NdX, gamma.NdX, beta.NdX, running_mean.NdX, running_var.NdX, eps: Epsilon, momentum: Momentum, axis: Axis, use_global_stats: Use_Global_Stats);
 
-            return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX, eps: Epsilon, momentum: Momentum, axis: Axis,
+            return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX, eps: Epsilon, momentum: Momentum, axis: Axis, use_global_stats: Use_Global_Stats,
                 symbol_name: "fwd");
         }
     }

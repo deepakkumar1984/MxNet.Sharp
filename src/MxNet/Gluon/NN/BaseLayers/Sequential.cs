@@ -20,7 +20,7 @@ namespace MxNet.Gluon.NN
 {
     public class Sequential : Block
     {
-        public Sequential(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Sequential(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

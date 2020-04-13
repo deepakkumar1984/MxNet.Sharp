@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.FastPose
 {
     public class SELayer : HybridBlock
     {
-        public SELayer(int channel, int reduction= 1, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public SELayer(int channel, int reduction= 1, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

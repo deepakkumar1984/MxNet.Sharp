@@ -16,7 +16,7 @@ namespace MxNet.GluonCV.NN
 
         public float _thresh;
 
-        public OHEMSampler(float ratio, int min_samples= 0, float thresh= 0.5f, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public OHEMSampler(float ratio, int min_samples= 0, float thresh= 0.5f, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Debug.Assert(ratio > 0, $"OHEMSampler ratio must > 0, {ratio} given");
             this._ratio = ratio;

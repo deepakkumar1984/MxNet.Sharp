@@ -25,7 +25,7 @@ namespace MxNet.Gluon.RNN
 
         public GRUCell(int hidden_size, string i2h_weight_initializer = null, string h2h_weight_initializer = null,
             string i2h_bias_initializer = "zeros", string h2h_bias_initializer = "zeros", int input_size = 0,
-            string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             _hidden_size = hidden_size;
             _input_size = input_size;

@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class BBoxSplit : HybridBlock
     {
-        public BBoxSplit(int axis= -1, bool squeeze_axis = false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public BBoxSplit(int axis= -1, bool squeeze_axis = false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Axis = axis;
             SqueezeAxis = squeeze_axis;

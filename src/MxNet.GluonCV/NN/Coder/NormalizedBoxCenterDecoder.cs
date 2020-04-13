@@ -17,7 +17,7 @@ namespace MxNet.GluonCV.NN
 
         private BBoxCornerToCenter corner_to_center;
 
-        public NormalizedBoxCenterDecoder(float[] stds, bool convert_anchor = false, float? clip = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public NormalizedBoxCenterDecoder(float[] stds, bool convert_anchor = false, float? clip = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             if (stds == null)
                 stds = new float[] { 0.1f, 0.1f, 0.2f, 0.2f };

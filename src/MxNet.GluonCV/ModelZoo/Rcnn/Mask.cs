@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.Rcnn
     public class Mask : HybridBlock
     {
         public Mask(int batch_images, string[] classes, int mask_channels, int num_fcn_convs= 0, string norm_layer= "",
-                 FuncArgs norm_kwargs= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                 FuncArgs norm_kwargs= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

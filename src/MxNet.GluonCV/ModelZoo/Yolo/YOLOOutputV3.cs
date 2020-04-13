@@ -24,19 +24,19 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
 
         private Conv2D prediction;
 
-        public YOLOOutputV3(int index, int num_class, NDArray anchors, int stride, (int, int)? alloc_size= null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public YOLOOutputV3(int index, int num_class, NDArray anchors, int stride, (int, int)? alloc_size= null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             if (!alloc_size.HasValue)
                 alloc_size = (128, 128);
             this._classes = num_class;
             this._num_pred = 1 + 4 + num_class;
-            this._num_anchors = anchors.Size / 2;
+            this._num_anchors = (int)Math.Round((double)anchors.Size / 2);
             this._stride = stride;
             var all_pred = this._num_pred * this._num_anchors;
             this.prediction = new Conv2D(all_pred, kernel_size: (1, 1), padding: (0, 0), strides: (1, 1));
             // anchors will be multiplied to predictions
             anchors = anchors.Reshape(1, 1, -1, 2);
-            this.anchors = this.Params.GetConstant($"anchor_{index}", anchors);
+            this["anchors"] = this.Params.GetConstant($"anchors", anchors);
             // offsets will be added to predictions
             var grid_x = np.arange(alloc_size.Value.Item2);
             var grid_y = np.arange(alloc_size.Value.Item1);
@@ -47,7 +47,8 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             var np_offsets = np.concatenate((grid_x[":", ":", np.newaxis], grid_y[":", ":", np.newaxis]), axis: -1);
             // expand dims to (1, 1, n, n, 2) so it's easier for broadcasting
             np_offsets = np.expand_dims(np.expand_dims(np_offsets, axis: 0), axis: 0);
-            this.offsets = this.Params.GetConstant($"offset_{index}", np_offsets);
+            this["offsets"] = this.Params.GetConstant($"offsets", np_offsets.astype(np.Float32));
+            RegisterChild(prediction, "prediction");
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -62,9 +63,9 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
         {
             // prediction flat to (batch, pred per pixel, height * width)
             NDArray pred = this.prediction.Call(x);
-            pred = pred.Reshape(0, this._num_anchors * this._num_pred, -1);
+            pred = pred.Reshape(pred.Shape[0], this._num_anchors * this._num_pred, -1);
             // transpose to (batch, height * width, num_anchor, num_pred)
-            pred = pred.Transpose(axes: new Shape(0, 2, 1)).Reshape(0, -1, this._num_anchors, this._num_pred);
+            pred = pred.Transpose(axes: new Shape(0, 2, 1)).Reshape(pred.Shape[0], -1, this._num_anchors, this._num_pred);
             // components
             var raw_box_centers = pred.SliceAxis(axis: -1, begin: 0, end: 2);
             var raw_box_scales = pred.SliceAxis(axis: -1, begin: 2, end: 4);
@@ -78,21 +79,24 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             var box_scales = nd.BroadcastMul(nd.Exp(raw_box_scales), anchors);
             var confidence = nd.Sigmoid(objness);
             var class_score = nd.BroadcastMul(nd.Sigmoid(class_pred), confidence);
-            var wh = box_scales / 2;
+            var wh = box_scales / 2f;
             var bbox = nd.Concat(new NDArrayList(box_centers - wh, box_centers + wh), dim: -1);
             if (Autograd.IsTraining())
             {
                 // during training, we don't need to convert whole bunch of info to detection results
-                return new NDArrayOrSymbol(bbox.Reshape(0, -1, 4), raw_box_centers, raw_box_scales, objness, class_pred, anchors, offsets);
+                return new NDArrayOrSymbol(bbox.Reshape(bbox.Shape[0], -1, 4), raw_box_centers, raw_box_scales, objness, class_pred, anchors, offsets);
             }
 
             // prediction per class
             var bboxes = nd.Tile(bbox, reps: new Shape(this._classes, 1, 1, 1, 1));
             var scores = nd.Transpose(class_score, axes: new Shape(3, 0, 1, 2)).ExpandDims(axis: -1);
-            var ids = nd.BroadcastAdd(scores * 0, nd.Arange(0, this._classes).Reshape(0, 1, 1, 1, 1));
+            var arrangeids = nd.Arange(0, this._classes);
+            arrangeids = arrangeids.Reshape(arrangeids.Shape[0], 1, 1, 1, 1);
+            var ids = nd.BroadcastAdd(scores * 0, arrangeids);
             var detections = nd.Concat(new NDArrayList(ids, scores, bboxes), dim: -1);
             // reshape to (B, xx, 6)
-            detections = nd.Reshape(detections.Transpose(axes: new Shape(1, 0, 2, 3, 4)), new Shape(0, -1, 6));
+            detections = detections.Transpose(axes: new Shape(1, 0, 2, 3, 4));
+            detections = detections.Reshape(detections.Shape[0], -1, 6);
             return detections;
         }
 
@@ -107,7 +111,7 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             var raw_box_centers = pred.SliceAxis(axis: -1, begin: 0, end: 2);
             var raw_box_scales = pred.SliceAxis(axis: -1, begin: 2, end: 4);
             var objness = pred.SliceAxis(axis: -1, begin: 4, end: 5);
-            var class_pred = pred.SliceAxis(axis: -1, begin: 5, end: null);
+            var class_pred = pred.SliceAxis(axis: -1, begin: 5, end: 25);
             // valid offsets, (1, 1, height, width, 2)
             offsets = sym.SliceLike(offsets, x * 0, axes: new Shape(2, 3));
             // reshape to (1, height*width, 1, 2)
@@ -127,7 +131,9 @@ namespace MxNet.GluonCV.ModelZoo.Yolo
             // prediction per class
             var bboxes = sym.Tile(bbox, reps: new Shape(this._classes, 1, 1, 1, 1));
             var scores = sym.Transpose(class_score, axes: new Shape(3, 0, 1, 2)).ExpandDims(axis: -1);
-            var ids = sym.BroadcastAdd(scores * 0, sym.Arange(0, this._classes).Reshape(0, 1, 1, 1, 1));
+            var arrangeids = sym.Arange(0, this._classes);
+            arrangeids = arrangeids.Reshape(0, 1, 1, 1, 1);
+            var ids = sym.BroadcastAdd(scores * 0, arrangeids);
             var detections = sym.Concat(new SymbolList(ids, scores, bboxes), dim: -1);
             // reshape to (B, xx, 6)
             detections = sym.Reshape(detections.Transpose(axes: new Shape(1, 0, 2, 3, 4)), new Shape(0, -1, 6));

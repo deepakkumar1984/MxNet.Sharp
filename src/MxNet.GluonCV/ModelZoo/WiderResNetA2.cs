@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo
 {
     public class WiderResNetA2 : HybridBlock
     {
-        public WiderResNetA2(int[] structure, HybridSequential norm_act = null, int classes= 0, bool dilation= false, bool dist_bn= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public WiderResNetA2(int[] structure, HybridSequential norm_act = null, int classes= 0, bool dilation= false, bool dist_bn= false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +51,7 @@ namespace MxNet.GluonCV.ModelZoo
     public class IdentityResidualBlock : HybridBlock
     {
         public IdentityResidualBlock(int in_channels, int channels, int strides= 1,  int dilation= 1, int groups= 1,HybridSequential norm_act= null,
-                 float? dropout= null, bool dist_bn= false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+                 float? dropout= null, bool dist_bn= false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }

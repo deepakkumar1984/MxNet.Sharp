@@ -17,7 +17,7 @@ namespace MxNet.Gluon.NN
 {
     public class SELU : HybridBlock
     {
-        public SELU(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public SELU(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

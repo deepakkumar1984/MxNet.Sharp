@@ -210,11 +210,11 @@ namespace MxNet
         /// <param name="mean">Sequence of means for each channel. Default value is 0.</param>
         /// <param name="std">Sequence of standard deviations for each channel. Default value is 1.</param>
         /// <returns>returns new symbol</returns>
-        public Symbol Normalize(Symbol data, Tuple<double> mean = null, Tuple<double> std = null,
+        public Symbol Normalize(Symbol data, Tuple<float> mean = null, Tuple<float> std = null,
             string symbol_name = "")
         {
-            if (mean == null) mean = new Tuple<double>(0, 0, 0, 0);
-            if (std == null) std = new Tuple<double>(1, 1, 1, 1);
+            if (mean == null) mean = new Tuple<float>(0, 0, 0, 0);
+            if (std == null) std = new Tuple<float>(1, 1, 1, 1);
 
             return new Operator("_image_normalize")
                 .SetParam("mean", mean)

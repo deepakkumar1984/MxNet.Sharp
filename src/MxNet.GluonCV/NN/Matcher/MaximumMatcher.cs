@@ -9,7 +9,7 @@ namespace MxNet.GluonCV.NN
     {
         private readonly float _threshold;
 
-        public MaximumMatcher(float threshold, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public MaximumMatcher(float threshold, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._threshold = threshold;
         }

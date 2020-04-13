@@ -11,7 +11,7 @@ namespace MxNet.GluonCV.NN
     {
         private HybridSequential _matchers;
 
-        public CompositeMatcher(HybridBlock[] matchers, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public CompositeMatcher(HybridBlock[] matchers, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._matchers = new HybridSequential();
             foreach (var m in matchers)

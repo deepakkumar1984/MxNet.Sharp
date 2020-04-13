@@ -48,16 +48,19 @@ namespace MxNet.Gluon
         internal List<int> _in_format;
         internal List<int> _out_format;
 
-        public HybridBlock(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public HybridBlock(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 
-        public HybridBlock(Dictionary<string, Block> blocks)
+        public HybridBlock(Dictionary<string, Block> blocks, bool loadkeys = false)
             : this()
         {
             foreach (var item in blocks)
             {
-                RegisterChild(item.Value, item.Key);
+                if(loadkeys)
+                    RegisterChild(item.Value, item.Key);
+                else
+                    RegisterChild(item.Value);
             }
         }
 

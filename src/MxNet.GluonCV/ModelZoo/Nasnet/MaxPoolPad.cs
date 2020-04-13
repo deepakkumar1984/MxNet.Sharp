@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo.Nasnet
 {
     public class MaxPoolPad : HybridBlock
     {
-        public MaxPoolPad(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public MaxPoolPad(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

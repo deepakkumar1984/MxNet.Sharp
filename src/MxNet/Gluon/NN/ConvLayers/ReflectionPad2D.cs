@@ -17,7 +17,7 @@ namespace MxNet.Gluon.NN
 {
     public class ReflectionPad2D : HybridBlock
     {
-        public ReflectionPad2D(int padding = 0, string prefix = null, ParameterDict @params = null) : base(prefix,
+        public ReflectionPad2D(int padding = 0, string prefix = "", ParameterDict @params = null) : base(prefix,
             @params)
         {
             Padding = padding;

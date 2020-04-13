@@ -17,7 +17,7 @@ namespace MxNet.GluonCV.Losses
 
         public SoftmaxCrossEntropyLoss SoftLoss;
 
-        public DistillationSoftmaxCrossEntropyLoss(float temperature = 1, float hard_weight = 0.5f, bool sparse_label= true, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public DistillationSoftmaxCrossEntropyLoss(float temperature = 1, float hard_weight = 0.5f, bool sparse_label= true, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._temperature = temperature;
             this._hard_weight = hard_weight;

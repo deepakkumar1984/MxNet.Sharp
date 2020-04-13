@@ -1,6 +1,9 @@
 ﻿using System;
 using MxNet;
+using MxNet.Gluon;
+using MxNet.Gluon.NN;
 using NumpyDotNet;
+using OpenCvSharp;
 
 namespace ConsoleTest
 {
@@ -8,12 +11,16 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
+            var im_fname = Utils.Download("https://raw.githubusercontent.com/zhreshold/mxnet-ssd/master/data/demo/dog.jpg", "dog.jpg");
+            var mat = Cv2.ImRead(im_fname);
+            NDArray matx = mat;
+            mat = matx;
+            Cv2.ImShow("1", mat);
+            Cv2.WaitKey();
             var npx = new np.random().uniform(newdims: new shape(3, 3));
             var x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new Shape(3, 3)).Reshape(new Shape(3, 3));
             var ndx = nd.Array(npx.astype(np.Int8));
 
-
-            
             var buff = x.GetBuffer();
             var x1 = NDArray.LoadFromBuffer(buff);
 

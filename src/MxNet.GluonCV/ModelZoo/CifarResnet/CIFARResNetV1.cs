@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.CifarResnet
 {
     public class CIFARResNetV1 : HybridBlock
     {
-        public CIFARResNetV1(HybridBlock block, int[] layers, int[] channels, int classes = 10, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public CIFARResNetV1(HybridBlock block, int[] layers, int[] channels, int classes = 10, string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             throw new NotImplementedException();
         }
@@ -23,22 +23,22 @@ namespace MxNet.GluonCV.ModelZoo.CifarResnet
             throw new NotImplementedException();
         }
 
-        public static CIFARResNetV1 GetCIFARResNetV1(int num_layers, bool pretrained= false, Context ctx= null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARResNetV1 GetCIFARResNetV1(int num_layers, bool pretrained= false, Context ctx= null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARResNetV1 Cifar_ResNet20_V1(bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARResNetV1 Cifar_ResNet20_V1(bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARResNetV1 Cifar_ResNet56_V1(bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARResNetV1 Cifar_ResNet56_V1(bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }
 
-        public static CIFARResNetV1 Cifar_ResNet110_V1(bool pretrained = false, Context ctx = null, string root = "~/mxnet/models", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
+        public static CIFARResNetV1 Cifar_ResNet110_V1(bool pretrained = false, Context ctx = null, string root = "~/mxnet", string norm_layer = "BatchNorm", FuncArgs norm_kwargs = null)
         {
             throw new NotImplementedException();
         }

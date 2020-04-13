@@ -8,7 +8,7 @@ namespace MxNet.GluonCV.ModelZoo.ActionRecognition
 {
     public class I3D_InceptionV3 : HybridBlock
     {
-        public I3D_InceptionV3(int nclass = 1000, bool pretrained_base = true, int num_segments = 1, int num_crop = 1, bool feat_ext = false, float dropout_ratio = 0.5f, float init_std = 0.01f, bool partial_bn = false, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public I3D_InceptionV3(int nclass = 1000, bool pretrained_base = true, int num_segments = 1, int num_crop = 1, bool feat_ext = false, float dropout_ratio = 0.5f, float init_std = 0.01f, bool partial_bn = false, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
         }
 
@@ -52,7 +52,7 @@ namespace MxNet.GluonCV.ModelZoo.ActionRecognition
             throw new NotImplementedException();
         }
 
-        public static I3D_InceptionV3 I3D_InceptionV3_Kinetics400(int nclass = 400, bool pretrained = false, bool pretrained_base = true, bool use_tsn = false, int num_segments = 1, int num_crop = 1, bool partial_bn = true, Context ctx = null, string root = "~/.mxnet/models")
+        public static I3D_InceptionV3 I3D_InceptionV3_Kinetics400(int nclass = 400, bool pretrained = false, bool pretrained_base = true, bool use_tsn = false, int num_segments = 1, int num_crop = 1, bool partial_bn = true, Context ctx = null, string root = "")
         {
             throw new NotImplementedException();
         }

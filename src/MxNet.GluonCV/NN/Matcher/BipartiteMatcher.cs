@@ -15,7 +15,7 @@ namespace MxNet.GluonCV.NN.Matcher
 
         public float _threshold;
 
-        public BipartiteMatcher(float threshold= 1e-12f, bool is_ascend= false, float eps= 1e-12f, bool share_max= true, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public BipartiteMatcher(float threshold= 1e-12f, bool is_ascend= false, float eps= 1e-12f, bool share_max= true, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             this._threshold = threshold;
             this._is_ascend = is_ascend;

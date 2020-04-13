@@ -78,7 +78,7 @@ namespace MxNet.GluonCV.Data
 
         public string[] Masks;
 
-        public ADE20KSegmentation(string root = "~/.mxnet/datasets/ade", string split = "train", string mode = null, Func<NDArray, NDArray> transform = null, int base_size = 520, int crop_size = 480) : base(root, split, mode, transform, base_size, crop_size)
+        public ADE20KSegmentation(string root = "/datasets/ade", string split = "train", string mode = null, Func<NDArray, NDArray> transform = null, int base_size = 520, int crop_size = 480) : base(root, split, mode, transform, base_size, crop_size)
         {
             root = Path.Combine(Root, this.BASE_DIR);
             Debug.Assert(Directory.Exists(root));

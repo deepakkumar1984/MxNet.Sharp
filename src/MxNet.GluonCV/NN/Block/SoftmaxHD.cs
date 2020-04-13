@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.NN
 {
     public class SoftmaxHD : HybridBlock
     {
-        public SoftmaxHD(Shape axis = null, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public SoftmaxHD(Shape axis = null, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
             Axis = axis;
         }
