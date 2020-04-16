@@ -332,10 +332,17 @@ namespace MxNet
         {
             if (context == null)
                 context = mx.Cpu();
+            context = mx.Cpu();
+            OpenCvSharp.Cv2.CvtColor(img, img, OpenCvSharp.ColorConversionCodes.BGR2RGB);
             Shape s = new Shape(img.Height, img.Width, img.Channels());
             byte[] bytes = new byte[s.Size];
-            Marshal.Copy(img.Data, bytes, 0, s.Size);
+            unsafe
+            {
+                Buffer.MemoryCopy(img.Data.ToPointer(), bytes.GetMemPtr().ToPointer(), bytes.Length, bytes.Length);
+            }
+
             var ret = new NDArray(bytes, s, context, dtype: DType.Uint8);
+            WaitAll();
             return ret;
         }
 
@@ -798,7 +805,12 @@ namespace MxNet
             var buffer = x.AsType(DType.Uint8).GetBuffer();
             var (h, w, c) = x.Shape;
             OpenCvSharp.Mat mat = new OpenCvSharp.Mat(new OpenCvSharp.Size(w, h), OpenCvSharp.MatType.CV_8UC3);
-            Marshal.Copy(buffer, 0, mat.Data, buffer.Length);
+            unsafe
+            {
+                Buffer.MemoryCopy(buffer.GetMemPtr().ToPointer(), mat.Data.ToPointer(), buffer.Length, buffer.Length);
+            }
+
+            OpenCvSharp.Cv2.CvtColor(mat, mat, OpenCvSharp.ColorConversionCodes.RGB2BGR);
             return mat;
         }
 

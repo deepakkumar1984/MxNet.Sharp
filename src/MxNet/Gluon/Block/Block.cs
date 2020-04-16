@@ -45,7 +45,7 @@ namespace MxNet.Gluon
             _forward_pre_hooks = new Dictionary<int, Hook>();
         }
 
-        public string Prefix { get; }
+        public string Prefix { get; set; }
 
         public virtual ParameterDict Params { get; set; }
 
@@ -232,7 +232,6 @@ namespace MxNet.Gluon
             foreach (var hook in _forward_pre_hooks.Values) hook(this, x);
 
             var @out = Forward(x, args);
-
             foreach (var hook in _forward_hooks.Values) hook(this, @out);
 
             return @out;

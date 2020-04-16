@@ -24,7 +24,7 @@ namespace MxNet
             Exit();
         }
 
-        public abstract MxDisposable Enter();
+        public abstract MxDisposable With();
 
         public abstract void Exit();
     }

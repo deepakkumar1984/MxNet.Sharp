@@ -4,7 +4,21 @@ using System.Text;
 
 namespace MxNet.Keras.Layers
 {
-    class UpSampling3D
+    public class UpSampling3D : _UpSampling
     {
+        public UpSampling3D((int, int, int)? size = null, string data_format = "") : base(size.HasValue ? new int[] { size.Value.Item1, size.Value.Item2, size.Value.Item3 } : new int[] { 2, 2, 2 }, data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ConfigDict GetConfig()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

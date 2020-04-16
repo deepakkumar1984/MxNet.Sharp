@@ -60,7 +60,7 @@ namespace MxNet.Gluon
                 hooks_dict.Remove(_id);
         }
 
-        public override MxDisposable Enter()
+        public override MxDisposable With()
         {
             return this;
         }

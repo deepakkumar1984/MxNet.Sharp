@@ -34,39 +34,44 @@ namespace MxNet.Image
     {
         public static NDArray ImRead(string filename, int flag = 1, bool to_rgb = true)
         {
-            //Mat mat = Cv2.ImRead(filename, (ImreadModes)flag);
-            //if (to_rgb)
-            //    Cv2.CvtColor(mat, mat, ColorConversionCodes.BGR2RGB);
-            //return mat;
-            return nd.Cvimread(filename, flag, to_rgb);
+            Mat mat = Cv2.ImRead(filename, (ImreadModes)flag);
+            if (to_rgb)
+                Cv2.CvtColor(mat, mat, ColorConversionCodes.BGR2RGB);
+            return mat;
+            //return nd.Cvimread(filename, flag, to_rgb);
         }
 
         public static NDArray ImResize(NDArray src, int w, int h, InterpolationFlags interp = InterpolationFlags.Linear)
         {
             //Mat mat = new Mat();
             //Mat input = src;
-            //NDArray.WaitAll();
             //Cv2.Resize(input, input, new Size(w, h), interpolation: interp);
             //return input;
             return nd.Cvimresize(src, w, h, (int) interp);
         }
 
-        public static void ImShow(NDArray x, string winname = "", bool wait = true, bool transpose = true)
+        public static void ImShow(NDArray x, string winname = "", bool wait = true)
         {
             if (winname == "")
                 winname = "test";
 
-            NDArray img = null;
+            bool transpose = true;
+
             if (x.Shape.Dimension == 4)
-                img = x.Reshape(x.Shape[1], x.Shape[2], x.Shape[3]).AsType(DType.Uint8);
+                x = x.Reshape(x.Shape[1], x.Shape[2], x.Shape[3]).AsType(DType.Uint8);
             else
-                img = x.AsType(DType.Uint8);
+                x = x.AsType(DType.Uint8);
+
+            if (x.Shape[0] > 3)
+                transpose = false;
 
             if (transpose)
-                img = img.Transpose(new Shape(1, 2, 0));
-            Mat mat = img;
-            Cv2.CvtColor(mat, mat, ColorConversionCodes.RGB2BGR);
+                x = x.Transpose(new Shape(1, 2, 0));
+            NDArray.WaitAll();
+            Mat mat = x;
+            
             Cv2.ImShow(winname, mat);
+            NDArray.WaitAll();
             if (wait)
                 Cv2.WaitKey();
         }

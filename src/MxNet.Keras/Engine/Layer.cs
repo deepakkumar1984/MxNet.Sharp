@@ -66,7 +66,7 @@ namespace MxNet.Keras.Engine
         }
 
 
-        public Layer(Shape input_shape, Shape batch_input_shape, int batch_size, DType dtype, string name, bool trainable, KerasSymbol[] weights)
+        public Layer(Shape input_shape = null, Shape batch_input_shape = null, int? batch_size = null, DType dtype = null, string name = null, bool? trainable = null, KerasSymbol[] weights = null)
         {
             throw new NotImplementedException();
         }

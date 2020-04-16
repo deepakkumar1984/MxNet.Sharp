@@ -39,7 +39,7 @@ namespace MxNet
                 set => current.Value = value;
             }
 
-            public override MxDisposable Enter()
+            public override MxDisposable With()
             {
                 old_manager = Current;
                 current.Value = this;

@@ -4,7 +4,17 @@ using System.Text;
 
 namespace MxNet.Keras.Layers
 {
-    class ZeroPadding2D
+    public class ZeroPadding2D : _ZeroPadding
     {
+        public ZeroPadding2D((int, int)? padding = null, string data_format = "") 
+            : base(padding.HasValue ? new int[] { padding.Value.Item1, padding.Value.Item2 } : new int[] {1, 1 }, data_format)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

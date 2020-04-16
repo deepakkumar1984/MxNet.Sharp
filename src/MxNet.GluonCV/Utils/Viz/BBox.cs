@@ -48,7 +48,6 @@ namespace MxNet.GluonCV.Utils
             }
 
             Mat mat = img;
-            Cv2.CvtColor(mat, mat, ColorConversionCodes.RGB2BGR);
 
             for (int i = 0;i<bboxes.Shape[0];i++)
             {

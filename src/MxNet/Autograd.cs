@@ -154,10 +154,10 @@ namespace MxNet
                 _enter_train_mode = train_mode;
                 _prev_is_record = null;
                 _prev_train_mode = null;
-                Enter();
+                With();
             }
 
-            public override MxDisposable Enter()
+            public override MxDisposable With()
             {
                 if (_enter_is_record.HasValue)
                     _prev_is_record = SetRecording(_enter_is_record.Value);

@@ -48,7 +48,7 @@ namespace MxNet.Gluon
                     if (!NameManager.current.IsValueCreated)
                         NameManager.current.Value = new NameManager();
 
-                    prefix = NameManager.current.Value.Get(null, hint);
+                    prefix = NameManager.current.Value.Get(null, hint) + "_";
                 }
 
                 if (@params == null)
@@ -79,14 +79,14 @@ namespace MxNet.Gluon
             return (current._block.Prefix + prefix, @params);
         }
 
-        public override MxDisposable Enter()
+        public override MxDisposable With()
         {
             if (string.IsNullOrWhiteSpace(_block.Prefix))
                 return null;
 
             _old_scope = _current.Value;
             _name_scope = new Prefix(_block.Prefix);
-            _name_scope.Enter();
+            _name_scope.With();
             return this;
         }
 

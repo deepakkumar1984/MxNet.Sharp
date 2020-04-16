@@ -19,29 +19,29 @@ namespace MxNet.Gluon.ModelZoo.Vision
 {
     public class AlexNet : HybridBlock
     {
-        public AlexNet(int classes = 1000, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+        public AlexNet(int classes = 1000, string prefix = null, ParameterDict @params = null) : base("", @params)
         {
-            Features = new HybridSequential(prefix);
-            Features.Add(new Conv2D(64, (11, 11), (4, 4), (2, 2), activation: ActivationType.Relu));
-            Features.Add(new MaxPool2D((3, 3), (2, 2)));
+            Features = new HybridSequential("");
+            Features.Add(new Conv2D(64, (11, 11), (4, 4), (2, 2), activation: ActivationType.Relu, prefix: prefix));
+            Features.Add(new MaxPool2D((3, 3), (2, 2), prefix: prefix));
 
-            Features.Add(new Conv2D(192, (5, 5), padding: (2, 2), activation: ActivationType.Relu));
-            Features.Add(new MaxPool2D((3, 3), (2, 2)));
+            Features.Add(new Conv2D(192, (5, 5), padding: (2, 2), activation: ActivationType.Relu, prefix: prefix));
+            Features.Add(new MaxPool2D((3, 3), (2, 2), prefix: prefix));
 
-            Features.Add(new Conv2D(384, (3, 3), padding: (1, 1), activation: ActivationType.Relu));
-            Features.Add(new Conv2D(256, (3, 3), padding: (1, 1), activation: ActivationType.Relu));
-            Features.Add(new Conv2D(256, (3, 3), padding: (1, 1), activation: ActivationType.Relu));
-            Features.Add(new MaxPool2D((3, 3), (2, 2)));
-            Features.Add(new Flatten());
-            Features.Add(new Dense(4096, ActivationType.Relu));
-            Features.Add(new Dropout(0.5f));
-            Features.Add(new Dense(4096, ActivationType.Relu));
-            Features.Add(new Dropout(0.5f));
+            Features.Add(new Conv2D(384, (3, 3), padding: (1, 1), activation: ActivationType.Relu, prefix: prefix));
+            Features.Add(new Conv2D(256, (3, 3), padding: (1, 1), activation: ActivationType.Relu, prefix: prefix));
+            Features.Add(new Conv2D(256, (3, 3), padding: (1, 1), activation: ActivationType.Relu, prefix: prefix));
+            Features.Add(new MaxPool2D((3, 3), (2, 2), prefix: prefix));
+            Features.Add(new Flatten(prefix: prefix));
+            Features.Add(new Dense(4096, ActivationType.Relu, prefix: prefix));
+            Features.Add(new Dropout(0.5f, prefix: prefix));
+            Features.Add(new Dense(4096, ActivationType.Relu, prefix: prefix));
+            Features.Add(new Dropout(0.5f, prefix: prefix));
 
-            Output = new Dense(classes);
+            Output = new Dense(classes, prefix: prefix);
 
-            RegisterChild(Features);
-            RegisterChild(Output);
+            RegisterChild(Features, "");
+            RegisterChild(Output, "");
         }
 
         public HybridSequential Features { get; set; }
@@ -54,9 +54,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return x;
         }
 
-        public static AlexNet GetAlexNet(bool pretrained = false, Context ctx = null, string root = "")
+        public static AlexNet GetAlexNet(bool pretrained = false, Context ctx = null, string root = "", string prefix = null, ParameterDict @params = null)
         {
-            var net = new AlexNet();
+            var net = new AlexNet(prefix: prefix, @params: @params);
             if (ctx == null)
                 ctx = Context.CurrentContext;
             if (pretrained) net.LoadParameters(ModelStore.GetModelFile("alexnet", root), ctx);

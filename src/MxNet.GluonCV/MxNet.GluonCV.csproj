@@ -4,11 +4,32 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>MxNet.GluonCV</AssemblyName>
     <RootNamespace>MxNet.GluonCV</RootNamespace>
+    <Version>0.1.1</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>GluonCV provides implementations of state-of-the-art (SOTA) deep learning algorithms in computer vision.</Description>
+    <Authors>Deepa Battini</Authors>
+    <PackageProjectUrl>https://github.com/SciSharp/MxNet.Sharp</PackageProjectUrl>
+    <PackageIcon>icon_64.PNG</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/SciSharp/MxNet.Sharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>deep learning, mxnet, csharp, .net, computer vision, object detection, image classification</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CocoTools.NET\CocoTools.NET.csproj" />
     <ProjectReference Include="..\MxNet\MxNet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\icon_64.PNG">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

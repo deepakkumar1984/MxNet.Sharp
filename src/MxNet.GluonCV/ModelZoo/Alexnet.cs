@@ -7,7 +7,7 @@ namespace MxNet.GluonCV.ModelZoo
     {
         public AlexNet(int classes = 1000, string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
-            Features = new HybridSequential(prefix);
+            Features = new HybridSequential(null, null);
             Features.Add(new Conv2D(64, (11, 11), (4, 4), (2, 2), activation: ActivationType.Relu));
             Features.Add(new MaxPool2D((3, 3), (2, 2)));
 
