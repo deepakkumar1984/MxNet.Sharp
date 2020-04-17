@@ -57,7 +57,7 @@ namespace MxNet.Callbacks
         public void Invoke(int epoch, Symbol symbol, NDArrayDict arg_params, NDArrayDict aux_params)
         {
             _period = Math.Max(1, _period);
-            if ((epoch + 1) % _period == 0) Model.SaveCheckpoint(_prefix, epoch + 1, symbol, arg_params, aux_params);
+            if ((epoch + 1) % _period == 0) MxModel.SaveCheckpoint(_prefix, epoch + 1, symbol, arg_params, aux_params);
         }
     }
 

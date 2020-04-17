@@ -334,6 +334,11 @@ namespace MxNet.Interop
         public static extern int MXInvokeCachedOpEx(AtomicSymbolCreator handle, int num_inputs, NDArrayHandle[] inputs,
             out int num_outputs, out NDArrayHandle[] outputs, out int[] out_stypes);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRandomSeed(int seed);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXRandomSeedContext(int seed, int dev_type, int dev_id);
         #endregion
 
         #region Part 3: symbolic configuration generation

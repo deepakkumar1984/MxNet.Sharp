@@ -151,7 +151,7 @@ namespace MxNet.Gluon
             KVStore kvstore = null;
             if (_contains_sparse_weight)
             {
-                (kvstore, update_on_kvstore) = Model.CreateSparseKVStore(config["kvstore"].ToString());
+                (kvstore, update_on_kvstore) = MxModel.CreateSparseKVStore(config["kvstore"].ToString());
                 _distributed = kvstore.Type.Contains("dist");
                 if (!(bool) config["update_on_kvstore"])
                     throw new Exception("Cannot set update_on_kvstore=False when sparse weights " +
@@ -162,7 +162,7 @@ namespace MxNet.Gluon
                 var arg_arrays = new NDArrayDict();
                 foreach (var param in _params) arg_arrays[param.Name] = param.Data(_contexts[0]);
 
-                (kvstore, _) = Model.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
+                (kvstore, _) = MxModel.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
                 if (kvstore != null)
                     _distributed = kvstore.Type.Contains("dist");
                 else
@@ -184,7 +184,7 @@ namespace MxNet.Gluon
                 foreach (var param in _params) arg_arrays[param.Name] = param.Data(_contexts[0]);
 
                 (kvstore, update_on_kvstore) =
-                    Model.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
+                    MxModel.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
                 if (kvstore != null)
                     _distributed = kvstore.Type.Contains("dist");
                 else

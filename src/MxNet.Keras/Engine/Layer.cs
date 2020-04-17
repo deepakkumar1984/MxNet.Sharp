@@ -195,7 +195,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public static Layer FromConfig(string cls, ConfigDict config)
+        public static Layer FromConfig(string cls, ConfigDict config, CustomObjects custom_objects = null)
         {
             throw new NotImplementedException();
         }

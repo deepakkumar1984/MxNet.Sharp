@@ -39,7 +39,7 @@ namespace ImageClassification
 
         private static Module LoadModel(string prefix, int epoch = 0, bool gpu = true)
         {
-            var (sym, arg_params, aux_params) = Model.LoadCheckpoint(prefix, epoch);
+            var (sym, arg_params, aux_params) = MxModel.LoadCheckpoint(prefix, epoch);
             arg_params["prob_label"] = new NDArray(new float[0]);
             arg_params["softmax_label"] = new NDArray(new float[0]);
             Module mod = null;

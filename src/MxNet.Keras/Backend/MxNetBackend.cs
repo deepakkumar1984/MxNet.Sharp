@@ -1,8 +1,12 @@
-﻿using MxNet.Keras.Layers;
+﻿using MxNet.Keras.Backend;
+using MxNet.Keras.Engine;
+using MxNet.Keras.Layers;
+using MxNet.Sparse;
 using NumpyDotNet;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 
 namespace MxNet.Keras
@@ -31,6 +35,10 @@ namespace MxNet.Keras
 
         public static Model _MODEL = null;
 
+        public static Context[] _CURRENT_SCOPE_CTX;
+
+        public static bool _LEARNING_PHASE;
+
         public static bool IsReEntry()
         {
             return _REENTRY;
@@ -48,147 +56,322 @@ namespace MxNet.Keras
 
         public static void ClearSession()
         {
-            throw new NotImplementedException();
+            ResetUids();
+            _MODEL = null;
         }
 
-        public static float LearningPhase()
+        public static bool LearningPhase()
         {
-            throw new NotImplementedException();
+            return _LEARNING_PHASE;
         }
 
-        public static void SetLearningPhase(float value)
+        public static void SetLearningPhase(bool value)
         {
-            throw new NotImplementedException();
+            _LEARNING_PHASE = value;
         }
 
         public static ndarray CastToFloatX(ndarray x)
         {
-            throw new NotImplementedException();
+            if (Common.FloatX() == "float32")
+                return x.astype(np.Float32);
+            else if (Common.FloatX() == "float64")
+                return x.astype(np.Float64);
+
+            return x;
         }
 
         public static NDArray CastToFloatX(NDArray x)
         {
-            throw new NotImplementedException();
+            return x.AsType(Common.FloatX());
         }
 
-        public static bool IsSparse()
+        public static bool IsSparse(KerasSymbol tensor)
         {
-            throw new NotImplementedException();
+            return tensor._stype == StorageStype.Csr;
         }
 
-        public static NDArray ToDense(NDArray tensor)
+        public static NDArray ToDense(KerasSymbol tensor)
         {
-            throw new NotImplementedException();
-        }
-
-        public static KerasSymbol ToDense(KerasSymbol tensor)
-        {
-            throw new NotImplementedException();
+            return Eval(tensor.Symbol);
         }
 
         public static KerasSymbol Variable(NDArray value, DType dtype = null, string name = "", Constraint constraint = null, bool sparse_weight = false)
         {
-            throw new NotImplementedException();
+            KerasSymbol ret = null;
+            RowSparseNDArray v = null;
+            if (constraint != null)
+            {
+                Logger.Warning("MXNet backend does not support constraints. Keyword arguments such as `kernel_constraint` and `bias_constraint`");
+            }
+
+            if (dtype == null)
+            {
+                dtype = Common.FloatX();
+            }
+
+            var is_vector = false;
+            if (value.Shape.Dimension == 1)
+            {
+                is_vector = true;
+            }
+
+            if (sparse_weight)
+            {
+                v = (RowSparseNDArray)value.ToSType(StorageStype.RowSparse);
+                name = PrepareName(name, "variable");
+                ret = KerasVariable(name, v.Shape, v.DataType, StorageStype.RowSparse, is_vector);
+                ret._keras_shape = value.Shape;
+                ret._uses_learning_phase = false;
+                ret.Bind(v);
+                return ret;
+            }
+
+            // MXNet backend do not support scalars
+            if (value.Shape.Dimension == 0)
+            {
+                throw new Exception("MXNet Backend: Scalars are not supported. Provided value for variable");
+            }
+
+            name = PrepareName(name, "variable");
+            ret = KerasVariable(name, value.Shape, value.DataType, StorageStype.Default, is_vector);
+            ret.Bind(value);
+            ret._keras_shape = value.Shape;
+            ret._uses_learning_phase = false;
+            return ret;
         }
 
-        public static NDArray Constant(float value, DType dtype= null, Shape shape= null, string name= "")
+        public static KerasSymbol Variable(float value, DType dtype = null, string name = "", Constraint constraint = null, bool sparse_weight = false)
         {
-            throw new NotImplementedException();
+            return Variable(new NDArray(new float[] { value }), dtype, name, constraint, sparse_weight);
+        }
+
+        public static KerasSymbol Variable(KerasSymbol value, DType dtype = null, string name = "", Constraint constraint = null, bool sparse_weight = false)
+        {
+            return Variable(Eval(value), dtype, name, constraint, sparse_weight);
+        }
+
+        public static KerasSymbol Constant(NDArray value, DType dtype= null, Shape shape= null, string name= "")
+        {
+            if (dtype == null)
+            {
+                dtype = Common.FloatX();
+            }
+
+            // MXNet does not support Scalars. Shape of a Scalar Tensor with MXNet is
+            // (1, ) instead of (). Return is as MXNet NDArray instance as this is
+            // useful in K.eval() function to return as is (1, )
+            name = PrepareName(name, "constant");
+            var const_var = KerasVariable(name: name, dtype: dtype, shape: value.Shape);
+            const_var.Bind(value);
+            return const_var;
+        }
+
+        public static KerasSymbol Constant(float value, DType dtype = null, Shape shape = null, string name = "")
+        {
+            if (dtype == null)
+            {
+                dtype = Common.FloatX();
+            }
+
+            var x = nd.Full(value, shape, dtype: dtype);
+            return Constant(x, dtype, shape, name);
         }
 
         public static bool IsKerasTensor(object x)
         {
-            throw new NotImplementedException();
+            return x is KerasSymbol;
         }
 
         public static bool IsTensor(object x)
         {
-            throw new NotImplementedException();
+            return x is KerasSymbol || x is Symbol || x is NDArray;
         }
 
         public static KerasSymbol Placeholder(Shape shape= null, int? ndim= null, DType dtype= null, bool sparse= false, string name= "")
         {
-            throw new NotImplementedException();
+            KerasSymbol sym;
+            if (dtype == null)
+            {
+                dtype = Common.FloatX();
+            }
+
+            if (shape == null && ndim == null)
+            {
+                throw new ValueError("MXNet Backend: Specify either a shape or ndim value.");
+            }
+
+            name = PrepareName(name, "placeholder");
+            if (shape == null)
+            {
+                shape = new Shape((from _ in Enumerable.Range(0, ndim.Value)
+                               select 0).ToList());
+            }
+           
+            if (sparse)
+            {
+                sym = KerasVariable(name, shape: shape, dtype: dtype, stype: StorageStype.Csr);
+                sym._keras_shape = new Shape(shape.Data.Where(x => x != 0).ToList());
+                sym._mxnet_placeholder = true;
+                sym._uses_learning_phase = false;
+                return sym;
+            }
+
+            sym = KerasVariable(name, shape: shape, dtype: dtype, stype: StorageStype.Default);
+            sym._keras_shape = new Shape(shape.Data.Where(x => x != 0).ToList());
+            sym._mxnet_placeholder = true;
+            sym._uses_learning_phase = false;
+            return sym;
         }
 
         public static bool IsPlaceholder(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return x._mxnet_placeholder;
         }
 
         public static Shape Shape(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return x.Shape;
         }
 
         public static int[] IntShape(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return x.Shape.Data;
         }
 
         public static int NDim(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return x.Shape.Dimension;
         }
 
-        public static DType DType(KerasSymbol x)
+        public static DType DataType(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return x.DType;
         }
 
         public static NDArray Eval(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            NDArray ret;
+            if (x.Tensor != null)
+            {
+                if (x.GetBindValues().Contains(x.Name) && _MODEL != null)
+                {
+                    _MODEL.SyncWeights();
+                }
+
+                ret = x.Eval();
+            }
+            else
+            {
+                ret = ForwardPass(x)[0];
+            }
+
+            return ret;
         }
 
         public static KerasSymbol Zeros(Shape shape, DType dtype = null, string name = "")
         {
-            throw new NotImplementedException();
+            var value = nd.Zeros(shape, dtype: dtype);
+            name = PrepareName(name, "zeroinit");
+            var kvar = KerasVariable(name, value.Shape, value.DataType);
+            kvar.Bind(value);
+            return kvar;
         }
 
         public static KerasSymbol Ones(Shape shape, DType dtype = null, string name = "")
         {
-            throw new NotImplementedException();
+            var value = nd.Ones(shape, dtype: dtype);
+            name = PrepareName(name, "oneinit");
+            var kvar = KerasVariable(name, value.Shape, value.DataType);
+            kvar.Bind(value);
+            return kvar;
         }
 
         public static KerasSymbol Eye(int size, DType dtype = null, string name = "")
         {
-            throw new NotImplementedException();
+            var value = nd.Eye(new Tuple<double>(size), dtype: dtype);
+            name = PrepareName(name, "eyeinit");
+            var kvar = KerasVariable(name, value.Shape, value.DataType);
+            kvar.Bind(value);
+            return kvar;
         }
 
         public static KerasSymbol ZerosLike(KerasSymbol x, DType dtype = null, string name = "")
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.ZerosLike(data: x.Symbol, symbol_name: PrepareName(name, "zeroslikeinit")));
         }
 
         public static KerasSymbol OnesLike(KerasSymbol x, DType dtype = null, string name = "")
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.OnesLike(data: x.Symbol, symbol_name: PrepareName(name, "oneslikeinit")));
         }
 
         public static KerasSymbol Identity(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            var name = PrepareName(null, "identityinit");
+            var dtype = x.DType;
+            var mx_value = Eval(x);
+            var mx_shape = x.Shape;
+            var k_var = KerasVariable(name: name, dtype: dtype, shape: mx_shape);
+            k_var.Bind(mx_value);
+            return k_var;
         }
 
         public static KerasSymbol RandomUniformVariable(Shape shape, float low, float high, DType dtype= null, string name= "", int? seed= null)
         {
-            throw new NotImplementedException();
+            if (dtype == null)
+            {
+                dtype = Common.FloatX();
+            }
+
+            name = PrepareName(name, "randomuniform");
+            if (seed.HasValue)
+            {
+                nd.Random.Seed(seed.Value);
+            }
+
+            var value = nd.Random.Uniform(low: low, high: high, dtype: "float32", shape: shape);
+            if (dtype != "float32")
+            {
+                value = nd.Cast(value, dtype: dtype);
+            }
+
+            var k_var = KerasVariable(name: name, shape: shape, dtype: dtype);
+            k_var.Bind(value);
+            return k_var;
         }
 
         public static KerasSymbol RandomNormalVariable(Shape shape, float mean, float scale, DType dtype = null, string name = "", int? seed = null)
         {
-            throw new NotImplementedException();
+            if (dtype == null)
+            {
+                dtype = Common.FloatX();
+            }
+
+            name = PrepareName(name, "randomnormal");
+            if (seed.HasValue)
+            {
+                nd.Random.Seed(seed.Value);
+            }
+
+            var value = nd.Random.Normal(mean, scale, dtype: "float32", shape: shape);
+            if (dtype != "float32")
+            {
+                value = nd.Cast(value, dtype: dtype);
+            }
+
+            var k_var = KerasVariable(name: name, shape: shape, dtype: dtype);
+            k_var.Bind(value);
+            return k_var;
         }
 
         public static int CountParams(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return x.Shape.Size;
         }
 
         public static KerasSymbol Cast(KerasSymbol x, DType dtype)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Cast(x.Symbol, dtype));
         }
 
         public static KerasSymbol Update(KerasSymbol x, NDArray new_x)
@@ -206,54 +389,162 @@ namespace MxNet.Keras
             throw new NotSupportedException("MXNet Backend: Update operations are not supported yet.");
         }
 
-        public static KerasSymbol MovingAverageUpdate(KerasSymbol x, NDArray value, float momentum)
+        public static KerasSymbol MovingAverageUpdate(KerasSymbol x, Symbol value, float momentum)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(x.Symbol * momentum + value * (1 - momentum));
         }
 
         public static KerasSymbol Dot(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            if (IsSparse(x))
+            {
+                if (NDim(y) > 2)
+                {
+                    // Output of this is sparse
+                    return new KerasSymbol(sym.Dot(x.Symbol, y.Symbol, transpose_b: true, forward_stype: DotForwardStype.RowSparse));
+                }
+                else
+                {
+                    // Output of this is dense
+                    return new KerasSymbol(sym.Dot(x.Symbol, y.Symbol, transpose_b: true, forward_stype: DotForwardStype.Default));
+                }
+            }
+
+            if (NDim(y) > 2)
+            {
+                var axis = Enumerable.Range(0, NDim(y)).ToList();
+                axis.Insert(0, axis.Last());
+                axis.RemoveAt(axis.Count - 1);
+                y = sym.Transpose(y.Symbol, axes: new Shape(axis));
+            }
+
+            return new KerasSymbol(sym.Dot(lhs: x.Symbol, rhs: y.Symbol));
         }
 
         public static KerasSymbol BatchDot(KerasSymbol x, KerasSymbol y, Shape axes = null)
         {
-            throw new NotImplementedException();
+            int idx;
+            bool trans_y;
+            bool trans_x;
+            KerasSymbol @out;
+            int diff;
+
+            var x_ndim = NDim(x);
+            var y_ndim = NDim(y);
+            if (x_ndim > y_ndim)
+            {
+                diff = x_ndim - y_ndim;
+                var yShape = Shape(y).Data.ToList();
+                for (int i = 0; i < diff; i++)
+                    yShape.Add(1);
+
+                y = new KerasSymbol(sym.Reshape(y.Symbol, shape: new Shape(yShape)));
+            }
+            else if (y_ndim > x_ndim)
+            {
+                diff = y_ndim - x_ndim;
+                var xShape = Shape(y).Data.ToList();
+                for (int i = 0; i < diff; i++)
+                    xShape.Add(1);
+                x = new KerasSymbol(sym.Reshape(x.Symbol, shape: new Shape(xShape)));
+            }
+            else
+            {
+                diff = 0;
+            }
+
+            if (NDim(x) == 2 && NDim(y) == 2)
+            {
+                // MXNet supports only 3D. Expand_dims to make it 3D. At the end squeeze it back.
+                x = ExpandDims(x, axis: 1);
+                y = ExpandDims(y, axis: 2);
+                diff = 1;
+                if (axes[0] == axes[1])
+                {
+                    @out = new KerasSymbol(sym.BatchDot(lhs: x.Symbol, rhs: y.Symbol));
+                }
+                else
+                {
+                    @out = new KerasSymbol(sym.BatchDot(lhs: x.Symbol, rhs: y.Symbol, transpose_a: true));
+                }
+            }
+            else
+            {
+                if (axes != null)
+                {
+                    trans_x = axes[0] == NDim(x) - 1 ? false : true;
+                    trans_y = axes[1] == NDim(y) - 1 ? true : false;
+                }
+                else
+                {
+                    trans_x = false;
+                    trans_y = false;
+                }
+                @out = new KerasSymbol(sym.LinalgGemm2(x.Symbol, y.Symbol, transpose_a: trans_x, transpose_b: trans_y));
+            }
+
+            if (diff > 0)
+            {
+                if (x_ndim > y_ndim)
+                {
+                    idx = x_ndim + y_ndim - 3;
+                }
+                else
+                {
+                    idx = x_ndim - 1;
+                }
+                @out = Squeeze(@out, idx);
+            }
+            if (NDim(@out) == 1)
+            {
+                @out = ExpandDims(@out, 1);
+            }
+            return @out;
         }
 
         public static KerasSymbol Transpose(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Transpose(x.Symbol));
         }
 
         public static KerasSymbol Gather(KerasSymbol reference, KerasSymbol indices)
         {
-            throw new NotImplementedException();
+            var idx = sym.Cast(indices.Symbol, dtype: reference.DType);
+            return new KerasSymbol(sym.Take(reference.Symbol, idx));
         }
 
         public static KerasSymbol Embedding(KerasSymbol data, KerasSymbol weight, int input_dim, int output_dim, bool sparse_grad= false)
         {
-            throw new NotImplementedException();
+            if (sparse_grad)
+            {
+                // Refer https://mxnet.incubator.apache.org/api/python/symbol/sparse.html#mxnet.symbol.sparse.Embedding
+                return new KerasSymbol(sym.Embedding(data.Symbol, weight: weight.Symbol, input_dim: input_dim, output_dim: output_dim, sparse_grad: true));
+            }
+            return new KerasSymbol(sym.Embedding(data.Symbol, weight: weight.Symbol, input_dim: input_dim, output_dim: output_dim));
         }
 
-        public static KerasSymbol Max(KerasSymbol x, int axis, bool keepdims = false)
+        public static KerasSymbol Max(KerasSymbol x, Shape axis, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            return new KerasSymbol(sym.Max(data: x.Symbol, axis: axis, keepdims: keepdims));
         }
 
-        public static KerasSymbol Min(KerasSymbol x, int axis, bool keepdims = false)
+        public static KerasSymbol Min(KerasSymbol x, Shape axis, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            return new KerasSymbol(sym.Min(data: x.Symbol, axis: axis, keepdims: keepdims));
         }
 
-        public static KerasSymbol Sum(KerasSymbol x, int axis, bool keepdims = false)
+        public static KerasSymbol Sum(KerasSymbol x, Shape axis, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            return new KerasSymbol(sym.Sum(data: x.Symbol, axis: axis, keepdims: keepdims));
         }
 
-        public static KerasSymbol Prod(KerasSymbol x, int axis, bool keepdims = false)
+        public static KerasSymbol Prod(KerasSymbol x, Shape axis, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            return new KerasSymbol(sym.Prod(data: x.Symbol, axis: axis, keepdims: keepdims));
         }
 
         public static KerasSymbol CumSum(KerasSymbol x, int axis = 0)
@@ -266,64 +557,105 @@ namespace MxNet.Keras
             throw new NotSupportedException("MXNet Backend: CumProd operations are not supported yet.");
         }
 
-        public static Symbol MxNetVariance(Symbol x, int? axis = null, bool keepdims = false)
+        public static Symbol MxNetVariance(Symbol x, Shape axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            var mean_input = sym.Mean(data: x, axis: axis, keepdims: true);
+            var centered_input = sym.BroadcastSub(lhs: x, rhs: mean_input);
+            var v = sym.Mean(data: sym.Square(centered_input), axis: axis, keepdims: keepdims);
+            return v;
         }
 
-        public static KerasSymbol Var(Symbol x, int? axis = null, bool keepdims = false)
+        public static KerasSymbol Var(KerasSymbol x, Shape axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            var v = MxNetVariance(x.Symbol, axis: axis, keepdims: keepdims);
+            return new KerasSymbol(v);
         }
 
-        public static KerasSymbol Mean(Symbol x, int? axis = null, bool keepdims = false)
+        public static KerasSymbol Std(KerasSymbol x, Shape axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            var v = Var(x, axis: axis, keepdims: keepdims);
+            var ret = sym.Sqrt(data: v.Symbol);
+            return new KerasSymbol(ret);
         }
 
-        public static KerasSymbol Any(Symbol x, int? axis = null, bool keepdims = false)
+        public static KerasSymbol Mean(KerasSymbol x, Shape axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            Symbol ret = null;
+            
+            axis = NormalizeAxis(axis, NDim(x));
+            if (DataType(x) == "uint8")
+            {
+                x = Cast(x, Common.FloatX());
+            }
+            if (axis != null)
+            {
+                ret = sym.Mean(data: x.Symbol, axis: axis, keepdims: keepdims);
+            }
+            else
+            {
+                ret = sym.Mean(data: x.Symbol, keepdims: keepdims);
+            }
+
+            return new KerasSymbol(ret);
         }
 
-        public static KerasSymbol All(Symbol x, int? axis = null, bool keepdims = false)
+        public static KerasSymbol Any(Symbol x, Shape axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            var non_zero = sym.NotEqualScalar(x, 0);
+            var var_cast = sym.Cast(data: non_zero, dtype: DType.Int32);
+            var var_sum = sym.Sum(data: var_cast, axis: axis, keepdims: keepdims);
+            return new KerasSymbol(var_sum > 0);
         }
 
-        public static KerasSymbol Argmax(Symbol x, int axis = -1)
+        public static KerasSymbol All(Symbol x, Shape axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            var var_abs = sym.Abs(data: x);
+            var var_min = sym.Min(data: var_abs, axis: axis, keepdims: keepdims);
+            return new KerasSymbol(var_min > 0);
         }
 
-        public static KerasSymbol Argmin(Symbol x, int axis = -1)
+        public static KerasSymbol Argmax(KerasSymbol x, int axis = -1)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            var ret = sym.Argmax(data: x.Symbol, axis: axis);
+            return new KerasSymbol(ret);
         }
 
-        public static KerasSymbol Square(Symbol x)
+        public static KerasSymbol Argmin(KerasSymbol x, int axis = -1)
         {
-            throw new NotImplementedException();
+            axis = NormalizeAxis(axis, NDim(x));
+            var ret = sym.Argmin(data: x.Symbol, axis: axis);
+            return new KerasSymbol(ret);
         }
 
-        public static KerasSymbol Abs(Symbol x)
+        public static KerasSymbol Square(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Square(data: x.Symbol));
         }
 
-        public static KerasSymbol Sqrt(Symbol x)
+        public static KerasSymbol Abs(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Abs(data: x.Symbol));
         }
 
-        public static KerasSymbol Exp(Symbol x)
+        public static KerasSymbol Sqrt(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            var ret = sym.Activation(data: x.Symbol, act_type: ActivationType.Relu);
+            ret = sym.Sqrt(data: ret);
+            return new KerasSymbol(ret);
         }
 
-        public static KerasSymbol Log(Symbol x)
+        public static KerasSymbol Exp(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Exp(data: x.Symbol));
+        }
+
+        public static KerasSymbol Log(KerasSymbol x)
+        {
+            return new KerasSymbol(sym.Log(data: x.Symbol));
         }
 
         public static KerasSymbol LogSumExp(Symbol x, int? axis = null, bool keepdims = false)
@@ -331,82 +663,122 @@ namespace MxNet.Keras
             throw new NotSupportedException("MXNet Backend: LogSumExp operations are not supported yet.");
         }
 
-        public static KerasSymbol Round(Symbol x)
+        public static KerasSymbol Round(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Round(data: x.Symbol));
         }
 
-        public static KerasSymbol Sign(Symbol x)
+        public static KerasSymbol Sign(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Sign(data: x.Symbol));
         }
 
-        public static KerasSymbol Pow(Symbol x, Symbol a)
+        public static KerasSymbol Pow(KerasSymbol x, KerasSymbol a)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Power(x.Symbol, a.Symbol));
         }
 
-        public static KerasSymbol Clip(Symbol x, float min_value, float max_value)
+        public static KerasSymbol Clip(KerasSymbol x, float? min_value, float? max_value)
         {
-            throw new NotImplementedException();
+            if (max_value != null && max_value < min_value)
+            {
+                max_value = min_value;
+            }
+            if (max_value == null)
+            {
+                max_value = float.PositiveInfinity;
+            }
+
+            return new KerasSymbol(sym.Clip(data: x.Symbol, a_min: min_value.Value, a_max: max_value.Value));
         }
 
-        public static KerasSymbol Equal(Symbol x, Symbol y)
+        public static KerasSymbol Equal(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.BroadcastEqual(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol NotEqual(Symbol x, Symbol y)
+        public static KerasSymbol NotEqual(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.BroadcastNotEqual(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol Greater(Symbol x, Symbol y)
+        public static KerasSymbol Greater(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.BroadcastGreater(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol GreaterEqual(Symbol x, Symbol y)
+        public static KerasSymbol GreaterEqual(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.BroadcastGreaterEqual(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol Less(Symbol x, Symbol y)
+        public static KerasSymbol Less(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.BroadcastLesser(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol LessEqual(Symbol x, Symbol y)
+        public static KerasSymbol LessEqual(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.BroadcastLesserEqual(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol Maximum(Symbol x, Symbol y)
+        public static KerasSymbol Maximum(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Maximum(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol Minimum(Symbol x, Symbol y)
+        public static KerasSymbol Minimum(KerasSymbol x, KerasSymbol y)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Minimum(x.Symbol, y.Symbol));
         }
 
-        public static KerasSymbol Sin(Symbol x)
+        public static KerasSymbol Sin(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Sin(x.Symbol));
         }
 
-        public static KerasSymbol Cos(Symbol x)
+        public static KerasSymbol Cos(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol(sym.Cos(x.Symbol));
         }
 
-        public static (Symbol, KerasSymbol, KerasSymbol) NormalizeBatchInTraining(Symbol x, Symbol gamma, Symbol beta, Symbol reduction_axes, float epsilon= 1e-3f)
+        public static (KerasSymbol, KerasSymbol, KerasSymbol) NormalizeBatchInTraining(KerasSymbol x, KerasSymbol gamma, KerasSymbol beta, Shape reduction_axes, float epsilon= 1e-3f)
         {
-            throw new NotImplementedException();
+            var original_x = x;
+            var mean = sym.Mean(data: x.Symbol, axis: reduction_axes, keepdims: false);
+            var var = MxNetVariance(x.Symbol, axis: reduction_axes, keepdims: false);
+            KerasSymbol normed = null;
+            if (reduction_axes.Data.OrderBy(_p_1 => _p_1).ToList() == Enumerable.Range(0, NDim(original_x)).ToArray().Reverse())
+            {
+                normed = BatchNormalization(x, mean, var, beta, gamma, epsilon);
+            }
+            else
+            {
+                // need broadcasting
+                var target_shape = new List<int>();
+                foreach (var axis in Enumerable.Range(0, NDim(original_x)))
+                {
+                    if (reduction_axes.Data.Contains(axis))
+                    {
+                        target_shape.Add(1);
+                    }
+                    else
+                    {
+                        target_shape.Add(original_x.Shape[axis]);
+                    }
+                }
+
+                var broadcast_mean = sym.Reshape(data: mean, shape: new Shape(target_shape));
+                var broadcast_var = sym.Reshape(data: var, shape: new Shape(target_shape));
+                var broadcast_gamma = sym.Reshape(data: gamma.Symbol, shape: new Shape(target_shape));
+                var broadcast_beta = sym.Reshape(data: beta.Symbol, shape: new Shape(target_shape));
+                normed = BatchNormalization(x, broadcast_mean, broadcast_var, broadcast_beta, broadcast_gamma, epsilon);
+            }
+
+            return (normed, new KerasSymbol(mean), new KerasSymbol(var));
         }
 
-        public static KerasSymbol BatchNormalization(Symbol x, Symbol gamma, Symbol beta, Symbol reduction_axes, float epsilon = 1e-3f)
+        public static KerasSymbol BatchNormalization(KerasSymbol x, KerasSymbol mean, KerasSymbol var, KerasSymbol beta, KerasSymbol gamma, float epsilon = 1e-3f)
         {
             throw new NotImplementedException();
         }
@@ -431,22 +803,22 @@ namespace MxNet.Keras
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol ResizeImage(Symbol x, int height_factor, int width_factor, string data_format, string interpolation= "nearest")
+        public static KerasSymbol ResizeImage(KerasSymbol x, int height_factor, int width_factor, string data_format, string interpolation= "nearest")
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol ResizeVolumses(Symbol x, int depth_factor, int height_factor, int width_factor, string data_format)
+        public static KerasSymbol ResizeVolumses(KerasSymbol x, int depth_factor, int height_factor, int width_factor, string data_format)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol RepeatElements(Symbol x, int rep, int axis)
+        public static KerasSymbol RepeatElements(KerasSymbol x, int rep, int axis)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol Repeat(Symbol x, int n)
+        public static KerasSymbol Repeat(KerasSymbol x, int n)
         {
             throw new NotImplementedException();
         }
@@ -456,42 +828,42 @@ namespace MxNet.Keras
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol Tile(Symbol x, int n)
+        public static KerasSymbol Tile(KerasSymbol x, int n)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol Flatten(Symbol x)
+        public static KerasSymbol Flatten(KerasSymbol x)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol BatchFlatten(Symbol x)
+        public static KerasSymbol BatchFlatten(KerasSymbol x)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol ExpandDims(Symbol x, int axis = -1)
+        public static KerasSymbol ExpandDims(KerasSymbol x, int axis = -1)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol Squeeze(Symbol x, int axis)
+        public static KerasSymbol Squeeze(KerasSymbol x, int axis)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol TemporalPadding(Symbol x, (int, int)? padding= null)
+        public static KerasSymbol TemporalPadding(KerasSymbol x, (int, int)? padding= null)
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol Spatial2DPadding(Symbol x, ((int, int), (int, int))? padding = null, string data_format = "")
+        public static KerasSymbol Spatial2DPadding(KerasSymbol x, ((int, int), (int, int))? padding = null, string data_format = "")
         {
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol Spatial3DPadding(Symbol x, ((int, int), (int, int), (int, int))? padding = null, string data_format = "")
+        public static KerasSymbol Spatial3DPadding(KerasSymbol x, ((int, int), (int, int), (int, int))? padding = null, string data_format = "")
         {
             throw new NotImplementedException();
         }
@@ -762,7 +1134,7 @@ namespace MxNet.Keras
             throw new NotImplementedException();
         }
 
-        public static KerasSymbol ForwardPass(KerasSymbol x)
+        public static NDArrayList ForwardPass(KerasSymbol x)
         {
             throw new NotImplementedException();
         }
@@ -782,9 +1154,39 @@ namespace MxNet.Keras
             throw new NotImplementedException();
         }
 
-        private static Shape NormalizeAxis(Shape axis, int ndim)
+        private static Shape NormalizeAxis(Shape shape, int ndim)
         {
-            throw new NotImplementedException();
+            var axis = shape.Data.ToList();
+
+            if (ndim == 0)
+            {
+                return shape;
+            }
+
+            foreach (var _tup_1 in axis.Select((_p_1, _p_2) => Tuple.Create(_p_2, _p_1)))
+            {
+                var i = _tup_1.Item1;
+                var a = _tup_1.Item2;
+                if (a < 0)
+                {
+                    axis[i] = a % ndim;
+                }
+            }
+
+            return new Shape(axis);
+        }
+
+        private static int NormalizeAxis(int axis, int ndim)
+        {
+            if (ndim == 0)
+            {
+                return axis;
+            }
+
+            if (axis < 0)
+                return axis % ndim;
+
+            return axis;
         }
 
         private static void ValidateDataFormat(string data_format)

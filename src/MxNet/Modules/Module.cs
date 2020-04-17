@@ -148,7 +148,7 @@ namespace MxNet.Modules
             string[] data_names = null, string[] label_names = null, Logger logging = null,
             Context context = null, int[] work_load_list = null, string[] fixed_param_names = null)
         {
-            var (sym, args, auxs) = Model.LoadCheckpoint(prefix, epoch);
+            var (sym, args, auxs) = MxModel.LoadCheckpoint(prefix, epoch);
             var mod = new Module(sym);
             mod._arg_params = args;
             mod._aux_params = auxs;
@@ -329,7 +329,7 @@ namespace MxNet.Modules
             if (_params_dirty)
                 SyncParamsFromDevices();
 
-            var (kvstore, update_on_kvstore) = Model.CreateKVStore(kv, _context.Length, _arg_params);
+            var (kvstore, update_on_kvstore) = MxModel.CreateKVStore(kv, _context.Length, _arg_params);
             var batch_size = _exec_group.BatchSize;
             if (kvstore != null && kvstore.Type.Contains("dist") && kvstore.Type.Contains("_sync"))
                 batch_size *= kvstore.NumWorkers;
@@ -376,7 +376,7 @@ namespace MxNet.Modules
                 if (update_on_kvstore)
                     kvstore.SetOptimizer(_optimizer);
 
-                Model.InitializeKVStore(kvstore, _exec_group.ParamArrays, _arg_params, _param_names, update_on_kvstore);
+                MxModel.InitializeKVStore(kvstore, _exec_group.ParamArrays, _arg_params, _param_names, update_on_kvstore);
             }
 
             if (!update_on_kvstore)
@@ -482,10 +482,10 @@ namespace MxNet.Modules
 
             _params_dirty = true;
             if (_update_on_kvstore.HasValue && _update_on_kvstore.Value)
-                Model.UpdateParamsOnKVStore(_exec_group.ParamArrays, _exec_group.GradArrays, _kvstore,
+                MxModel.UpdateParamsOnKVStore(_exec_group.ParamArrays, _exec_group.GradArrays, _kvstore,
                     _exec_group.ParamNames);
             else
-                Model.UpdateParams(_exec_group.ParamArrays, _exec_group.GradArrays, _updater, _context.Length, _kvstore,
+                MxModel.UpdateParams(_exec_group.ParamArrays, _exec_group.GradArrays, _updater, _context.Length, _kvstore,
                     _exec_group.ParamNames);
         }
 

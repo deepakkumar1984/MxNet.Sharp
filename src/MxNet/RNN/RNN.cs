@@ -30,12 +30,12 @@ namespace MxNet.RNN
                 arg_params = cell.UnpackWeights(arg_params);
             }
 
-            Model.SaveCheckpoint(prefix, epoch, symbol, arg_params, aux_params);
+            MxModel.SaveCheckpoint(prefix, epoch, symbol, arg_params, aux_params);
         }
 
         public static (Symbol, NDArrayDict, NDArrayDict) LoadRNNCheckPoint(BaseRNNCell[] cells, string prefix, int epoch)
         {
-            var (sym, arg, aux) = Model.LoadCheckpoint(prefix, epoch);
+            var (sym, arg, aux) = MxModel.LoadCheckpoint(prefix, epoch);
             foreach (var cell in cells)
             {
                 arg = cell.PackWeights(arg);

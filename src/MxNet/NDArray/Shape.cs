@@ -169,6 +169,8 @@ namespace MxNet
             return $"({string.Join(",", Enumerable.Range(0, Dimension).Select(i => _Data[i].ToString()))})";
         }
 
+        public static implicit operator Shape(int s) => new Shape(s);
+
         #region Operators
 
         public static bool operator ==(Shape lhs, Shape rhs)

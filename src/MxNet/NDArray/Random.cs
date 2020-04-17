@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Interop;
+
 namespace MxNet
 {
     public partial class nd
@@ -171,6 +173,14 @@ namespace MxNet
                     .SetParam("alpha", alpha)
                     .SetInput("data", data)
                     .Invoke();
+            }
+
+            public static void Seed(int seed, Context ctx = null)
+            {
+                if (ctx == null)
+                    NativeMethods.MXRandomSeed(seed);
+                else
+                    NativeMethods.MXRandomSeedContext(seed, (int)ctx.GetDeviceType(), ctx.GetDeviceId());
             }
         }
     }

@@ -6,14 +6,17 @@ namespace MxNet.Keras
 {
     public class KerasContext : IDisposable
     {
+        private Context[] scope_ctx;
+
         public KerasContext(Context ctx)
         {
-            throw new NotImplementedException();
+            scope_ctx = MxNetBackend.GetMxNetContexts(ctx);
+            MxNetBackend._CURRENT_SCOPE_CTX = scope_ctx;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            MxNetBackend._CURRENT_SCOPE_CTX = null;
         }
     }
 }

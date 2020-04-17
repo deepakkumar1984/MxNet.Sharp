@@ -8,47 +8,51 @@ namespace MxNet.Keras.Engine
 {
     public class Model
     {
+        internal NDArrayDict _args;
+
+        internal NDArrayDict _auxs;
+
         public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string sample_weight_mode= null)
         {
             throw new NotImplementedException();
         }
 
-        private void AdjustModule(KerasSymbol[] inputs, string phase)
+        internal void AdjustModule(KerasSymbol[] inputs, string phase)
         {
             throw new NotImplementedException();
         }
 
-        private bool SyncWeights()
+        internal bool SyncWeights()
         {
             throw new NotImplementedException();
         }
 
-        private void SetWeights(NDArrayDict arg_params = null, NDArrayDict auxs_params = null)
+        internal void SetWeights(NDArrayDict arg_params = null, NDArrayDict auxs_params = null)
         {
             throw new NotImplementedException();
         }
 
-        private void Update(KerasSymbol[] updates)
+        internal void Update(KerasSymbol[] updates)
         {
             throw new NotImplementedException(); 
         }
 
-        private void MakeTrainFunction()
+        internal void MakeTrainFunction()
         {
             throw new NotImplementedException();
         }
 
-        private void MakeTestFunction()
+        internal void MakeTestFunction()
         {
             throw new NotImplementedException();
         }
 
-        private void MakePredictFunction()
+        internal void MakePredictFunction()
         {
             throw new NotImplementedException();
         }
 
-        private void CreatePredictFunction()
+        internal void CreatePredictFunction()
         {
             throw new NotImplementedException();
         }
@@ -58,17 +62,17 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        private bool _uses_dynamic_learning_phase()
+        internal bool _uses_dynamic_learning_phase()
         {
             throw new NotImplementedException();
         }
 
-        private void _set_inputs(Symbol[] inputs, Symbol[]  outputs = null, bool? training= null)
+        internal void _set_inputs(Symbol[] inputs, Symbol[]  outputs = null, bool? training= null)
         {
             throw new NotImplementedException();
         }
 
-        private void _standardize_user_data(NDArray x, NDArray y= null, NDArray sample_weight = null, Dictionary<int, float> class_weight = null, bool check_array_lengths= true, int? batch_size= null)
+        internal void _standardize_user_data(NDArray x, NDArray y= null, NDArray sample_weight = null, Dictionary<int, float> class_weight = null, bool check_array_lengths= true, int? batch_size= null)
         {
             throw new NotImplementedException();
         }

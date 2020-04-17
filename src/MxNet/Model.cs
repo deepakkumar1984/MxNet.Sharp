@@ -24,7 +24,7 @@ using MxNet.Optimizers;
 
 namespace MxNet
 {
-    public class Model
+    public class MxModel
     {
         internal static (KVStore, bool) CreateSparseKVStore(KVStore kvstore)
         {
