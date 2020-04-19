@@ -302,6 +302,11 @@ namespace MxNet.Keras
             return sym.RminusScalar(rhs.Symbol, scalar);
         }
 
+        public static KerasSymbol operator -(KerasSymbol x)
+        {
+            return sym.Negative(x.Symbol);
+        }
+
         public static KerasSymbol operator *(KerasSymbol lhs, KerasSymbol rhs)
         {
             return sym.BroadcastMul(lhs.Symbol, rhs.Symbol);

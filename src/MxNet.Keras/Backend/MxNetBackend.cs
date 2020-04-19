@@ -734,9 +734,27 @@ namespace MxNet.Keras
             return new KerasSymbol(sym.Maximum(x.Symbol, y.Symbol));
         }
 
+        public static KerasSymbol Maximum(float x, KerasSymbol y)
+        {
+            var x_sym = sym.Full(x, y.Shape, dtype: y.DType);
+            return new KerasSymbol(sym.Maximum(x_sym, y.Symbol));
+        }
+
+        public static KerasSymbol Maximum(KerasSymbol x, float y)
+        {
+            var y_sym = sym.Full(y, x.Shape, dtype: x.DType);
+            return new KerasSymbol(sym.Maximum(x.Symbol, y_sym));
+        }
+
         public static KerasSymbol Minimum(KerasSymbol x, KerasSymbol y)
         {
             return new KerasSymbol(sym.Minimum(x.Symbol, y.Symbol));
+        }
+
+        public static KerasSymbol Minimum(KerasSymbol x, float y)
+        {
+            var y_sym = sym.Full(y, x.Shape, dtype: x.DType);
+            return new KerasSymbol(sym.Minimum(x.Symbol, y_sym));
         }
 
         public static KerasSymbol Sin(KerasSymbol x)
