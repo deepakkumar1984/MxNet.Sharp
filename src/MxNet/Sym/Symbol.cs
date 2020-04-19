@@ -990,6 +990,18 @@ namespace MxNet
             foreach (var attr in attrs) NativeMethods.MXSymbolSetAttr(GetHandle(), attr.Key, attr.Value);
         }
 
+        public SymbolList ToList()
+        {
+            var outputs = ListOutputs();
+            SymbolList ret = new SymbolList();
+            foreach (var i in outputs)
+            {
+                ret.Add(this[i]);
+            }
+            
+            return ret;
+        }
+
         public virtual Symbol Reshape(Shape shape, bool reverse = false)
         {
             return sym.Reshape(this, shape, reverse);

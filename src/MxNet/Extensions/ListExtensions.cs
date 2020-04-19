@@ -135,5 +135,17 @@ namespace MxNet
             string line = string.Join(",", source);
             return $"({line})";
         }
+
+        public static T Pop<T>(this List<T> source, int index)
+        {
+            int n = source.Count();
+            if (index < 0)
+                index = n - index;
+
+            T value = source.ElementAt(index);
+            source.RemoveAt(index);
+            return value;
+        }
+
     }
 }

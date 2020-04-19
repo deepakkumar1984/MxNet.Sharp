@@ -83,6 +83,14 @@ namespace MxNet
 
         public static Context Gpu(int id = 0) => Context.Gpu(id);
 
+        public static void Seed(int seed, Context ctx = null)
+        {
+            if (ctx == null)
+                NativeMethods.MXRandomSeed(seed);
+            else
+                NativeMethods.MXRandomSeedContext(seed, (int)ctx.GetDeviceType(), ctx.GetDeviceId());
+        }
+
         #endregion
     }
 
