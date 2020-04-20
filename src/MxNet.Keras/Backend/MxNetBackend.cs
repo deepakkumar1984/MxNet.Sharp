@@ -719,6 +719,12 @@ namespace MxNet.Keras
             return new KerasSymbol(sym.BroadcastGreaterEqual(x.Symbol, y.Symbol));
         }
 
+        public static KerasSymbol GreaterEqual(KerasSymbol x, float y)
+        {
+            var y_sym = sym.Full(y, x.Shape, dtype: x.DType);
+            return new KerasSymbol(sym.BroadcastGreaterEqual(x.Symbol, y_sym));
+        }
+
         public static KerasSymbol Less(KerasSymbol x, KerasSymbol y)
         {
             return new KerasSymbol(sym.BroadcastLesser(x.Symbol, y.Symbol));

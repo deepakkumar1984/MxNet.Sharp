@@ -13,10 +13,7 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-            var im_fname = Utils.Download("https://raw.githubusercontent.com/zhreshold/mxnet-ssd/master/data/demo/dog.jpg", "dog.jpg");
-            
-            var (x_img, img) = Yolo.LoadTest(im_fname, @short: 416);
-            Img.ImShow(img);
+            var arrays = NDArray.LoadNpz(@"C:\Users\deepa\Downloads\imdb.npz");
             Console.ReadLine();
         }
     }

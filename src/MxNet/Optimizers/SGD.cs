@@ -20,8 +20,8 @@ namespace MxNet.Optimizers
 {
     public class SGD : Optimizer
     {
-        private readonly bool lazy_update;
-        private readonly float momentum;
+        public readonly bool lazy_update;
+        public readonly float momentum;
 
         public SGD(float learning_rate= 0.1f, float momentum = 0, bool lazy_update = true, bool multi_precision = false)
             : base(learning_rate: learning_rate, multi_precision: multi_precision)

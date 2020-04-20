@@ -103,12 +103,12 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public Symbol[] GetWeights()
+        public NDArrayList GetWeights()
         {
             throw new NotImplementedException();
         }
 
-        public void GetWeights(Symbol[] weights)
+        public void SetWeights(NDArrayList weights)
         {
             throw new NotImplementedException();
         }

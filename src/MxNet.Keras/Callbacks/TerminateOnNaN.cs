@@ -8,7 +8,18 @@ namespace MxNet.Keras.Callbacks
     {
         public override void OnBatchEnd(int batch, Dictionary<string, float> logs = null)
         {
-            throw new NotImplementedException();
+            if (logs == null)
+                logs = new Dictionary<string, float>();
+
+            if (logs.ContainsKey("loss"))
+            {
+                float loss = logs["loss"];
+                if (float.IsNaN(loss) || float.IsInfinity(loss))
+                {
+                    Console.WriteLine($"Batch {batch}: Invalid loss, terminating training");
+                    this.model.stop_training = true;
+                }
+            }
         }
     }
 }

@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using K = MxNet.Keras.MxNetBackend;
 
 namespace MxNet.Keras.Initializers
 {
     public class Zeros : Initializer
     {
-        public override KerasSymbol Call(Shape shap, DType dtype = null)
+        public override KerasSymbol Call(Shape shape, DType dtype = null)
         {
-            throw new NotImplementedException();
-        }
-
-        public override ConfigDict GetConfig()
-        {
-            throw new NotImplementedException();
+            return K.Constant(0, shape: shape, dtype: dtype);
         }
     }
 }

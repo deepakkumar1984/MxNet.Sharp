@@ -1,24 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using K = MxNet.Keras.MxNetBackend;
 
 namespace MxNet.Keras.Initializers
 {
     public class Constant : Initializer
     {
+        private readonly float value;
+
         public Constant(float value = 0)
         {
-            throw new NotImplementedException();
+            this.value = value;
         }
 
-        public override KerasSymbol Call(Shape shap, DType dtype = null)
+        public override KerasSymbol Call(Shape shape, DType dtype = null)
         {
-            throw new NotImplementedException();
+            return K.Constant(0, shape: shape, dtype: dtype);
         }
 
         public override ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            return new ConfigDict {
+                {
+                    "value",
+                    this.value
+                }
+            };
         }
     }
 }

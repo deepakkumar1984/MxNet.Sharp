@@ -11,7 +11,7 @@ namespace MxNet.Keras.Utils
             throw new NotImplementedException();
         }
 
-        public void Update(int current, Dictionary<string, object> values = null)
+        public void Update(int current, Dictionary<string, float> values = null)
         {
             throw new NotImplementedException();
         }

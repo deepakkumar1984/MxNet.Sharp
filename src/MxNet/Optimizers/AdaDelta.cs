@@ -17,8 +17,9 @@ namespace MxNet.Optimizers
 {
     public class AdaDelta : Optimizer
     {
-        public AdaDelta(float rho = 0.95f, float decayRate = 0, float epsilon = 1e-07f)
+        public AdaDelta(float lr = 1, float rho = 0.95f, float decayRate = 0, float epsilon = 1e-07f)
         {
+            LearningRate = lr;
             Rho = rho;
             Epsilon = epsilon;
         }

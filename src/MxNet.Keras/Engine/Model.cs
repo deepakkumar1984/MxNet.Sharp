@@ -4,13 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using MxNet.Keras.Utils;
+using MxNet.Keras.Optimizers;
+
 namespace MxNet.Keras.Engine
 {
-    public class Model
+    public class Model : Network
     {
         internal NDArrayDict _args;
 
         internal NDArrayDict _auxs;
+
+        internal bool stop_training;
+
+        internal Optimizer optimizer;
 
         public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string sample_weight_mode= null)
         {

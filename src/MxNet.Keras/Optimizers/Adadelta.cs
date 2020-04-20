@@ -6,17 +6,35 @@ namespace MxNet.Keras.Optimizers
 {
     public class Adadelta : MxNet.Optimizers.AdaDelta, IOptimizer
     {
-        public Adadelta(float lr = 1, float rho = 0.95F, float epsilon = 1E-08F, float decay = 0, float? clipnorm = null) : base(rho, decay, epsilon)
+        public Adadelta(float lr = 1, float rho = 0.95F, float epsilon = 1E-08F, float decay = 0, float? clipnorm = null) : base(lr, rho, decay, epsilon)
         {
-            throw new NotImplementedException();
+            Lr = lr;
+            Decay = decay;
+            ClipGradient = clipnorm;
         }
 
-        public KerasSymbol Lr { get; set; }
-        public KerasSymbol Decay { get; set; }
+        public float Lr { get; set; }
+        public float Decay { get; set; }
 
         public ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            var config = new ConfigDict {
+                    {
+                        "lr",
+                        this.LearningRate},
+                    {
+                        "rho",
+                        this.Rho},
+                    {
+                        "decay",
+                        this.Decay},
+                    {
+                        "epsilon",
+                        this.Epsilon
+                }
+            };
+
+            return config;
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace MxNet.Keras.Regularizers
 {
     public class Regularizer
@@ -11,9 +12,9 @@ namespace MxNet.Keras.Regularizers
             return x;
         }
 
-        public static Regularizer FromConfig(Type cls, ConfigDict config)
+        public static Regularizer FromConfig(ConfigDict config)
         {
-            throw new NotImplementedException();
+            return Deserialize(config);
         }
 
         public static Regularizer L1(float l = 0.01f)
@@ -31,19 +32,45 @@ namespace MxNet.Keras.Regularizers
             return new L1L2(l1: l1, l2: l2);
         }
 
-        public static string Serialize(Regularizer regularizer)
+        public static ConfigDict Serialize(Regularizer regularizer)
         {
-            throw new NotImplementedException();
+            return Utils.GenericUtils.SerializeKerasObject(regularizer);
         }
 
-        public static Regularizer Deserialize(ConfigDict config, object[] custom_objects = null)
+        public static Regularizer Deserialize(ConfigDict config, CustomObjects custom_objects = null)
         {
-            throw new NotImplementedException();
+            return (Regularizer)Utils.GenericUtils.DeserializeKerasObject(config, custom_objects: custom_objects, printable_module_name: "regularizer");
         }
 
         public static Regularizer Get(object identifier)
         {
-            throw new NotImplementedException();
+            if (identifier == null)
+            {
+                return null;
+            }
+
+            if (identifier is ConfigDict)
+            {
+                return Deserialize((ConfigDict)identifier);
+            }
+
+            else if (identifier is string)
+            {
+                ConfigDict config = new ConfigDict {
+                    {
+                        "class_name",
+                        identifier.ToString()},
+                    {
+                        "config",
+                        new Dictionary<object, object>()
+                    }
+                };
+                return Deserialize(config);
+            }
+            else
+            {
+                throw new Exception("Could not interpret regularizer identifier: " + identifier.ToString());
+            }
         }
     }
 }

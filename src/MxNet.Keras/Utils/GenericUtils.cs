@@ -17,12 +17,12 @@ namespace MxNet.Keras.Utils
             throw new NotImplementedException();
         }
 
-        public static ConfigData SerializeKerasObject(object instance)
+        public static ConfigDict SerializeKerasObject(object instance)
         {
             throw new NotImplementedException();
         }
 
-        public static object DeserializeKerasObject(object identifier, string module_objects = "", CustomObjectScope custom_objects = null, string printable_module_name = "object")
+        public static object DeserializeKerasObject(object identifier, string module_objects = "", CustomObjects custom_objects = null, string printable_module_name = "object")
         {
             throw new NotImplementedException();
         }

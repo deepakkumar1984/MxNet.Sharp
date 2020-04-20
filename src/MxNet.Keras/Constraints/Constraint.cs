@@ -8,6 +8,9 @@ namespace MxNet.Keras.Constraints
     {
         public abstract KerasSymbol Call(KerasSymbol w);
 
-        public abstract ConfigDict GetConfig();
+        public virtual ConfigDict GetConfig()
+        {
+            return new ConfigDict();
+        }
     }
 }

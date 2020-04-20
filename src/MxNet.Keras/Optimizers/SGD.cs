@@ -6,12 +6,16 @@ namespace MxNet.Keras.Optimizers
 {
     public class SGD : MxNet.Optimizers.SGD, IOptimizer
     {
-        public KerasSymbol Lr { get; set; }
-        public KerasSymbol Decay { get; set; }
+        public float Lr { get; set; }
+        public float Decay { get; set; }
+
+        private int aggregate_num = 1;
 
         public SGD(float lr = 0.01f, float momentum = 0, float decay = 0, bool nesterov = false, float? clipnorm = null) : base(lr, momentum)
         {
-            throw new NotImplementedException();
+            Lr = lr;
+            Decay = decay;
+            ClipGradient = clipnorm;
         }
 
         public override float GetLr(int index)
@@ -26,7 +30,20 @@ namespace MxNet.Keras.Optimizers
 
         public ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            var config = new ConfigDict {
+                    {
+                        "lr",
+                        this.Lr},
+                    {
+                        "momentum",
+                        this.momentum},
+                    {
+                        "decay",
+                        this.Decay
+                }
+            };
+
+            return config;
         }
     }
 }

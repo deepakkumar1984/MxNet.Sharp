@@ -1,24 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using K = MxNet.Keras.MxNetBackend;
 
 namespace MxNet.Keras.Constraints
 {
     public class UnitNorm : Constraint
     {
+        private int axis;
+
         public UnitNorm(int axis = 0)
         {
-            throw new NotImplementedException();
+            this.axis = axis;
         }
 
         public override KerasSymbol Call(KerasSymbol w)
         {
-            throw new NotImplementedException();
+            return w / (K.Epsilon() + K.Sqrt(K.Sum(K.Square(w), axis: this.axis, keepdims: true)));
         }
 
         public override ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            ConfigDict dict = new ConfigDict();
+            dict.Add("axis", axis);
+            return dict;
         }
     }
 }

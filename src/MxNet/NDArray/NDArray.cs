@@ -23,6 +23,8 @@ using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
+using System.IO.Compression;
+using System.IO;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
@@ -346,6 +348,138 @@ namespace MxNet
             return ret;
         }
 
+        public static NDArrayList LoadNpz(string file)
+        {
+            NDArrayList result = new NDArrayList();
+            using (ZipArchive zip = ZipFile.OpenRead(file))
+            {
+                foreach (ZipArchiveEntry entry in zip.Entries)
+                {
+                    Stream fs = entry.Open();
+                    BinaryReader reader = new BinaryReader(fs);
+                    var magic = reader.ReadChars(6);
+                    var maj = reader.ReadByte();
+                    var min = reader.ReadByte();
+                    int headerLength = reader.ReadUInt16();
+                    string header = new string(reader.ReadChars(headerLength)).Trim();
+                    string mark = "'descr': '";
+                    int s = header.IndexOf(mark) + mark.Length;
+                    int e = header.IndexOf("'", s + 1);
+                    string type = header.Substring(s, e - s);
+
+                    DType dtype = GetNpyType(type);
+                    mark = "'fortran_order': ";
+                    s = header.IndexOf(mark) + mark.Length;
+                    e = header.IndexOf(",", s + 1);
+                    bool fortran = bool.Parse(header.Substring(s, e - s));
+
+                    if (fortran)
+                        throw new Exception();
+
+                    mark = "'shape': (";
+                    s = header.IndexOf(mark) + mark.Length;
+                    e = header.IndexOf(")", s + 1);
+                    var shapeSplit = header.Substring(s, e - s).Split(',');
+                    List<int> shapeInt = new List<int>();
+                    foreach (var element in shapeSplit)
+                    {
+                        if (!string.IsNullOrWhiteSpace(element))
+                        {
+                            shapeInt.Add(Convert.ToInt32(element));
+                        }
+                    }
+
+                    Shape shape = new Shape(shapeInt);
+                    if (dtype == DType.Int32)
+                    {
+                        List<int> data = new List<int>();
+                        for (int i = 0; i < shape.Size; i++)
+                        {
+                            data.Add(reader.ReadInt32());
+                        }
+
+                        var x = nd.Array(data.ToArray()).AsType(dtype).Reshape(shape);
+                        result.Add(x);
+                    }
+                    else if (dtype == DType.Int8)
+                    {
+                        List<sbyte> data = new List<sbyte>();
+                        for (int i = 0; i < shape.Size; i++)
+                        {
+                            data.Add(reader.ReadSByte());
+                        }
+
+                        var x = nd.Array(data.ToArray()).AsType(dtype).Reshape(shape);
+                        result.Add(x);
+                    }
+                    else if (dtype == DType.Int64)
+                    {
+                        List<long> data = new List<long>();
+                        for (int i = 0; i < shape.Size; i++)
+                        {
+                            data.Add(reader.ReadSByte());
+                        }
+
+                        var x = nd.Array(data.ToArray()).AsType(dtype).Reshape(shape);
+                        result.Add(x);
+                    }
+                    else if (dtype == DType.Float32)
+                    {
+                        List<float> data = new List<float>();
+                        for (int i = 0; i < shape.Size; i++)
+                        {
+                            data.Add(reader.ReadSByte());
+                        }
+
+                        var x = nd.Array(data.ToArray()).AsType(dtype).Reshape(shape);
+                        result.Add(x);
+                    }
+                    else if (dtype == DType.Float64)
+                    {
+                        List<double> data = new List<double>();
+                        for (int i = 0; i < shape.Size; i++)
+                        {
+                            data.Add(reader.ReadSByte());
+                        }
+
+                        var x = nd.Array(data.Select(i => (float)i).ToArray()).AsType(dtype).Reshape(shape).AsType(dtype);
+                        result.Add(x);
+                    }
+                    else if (dtype == DType.Uint8)
+                    {
+                        var data = reader.ReadBytes(shape.Size);
+                        
+                        var x = nd.Array(data.Select(i => (float)i).ToArray()).Reshape(shape).AsType(dtype);
+                        result.Add(x);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static DType GetNpyType(string dtype)
+        {
+            string typeCode = dtype.Substring(1);
+
+            if (typeCode == "i1")
+                return DType.Int8;
+            if (typeCode == "u1")
+                return DType.Uint8;
+            if (typeCode == "i2")
+                return DType.Int32;
+            if (typeCode == "i4")
+                return DType.Int32;
+            if (typeCode == "i8")
+                return DType.Int64;
+            if (typeCode == "f4")
+                return DType.Float32;
+            if (typeCode == "f8")
+                return DType.Float64;
+
+            throw new NotSupportedException();
+        }
+
         public static NDArray NewFromSharedMem(int shared_pid, int shared_id, Shape shape, DType dtype)
         {
             NativeMethods.MXNDArrayCreateFromSharedMemEx(shared_pid, shared_id, shape.Data, shape.Dimension,
@@ -577,7 +711,7 @@ namespace MxNet
             }
         }
 
-        public NDArray this[NDArray slice] => nd.SliceLike(this, slice);
+        public NDArray this[NDArray indices] => nd.Take(this, indices);
 
         public NDArray Detach()
         {

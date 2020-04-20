@@ -7889,7 +7889,7 @@ namespace MxNet
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n).Only used for imperative calls.</param>
         /// <param name="dtype">Target data type.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Eye(Tuple<double> N, int M = 0, int k = 0, Context ctx = null, DType dtype = null,
+        public static Symbol Eye(int N, int M = 0, int k = 0, Context ctx = null, DType dtype = null,
             string symbol_name = "")
         {
             if (dtype == null) dtype = DType.Float32;

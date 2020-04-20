@@ -8,15 +8,31 @@ namespace MxNet.Keras.Optimizers
     {
         public Adamax(float lr = 0, float beta1 = 0.9F, float beta2 = 0.999F, float decay = 0, float? clipnorm = null) : base(lr, beta1, beta2)
         {
-            throw new NotImplementedException();
+            Lr = lr;
+            Decay = decay;
+            ClipGradient = clipnorm;
         }
 
-        public KerasSymbol Lr { get; set; }
-        public KerasSymbol Decay { get; set; }
+        public float Lr { get; set; }
+        public float Decay { get; set; }
 
         public ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            return new ConfigDict{
+                    {
+                        "lr",
+                        this.Lr},
+                    {
+                        "beta_1",
+                        this.Beta1},
+                    {
+                        "beta_2",
+                        this.Beta2},
+                    {
+                        "decay",
+                        this.Decay
+                }
+            };
         }
     }
 }

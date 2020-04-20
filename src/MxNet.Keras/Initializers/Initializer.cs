@@ -8,6 +8,9 @@ namespace MxNet.Keras.Initializers
     {
         public abstract KerasSymbol Call(Shape shap, DType dtype = null);
 
-        public abstract ConfigDict GetConfig();
+        public virtual ConfigDict GetConfig()
+        {
+            return new ConfigDict();
+        }
     }
 }

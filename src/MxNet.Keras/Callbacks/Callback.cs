@@ -7,19 +7,26 @@ namespace MxNet.Keras.Callbacks
 {
     public abstract class Callback
     {
+        public Model model;
+
+        public Dictionary<string, object> @params;
+        
+        public NDArrayList validation_data;
+
         public Callback()
         {
-            throw new NotImplementedException();
+            this.validation_data = null;
+            this.model = null;
         }
 
         public virtual void SetParams(Dictionary<string, object> @params)
         {
-            throw new NotImplementedException();
+            this.@params = @params;
         }
 
         public virtual void SetModel(Model model)
         {
-            throw new NotImplementedException();
+            this.model = model;
         }
 
         public virtual void OnEpochBegin(int epoch, Dictionary<string, float> logs = null)

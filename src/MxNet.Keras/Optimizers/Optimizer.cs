@@ -6,9 +6,9 @@ namespace MxNet.Keras.Optimizers
 {
     public interface IOptimizer
     {
-        KerasSymbol Lr { get; set; }
+        float Lr { get; set; }
 
-        KerasSymbol Decay { get; set; }
+        float Decay { get; set; }
 
         ConfigDict GetConfig();
     }

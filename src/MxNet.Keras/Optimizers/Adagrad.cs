@@ -6,17 +6,33 @@ namespace MxNet.Keras.Optimizers
 {
     public class Adagrad : MxNet.Optimizers.AdaGrad, IOptimizer
     {
-        public Adagrad(float lr = 0.01f, float eps = 1e-08F, float? clipnorm = null) : base(lr, epsilon: eps)
+        public Adagrad(float lr = 0.01f, float eps = 1e-08F, float decay = 0, float? clipnorm = null) : base(lr, epsilon: eps)
         {
-            throw new NotImplementedException();
+            Lr = lr;
+            Decay = decay;
+            ClipGradient = clipnorm;
         }
 
-        public KerasSymbol Lr { get; set; }
-        public KerasSymbol Decay { get; set; }
+        public float Lr { get; set; }
+        public float Decay { get; set; }
 
         public ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            var config = new ConfigDict {
+                    {
+                        "lr",
+                        this.Lr
+                    },
+                    {
+                        "decay",
+                        this.Decay},
+                    {
+                        "epsilon",
+                        this.Epsilon
+                }
+            };
+
+            return config;
         }
     }
 }
