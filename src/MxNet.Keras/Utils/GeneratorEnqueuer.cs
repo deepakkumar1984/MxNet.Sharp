@@ -1,24 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MxNet.Keras.Utils
 {
     public class GeneratorEnqueuer : SequenceEnqueuer
     {
-        public GeneratorEnqueuer(Sequence<(NDArray, NDArray)> sequence, bool use_multiprocessing = false, int? wait_time = null, int? random_seed = null) : base(sequence, use_multiprocessing)
+        public GeneratorEnqueuer(Sequence<NDArrayList> sequence, bool use_multiprocessing = false, int? wait_time = null, int? random_seed = null) : base(sequence, use_multiprocessing)
         {
-            throw new NotImplementedException();
+            this.random_seed = random_seed;
+            if (wait_time != null)
+            {
+                Logger.Warning("`wait_time` is not used anymore.");
+            }
         }
 
-        public override List<(NDArray, NDArray)> Get()
+        public override IEnumerable<NDArrayList> Get()
         {
-            throw new NotImplementedException();
+            while (this.IsRunning())
+            {
+                var inputs = ((Task<NDArrayList>)this.queue.Dequeue()).Result;
+                if (inputs != null)
+                {
+                    yield return inputs;
+                }
+            }
         }
 
         public override void Run()
         {
-            throw new NotImplementedException();
+            this.SendSequence();
+            while (true)
+            {
+                if (this.stop_signal.IsSet)
+                {
+                    return;
+                }
+
+                queue.Enqueue(Task.Run(() => DataUtils.NextSample(this.uid)));
+            }
         }
     }
 }

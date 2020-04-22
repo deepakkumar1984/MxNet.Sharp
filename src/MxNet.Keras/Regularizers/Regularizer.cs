@@ -32,7 +32,7 @@ namespace MxNet.Keras.Regularizers
             return new L1L2(l1: l1, l2: l2);
         }
 
-        public static ConfigDict Serialize(Regularizer regularizer)
+        public static KerasObject Serialize(Regularizer regularizer)
         {
             return Utils.GenericUtils.SerializeKerasObject(regularizer);
         }

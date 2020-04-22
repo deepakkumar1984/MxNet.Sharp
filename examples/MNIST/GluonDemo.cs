@@ -18,7 +18,7 @@ namespace MNIST
         {
             var mnist = TestUtils.GetMNIST(); //Get the MNIST dataset, it will download if not found
             var batch_size = 100; //Set training batch size
-            var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size, true);
+            var train_data = new NDArrayIter(mnist["train_data"], mnist["train_label"], batch_size);
             var val_data = new NDArrayIter(mnist["test_data"], mnist["test_label"], batch_size);
             
             // Define simple network with dense layers

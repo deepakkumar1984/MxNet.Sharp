@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -7,19 +8,32 @@ namespace MxNet.Keras.Utils
 {
     public class GenericUtils
     {
-        public static CustomObjectScope CustomObjectScope(FuncArgs args)
+        public static CustomObjects _GLOBAL_CUSTOM_OBJECTS = new CustomObjects();
+
+        public static CustomObjectScope CustomObjectScope(CustomObjects args)
         {
             return new CustomObjectScope(args);
         }
 
-        public static CustomObjectScope GetCustomObjects()
+        public static CustomObjects GetCustomObjects()
         {
-            throw new NotImplementedException();
+            return _GLOBAL_CUSTOM_OBJECTS;
         }
 
-        public static ConfigDict SerializeKerasObject(object instance)
+        public static KerasObject SerializeKerasObject(object instance)
         {
-            throw new NotImplementedException();
+            if (instance == null)
+                return null;
+
+            var methods = instance.GetType().GetMethods();
+            var getconfig = methods.Where(x => x.Name.ToLower() == "getconfig").FirstOrDefault();
+            if(getconfig == null)
+            {
+                return null;
+            }
+
+            ConfigDict config = (ConfigDict)getconfig.Invoke(instance, new object[0]);
+            return new KerasObject(instance.GetType().FullName, config);
         }
 
         public static object DeserializeKerasObject(object identifier, string module_objects = "", CustomObjects custom_objects = null, string printable_module_name = "object")
@@ -27,19 +41,26 @@ namespace MxNet.Keras.Utils
             throw new NotImplementedException();
         }
 
-        public static (byte[], object[] defaults, Dictionary<string, object> closure ) FuncDump(MethodInfo func)
+        public static (byte[] code, ParameterInfo[] defaults, LocalVariableInfo[] closure ) FuncDump(MethodInfo func)
         {
-            throw new NotImplementedException();
+            var code = func.GetMethodBody().GetILAsByteArray();
+            var parameters = func.GetParameters();
+            var variables = func.GetMethodBody().LocalVariables.ToArray();
+            return (code, parameters, variables);
         }
 
-        public static MethodInfo FuncLoad(byte[] code, object[] defaults = null, Dictionary<string, object> closure = null, Dictionary<string, object> globs = null)
+        public static MethodInfo FuncLoad(byte[] code, ParameterInfo[] defaults = null, LocalVariableInfo[] closure = null, Dictionary<string, object> globs = null)
         {
             throw new NotImplementedException();
         }
 
         public static bool HasArg(MethodInfo fn, string name, bool accept_all = false)
         {
-            throw new NotImplementedException();
+            var args = fn.GetParameters();
+            if (accept_all && args != null)
+                return true;
+
+            return args.Where(x => (x.Name == name)).Count() > 0;
         }
 
         public static string ObjectListUid<T>(T[] object_list)

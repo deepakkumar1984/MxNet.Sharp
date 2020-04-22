@@ -1,7 +1,10 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MxNet.Keras.Callbacks
@@ -14,13 +17,13 @@ namespace MxNet.Keras.Callbacks
 
         public bool append_header;
 
-        public FileStream csv_file;
+        public TextWriter csv_file;
 
         public string file_flags;
 
         public string filename;
 
-        public object keys;
+        public string[] keys;
 
         public string sep;
 
@@ -45,27 +48,54 @@ namespace MxNet.Keras.Callbacks
 
         public override void OnTrainBegin(Dictionary<string, float> logs = null)
         {
-            object mode;
             if (this.append)
             {
                 if (File.Exists(this.filename))
                 {
-                    append_header = File.ReadAllLines(filename).Length > 0;
+                    this.append_header = !(File.ReadAllLines(filename).Length > 0);
                 }
-                
-                mode = "a";
-            }
-            else
-            {
-                mode = "w";
             }
 
-            this.csv_file = File.OpenWrite(filename);
+            csv_file = File.AppendText(filename);
         }
 
         public override void OnEpochEnd(int epoch, Dictionary<string, float> logs = null)
         {
-            throw new NotImplementedException();
+            logs = logs != null ? logs : new Dictionary<string, float>();
+            if (this.keys == null)
+            {
+                this.keys = logs.Keys.OrderBy(_p_1 => _p_1).ToArray();
+            }
+
+            if (this.model.stop_training)
+            {
+                foreach (var k in keys)
+                {
+                    if (!logs.ContainsKey(k))
+                        logs.Add(k, float.NaN);
+                }
+
+            }
+
+            if (this.writer != null)
+            {
+                var fieldnames = new List<string> {
+                    "epoch"
+                };
+
+                logs.Add("epoch", epoch);
+                fieldnames.AddRange(this.keys);
+                this.writer = new CsvWriter(csv_file, new CsvConfiguration(CultureInfo.InvariantCulture) { Delimiter = "," });
+
+                dynamic logsDyno = logs.BuildCsvObject();
+                if (this.append_header)
+                {
+                    writer.WriteDynamicHeader(logsDyno);
+                    writer.NextRecord();
+                }
+
+                this.writer.WriteRecords(logs.Values);
+            }
         }
 
         public override void OnTrainEnd(Dictionary<string, float> logs = null)

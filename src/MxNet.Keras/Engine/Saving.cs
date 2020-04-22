@@ -7,7 +7,7 @@ namespace MxNet.Keras.Engine
 {
     public class Saving
     {
-        public static void SaveMxnetModel(Model model, int prefix, int epoch= 0)
+        public static void SaveMxnetModel(Model model, string prefix, int epoch= 0)
         {
             throw new NotImplementedException();
         }

@@ -6,14 +6,26 @@ namespace MxNet.Keras.Utils
 {
     public class CustomObjectScope : IDisposable
     {
-        public CustomObjectScope(FuncArgs args)
+        public CustomObjects backup;
+
+        public CustomObjects custom_objects;
+
+        public CustomObjectScope(CustomObjects args)
         {
-            throw new NotImplementedException();
+            this.custom_objects = args;
+            this.backup = null;
+
+            this.backup = GenericUtils._GLOBAL_CUSTOM_OBJECTS.Copy();
+            foreach (var objects in this.custom_objects)
+            {
+                GenericUtils._GLOBAL_CUSTOM_OBJECTS[objects.Key] = objects.Value;
+            }
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GenericUtils._GLOBAL_CUSTOM_OBJECTS.Clear();
+            GenericUtils._GLOBAL_CUSTOM_OBJECTS = backup;
         }
     }
 }
