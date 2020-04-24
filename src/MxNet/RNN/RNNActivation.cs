@@ -23,22 +23,23 @@ namespace MxNet.RecurrentLayer
     {
         private string _name;
         private FuncArgs _kwargs;
-        public RNNActivation(string name)
+        public RNNActivation(string name = "")
         {
             _name = name;
         }
 
-        public Symbol Invoke(Symbol x)
+        public Symbol Invoke(Symbol x, string name = "")
         {
+            _name = name != "" ? name : _name;
             Symbol ret = null;
 
             switch (_name)
             {
                 case "leaky":
-                    ret = sym.LeakyReLU(x);
+                    ret = sym.LeakyReLU(x, symbol_name: _name);
                     break;
                 case "relu":
-                    ret = sym.Relu(x);
+                    ret = sym.Relu(x, symbol_name: _name);
                     break;
                 default:
                     break;

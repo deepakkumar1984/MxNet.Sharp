@@ -79,7 +79,7 @@ namespace MxNet.RNN.Cell
             return args;
         }
 
-        public static (SymbolList, int) NormalizeSequence(int length, SymbolList inputs, string layout, bool merge, string in_layout= null)
+        public static (Symbol, int) NormalizeSequence(int length, SymbolList inputs, string layout, bool merge, string in_layout= null)
         {
             int axis = layout.ToCharArray().ToList().IndexOf('T');
             int in_axis = !string.IsNullOrWhiteSpace(in_layout) ? in_layout.ToCharArray().ToList().IndexOf('T') : axis;

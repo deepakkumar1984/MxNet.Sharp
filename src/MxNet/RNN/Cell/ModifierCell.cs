@@ -16,36 +16,54 @@
 using MxNet.Gluon.RNN;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace MxNet.RecurrentLayer
 {
     public class ModifierCell : BaseRNNCell
     {
+        internal BaseRNNCell base_cell;
+
         public ModifierCell(BaseRNNCell base_cell) : base("", null)
         {
+            base_cell._modified = true;
+            this.base_cell = base_cell;
         }
 
-        public override StateInfo[] StateInfo => throw new NotImplementedException();
+        public override StateInfo[] StateInfo => this.base_cell.StateInfo;
 
-        public override void Call(Symbol inputs, SymbolList states)
+        public override RNNParams Params
         {
-            throw new NotImplementedException();
+            get
+            {
+                _own_params = false;
+                return base_cell.Params;
+            }
+        }
+
+        public override (Symbol, SymbolList) Call(Symbol inputs, SymbolList states)
+        {
+            throw new NotSupportedException();
         }
 
         public override SymbolList BeginState(string func = "zeros", FuncArgs kwargs = null)
         {
-            throw new NotImplementedException();
+            Debug.Assert(!this._modified, "After applying modifier cells (e.g. DropoutCell) the base cell cannot be called directly. Call the modifier cell instead.");
+            this.base_cell._modified = false;
+            var begin = this.base_cell.BeginState(func, kwargs);
+            this.base_cell._modified = true;
+            return begin;
         }
 
         public override NDArrayDict UnpackWeights(NDArrayDict args)
         {
-            throw new NotImplementedException();
+            return this.base_cell.UnpackWeights(args);
         }
 
         public override NDArrayDict PackWeights(NDArrayDict args)
         {
-            throw new NotImplementedException();
+            return this.base_cell.PackWeights(args);
         }
     }
 }

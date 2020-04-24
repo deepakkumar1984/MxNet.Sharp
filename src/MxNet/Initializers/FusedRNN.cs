@@ -13,18 +13,20 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
+
 namespace MxNet.Initializers
 {
     public class FusedRNN : Initializer
     {
-        public FusedRNN(int num_hidden, int num_layers, string mode, bool bidirectional = false, float forget_bias = 1)
+        public FusedRNN(Initializer init, int num_hidden, int num_layers, RNNMode mode, bool bidirectional = false, float forget_bias = 1)
         {
-            //ToDo: Depended on RNN Layer implementation
+            throw new NotImplementedException();
         }
 
         public override void InitWeight(string name, ref NDArray arr)
         {
-            //ToDo: Depended on RNN Layer implementation
+            throw new NotImplementedException();
         }
     }
 }

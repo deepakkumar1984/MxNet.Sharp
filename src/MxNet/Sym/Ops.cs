@@ -23,83 +23,83 @@ namespace MxNet
         public static SymImgApi Image = new SymImgApi();
         public static SymContribApi Contrib = new SymContribApi();
 
-        private static readonly List<string> LeakyreluActTypeConvert =
+        internal static readonly List<string> LeakyreluActTypeConvert =
             new List<string> {"elu", "gelu", "leaky", "prelu", "rrelu", "selu"};
 
-        private static readonly List<string> ActivationActTypeConvert =
+        internal static readonly List<string> ActivationActTypeConvert =
             new List<string> {"relu", "sigmoid", "softrelu", "softsign", "tanh"};
 
-        private static readonly List<string> ConvolutionCudnnTuneConvert =
+        internal static readonly List<string> ConvolutionCudnnTuneConvert =
             new List<string> {"fastest", "limited_workspace", "off"};
 
-        private static readonly List<string> ConvolutionLayoutConvert =
+        internal static readonly List<string> ConvolutionLayoutConvert =
             new List<string> {"NCDHW", "NCHW", "NCW", "NDHWC", "NHWC"};
 
-        private static readonly List<string> CtclossBlankLabelConvert = new List<string> {"first", "last"};
+        internal static readonly List<string> CtclossBlankLabelConvert = new List<string> {"first", "last"};
 
-        private static readonly List<string> DeconvolutionCudnnTuneConvert =
+        internal static readonly List<string> DeconvolutionCudnnTuneConvert =
             new List<string> {"fastest", "limited_workspace", "off"};
 
-        private static readonly List<string> DeconvolutionLayoutConvert =
+        internal static readonly List<string> DeconvolutionLayoutConvert =
             new List<string> {"NCDHW", "NCHW", "NCW", "NDHWC", "NHWC"};
 
-        private static readonly List<string> DropoutModeConvert = new List<string> {"always", "training"};
+        internal static readonly List<string> DropoutModeConvert = new List<string> {"always", "training"};
 
-        private static readonly List<string> PoolingPoolTypeConvert = new List<string> {"avg", "lp", "max", "sum"};
+        internal static readonly List<string> PoolingPoolTypeConvert = new List<string> {"avg", "lp", "max", "sum"};
 
-        private static readonly List<string> PoolingPoolingConventionConvert =
+        internal static readonly List<string> PoolingPoolingConventionConvert =
             new List<string> {"full", "same", "valid"};
 
-        private static readonly List<string> PoolingLayoutConvert = new List<string>
+        internal static readonly List<string> PoolingLayoutConvert = new List<string>
             {"NCDHW", "NCHW", "NCW", "NDHWC", "NHWC", "NWC"};
 
-        private static readonly List<string> SoftmaxactivationModeConvert = new List<string> {"channel", "instance"};
+        internal static readonly List<string> SoftmaxactivationModeConvert = new List<string> {"channel", "instance"};
 
-        private static readonly List<string> UpsamplingSampleTypeConvert = new List<string> {"bilinear", "nearest"};
-        private static readonly List<string> UpsamplingMultiInputModeConvert = new List<string> {"concat", "sum"};
+        internal static readonly List<string> UpsamplingSampleTypeConvert = new List<string> {"bilinear", "nearest"};
+        internal static readonly List<string> UpsamplingMultiInputModeConvert = new List<string> {"concat", "sum"};
 
-        private static readonly List<string> PadModeConvert = new List<string> {"constant", "edge", "reflect"};
+        internal static readonly List<string> PadModeConvert = new List<string> {"constant", "edge", "reflect"};
 
-        private static readonly List<string> RNNModeConvert = new List<string> {"gru", "lstm", "rnn_relu", "rnn_tanh"};
+        internal static readonly List<string> RNNModeConvert = new List<string> {"gru", "lstm", "rnn_relu", "rnn_tanh"};
 
-        private static readonly List<string> SoftmaxoutputNormalizationConvert =
+        internal static readonly List<string> SoftmaxoutputNormalizationConvert =
             new List<string> {"batch", "null", "valid"};
 
-        private static readonly List<string> PickModeConvert = new List<string> {"clip", "wrap"};
+        internal static readonly List<string> PickModeConvert = new List<string> {"clip", "wrap"};
 
-        private static readonly List<string> NormOutDtypeConvert = new List<string>
+        internal static readonly List<string> NormOutDtypeConvert = new List<string>
             {"float16", "float32", "float64", "int32", "int64", "int8"};
 
-        private static readonly List<string>
+        internal static readonly List<string>
             CastStorageStypeConvert = new List<string> {"csr", "default", "row_sparse"};
 
-        private static readonly List<string> DotForwardStypeConvert = new List<string> {"csr", "default", "row_sparse"};
+        internal static readonly List<string> DotForwardStypeConvert = new List<string> {"csr", "default", "row_sparse"};
 
-        private static readonly List<string> BatchDotForwardStypeConvert =
+        internal static readonly List<string> BatchDotForwardStypeConvert =
             new List<string> {"csr", "default", "row_sparse"};
 
-        private static readonly List<string> TakeModeConvert = new List<string> {"clip", "raise", "wrap"};
+        internal static readonly List<string> TakeModeConvert = new List<string> {"clip", "raise", "wrap"};
 
-        private static readonly List<string> TopkRetTypConvert = new List<string> {"both", "indices", "mask", "value"};
+        internal static readonly List<string> TopkRetTypConvert = new List<string> {"both", "indices", "mask", "value"};
 
-        private static readonly List<string> ConvolutionV1CudnnTuneConvert =
+        internal static readonly List<string> ConvolutionV1CudnnTuneConvert =
             new List<string> {"fastest", "limited_workspace", "off"};
 
-        private static readonly List<string> ConvolutionV1LayoutConvert =
+        internal static readonly List<string> ConvolutionV1LayoutConvert =
             new List<string> {"NCDHW", "NCHW", "NDHWC", "NHWC"};
 
-        private static readonly List<string> GridgeneratorTransformTypeConvert = new List<string> {"affine", "warp"};
+        internal static readonly List<string> GridgeneratorTransformTypeConvert = new List<string> {"affine", "warp"};
 
-        private static readonly List<string> L2normalizationModeConvert =
+        internal static readonly List<string> L2normalizationModeConvert =
             new List<string> {"channel", "instance", "spatial"};
 
-        private static readonly List<string> MakelossNormalizationConvert = new List<string> {"batch", "null", "valid"};
+        internal static readonly List<string> MakelossNormalizationConvert = new List<string> {"batch", "null", "valid"};
 
-        private static readonly List<string> PoolingV1PoolTypeConvert = new List<string> {"avg", "max", "sum"};
-        private static readonly List<string> PoolingV1PoolingConventionConvert = new List<string> {"full", "valid"};
+        internal static readonly List<string> PoolingV1PoolTypeConvert = new List<string> {"avg", "max", "sum"};
+        internal static readonly List<string> PoolingV1PoolingConventionConvert = new List<string> {"full", "valid"};
 
-        private static readonly List<string> SpatialtransformerTransformTypeConvert = new List<string> {"affine"};
-        private static readonly List<string> SpatialtransformerSamplerTypeConvert = new List<string> {"bilinear"};
+        internal static readonly List<string> SpatialtransformerTransformTypeConvert = new List<string> {"affine"};
+        internal static readonly List<string> SpatialtransformerSamplerTypeConvert = new List<string> {"bilinear"};
 
         /// <summary>
         ///     <para> </para>
@@ -3629,58 +3629,6 @@ namespace MxNet
         ///     <para>Applies recurrent layers to input data. Currently, vanilla RNN, LSTM and GRU are</para>
         ///     <para>implemented, with both multi-layer and bidirectional support.</para>
         ///     <para> </para>
-        ///     <para>When the input data is of type float32 and the environment variables MXNET_CUDA_ALLOW_TENSOR_CORE</para>
-        ///     <para>and MXNET_CUDA_TENSOR_OP_MATH_ALLOW_CONVERSION are set to 1, this operator will try to use</para>
-        ///     <para>pseudo-float16 precision (float32 math with float16 I/O) precision in order to use</para>
-        ///     <para>Tensor Cores on suitable NVIDIA GPUs. This can sometimes give significant speedups.</para>
-        ///     <para> </para>
-        ///     <para>**Vanilla RNN**</para>
-        ///     <para> </para>
-        ///     <para>Applies a single-gate recurrent layer to input X. Two kinds of activation function are supported:</para>
-        ///     <para>ReLU and Tanh.</para>
-        ///     <para> </para>
-        ///     <para>With ReLU activation function:</para>
-        ///     <para> </para>
-        ///     <para>.. math::</para>
-        ///     <para>    h_t = relu(W_{ih} * x_t + b_{ih}  +  W_{hh} * h_{(t-1)} + b_{hh})</para>
-        ///     <para> </para>
-        ///     <para>With Tanh activtion function:</para>
-        ///     <para> </para>
-        ///     <para>.. math::</para>
-        ///     <para>    h_t = \tanh(W_{ih} * x_t + b_{ih}  +  W_{hh} * h_{(t-1)} + b_{hh})</para>
-        ///     <para> </para>
-        ///     <para>Reference paper: Finding structure in time - Elman, 1988.</para>
-        ///     <para>https://crl.ucsd.edu/~elman/Papers/fsit.pdf</para>
-        ///     <para> </para>
-        ///     <para>**LSTM**</para>
-        ///     <para> </para>
-        ///     <para>Long Short-Term Memory - Hochreiter, 1997. http://www.bioinf.jku.at/publications/older/2604.pdf</para>
-        ///     <para> </para>
-        ///     <para>.. math::</para>
-        ///     <para>  \begin{array}{ll}</para>
-        ///     <para>            i_t = \mathrm{sigmoid}(W_{ii} x_t + b_{ii} + W_{hi} h_{(t-1)} + b_{hi}) \\</para>
-        ///     <para>            f_t = \mathrm{sigmoid}(W_{if} x_t + b_{if} + W_{hf} h_{(t-1)} + b_{hf}) \\</para>
-        ///     <para>            g_t = \tanh(W_{ig} x_t + b_{ig} + W_{hc} h_{(t-1)} + b_{hg}) \\</para>
-        ///     <para>            o_t = \mathrm{sigmoid}(W_{io} x_t + b_{io} + W_{ho} h_{(t-1)} + b_{ho}) \\</para>
-        ///     <para>            c_t = f_t * c_{(t-1)} + i_t * g_t \\</para>
-        ///     <para>            h_t = o_t * \tanh(c_t)</para>
-        ///     <para>            \end{array}</para>
-        ///     <para> </para>
-        ///     <para>**GRU**</para>
-        ///     <para> </para>
-        ///     <para>Gated Recurrent Unit - Cho et al. 2014. http://arxiv.org/abs/1406.1078</para>
-        ///     <para> </para>
-        ///     <para>The definition of GRU here is slightly different from paper but compatible with CUDNN.</para>
-        ///     <para> </para>
-        ///     <para>.. math::</para>
-        ///     <para>  \begin{array}{ll}</para>
-        ///     <para>            r_t = \mathrm{sigmoid}(W_{ir} x_t + b_{ir} + W_{hr} h_{(t-1)} + b_{hr}) \\</para>
-        ///     <para>            z_t = \mathrm{sigmoid}(W_{iz} x_t + b_{iz} + W_{hz} h_{(t-1)} + b_{hz}) \\</para>
-        ///     <para>            n_t = \tanh(W_{in} x_t + b_{in} + r_t * (W_{hn} h_{(t-1)}+ b_{hn})) \\</para>
-        ///     <para>            h_t = (1 - z_t) * n_t + z_t * h_{(t-1)} \\</para>
-        ///     <para>            \end{array}</para>
-        ///     <para> </para>
-        ///     <para> </para>
         ///     <para>Defined in C:\Jenkins\workspace\mxnet\mxnet\src\operator\rnn.cc:L219</para>
         /// </summary>
         /// <param name="data">Input data to RNN</param>
@@ -3707,8 +3655,8 @@ namespace MxNet
         ///     range is not specified, this option is ignored.
         /// </param>
         /// <returns>returns new symbol</returns>
-        public static Symbol RNN(Symbol data, Symbol parameters, Symbol state, Symbol state_cell, uint state_size,
-            uint num_layers, RNNMode mode, bool bidirectional = false, float p = 0f, bool state_outputs = false,
+        public static Symbol RNN(Symbol data, Symbol parameters, Symbol state, Symbol state_cell, int state_size,
+            int num_layers, RNNMode mode, bool bidirectional = false, float p = 0f, bool state_outputs = false,
             int? projection_size = null, double? lstm_state_clip_min = null, double? lstm_state_clip_max = null,
             bool lstm_state_clip_nan = false, string symbol_name = "")
         {
@@ -8814,6 +8762,16 @@ namespace MxNet
                 .SetParam("begin", begin)
                 .SetParam("end", end)
                 .SetParam("step", step)
+                .SetInput("data", data)
+                .CreateSymbol(symbol_name);
+        }
+
+        public static Symbol SliceChannel(Symbol data, int num_outputs, int axis = 1, bool squeeze_axis = false, string symbol_name = "")
+        {
+            return new Operator("SliceChannel")
+                .SetParam("num_outputs", num_outputs)
+                .SetParam("axis", axis)
+                .SetParam("squeeze_axis", squeeze_axis)
                 .SetInput("data", data)
                 .CreateSymbol(symbol_name);
         }

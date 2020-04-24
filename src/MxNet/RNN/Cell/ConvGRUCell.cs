@@ -37,13 +37,49 @@ namespace MxNet.RecurrentLayer
             throw new NotImplementedException();
         }
 
-        public override string[] GateNames => throw new NotImplementedException();
-
-        public override void Call(Symbol inputs, SymbolList states)
+        public override string[] GateNames
         {
-            throw new NotImplementedException();
+            get
+            {
+                return new string[] {
+                    "_r",
+                    "_z",
+                    "_o"
+                };
+            }
         }
 
-        public override StateInfo[] StateInfo => throw new NotImplementedException();
+        public override (Symbol, SymbolList) Call(Symbol inputs, SymbolList states)
+        {
+            this._counter += 1;
+            var seq_idx = this._counter;
+            var name = String.Format("%st%d_", this._prefix, seq_idx);
+            var (i2h, h2h) = this.ConvForward(inputs, states, name);
+            // pylint: disable=unbalanced-tuple-unpacking
+            var _tup_2 = sym.SliceChannel(i2h, num_outputs: 3, symbol_name: $"{name}_i2h_slice");
+            var i2h_r = _tup_2[0];
+            var i2h_z = _tup_2[1];
+            i2h = _tup_2[1];
+            var _tup_3 = sym.SliceChannel(h2h, num_outputs: 3, symbol_name: $"{name}_h2h_slice");
+            var h2h_r = _tup_3[0];
+            var h2h_z = _tup_3[1];
+            h2h = _tup_3[2];
+            var reset_gate = sym.Activation(i2h_r + h2h_r, act_type: ActivationType.Sigmoid, symbol_name: $"{name}_r_act");
+            var update_gate = sym.Activation(i2h_z + h2h_z, act_type: ActivationType.Sigmoid, symbol_name: $"{name}_z_act");
+            var next_h_tmp = this._activation.Invoke(i2h + reset_gate * h2h, $"{name}_h_act");
+            var next_h = sym.BroadcastAdd((1 - update_gate) * next_h_tmp, update_gate * states[0], symbol_name: $"{name}out");
+            return (next_h, next_h);
+        }
+
+        public override StateInfo[] StateInfo
+        {
+            get
+            {
+                return new StateInfo[]
+                {
+                    new StateInfo(){ Shape = this._state_shape, Layout = MxUtil.EnumToString<ConvolutionLayout>(_conv_layout, sym.ConvolutionLayoutConvert)},
+                };
+            }
+        }
     }
 }

@@ -34,16 +34,30 @@ namespace MxNet.RecurrentLayer
                   i2h_dilate.HasValue ? i2h_dilate.Value : (1,1), i2h_weight_initializer, h2h_weight_initializer, 
                   i2h_bias_initializer, h2h_bias_initializer, activation != null ? activation : new RNNActivation("leaky"), prefix, @params)
         {
-            throw new NotImplementedException();
         }
 
-        public override string[] GateNames => throw new NotImplementedException();
+        public override string[] GateNames => new string[] { "" };
 
-        public override void Call(Symbol inputs, SymbolList states)
+        public override (Symbol, SymbolList) Call(Symbol inputs, SymbolList states)
         {
-            throw new NotImplementedException();
+            this._counter += 1;
+            var name = $"{_prefix}t{_counter}_";
+            var _tup_1 = this.ConvForward(inputs, states, name);
+            var i2h = _tup_1.Item1;
+            var h2h = _tup_1.Item2;
+            var output = _activation.Invoke(i2h + h2h);
+            return (output, output);
         }
 
-        public override StateInfo[] StateInfo => throw new NotImplementedException();
+        public override StateInfo[] StateInfo
+        {
+            get
+            {
+                return new StateInfo[]
+                {
+                    new StateInfo(){ Shape = this._state_shape, Layout = MxUtil.EnumToString<ConvolutionLayout>(_conv_layout, sym.ConvolutionLayoutConvert)},
+                };
+            }
+        }
     }
 }

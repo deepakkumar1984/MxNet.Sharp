@@ -28,7 +28,7 @@ namespace MxNet.Recordio
 {
     public class IRHeader
     {
-        public IRHeader(int flag, float label, int id, int id2)
+        public IRHeader(int flag, NDArray label, int id, int id2)
         {
             Flag = flag;
             Label = label;
@@ -38,7 +38,7 @@ namespace MxNet.Recordio
 
         public int Flag { get; set; }
 
-        public float Label { get; set; }
+        public NDArray Label { get; set; }
 
         public int ID { get; set; }
 
@@ -82,14 +82,15 @@ namespace MxNet.Recordio
             return (header, img);
         }
 
-        public static byte[] PackImg(IRHeader header, ndarray img, int quality = 95, string img_fmt = ".jpg")
+        public static byte[] PackImg(IRHeader header, NDArray img, int quality = 95, string img_fmt = ".jpg")
         {
             int[] encodeParams = null;
             OpenCvSharp.ImageEncodingParam imageEncodingParam = new ImageEncodingParam(ImwriteFlags.JpegQuality, quality);
             if (img_fmt.ToLower() == ".jpg" || img_fmt.ToLower() == ".jpeg")
                 encodeParams = new int[] { };
-            
-            Cv2.ImEncode(img_fmt, new Mat(img.GetMemPtr()), out var buf, imageEncodingParam);
+
+            Mat mat = img;
+            Cv2.ImEncode(img_fmt, mat, out var buf, imageEncodingParam);
             return Pack(header, buf);
         }
     }

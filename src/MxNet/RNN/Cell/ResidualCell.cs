@@ -13,8 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.RNN.Cell;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MxNet.RecurrentLayer
@@ -23,17 +25,40 @@ namespace MxNet.RecurrentLayer
     {
         public ResidualCell(BaseRNNCell base_cell) : base(base_cell)
         {
-            throw new NotImplementedException();
         }
 
-        public override void Call(Symbol inputs, SymbolList states)
+        public override (Symbol, SymbolList) Call(Symbol inputs, SymbolList states)
         {
-            throw new NotImplementedException();
+            Symbol output = null;
+            (output, states) = this.base_cell.Call(inputs, states);
+            output = sym.ElemwiseAdd(output, inputs, symbol_name: $"{output.Name}_plus_residual");
+            return (output, states);
         }
 
         public override (Symbol, SymbolList) Unroll(int length, SymbolList inputs, SymbolList begin_state = null, string layout = null, bool? merge_outputs = null)
         {
-            throw new NotImplementedException();
+            this.Reset();
+            this.base_cell._modified = false;
+            var (outputs, states) = this.base_cell.Unroll(length, inputs: inputs, begin_state: begin_state, layout: layout, merge_outputs: merge_outputs);
+            this.base_cell._modified = true;
+            merge_outputs = merge_outputs == null ? outputs is Symbol : merge_outputs;
+            var _tup_2 = __internals__.NormalizeSequence(length, inputs, layout, merge_outputs.Value);
+            inputs = _tup_2.Item1;
+            if (merge_outputs.Value)
+            {
+                outputs = sym.ElemwiseAdd(outputs, inputs, symbol_name: $"{outputs.Name}_plus_residual");
+            }
+            else
+            {
+                var outputsList = Enumerable.Zip(outputs.ToList(), inputs.ToList(), (output_sym, input_sym) =>
+                {
+                    return sym.ElemwiseAdd(output_sym, input_sym, symbol_name: $"{output_sym.Name}_plus_residual");
+                }).ToList();
+
+                outputs = Symbol.Group(outputs);
+            }
+
+            return (outputs, states);
         }
     }
 }

@@ -171,6 +171,10 @@ namespace MxNet
 
         public static implicit operator Shape(int s) => new Shape(s);
 
+        public static implicit operator Shape((int, int) s) => new Shape(s);
+
+        public static implicit operator Shape((int, int, int) s) => new Shape(s);
+
         #region Operators
 
         public static bool operator ==(Shape lhs, Shape rhs)

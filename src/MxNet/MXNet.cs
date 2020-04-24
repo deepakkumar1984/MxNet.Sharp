@@ -140,6 +140,41 @@ namespace MxNet
         #endregion
     }
 
+    public sealed class StopIteration : Exception
+    {
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MXNetException" /> class.
+        /// </summary>
+        public StopIteration()
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MXNetException" /> class with a specified error message.
+        /// </summary>
+        /// <param name="message">The error message that explains the reason for the exception.</param>
+        public StopIteration(string message)
+            : base(message)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="MXNetException" /> class with a specified error message and a
+        ///     reference to the inner exception that is the cause of this exception.
+        /// </summary>
+        /// <param name="message">The error message that explains the reason for the exception.</param>
+        /// <param name="innerException">The name of the parameter that caused the current exception.</param>
+        public StopIteration(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        #endregion
+    }
+
+
     public abstract class MXNetSharedObject
     {
         #region Fields

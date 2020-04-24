@@ -34,16 +34,51 @@ namespace MxNet.RecurrentLayer
                   i2h_dilate.HasValue ? i2h_dilate.Value : (1, 1), i2h_weight_initializer, h2h_weight_initializer,
                   i2h_bias_initializer, h2h_bias_initializer, activation != null ? activation : new RNNActivation("leaky"), prefix, @params)
         {
-            throw new NotImplementedException();
         }
 
-        public override string[] GateNames => throw new NotImplementedException();
-
-        public override void Call(Symbol inputs, SymbolList states)
+        public override string[] GateNames
         {
-            throw new NotImplementedException();
+            get
+            {
+                return new string[] {
+                    "_i",
+                    "_f",
+                    "_c",
+                    "_o"
+                };
+            }
         }
 
-        public override StateInfo[] StateInfo => throw new NotImplementedException();
+        public override (Symbol, SymbolList) Call(Symbol inputs, SymbolList states)
+        {
+            this._counter += 1;
+            var name = $"{_prefix}t{_counter}_";
+            var (i2h, h2h) = this.ConvForward(inputs, states, name);
+            var gates = i2h + h2h;
+            string layout = MxUtil.EnumToString<ConvolutionLayout>(_conv_layout, sym.ConvolutionLayoutConvert);
+            var slice_gates = sym.SliceChannel(gates, num_outputs: 4, axis: layout.IndexOf("C"), symbol_name: $"{name}slice");
+            var in_gate = sym.Activation(slice_gates[0], act_type: ActivationType.Sigmoid, symbol_name: name + "i");
+            var forget_gate = sym.Activation(slice_gates[1], act_type: ActivationType.Sigmoid, symbol_name: name + "f");
+            var in_transform = _activation.Invoke(slice_gates[2], name + "c");
+            var out_gate = sym.Activation(slice_gates[3], act_type: ActivationType.Sigmoid, symbol_name: name + "o");
+            var next_c = sym.BroadcastAdd(forget_gate * states[1], in_gate * in_transform, symbol_name: name + "state");
+            var next_h = sym.BroadcastMul(out_gate, this._activation.Invoke(next_c), symbol_name: name + "out");
+            return (next_h, new List<Symbol> {
+                next_h,
+                next_c
+            });
+        }
+
+        public override StateInfo[] StateInfo
+        {
+            get
+            {
+                return new StateInfo[]
+                {
+                    new StateInfo(){ Shape = this._state_shape, Layout = MxUtil.EnumToString<ConvolutionLayout>(_conv_layout, sym.ConvolutionLayoutConvert)},
+                     new StateInfo(){ Shape = this._state_shape, Layout = MxUtil.EnumToString<ConvolutionLayout>(_conv_layout, sym.ConvolutionLayoutConvert)}
+                };
+            }
+        }
     }
 }

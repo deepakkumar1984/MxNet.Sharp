@@ -22,8 +22,8 @@ namespace MxNet.RecurrentLayer
 {
     public class RNNParams
     {
-        private string _prefix;
-        private SymbolDict _params;
+        internal string _prefix;
+        internal SymbolDict _params;
 
         public RNNParams(string prefix = "")
         {

@@ -24,14 +24,14 @@ namespace MxNet.RecurrentLayer
 {
     public abstract class BaseRNNCell
     {
-        private bool _own_params;
-        private string _prefix;
-        private RNNParams _params;
-        private bool _modified;
-        private int _init_counter;
-        private int _counter;
-        private int _num_hidden;
-        private List<BaseRNNCell> _cells = new List<BaseRNNCell>();
+        internal bool _own_params;
+        internal string _prefix;
+        internal RNNParams _params;
+        internal bool _modified;
+        internal int _init_counter;
+        internal int _counter;
+        internal int _num_hidden;
+        internal List<BaseRNNCell> _cells = new List<BaseRNNCell>();
 
         public virtual RNNParams Params
         {
@@ -56,7 +56,7 @@ namespace MxNet.RecurrentLayer
         {
             get
             {
-                return new string[0];
+                return new string[] { "" };
             }
         }
 
@@ -87,7 +87,7 @@ namespace MxNet.RecurrentLayer
             }
         }
 
-        public abstract void Call(Symbol inputs, SymbolList states);
+        public abstract (Symbol, SymbolList) Call(Symbol inputs, SymbolList states);
 
         public virtual SymbolList BeginState(string func = "sym.Zeros", FuncArgs kwargs = null)
         {
@@ -152,6 +152,11 @@ namespace MxNet.RecurrentLayer
         public virtual (Symbol, SymbolList) Unroll(int length, SymbolList inputs, SymbolList begin_state = null, string layout = "NTC", bool? merge_outputs = null)
         {
             throw new NotImplementedException();
+        }
+
+        public Symbol GetActivation(Symbol inputs, ActivationType activation, string name)
+        {
+            return sym.Activation(inputs, activation, name);
         }
     }
 }
