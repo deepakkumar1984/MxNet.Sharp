@@ -37,7 +37,7 @@ namespace MNIST
             //Create the trainer with all the network parameters and set the optimizer
             var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.1f));
 
-            var epoch = 100;
+            var epoch = 10;
             var metric = new Accuracy(); //Use Accuracy as the evaluation metric.
             var softmax_cross_entropy_loss = new SoftmaxCrossEntropyLoss();
             float lossVal = 0; //For loss calculation
@@ -72,18 +72,16 @@ namespace MNIST
                             var x = data[i];
                             var y = label[i];
                             var z = net.Call(x);
+                            // Computes softmax cross entropy loss.
                             loss = softmax_cross_entropy_loss.Call(z, y);
                             outputs.Add(z);
                         }
 
-                        // Computes softmax cross entropy loss.
-                        
-
                         // Backpropagate the error for one iteration.
                         loss.Backward();
                         lossVal += loss.Mean();
-                        
                     }
+
                     //outputs = Enumerable.Zip(data, label, (x, y) =>
                     //{
                     //    var z = net.Call(x);
