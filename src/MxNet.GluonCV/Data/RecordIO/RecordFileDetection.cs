@@ -12,6 +12,6 @@ namespace MxNet.GluonCV.Data
             throw new NotImplementedException();
         }
 
-        public override byte[] this[int idx] => throw new NotImplementedException();
+        public new (NDArray, NDArray) this[int idx]=> throw new NotImplementedException();
     }
 }
