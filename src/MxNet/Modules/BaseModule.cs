@@ -15,6 +15,7 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MxNet.Callbacks;
 using MxNet.Initializers;
@@ -185,15 +186,126 @@ namespace MxNet.Modules
         public void Fit(DataIter train_data, DataIter eval_data = null, string eval_metric = "acc",
             IEpochEndCallback[] epoch_end_callback = null, IBatchEndCallback[] batch_end_callback = null,
             string kvstore = "local",
-            string optimizer = "sgd", Dictionary<string, object> optimizer_params = null,
-            IBatchEndCallback[] eval_end_callback = null,
+            Optimizer optimizer = null, Dictionary<string, object> optimizer_params = null,
+            IScoreEndCallback[] eval_end_callback = null,
             IBatchEndCallback[] eval_batch_end_callback = null, Initializer initializer = null,
             NDArrayDict arg_params = null,
             NDArrayDict aux_params = null, bool allow_missing = false, bool force_rebind = false,
             bool force_init = false, int begin_epoch = 0, int? num_epoch = null, EvalMetric validation_metric = null,
             Monitor monitor = null, Func<DataBatch, NDArrayDict> sparse_row_id_fn = null)
         {
-            throw new NotImplementedException();
+            object val;
+            object name;
+            if (optimizer == null)
+                optimizer = new SGD();
+            Debug.Assert(num_epoch != null, "please specify number of epochs");
+            this.Bind(data_shapes: train_data.ProvideData, label_shapes: train_data.ProvideLabel, for_training: true, force_rebind: force_rebind);
+            if (monitor != null)
+            {
+                this.InstallMonitor(monitor);
+            }
+
+            this.InitParams(initializer: initializer, arg_params: arg_params, aux_params: aux_params, allow_missing: allow_missing, force_init: force_init);
+            this.InitOptimizer(kvstore: kvstore, optimizer: optimizer, optimizer_params: optimizer_params);
+            if (validation_metric == null)
+            {
+                validation_metric = eval_metric;
+            }
+
+            var eval_metric_func = EvalMetric.Create(eval_metric, null);
+
+            //###############################################################################
+            // training loop
+            //###############################################################################
+            foreach (var epoch in Enumerable.Range(begin_epoch, num_epoch.Value - begin_epoch))
+            {
+                var tic = DateTime.Now;
+                eval_metric_func.Reset();
+                var nbatch = 0;
+                var data_iter = train_data;
+                var end_of_batch = false;
+                var next_data_batch = data_iter.Next();
+                Dictionary<string, float> eval_name_vals = new Dictionary<string, float>();
+                while (!end_of_batch)
+                {
+                    var data_batch = next_data_batch;
+                    if (monitor != null)
+                    {
+                        monitor.Tic();
+                    }
+
+                    this.ForwardBackward(data_batch);
+                    this.Update();
+
+                    UpdateMetric(eval_metric_func, data_batch.Label);
+
+                    try
+                    {
+                        // pre fetch next batch
+                        next_data_batch = data_iter.Next();
+                        this.Prepare(next_data_batch, sparse_row_id_fn: sparse_row_id_fn);
+                    }
+                    catch (StopIteration)
+                    {
+                        end_of_batch = true;
+                    }
+                    if (monitor != null)
+                    {
+                        monitor.TocPrint();
+                    }
+
+                    if (end_of_batch)
+                    {
+                        eval_name_vals = eval_metric_func.GetGlobalNameValue();
+                    }
+
+                    if (batch_end_callback != null)
+                    {
+                        foreach (var callback in batch_end_callback)
+                        {
+                            callback.Invoke(epoch: epoch, nbatch: nbatch, eval_metric: eval_metric);
+                        }
+                    }
+                    nbatch += 1;
+                }
+
+                // one epoch of training is finished
+                foreach (var item in eval_name_vals)
+                {
+                    name = item.Key;
+                    val = item.Value;
+                    Logger.Info($"Epoch[{epoch}] Train-{name}={val}");
+                }
+
+                var toc = DateTime.Now;
+
+                Logger.Info($"Epoch[{epoch}] Time cost={(toc - tic).TotalSeconds}");
+                // sync aux params across devices
+                (arg_params, aux_params) = this.GetParams();
+                this.SetParams(arg_params, aux_params);
+                if (epoch_end_callback != null)
+                {
+                    foreach (var callback in epoch_end_callback)
+                    {
+                        callback.Invoke(epoch, this.Symbol, arg_params, aux_params);
+                    }
+                }
+                //----------------------------------------
+                // evaluation on validation set
+                if (eval_data != null)
+                {
+                    var res = this.Score(eval_data, validation_metric, score_end_callback: eval_end_callback, batch_end_callback: eval_batch_end_callback, epoch: epoch);
+                    //TODO: pull this into default
+                    foreach (var item in res)
+                    {
+                        name = item.Key;
+                        val = item.Value;
+                        Logger.Info($"Epoch[{epoch}] Validation-{name}={val}");
+                    }
+                }
+                // end of 1 epoch, reset the data-iter for another epoch
+                train_data.Reset();
+            }
         }
 
         public abstract (NDArrayDict, NDArrayDict) GetParams();

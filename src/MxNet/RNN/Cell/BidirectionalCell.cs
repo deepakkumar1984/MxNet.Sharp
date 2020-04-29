@@ -56,14 +56,13 @@ namespace MxNet.RecurrentLayer
 
             this._cells.Add(l_cell);
             this._cells.Add(r_cell);
-
         }
 
         public override StateInfo[] StateInfo => __internals__.CellsStateInfo(this._cells.ToArray());
 
         public override (Symbol, SymbolList) Call(Symbol inputs, SymbolList states)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Bidirectional cannot be stepped. Please use unroll");
         }
 
         public override NDArrayDict UnpackWeights(NDArrayDict args)

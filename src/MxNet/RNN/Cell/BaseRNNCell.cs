@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Reflection;
+using MxNet.RNN.Cell;
 
 namespace MxNet.RecurrentLayer
 {
@@ -146,12 +147,53 @@ namespace MxNet.RecurrentLayer
 
         public virtual NDArrayDict PackWeights(NDArrayDict args)
         {
-            throw new NotImplementedException();
+            if (this.GateNames == null)
+            {
+                return args;
+            }
+            foreach (var group_name in new List<string> {
+                "i2h",
+                "h2h"
+            })
+            {
+                var weight = new List<NDArray>();
+                var bias = new List<NDArray>();
+                foreach (var gate in this.GateNames)
+                {
+                    var wname = $"{_prefix}{group_name}{gate}_weight";
+                    weight.Add(args[wname]);
+                    var bname = $"{_prefix}{group_name}{gate}_bias";
+                    bias.Add(args[bname]);
+                }
+
+                args[$"{_prefix}{group_name}_weight"] = nd.Concat(weight);
+                args[$"{_prefix}{group_name}_bias"] = nd.Concat(bias);
+            }
+            return args;
         }
 
         public virtual (Symbol, SymbolList) Unroll(int length, SymbolList inputs, SymbolList begin_state = null, string layout = "NTC", bool? merge_outputs = null)
         {
-            throw new NotImplementedException();
+            this.Reset();
+            var _tup_1 = __internals__.NormalizeSequence(length, inputs, layout, false);
+            inputs = _tup_1.Item1;
+            if (begin_state == null)
+            {
+                begin_state = this.BeginState();
+            }
+            var states = begin_state;
+            var outputs = new SymbolList();
+            foreach (var i in Enumerable.Range(0, length))
+            {
+                var _tup_2 = Call(inputs[i], states);
+                var output = _tup_2.Item1;
+                states = _tup_2.Item2;
+                outputs.Add(output);
+            }
+
+            var _tup_3 = __internals__.NormalizeSequence(length, outputs, layout, merge_outputs.Value);
+            outputs = _tup_3.Item1;
+            return (outputs, states);
         }
 
         public Symbol GetActivation(Symbol inputs, ActivationType activation, string name)
