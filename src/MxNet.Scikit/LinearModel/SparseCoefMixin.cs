@@ -4,7 +4,16 @@ using System.Text;
 
 namespace MxNet.SciKit.LinearModel
 {
-    class SparseCoefMixin
+    public class SparseCoefMixin : BaseEstimator
     {
+        public SparseCoefMixin Densify()
+        {
+            throw new NotImplementedException();
+        }
+
+        public SparseCoefMixin Sparsify()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

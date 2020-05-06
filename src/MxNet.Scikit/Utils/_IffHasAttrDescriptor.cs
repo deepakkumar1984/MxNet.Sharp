@@ -4,7 +4,10 @@ using System.Text;
 
 namespace MxNet.SciKit.Utils
 {
-    class _IffHasAttrDescriptor
+    public class IffHasDescriptorAttribute : Attribute
     {
+        public IffHasDescriptorAttribute()
+        {
+        }
     }
 }

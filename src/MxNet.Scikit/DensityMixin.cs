@@ -4,7 +4,13 @@ using System.Text;
 
 namespace MxNet.SciKit
 {
-    class DensityMixin
+    public class DensityMixin : BaseEstimator
     {
+        internal string _estimator_type = "DensityEstimator";
+
+        public virtual NDArray Score(NDArray X, NDArray y = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,7 +4,11 @@ using System.Text;
 
 namespace MxNet.SciKit
 {
-    class _UnstableArchMixin
+    internal class _UnstableArchMixin : BaseEstimator
     {
+        public override Dictionary<string, object> MoreTags()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace MxNet.SciKit
 {
-    class MetaEstimatorMixin
+    public class MetaEstimatorMixin : BaseEstimator
     {
+        public string[] _required_parameters = new string[] { "estimator" };
     }
 }

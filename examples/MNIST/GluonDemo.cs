@@ -82,19 +82,6 @@ namespace MNIST
                         lossVal += loss.Mean();
                     }
 
-                    //outputs = Enumerable.Zip(data, label, (x, y) =>
-                    //{
-                    //    var z = net.Call(x);
-
-                    //    // Computes softmax cross entropy loss.
-                    //    NDArray loss = softmax_cross_entropy_loss.Call(z, y);
-
-                    //    // Backpropagate the error for one iteration.
-                    //    loss.Backward();
-                    //    lossVal += loss.Mean();
-                    //    return z;
-                    //}).ToList();
-
                     // Updates internal evaluation
                     metric.Update(label, outputs.ToArray());
 

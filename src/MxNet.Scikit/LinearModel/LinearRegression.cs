@@ -4,7 +4,16 @@ using System.Text;
 
 namespace MxNet.SciKit.LinearModel
 {
-    class LinearRegression
+    public class LinearRegression : BaseLinearModel
     {
+        public LinearRegression(bool fit_intercept= true, bool normalize= false, bool copy_X= true, int n_jobs= 1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArray Fit(NDArray X, NDArray y)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -14,7 +14,6 @@ namespace ImageClassification
 {
     public class ResnetModule
     {
-
         public static void Run()
         {
             string resnet50symbolUrl = "http://data.mxnet.io.s3-website-us-west-1.amazonaws.com/imagenet/resnet/50-layers/resnet-50-symbol.json";
