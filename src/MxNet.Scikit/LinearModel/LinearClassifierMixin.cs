@@ -11,7 +11,12 @@ namespace MxNet.SciKit.LinearModel
             throw new NotImplementedException();
         }
 
-        public virtual NDArray Predict(NDArray X)
+        public override NDArray Fit(NDArray X, NDArray y, NDArray sample_weight = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override NDArray Predict(NDArray X)
         {
             throw new NotImplementedException();
         }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.SciKit.Cluster
 {
-    class MiniBatchKMeans
+    public class MiniBatchKMeans : KMeans
     {
     }
 }

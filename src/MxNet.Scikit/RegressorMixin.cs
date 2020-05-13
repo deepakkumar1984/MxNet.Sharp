@@ -27,7 +27,7 @@ namespace MxNet.SciKit
             }
         }
 
-        public abstract NDArray Fit(NDArray X, NDArray y);
+        public abstract NDArray Fit(NDArray X, NDArray y, NDArray sample_weight = null);
 
         public abstract NDArray Predict(NDArray X);
 

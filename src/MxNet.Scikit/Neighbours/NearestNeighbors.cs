@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.SciKit.Neighbours
 {
-    class NearestNeighbors
+    public class NearestNeighbors
     {
     }
 }
