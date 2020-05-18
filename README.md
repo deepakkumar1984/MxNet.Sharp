@@ -178,5 +178,6 @@ for (var iter = 0; iter < epoch; iter++)
 }
 ```
 
-# Documentation
-Here is the link to the API and guides: https://scisharp.github.io/MxNet.Sharp/
+# Documentation (In Progress)
+
+https://mxnet.tech-quantum.com/
