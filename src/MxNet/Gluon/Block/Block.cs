@@ -15,13 +15,14 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using MxNet.Initializers;
 
 namespace MxNet.Gluon
 {
-    public abstract class Block
+    public abstract class Block : DynamicObject
     {
         public delegate void ApplyFn(Block block);
 

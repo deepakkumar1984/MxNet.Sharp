@@ -43,6 +43,10 @@ namespace MxNet.Gluon
                 if (_params.ContainsKey(name))
                     return _params[name];
 
+                string key = _params.Keys.Where(x => x.Contains(name)).FirstOrDefault();
+                if (!string.IsNullOrWhiteSpace(key))
+                    return _params[key];
+
                 return null;
             }
             set => _params[name] = value;
@@ -140,7 +144,7 @@ namespace MxNet.Gluon
             {
                 if (!_params.ContainsKey(item.Key))
                 {
-                    _params[item.Key] = item.Value;
+                    _params.Add(item.Key, item.Value);
                     continue;
                 }
 
@@ -159,7 +163,15 @@ namespace MxNet.Gluon
             if (verbose)
                 init.SetVerbosity(verbose);
 
-            foreach (var item in _params) item.Value.Initialize(null, ctx, init, force_reinit);
+            var keys = _params.Keys.ToList();
+            for (int i = 0; i < _params.Count; i++)
+            {
+                var key = keys[i];
+                var p = _params[key];
+                p.Initialize(null, ctx, init, force_reinit);
+                _params[key] = p;
+            }
+           
         }
 
 

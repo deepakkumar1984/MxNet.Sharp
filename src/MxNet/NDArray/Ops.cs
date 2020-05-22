@@ -8496,13 +8496,17 @@ namespace MxNet
         {
             if (step == null) step = new Shape();
 
-            return new Operator("_slice_assign_scalar")
+            NDArray output = new NDArray(data.Shape, dtype: data.DataType);
+
+            new Operator("_slice_assign_scalar")
                 .SetParam("scalar", scalar)
                 .SetParam("begin", begin)
                 .SetParam("end", end)
                 .SetParam("step", step)
                 .SetInput("data", data)
-                .Invoke();
+                .Invoke(output);
+
+            return output;
         }
 
         /// <summary>

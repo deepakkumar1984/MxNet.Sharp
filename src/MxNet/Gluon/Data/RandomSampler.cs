@@ -33,7 +33,7 @@ namespace MxNet.Gluon.Data
         {
             var x = nd.Arange(0, _length).AsType(DType.Int32);
             x = nd.Shuffle(x);
-            return x.AsArray<int>().Cast<int>().GetEnumerator();
+            return x.AsArray().Cast<int>().GetEnumerator();
         }
     }
 }

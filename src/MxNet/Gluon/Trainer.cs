@@ -116,7 +116,7 @@ namespace MxNet.Gluon
             var params_to_init = new List<Parameter>();
             if (_kvstore != null)
                 foreach (var param in _params_to_init)
-                    if (param.deferred_init.HasValue)
+                    if (param.deferred_init != null)
                     {
                         params_to_init.Add(param);
                     }

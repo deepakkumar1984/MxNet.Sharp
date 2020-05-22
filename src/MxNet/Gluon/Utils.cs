@@ -159,6 +159,7 @@ namespace MxNet.Gluon
             if (string.IsNullOrWhiteSpace(path))
                 path = "./";
 
+
             if(!overwrite && File.Exists(path))
             {
                 if (sha1_hash != "")

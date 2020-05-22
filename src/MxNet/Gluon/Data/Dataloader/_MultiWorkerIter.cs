@@ -91,12 +91,12 @@ namespace MxNet.Gluon.Data
                 return;
 
             var r = _iter.Current;
-
-            ThreadPool.QueueUserWorkItem(obj =>
-            {
-                _data_buffer[_sent_idx] = _worker_fn(r, _batchify_fn, _dataset);
-                _sent_idx++;
-            });
+            _data_buffer[_sent_idx] = _worker_fn(r, _batchify_fn, _dataset);
+            _sent_idx++;
+            //ThreadPool.QueueUserWorkItem(obj =>
+            //{
+                
+            //});
         }
     }
 }

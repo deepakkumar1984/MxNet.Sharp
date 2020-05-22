@@ -19,7 +19,7 @@ namespace MxNet.Gluon.NN
 {
     public class HybridSequential : HybridBlock
     {
-        public HybridSequential(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+        public HybridSequential(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

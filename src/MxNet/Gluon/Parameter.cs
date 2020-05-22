@@ -20,6 +20,33 @@ using MxNet.Initializers;
 
 namespace MxNet.Gluon
 {
+    public class DeferredInit
+    {
+        public Initializer Initializer;
+
+        public Context[] Contexts;
+
+        public Initializer DefaultInit;
+
+        public NDArray Data;
+
+        public DeferredInit(Initializer initializer, Context[] contexts, Initializer default_init, NDArray data)
+        {
+            Initializer = initializer;
+            Contexts = contexts;
+            DefaultInit = default_init;
+            Data = data;
+        }
+
+        public void Deconstruct(out Initializer initializer, out Context[] contexts, out Initializer default_init, out NDArray data)
+        {
+            initializer = Initializer;
+            contexts = Contexts;
+            default_init = DefaultInit;
+            data = Data;
+        }
+    }
+
     public class Parameter
     {
         internal List<Context> _ctx_list;
@@ -29,7 +56,7 @@ namespace MxNet.Gluon
         internal Symbol _var;
         internal bool allow_deferred_init;
         internal Dictionary<int, List<int>> _ctx_map;
-        internal (Initializer, Context[], Initializer, NDArray)? deferred_init;
+        internal DeferredInit deferred_init;
         internal bool differentiable;
         private OpGradReq grad_req;
         internal Trainer trainer;
@@ -141,7 +168,7 @@ namespace MxNet.Gluon
                                         $"It was only initialized on {ctx_list[0]}.");
             }
 
-            if (deferred_init.HasValue)
+            if (deferred_init != null)
                 throw new DeferredInitializationException(
                     $"Parameter '{Name}' has not been initialized yet because initialization was " +
                     "deferred. Actual initialization happens during the first forward pass. " +
@@ -212,11 +239,11 @@ namespace MxNet.Gluon
             {
                 if (deferred_init != null)
                 {
-                    if (ctx == null || MxUtil.Set(ctx.ToList()) != MxUtil.Set(deferred_init.Value.Item2.ToList()))
+                    if (ctx == null || MxUtil.Set(ctx.ToList()) != MxUtil.Set(deferred_init.Contexts.ToList()))
                         throw new Exception($"Failed to load Parameter '{Name}' on {ctx[0]} because it was " +
                                             $"previous initialized on {ListCtx()[0]}.");
 
-                    ctx = deferred_init.Value.Item2;
+                    ctx = deferred_init.Contexts;
                 }
                 else if (ctx == null)
                 {
@@ -227,7 +254,7 @@ namespace MxNet.Gluon
             }
             else
             {
-                if (ctx == null || MxUtil.Set(ctx.ToList()) != MxUtil.Set(deferred_init.Value.Item2.ToList()))
+                if (ctx == null || MxUtil.Set(ctx.ToList()) != MxUtil.Set(deferred_init.Contexts.ToList()))
                     throw new Exception($"Failed to load Parameter '{Name}' on {ctx[0]} because it was " +
                                         $"previous initialized on {ListCtx()[0]}.");
             }
@@ -240,7 +267,7 @@ namespace MxNet.Gluon
             if (deferred_init == null)
                 return;
 
-            var (init, ctx, default_init, data) = deferred_init.Value;
+            var (init, ctx, default_init, data) = deferred_init;
             deferred_init = null;
             if (!Utils.ShapeIsKnown(Shape))
                 throw new Exception($"Cannot initialize Parameter '{Name}' because it has " +
@@ -351,14 +378,14 @@ namespace MxNet.Gluon
             {
                 if (allow_deferred_init)
                 {
-                    deferred_init = (init, ctx, default_init, null);
+                    deferred_init = new DeferredInit(init, ctx, default_init, null);
                     return;
                 }
 
                 throw new Exception($"Cannot initialize Parameter '{Name}' because it has invalid shape: {Shape}.");
             }
 
-            deferred_init = (init, ctx, default_init, null);
+            deferred_init = new DeferredInit(init, ctx, default_init, null);
             FinishDeferredInit();
         }
 
@@ -375,10 +402,10 @@ namespace MxNet.Gluon
                     InitImpl(data, ctx);
                 }
             }
-            else if (deferred_init.HasValue)
+            else if (deferred_init != null)
             {
-                var (init, _, default_init, data) = deferred_init.Value;
-                deferred_init = (init, ctx, default_init, data);
+                var (init, _, default_init, data) = deferred_init;
+                deferred_init = new DeferredInit(init, ctx, default_init, data);
             }
             else
             {
@@ -392,10 +419,10 @@ namespace MxNet.Gluon
             _shape = data.Shape;
             if (_data == null)
             {
-                if (deferred_init.HasValue)
-                    if (!deferred_init.HasValue)
-                        throw new Exception($"Parameter '{Name}' has not been initialized");
-                deferred_init = (deferred_init.Value.Item1, deferred_init.Value.Item2, deferred_init.Value.Item3, data);
+                if (deferred_init == null)
+                    throw new Exception($"Parameter '{Name}' has not been initialized");
+
+                deferred_init = new DeferredInit(deferred_init.Initializer, deferred_init.Contexts, deferred_init.DefaultInit, data);
                 return;
             }
 
@@ -467,7 +494,7 @@ namespace MxNet.Gluon
         {
             if (_data == null)
             {
-                if (deferred_init.HasValue) return deferred_init.Value.Item2;
+                if (deferred_init != null) return deferred_init.Contexts;
 
                 throw new Exception($"Parameter '{Name}' has not been initialized");
             }

@@ -43,6 +43,8 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             _test_label = ("t10k-labels-idx1-ubyte.gz",
                 "763e7fa3757d93b0cdec073cef058b2004252c17");
             _namespace = "mnist";
+
+            GetData();
         }
 
         public override void GetData()
@@ -62,8 +64,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
 
             var @namespace = "gluon/dataset/" + _namespace;
             var data_file = Utils.Download(Utils.GetRepoFileUrl(@namespace, data.Item1), _root, sha1_hash: data.Item2);
-            var label_file = Utils.Download(Utils.GetRepoFileUrl(@namespace, label.Item1), _root,
-                sha1_hash: label.Item2);
+            var label_file = Utils.Download(Utils.GetRepoFileUrl(@namespace, label.Item1), _root, sha1_hash: label.Item2);
 
             var file = new FileInfo(label_file);
             using (var fs = file.OpenRead())

@@ -3,14 +3,10 @@ using MxNet.Gluon;
 using MxNet.Gluon.Data;
 using MxNet.Gluon.Losses;
 using MxNet.Gluon.NN;
-using MxNet.Initializers;
-using MxNet.IO;
 using MxNet.Metrics;
 using MxNet.Optimizers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BasicExamples
 {
@@ -21,9 +17,11 @@ namespace BasicExamples
         private static Trainer trainer = null;
         private static Accuracy accuracy = null;
         private static F1 f1 = null;
-        private static int batch_size = 10;
         private static DataLoader train_dataloader = null;
         private static DataLoader val_dataloader = null;
+
+        private static int batch_size = 10;
+        
         public static void Run()
         {
             //Logistic Regression is one of the first models newcomers to Deep Learning are implementing. 
@@ -32,12 +30,12 @@ namespace BasicExamples
             var ctx = mx.Cpu();
             int train_data_size = 1000;
             int val_data_size = 100;
-            
-            var (train_x, train_ground_truth_class) = GetRandomState(train_data_size, ctx);
+
+            var (train_x, train_ground_truth_class) = GetRandomData(train_data_size, ctx);
             var train_dataset = new ArrayDataset((train_x, train_ground_truth_class));
             train_dataloader = new DataLoader(train_dataset, batch_size: batch_size, shuffle: true);
 
-            var (val_x, val_ground_truth_class) = GetRandomState(val_data_size, ctx);
+            var (val_x, val_ground_truth_class) = GetRandomData(val_data_size, ctx);
             var val_dataset = new ArrayDataset((val_x, val_ground_truth_class));
             val_dataloader = new DataLoader(val_dataset, batch_size: batch_size, shuffle: true);
 
@@ -47,7 +45,7 @@ namespace BasicExamples
             net.Add(new Dense(units: 10, activation: ActivationType.Relu));
             net.Add(new Dense(units: 1));
 
-            net.Initialize(new Xavier());
+            net.Initialize();
             loss = new SigmoidBinaryCrossEntropyLoss();
             trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.1f));
 
@@ -62,6 +60,8 @@ namespace BasicExamples
                 var avg_train_loss = TrainModel() / train_data_size;
                 var avg_val_loss = ValidateModel(threshold) / val_data_size;
                 Console.WriteLine($"Epoch: {e}, Training loss: {avg_train_loss}, Validation loss: {avg_val_loss}, Validation accuracy: {accuracy.Get().Item2}, F1 score: {f1.Get().Item2}");
+
+                accuracy.Reset();
             }
         }
 
@@ -117,7 +117,7 @@ namespace BasicExamples
         /// <param name="size"></param>
         /// <param name="ctx"></param>
         /// <returns></returns>
-        private static (NDArray, NDArray) GetRandomState(int size, Context ctx)
+        private static (NDArray, NDArray) GetRandomData(int size, Context ctx)
         {
             var x = nd.Random.Normal(0, 1, shape: new Shape(size, 10), ctx: ctx);
             var y = x.Sum(axis: 1) > 3;

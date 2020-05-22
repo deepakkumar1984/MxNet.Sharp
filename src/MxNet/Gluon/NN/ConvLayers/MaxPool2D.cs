@@ -21,7 +21,7 @@ namespace MxNet.Gluon.NN
     {
         public MaxPool2D((int, int)? pool_size = null, (int, int)? strides = null, (int, int)? padding = null,
             string layout = "NCHW",
-            bool ceil_mode = false, string prefix = "", ParameterDict @params = null)
+            bool ceil_mode = false, string prefix = null, ParameterDict @params = null)
             : base(pool_size.HasValue ? new[] {pool_size.Value.Item1, pool_size.Value.Item2} : new[] { 2, 2 }
                 , strides.HasValue
                     ? new[] {strides.Value.Item1, strides.Value.Item2}

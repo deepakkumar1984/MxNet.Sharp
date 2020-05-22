@@ -51,6 +51,27 @@ namespace MxNet
             data = new List<NDArray> { args.Item1, args.Item2, args.Item3 };
         }
 
+        public void Deconstruct(out NDArray x0, out NDArray x1)
+        {
+            x0 = this[0];
+            x1 = this[1];
+        }
+
+        public void Deconstruct(out NDArray x0, out NDArray x1, out NDArray x2)
+        {
+            x0 = this[0];
+            x1 = this[1];
+            x2 = this[2];
+        }
+
+        public void Deconstruct(out NDArray x0, out NDArray x1, out NDArray x2, out NDArray x3)
+        {
+            x0 = this[0];
+            x1 = this[1];
+            x2 = this[2];
+            x3 = this[3];
+        }
+
         public NDArray[] Data => data.ToArray();
 
         public IntPtr[] Handles

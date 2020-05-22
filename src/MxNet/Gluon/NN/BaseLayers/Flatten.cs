@@ -17,7 +17,7 @@ namespace MxNet.Gluon.NN
 {
     public class Flatten : HybridBlock
     {
-        public Flatten(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+        public Flatten(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
         }
 

@@ -1,2 +1,8 @@
 - name: How to begin?
   href: start.md
+- name: Getting Started
+  items:
+    - name: Manipulate data with NDArray
+      href: GettingStarted/crash-course-ndarray.md
+    - name: Create a neural network
+      href: GettingStarted/crash-course-create-nn.md

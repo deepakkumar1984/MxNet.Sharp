@@ -22,7 +22,11 @@ namespace MxNet.Gluon.Data.Vision.Transforms
     {
         public Compose(params Block[] transforms)
         {
-            Add(transforms);
+            foreach (var item in transforms)
+            {
+                Add(item);
+            }
+            
             //var hybrid = new List<Block>();
             //foreach (var item in transforms)
             //{

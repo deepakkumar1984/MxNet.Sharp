@@ -32,7 +32,7 @@ namespace MxNet.Image
 
     public class Img
     {
-        public static NDArray ImRead(string filename, int flag = 1, bool to_rgb = true)
+        public static NDArray ImRead(string filename, int flag = 1, bool to_rgb = false)
         {
             Mat mat = Cv2.ImRead(filename, (ImreadModes)flag);
             if (to_rgb)

@@ -49,6 +49,8 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             };
 
             this._namespace = "cifar10";
+
+            GetData();
         }
 
         internal virtual (NDArray, NDArray) ReadBatch(string filename)

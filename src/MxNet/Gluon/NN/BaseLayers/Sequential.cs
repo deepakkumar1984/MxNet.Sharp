@@ -20,7 +20,7 @@ namespace MxNet.Gluon.NN
 {
     public class Sequential : Block
     {
-        public Sequential(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+        public Sequential(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
         }
 
@@ -40,7 +40,10 @@ namespace MxNet.Gluon.NN
 
         public void Add(params Block[] blocks)
         {
-            foreach (var item in blocks) RegisterChild(item);
+            foreach (var item in blocks)
+            {
+                RegisterChild(item);
+            }
         }
 
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)

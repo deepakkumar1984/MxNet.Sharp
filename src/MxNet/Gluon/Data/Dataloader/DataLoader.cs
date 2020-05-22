@@ -92,7 +92,7 @@ namespace MxNet.Gluon.Data
             }
 
             _batch_sampler = batch_sampler;
-            _num_workers = num_workers >= 0 ? num_workers : 0;
+            _num_workers = num_workers;
             _prefetch = Math.Max(0, prefetch.HasValue ? prefetch.Value : 2 * _num_workers);
             if (_num_workers > 0)
             {
@@ -106,10 +106,7 @@ namespace MxNet.Gluon.Data
 
             if (batchify_fn == null)
             {
-                if (_num_workers > 0)
-                    _batchify_fn = DefaultBatchifyFn;
-                else
-                    _batchify_fn = DefaultBatchifyFn;
+                _batchify_fn = DefaultBatchifyFn;
             }
             else
             {

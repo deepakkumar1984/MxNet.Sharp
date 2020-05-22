@@ -49,6 +49,15 @@ namespace MxNet
 
         public StorageStype SType => (StorageStype) StorageType();
 
+        public NDArray T
+        {
+            get
+            {
+                return Transpose();
+            }
+        }
+
+
         #endregion
 
         #region Constructors
@@ -154,7 +163,16 @@ namespace MxNet
             set => NativeMethods.MXNDArraySetGradState(NativePtr, value);
         }
 
-        public Array ArrayData => AsArray<float>();
+        public Array ArrayData => AsArray();
+
+        public NDArray Grad
+        {
+            get
+            {
+                NativeMethods.MXNDArrayGetGrad(NativePtr, out var h);
+                return new NDArray(h);
+            }
+        }
 
         #endregion
 
@@ -580,11 +598,37 @@ namespace MxNet
             }
         }
 
-        public Array AsArray<T>()
+        public Array AsArray()
         {
             var size = Size;
-            var data = new T[size];
-            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
+            Array data = null;
+            
+            switch (DataType.Name)
+            {
+                case "float16":
+                    data = Array.CreateInstance(typeof(float), size);
+                    break;
+                case "float32":
+                    data = Array.CreateInstance(typeof(float), size);
+                    break;
+                case "float64":
+                    data = Array.CreateInstance(typeof(double), size);
+                    break;
+                case "int8":
+                    data = Array.CreateInstance(typeof(byte), size);
+                    break;
+                case "uint8":
+                    data = Array.CreateInstance(typeof(sbyte), size);
+                    break;
+                case "int32":
+                    data = Array.CreateInstance(typeof(int), size);
+                    break;
+                case "int64":
+                    data = Array.CreateInstance(typeof(long), size);
+                    break;
+            }
+
+            GCHandle datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyToCPU(NativePtr, datagch.AddrOfPinnedObject(), (ulong) size);
             datagch.Free();
             return data;
@@ -592,12 +636,12 @@ namespace MxNet
 
         public T[] GetValues<T>()
         {
-            return AsArray<T>().Cast<T>().ToArray();
+            return AsArray().OfType<T>().ToArray();
         }
 
         public T AsScalar<T>()
         {
-            return AsArray<T>().Cast<T>().ToList()[0];
+            return (T)Convert.ChangeType(AsArray().GetValue(0), typeof(T));
         }
 
         public static void WaitAll()
@@ -636,32 +680,7 @@ namespace MxNet
 
         public virtual ndarray AsNumpy()
         {
-            ndarray x = null;
-
-            switch (DataType.Name)
-            {
-                case "float16":
-                    x = np.array(AsArray<float>());
-                    break;
-                case "float32":
-                    x = np.array(AsArray<float>());
-                    break;
-                case "float64":
-                    x = np.array(AsArray<double>());
-                    break;
-                case "int8":
-                    x = np.array(AsArray<byte>());
-                    break;
-                case "uint8":
-                    x = np.array(AsArray<sbyte>());
-                    break;
-                case "int32":
-                    x = np.array(AsArray<int>());
-                    break;
-                case "int64":
-                    x = np.array(AsArray<long>());
-                    break;
-            }
+            ndarray x = np.array(AsArray()); ;
 
             var npShape = new List<int>();
             foreach (var item in Shape.Data)
@@ -706,12 +725,27 @@ namespace MxNet
                     value.CopyTo(this);
 
                 var (rowBegin, rowEnd, colBegin, colEnd) = MxUtil.GetSliceNotation(slice, Shape);
-                var output = nd.SliceAssign(this, value, new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd));
+                NDArray output = null;
+
+                if(value.Size == 1)
+                    output = nd.SliceAssignScalar(this, new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd), value.AsScalar<double>());
+                else
+                    output = nd.SliceAssign(this, value, new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd));
+
                 output.CopyTo(this);
             }
         }
 
         public NDArray this[NDArray indices] => nd.Take(this, indices);
+
+        public void AttachGrad(OpGradReq grad_req = OpGradReq.Write, StorageStype? stype = null)
+        {
+            NDArray grad = nd.ZerosLike(this);
+            if (stype.HasValue)
+                grad = grad.ToSType(stype.Value);
+
+            Autograd.MarkVariables(this, grad, grad_req);
+        }
 
         public NDArray Detach()
         {
@@ -931,6 +965,14 @@ namespace MxNet
         public static implicit operator ndarray(NDArray x) => x.AsNumpy();
 
         public static implicit operator NDArray(ndarray x) => nd.Array(x);
+
+        public static implicit operator NDArray(int x) => nd.Array(new float[] { x }).AsType(DType.Int32);
+
+        public static implicit operator NDArray(long x) => nd.Array(new float[] { x }).AsType(DType.Int64);
+
+        public static implicit operator NDArray(float x) => nd.Array(new float[] { x });
+
+        public static implicit operator NDArray(double x) => nd.Array(new float[] { Convert.ToSingle(x) }).AsType(DType.Float64);
 
         public static implicit operator NDArray(OpenCvSharp.Mat x) => LoadCV2Mat(x);
 

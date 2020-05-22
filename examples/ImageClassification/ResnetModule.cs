@@ -28,7 +28,7 @@ namespace ImageClassification
             var array = prepareNDArray(imgbytes, useGpu);
             var model = LoadModel("resnet-50", gpu: useGpu);
             var prob = model.Predict(array);
-            var predictIndexes = nd.Softmax(prob).Topk(k: 5)[0].AsArray<float>().OfType<float>().ToList();
+            var predictIndexes = nd.Softmax(prob).Topk(k: 5)[0].AsArray().OfType<float>().ToList();
             var imagenet_labels = TestUtils.GetImagenetLabels();
             foreach (int i in predictIndexes)
             {

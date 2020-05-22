@@ -15,29 +15,35 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MxNet.Gluon.Data
 {
-    public class _TransformFirstClosure<T>
+    public class _TransformFirstClosure : Block
     {
-        private readonly Func<T, T> _fn;
+        private readonly Block _fn;
 
-        public _TransformFirstClosure(Func<T, T> fn)
+        public _TransformFirstClosure(Block fn) : base(null, null)
         {
             _fn = fn;
         }
-
-        public T[] Call(T x, T[] args)
+      
+        public override NDArrayOrSymbol Call(NDArrayOrSymbol x, NDArrayOrSymbol[] args)
         {
             if (args != null)
             {
-                var list = new List<T>();
-                list.Add(_fn(x));
-                list.AddRange(args);
-                return list.ToArray();
+                var list = new NDArrayList();
+                list.Add(_fn.Call(x));
+                list.Add(args.ToList().ToNDArrays());
+                return new NDArrayOrSymbol(list);
             }
 
-            return new[] {_fn(x)};
+            return _fn.Call(x, null);
+        }
+
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
+        {
+            return input;
         }
     }
 }

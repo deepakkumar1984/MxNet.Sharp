@@ -18,7 +18,7 @@ using System.IO;
 
 namespace MxNet.Gluon.Data
 {
-    public abstract class DownloadedDataset : Dataset<NDArrayList>
+    public abstract class DownloadedDataset : Dataset<(NDArray, NDArray)>
     {
         internal NDArrayList _data;
         internal NDArrayList _label;
@@ -33,18 +33,16 @@ namespace MxNet.Gluon.Data
             _root = root;
             if (!Directory.Exists(root))
                 Directory.CreateDirectory(root);
-
-            GetData();
         }
 
-        public override NDArrayList this[int idx]
+        public override (NDArray, NDArray) this[int idx]
         {
             get
             {
                 if (_transform != null)
-                    return new NDArrayList(_transform(_data[idx], _label[idx]));
+                    return _transform(_data[idx], _label[idx]);
 
-                return new NDArrayList(_data[idx], _label[idx]);
+                return (_data[idx], _label[idx]);
             }
         }
 

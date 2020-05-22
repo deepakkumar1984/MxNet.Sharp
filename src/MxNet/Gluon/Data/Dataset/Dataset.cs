@@ -32,7 +32,7 @@ namespace MxNet.Gluon.Data
 
         public abstract T this[int idx] { get; }
 
-        public Dataset<T> Transform(Func<T, T> fn, bool lazy = true)
+        public Dataset<T> Transform(Block fn, bool lazy = true)
         {
             var trans = new _LazyTransformDataset<T>(this, fn);
             if (lazy)
@@ -41,9 +41,18 @@ namespace MxNet.Gluon.Data
             return new SimpleDataset<T>(trans.Data.ToArray());
         }
 
-        public Dataset<T> TransformFirst(Func<T, T> fn, bool lazy = true)
+        private Dataset<T> Transform(_TransformFirstClosure fn, bool lazy = true)
         {
-            throw new NotImplementedException();
+            var trans = new _LazyTransformDataset<T>(this, fn);
+            if (lazy)
+                return trans;
+
+            return new SimpleDataset<T>(trans.Data.ToArray());
+        }
+
+        public Dataset<T> TransformFirst(Block fn, bool lazy = true)
+        {
+            return Transform(new _TransformFirstClosure(fn), lazy);
         }
     }
 }

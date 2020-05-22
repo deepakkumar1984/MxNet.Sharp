@@ -70,7 +70,7 @@ namespace MxNet.GluonCV.Utils
                     colors[cls_id] = Color.FromArgb(IntRnd.Uniform(0, 255), IntRnd.Uniform(0, 255), IntRnd.Uniform(0, 255));
                 }
 
-                var box_data = bbox.AsType(DType.Int32).AsArray<int>().OfType<int>().ToList();
+                var box_data = bbox.AsType(DType.Int32).AsArray().OfType<int>().ToList();
                 var xmin = box_data[0];
                 var ymin = box_data[1];
                 var xmax = box_data[2];

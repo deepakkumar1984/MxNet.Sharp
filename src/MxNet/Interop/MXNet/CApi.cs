@@ -328,6 +328,9 @@ namespace MxNet.Interop
         public static extern int MXNDArrayGetGradState(AtomicSymbolCreator handle, out bool freshGrad);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetGrad(NDArrayHandle handle, out NDArrayHandle @out);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArraySetGradState(AtomicSymbolCreator handle, bool freshGrad);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
