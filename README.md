@@ -1,3 +1,5 @@
+[![Gitter](https://badges.gitter.im/mxnet-sharp/community.svg)](https://gitter.im/mxnet-sharp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 <div align="center">
   <a href="https://mxnet.apache.org/"><img src="https://raw.githubusercontent.com/dmlc/web-data/master/mxnet/image/mxnet_logo_2.png"></a><br>
 </div>
@@ -176,5 +178,6 @@ for (var iter = 0; iter < epoch; iter++)
 }
 ```
 
-# Documentation
-Here is the link to the API and guides: https://scisharp.github.io/MxNet.Sharp/
+# Documentation (In Progress)
+
+https://mxnet.tech-quantum.com/
