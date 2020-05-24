@@ -7,7 +7,7 @@ namespace BasicExamples
         static void Main(string[] args)
         {
             //Console.WriteLine("Runnin XOR Example......");
-            //XORGate.Run();
+            XORGate.Run();
             //CrashCourse_NN.Run();
             LogisticRegressionExplained.Run();
         }

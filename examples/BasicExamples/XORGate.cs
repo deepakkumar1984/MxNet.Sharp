@@ -7,9 +7,7 @@ using MxNet.IO;
 using MxNet.Metrics;
 using MxNet.Optimizers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BasicExamples
 {
@@ -17,6 +15,7 @@ namespace BasicExamples
     {
         public static void Run()
         {
+            // Create
             var trainX = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }).Reshape(4, 2);
             var trainY = new NDArray(new float[] { 0, 1, 1, 0 });
 
