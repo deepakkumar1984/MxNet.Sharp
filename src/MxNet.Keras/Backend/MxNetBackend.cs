@@ -1,11 +1,11 @@
 ﻿using MxNet.Keras.Backend;
+using MxNet.Keras.Constraints;
 using MxNet.Keras.Engine;
 using MxNet.Keras.Layers;
 using MxNet.Sparse;
 using NumpyDotNet;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;

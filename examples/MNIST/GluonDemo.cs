@@ -23,9 +23,9 @@ namespace MNIST
             
             // Define simple network with dense layers
             var net = new Sequential();
-            net.Add(new Dense(128, ActivationType.Relu, in_units: 784));
-            net.Add(new Dense(64, ActivationType.Relu, in_units: 128));
-            net.Add(new Dense(10, in_units: 64));
+            net.Add(new Dense(128, ActivationType.Relu));
+            net.Add(new Dense(64, ActivationType.Relu));
+            net.Add(new Dense(10));
 
             //Set context, multi-gpu supported
             var gpus = TestUtils.ListGpus();

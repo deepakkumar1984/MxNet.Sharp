@@ -12,7 +12,7 @@ namespace MxNet.Keras.Layers.AdvancedActivations
             throw new NotImplementedException();
         }
 
-        public override void Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
         {
             throw new NotImplementedException();
         }
@@ -22,7 +22,7 @@ namespace MxNet.Keras.Layers.AdvancedActivations
             throw new NotImplementedException();
         }
 
-        public override Shape ComputeOutputShape(Shape input_shape)
+        public override Shape[] ComputeOutputShape(Shape[] input_shape)
         {
             throw new NotImplementedException();
         }

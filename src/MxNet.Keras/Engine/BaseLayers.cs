@@ -6,7 +6,7 @@ namespace MxNet.Keras.Engine
 {
     public class BaseLayers
     {
-        public static Symbol[] CollectPreviousMask(Symbol[]  input_tensors)
+        public static KerasSymbol[] CollectPreviousMask(KerasSymbol[]  input_tensors)
         {
             throw new NotImplementedException();
         }
@@ -16,7 +16,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public static Shape[] CollectInputShape(Symbol[] input_tensors)
+        public static Shape[] CollectInputShape(KerasSymbol[] input_tensors)
         {
             throw new NotImplementedException();
         }
