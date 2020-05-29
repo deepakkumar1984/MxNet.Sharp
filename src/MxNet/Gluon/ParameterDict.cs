@@ -164,13 +164,17 @@ namespace MxNet.Gluon
                 init.SetVerbosity(verbose);
 
             var keys = _params.Keys.ToList();
-            for (int i = 0; i < _params.Count; i++)
+            foreach (var p in _params)
             {
-                var key = keys[i];
-                var p = _params[key];
-                p.Initialize(null, ctx, init, force_reinit);
-                _params[key] = p;
+                p.Value.Initialize(null, ctx, init, force_reinit);
             }
+            //for (int i = 0; i < _params.Count; i++)
+            //{
+            //    var key = keys[i];
+            //    var p = _params[key];
+            //    p.Initialize(null, ctx, init, force_reinit);
+            //    _params[key] = p;
+            //}
            
         }
 

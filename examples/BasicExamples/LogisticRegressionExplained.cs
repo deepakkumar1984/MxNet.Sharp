@@ -3,6 +3,7 @@ using MxNet.Gluon;
 using MxNet.Gluon.Data;
 using MxNet.Gluon.Losses;
 using MxNet.Gluon.NN;
+using MxNet.Initializers;
 using MxNet.Metrics;
 using MxNet.Optimizers;
 using System;
@@ -45,7 +46,7 @@ namespace BasicExamples
             net.Add(new Dense(units: 10, activation: ActivationType.Relu));
             net.Add(new Dense(units: 1));
 
-            net.Initialize();
+            net.Initialize(new Xavier());
             loss = new SigmoidBinaryCrossEntropyLoss();
             trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.1f));
 
