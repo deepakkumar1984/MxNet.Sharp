@@ -1,5 +1,4 @@
 [![Gitter](https://badges.gitter.im/mxnet-sharp/community.svg)](https://gitter.im/mxnet-sharp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/X8X61JFSN)
 
 <div align="center">
   <a href="https://mxnet.apache.org/"><img src="https://raw.githubusercontent.com/dmlc/web-data/master/mxnet/image/mxnet_logo_2.png"></a><br>
@@ -114,7 +113,7 @@ var ctx = gpus.Count > 0 ? gpus.Select(x => Context.Gpu(x)).ToArray() : new[] {C
 net.Initialize(new Xavier(magnitude: 2.24f), ctx);
 
 //Create the trainer with all the network parameters and set the optimizer
-var trainer = new Trainer(net.CollectParams(), new SGD(learning_rate: 0.02f));
+var trainer = new Trainer(net.CollectParams(), new Adam());
 
 var epoch = 10;
 var metric = new Accuracy(); //Use Accuracy as the evaluation metric.
@@ -178,6 +177,11 @@ for (var iter = 0; iter < epoch; iter++)
     Console.WriteLine($"Training acc at epoch {iter}: {name}={(acc * 100).ToString("0.##")}%, Duration: {(toc - tic).TotalSeconds.ToString("0.#")}s");
 }
 ```
+
+Reached accuracy of 98% within 6th epoch.
+
+![alt text](https://raw.githubusercontent.com/tech-quantum/MxNet.Sharp/master/examples/MNIST/MnistTrain.PNG "MNIST Training")
+
 
 # Documentation (In Progress)
 
