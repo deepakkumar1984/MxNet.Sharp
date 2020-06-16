@@ -1,4 +1,5 @@
-﻿using MxNet.Keras.Backend;
+﻿using MxNet.Initializers;
+using MxNet.Keras.Backend;
 using MxNet.Keras.Constraints;
 using MxNet.Keras.Engine;
 using MxNet.Keras.Layers;
@@ -39,6 +40,8 @@ namespace MxNet.Keras
         public static Context[] _CURRENT_SCOPE_CTX;
 
         public static bool _LEARNING_PHASE;
+
+        public static Dictionary<string, int> _UID_PREFIXES = new Dictionary<string, int>();
 
         public static bool IsReEntry()
         {
@@ -1527,119 +1530,499 @@ namespace MxNet.Keras
             return new KerasSymbol(sym.Pick(topk_sym, targets_sym));
         }
 
-        public static KerasSymbol Conv1D(KerasSymbol x, KerasSymbol kernel, int strides= 1, string padding= "valid", string data_format= "",                                int dilation_rate= 1)
+        public static KerasSymbol Conv1D(KerasSymbol x, KerasSymbol kernel, int strides = 1, string padding = "valid", string data_format = "", int dilation_rate = 1)
         {
-            throw new NotImplementedException();
+            Shape shape;
+            if (data_format == null)
+            {
+                data_format = ImageDataFormat();
+            }
+
+            ValidateDataFormat(data_format);
+            if (!new string[] { "same", "valid", "causal" }.Contains(padding)) {
+                throw new ValueError("MXNet Backend: `padding` should be either `same`, `valid` or `causal`.");
+            }
+
+            if (NDim(x) != 3)
+            {
+                throw new ValueError("MXNet Backend: Conv1D with causal padding is supported only for 3D tensors");
+            }
+
+            // Causal requires temporal padding.
+            // Add temporal padding
+            var kernel_shape = kernel.Shape;
+            if (padding == "causal")
+            {
+                var pad = dilation_rate * (kernel_shape[0] - 1);
+                x = TemporalPadding(x, (pad, 0));
+                padding = "valid";
+            }
+            if (x._keras_shape != null)
+            {
+                shape = x._keras_shape;
+            }
+            else
+            {
+                shape = null;
+            }
+
+            if (data_format == "channels_last")
+            {
+                // X original shape (batch, length, input_dim)
+                // Add a dimension to X to Make it (batch, length, 1, input_dim)
+                x = ExpandDims(x, axis: 2);
+                // Add dimension to kernel
+                // for channels last: kernel_shape = kernel_size + (input_dim, filters)
+                // it will become: (kernel_size, 1, input_dim, filters)
+                kernel = ExpandDims(kernel, axis: 1);
+                // update x._keras_shape
+                if (shape != null)
+                {
+                    x._keras_shape = new Shape(shape[0], shape[1], 1, shape[2]);
+                }
+            }
+            else if (data_format == "channels_first")
+            {
+                // X original shape (batch, input_dim, length)
+                // Add a dimension to X to make it (batch, input_dim, length, 1)
+                x = ExpandDims(x, axis: 3);
+                // Add dimension to kernel
+                // for channels first: kernel_shape = (filters, input_dim) + kernel_size
+                // it will become: (filters, input_dim, kernel_size, 1)
+                kernel = ExpandDims(kernel, axis: 3);
+                if (shape != null)
+                {
+                    x._keras_shape = new Shape(shape[0], shape[1], shape[2], 1);
+                }
+            }
+
+            // update dilation rate, strides
+            var output = ConvNd(x, kernel, name: "conv1d", strides: new int[] { strides, 1 }, filter_dilation: new int[] { dilation_rate, 1 }, padding_mode: padding, data_format: data_format);
+            // Remove added extra dimension
+            // remove added dim
+            if (data_format == "channels_last")
+            {
+                output = Squeeze(output, axis: 2);
+            }
+            else
+            {
+                output = Squeeze(output, axis: 3);
+            }
+            return output;
         }
 
         public static KerasSymbol Conv2D(KerasSymbol x, KerasSymbol kernel, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
         {
-            throw new NotImplementedException();
+            if (data_format == null)
+            {
+                data_format = ImageDataFormat();
+            }
+
+            ValidateDataFormat(data_format);
+            if (!new string[] { "same", "valid", "causal" }.Contains(padding))
+            {
+                throw new ValueError("MXNet Backend: `padding` should be either `same`, `valid` or `causal`.");
+            }
+            return ConvNd(x, kernel, name: "conv2d", strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2 } : null, filter_dilation: dilation_rate.HasValue ? new int[] { dilation_rate.Value.Item1, dilation_rate.Value.Item2 } : null, padding_mode: padding, data_format: data_format);
         }
 
         public static KerasSymbol Conv2DTranspose(KerasSymbol x, KerasSymbol kernel, Shape output_shape, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
         {
-            throw new NotImplementedException();
+            if (data_format == null)
+            {
+                data_format = ImageDataFormat();
+            }
+
+            ValidateDataFormat(data_format);
+            if (!new string[] { "same", "valid" }.Contains(padding))
+            {
+                throw new ValueError("MXNet Backend: `padding` should be either `same` or `valid`");
+            }
+
+            return ConvNdTranspose(x, kernel, output_shape, name: "conv2d_transpose", strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2 } : null, filter_dilation: dilation_rate.HasValue ? new int[] { dilation_rate.Value.Item1, dilation_rate.Value.Item2 } : null, padding_mode: padding, data_format: data_format);
+        }
+
+        public static KerasSymbol SeparableConv1D(KerasSymbol x, KerasSymbol depthwise_kernel, KerasSymbol pointwise_kernel, int strides, string padding = "valid", string data_format = "", int? dilation_rate = null)
+        {
+            throw new NotSupportedException("MXNet Backend: Separable Conv1D not supported yet!");
         }
 
         public static KerasSymbol SeparableConv2D(KerasSymbol x, KerasSymbol depthwise_kernel, KerasSymbol pointwise_kernel, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
         {
-            throw new NotImplementedException();
+            var dw_conv = DepthwiseConv2D(x, depthwise_kernel, strides: strides, padding: padding, data_format: data_format, dilation_rate: dilation_rate);
+            // pointwise conv2d, strides is always (1, 1)
+            return ConvNd(dw_conv, kernel: pointwise_kernel, strides: new int[] { 1, 1 }, padding_mode: padding, data_format: data_format, filter_dilation: dilation_rate.HasValue ? new int[] { dilation_rate.Value.Item1, dilation_rate.Value.Item2 } : null);
         }
 
         public static KerasSymbol DepthwiseConv2D(KerasSymbol x, KerasSymbol depthwise_kernel, (int, int)? strides = null, string padding = "valid", string data_format = "", (int, int)? dilation_rate = null)
         {
-            throw new NotImplementedException();
+            if (data_format == null)
+            {
+                data_format = ImageDataFormat();
+            }
+
+            ValidateDataFormat(data_format);
+            if (!new string[] { "same", "valid" }.Contains(padding))
+            {
+                throw new ValueError("MXNet Backend: `padding` should be either `same` or `valid`");
+            }
+
+            var dw_out = DWConv(x, depthwise_kernel, name: "dw_conv2d", strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2 } : null, filter_dilation: dilation_rate.HasValue ? new int[] { dilation_rate.Value.Item1, dilation_rate.Value.Item2 } : null, padding_mode: padding, data_format: data_format);
+            return dw_out;
         }
 
         public static KerasSymbol Conv3D(KerasSymbol x, KerasSymbol kernel, (int, int, int)? strides = null, string padding = "valid", string data_format = "", (int, int, int)? dilation_rate = null)
         {
-            throw new NotImplementedException();
+            if (data_format == null)
+            {
+                data_format = ImageDataFormat();
+            }
+
+            ValidateDataFormat(data_format);
+            if (!new string[] { "same", "valid" }.Contains(padding))
+            {
+                throw new ValueError("MXNet Backend: `padding` should be either `same` or `valid`");
+            }
+
+            return ConvNd(x, kernel, name: "conv3d", strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2, strides.Value.Item3 } : null, filter_dilation: dilation_rate.HasValue ? new int[] { dilation_rate.Value.Item1, dilation_rate.Value.Item2, dilation_rate.Value.Item3 } : null, padding_mode: padding, data_format: data_format);
         }
 
         public static KerasSymbol Conv3DTranspose(KerasSymbol x, KerasSymbol kernel, Shape output_shape, (int, int, int)? strides = null, string padding = "valid", string data_format = "")
         {
-            throw new NotImplementedException();
+            var gpus = TestUtils.ListGpus();
+            if (gpus != null && gpus.Count > 0)
+            {
+                if (data_format == null)
+                {
+                    data_format = ImageDataFormat();
+                }
+                ValidateDataFormat(data_format);
+                if (!new string[] { "same", "valid" }.Contains(padding))
+                {
+                    throw new ValueError("MXNet Backend: `padding` should be either `same` or `valid`");
+                }
+
+                return ConvNdTranspose(x, kernel, output_shape, strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2, strides.Value.Item3 } : null, filter_dilation: null, name: "conv3d_transpose", data_format: data_format);
+            }
+            else
+            {
+                throw new NotImplementedException("MXNet Backend: Conv3D Transpose is only supported on GPU with CUDNN");
+            }
         }
 
         public static KerasSymbol Pool2D(KerasSymbol x, (int, int) pool_size, (int, int)? strides = null, string padding = "valid", string data_format = "", string pool_mode = "max")
         {
-            throw new NotImplementedException();
+            return PoolNd(x: x, name: "pool2d", pool_size: new int[] { pool_size.Item1, pool_size.Item2 }, strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2} : null, padding_mode: padding, data_format: data_format, pool_mode: pool_mode);
         }
 
         public static KerasSymbol Pool3D(KerasSymbol x, (int, int, int) pool_size, (int, int, int)? strides = null, string padding = "valid", string data_format = "", string pool_mode = "max")
         {
-            throw new NotImplementedException();
+            return PoolNd(x: x, name: "pool2d", pool_size: new int[] { pool_size.Item1, pool_size.Item2, pool_size.Item3 }, strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2, strides.Value.Item3 } : null, padding_mode: padding, data_format: data_format, pool_mode: pool_mode);
         }
 
         public static KerasSymbol BiasAdd(KerasSymbol x, KerasSymbol bias, string data_format= "channels_last")
         {
-            throw new NotImplementedException();
+            if (data_format == null)
+            {
+                data_format = ImageDataFormat();
+            }
+            if (!new string[]{"channels_first", "channels_last"}.Contains(data_format)) 
+            {
+                throw new ValueError("MXNet Backend: Unknown data_format " + data_format.ToString());
+            }
+
+            var bias_shape = IntShape(bias);
+            var x_dim = NDim(x);
+            if (bias_shape.Length != 1 && bias_shape.Length != x_dim - 1)
+            {
+                throw new ValueError($"MXNet Backend: Unexpected bias dimensions {bias_shape.Length}, expect to be 1 or {x_dim} dimensions");
+            }
+            if (x_dim == 5)
+            {
+                if (data_format == "channels_first")
+                {
+                    if (bias_shape.Length == 1)
+                    {
+                        x += Reshape(bias, new Shape(1, bias_shape[0], 1, 1, 1));
+                    }
+                    else
+                    {
+                        List<int> bshape = new List<int>();
+                        bshape.Add(1);
+                        bshape.Add(bias_shape[3]);
+                        bshape.AddRange(bias_shape.Take(3));
+                        x += Reshape(bias, new Shape(bshape.ToArray()));
+                    }
+                }
+                else if (data_format == "channels_last")
+                {
+                    if (bias_shape.Length == 1)
+                    {
+                        x += bias;
+                    }
+                    else
+                    {
+                        var bshape = bias_shape.ToList();
+                        bshape.Insert(0, 1);
+                        x += Reshape(bias, new Shape(bshape.ToArray()));
+                    }
+                }
+            }
+            else if (x_dim == 4)
+            {
+                if (data_format == "channels_first")
+                {
+                    if (bias_shape.Length == 1)
+                    {
+                        x += Reshape(bias, new Shape(1, bias_shape[0], 1, 1));
+                    }
+                    else
+                    {
+                        List<int> bshape = new List<int>();
+                        bshape.Add(1);
+                        bshape.Add(bias_shape[2]);
+                        bshape.AddRange(bias_shape.Take(2));
+                        x += Reshape(bias, new Shape(bshape.ToArray()));
+                    }
+                }
+                else if (data_format == "channels_last")
+                {
+                    if (bias_shape.Length == 1)
+                    {
+                        x += bias;
+                    }
+                    else
+                    {
+                        var bshape = bias_shape.ToList();
+                        bshape.Insert(0, 1);
+                        x += Reshape(bias, new MxNet.Shape(bshape.ToArray()));
+                    }
+                }
+            }
+            else if (x_dim == 3)
+            {
+                if (data_format == "channels_first")
+                {
+                    if (bias_shape.Length == 1)
+                    {
+                        x += Reshape(bias, new Shape(1, bias_shape[0], 1));
+                    }
+                    else
+                    {
+                        x += Reshape(bias, new Shape(1, bias_shape[1], bias_shape[0]));
+                    }
+                }
+                else if (data_format == "channels_last")
+                {
+                    if (bias_shape.Length == 1)
+                    {
+                        x += bias;
+                    }
+                    else
+                    {
+                        var bshape = bias_shape.ToList();
+                        bshape.Insert(0, 1);
+                        x += Reshape(bias, new MxNet.Shape(bshape.ToArray()));
+                    }
+                }
+            }
+            else
+            {
+                x += bias;
+            }
+            return x;
         }
 
         public static KerasSymbol RandomNormal(Shape shape, float mean = 0, float stddev = 1, DType dtype = null, int? seed = null)
         {
-            throw new NotImplementedException();
+            if (dtype == null)
+            {
+                dtype = FloatX();
+            }
+
+            if (seed.HasValue)
+            {
+                sym.Random.Seed(seed.Value);
+            }
+            else
+            {
+                sym.Random.Seed(10000000);
+            }
+
+            var symbol = sym.Random.Normal(shape: shape, loc: mean, scale: stddev, dtype: dtype);
+            return new KerasSymbol(symbol);
         }
 
         public static KerasSymbol RandomUniform(Shape shape, float minval = 0, float maxval = 1, DType dtype = null, int? seed = null)
         {
-            throw new NotImplementedException();
+            if (dtype == null)
+            {
+                dtype = FloatX();
+            }
+
+            if (seed.HasValue)
+            {
+                sym.Random.Seed(seed.Value);
+            }
+            else
+            {
+                sym.Random.Seed(10000000);
+            }
+
+            var symbol = sym.Random.Uniform(shape: shape, low: minval, high: maxval, dtype: dtype);
+            return new KerasSymbol(symbol);
         }
 
         public static KerasSymbol NormalBinomial(Shape shape, float p = 0, DType dtype = null, int? seed = null)
         {
-            throw new NotImplementedException();
+            if (dtype == null)
+            {
+                dtype = FloatX();
+            }
+
+            if (seed.HasValue)
+            {
+                sym.Random.Seed(seed.Value);
+            }
+            else
+            {
+                sym.Random.Seed(10000000);
+            }
+
+            var symbol = sym.Random.Uniform(shape: shape, low: 0, high: 1, dtype: dtype);
+            symbol = sym.Where(symbol <= p, sym.Ones(shape: shape, dtype: dtype), sym.Zeros(shape: shape, dtype: dtype));
+            return new KerasSymbol(symbol);
         }
 
         public static KerasSymbol TruncatedNormal(Shape shape, float mean = 0, float stddev = 1, DType dtype = null, int? seed = null)
         {
-            throw new NotImplementedException();
+            if (dtype == null)
+            {
+                dtype = FloatX();
+            }
+
+            if (seed.HasValue)
+            {
+                sym.Random.Seed(seed.Value);
+            }
+            else
+            {
+                sym.Random.Seed(10000000);
+            }
+
+            var ran = sym.Random.Normal(shape: shape, loc: mean, scale: stddev, dtype: dtype);
+            var res = sym.Clip(data: ran, a_min: mean - 2 * stddev, a_max: mean + 2 * stddev);
+            return new KerasSymbol(res);
         }
 
         public static KerasSymbol CTCBatchCost(KerasSymbol y_true, KerasSymbol y_pred, KerasSymbol input_length, KerasSymbol label_length)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("MXNet Backend: CTC is not supported yet.");
         }
 
         public static int GetUid(string prefix = "")
         {
-            throw new NotImplementedException();
+            _UID_PREFIXES[prefix] += 1;
+            return _UID_PREFIXES[prefix];
         }
 
         public static void ResetUids()
         {
-            throw new NotImplementedException();
+            _UID_PREFIXES.Clear();
         }
 
         private static string PrepareName(string name, string @default)
         {
-            throw new NotImplementedException();
+            var prefix = string.Join("/", NAME_SCOPE_STACK);
+            if (name == null)
+            {
+                name = prefix + "/" + @default;
+            }
+            else
+            {
+                name = prefix + "/" + name;
+            }
+            name += String.Format("%d", GetUid(name));
+            return name;
         }
 
-        public static KerasSymbol[] DfsGetBindValues(KerasSymbol node_start)
+        public static NDArrayDict DfsGetBindValues(KerasSymbol node_start)
         {
-            throw new NotImplementedException();
+            var stack_list = new Stack<KerasSymbol>();
+            var visited = new List<KerasSymbol>();
+            stack_list.Push(node_start);
+            while (stack_list.Count > 0)
+            {
+                var cur_node = stack_list.Pop();
+                if (visited.Contains(cur_node))
+                {
+                    continue;
+                }
+
+                visited.Add(cur_node);
+                var next_nodes = cur_node.GetNeighbour();
+                foreach (var i in next_nodes)
+                {
+                    if (visited.Contains(i))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        stack_list.Push(i);
+                    }
+                }
+            }
+
+            var bind_values = new NDArrayDict();
+
+            foreach (var key in visited)
+            {
+                bind_values.Update(key.GetBindValues());
+            }
+
+            return bind_values;
         }
 
         public static NDArrayList ForwardPass(KerasSymbol x)
         {
-            throw new NotImplementedException();
+            var bind_values = DfsGetBindValues(x);
+            var executor = x.Symbol.SimpleBind(mx.Cpu(), grad_req: new Dictionary<string, OpGradReq>() { { "x", OpGradReq.Null } });
+            var arg_dict = executor.ArgmentDictionary();
+            foreach (var v in arg_dict)
+            {
+                if (bind_values.Contains(v.Key))
+                {
+                    bind_values[v.Key].CopyTo(arg_dict[v.Key]);
+                }
+            }
+            var outputs = executor.Forward(isTrain: LearningPhase());
+            return outputs;
         }
 
-        private static KerasSymbol KerasVariable(string name, Shape shape, DType dtype, StorageStype stype= StorageStype.Default, bool is_vector= false)
+        private static KerasSymbol KerasVariable(string name, Shape shape, DType dtype, StorageStype stype= StorageStype.Default, bool is_vector= false, float? lr_mult = null, float? wd_mult = null, Initializer init = null)
         {
-            throw new NotImplementedException();
-        }
+            if (dtype == null)
+            {
+                dtype = FloatX();
+            }
+            var v = Symbol.Var(name, shape: shape, stype: stype, dtype: dtype, lr_mult: lr_mult, wd_mult: wd_mult, init: init);
+            var ret = new KerasSymbol(v, stype: stype, is_var: true);
+            // MXNet does not support Scalars. Shape of a Scalar Tensor with MXNet is (1, ) instead of ().
+            // This flag is used to identify Scalar Keras Variable versus a Tensor of shape (1, ) i.e., vector.
+            // For example - bias vector shape is (1, ) when number of neuron in a dense layer is 1.
+            // This is useful in K.eval() function to return as is (1, ) or return variable[0] to match expectation of ().
+            if (is_vector)
+            {
+                ret._is_vector = is_vector;
+            }
 
-        private static DType ConvertStringDType(DType dtype)
-        {
-            throw new NotImplementedException();
+            return ret;
         }
 
         private static string ConvertDTypeString(DType dtype)
         {
-            throw new NotImplementedException();
+            return dtype.Name;
         }
 
         private static Shape NormalizeAxis(Shape shape, int ndim)
@@ -1679,57 +2062,184 @@ namespace MxNet.Keras
 
         private static void ValidateDataFormat(string data_format)
         {
-            throw new NotImplementedException();
+            if (data_format == null)
+            {
+                data_format = ImageDataFormat();
+            }
+
+            if (!new string[]{ "channels_first", "channels_last"}.Contains(data_format)) 
+            {
+                throw new ValueError("MXNet Backend: Unknown data_format " + data_format.ToString());
+            }
         }
 
         private static void ValidatePoolMode(string pool_mode)
         {
-            throw new NotImplementedException();
+            if (!new string[]{"max", "avg"}.Contains(pool_mode)) 
+            {
+                throw new ValueError("MXNet Backend: `pool_mode` should be either `max` or `avg`. Given - " + pool_mode.ToString());
+            }
         }
 
         private static void ValidatePaddingMode(string padding)
         {
-            throw new NotImplementedException();
+            if (!new string[]{"same", "valid", "full"}.Contains(padding)) 
+            {
+                throw new ValueError("MXNet Backend: `padding` should be either `same`, `full`, `valid`. Given - " + padding.ToString());
+            }
         }
 
-        private static int CalculateConvOutputSize(int input_length, int filter_size, int padding, int stride,int dilation= 1)
+        private static int? CalculateConvOutputSize(int? input_length, int filter_size, string padding, int stride,int dilation= 1)
         {
-            throw new NotImplementedException();
+            int output_length = 0;
+            if (input_length == null)
+            {
+                return null;
+            }
+
+            Debug.Assert(new string[] { "same", "valid", "full", "causal" }.Contains(padding));
+            var dilated_filter_size = filter_size + (filter_size - 1) * (dilation - 1);
+            if (padding == "same")
+            {
+                output_length = input_length.Value;
+            }
+            else if (padding == "valid")
+            {
+                output_length = input_length.Value - dilated_filter_size + 1;
+            }
+            else if (padding == "causal")
+            {
+                output_length = input_length.Value;
+            }
+            else if (padding == "full")
+            {
+                output_length = input_length.Value + dilated_filter_size - 1;
+            }
+            return (output_length + stride - 1) / stride;
         }
 
         private static KerasSymbol PreProcessConvNDInput(KerasSymbol data_var, string data_format)
         {
-            throw new NotImplementedException();
+            if (data_format == "channels_last" && NDim(data_var) > 3)
+            {
+                var axes = Enumerable.Range(0, NDim(data_var)).ToList();
+                axes.Insert(1, axes.Last());
+                axes.RemoveAt(axes.Count - 1);
+                data_var = new KerasSymbol(sym.Transpose(data: data_var.Symbol, axes: new Shape(axes.ToArray())));
+            }
+
+            return data_var;
         }
 
         private static KerasSymbol PostProcessConvNDOutput(KerasSymbol x, string data_format)
         {
-            throw new NotImplementedException();
+            if (data_format == "channels_last" && NDim(x) > 3)
+            {
+                var idx = Enumerable.Range(0, NDim(x)).ToList();
+                // Convert result back to channels_last format
+                idx.Insert(1, idx[1]);
+                idx.RemoveAt(idx[2]);
+                x = new KerasSymbol(sym.Transpose(data: x.Symbol, axes: new Shape(idx.ToArray())));
+            }
+            return x;
         }
 
         private static KerasSymbol PreProcessConvNDKernel(KerasSymbol kernel, string data_format)
         {
-            throw new NotImplementedException();
+            if (data_format == "channels_last")
+            {
+                if (kernel.Shape.Dimension > 4)
+                {
+                    kernel = new KerasSymbol(sym.Transpose(data: kernel.Symbol, axes: new Shape(4, 3, 0, 1, 2)));
+                }
+                else if (kernel.Shape.Dimension > 3)
+                {
+                    kernel = new KerasSymbol(sym.Transpose(data: kernel.Symbol, axes: new Shape(3, 2, 0, 1)));
+                }
+            }
+
+            return kernel;
         }
 
         private static KerasSymbol PreProcessConvDWKernel(KerasSymbol kernel, string data_format)
         {
-            throw new NotImplementedException();
+            if (data_format == "channels_last")
+            {
+                if (kernel.Shape.Dimension > 3)
+                {
+                    kernel = new KerasSymbol(sym.Transpose(data: kernel.Symbol, axes: new Shape(2, 3, 0, 1)));
+                }
+            }
+
+            return kernel;
         }
 
-        private static KerasSymbol PreProcessConvNDTransposeOutput(Shape output_shape, string data_format)
+        private static Shape PreProcessConvNDTransposeOutput(Shape output_shape, string data_format)
         {
-            throw new NotImplementedException();
+            if (data_format == "channels_last")
+            {
+                output_shape = new Shape(output_shape.Data.Skip(1).Take(output_shape.Data.Length - 2).ToArray());
+            }
+            else if (data_format == "channels_first")
+            {
+                output_shape = new Shape(output_shape.Data.Skip(2).ToArray());
+            }
+
+            return output_shape;
         }
 
         private static void ValidateConvInputShape(Shape input_shape)
         {
-            throw new NotImplementedException();
+            var nd = input_shape.Dimension - 2;
+            foreach (var dim in Enumerable.Range(0, nd))
+            {
+                if (input_shape[2 + dim] == 0)
+                {
+                    throw new Exception("MXNet Backend: Cannot automatically infer shape for convolution operator.Please provide input shape. Given input shape - " + input_shape);
+                }
+            }
         }
 
-        private static int CalculatePaddingRequirement(Shape input_shape, KerasSymbol kernel, int strides, int dilation, string border_mode)
+        private static (int, bool, int?) CalculatePaddingRequirement(int input_shape, int kernel, int strides, int dilation, string border_mode)
         {
-            throw new NotImplementedException();
+            var out_size = CalculateConvOutputSize(input_shape, kernel, border_mode, strides, dilation);
+            var pad_along = dilation * kernel - input_shape - strides - dilation + out_size * strides + 1;
+            var result = (Convert.ToInt32(np.ceil(pad_along / 2.0)), pad_along % 2 != 0, out_size);
+            return result;
+        }
+
+        public static (int[], bool, int[]) PreprocessPaddingMode(
+            string padding_mode,
+            Shape input_shape,
+            int[] kernel,
+            int[] strides,
+            int[] dilation)
+        {
+            var nd = input_shape.Dimension - 2;
+            var is_slice = Enumerable.Range(0, nd).Select(x => false).ToList();
+            var out_size = Enumerable.Range(0, nd).Select(x => 0).ToList();
+            List<int> padding = new List<int>();
+            ValidateConvInputShape(input_shape);
+            if (padding_mode == "same" || padding_mode == "full")
+            {
+                for (int i = 0; i < nd; i++)
+                {
+                    var (p, s, o) = CalculatePaddingRequirement(input_shape[2 + i], kernel[i], strides[i], dilation[i], padding_mode);
+                    padding.Add(p);
+                    is_slice.Add(s);
+                    out_size.Add(o.Value);
+                }
+            }
+            else if (padding_mode == "valid")
+            {
+                padding = Enumerable.Range(0, nd).Select(x => 0).ToList();
+            }
+            else
+            {
+                throw new ValueError("MXNet Backend: Invalid padding mode: " + padding_mode);
+            }
+
+            return (padding.ToArray(), is_slice.Any(x => x), out_size.ToArray());
         }
 
         private static KerasSymbol LayoutKernel(KerasSymbol kernel)

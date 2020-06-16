@@ -75,5 +75,13 @@ namespace MxNet
         {
             dict.Remove(name);
         }
+
+        public void Update(NDArrayDict dict)
+        {
+            foreach (var item in dict)
+            {
+                this[item.Key] = item.Value;
+            }
+        }
     }
 }

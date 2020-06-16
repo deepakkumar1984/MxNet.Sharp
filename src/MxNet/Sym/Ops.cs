@@ -18,7 +18,7 @@ using System.Collections.Generic;
 
 namespace MxNet
 {
-    public class sym
+    public partial class sym
     {
         public static SymImgApi Image = new SymImgApi();
         public static SymContribApi Contrib = new SymContribApi();

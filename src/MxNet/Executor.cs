@@ -195,7 +195,7 @@ namespace MxNet
                 NativeMethods.MXExecutorBackward(Handle, 0, null);
         }
 
-        public void Forward(bool isTrain)
+        public NDArrayList Forward(bool isTrain)
         {
             NativeMethods.MXExecutorForward(Handle, isTrain ? 1 : 0);
             Logging.CHECK_EQ(NativeMethods.MXExecutorOutputs(Handle, out var outSize, out var outArray), 0);
@@ -205,6 +205,8 @@ namespace MxNet
                 Outputs[i]?.Dispose();
                 Outputs[i] = new NDArray(outArrayArray[i]);
             }
+
+            return Outputs;
         }
 
         public void CopyFromParams(NDArrayDict arg_params, NDArrayDict aux_params = null,
