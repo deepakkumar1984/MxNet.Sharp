@@ -34,9 +34,9 @@ namespace MxNet.Keras
                 NDArrayDict data = new NDArrayDict();
                 for (int i = 0; i < this.inputs.Length; i++)
                 {
-                    var arr = bind_values.Where(a => a.Name == this.inputs[i].Name).FirstOrDefault();
-                    if(arr != null)
-                        data[this.inputs[i].Name] = arr.Tensor;
+                    var arr = bind_values.Where(a => a.Key == this.inputs[i].Name).FirstOrDefault();
+                    if(arr.Value != null)
+                        data[this.inputs[i].Name] = arr.Value;
                 }
                 
                 var args = x.Symbol.ListArguments();
