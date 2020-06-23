@@ -33,7 +33,7 @@ namespace MxNet.Modules
         private Context[] _context;
         private int[] _work_load_list;
         private Dictionary<string, Context>[] _group2ctxs;
-        private Dictionary<int, Module> _buckets;
+        public Dictionary<int, Module> _buckets;
         private Module _curr_module;
         private int? _curr_bucket_key;
         private bool _params_dirty;

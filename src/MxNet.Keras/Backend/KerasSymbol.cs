@@ -31,6 +31,8 @@ namespace MxNet.Keras
 
         internal bool _mxnet_placeholder;
 
+        internal (Layer, int, int)? _keras_history;
+
         public Symbol Symbol
         {
             get

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using MxNet.Keras.Utils;
 using MxNet.Keras.Optimizers;
+using MxNet.Modules;
 
 namespace MxNet.Keras.Engine
 {
@@ -17,6 +18,10 @@ namespace MxNet.Keras.Engine
         internal bool stop_training;
 
         internal Optimizer optimizer;
+
+        internal Symbol _pred_mxnet_symbol;
+
+        internal BucketingModule _module;
 
         public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string sample_weight_mode= null)
         {

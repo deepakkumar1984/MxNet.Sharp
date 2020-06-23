@@ -18,8 +18,8 @@ namespace MxNet.Keras.Engine
         internal List<Func<KerasSymbol, KerasSymbol, KerasSymbol>> _losses;
         internal List<KerasSymbol> _non_trainable_weights;
         internal List<Node> _outbound_nodes;
-        internal Dictionary<object, object> _per_input_losses;
-        internal Dictionary<object, object> _per_input_updates;
+        internal Dictionary<string, object> _per_input_losses;
+        internal Dictionary<string, object> _per_input_updates;
         internal List<KerasSymbol> _trainable_weights;
         internal List<KerasSymbol> _updates;
         internal Shape batch_input_shape;
@@ -35,7 +35,16 @@ namespace MxNet.Keras.Engine
         {
             get
             {
-                throw new NotImplementedException();
+                if (this._inbound_nodes.Count > 1)
+                {
+                    throw new Exception("Layer " + this.name + " has multiple inbound nodes, hence the notion of \"layer input\" is ill-defined. Use `get_input_at(node_index)` instead.");
+                }
+                else if (this._inbound_nodes == null)
+                {
+                    throw new Exception("Layer " + this.name + " is not connected, no input to return.");
+                }
+
+                return GetInputAt(0);
             }
         }
 
@@ -43,7 +52,17 @@ namespace MxNet.Keras.Engine
         {
             get
             {
-                throw new NotImplementedException();
+                if (this._inbound_nodes == null)
+                {
+                    throw new Exception("Layer " + this.name + " has no inbound nodes.");
+                }
+
+                if (this._inbound_nodes.Count > 1)
+                {
+                    throw new Exception("Layer " + this.name + " has multiple inbound nodes, hence the notion of \"layer output\" is ill-defined. Use `get_output_at(node_index)` instead.");
+                }
+
+                return GetOutputAt(0);
             }
         }
 
@@ -51,7 +70,12 @@ namespace MxNet.Keras.Engine
         {
             get
             {
-                throw new NotImplementedException();
+                if (this._inbound_nodes.Count != 1)
+                {
+                    throw new Exception("Layer " + this.name + " has multiple inbound nodes, " + "hence the notion of \"layer input mask\" is ill-defined. Use `get_input_mask_at(node_index)` instead.");
+                }
+
+                return this.GetInputMaskAt(0);
             }
         }
 
@@ -59,7 +83,11 @@ namespace MxNet.Keras.Engine
         {
             get
             {
-                throw new NotImplementedException();
+                if (this._inbound_nodes.Count != 1)
+                {
+                    throw new Exception("Layer " + this.name + " has multiple inbound nodes, hence the notion of \"layer output mask\" is ill-defined. Use `get_output_mask_at(node_index)` instead.");
+                }
+                return this.GetOutputMaskAt(0);
             }
         }
 
@@ -67,7 +95,26 @@ namespace MxNet.Keras.Engine
         {
             get
             {
-                throw new NotImplementedException();
+                if (this._inbound_nodes == null)
+                {
+                    throw new Exception("The layer has never been called and thus has no defined input shape.");
+                }
+
+                var all_input_shapes = new List<Shape>();
+                foreach (var node in _inbound_nodes)
+                {
+                    all_input_shapes.AddRange(node.InputShapes);
+                }
+
+                if (all_input_shapes.Count == 1)
+                {
+                    var input_shapes = this._inbound_nodes[0].InputShapes;
+                    return input_shapes[0];
+                }
+                else
+                {
+                    throw new Exception("The layer \"" + this.name.ToString() + " has multiple inbound nodes, with different input shapes. Hence the notion of \"input shape\" is ill-defined for the layer. Use `get_input_shape_at(node_index)` instead.");
+                }
             }
         }
 
@@ -75,7 +122,25 @@ namespace MxNet.Keras.Engine
         {
             get
             {
-                throw new NotImplementedException();
+                if (this._inbound_nodes == null)
+                {
+                    throw new Exception("The layer has never been called and thus has no defined output shape.");
+                }
+                var all_output_shapes = new List<Shape>();
+                foreach (var node in _inbound_nodes)
+                {
+                    all_output_shapes.AddRange(node.InputShapes);
+                }
+
+                if (all_output_shapes.Count == 1)
+                {
+                    var output_shapes = this._inbound_nodes[0].OutputShapes;
+                    return output_shapes[0];
+                }
+                else
+                {
+                    throw new Exception("The layer \"" + this.name.ToString() + " has multiple inbound nodes, with different output shapes. Hence the notion of \"output shape\" is ill-defined for the layer. Use `get_output_shape_at(node_index)` instead.");
+                }
             }
         }
         
@@ -505,7 +570,41 @@ namespace MxNet.Keras.Engine
                                         KerasSymbol[]  input_masks, KerasSymbol[]  output_masks,
                                         Shape[] input_shapes, Shape[] output_shapes, FuncArgs arguments= null)
         {
-            throw new NotImplementedException();
+            // Collect input tensor(s) coordinates.
+            var inbound_layers = new List<Layer>();
+            var node_indices = new List<int>();
+            var tensor_indices = new List<int>();
+            foreach (var x in input_tensors)
+            {
+                if (x._keras_history != null)
+                {
+                    var _tup_1 = x._keras_history.Value;
+                    var inbound_layer = _tup_1.Item1;
+                    var node_index = _tup_1.Item2;
+                    var tensor_index = _tup_1.Item3;
+                    inbound_layers.Add(inbound_layer);
+                    node_indices.Add(node_index);
+                    tensor_indices.Add(tensor_index);
+                }
+                else
+                {
+                    inbound_layers.Add(null);
+                    node_indices.Add(0);
+                    tensor_indices.Add(0);
+                }
+            }
+
+            // Create node, add it to inbound nodes.
+            new Node(this, inbound_layers: inbound_layers.ToArray(), node_indices: node_indices.ToArray(), tensor_indices: tensor_indices.ToArray(), input_tensors: input_tensors, output_tensors: output_tensors, input_masks: input_masks, output_masks: output_masks, input_shapes: input_shapes, output_shapes: output_shapes, arguments: arguments);
+            // Update tensor history, _keras_shape and _uses_learning_phase.
+            foreach (var i in Enumerable.Range(0, output_tensors.Length))
+            {
+                output_tensors[i]._keras_shape = output_shapes[i];
+                var uses_lp = input_tensors.Select(x => x._uses_learning_phase).Any();
+                //uses_lp = getattr(this, "uses_learning_phase", false) || uses_lp;
+                output_tensors[i]._uses_learning_phase = uses_lp;
+                output_tensors[i]._keras_history = (this, this._inbound_nodes.Count - 1, i);
+            }
         }
 
         public virtual Shape[] ComputeOutputShape(Shape[] input_shape)
@@ -515,7 +614,21 @@ namespace MxNet.Keras.Engine
 
         public virtual KerasSymbol[] ComputeMask(KerasSymbol[] inputs, KerasSymbol[] mask = null)
         {
-            throw new NotImplementedException();
+            if (!this.supports_masking)
+            {
+                if (mask != null)
+                {
+                    if (mask.Count(x=>x != null) > 0)
+                    {
+                        throw new Exception("Layer " + this.name + " does not support masking, but was passed an input_mask: " + mask.ToString());
+                    }
+                }
+                // masking not explicitly supported: return None as mask
+                return null;
+            }
+            // if masking is explicitly supported, by default
+            // carry over the input mask
+            return mask;
         }
 
         public virtual void Build(Shape input_shape)
@@ -523,44 +636,89 @@ namespace MxNet.Keras.Engine
             Built = true;
         }
 
-        public virtual Node GetNodeAttributeAtIndex(int node_index, string attr, string attr_name)
+        public virtual T GetNodeAttributeAtIndex<T>(int node_index, string attr, string attr_name)
         {
-            throw new NotImplementedException();
+            if (this._inbound_nodes == null)
+            {
+                throw new Exception("The layer has never been called and thus has no defined " + attr_name + ".");
+            }
+
+            if (!(this._inbound_nodes.Count > node_index))
+            {
+                throw new Exception("Asked to get " + attr_name + " at node " + node_index.ToString() + ", but the layer has only " + this._inbound_nodes.Count.ToString() + " inbound nodes.");
+            }
+
+            var array = this._inbound_nodes[node_index].GetType().GetProperty(attr).GetValue(this._inbound_nodes[node_index]);
+            if(array != null)
+            {
+                T[] r = (T[])array;
+                return r[0];
+            }
+
+            return null;
         }
 
         public virtual Shape GetInputShapeAt(int node_index)
         {
-            throw new NotImplementedException();
+            return this.GetNodeAttributeAtIndex<Shape>(node_index, "InputShapes", "input shape");
         }
 
         public virtual Shape GetOutputShapeAt(int node_index)
         {
-            throw new NotImplementedException();
+            return this.GetNodeAttributeAtIndex<Shape>(node_index, "OutputShapes", "output shape");
         }
 
         public virtual KerasSymbol GetInputAt(int node_index)
         {
-            throw new NotImplementedException();
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "InputTensors", "input");
         }
 
         public virtual KerasSymbol GetOutputAt(int node_index)
         {
-            throw new NotImplementedException();
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "OutputTensors", "output");
         }
 
         public virtual KerasSymbol GetInputMaskAt(int node_index)
         {
-            throw new NotImplementedException();
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "InputMasks", "input masks");
         }
 
         public virtual KerasSymbol GetOutputMaskAt(int node_index)
         {
-            throw new NotImplementedException();
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "OutputMasks", "output masks");
         }
 
-        public virtual void AddLoss(KerasSymbol[] losses, KerasSymbol[]  inputs = null)
+        public virtual void AddLoss(Func<KerasSymbol, KerasSymbol, KerasSymbol>[] losses, KerasSymbol[]  inputs = null)
         {
-            throw new NotImplementedException();
+            string inputs_hash;
+            if (losses == null || losses.Length == 0)
+            {
+                return;
+            }
+
+            if (this.Losses != null)
+            {
+                var l = this.Losses.ToList();
+                l.AddRange(losses);
+                this._losses = l.ToList();
+            }
+
+            if (inputs != null)
+            {
+                inputs_hash = GenericUtils.ObjectListUid(inputs);
+            }
+            else
+            {
+                // Updates indexed by None are unconditional
+                // rather than input-dependent
+                inputs_hash = null;
+            }
+            if (!this._per_input_losses.Contains(inputs_hash))
+            {
+                this._per_input_losses[inputs_hash] = new List<object>();
+            }
+
+            this._per_input_losses[inputs_hash] += losses;
         }
 
         public virtual void AddUpdate(KerasSymbol[] updates, KerasSymbol[] inputs = null)

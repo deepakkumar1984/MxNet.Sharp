@@ -1,8 +1,10 @@
 ﻿using MxNet.Initializers;
+using MxNet.IO;
 using MxNet.Keras.Backend;
 using MxNet.Keras.Constraints;
 using MxNet.Keras.Engine;
 using MxNet.Keras.Layers;
+using MxNet.Modules;
 using MxNet.Sparse;
 using NumpyDotNet;
 using System;
@@ -1639,7 +1641,7 @@ namespace MxNet.Keras
                 throw new ValueError("MXNet Backend: `padding` should be either `same` or `valid`");
             }
 
-            return ConvNdTranspose(x, kernel, output_shape, name: "conv2d_transpose", strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2 } : null, filter_dilation: dilation_rate.HasValue ? new int[] { dilation_rate.Value.Item1, dilation_rate.Value.Item2 } : null, padding_mode: padding, data_format: data_format);
+            return ConvNdTranspose(x, kernel, output_shape, name: "conv2d_transpose", strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2 } : null, dilation_rate: dilation_rate.HasValue ? (dilation_rate.Value.Item1, dilation_rate.Value.Item2) : (1, 1), data_format: data_format);
         }
 
         public static KerasSymbol SeparableConv1D(KerasSymbol x, KerasSymbol depthwise_kernel, KerasSymbol pointwise_kernel, int strides, string padding = "valid", string data_format = "", int? dilation_rate = null)
@@ -1702,7 +1704,7 @@ namespace MxNet.Keras
                     throw new ValueError("MXNet Backend: `padding` should be either `same` or `valid`");
                 }
 
-                return ConvNdTranspose(x, kernel, output_shape, strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2, strides.Value.Item3 } : null, filter_dilation: null, name: "conv3d_transpose", data_format: data_format);
+                return ConvNdTranspose(x, kernel, output_shape, strides: strides.HasValue ? new int[] { strides.Value.Item1, strides.Value.Item2, strides.Value.Item3 } : null, dilation_rate: null, name: "conv3d_transpose", data_format: data_format);
             }
             else
             {
@@ -2242,70 +2244,439 @@ namespace MxNet.Keras
             return (padding.ToArray(), is_slice.Any(x => x), out_size.ToArray());
         }
 
-        private static KerasSymbol LayoutKernel(KerasSymbol kernel)
+        private static KerasSymbol MxDwConv(KerasSymbol data, int num_in_channel, KerasSymbol weight, (int, int)? kernel = null, (int, int)? stride = null, (int, int)? pad = null, string name = "", int depth_mult = 1)
         {
-            throw new NotImplementedException();
+            if (kernel == null)
+                kernel = (3, 3);
+
+            if (stride == null)
+                stride = (1, 1);
+
+            if (pad == null)
+                pad = (1, 1);
+
+            var channels = sym.Split(data: data.Symbol, axis: 1, num_outputs: num_in_channel);
+            var depthwise_outs = (from i in Enumerable.Range(0, num_in_channel)
+                                  select sym.Convolution(data: channels[i], num_filter: num_in_channel * depth_mult, kernel: kernel, weight: weight.Symbol, bias: null, stride: stride, pad: pad, symbol_name: name + "depthwise_kernel_" + i.ToString())).ToList();
+            var depthwise_out = sym.Concat(depthwise_outs);
+            return depthwise_out;
         }
 
         private static KerasSymbol MxSpConv(KerasSymbol data, int num_in_channel, int num_out_channel, (int, int)? dw_kernel_shape= null,                           KerasSymbol dw_kernel_weight= null, (int,int)? pw_kernel_shape= null, KerasSymbol pw_kernel_weight = null,
                                 (int, int)? stride= null, (int, int)? pad = null, string name= "", float depth_mult= 1)
         {
-            throw new NotImplementedException();
+            if (dw_kernel_shape == null)
+                dw_kernel_shape = (3, 3);
+
+            if (pw_kernel_shape == null)
+                pw_kernel_shape = (1, 1);
+
+            if (stride == null)
+                stride = (1, 1);
+
+            if (pad == null)
+                pad = (1, 1);
+
+            var channels = sym.Split(data: data.Symbol, axis: 1, num_outputs: num_in_channel);
+            // channels = mx.sym.SliceChannel(data=data, axis=1,
+            //                              num_outputs=num_in_channel)  # for old version of mxnet <= 0.8
+            var depthwise_outs = (from i in Enumerable.Range(0, num_in_channel)
+                                  select sym.Convolution(data: channels[i], num_filter: num_in_channel, kernel: dw_kernel_shape, weight: dw_kernel_weight.Symbol, bias: null, stride: stride, pad: pad, symbol_name: name + "dw_conv" + i.ToString())).ToList();
+            var depthwise_out = sym.Concat(depthwise_outs);
+            var @out = sym.Convolution(data: depthwise_out, num_filter: num_out_channel, kernel: pw_kernel_shape, weight: pw_kernel_weight.Symbol, bias: null, stride: (1, 1), pad: pad, symbol_name: "pw_conv");
+            return @out;
         }
 
         private static KerasSymbol SpConvNd(KerasSymbol x, KerasSymbol depthwise_kernel, KerasSymbol pointwise_kernel, int[] strides, int[] filter_dilation, string name= "", string padding_mode= "valid", string data_format= "default")
         {
-            throw new NotImplementedException();
+            if (data_format == null || data_format == "default")
+            {
+                data_format = ImageDataFormat();
+            }
+
+            // Handle Data Format
+            x = PreProcessConvNDInput(x, data_format);
+            depthwise_kernel = PreProcessConvDWKernel(depthwise_kernel, data_format);
+            pointwise_kernel = PreProcessConvDWKernel(pointwise_kernel, data_format);
+            // We have already converted kernel to match MXNet required shape:
+            // (depth, input_depth, rows, cols)
+            var depthwise_kernel_shape = depthwise_kernel.Shape;
+            var num_in_channel = depthwise_kernel_shape[0];
+            depthwise_kernel_shape = new Shape(depthwise_kernel_shape[2]);
+            var pointwise_kernel_shape = pointwise_kernel.Shape;
+            var num_out_channel = pointwise_kernel_shape[1];
+            pointwise_kernel_shape = new Shape(pointwise_kernel_shape[2]);
+            // Calculate padding requirement.
+            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, depthwise_kernel.Shape.Data, strides, filter_dilation);
+            var padding = _tup_1.Item1;
+            var is_slice = _tup_1.Item2;
+            var out_size = _tup_1.Item3;
+            // Perform convolution.
+            var conv = MxSpConv(x.Symbol, num_in_channel, num_out_channel, dw_kernel_shape: (depthwise_kernel_shape[0], depthwise_kernel_shape[1]), dw_kernel_weight: depthwise_kernel.Symbol, pw_kernel_shape: (pointwise_kernel_shape[0], pointwise_kernel_shape[1]), pw_kernel_weight: pointwise_kernel.Symbol, stride: (strides[0], strides[1]), pad:(padding[0], padding[1]), name: PrepareName(name, "sp_convnd"), depth_mult: 1);
+            if (is_slice)
+            {
+                List<int> begin = new List<int>();
+                begin.Add(0);
+                begin.Add(0);
+                for (int i = 0; i < out_size.Length; i++)
+                    begin.Add(0);
+
+                List<int> end = new List<int>();
+                end.Add(0);
+                end.Add(0);
+                end.AddRange(out_size);
+                conv = sym.SliceAxis(conv.Symbol, axis: 2, begin: begin[2], end: end[2]);
+                conv = sym.SliceAxis(conv.Symbol, axis: 3, begin: begin[3], end: end[3]);
+            }
+            // Handle original Data Format
+            var result = PostProcessConvNDOutput(conv, data_format);
+            return result;
         }
 
         private static KerasSymbol DWConv(KerasSymbol x, KerasSymbol kernel, int[] strides, int[] filter_dilation, string name= null, string padding_mode= "valid", string data_format= "default")
         {
-            throw new NotImplementedException();
+            if (data_format == null || data_format == "default")
+            {
+                data_format = ImageDataFormat();
+            }
+            // Handle Data Format
+            x = PreProcessConvNDInput(x, data_format);
+            kernel = PreProcessConvDWKernel(kernel, data_format);
+            // We have already converted kernel to match MXNet required shape:
+            // (depth, input_depth, rows, cols)
+            var kernel_shape = kernel.Shape;
+            var layout_kernel = new Shape(kernel_shape[2]);
+            var nb_filter = kernel_shape[0];
+            var depth_multiplier = kernel_shape[1];
+            // Calculate padding requirement.
+            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, layout_kernel.Data, strides, filter_dilation);
+            var padding = _tup_1.Item1;
+            var is_slice = _tup_1.Item2;
+            var out_size = _tup_1.Item3;
+            // Perform convolution.
+           
+            // num_group trick in native conv2d, only support depth_multiplier = 1
+            if (depth_multiplier != 1)
+            {
+                throw new ValueError("MXNet Backend: Does not support depth multiplier not equal to 1");
+            }
+
+            var conv = sym.Convolution(data: x.Symbol, symbol_name: PrepareName(name, "convnd"), kernel: layout_kernel, num_group: nb_filter, stride: new Shape(strides), pad: new Shape(padding), num_filter: nb_filter, weight: kernel.Symbol, dilate: new Shape(filter_dilation), no_bias: true, bias: null);
+            if (is_slice)
+            {
+                List<int> begin = new List<int>();
+                begin.Add(0);
+                begin.Add(0);
+                for (int i = 0; i < out_size.Length; i++)
+                    begin.Add(0);
+
+                List<int> end = new List<int>();
+                end.Add(0);
+                end.Add(0);
+                end.AddRange(out_size);
+                conv = sym.SliceAxis(conv, axis: 2, begin: begin[2], end: end[2]);
+                conv = sym.SliceAxis(conv, axis: 3, begin: begin[3], end: end[3]);
+            }
+            // Handle original Data Format
+            var result = PostProcessConvNDOutput(new KerasSymbol(conv), data_format);
+            return result;
         }
 
         private static KerasSymbol ConvNd(KerasSymbol x, KerasSymbol kernel, int[] strides, int[] filter_dilation, string name = null, string padding_mode = "valid", string data_format = "default")
         {
-            throw new NotImplementedException();
+            if (data_format == null || data_format == "default")
+            {
+                data_format = ImageDataFormat();
+            }
+            if (data_format == "channels_last")
+            {
+                Logger.Warning("MXNet Backend performs best with `channels_first` format. Using `channels_last` will significantly reduce performance due to the Transpose operations. For performance improvement, please use this API`keras.utils.to_channels_first(x_input)`to transform `channels_last` data to `channels_first` format and also please change the `image_data_format` in `keras.json` to `channels_first`.Note: `x_input` is a Numpy tensor or a list of Numpy tensorRefer to: https://github.com/awslabs/keras-apache-mxnet/tree/master/docs/mxnet_backend/performance_guide.md");
+            }
+            // Handle Data Format
+            x = PreProcessConvNDInput(x, data_format);
+            kernel = PreProcessConvNDKernel(kernel, data_format);
+            // We have already converted kernel to match MXNet required shape:
+            // (depth, input_depth, rows, cols)
+            var kernel_shape = kernel.Shape;
+            var layout_kernel = new Shape(kernel_shape[2]);
+            var nb_filter = kernel_shape[0];
+            // Calculate padding requirement.
+            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, layout_kernel.Data, strides, filter_dilation);
+            var padding = _tup_1.Item1;
+            var is_slice = _tup_1.Item2;
+            var out_size = _tup_1.Item3;
+            // Perform convolution.
+            var conv = sym.Convolution(data: x.Symbol, symbol_name: PrepareName(name, "convnd"), kernel: layout_kernel, stride: new Shape(strides), pad: new Shape(padding), num_filter: nb_filter, weight: kernel.Symbol, dilate: new Shape(filter_dilation), no_bias: true, bias: null);
+            if (is_slice)
+            {
+                List<int> begin = new List<int>();
+                begin.Add(0);
+                begin.Add(0);
+                for (int i = 0; i < out_size.Length; i++)
+                    begin.Add(0);
+
+                List<int> end = new List<int>();
+                end.Add(0);
+                end.Add(0);
+                end.AddRange(out_size);
+                conv = sym.SliceAxis(conv, axis: 2, begin: begin[2], end: end[2]);
+                conv = sym.SliceAxis(conv, axis: 3, begin: begin[3], end: end[3]);
+            }
+            // Handle original Data Format
+            var result = PostProcessConvNDOutput(new KerasSymbol(conv), data_format);
+            return result;
         }
 
-        private static KerasSymbol ConvNdTranspose(KerasSymbol x, KerasSymbol kernel, Shape output_shape, int[] strides, int[] filter_dilation, string name = null, string padding_mode = "valid", string data_format = "default")
+        private static KerasSymbol ConvNdTranspose(KerasSymbol x, KerasSymbol kernel, Shape output_shape, int[] strides, string data_format, string name = null, (int, int)? dilation_rate = null)
         {
-            throw new NotImplementedException();
+            if (dilation_rate == null)
+                dilation_rate = (1, 1);
+            x = PreProcessConvNDInput(x, data_format);
+            kernel = PreProcessConvNDKernel(kernel, data_format);
+            // We have already converted kernel to match MXNet required shape:
+            // (depth, input_depth, rows, cols)
+            var kernel_shape = kernel.Shape;
+            var layout_kernel = new Shape(kernel_shape[2]);
+            var nb_filter = kernel_shape[1];
+            // Handle output shape to suit mxnet input format
+            if (data_format == "channels_first")
+            {
+                output_shape = output_shape[2];
+            }
+            else
+            {
+                output_shape = new Shape(output_shape.Data.Skip(1).Take(output_shape.Data.Length - 2).ToList());
+            }
+            // Perform transpose convolution
+            var deconv = sym.Deconvolution(data: x.Symbol, symbol_name: PrepareName(name, "convnd_transpose"), kernel: layout_kernel, stride: new Shape(strides), num_filter: nb_filter, weight: kernel.Symbol, no_bias: true, bias: null, target_shape: output_shape, dilate: new Shape(dilation_rate));
+            // Handle original Data Format
+            var result = PostProcessConvNDOutput(new KerasSymbol(deconv), data_format);
+            return result;
         }
 
-        private static int CalculatePoolOutputSize(int input_length, int filter_size, int padding, int stride, int dilation= 1)
+        private static int CalculatePoolOutputSize(int input_length, int filter_size, string padding, int stride, int dilation= 1)
         {
-            throw new NotImplementedException();
+            int output_length = 0;
+
+            Debug.Assert(new string[] { "same", "valid", "full", "causal" }.Contains(padding));
+            var dilated_filter_size = filter_size + (filter_size - 1) * (dilation - 1);
+            if (padding == "same")
+            {
+                output_length = input_length;
+            }
+            else if (padding == "valid")
+            {
+                output_length = input_length - dilated_filter_size + 1;
+            }
+            else if (padding == "causal")
+            {
+                output_length = input_length;
+            }
+            else if (padding == "full")
+            {
+                output_length = input_length + dilated_filter_size - 1;
+            }
+            return (output_length + stride - 1) / stride;
         }
 
         private static void ValidatePoolInputShape(Shape input_shape)
         {
-            throw new NotImplementedException();
+            var nd = input_shape.Dimension - 2;
+            foreach (var dim in Enumerable.Range(0, nd))
+            {
+                if (input_shape[2 + dim] == 0)
+                {
+                    throw new Exception("MXNet Backend: Cannot automatically infer shape for pooling operator.Please provide input shape. Given input shape - " + input_shape);
+                }
+            }
         }
 
-        private static (int, int, int) CalculatePoolPaddingRequirement(string padding_mode, Shape input_shape, int[] kernel, int[] strides)
+        private static (int, bool, int) CalculatePoolPaddingRequirement(int input_shape,
+            int kernel,
+            int strides,
+            string border_mode,
+            int dilation = 1)
         {
-            throw new NotImplementedException();
+            var out_size = CalculatePoolOutputSize(input_shape, kernel, border_mode, strides);
+            var pad_along = dilation * kernel - input_shape - strides - dilation + out_size * strides + 1;
+            var result = (Convert.ToInt32(np.ceil(pad_along / 2.0)), kernel % 2 == 0, out_size);
+            return result;
+        }
+
+        private static (int[], bool, int[]) PreprocessPoolingPaddingMode(string padding_mode, Shape input_shape, int[] kernel, int[] strides)
+        {
+            int[] padding = null;
+            var nd = input_shape.Dimension - 2;
+            var is_slice = Enumerable.Range(0, nd).Select(x => false).ToArray();
+            var out_size = Enumerable.Range(0, nd).Select(x => 0).ToArray();
+            ValidatePoolInputShape(input_shape);
+            if (padding_mode == "same")
+            {
+                foreach (var i in Enumerable.Range(0, nd))
+                {
+                    var tup = CalculatePoolPaddingRequirement(input_shape[2 + i], kernel[i], strides[i], padding_mode);
+                    padding[i] = tup.Item1;
+                    is_slice[i] = tup.Item2;
+                    out_size[i] = tup.Item3;
+                }
+            }
+            else if (padding_mode == "valid")
+            {
+                padding = Enumerable.Range(0, nd).Select(x => 0).ToArray();
+            }
+            else
+            {
+                throw new Exception("MXNet Backend: Invalid padding mode:" + padding_mode);
+            }
+            return (padding, is_slice.Any(), out_size);
         }
 
         private static KerasSymbol PoolNd(KerasSymbol x, string name, int[] pool_size, int[] strides, string padding_mode= "valid", string data_format= "", string pool_mode= "max")
         {
-            throw new NotImplementedException();
+            if (data_format == null || data_format == "default")
+            {
+                data_format = ImageDataFormat();
+            }
+
+            ValidateDataFormat(data_format);
+            ValidatePoolMode(pool_mode);
+            ValidatePoolMode(padding_mode);
+            // Handle Data Format
+            x = PreProcessConvNDInput(x, data_format);
+            // Calculate padding requirement.
+            var _tup_1 = PreprocessPoolingPaddingMode(padding_mode, x.Shape, pool_size, strides);
+            var padding = _tup_1.Item1;
+            var is_slice = _tup_1.Item2;
+            var out_size = _tup_1.Item3;
+            if (padding_mode == "same")
+            {
+                padding_mode = "valid";
+            }
+
+            // Perform Pooling
+            var mx_out = sym.Pooling(data: x.Symbol, symbol_name: PrepareName(name, "poolnd"), kernel: new Shape(pool_size), pool_type: (PoolingType)Enum.Parse(typeof(PoolingType), pool_mode), pooling_convention: (PoolingConvention)Enum.Parse(typeof(PoolingConvention), padding_mode), stride: new Shape(strides), pad: new Shape(padding));
+            if (is_slice)
+            {
+                List<int> begin = new List<int>();
+                begin.Add(0);
+                begin.Add(0);
+                for (int i = 0; i < out_size.Length; i++)
+                    begin.Add(0);
+
+                List<int> end = new List<int>();
+                end.Add(0);
+                end.Add(0);
+                end.AddRange(out_size);
+                foreach (var idx in Enumerable.Range(2, out_size.Length - 2))
+                {
+                    mx_out = sym.SliceAxis(mx_out, axis: idx, begin: begin[idx], end: end[idx]);
+                }
+            }
+
+            // Handle original Data Format
+            var result = PostProcessConvNDOutput(new KerasSymbol(mx_out), data_format);
+            return result;
         }
 
-        public static Model GetMxNetModelInfo(Model model)
+        public static (string[], DataDesc[]) GetMxNetModelInfo(Model model)
         {
-            throw new NotImplementedException();
+            Debug.Assert(model != null, "MXNet Backend: Invalid state. Model cannot be None.");
+            // Underlying MXNet model for Inference in native MXNet engine.
+            var symbol = model._pred_mxnet_symbol;
+            BucketingModule module = model._module;
+            Debug.Assert(symbol != null, "MXNet Backend: Invalid state. MXNet Symbol cannot be None.");
+            Debug.Assert(module != null, "MXNet Backend: Invalid state. MXNet Module cannot be None.");
+            // Get Module Input data_names and data_shapes.
+            // This info will be useful for users to easily bind the exported model in MXNet.
+            var pred_module = module._buckets[0];
+            var data_names = pred_module.DataNames;
+            var data_shapes = pred_module.DataShapes;
+            return (data_names, data_shapes);
         }
 
         public static int GetNumGpus()
         {
-            throw new NotImplementedException();
+            List<int> gpus = new List<int>();
+            try
+            {
+                gpus = TestUtils.ListGpus();
+            }
+            catch (Exception ex)
+            {
+                gpus = new List<int>();
+            }
+
+            if (gpus.Count > 0)
+            {
+                return gpus.Count;
+            }
+
+            return 0;
         }
 
         public static Context[] GetMxNetContexts(Context context)
         {
-            throw new NotImplementedException();
+            int index = 0;
+            List<int> gpus = new List<int>();
+            // If we are currently under a global scope context,
+            // then it overrides all other local context parameters.
+            // Note: _CURRENT_SCOPE_CTX will be None if not in scope.
+            if (_CURRENT_SCOPE_CTX != null)
+            {
+                return _CURRENT_SCOPE_CTX;
+            }
+
+            var mxnet_context = new List<Context>();
+            if (context == null)
+            {
+                // If user does not provide any context, if GPUs are detected, by default it runs on first available
+                // GPU device. If not GPUs are detected, then it falls back to CPU.
+                try
+                {
+                    gpus = TestUtils.ListGpus();
+                }
+                catch (Exception)
+                {
+                    gpus = new List<int>();
+                }
+                if (gpus.Count > 0)
+                {
+                    mxnet_context.Add(mx.Gpu(gpus[0]));
+                }
+                else
+                {
+                    mxnet_context.Add(Context.CurrentContext);
+                }
+            }
+
+            return mxnet_context.ToArray();
+        }
+
+        public static Context[] GetMxNetContexts(int context)
+        {
+            List<int> gpus = new List<int>();
+            // If we are currently under a global scope context,
+            // then it overrides all other local context parameters.
+            // Note: _CURRENT_SCOPE_CTX will be None if not in scope.
+            if (_CURRENT_SCOPE_CTX != null)
+            {
+                return _CURRENT_SCOPE_CTX;
+            }
+
+            var mxnet_context = new List<Context>();
+            if (context == 0)
+            {
+                mxnet_context.Add(Context.CurrentContext);
+            }
+            else
+            {
+                foreach (var gpu_id in Enumerable.Range(0, context - 0))
+                {
+                    mxnet_context.Add(mx.Gpu(gpu_id));
+                }
+            }
+
+            return mxnet_context.ToArray();
         }
     }
 }

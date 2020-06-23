@@ -1037,9 +1037,9 @@ namespace MxNet
         ///     NCDHW for 3d.NHWC and NDHWC are only supported on GPU.
         /// </param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Deconvolution(Symbol data, Symbol weight, Shape kernel, uint num_filter,
+        public static Symbol Deconvolution(Symbol data, Symbol weight, Shape kernel, int num_filter,
             Shape stride = null, Shape dilate = null, Shape pad = null, Shape adj = null, Shape target_shape = null,
-            Symbol bias = null, bool no_bias = true, uint num_group = 1, ulong workspace = 512,
+            Symbol bias = null, bool no_bias = true, int num_group = 1, ulong workspace = 512,
             DeconvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, DeconvolutionLayout? layout = null,
             string symbol_name = "")
         {
