@@ -1062,7 +1062,7 @@ namespace MxNet.Keras
             x.Bind(value);
         }
 
-        public static void BatchSetValue(List<(Symbol, NDArray)> tuples)
+        public static void BatchSetValue(List<(KerasSymbol, NDArray)> tuples)
         {
             foreach (var (p, w) in tuples)
             {

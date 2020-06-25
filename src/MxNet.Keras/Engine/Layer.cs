@@ -5,6 +5,7 @@ using MxNet.Keras.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using K = MxNet.Keras.MxNetBackend;
 
@@ -15,13 +16,13 @@ namespace MxNet.Keras.Engine
         internal bool _built;
         internal List<Node> _inbound_nodes;
         internal List<KerasSymbol> _initial_weights;
-        internal List<Func<KerasSymbol, KerasSymbol, KerasSymbol>> _losses;
+        internal List<KerasSymbol> _losses;
         internal List<KerasSymbol> _non_trainable_weights;
         internal List<Node> _outbound_nodes;
-        internal Dictionary<string, object> _per_input_losses;
-        internal Dictionary<string, object> _per_input_updates;
+        internal Dictionary<string, List<KerasSymbol>> _per_input_losses;
+        internal Dictionary<string, List<(KerasSymbol, KerasSymbol)>> _per_input_updates;
         internal List<KerasSymbol> _trainable_weights;
-        internal List<KerasSymbol> _updates;
+        internal List<(KerasSymbol, KerasSymbol)> _updates;
         internal Shape batch_input_shape;
         internal DType dtype;
         internal InputSpec[] input_spec;
@@ -103,12 +104,12 @@ namespace MxNet.Keras.Engine
                 var all_input_shapes = new List<Shape>();
                 foreach (var node in _inbound_nodes)
                 {
-                    all_input_shapes.AddRange(node.InputShapes);
+                    all_input_shapes.AddRange(node.input_shapes);
                 }
 
                 if (all_input_shapes.Count == 1)
                 {
-                    var input_shapes = this._inbound_nodes[0].InputShapes;
+                    var input_shapes = this._inbound_nodes[0].input_shapes;
                     return input_shapes[0];
                 }
                 else
@@ -129,12 +130,12 @@ namespace MxNet.Keras.Engine
                 var all_output_shapes = new List<Shape>();
                 foreach (var node in _inbound_nodes)
                 {
-                    all_output_shapes.AddRange(node.InputShapes);
+                    all_output_shapes.AddRange(node.output_shapes);
                 }
 
                 if (all_output_shapes.Count == 1)
                 {
-                    var output_shapes = this._inbound_nodes[0].OutputShapes;
+                    var output_shapes = this._inbound_nodes[0].output_shapes;
                     return output_shapes[0];
                 }
                 else
@@ -144,11 +145,13 @@ namespace MxNet.Keras.Engine
             }
         }
         
-        public NDArray[] Weights
+        public KerasSymbol[] Weights
         {
             get
             {
-                throw new NotImplementedException();
+                var r =TrainableWeights.ToList();
+                r.AddRange(NonTrainableWeights);
+                return r.ToArray();
             }
         }
 
@@ -161,14 +164,10 @@ namespace MxNet.Keras.Engine
             // These properties will be set upon call of self.build()
             this._trainable_weights = new List<KerasSymbol>();
             this._non_trainable_weights = new List<KerasSymbol>();
-            this._losses = new List<Func<KerasSymbol, KerasSymbol, KerasSymbol>>();
-            this._updates = new List<KerasSymbol>();
-            this._per_input_losses = new Dictionary<object, object>
-            {
-            };
-            this._per_input_updates = new Dictionary<object, object>
-            {
-            };
+            this._losses = new List<KerasSymbol>();
+            this._updates = new List<(KerasSymbol, KerasSymbol)>();
+            this._per_input_losses = new Dictionary<string, List<KerasSymbol>>();
+            this._per_input_updates = new Dictionary<string, List<(KerasSymbol, KerasSymbol)>>();
             this._built = false;
             // These lists will be filled via successive calls
             // to self._add_inbound_node().
@@ -230,15 +229,15 @@ namespace MxNet.Keras.Engine
             return layer.name + "_ib-" + node_index.ToString();
         }
 
-        public Func<KerasSymbol, KerasSymbol, KerasSymbol>[] Losses => _losses.ToArray();
+        public KerasSymbol[] Losses => _losses.ToArray();
 
-        public KerasSymbol[] Updates
+        public (KerasSymbol, KerasSymbol)[] Updates
         {
             get
             {
                 if (!this.trainable && !this.stateful)
                 {
-                    return new KerasSymbol[0];
+                    return new (KerasSymbol, KerasSymbol)[0];
                 }
 
                 return this._updates.ToArray();
@@ -655,7 +654,7 @@ namespace MxNet.Keras.Engine
                 return r[0];
             }
 
-            return null;
+            return default(T);
         }
 
         public virtual Shape GetInputShapeAt(int node_index)
@@ -688,7 +687,7 @@ namespace MxNet.Keras.Engine
             return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "OutputMasks", "output masks");
         }
 
-        public virtual void AddLoss(Func<KerasSymbol, KerasSymbol, KerasSymbol>[] losses, KerasSymbol[]  inputs = null)
+        public virtual void AddLoss(KerasSymbol[] losses, KerasSymbol[]  inputs = null)
         {
             string inputs_hash;
             if (losses == null || losses.Length == 0)
@@ -696,11 +695,9 @@ namespace MxNet.Keras.Engine
                 return;
             }
 
-            if (this.Losses != null)
+            if (this._losses != null)
             {
-                var l = this.Losses.ToList();
-                l.AddRange(losses);
-                this._losses = l.ToList();
+                this._losses.AddRange(losses);
             }
 
             if (inputs != null)
@@ -713,52 +710,182 @@ namespace MxNet.Keras.Engine
                 // rather than input-dependent
                 inputs_hash = null;
             }
-            if (!this._per_input_losses.Contains(inputs_hash))
+            if (!this._per_input_losses.ContainsKey(inputs_hash))
             {
-                this._per_input_losses[inputs_hash] = new List<object>();
+                this._per_input_losses[inputs_hash] = new List<KerasSymbol>();
             }
 
-            this._per_input_losses[inputs_hash] += losses;
+            this._per_input_losses[inputs_hash].AddRange(losses);
         }
 
-        public virtual void AddUpdate(KerasSymbol[] updates, KerasSymbol[] inputs = null)
+        public virtual void AddUpdate((KerasSymbol, KerasSymbol)[] updates, KerasSymbol[] inputs = null)
         {
-            throw new NotImplementedException();
+            string inputs_hash = "";
+           
+            if (_updates != null)
+            {
+                this._updates.AddRange(updates);
+            }
+
+            if (inputs != null)
+            {
+                inputs_hash = GenericUtils.ObjectListUid(inputs);
+            }
+            else
+            {
+                // Updates indexed by None are unconditional
+                // rather than input-dependent
+                inputs_hash = null;
+            }
+            if (!this._per_input_updates.ContainsKey(inputs_hash))
+            {
+                this._per_input_updates[inputs_hash] = new List<(KerasSymbol, KerasSymbol)>();
+            }
+
+            this._per_input_updates[inputs_hash].AddRange(updates);
         }
 
-        public virtual KerasSymbol[] GetUpdatesFor(KerasSymbol[] inputs)
+        public virtual (KerasSymbol, KerasSymbol)[] GetUpdatesFor(KerasSymbol[] inputs)
         {
-            throw new NotImplementedException();
+            string inputs_hash = "";
+            if (!this.trainable && !this.stateful)
+            {
+                return new (KerasSymbol, KerasSymbol)[0];
+            }
+
+            if (inputs != null)
+            {
+                inputs_hash = GenericUtils.ObjectListUid(inputs);
+            }
+            else
+            {
+                inputs_hash = null;
+            }
+
+            if (this._per_input_updates.ContainsKey(inputs_hash))
+            {
+                return this._per_input_updates[inputs_hash].ToArray();
+            }
+
+            return new (KerasSymbol, KerasSymbol)[0];
         }
 
         public virtual KerasSymbol[] GetLossesFor(KerasSymbol[] inputs)
         {
-            throw new NotImplementedException();
+            string inputs_hash = "";
+            if (inputs != null)
+            {
+                inputs_hash = GenericUtils.ObjectListUid(inputs);
+            }
+            else
+            {
+                inputs_hash = null;
+            }
+
+            if (this._per_input_losses.ContainsKey(inputs_hash))
+            {
+                return this._per_input_losses[inputs_hash].ToArray();
+            }
+
+            return new KerasSymbol[0];
         }
 
         public virtual void SetWeights(KerasSymbol[] weights)
         {
-            throw new NotImplementedException();
+            var @params = this.Weights;
+            if (@params.Length != weights.Length) {
+                throw new Exception("You called `set_weights(weights)` on layer \"" + this.name + "\" with a  weight list of length " + weights.Length.ToString() + ", but the layer was expecting " + @params.Length.ToString());
+            }
+            if (@params == null) {
+                return;
+            }
+
+            var weight_value_tuples = new List<(KerasSymbol, NDArray)>();
+            var param_values = K.BatchGetValue(@params);
+            for(int i = 0; i < param_values.Length; i++)
+            {
+                var pv = param_values[i];
+                var p = @params[i];
+                var w = weights[i];
+
+                if (pv.Shape.ToString() != w.Shape.ToString())
+                {
+                    throw new Exception("Layer weight shape " + pv.Shape.ToString() + " not compatible with provided weight shape " + w.Shape.ToString());
+                }
+
+                weight_value_tuples.Add((w, pv));
+            }
+           
+            K.BatchSetValue(weight_value_tuples);
         }
 
         public virtual NDArray[] GetWeights()
         {
-            throw new NotImplementedException();
+            return K.BatchGetValue(Weights);
         }
 
         public virtual ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            var configDict = new ConfigDict()
+            {
+                    {
+                        "name",
+                        this.name},
+                    {
+                        "trainable",
+                        this.trainable
+                    }
+            };
+
+            if (batch_input_shape != null)
+            {
+                configDict["batch_input_shape"] = this.batch_input_shape;
+            }
+            if (dtype != null)
+            {
+                configDict["dtype"] = this.dtype;
+            }
+
+            return configDict;
         }
 
         public static Layer FromConfig(string cls, ConfigDict config, CustomObjects custom_objects = null)
         {
-            throw new NotImplementedException();
+            var t = Type.GetType("MxNet.Keras.Layers" + cls, true, true);
+            var layer = Activator.CreateInstance(t);
+            foreach (var item in config)
+            {
+                var field = t.GetField(item.Key);
+                if(field != null)
+                {
+                    field.SetValue(layer, item.Value);
+                    continue;
+                }
+
+                var prop = t.GetProperty(item.Key);
+                if (prop != null)
+                {
+                    prop.SetValue(layer, item.Value);
+                }
+            }
+
+            return (Layer)layer;
         }
 
         public virtual int CountParams()
         {
-            throw new NotImplementedException();
+            if (!this._built)
+            {
+                if (this.GetType().Name == "Sequential")
+                {
+                    this.Build(null);
+                }
+                else
+                {
+                    throw new Exception("You tried to call `count_params` on " + this.name + ", but the layer isn\'t built. You can build it manually via: `" + this.name + ".build(batch_input_shape)`.");
+                }
+            }
+            return LayerUtils.CountParams(this.Weights);
         }
     }
 }
