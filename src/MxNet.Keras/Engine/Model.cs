@@ -23,6 +23,78 @@ namespace MxNet.Keras.Engine
 
         internal BucketingModule _module;
 
+        public object _collected_trainable_weights;
+
+        public List<string> _feed_input_names;
+
+        public List<Shape> _feed_input_shapes;
+
+        public List<object> _feed_inputs;
+
+        public List<object> _feed_loss_fns;
+
+        public List<object> _feed_output_names;
+
+        public List<object> _feed_output_shapes;
+
+        public List<object> _feed_outputs;
+
+        public List<object> _feed_sample_weight_modes;
+
+        public List<object> _feed_sample_weights;
+
+        public List<object> _feed_targets;
+
+        public object _function_kwargs;
+
+        public bool _is_compiled;
+
+        public bool built;
+
+        public List<object> input_names;
+
+        public List<object> inputs;
+
+        public List<object> loss;
+
+        public object loss_functions;
+
+        public object loss_weights;
+
+        public List<object> metrics;
+
+        public List<string> metrics_names;
+
+        public List<object> metrics_tensors;
+
+        public object metrics_updates;
+
+        public List<object> output_names;
+
+        public object outputs;
+
+        public object predict_function;
+
+        public object sample_weight_mode;
+
+        public List<object> sample_weight_modes;
+
+        public List<object> sample_weights;
+
+        public List<object> stateful_metric_functions;
+
+        public List<object> stateful_metric_names;
+
+        public List<object> targets;
+
+        public object test_function;
+
+        public object total_loss;
+
+        public object train_function;
+
+        public object weighted_metrics;
+
         public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string sample_weight_mode= null)
         {
             throw new NotImplementedException();

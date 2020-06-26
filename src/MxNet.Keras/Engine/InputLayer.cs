@@ -14,8 +14,6 @@ namespace MxNet.Keras.Engine
 
         internal DType dtype;
 
-        internal bool is_placeholder;
-
         internal bool sparse;
 
         internal bool supports_masking;

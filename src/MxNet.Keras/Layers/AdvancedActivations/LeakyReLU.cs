@@ -2,29 +2,43 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using K = MxNet.Keras.MxNetBackend;
 
 namespace MxNet.Keras.Layers.AdvancedActivations
 {
     public class LeakyReLU : Layer
     {
+        public float alpha;
+
         public LeakyReLU(float alpha = 0.3f) : base()
         {
-            throw new NotImplementedException();
+            this.supports_masking = true;
+            this.alpha = alpha;
         }
 
         public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
         {
-            throw new NotImplementedException();
+            return new KerasSymbol[] { K.Relu(inputs[0], alpha) };
         }
 
         public override ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            var config = new ConfigDict 
+            {
+                    {
+                        "alpha",
+                        this.alpha
+                }
+            };
+
+            var base_config = base.GetConfig();
+            base_config.Update(config);
+            return base_config;
         }
 
         public override Shape[] ComputeOutputShape(Shape[] input_shape)
         {
-            throw new NotImplementedException();
+            return input_shape;
         }
     }
 }

@@ -31,6 +31,7 @@ namespace MxNet.Keras.Engine
         internal bool supports_masking;
         internal bool trainable;
         internal Regularizer activity_regularizer;
+        internal bool is_placeholder;
 
         public KerasSymbol Input
         {
@@ -886,6 +887,11 @@ namespace MxNet.Keras.Engine
                 }
             }
             return LayerUtils.CountParams(this.Weights);
+        }
+
+        public virtual void ResetStates()
+        {
+            //Base without implementation
         }
     }
 }

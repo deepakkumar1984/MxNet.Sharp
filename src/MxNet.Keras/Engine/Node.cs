@@ -6,7 +6,7 @@ namespace MxNet.Keras.Engine
 {
     public class Node
     {
-        public object arguments;
+        public FuncArgs arguments;
 
         public Layer[] inbound_layers;
 

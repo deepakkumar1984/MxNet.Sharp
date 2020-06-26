@@ -22,7 +22,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public static void SaveModel(Model model, string filepath, bool overwrite = true, bool include_optimizer = true)
+        public static void SaveModel(Network model, string filepath, bool overwrite = true, bool include_optimizer = true)
         {
             throw new NotImplementedException();
         }
