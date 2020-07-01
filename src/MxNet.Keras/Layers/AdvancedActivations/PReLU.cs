@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using K = MxNet.Keras.MxNetBackend;
 
 namespace MxNet.Keras.Layers.AdvancedActivations
 {
@@ -48,7 +49,18 @@ namespace MxNet.Keras.Layers.AdvancedActivations
 
         public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
         {
-            throw new NotImplementedException();
+            List<KerasSymbol> result = new List<KerasSymbol>();
+
+            foreach (var input in inputs)
+            {
+                KerasSymbol neg;
+                var pos = K.Relu(input);
+                neg = -this.alpha * K.Relu(-input);
+
+                result.Add(pos + neg);
+            }
+
+            return result.ToArray();
         }
 
         public override void Build(Shape input_shape)
@@ -88,12 +100,27 @@ namespace MxNet.Keras.Layers.AdvancedActivations
 
         public override ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            var config = new ConfigDict {
+                    {
+                        "alpha_initializer",
+                        Initializer.Serialize(this.alpha_initializer)},
+                    {
+                        "alpha_regularizer",
+                        Regularizer.Serialize(this.alpha_regularizer)},
+                    {
+                        "alpha_constraint",
+                        Constraint.Serialize(this.alpha_constraint)},
+                    {
+                        "shared_axes",
+                        this.shared_axes}};
+            var base_config = base.GetConfig();
+            base_config.Update(config);
+            return base_config;
         }
 
         public override Shape[] ComputeOutputShape(Shape[] input_shape)
         {
-            throw new NotImplementedException();
+            return input_shape;
         }
     }
 }

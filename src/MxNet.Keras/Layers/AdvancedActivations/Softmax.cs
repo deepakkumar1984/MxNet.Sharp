@@ -7,24 +7,39 @@ namespace MxNet.Keras.Layers.AdvancedActivations
 {
     public class Softmax : Layer
     {
+        public int axis;
+
         public Softmax(int axis = -1) : base()
         {
-            throw new NotImplementedException();
+            this.supports_masking = true;
+            this.axis = axis;
         }
 
         public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
         {
-            throw new NotImplementedException();
+            List<KerasSymbol> result = new List<KerasSymbol>();
+            foreach (var input in inputs)
+            {
+                result.Add(Activations.Softmax(input, axis));
+            }
+
+            return result.ToArray();
         }
 
         public override ConfigDict GetConfig()
         {
-            throw new NotImplementedException();
+            var config = new ConfigDict {
+                    {
+                        "axis",
+                        this.axis}};
+            var base_config = base.GetConfig();
+            base_config.Update(config);
+            return base_config;
         }
 
         public override Shape[] ComputeOutputShape(Shape[] input_shape)
         {
-            throw new NotImplementedException();
+            return input_shape;
         }
     }
 }

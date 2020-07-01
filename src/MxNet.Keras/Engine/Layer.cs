@@ -156,7 +156,6 @@ namespace MxNet.Keras.Engine
             }
         }
 
-
         public Layer(Shape input_shape = null, Shape batch_input_shape = null, int? batch_size = null, DType dtype = null, string name = null, bool? trainable = null, KerasSymbol[] weights = null)
         {
             this.input_spec = null;

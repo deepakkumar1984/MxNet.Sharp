@@ -12,5 +12,10 @@ namespace MxNet.Keras.Constraints
         {
             return new ConfigDict();
         }
+
+        public static KerasObject Serialize(Constraint initializer)
+        {
+            return Utils.GenericUtils.SerializeKerasObject(initializer);
+        }
     }
 }

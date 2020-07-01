@@ -128,7 +128,17 @@ namespace MxNet
             }
         }
 
-        public int this[int index] => Data[index];
+        public int this[int index]
+        {
+            get
+            {
+                return Data[index];
+            }
+            set
+            {
+                Data[index] = value;
+            }
+        }
 
         #endregion
 

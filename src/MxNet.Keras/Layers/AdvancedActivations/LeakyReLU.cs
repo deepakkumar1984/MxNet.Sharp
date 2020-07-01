@@ -18,16 +18,22 @@ namespace MxNet.Keras.Layers.AdvancedActivations
 
         public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
         {
-            return new KerasSymbol[] { K.Relu(inputs[0], alpha) };
+            List<KerasSymbol> result = new List<KerasSymbol>();
+            foreach (var input in inputs)
+            {
+                result.Add(K.Relu(input, alpha));
+            }
+
+            return result.ToArray();
         }
 
         public override ConfigDict GetConfig()
         {
-            var config = new ConfigDict 
+            var config = new ConfigDict
             {
-                    {
-                        "alpha",
-                        this.alpha
+                {
+                    "alpha",
+                    this.alpha
                 }
             };
 

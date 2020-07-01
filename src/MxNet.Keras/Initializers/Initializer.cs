@@ -12,5 +12,10 @@ namespace MxNet.Keras.Initializers
         {
             return new ConfigDict();
         }
+
+        public static KerasObject Serialize(Initializer initializer)
+        {
+            return Utils.GenericUtils.SerializeKerasObject(initializer);
+        }
     }
 }

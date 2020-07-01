@@ -606,10 +606,10 @@ namespace MxNet.Keras
             return new KerasSymbol(ret);
         }
 
-        public static KerasSymbol Any(Symbol x, Shape axis = null, bool keepdims = false)
+        public static KerasSymbol Any(KerasSymbol x, Shape axis = null, bool keepdims = false)
         {
             axis = NormalizeAxis(axis, NDim(x));
-            var non_zero = sym.NotEqualScalar(x, 0);
+            var non_zero = sym.NotEqualScalar(x.Symbol, 0);
             var var_cast = sym.Cast(data: non_zero, dtype: DType.Int32);
             var var_sum = sym.Sum(data: var_cast, axis: axis, keepdims: keepdims);
             return new KerasSymbol(var_sum > 0);
