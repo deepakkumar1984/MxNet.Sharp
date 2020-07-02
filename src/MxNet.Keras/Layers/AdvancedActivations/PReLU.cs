@@ -22,8 +22,6 @@ namespace MxNet.Keras.Layers.AdvancedActivations
 
         public bool built;
 
-        public InputSpec input_spec;
-
         public List<bool> param_broadcast;
 
         public Shape shared_axes;
@@ -47,7 +45,7 @@ namespace MxNet.Keras.Layers.AdvancedActivations
             }
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             List<KerasSymbol> result = new List<KerasSymbol>();
 
@@ -94,7 +92,7 @@ namespace MxNet.Keras.Layers.AdvancedActivations
                 }
             }
 
-            this.input_spec = new InputSpec(ndim: input_shape.Dimension, axes: axes);
+            this.input_spec = new InputSpec[] { new InputSpec(ndim: input_shape.Dimension, axes: axes) };
             this.built = true;
         }
 

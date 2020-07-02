@@ -10,13 +10,10 @@ namespace MxNet.Keras.Layers
     {
         public string data_format;
 
-        public InputSpec input_spec;
-
-
         public SpatialDropout3D(float rate, string data_format = "") : base(rate)
         {
             this.data_format = K.NormalizeDataFormat(data_format);
-            this.input_spec = new InputSpec(ndim: 5);
+            this.input_spec = new InputSpec[] { new InputSpec(ndim: 5) };
         }
 
         internal override Shape GetNoiseShape(KerasSymbol inputs)

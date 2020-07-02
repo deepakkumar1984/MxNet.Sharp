@@ -119,7 +119,7 @@ namespace MxNet.Keras.Engine
                 );
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             return inputs;
         }

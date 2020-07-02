@@ -36,7 +36,7 @@ namespace MxNet.Keras.Layers.AdvancedActivations
             this.threshold = threshold;
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             List<KerasSymbol> result = new List<KerasSymbol>();
             foreach (var input in inputs)

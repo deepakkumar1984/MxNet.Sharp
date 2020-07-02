@@ -1924,7 +1924,11 @@ namespace MxNet.Keras
 
         public static int GetUid(string prefix = "")
         {
-            _UID_PREFIXES[prefix] += 1;
+            if(_UID_PREFIXES.ContainsKey(prefix))
+                _UID_PREFIXES[prefix] += 1;
+            else
+                _UID_PREFIXES[prefix] = 1;
+
             return _UID_PREFIXES[prefix];
         }
 

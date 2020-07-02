@@ -16,7 +16,7 @@ namespace MxNet.Keras.Layers
             this.mask_value = mask_value;
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             List<KerasSymbol> result = new List<KerasSymbol>();
 

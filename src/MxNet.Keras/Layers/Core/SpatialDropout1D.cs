@@ -8,11 +8,9 @@ namespace MxNet.Keras.Layers
 {
     public class SpatialDropout1D : Dropout
     {
-        public InputSpec input_spec;
-
         public SpatialDropout1D(float rate) : base(rate)
         {
-            this.input_spec = new InputSpec(ndim: 3);
+            this.input_spec = new InputSpec[] { new InputSpec(ndim: 3) };
         }
 
         internal override Shape GetNoiseShape(KerasSymbol inputs)

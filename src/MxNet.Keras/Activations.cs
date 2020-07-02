@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Keras.Layers.Core;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using K = MxNet.Keras.MxNetBackend;
@@ -80,6 +81,11 @@ namespace MxNet.Keras
         public static KerasSymbol Linear(KerasSymbol x)
         {
             return x;
+        }
+
+        public static KerasObject Serialize(Activation activation)
+        {
+            return Utils.GenericUtils.SerializeKerasObject(activation);
         }
     }
 }

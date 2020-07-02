@@ -157,6 +157,14 @@ namespace MxNet
             Dimension = _Data.Count;
         }
 
+        public void Insert(int index, int s)
+        {
+            var list = _Data.ToList();
+            list.Insert(index, s);
+            _Data.Clear();
+            _Data.AddRange(list);
+        }
+
         #region Overrides
 
         public override bool Equals(object obj)

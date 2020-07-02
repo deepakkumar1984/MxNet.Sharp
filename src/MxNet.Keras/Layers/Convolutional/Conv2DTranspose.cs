@@ -17,7 +17,7 @@ namespace MxNet.Keras.Layers
             throw new NotImplementedException();
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             throw new NotImplementedException();
         }

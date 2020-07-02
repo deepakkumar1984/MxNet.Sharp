@@ -1380,7 +1380,7 @@ namespace MxNet.Keras.Engine
             return (network_nodes.ToArray(), nodes_by_depth, layers.ToArray(), layers_by_depth);
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             var mask = kwargs.Contains("mask") ? (KerasSymbol)kwargs["mask"] : null;
             List<KerasSymbol> masks = new List<KerasSymbol>();

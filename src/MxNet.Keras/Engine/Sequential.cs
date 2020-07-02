@@ -12,7 +12,8 @@ namespace MxNet.Keras.Engine
 
         public Model Model { get; set; }
 
-        public Sequential(Layer[] layers = null)
+        public Sequential(Layer[] layers = null, string name = "", Context context = null, string kvstore = "device")
+            : base(name, context, kvstore)
         {
             throw new NotImplementedException();
         }
@@ -27,7 +28,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public void Build(Shape input_shape = null)
+        public override void Build(Shape input_shape = null)
         {
             throw new NotImplementedException();
         }
@@ -42,7 +43,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public ConfigDict GetConfig()
+        public override ConfigDict GetConfig()
         {
             throw new NotImplementedException();
         }

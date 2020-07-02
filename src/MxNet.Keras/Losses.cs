@@ -92,5 +92,42 @@ namespace MxNet.Keras
             y_pred = K.L2Normalize(y_pred, axis: -1);
             return -K.Sum(y_true * y_pred, axis: -1);
         }
+
+        public static Func<KerasSymbol, KerasSymbol, KerasSymbol> Get(string name)
+        {
+            switch (name)
+            {
+                case "mean_squared_error":
+                    return MeanSquaredError;
+                case "mean_absolute_error":
+                    return MeanAbsoluteError;
+                case "mean_absolute_percentage_error":
+                    return MeanAbsolutePercentageError;
+                case "mean_squared_logarithmic_error":
+                    return MeanSquaredLogrithmicError;
+                case "squared_hinge":
+                    return SquaredHinge;
+                case "hinge":
+                    return Hinge;
+                case "categorial_hinge":
+                    return CategorialHinge;
+                case "log_cosh":
+                    return Logcosh;
+                case "categorical_crossentropy":
+                    return CategoricalCrossentropy;
+                case "sparse_categorical_crossentropy":
+                    return SparseCategoricalCrossentropy;
+                case "multi_hot_sparse_categorical_crossentropy":
+                    return MultiHotSparseCategoricalCrossentropy;
+                case "kullbackleibler_divergence":
+                    return KullbackLeiblerDivergence;
+                case "poisson":
+                    return Poisson;
+                case "cosine_proximity":
+                    return CosineProximity;
+                default:
+                    throw new Exception("Invalid loss function");
+            }
+        }
     }
 }
