@@ -8,6 +8,8 @@ using MxNet.Keras.Optimizers;
 using MxNet.Modules;
 using System.Linq;
 using K = MxNet.Keras.MxNetBackend;
+using System.Diagnostics;
+using MxNet.IO;
 
 namespace MxNet.Keras.Engine
 {
@@ -122,6 +124,7 @@ namespace MxNet.Keras.Engine
         internal bool compiled;
         internal int? _num_data;
         internal int? _num_label;
+        internal BucketingModule _predict_only_module;
 
         public Model(string name = "", Context context = null, string kvstore = "device")
         {
@@ -373,39 +376,249 @@ namespace MxNet.Keras.Engine
             this.compiled = true;
         }
 
-        internal void AdjustModule(KerasSymbol[] inputs, string phase)
+        internal (NDArray[], NDArray[], Phase, DataDesc[], DataDesc[]) AdjustModule(KerasSymbol[] inputs, Phase phase)
         {
-            throw new NotImplementedException();
+            DataDesc[] label_shapes;
+            NDArray[] label;
+            if (this._module == null)
+            {
+                throw new Exception("MXNet Backend: You must compile your model before using it.");
+            }
+
+            if (this._num_data + this._num_label == inputs.Length - 1)
+            {
+                inputs = inputs.Take(inputs.Length - 1).ToArray();
+            }
+            else if (this._num_data == inputs.Length - 1)
+            {
+                inputs = inputs.Take(inputs.Length - 1).ToArray();
+            }
+
+            Debug.Assert(this._num_data == inputs.Length || this._num_data + this._num_label == inputs.Length);
+            var data = Enumerable.Zip(this.inputs, this.inputs.Take(this._num_data.Value).ToArray(), (s, x) => 
+            {
+                return x.Tensor.AsType(s.DType);
+            }).ToArray();
+
+            var data_shapes = Enumerable.Zip(this.inputs, data, (s, arr) =>
+            {
+                return new DataDesc(s.Name, arr.Shape, s.DType);
+            }).ToArray();
+
+            if (this._num_data < inputs.Length)
+            {
+                var labelList = new List<KerasSymbol>();
+                labelList.AddRange(this.targets);
+                labelList.AddRange(this.sample_weights);
+                label = Enumerable.Zip(labelList, labelList.Take(this._num_data.Value).ToArray(), (s, x) =>
+                {
+                    return x.Tensor.AsType(s.DType);
+                }).ToArray();
+
+                label_shapes = Enumerable.Zip(labelList, data, (s, arr) =>
+                {
+                    return new DataDesc(s.Name, arr.Shape, s.DType);
+                }).ToArray();
+            }
+            else
+            {
+                label = null;
+                label_shapes = null;
+            }
+
+            if (!this._module.Binded)
+            {
+                // allow prediction without compiling the model using different binding
+                if (phase ==  Phase.Pred && !this.compiled)
+                {
+                    this._module.Bind(data_shapes: data_shapes, label_shapes: null, for_training: false);
+                    this.SetWeights();
+                }
+                else
+                {
+                    this._module.Bind(data_shapes: data_shapes, label_shapes: null, for_training: true);
+                    this.SetWeights();
+                    this._module.InitOptimizer(kvstore: this._kvstore, optimizer: this.optimizer);
+                }
+            }
+
+            // If context is EIA, we will be directly using Module rather than Bucketing Module.
+            // Hence, below specialization.
+            if (this._module.GetType().Name == "BucketingModule")
+            {
+                this._module.SwitchBucket((int)phase, data_shapes, label_shapes);
+                // adjust module data shape
+                if (inputs[0].Shape[0] != this._module._curr_module._exec_group.BatchSize)
+                {
+                    this._module._curr_module.Reshape(data_shapes, label_shapes);
+                    Debug.Assert(inputs[0].Shape[0] == this._module._curr_module._exec_group.BatchSize, "Reshape failed");
+                }
+            }
+            else
+            {
+                // adjust module data shape
+                //if (inputs[0].shape[0] != this._module._exec_group.batch_size)
+                //{
+                //    this._module.reshape(data_shapes, label_shapes);
+                //    Debug.Assert(inputs[0].shape[0] == this._module._exec_group.batch_size);
+                //    Debug.Assert("Reshape failed");
+                //}
+            }
+
+            return (data, label, phase, data_shapes, label_shapes);
         }
 
-        internal bool SyncWeights()
+        internal void SyncWeights()
         {
-            throw new NotImplementedException();
+            if (this._weights_dirty != null)
+            {
+                var _tup_1 = this._module.GetParams();
+                var args = _tup_1.Item1;
+                var auxs = _tup_1.Item2;
+                foreach (var name in this._arg_names)
+                {
+                    try
+                    {
+                        this._args[name] = args[name];
+                    }
+                    catch
+                    {
+                        // when name is not in self._args (key not found)
+                        this._args[name] = args[name];
+                    }
+                }
+                foreach (var name in this._aux_names)
+                {
+                    try
+                    {
+                        this._auxs[name] = auxs[name];
+                    }
+                    catch
+                    {
+                        // when name is not in self._auxs (key not found)
+                        this._auxs[name] = auxs[name];
+                    }
+                }
+
+                this._weights_dirty = false;
+            }
         }
 
         internal void SetWeights(NDArrayDict arg_params = null, NDArrayDict auxs_params = null)
         {
-            throw new NotImplementedException();
+            if (this._module.Binded)
+            {
+                this._module.SetParams(arg_params == null ? this._args : arg_params, auxs_params == null ? this._auxs : auxs_params, allow_missing: true);
+                this._weights_dirty = arg_params != null || auxs_params != null;
+            }
+            else
+            {
+                if (arg_params != null)
+                {
+                    foreach (var k in arg_params)
+                    {
+                        this._args[k.Key] = k.Value;
+                    }
+                }
+                if (auxs_params != null)
+                {
+                    foreach (var k in auxs_params)
+                    {
+                        this._auxs[k.Key] = k.Value;
+                    }
+                }
+                this._weights_dirty = false;
+            }
         }
 
-        internal void Update(KerasSymbol[] updates)
+        internal void Update(Dictionary<string, string> updates)
         {
-            throw new NotImplementedException(); 
+            foreach (var exe in this._module._curr_module._exec_group.Execs)
+            {
+                var outs = exe.OutputDictionary();
+                var args = exe.ArgmentDictionary();
+                foreach (var u in updates)
+                {
+                    args[u.Key] = outs[u.Value + "_output"];
+                }
+            }
         }
 
         internal void MakeTrainFunction()
         {
-            throw new NotImplementedException();
+            Func<KerasSymbol[], float[]> train_function = inputs => 
+            {
+                //Training._check_trainable_weights_consistency();
+                var (data, label, _, data_shapes, label_shapes) = this.AdjustModule(inputs, Phase.Train);
+                var batch = new DataBatch(data: data, label: label, bucket_key: (int)Phase.Train, provide_data: data_shapes, provide_label: label_shapes);
+                this._module.ForwardBackward(batch);
+                this._module.Update();
+                this.Update(this._train_updates);
+                this._weights_dirty = true;
+                var outs = this._module.GetOutputs()[0].Take(this._ntrain.Value);
+                return (from x in outs
+                        select x.Mean()).ToArray();
+            };
+
+            this.train_function = train_function;
         }
 
         internal void MakeTestFunction()
         {
-            throw new NotImplementedException();
+            Func<KerasSymbol[], float[]> test_function = inputs =>
+            {
+                //Training._check_trainable_weights_consistency();
+                var (data, label, _, data_shapes, label_shapes) = this.AdjustModule(inputs, Phase.Test);
+                var batch = new DataBatch(data: data, label: label, bucket_key: (int)Phase.Test, provide_data: data_shapes, provide_label: label_shapes);
+                this._module.Forward(batch);
+                if (this._test_updates != null)
+                {
+                    this.Update(this._test_updates);
+                    this._weights_dirty = true;
+                }
+
+                var outs = this._module.GetOutputs()[0].Take(this._ntest.Value);
+                return (from x in outs
+                        select x.Mean()).ToArray();
+            };
+
+            this.test_function = test_function;
         }
 
         internal void MakePredictFunction()
         {
-            throw new NotImplementedException();
+            Func<KerasSymbol[], float[]> pred_function = inputs =>
+            {
+                if (!this.compiled)
+                {
+                    if (this.built)
+                    {
+                        this._num_data = this.inputs.Count;
+                        this._num_label = this.outputs.Count + this.output_names.Count;
+                        // Create Module for Inference
+                        this.CreatePredictFunction();
+                    }
+
+                    this._module = this._predict_only_module;
+                    K.SetModel(this);
+                }
+
+                //Training._check_trainable_weights_consistency();
+                var (data, label, _, data_shapes, label_shapes) = this.AdjustModule(inputs, Phase.Pred);
+                var batch = new DataBatch(data: data, label: label, bucket_key: (int)Phase.Pred, provide_data: data_shapes, provide_label: label_shapes);
+                this._module.Forward(batch, is_train: false);
+                if (this._test_updates != null)
+                {
+                    this.Update(this._test_updates);
+                    this._weights_dirty = true;
+                }
+
+                var outs = this._module.GetOutputs()[0].Take(this._npred.Value);
+                return (from x in outs
+                        select x.Mean()).ToArray();
+            };
+
+            this.predict_function = pred_function;
         }
 
         internal void CreatePredictFunction()

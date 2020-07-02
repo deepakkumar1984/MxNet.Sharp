@@ -34,7 +34,7 @@ namespace MxNet.Modules
         private int[] _work_load_list;
         private Dictionary<string, Context>[] _group2ctxs;
         public Dictionary<int, Module> _buckets;
-        private Module _curr_module;
+        public Module _curr_module;
         private int? _curr_bucket_key;
         private bool _params_dirty;
         private Monitor _monitor;

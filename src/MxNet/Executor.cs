@@ -178,6 +178,11 @@ namespace MxNet
             return GetDictionary(_Symbol.ListAuxiliaryStates(), AuxiliaryArrays);
         }
 
+        public NDArrayDict OutputDictionary()
+        {
+            return GetDictionary(_Symbol.ListOutputs(), Outputs);
+        }
+
         public void Backward()
         {
             Backward(new NDArrayList());

@@ -34,7 +34,7 @@ namespace MxNet.Modules
         internal Context[] _context;
         internal readonly string[] _data_names;
         internal DataDesc[] _data_shapes;
-        internal DataParallelExecutorGroup _exec_group;
+        public DataParallelExecutorGroup _exec_group;
         internal readonly string[] _fixed_param_names;
         internal OpGradReq _grad_req;
         internal readonly Dictionary<string, Context>[] _group2ctxs;
