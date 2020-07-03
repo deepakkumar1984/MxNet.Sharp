@@ -10,7 +10,6 @@ namespace MxNetKerasExamples
     {
         static void Main(string[] args)
         {
-            var ndArray = nd.Array(new int[] { 0, 0, 15, 15 });
             NDArray x = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }).Reshape(4, 2);
             NDArray y = new NDArray(new float[] { 0, 1, 1, 0 }).Reshape(4, 1);
 

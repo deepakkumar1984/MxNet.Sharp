@@ -217,7 +217,7 @@ namespace MxNet.Keras.Engine
 
         }
 
-        public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string sample_weight_mode= null, Context context = null)
+        public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string sample_weight_mode= null, Context context = null, NDArray[] target_tensors = null)
         {
             BaseCompile(optimizer, loss, metrics, loss_weights, sample_weight_mode);
             if (!this.built)
@@ -623,27 +623,307 @@ namespace MxNet.Keras.Engine
 
         internal void CreatePredictFunction()
         {
-            throw new NotImplementedException();
+            this._data_names = (from x in this.inputs
+                                where x != null
+                                select x.Name).ToArray();
+            var state_updates = (from x in this.StateUpdates
+                                 select x.Item2).ToList();
+            // set for prediction
+            this._npred = this.outputs.Count;
+            List<KerasSymbol> predList = new List<KerasSymbol>();
+            predList.AddRange(this.outputs);
+            predList.AddRange((from symbol in state_updates
+                               where !this.outputs.Contains(symbol)
+                               select symbol).ToList());
+
+            var pred_keras_symbol = K.Group(predList.ToArray());
+            var bind_values = K.DfsGetBindValues(pred_keras_symbol);
+            this._pred_mxnet_symbol = pred_keras_symbol.Symbol;
+            // set the args and auxs
+            var inputs_name_set = new HashSet<object>(this._data_names);
+            this._arg_names = (from x in this._pred_mxnet_symbol.ListArguments()
+                                                   where !inputs_name_set.Contains(x)
+                                                   select x).ToArray();
+            this._aux_names = this._pred_mxnet_symbol.ListAuxiliaryStates().ToArray();
+            var trainable_weights = (from x in this.TrainableWeights
+                                                         select x.Name).ToList();
+            this._fixed_weights = (from x in this._arg_names
+                                   where !trainable_weights.Contains(x)
+                                   select x).ToArray();
+            
+            this._args = new NDArrayDict();
+            foreach (var x in _arg_names)
+            {
+                _args.Add(x, bind_values[x]);
+            }
+
+            this._auxs = new NDArrayDict();
+            foreach (var x in _aux_names)
+            {
+                _auxs.Add(x, bind_values[x]);
+            }
+
+            this._weights_dirty = false;
+            // set module for prediction only
+            if (this._context != null && this._context[0].GetDeviceType() ==  DeviceType.EIA)
+            {
+                // Only Prediction is Supported with EI Context
+                //this._predict_only_module = mx.mod.Module(this._pred_mxnet_symbol, data_names: this._data_names, label_names: this._label_names, context: this._context[0], ////fixed_param_names: this._fixed_weights);
+            }
+            else
+            {
+                Func<int, (Symbol, string[], string[])> sym_gen = phase => {
+                    return (this._pred_mxnet_symbol, this._data_names, null);
+                };
+
+                // separate module for using predict without compiling model
+                this._predict_only_module = new BucketingModule(sym_gen: sym_gen, default_bucket_key: (int)Phase.Pred, context: this._context, fixed_param_names: this._fixed_weights);
+            }
         }
 
         public void SetMxNetContext(Context context)
         {
-            throw new NotImplementedException();
+            this._context = K.GetMxNetContexts(context);
+        }
+
+        public void SetMxNetContext(Context[] context)
+        {
+            this._context = context;
+        }
+
+        public void SetMxNetContext(int context)
+        {
+            this._context = K.GetMxNetContexts(context);
         }
 
         internal bool _uses_dynamic_learning_phase()
         {
-            throw new NotImplementedException();
+            return this.UseLearningPhase && !(K.LearningPhase());
         }
 
-        internal void _set_inputs(Symbol[] inputs, Symbol[]  outputs = null, bool? training= null)
+        internal void SetInputs(NDArray[] inputs, KerasSymbol[]  outputs = null, bool? training= null)
         {
-            throw new NotImplementedException();
+            if (this.GetType().Name == "Sequential")
+            {
+                // Note: we can't test whether the model
+                // is `Sequential` via `isinstance`
+                // since `Sequential` depends on `Model`.
+                Debug.Assert(inputs.Length == 1);
+                List<int> shape = new List<int>();
+                shape.Add(-1);
+                shape.AddRange(inputs[0].Shape.Data.Skip(1));
+                this.Build(input_shape: new Shape(shape));
+                return;
+            }
+
+            if (this.inputs != null)
+            {
+                throw new Exception("Model inputs are already set.");
+            }
+
+            // On-the-fly setting of symbolic model inputs
+            // (either by using the tensor provided,
+            // or by creating a placeholder if Numpy data was provided).
+            this.inputs = new List<KerasSymbol>();
+            this.input_names = new List<string>();
+            this._feed_inputs = new List<KerasSymbol>();
+            this._feed_input_names = new List<string>();
+            this._feed_input_shapes = new List<Shape>();
+            
+            foreach (var (i, v) in inputs.Select((_p_1, _p_2) => Tuple.Create(_p_2, _p_1)))
+            {
+                var name = String.Format("input_" + i + 1);
+                this.input_names.Add(name);
+                
+                List<int> shapeData = new List<int>();
+                shapeData.Add(-1);
+                shapeData.AddRange(v.Shape.Data.Skip(1));
+                var shape = new Shape(shapeData);
+                var placeholder = K.Placeholder(shape: shape, name: name);
+                this.inputs.Add(placeholder);
+                this._feed_inputs.Add(placeholder);
+                this._feed_input_names.Add(name);
+                this._feed_input_shapes.Add(shape);
+            }
+
+            if (outputs == null)
+            {
+                // Obtain symbolic outputs by calling the model.
+                if (this._expects_training_arg)
+                {
+                    outputs = this.Call(this.inputs.ToArray(), new FuncArgs() { { "training", training } });
+                }
+                else
+                {
+                    outputs = this.Call(this.inputs.ToArray());
+                }
+            }
+
+            this.outputs = outputs.ToList();
+            this.output_names = (from i in Enumerable.Range(0, this.outputs.Count)
+                                 select String.Format("output_{0}", i + 1)).ToList();
+            this.built = true;
         }
 
-        internal void _standardize_user_data(NDArray x, NDArray y= null, NDArray sample_weight = null, Dictionary<int, float> class_weight = null, bool check_array_lengths= true, int? batch_size= null)
+        internal (NDArrayList, NDArrayList, NDArrayList) StandardizeUserData(NDArrayList x, NDArrayList y = null, NDArrayList sample_weight = null, NDArrayDict class_weight = null, bool check_array_lengths = true, int? batch_size = null)
         {
-            throw new NotImplementedException();
+            NDArrayList sample_weights = new NDArrayList(); ;
+            string[] feed_sample_weight_modes;
+            Shape[] feed_output_shapes;
+            string[] feed_output_names;
+            Shape[] feed_input_shapes;
+            string[] feed_input_names;
+            var all_inputs = new NDArrayList();
+            if (!this.built)
+            {
+                // We need to use `x` to set the model inputs.
+                // We type-check that `x` and `y` are either single arrays
+                // or lists of arrays.
+                all_inputs.Add(x);
+                if (this.inputs == null)
+                {
+                    this.SetInputs(x);
+                }
+            }
+            if (y != null)
+            {
+                if (this.optimizer == null)
+                {
+                    throw new Exception("You must compile a model before training/testing. Use `model.compile(optimizer, loss)`.");
+                }
+
+                if (!this._is_compiled)
+                {
+                    // Typecheck that all inputs are *either* value *or* symbolic.
+                    if (y != null)
+                    {
+                        all_inputs.Add(y);
+                    }
+
+                    this.Compile(optimizer: this.optimizer, loss: this.loss, metrics: this.metrics.ToArray(), loss_weights: this.loss_weights, target_tensors: all_inputs.ToArray());
+                }
+            }
+            // If `x` and `y` were all symbolic,
+            // then the model should not be fed any inputs and targets.
+            // Note: in this case, `any` and `all` are equivalent since we disallow
+            // mixed symbolic/value inputs.
+            if ((from v in all_inputs
+                 select K.IsTensor(v)).Any())
+            {
+                return (new NDArrayList(), new NDArrayList(), new NDArrayList());
+            }
+            // What follows is input validation and standardization to list format,
+            // in the case where all inputs are value arrays.
+            if (!this._is_graph_network)
+            {
+                // Case: symbolic-mode subclassed network.
+                // Do not do shape validation.
+                feed_input_names = this._feed_input_names.ToArray();
+                feed_input_shapes = null;
+            }
+            else
+            {
+                // Case: symbolic-mode graph network.
+                // In this case, we run extensive shape validation checks.
+                feed_input_names = this._feed_input_names.ToArray();
+                feed_input_shapes = this._feed_input_shapes.ToArray();
+            }
+            // Standardize the inputs.
+            x = TrainingUtils.StandardizeInputData(x, feed_input_names, feed_input_shapes, check_batch_axis: false, exception_prefix: "input");
+            if (y != null)
+            {
+                if (!this._is_graph_network)
+                {
+                    feed_output_names = this._feed_output_names.ToArray();
+                    feed_output_shapes = null;
+                    // Sample weighting not supported in this case.
+                    // TODO: consider supporting it.
+                    feed_sample_weight_modes = new string[this.outputs.Count];
+                }
+                else
+                {
+                    feed_output_names = this._feed_output_names.ToArray();
+                    feed_sample_weight_modes = this._feed_sample_weight_modes.ToArray();
+                    feed_output_shapes = Enumerable.Zip(this._feed_output_shapes, this._feed_loss_fns, (output_shape, loss_fn) =>
+                    {
+                        if (loss == "sparse_categorical_crossentropy")
+                        {
+                            if (K.ImageDataFormat() == "channels_first" && new List<int> {
+                                    4,
+                                    5
+                                }.Contains(output_shape.Dimension))
+                            {
+                                var shapeData = new List<int>() { output_shape[0], 1 };
+                                shapeData.AddRange(output_shape.Data.Skip(2));
+                                return new Shape(shapeData);
+                            }
+                            else
+                            {
+                                var shapeData = new List<int>();
+                                shapeData.AddRange(output_shape.Data.Take(output_shape.Dimension - 1));
+                                shapeData.Add(1);
+
+                                return new Shape(shapeData);
+                            }
+                        }
+                        else
+                        {
+                            return output_shape;
+                        }
+                    }).ToArray();
+
+                    var check_last_layer_shape = true;
+                    foreach (var loss_fn in this.loss_functions)
+                    {
+                        if (loss == "multi_hot_sparse_categorical_crossentropy")
+                        {
+                            // does not check the last layer shape when multi_hot_sparse_categorical_crossentropy \
+                            // is used, since we reduce the dimension of sparse labels.
+                            check_last_layer_shape = false;
+                        }
+                    }
+
+                    // Standardize the outputs.
+                    y = TrainingUtils.StandardizeInputData(y, feed_output_names, feed_output_shapes, check_batch_axis: false, exception_prefix: "target", check_last_layer_shape: check_last_layer_shape);
+                    // Generate sample-wise weight values given the `sample_weight` and
+                    // `class_weight` arguments.
+                    sample_weights = TrainingUtils.StandardizeSampleWeight(sample_weight, feed_output_names);
+                    var class_weights = TrainingUtils.StandardizeClassWeight(class_weight, feed_output_names);
+                    for (int i = 0; i < y.Length; i++)
+                    {
+                        var @ref = y[i];
+                        var sw = sample_weights[i];
+                        var cw = class_weights[i];
+                        var mode = feed_sample_weight_modes[i];
+                        sample_weights[i] = TrainingUtils.StandardizeWeights(@ref, sw, cw, mode);
+                    }
+                    // Check that all arrays have the same length.
+                    TrainingUtils.CheckArrayLengthConsistency(x, y, sample_weights);
+                    if (this._is_graph_network)
+                    {
+                        // Additional checks to avoid users mistakenly
+                        // using improper loss fns.
+                        TrainingUtils.CheckLossAndTargetCompatibility(y, this._feed_loss_fns.ToArray(), feed_output_shapes);
+                    }
+                }
+            }
+            else
+            {
+                y = new NDArrayList();
+                sample_weights = new NDArrayList();
+            }
+
+            if (this.stateful && batch_size.HasValue)
+            {
+                // Check that for stateful networks, number of samples is a multiple
+                // of the static batch size.
+                if (x[0].Shape[0] % batch_size != 0)
+                {
+                    throw new Exception("In a stateful network, you should only pass inputs with a number of samples that can be divided by the batch size. Found: " + x[0].Shape[0] + " samples");
+                }
+            }
+
+            return (x, y, sample_weights);
         }
 
         public void Fit(NDArray x, NDArray y, int? batch_size= null, int epochs= 1, int verbose= 1, Callback[] callbacks= null, float validation_split= 0, NDArrayList validation_data= null, bool shuffle= true, Dictionary<int, float> class_weight= null, NDArray sample_weight= null, int initial_epoch= 0, int? steps_per_epoch= null, int? validation_steps= null)

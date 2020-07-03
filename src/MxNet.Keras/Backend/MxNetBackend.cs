@@ -190,7 +190,7 @@ namespace MxNet.Keras
 
         public static bool IsTensor(object x)
         {
-            return x is KerasSymbol || x is Symbol || x is NDArray;
+            return x is NDArray;
         }
 
         public static KerasSymbol Placeholder(Shape shape= null, int? ndim= null, DType dtype= null, bool sparse= false, string name= "")
