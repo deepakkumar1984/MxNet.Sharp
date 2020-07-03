@@ -58,9 +58,9 @@ namespace MxNet.Image
             bool transpose = true;
 
             if (x.Shape.Dimension == 4)
-                x = x.Reshape(x.Shape[1], x.Shape[2], x.Shape[3]).AsType(DType.Uint8);
+                x = x.Reshape(x.Shape[1], x.Shape[2], x.Shape[3]).AsType(DType.UInt8);
             else
-                x = x.AsType(DType.Uint8);
+                x = x.AsType(DType.UInt8);
 
             if (x.Shape[0] > 3)
                 transpose = false;

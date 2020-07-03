@@ -22,7 +22,7 @@ namespace MxNet.GluonCV.Data.Transforms.Presets
             foreach (var img_ in imgs)
             {
                 var img = Image.ResizeShortWithin(img_, @short, max_size, mult_base: stride);
-                var orig_img = img.AsType(DType.Uint8);
+                var orig_img = img.AsType(DType.UInt8);
                 img = nd.Image.ToTensor(img);
                 img = nd.Image.Normalize(img, mean: mean.Value, std: std.Value);
                 tensors.Add(img.ExpandDims(0));

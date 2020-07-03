@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
 using System.Collections.Generic;
 
 namespace MxNet
@@ -21,12 +22,12 @@ namespace MxNet
     {
         private static readonly Dictionary<string, DType> StringToDTypeMap = new Dictionary<string, DType>();
         private static readonly Dictionary<int, DType> IndexToDTypeMap = new Dictionary<int, DType>();
-        public static readonly DType Float32 = new DType("float32", "Float32", 0);
-        public static readonly DType Float64 = new DType("float64", "Float64", 1);
-        public static readonly DType Float16 = new DType("float16", "Float16", 2);
-        public static readonly DType Uint8 = new DType("uint8", "Uint8", 3);
+        public static readonly DType Float32 = new DType("float32", "Single", 0);
+        public static readonly DType Float64 = new DType("float64", "Double", 1);
+        public static readonly DType Float16 = new DType("float16", "Single", 2);
+        public static readonly DType UInt8 = new DType("uint8", "Byte", 3);
         public static readonly DType Int32 = new DType("int32", "Int32", 4);
-        public static readonly DType Int8 = new DType("int8", "Int8", 5);
+        public static readonly DType Int8 = new DType("int8", "SByte", 5);
         public static readonly DType Int64 = new DType("int64", "Int64", 6);
 
         public DType(string name, string csName, int index)
@@ -65,6 +66,37 @@ namespace MxNet
         public static DType GetType(int index)
         {
             return IndexToDTypeMap[index];
+        }
+
+        public static DType InferDtype(Array data)
+        {
+            DType dtype = DType.Float32;
+            if (data.GetType().Name.Contains("SByte"))
+            {
+                dtype = DType.Int8;
+            }
+            else if (data.GetType().Name.Contains("Byte"))
+            {
+                dtype = DType.UInt8;
+            }
+            else if (data.GetType().Name.Contains("Single"))
+            {
+                dtype = DType.Float32;
+            }
+            else if (data.GetType().Name.Contains("Double"))
+            {
+                dtype = DType.Float64;
+            }
+            else if (data.GetType().Name.Contains("Int32"))
+            {
+                dtype = DType.Int32;
+            }
+            else if (data.GetType().Name.Contains("Int64"))
+            {
+                dtype = DType.Int64;
+            }
+
+            return dtype;
         }
     }
 }

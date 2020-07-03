@@ -222,27 +222,9 @@ namespace MxNet
 
         public static NDArray Array(Array data, Context ctx = null)
         {
-            if (ctx == null)
-                ctx = Context.CurrentContext;
+            DType dtype = DType.InferDtype(data);
 
-            var shape = new List<int>();
-            for (var i = 0; i < data.Rank; i++)
-                shape.Add(data.GetLength(i));
-
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.ToArray(),
-                data.Rank,
-                ctx.GetDeviceType(),
-                ctx.GetDeviceId(),
-                false.ToInt32(),
-                out var @out), NativeMethods.OK);
-            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
-            NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint) data.Length);
-
-            var result = new NDArray();
-            result.NativePtr = @out;
-            result._Blob = new NDBlob(@out);
-
-            return result;
+            return new NDArray(data, ctx, dtype);
         }
 
         public static NDArray Array(ndarray data, Context ctx = null)
@@ -273,7 +255,7 @@ namespace MxNet
             }
             else if (data.Dtype == np.UInt8)
             {
-                return Array(data.AsSByteArray()).AsType(DType.Uint8).Reshape(new Shape(data.shape.iDims));
+                return Array(data.AsSByteArray()).AsType(DType.UInt8).Reshape(new Shape(data.shape.iDims));
             }
 
             return Array(data.AsFloatArray()).Reshape(new Shape(data.shape.iDims));

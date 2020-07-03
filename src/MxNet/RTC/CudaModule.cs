@@ -30,7 +30,7 @@ namespace MxNet.RTC
             {"float", DType.Float32 },
             {"double", DType.Float64 },
             {"__half", DType.Float16 },
-            {"uint8_t", DType.Uint8 },
+            {"uint8_t", DType.UInt8 },
             {"int", DType.Int32 },
             {"int32_t", DType.Int32 },
             {"int8_t", DType.Int8 },

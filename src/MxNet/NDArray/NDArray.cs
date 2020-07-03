@@ -105,23 +105,23 @@ namespace MxNet
         {
             if (ctx == null)
                 ctx = Context.CurrentContext;
-
-            if (dtype == null)
-                dtype = DType.Float32;
-
+            
             if (data == null)
                 throw new ArgumentNullException(nameof(data));
             if (shape == null)
                 throw new ArgumentNullException(nameof(shape));
+            NDArrayHandle @out = new NDArrayHandle();
+            if (dtype == null)
+                dtype = DType.InferDtype(data);
 
-            
             Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data,
-                shape.Dimension,
-                ctx.GetDeviceType(),
-                ctx.GetDeviceId(),
-                false.ToInt32(),
-                dtype.Index,
-                out var @out), NativeMethods.OK);
+                   shape.Dimension,
+                   ctx.GetDeviceType(),
+                   ctx.GetDeviceId(),
+                   false.ToInt32(),
+                   dtype.Index,
+                   out @out), NativeMethods.OK);
+
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint) shape.Size);
 
@@ -129,9 +129,42 @@ namespace MxNet
             _Blob = new NDBlob(@out);
         }
 
-        public NDArray(Array data, Context ctx = null)
-            : this(data, new Shape(data.GetLength(0)), ctx)
+        public NDArray(Array data, Context ctx = null, DType dtype = null)
         {
+            if (ctx == null)
+                ctx = Context.CurrentContext;
+
+            var shapeData = new List<int>();
+
+            for (int i = 0; i < data.Rank; i++)
+            {
+                shapeData.Add(data.GetLength(i));
+            }
+
+            var shape = new Shape(shapeData);
+
+            if(dtype == null)
+                dtype = DType.InferDtype(data);
+
+            if (data == null)
+                throw new ArgumentNullException(nameof(data));
+            if (shape == null)
+                throw new ArgumentNullException(nameof(shape));
+
+            NDArrayHandle @out = new NDArrayHandle();
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data,
+                    shape.Dimension,
+                    ctx.GetDeviceType(),
+                    ctx.GetDeviceId(),
+                    false.ToInt32(),
+                    dtype.Index,
+                    out @out), NativeMethods.OK);
+
+            var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
+            NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint)shape.Size);
+
+            NativePtr = @out;
+            _Blob = new NDBlob(@out);
         }
 
         #endregion
@@ -361,7 +394,7 @@ namespace MxNet
                 Buffer.MemoryCopy(img.Data.ToPointer(), bytes.GetMemPtr().ToPointer(), bytes.Length, bytes.Length);
             }
 
-            var ret = new NDArray(bytes, s, context, dtype: DType.Uint8);
+            var ret = new NDArray(bytes, s, context, dtype: DType.UInt8);
             WaitAll();
             return ret;
         }
@@ -463,7 +496,7 @@ namespace MxNet
                         var x = nd.Array(data.Select(i => (float)i).ToArray()).AsType(dtype).Reshape(shape).AsType(dtype);
                         result.Add(x);
                     }
-                    else if (dtype == DType.Uint8)
+                    else if (dtype == DType.UInt8)
                     {
                         var data = reader.ReadBytes(shape.Size);
                         
@@ -483,7 +516,7 @@ namespace MxNet
             if (typeCode == "i1")
                 return DType.Int8;
             if (typeCode == "u1")
-                return DType.Uint8;
+                return DType.UInt8;
             if (typeCode == "i2")
                 return DType.Int32;
             if (typeCode == "i4")
@@ -978,7 +1011,7 @@ namespace MxNet
 
         public static implicit operator OpenCvSharp.Mat(NDArray x)
         {
-            var buffer = x.AsType(DType.Uint8).GetBuffer();
+            var buffer = x.AsType(DType.UInt8).GetBuffer();
             var (h, w, c) = x.Shape;
             OpenCvSharp.Mat mat = new OpenCvSharp.Mat(new OpenCvSharp.Size(w, h), OpenCvSharp.MatType.CV_8UC3);
             unsafe

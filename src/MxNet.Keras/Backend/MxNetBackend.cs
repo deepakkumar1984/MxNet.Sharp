@@ -1528,7 +1528,7 @@ namespace MxNet.Keras
         public static KerasSymbol InTopK(KerasSymbol predictions, KerasSymbol targets, int k)
         {
             var targets_sym = sym.Cast(targets.Symbol, dtype: DType.Int32);
-            var topk_sym = sym.Cast(sym.Topk(data: predictions.Symbol, k: k, ret_typ: TopkRetTyp.Mask), dtype: DType.Uint8);
+            var topk_sym = sym.Cast(sym.Topk(data: predictions.Symbol, k: k, ret_typ: TopkRetTyp.Mask), dtype: DType.UInt8);
             return new KerasSymbol(sym.Pick(topk_sym, targets_sym));
         }
 

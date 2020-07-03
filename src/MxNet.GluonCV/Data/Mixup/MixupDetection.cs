@@ -53,7 +53,7 @@ namespace MxNet.GluonCV.Data
                 var mix_img = nd.Zeros(shape: new Shape(height, width, 3), dtype: DType.Float32);
                 mix_img[$":{img1.Shape[0]}, :{img1.Shape[1]}, :"] = img1.AsType(DType.Float32) * lambd;
                 mix_img[$":{img2.Shape[0]}, :{img2.Shape[1]}, :"] += img2.AsType(DType.Float32) * (1 - lambd);
-                mix_img = mix_img.AsType(DType.Uint8);
+                mix_img = mix_img.AsType(DType.UInt8);
                 var y1 = nd.Stack(new NDArrayList(label1, nd.Full(lambd, new Shape(label1.Shape[0], 1))), 2);
                 var y2 = nd.Stack(new NDArrayList(label2, nd.Full(1 - lambd, new Shape(label2.Shape[0], 1))), 2);
                 var mix_label = nd.Stack(new NDArrayList(y1, y2), 1);
