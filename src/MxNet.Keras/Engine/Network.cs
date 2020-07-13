@@ -53,7 +53,7 @@ namespace MxNet.Keras.Engine
 
         public bool _is_graph_network;
 
-        public List<Layer> _layers;
+        public List<Layer> _layers = null;
 
         public Dictionary<int, List<Layer>> _layers_by_depth;
 

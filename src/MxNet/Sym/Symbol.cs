@@ -793,11 +793,14 @@ namespace MxNet
             List<int> provided_arg_shape_data = new List<int>();
             List<int> provided_arg_shape_idx = new List<int>() { 0 };
             List<string> provided_arg_shape_names = new List<string>();
-            foreach (var desc in kwargs)
+            if (kwargs != null)
             {
-                provided_arg_shape_names.Add(desc.Name);
-                provided_arg_shape_data.AddRange(desc.Shape.Data.Where(x => x > 0).ToList());
-                provided_arg_shape_idx.Add(provided_arg_shape_data.Count);
+                foreach (var desc in kwargs)
+                {
+                    provided_arg_shape_names.Add(desc.Name);
+                    provided_arg_shape_data.AddRange(desc.Shape.Data.Where(x => x > 0).ToList());
+                    provided_arg_shape_idx.Add(provided_arg_shape_data.Count);
+                }
             }
 
             int provided_req_type_list_len = 0;

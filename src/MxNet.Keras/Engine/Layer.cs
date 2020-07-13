@@ -306,7 +306,7 @@ namespace MxNet.Keras.Engine
                 dtype = K.FloatX();
             }
             // Use sparse weight only with MXNet Backend
-            weight = K.Variable(initializer.Call(shape).Tensor, dtype: dtype, name: name, constraint: constraint, sparse_weight: sparse_weight);
+            weight = K.Variable(initializer.Call(shape), dtype: dtype, name: name, constraint: constraint, sparse_weight: sparse_weight);
 
             if (regularizer != null)
             {

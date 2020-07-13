@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using K = MxNet.Keras.MxNetBackend;
@@ -122,6 +123,38 @@ namespace MxNet.Keras.Engine
         public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             return inputs;
+        }
+
+        public static KerasSymbol[] CreateInput(
+          Shape shape = null,
+          Shape batch_shape = null,
+          string name = null,
+          DType dtype = null,
+          bool sparse = false,
+          KerasSymbol tensor = null)
+        {
+            if (batch_shape == null && tensor == null)
+            {
+                Debug.Assert(shape != null, "Please provide to Input either a `shape` or a `batch_shape` argument. Note that `shape` does not include the batch dimension.");
+            }
+
+            if (shape != null && batch_shape != null)
+            {
+                var list = shape.Data.ToList();
+                list.Insert(0, -1);
+                batch_shape = new Shape(list);
+            }
+
+            if (dtype == null)
+            {
+                dtype = K.FloatX();
+            }
+
+            var input_layer = new InputLayer(batch_input_shape: batch_shape, name: name, dtype: dtype, sparse: sparse, input_tensor: tensor);
+            // Return tensor including _keras_shape and _keras_history.
+            // Note that in this case train_output and test_output are the same pointer.
+            var outputs = input_layer._inbound_nodes[0].output_tensors;
+            return outputs;
         }
     }
 }

@@ -88,11 +88,11 @@ namespace MxNet.Keras.Engine
 
         public object sample_weight_mode;
 
-        public List<object> sample_weight_modes;
+        public List<string> sample_weight_modes;
 
         public List<KerasSymbol> sample_weights;
 
-        public List<object> stateful_metric_functions;
+        public List<Func<KerasSymbol, KerasSymbol, KerasSymbol>> stateful_metric_functions;
 
         public List<string> stateful_metric_names;
 
@@ -212,12 +212,392 @@ namespace MxNet.Keras.Engine
             }
         }
 
-        private void BaseCompile(Optimizer optimizer, string loss = null, string[] metrics = null, float[] loss_weights = null, string sample_weight_mode = null)
+        private void BaseCompile(Optimizer optimizer, string loss = null, string[] metrics = null, float[] loss_weights = null, string[] sample_weight_mode = null, string[] weighted_metrics = null, KerasSymbol[] target_tensors = null)
         {
+            KerasSymbol weight;
+            KerasSymbol target;
+            string name;
+            this.optimizer = optimizer;
+            this.loss = loss;
+            this.metrics = metrics != null ? metrics.ToList() : new List<string>();
+            this.loss_weights = loss_weights;
+            this.sample_weight_mode = sample_weight_mode;
+            this.weighted_metrics = weighted_metrics;
+            if (!this.built)
+            {
+                // Model is not compilable because
+                // it does not know its number of inputs
+                // and outputs, nor their shapes and names.
+                // We will compile after the first
+                // time the model gets called on training data.
+                return;
+            }
+            this._is_compiled = true;
+            // Prepare loss functions.
+            var loss_function = Keras.Losses.Get(loss);
+            this.loss_functions = (from _ in Enumerable.Range(0, this.outputs.Count)
+                              select loss_function).ToList();
+            var weighted_losses = (from fn in loss_functions
+                                   select TrainingUtils.WeightedMaskedObjective(fn)).ToList();
+            var skip_target_indices = new List<int>();
+            var skip_target_weighing_indices = new List<int>();
+            this._feed_outputs = new List<KerasSymbol>();
+            this._feed_output_names = new List<string>();
+            this._feed_output_shapes = new List<Shape>();
+            this._feed_loss_fns = new List<Func<KerasSymbol, KerasSymbol, KerasSymbol>>();
+            foreach (var i in Enumerable.Range(0, weighted_losses.Count))
+            {
+                if (weighted_losses[i] == null)
+                {
+                    skip_target_indices.Add(i);
+                    skip_target_weighing_indices.Add(i);
+                }
+            }
+            // Prepare output masks.
+            var masks = this.ComputeMask(this.inputs.ToArray(), mask: null);
+            if (masks == null)
+            {
+                masks = new KerasSymbol[this.outputs.Count];
+            }
 
+            // Prepare loss weights.
+            List<float> loss_weights_list = null;
+            if (loss_weights == null)
+            {
+                loss_weights_list = (from _ in Enumerable.Range(0, this.outputs.Count)
+                                         select 1.0f).ToList();
+            }
+            else
+            {
+                if (loss_weights.Length != this.outputs.Count)
+                {
+                    throw new Exception("When passing a list as loss_weights, it should have one entry per model output. The model has " + this.outputs.Count.ToString() + " outputs, but you passed loss_weights=" + loss_weights.ToString());
+                }
+
+                loss_weights_list = loss_weights.ToList();
+            }
+
+            // Prepare targets of model.
+            this.targets = new List<KerasSymbol>();
+            this._feed_targets = new List<KerasSymbol>();
+            if (target_tensors != null)
+            {
+                if (target_tensors.Length != this.outputs.Count)
+                {
+                    throw new Exception("When passing a list as `target_tensors`, it should have one entry per model output. The model has " + this.outputs.Count.ToString() + " outputs, but you passed target_tensors=" + target_tensors.ToString());
+                }
+            }
+
+            foreach (var i in Enumerable.Range(0, this.outputs.Count))
+            {
+                if (skip_target_indices.Contains(i))
+                {
+                    this.targets.Add(null);
+                }
+                else
+                {
+                    var shape = this.outputs[i].Shape;
+                    name = this.output_names[i];
+                    if (target_tensors != null)
+                    {
+                        target = target_tensors[i];
+                    }
+                    else
+                    {
+                        target = null;
+                    }
+                    if (target == null || K.IsPlaceholder(target))
+                    {
+                        if (target == null)
+                        {
+                            target = K.Placeholder(ndim: shape.Dimension, name: name + "_target", sparse: K.IsSparse(this.outputs[i]), dtype: K.DataType(this.outputs[i]));
+                        }
+                        this._feed_targets.Add(target);
+                        this._feed_outputs.Add(this.outputs[i]);
+                        this._feed_output_names.Add(name);
+                        this._feed_output_shapes.Add(shape);
+                        this._feed_loss_fns.Add(this.loss_functions[i]);
+                    }
+                    else
+                    {
+                        skip_target_weighing_indices.Add(i);
+                    }
+
+                    this.targets.Add(target);
+                }
+            }
+            // Prepare sample weights.
+            var sample_weights = new List<KerasSymbol>();
+            this.sample_weight_modes = new List<string>();
+            if (sample_weight_mode.Length != this.outputs.Count)
+            {
+                throw new Exception("When passing a list as sample_weight_mode, it should have one entry per model output. The model has " + this.outputs.Count.ToString() + " outputs, but you passed sample_weight_mode=" + sample_weight_mode.ToString());
+            }
+
+            foreach (var i in Enumerable.Range(0, this.output_names.Count))
+            {
+                if (skip_target_weighing_indices.Contains(i))
+                {
+                    weight = null;
+                    sample_weight_modes.Add(null);
+                }
+                else
+                {
+                    var mode = sample_weight_mode[i];
+                    name = this.output_names[i];
+                    if (mode == "temporal")
+                    {
+                        weight = K.Placeholder(ndim: 2, name: name + "_sample_weights");
+                        sample_weight_modes.Add("temporal");
+                    }
+                    else
+                    {
+                        weight = K.Placeholder(ndim: 1, name: name + "_sample_weights");
+                        sample_weight_modes.Append(null);
+                    }
+                }
+
+                sample_weights.Add(weight);
+            }
+            
+            this._feed_sample_weight_modes = new List<string>();
+            foreach (var i in Enumerable.Range(0, this.outputs.Count))
+            {
+                if (!skip_target_weighing_indices.Contains(i))
+                {
+                    this._feed_sample_weight_modes.Add(this.sample_weight_modes[i]);
+                }
+            }
+
+            // Prepare metrics.
+            this.metrics_names = new List<string> {
+                    "loss"
+                };
+            this.metrics_tensors = new List<KerasSymbol>();
+            // Compute total loss.
+            KerasSymbol total_loss = null;
+            using (var ns = new NameScope("loss")) {
+                foreach (var i in Enumerable.Range(0, this.outputs.Count))
+                {
+                    if (skip_target_indices.Contains(i))
+                    {
+                        continue;
+                    }
+
+                    var y_true = this.targets[i];
+                    var y_pred = this.outputs[i];
+                    var weighted_loss = weighted_losses[i];
+                    var sample_weight = sample_weights[i];
+                    var mask = masks[i];
+                    var loss_weight = loss_weights_list[i];
+                    KerasSymbol output_loss = null;
+                    using (var ns1 = new NameScope(this.output_names[i] + "_loss")) {
+                        output_loss = weighted_loss(y_true, y_pred, sample_weight, mask);
+                    }
+
+                    if (this.outputs.Count > 1)
+                    {
+                        this.metrics_tensors.Add(output_loss);
+                        this.metrics_names.Add(this.output_names[i] + "_loss");
+                    }
+                    if (total_loss == null)
+                    {
+                        total_loss = loss_weight * output_loss;
+                    }
+                    else
+                    {
+                        total_loss += loss_weight * output_loss;
+                    }
+                }
+
+                if (total_loss == null)
+                {
+                    if (this.Losses == null)
+                    {
+                        throw new Exception("The model cannot be compiled because it has no loss to optimize.");
+                    }
+                    else
+                    {
+                        total_loss = null;
+                    }
+                }
+                // Add regularization penalties
+                // and other layer-specific losses.
+                foreach (var loss_tensor in this.Losses)
+                {
+                    if (total_loss != null)
+                        total_loss += loss_tensor;
+                    else
+                        total_loss = loss_tensor;
+                }
+            }
+
+            // List of same size as output_names.
+            // contains tuples (metrics for output, names of metrics).
+            var nested_metrics = TrainingUtils.CollectMetrics(metrics, this.output_names.ToArray());
+            var nested_weighted_metrics = TrainingUtils.CollectMetrics(weighted_metrics, this.output_names.ToArray());
+            this.metrics_updates = new List<object>();
+            this.stateful_metric_names = new List<string>();
+            this.stateful_metric_functions = new List<Func<KerasSymbol, KerasSymbol, KerasSymbol>>();
+            using (var metric_ns = new NameScope("metrics")) 
+            {
+                foreach (var i in Enumerable.Range(0, this.outputs.Count))
+                {
+                    if (skip_target_indices.Contains(i))
+                    {
+                        continue;
+                    }
+
+                    var y_true = this.targets[i];
+                    var y_pred = this.outputs[i];
+                    var weights = sample_weights[i];
+                    var output_metrics = nested_metrics[i];
+                    var output_weighted_metrics = nested_weighted_metrics[i];
+                    HandleMetrics(output_metrics.ToArray(), null, i, y_true, y_pred, masks[i]);
+                    HandleMetrics(output_weighted_metrics.ToArray(), weights, i, y_true, y_pred, masks[i]);
+                }
+            }
+            // Prepare gradient updates and state updates.
+            this.total_loss = total_loss;
+            this.sample_weights = sample_weights;
+            this._feed_sample_weights = new List<KerasSymbol>();
+            foreach (var i in Enumerable.Range(0, this.sample_weights.Count))
+            {
+                if (!skip_target_weighing_indices.Contains(i))
+                {
+                    this._feed_sample_weights.Add(sample_weights[i]);
+                }
+            }
+
+            // Functions for train, test and predict will
+            // be compiled lazily when required.
+            // This saves time when the user is not using all functions.
+            this.train_function = null;
+            this.test_function = null;
+            this.predict_function = null;
+            // Collected trainable weights, sorted in topological order.
+            var trainable_weights = this.TrainableWeights;
+            this._collected_trainable_weights = trainable_weights;
         }
 
-        public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string sample_weight_mode= null, Context context = null, NDArray[] target_tensors = null)
+        private void HandleMetrics(string[] metrics, KerasSymbol weights, int i, KerasSymbol y_true, KerasSymbol y_pred, KerasSymbol mask)
+        {
+            string metric_name = "";
+            Func<KerasSymbol, KerasSymbol, KerasSymbol, KerasSymbol, KerasSymbol> weighted_metric_fn = null;
+            string suffix = "";
+            Func<KerasSymbol, KerasSymbol, KerasSymbol> metric_fn = null;
+            var metric_name_prefix = weights != null ? "weighted_" : "";
+            foreach (var metric in metrics)
+            {
+                if (new string[] { "accuracy", "acc", "crossentropy", "ce" }.Contains(metric))
+                {
+                    // custom handling of accuracy/crossentropy
+                    // (because of class mode duality)
+                    var output_shape = this.outputs[i].Shape;
+                    if (output_shape.Data.Last() == 1 || this.loss_functions[i].Method.Name == "BinaryCrossentropy")
+                    {
+                        // case: binary accuracy/crossentropy
+                        if (new string[] { "accuracy", "acc" }.Contains(metric))
+                        {
+                            metric_fn = Metrics.BinaryAccuracy;
+                        }
+                        else if (new string[] { "crossentropy", "ce" }.Contains(metric))
+                        {
+                            metric_fn = Keras.Losses.BinaryCrossentropy; 
+                        }
+                    }
+                    else if (this.loss_functions[i].Method.Name == "SparseCategoricalCrossentropy")
+                    {
+                        // case: categorical accuracy/crossentropy
+                        // with sparse targets
+                        if (new string[] { "accuracy", "acc" }.Contains(metric))
+                        {
+                            metric_fn = Metrics.SparseCategoricalAccuracy;
+                        }
+                        else if (new string[] { "crossentropy", "ce" }.Contains(metric))
+                        {
+                            metric_fn = Keras.Losses.SparseCategoricalCrossentropy;
+                        }
+                    }
+                    else if (this.loss_functions[i].Method.Name == "MultiHotSparseCategoricalCrossentropy")
+                    {
+                        // case: multi hot sparse categorical accuracy/crossentropy
+                        // with sparse list of integer targets
+                        if (new string[] { "accuracy", "acc" }.Contains(metric))
+                        {
+                            metric_fn = Metrics.MultiHotSparseCategoricalAccuracy;
+                        }
+                        else if (new string[] { "crossentropy", "ce" }.Contains(metric))
+                        {
+                            metric_fn = Keras.Losses.MultiHotSparseCategoricalCrossentropy;
+                        }
+                    }
+                    else
+                    {
+                        // case: categorical accuracy/crossentropy
+                        if (new string[] { "accuracy", "acc" }.Contains(metric))
+                        {
+                            metric_fn = Metrics.CategoricalAccuracy;
+                        }
+                        else if (new string[] { "crossentropy", "ce" }.Contains(metric))
+                        {
+                            metric_fn = Keras.Losses.CategoricalCrossentropy;
+                        }
+                    }
+
+                    if (new string[] { "accuracy", "acc" }.Contains(metric))
+                    {
+                        suffix = "acc";
+                    }
+                    else if (new string[] { "crossentropy", "ce" }.Contains(metric))
+                    {
+                        suffix = "ce";
+                    }
+
+                    weighted_metric_fn = TrainingUtils.WeightedMaskedObjective(metric_fn);
+                    metric_name = metric_name_prefix + suffix;
+                }
+                else
+                {
+                    metric_fn = Metrics.Get(metric);
+                    weighted_metric_fn = TrainingUtils.WeightedMaskedObjective(metric_fn);
+                    // Get metric name as string
+                    metric_name = metric_fn.Method.Name;
+                    metric_name = metric_name_prefix + metric_name;
+                }
+
+                KerasSymbol metric_result = null;
+                using (var ns = new NameScope(metric_name)) {
+                    metric_result = weighted_metric_fn(y_true, y_pred, weights, mask);
+                }
+                // Append to self.metrics_names, self.metric_tensors,
+                // self.stateful_metric_names
+                if (this.output_names.Count > 1)
+                {
+                    metric_name = this.output_names[i] + "_" + metric_name;
+                }
+                // Dedupe name
+                var j = 1;
+                var base_metric_name = metric_name;
+                while (this.metrics_names.Contains(metric_name))
+                {
+                    metric_name = base_metric_name + "_" + j.ToString();
+                    j += 1;
+                }
+                this.metrics_names.Add(metric_name);
+                this.metrics_tensors.Add(metric_result);
+                //// Keep track of state updates created by
+                //// stateful metrics (i.e. metrics layers).
+                //if (metric_fn is Layer && metric_fn.stateful)
+                //{
+                //    this.stateful_metric_names.Add(metric_name);
+                //    this.stateful_metric_functions.Add(metric_fn);
+                //    this.metrics_updates += metric_fn.updates;
+                //}
+            }
+        }
+
+        public void Compile(Optimizer optimizer, string loss= null, string[] metrics= null, float[] loss_weights= null, string[] sample_weight_mode= null, Context context = null, NDArray[] target_tensors = null)
         {
             BaseCompile(optimizer, loss, metrics, loss_weights, sample_weight_mode);
             if (!this.built)
@@ -936,7 +1316,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public void Predict(NDArray x, int? batch_size = null, int verbose = 0, int? steps = null)
+        public NDArray Predict(NDArray x, int? batch_size = null, int verbose = 0, int? steps = null)
         {
             throw new NotImplementedException();
         }

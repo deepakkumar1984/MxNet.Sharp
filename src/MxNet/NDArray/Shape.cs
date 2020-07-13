@@ -24,7 +24,7 @@ namespace MxNet
     {
         #region Fields
 
-        private const int StackCache = 4;
+        //private const int StackCache = 4;
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace MxNet
         public Shape()
         {
             Dimension = 0;
-            _Data = new List<int>(StackCache);
+            _Data = new List<int>();
         }
 
         public Shape(IList<int> v)
@@ -48,7 +48,7 @@ namespace MxNet
 
             Dimension = v.Length;
 
-            var data = new int[Dimension < StackCache ? StackCache : Dimension];
+            var data = new int[Dimension];
             Array.Copy(v, data, v.Length);
             _Data = data.ToList();
         }
@@ -62,7 +62,7 @@ namespace MxNet
 
             Dimension = v.Length;
 
-            var data = new int[Dimension < StackCache ? StackCache : Dimension];
+            var data = new int[Dimension];
             Array.Copy(v, data, v.Length);
             _Data = data.ToList();
         }
@@ -99,7 +99,7 @@ namespace MxNet
 
             Dimension = shape.Dimension;
 
-            var data = new int[Dimension < StackCache ? StackCache : Dimension];
+            var data = new int[Dimension];
             Array.Copy(shape.Data, data, Dimension);
             _Data = data.ToList();
         }
@@ -132,10 +132,16 @@ namespace MxNet
         {
             get
             {
+                if (index < 0)
+                    index = Dimension + index;
+
                 return Data[index];
             }
             set
             {
+                if (index < 0)
+                    index = Dimension + index;
+
                 Data[index] = value;
             }
         }
@@ -146,23 +152,33 @@ namespace MxNet
 
         public Shape Clone()
         {
-            var array = new int[Dimension < StackCache ? StackCache : Dimension];
+            var array = new int[Dimension];
             Array.Copy(Data, array, Math.Min(array.Length, _Data.Count));
             return new Shape(array);
         }
 
         public void Add(int i)
         {
-            _Data.Add(i);
-            Dimension = _Data.Count;
+            var d = _Data.ToList().Where(x => x > 0).ToList();
+            d.Add(i);
+            var v = d.ToArray();
+            Dimension = d.Count;
+            var data = new int[Dimension];
+            Array.Copy(v, data, v.Length);
+            _Data.Clear();
+            _Data.AddRange(data);
         }
 
         public void Insert(int index, int s)
         {
-            var list = _Data.ToList();
-            list.Insert(index, s);
+            var d = _Data.ToList().Where(x => x > 0).ToList();
+            d.Insert(index, s);
+            var v = d.ToArray();
+            Dimension = d.Count;
+            var data = new int[Dimension];
+            Array.Copy(v, data, v.Length);
             _Data.Clear();
-            _Data.AddRange(list);
+            _Data.AddRange(data);
         }
 
         #region Overrides
@@ -189,9 +205,9 @@ namespace MxNet
 
         public static implicit operator Shape(int s) => new Shape(s);
 
-        public static implicit operator Shape((int, int) s) => new Shape(s);
+        public static implicit operator Shape((int, int) s) => new Shape(s.Item1, s.Item2);
 
-        public static implicit operator Shape((int, int, int) s) => new Shape(s);
+        public static implicit operator Shape((int, int, int) s) => new Shape(s.Item1, s.Item2, s.Item3);
 
         #region Operators
 

@@ -38,7 +38,7 @@ namespace MxNet.Keras
             get
             {
                 var sym = MxNetBackend.LearningPhase() ? this._train_sym : this._pred_sym;
-                Debug.Assert(sym != null, $"[Debug Info] {this._train_sym.Name}, {this._pred_sym.Name}");
+                Debug.Assert(sym != null);
                 return sym;
             }
         }

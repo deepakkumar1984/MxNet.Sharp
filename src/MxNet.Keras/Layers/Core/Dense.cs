@@ -55,8 +55,8 @@ namespace MxNet.Keras.Layers
                      Constraint kernel_constraint= null,
                      Constraint bias_constraint= null,
                      bool sparse_weight= false,
-                     Shape input_shape = null,
-                     int? input_dim = null)
+                     Shape input_shape = null)
+            : base(input_shape)
         {
             this.units = units;
             this.activation = new Activation(activation, null);
