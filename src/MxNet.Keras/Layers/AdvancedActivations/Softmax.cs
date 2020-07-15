@@ -15,7 +15,7 @@ namespace MxNet.Keras.Layers.AdvancedActivations
             this.axis = axis;
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
+        public override KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             List<KerasSymbol> result = new List<KerasSymbol>();
             foreach (var input in inputs)

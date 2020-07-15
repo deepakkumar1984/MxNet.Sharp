@@ -14,7 +14,7 @@ namespace MxNetKerasExamples
             NDArray y = new NDArray(new float[] { 0, 1, 1, 0 }).Reshape(4, 1);
 
             var model = new Sequential();
-            model.Add(new Dense(8, "relu", input_shape: (4)));
+            model.Add(new Dense(8, "relu", input_shape: (-1, 4)));
             model.Add(new Dense(1));
 
             model.Compile(new SGD(), "binary_crossentropy", new string[] { "binary_accuracy" });

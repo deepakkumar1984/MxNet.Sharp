@@ -17,7 +17,7 @@ namespace MxNet.Keras.Layers
             this.input_spec = new InputSpec[] { new InputSpec(ndim: this.dims.Dimension + 1) };
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
+        public override KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             var shape = this.dims.Data.ToList();
             shape.Insert(0, 0);

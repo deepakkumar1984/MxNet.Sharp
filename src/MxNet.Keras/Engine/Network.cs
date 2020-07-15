@@ -799,7 +799,7 @@ namespace MxNet.Keras.Engine
                                     kwargs["mask"] = computed_mask;
                                 }
 
-                                output_tensors = layer.Call(new KerasSymbol[] { computed_tensor }, kwargs).ToList();
+                                output_tensors = layer.Invoke(new KerasSymbol[] { computed_tensor }, kwargs).ToList();
                                 output_masks = layer.ComputeMask(new KerasSymbol[] { computed_tensor }, new KerasSymbol[] { computed_mask }).ToList();
                                 if (output_masks == null)
                                 {
@@ -830,7 +830,7 @@ namespace MxNet.Keras.Engine
                                     kwargs["mask"] = computed_masks;
                                 }
 
-                                output_tensors = layer.Call(computed_tensors.ToArray(), kwargs).ToList();
+                                output_tensors = layer.Invoke(computed_tensors.ToArray(), kwargs).ToList();
                                 output_masks = layer.ComputeMask(computed_tensors.ToArray(), computed_masks.ToArray()).ToList();
                                 if (output_masks == null)
                                 {
@@ -1380,7 +1380,7 @@ namespace MxNet.Keras.Engine
             return (network_nodes.ToArray(), nodes_by_depth, layers.ToArray(), layers_by_depth);
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
+        public override KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             var mask = kwargs.Contains("mask") ? (KerasSymbol)kwargs["mask"] : null;
             List<KerasSymbol> masks = new List<KerasSymbol>();

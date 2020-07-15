@@ -30,7 +30,7 @@ namespace MxNet.Keras.Layers
             this._output_shape = output_shape;
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
+        public override KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             List<KerasSymbol> result = new List<KerasSymbol>();
 
@@ -63,7 +63,7 @@ namespace MxNet.Keras.Layers
             if (this._output_shape == null)
             {
                 var x = K.Placeholder(shape: input_shape);
-                x = this.Call(new KerasSymbol[] { x }, null)[0];
+                x = this.Invoke(new KerasSymbol[] { x }, null)[0];
                 return x.Shape;
             }
             else

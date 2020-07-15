@@ -90,6 +90,7 @@ namespace MxNet.Keras
                 this._train_sym = MxNetBackend.LearningPhase() ? mxnet_symbol : null;
                 this._pred_sym = MxNetBackend.LearningPhase() ? null : mxnet_symbol;
             }
+
             this._name = null;
             this._neighbors = new List<KerasSymbol>();
             if (neighbors != null)
@@ -108,31 +109,31 @@ namespace MxNet.Keras
         {
             this._tensor = data;
 
-            if (this._bind_values.Contains(this._name))
+            if (this._bind_values.Contains(this.Name))
             {
-                Debug.Assert(this._bind_values[this._name].Shape.ToString() == data.Shape.ToString(), $"Redefinition of variable {_name}");
-                Debug.Assert(this._bind_values[this._name].DataType.Name == data.DataType.Name, $"Redefinition of variable {_name}");
-                if (MxNetBackend._MODEL != null && MxNetBackend._MODEL._args.Contains(_name))
+                Debug.Assert(this._bind_values[this.Name].Shape.ToString() == data.Shape.ToString(), $"Redefinition of variable {Name}");
+                Debug.Assert(this._bind_values[this.Name].DataType.Name == data.DataType.Name, $"Redefinition of variable {Name}");
+                if (MxNetBackend._MODEL != null && MxNetBackend._MODEL._args.Contains(Name))
                 {
                     NDArrayDict argparams = new NDArrayDict();
-                    argparams[_name] = data;
+                    argparams[Name] = data;
                     MxNetBackend._MODEL.SetWeights(argparams, new NDArrayDict());
                 }
 
-                if (MxNetBackend._MODEL != null && MxNetBackend._MODEL._auxs.Contains(this._name))
+                if (MxNetBackend._MODEL != null && MxNetBackend._MODEL._auxs.Contains(this.Name))
                 {
                     NDArrayDict auxparams = new NDArrayDict();
-                    auxparams[_name] = data;
+                    auxparams[Name] = data;
                     MxNetBackend._MODEL.SetWeights(new NDArrayDict(), auxparams);
                 }
                 else
                 {
-                    this._bind_values[this._name] = data;
+                    this._bind_values[this.Name] = data;
                 }
             }
             else
             {
-                this._bind_values[this._name] = data;
+                this._bind_values[this.Name] = data;
             }
         }
 

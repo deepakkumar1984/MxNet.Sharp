@@ -80,7 +80,6 @@ namespace MxNet.Keras.Engine
                         // This will build the current layer
                         // and create the node connecting the current layer
                         // to the input layer we just created.
-                        layer.Build(batch_shape);
                         layer.Call(x, null);
                         set_inputs = true;
                     }
@@ -94,13 +93,13 @@ namespace MxNet.Keras.Engine
 
                 if (set_inputs)
                 {
-                    if (layer._inbound_nodes.Last().output_tensors.Length != 1)
+                    if (layer._inbound_nodes.Count > 0 && layer._inbound_nodes.Last().output_tensors.Length != 1)
                     {
                         throw new Exception("All layers in a Sequential model should have a single output tensor. For multi-output layers, use the functional API.");
                     }
 
                     this.outputs = new List<KerasSymbol> {
-                            layer._inbound_nodes[-1].output_tensors[0]
+                            layer._inbound_nodes.Last().output_tensors[0]
                         };
                     
                     this.inputs = MxNet.Keras.Utils.LayerUtils.GetSourceInputs(this.outputs[0]).ToList();
@@ -108,7 +107,7 @@ namespace MxNet.Keras.Engine
             }
             else if (this.outputs != null)
             {
-                var output_tensor = layer.Call(new KerasSymbol[] { this.outputs[0] }, null);
+                var output_tensor = layer.Invoke(new KerasSymbol[] { this.outputs[0] }, null);
                 if (output_tensor.Length > 1)
                 {
                     throw new Exception("All layers in a Sequential model should have a single output tensor. For multi-output layers, use the functional API.");
@@ -160,7 +159,7 @@ namespace MxNet.Keras.Engine
                         // and create the node connecting the current layer
                         // to the input layer we just created.
                         layer.Build(batch_shape);
-                        layer.Call(x, null);
+                        layer.Invoke(x, null);
                         set_inputs = true;
                     }
                 }
@@ -187,7 +186,7 @@ namespace MxNet.Keras.Engine
             }
             else if (this.outputs != null)
             {
-                var output_tensor = layer.Call(new KerasSymbol[] { this.outputs[0] }, null);
+                var output_tensor = layer.Invoke(new KerasSymbol[] { this.outputs[0] }, null);
                 if (output_tensor.Length > 1)
                 {
                     throw new Exception("All layers in a Sequential model should have a single output tensor. For multi-output layers, use the functional API.");
@@ -241,7 +240,7 @@ namespace MxNet.Keras.Engine
                 this.inputs = x.ToList();
                 foreach (var layer in this._layers)
                 {
-                    x = layer.Call(x, null);
+                    x = layer.Invoke(x, null);
                 }
 
                 this.outputs = x.ToList();

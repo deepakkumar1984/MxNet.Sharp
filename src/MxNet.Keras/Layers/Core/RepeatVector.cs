@@ -17,7 +17,7 @@ namespace MxNet.Keras.Layers
             this.input_spec = new InputSpec[] { new InputSpec(ndim: 2) };
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
+        public override KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             List<KerasSymbol> result = new List<KerasSymbol>();
 

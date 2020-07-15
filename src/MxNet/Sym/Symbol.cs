@@ -835,7 +835,7 @@ namespace MxNet
                 int shared_buffer_len = shared_start;
                 string[] shared_buffer_names = null;
                 IntPtr[] shared_buffer_handles = null;
-                if (shared_buffer.Count > 0)
+                if (shared_buffer != null && shared_buffer.Count > 0)
                 {
                     shared_buffer_len = shared_buffer.Count;
                     shared_buffer_names = shared_buffer.Keys;
@@ -862,7 +862,7 @@ namespace MxNet
                                                     &updated_shared_buffer_handles, &num_in_args, &in_arg_handles, &arg_grad_handles,
                                                     &num_aux_states, &aux_state_handles, shared_exec_handle, &exe_handle);
 
-                if (shared_buffer.Count > 0)
+                if (shared_buffer != null && shared_buffer.Count > 0)
                 {
                     int l = shared_buffer_len;
                     for (int i = 0; i < l; i++)

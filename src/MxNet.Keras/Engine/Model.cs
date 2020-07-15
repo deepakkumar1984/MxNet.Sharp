@@ -1131,11 +1131,11 @@ namespace MxNet.Keras.Engine
                 // Obtain symbolic outputs by calling the model.
                 if (this._expects_training_arg)
                 {
-                    outputs = this.Call(this.inputs.ToArray(), new FuncArgs() { { "training", training } });
+                    outputs = this.Invoke(this.inputs.ToArray(), new FuncArgs() { { "training", training } });
                 }
                 else
                 {
-                    outputs = this.Call(this.inputs.ToArray());
+                    outputs = this.Invoke(this.inputs.ToArray());
                 }
             }
 

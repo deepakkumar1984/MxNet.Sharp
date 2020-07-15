@@ -444,9 +444,9 @@ namespace MxNet.Keras.Engine
             }
         }
 
-        public abstract KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs);
+        public abstract KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs);
 
-        internal KerasSymbol[] _Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        internal KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
         {
             KerasSymbol[] output = null;
             using (var ns = new NameScope(this.name)) {
@@ -500,7 +500,7 @@ namespace MxNet.Keras.Engine
                 var input_shape = BaseLayers.CollectInputShape(inputs);
                 // Actually call the layer,
                 // collecting output(s), mask(s), and shape(s).
-                output = this.Call(inputs, kwargs);
+                output = this.Invoke(inputs, kwargs);
                 var output_mask = this.ComputeMask(inputs, previous_mask);
                 // If the layer returns tensors from its inputs, unmodified,
                 // we copy them to avoid loss of tensor metadata.

@@ -73,7 +73,7 @@ namespace MxNet.Keras.Layers
             this.sparse_weight = sparse_weight;
         }
 
-        public override KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
+        public override KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             List<KerasSymbol> result = new List<KerasSymbol>();
             foreach (var input in inputs)
@@ -90,7 +90,7 @@ namespace MxNet.Keras.Layers
 
             if (this.activation != null)
             {
-                return this.activation.Call(result.ToArray());
+                return this.activation.Invoke(result.ToArray());
             }
 
             return result.ToArray();
