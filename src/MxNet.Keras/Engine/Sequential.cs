@@ -80,7 +80,7 @@ namespace MxNet.Keras.Engine
                         // This will build the current layer
                         // and create the node connecting the current layer
                         // to the input layer we just created.
-                        layer.Call(x, null);
+                        layer.Call(x);
                         set_inputs = true;
                     }
                 }
@@ -105,9 +105,9 @@ namespace MxNet.Keras.Engine
                     this.inputs = MxNet.Keras.Utils.LayerUtils.GetSourceInputs(this.outputs[0]).ToList();
                 }
             }
-            else if (this.outputs != null)
+            else if (this.outputs != null && this.outputs.Count > 0)
             {
-                var output_tensor = layer.Invoke(new KerasSymbol[] { this.outputs[0] }, null);
+                var output_tensor = layer.Call(new KerasSymbol[] { this.outputs[0] }, null);
                 if (output_tensor.Length > 1)
                 {
                     throw new Exception("All layers in a Sequential model should have a single output tensor. For multi-output layers, use the functional API.");
@@ -116,7 +116,7 @@ namespace MxNet.Keras.Engine
                 this.outputs = output_tensor.ToList();
             }
 
-            if (this.inputs != null)
+            if (this.inputs.Count > 0)
             {
                 this.Build();
             }
@@ -137,7 +137,7 @@ namespace MxNet.Keras.Engine
                 {
                     // Create an input tensor and call `layer` on the input tensor.
                     // First, we need to infer the expected input shape and dtype.
-                    if (layer.Layers == null)
+                    if (layer.Layers == null || layer.Layers.Length == 0)
                     {
                         throw new Exception("Cannot add an empty model to a `Sequential` model.");
                     }
@@ -158,8 +158,7 @@ namespace MxNet.Keras.Engine
                         // This will build the current layer
                         // and create the node connecting the current layer
                         // to the input layer we just created.
-                        layer.Build(batch_shape);
-                        layer.Invoke(x, null);
+                        layer.Call(x, null);
                         set_inputs = true;
                     }
                 }
@@ -177,9 +176,10 @@ namespace MxNet.Keras.Engine
                         throw new Exception("All layers in a Sequential model should have a single output tensor. For multi-output layers, use the functional API.");
                     }
 
-                    this.outputs = new List<KerasSymbol> {
-                            layer._inbound_nodes[-1].output_tensors[0]
-                        };
+                    this.outputs = new List<KerasSymbol>
+                    {
+                        layer._inbound_nodes.Last().output_tensors[0]
+                    };
 
                     this.inputs = MxNet.Keras.Utils.LayerUtils.GetSourceInputs(this.outputs[0]).ToList();
                 }
@@ -232,7 +232,7 @@ namespace MxNet.Keras.Engine
 
         public override void Build(Shape input_shape = null)
         {
-            if (input_shape != null && this.inputs == null)
+            if (input_shape != null && this.inputs == null && this.inputs.Count > 0)
             {
                 var batch_shape = input_shape;
                 var dtype = K.FloatX();
@@ -246,7 +246,8 @@ namespace MxNet.Keras.Engine
                 this.outputs = x.ToList();
                 this._build_input_shape = input_shape;
             }
-            if (this.inputs != null)
+            
+            if (this.inputs != null && this.inputs.Count > 0)
             {
                 this.InitGraphNetwork(this.inputs.ToArray(), this.outputs.ToArray(), name: this.name);
                 this.built = true;

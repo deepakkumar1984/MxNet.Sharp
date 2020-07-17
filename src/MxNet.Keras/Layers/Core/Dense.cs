@@ -16,8 +16,6 @@ namespace MxNet.Keras.Layers
     {
         public Activation activation;
 
-        public Regularizer activity_regularizer;
-
         public KerasSymbol bias;
 
         public Constraint bias_constraint;
@@ -27,8 +25,6 @@ namespace MxNet.Keras.Layers
         public Regularizer bias_regularizer;
 
         public bool built;
-
-        public InputSpec input_spec;
 
         public KerasSymbol kernel;
 
@@ -55,8 +51,9 @@ namespace MxNet.Keras.Layers
                      Constraint kernel_constraint= null,
                      Constraint bias_constraint= null,
                      bool sparse_weight= false,
-                     Shape input_shape = null)
-            : base(input_shape)
+                     Shape input_shape = null,
+                     int? input_dim = null)
+            : base(input_dim.HasValue ? new Shape(input_dim.Value) : input_shape)
         {
             this.units = units;
             this.activation = new Activation(activation, null);
@@ -68,7 +65,7 @@ namespace MxNet.Keras.Layers
             this.activity_regularizer = activity_regularizer;
             this.kernel_constraint = kernel_constraint;
             this.bias_constraint = bias_constraint;
-            this.input_spec = new InputSpec(min_ndim: 2);
+            this.input_spec = new InputSpec[] { new InputSpec(min_ndim: 2) };
             this.supports_masking = true;
             this.sparse_weight = sparse_weight;
         }
@@ -85,7 +82,6 @@ namespace MxNet.Keras.Layers
                 }
 
                 result.Add(output);
-               
             }
 
             if (this.activation != null)
@@ -109,10 +105,11 @@ namespace MxNet.Keras.Layers
             {
                 this.bias = null;
             }
-            this.input_spec = new InputSpec(min_ndim: 2, axes: new Dictionary<int, int> {
+            this.input_spec = new InputSpec[] {new InputSpec(min_ndim: 2, axes: new Dictionary<int, int> {
                     {
                         -1,
-                        input_dim}});
+                        input_dim}})
+            };
             this.built = true;
         }
 

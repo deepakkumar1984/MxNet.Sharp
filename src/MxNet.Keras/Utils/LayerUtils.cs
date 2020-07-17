@@ -322,14 +322,14 @@ namespace MxNet.Keras.Utils
             {
                 (layer, node_index, _) = tensor._keras_history.Value;
             }
-            if (layer._inbound_nodes == null)
+            if (layer._inbound_nodes == null || layer._inbound_nodes.Count == 0)
             {
                 return new KerasSymbol[] { tensor };
             }
             else
             {
                 var node = layer._inbound_nodes[node_index.Value];
-                if (node.inbound_layers == null)
+                if (node.inbound_layers == null || node.inbound_layers.Length == 0)
                 {
                     // Reached an Input layer, stop recursion.
                     return node.input_tensors;

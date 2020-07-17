@@ -102,7 +102,7 @@ namespace MxNet.Keras.Engine
                 this.is_placeholder = false;
                 input_tensor._keras_shape = batch_input_shape;
             }
-            // Create an input node to add to self.outbound_node
+            // Create an input node to add to this.outbound_node
             // and set output_tensors' _keras_history.
             input_tensor._uses_learning_phase = false;
             input_tensor._keras_history = (this, 0, 0);
@@ -141,7 +141,7 @@ namespace MxNet.Keras.Engine
             if (shape != null && batch_shape != null)
             {
                 var list = shape.Data.ToList();
-                list.Insert(0, -1);
+                list.Insert(0, 0);
                 batch_shape = new Shape(list);
             }
 

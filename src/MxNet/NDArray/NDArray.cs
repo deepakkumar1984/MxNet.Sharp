@@ -732,7 +732,7 @@ namespace MxNet
             get
             {
                 var x = Slice(index, index + 1);
-                var new_shape = x.Shape.Data.Where(i => i > 0).ToList();
+                var new_shape = x.Shape.Data.ToList();
                 new_shape.RemoveAt(0);
                 return x.Reshape(new Shape(new_shape));
             }

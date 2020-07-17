@@ -216,14 +216,14 @@ namespace MxNet.Keras
             if (sparse)
             {
                 sym = KerasVariable(name, shape: shape, dtype: dtype, stype: StorageStype.Csr);
-                sym._keras_shape = new Shape(shape.Data.Where(x => x != 0).ToList());
+                sym._keras_shape = new Shape(shape.Data.ToList());
                 sym._mxnet_placeholder = true;
                 sym._uses_learning_phase = false;
                 return sym;
             }
 
             sym = KerasVariable(name, shape: shape, dtype: dtype, stype: StorageStype.Default);
-            sym._keras_shape = new Shape(shape.Data.Where(x => x != 0).ToList());
+            sym._keras_shape = new Shape(shape.Data.ToList());
             sym._mxnet_placeholder = true;
             sym._uses_learning_phase = false;
             return sym;
@@ -424,7 +424,7 @@ namespace MxNet.Keras
                 y = sym.Transpose(y.Symbol, axes: new Shape(axis));
             }
 
-            return new KerasSymbol(sym.Dot(lhs: x.Symbol, rhs: y.Symbol));
+            return new KerasSymbol(sym.Dot(x.Symbol, y.Symbol));
         }
 
         public static KerasSymbol BatchDot(KerasSymbol x, KerasSymbol y, Shape axes = null)

@@ -155,7 +155,7 @@ namespace MxNet.IO
                 ShuffleData();
 
             if (last_batch_handle == "roll_over" && num_data - BatchSize < Cursor && Cursor < num_data
-            ) // (self.cursor - self.num_data) represents the data we have for the last batch
+            ) // (this.cursor - this.num_data) represents the data we have for the last batch
                 Cursor = Cursor - num_data - BatchSize;
             else
                 Cursor = -BatchSize;

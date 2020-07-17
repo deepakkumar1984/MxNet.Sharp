@@ -159,7 +159,7 @@ namespace MxNet
 
         public void Add(int i)
         {
-            var d = _Data.ToList().Where(x => x > 0).ToList();
+            var d = _Data.ToList().ToList();
             d.Add(i);
             var v = d.ToArray();
             Dimension = d.Count;
@@ -171,7 +171,7 @@ namespace MxNet
 
         public void Insert(int index, int s)
         {
-            var d = _Data.ToList().Where(x => x > 0).ToList();
+            var d = _Data.ToList().ToList();
             d.Insert(index, s);
             var v = d.ToArray();
             Dimension = d.Count;

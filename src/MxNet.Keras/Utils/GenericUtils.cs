@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace MxNet.Keras.Utils
@@ -65,22 +66,69 @@ namespace MxNet.Keras.Utils
 
         public static string ObjectListUid<T>(T[] object_list)
         {
-            throw new NotImplementedException();
+            var idList = object_list.Select(x => Math.Abs(x != null ? new ObjectIDGenerator().GetId(x, out var ft) : new object().GetHashCode())).ToList();
+            return string.Join(", ", idList);
         }
 
         public static bool IsAllNone<T>(T[] iterable_or_element)
         {
-            throw new NotImplementedException();
+            foreach (var item in iterable_or_element)
+            {
+                if (item != null)
+                    return false;
+            }
+
+            return true;
         }
 
-        public static T[] SliceArrays<T>(T[] arrays, int? start = null, int? end = null)
+        public static NDArray SliceArrays(NDArray arrays, int start, int? end = null)
         {
-            throw new NotImplementedException();
+            if (arrays == null)
+            {
+                return new NDArray();
+            }
+
+            return arrays.Slice(start, end);
         }
 
-        public static int[] TransposeShape(int[] shape, string target_format, int[] spatial_axes)
+        public static NDArray[] SliceArrays(NDArray[] arrays, int start, int? end = null)
         {
-            throw new NotImplementedException();
+            return arrays.Select(x => SliceArrays(x, start, end)).ToArray();
+        }
+
+        public static NDArray SliceArrays(NDArray arrays, Shape start, Shape end = null)
+        {
+            if (arrays == null)
+            {
+                return new NDArray();
+            }
+
+            return arrays.Slice(start, end);
+        }
+
+        public static NDArray[] SliceArrays(NDArray[] arrays, Shape start = null, Shape end = null)
+        {
+            return arrays.Select(x => SliceArrays(x, start, end)).ToArray();
+        }
+
+        public static Shape TransposeShape(Shape shape, string target_format, Shape spatial_axes)
+        {
+            if (target_format == "channels_first")
+            {
+                var new_values = new List<int> { shape[spatial_axes[0]] };
+                new_values.Add(shape[-1]);
+                new_values.AddRange((from x in spatial_axes.Data
+                                    select shape[x]));
+                return new Shape(new_values);
+            }
+            else if (target_format == "channels_last")
+            {
+                return shape;
+            }
+            else
+            {
+                throw new Exception("The `data_format` argument must be one of \"channels_first\", \"channels_last\". Received: " + target_format.ToString());
+            }
         }
     }
 }

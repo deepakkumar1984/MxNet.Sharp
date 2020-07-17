@@ -161,7 +161,7 @@ namespace MxNet.Keras.Engine
             this.input_spec = null;
             this.supports_masking = false;
             this.stateful = false;
-            // These properties will be set upon call of self.build()
+            // These properties will be set upon call of this.build()
             this._trainable_weights = new List<KerasSymbol>();
             this._non_trainable_weights = new List<KerasSymbol>();
             this._losses = new List<KerasSymbol>();
@@ -170,11 +170,11 @@ namespace MxNet.Keras.Engine
             this._per_input_updates = new Dictionary<string, List<(KerasSymbol, KerasSymbol)>>();
             this._built = false;
             // These lists will be filled via successive calls
-            // to self._add_inbound_node().
+            // to this._add_inbound_node().
             this._inbound_nodes = new List<Node>();
             this._outbound_nodes = new List<Node>();
            
-            if (!string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 var prefix = this.GetType().Name;
                 name = prefix + "_" + K.GetUid(prefix).ToString();
@@ -355,7 +355,7 @@ namespace MxNet.Keras.Engine
                 var input_index = i;
                 var x = inputs[i];
                 var spec = input_spec[i];
-                if (spec.ndim != 0)
+                if (spec.ndim != null)
                 {
                     if (K.NDim(x) != spec.ndim)
                     {
@@ -446,7 +446,12 @@ namespace MxNet.Keras.Engine
 
         public abstract KerasSymbol[] Invoke(KerasSymbol[] inputs, FuncArgs kwargs);
 
-        internal KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs)
+        public KerasSymbol[] Call(KerasSymbol inputs, FuncArgs kwargs = null)
+        {
+            return Call(new KerasSymbol[] { inputs }, kwargs);
+        }
+
+        public KerasSymbol[] Call(KerasSymbol[] inputs, FuncArgs kwargs = null)
         {
             KerasSymbol[] output = null;
             using (var ns = new NameScope(this.name)) {
@@ -510,10 +515,11 @@ namespace MxNet.Keras.Engine
                 for(int index = 0; index < output_ls.Length; index++)
                 {
                     var x = output_ls[index];
-                    if (inputs_ls.FirstOrDefault(i => i.Name == x.Name) != null)
-                    {
-                        x = K.Identity(x);
-                    }
+                    //ToDo: Recheck this condition
+                    //if (inputs_ls.FirstOrDefault(i => i.Name == x.Name) != null)
+                    //{
+                    //    x = K.Identity(x);
+                    //}
 
                     output_ls_copy.Add(x);
                 }
@@ -647,7 +653,7 @@ namespace MxNet.Keras.Engine
                 throw new Exception("Asked to get " + attr_name + " at node " + node_index.ToString() + ", but the layer has only " + this._inbound_nodes.Count.ToString() + " inbound nodes.");
             }
 
-            var array = this._inbound_nodes[node_index].GetType().GetProperty(attr).GetValue(this._inbound_nodes[node_index]);
+            var array = this._inbound_nodes[node_index].GetType().GetField(attr).GetValue(this._inbound_nodes[node_index]);
             if(array != null)
             {
                 T[] r = (T[])array;
@@ -659,32 +665,32 @@ namespace MxNet.Keras.Engine
 
         public virtual Shape GetInputShapeAt(int node_index)
         {
-            return this.GetNodeAttributeAtIndex<Shape>(node_index, "InputShapes", "input shape");
+            return this.GetNodeAttributeAtIndex<Shape>(node_index, "input_shapes", "input shape");
         }
 
         public virtual Shape GetOutputShapeAt(int node_index)
         {
-            return this.GetNodeAttributeAtIndex<Shape>(node_index, "OutputShapes", "output shape");
+            return this.GetNodeAttributeAtIndex<Shape>(node_index, "output_shapes", "output shape");
         }
 
         public virtual KerasSymbol GetInputAt(int node_index)
         {
-            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "InputTensors", "input");
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "input_tensors", "input");
         }
 
         public virtual KerasSymbol GetOutputAt(int node_index)
         {
-            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "OutputTensors", "output");
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "output_tensors", "output");
         }
 
         public virtual KerasSymbol GetInputMaskAt(int node_index)
         {
-            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "InputMasks", "input masks");
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "input_masks", "input masks");
         }
 
         public virtual KerasSymbol GetOutputMaskAt(int node_index)
         {
-            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "OutputMasks", "output masks");
+            return this.GetNodeAttributeAtIndex<KerasSymbol>(node_index, "output_masks", "output masks");
         }
 
         public virtual void AddLoss(KerasSymbol[] losses, KerasSymbol[]  inputs = null)

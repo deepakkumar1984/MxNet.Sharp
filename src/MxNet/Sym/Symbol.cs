@@ -342,10 +342,10 @@ namespace MxNet
             return (inShape.ToArray(), outShape.ToArray(), auxShape.ToArray());
         }
 
-        public (Shape[], Shape[], Shape[]) InferShapePartial(Dictionary<string, Shape> argShapes)
+        public (Shape[], Shape[], Shape[]) InferShapePartial(Dictionary<string, Shape> argShapes = null)
         {
             if (argShapes == null)
-                throw new ArgumentNullException(nameof(argShapes));
+                argShapes = new Dictionary<string, Shape>();
 
             var inShape = new List<Shape>();
             var auxShape = new List<Shape>();
@@ -426,7 +426,7 @@ namespace MxNet
         public (DType[], DType[], DType[]) InferType(Dictionary<string, DType> argTypes = null)
         {
             if (argTypes == null)
-                throw new ArgumentNullException(nameof(argTypes));
+                argTypes = new Dictionary<string, DType>();
 
             var inType = new List<DType>();
             var auxType = new List<DType>();
@@ -475,7 +475,7 @@ namespace MxNet
         public (DType[], DType[], DType[]) InferTypePartial(Dictionary<string, DType> argTypes = null)
         {
             if (argTypes == null)
-                throw new ArgumentNullException(nameof(argTypes));
+                argTypes = new Dictionary<string, DType>();
 
             var inType = new List<DType>();
             var auxType = new List<DType>();

@@ -570,8 +570,8 @@ namespace MxNet.Keras.Engine
                 using (var ns = new NameScope(metric_name)) {
                     metric_result = weighted_metric_fn(y_true, y_pred, weights, mask);
                 }
-                // Append to self.metrics_names, self.metric_tensors,
-                // self.stateful_metric_names
+                // Append to this.metrics_names, this.metric_tensors,
+                // this.stateful_metric_names
                 if (this.output_names.Count > 1)
                 {
                     metric_name = this.output_names[i] + "_" + metric_name;
@@ -701,7 +701,7 @@ namespace MxNet.Keras.Engine
                                    where !trainable_weights.Contains(x)
                                    select x).ToArray();
 
-            // self._args = {x: bind_values[x] for x in self._arg_names if x in bind_values}
+            // this._args = {x: bind_values[x] for x in this._arg_names if x in bind_values}
             this._args = new NDArrayDict();
 
             foreach (var x in this._arg_names)
@@ -863,7 +863,7 @@ namespace MxNet.Keras.Engine
                     }
                     catch
                     {
-                        // when name is not in self._args (key not found)
+                        // when name is not in this._args (key not found)
                         this._args[name] = args[name];
                     }
                 }
@@ -875,7 +875,7 @@ namespace MxNet.Keras.Engine
                     }
                     catch
                     {
-                        // when name is not in self._auxs (key not found)
+                        // when name is not in this._auxs (key not found)
                         this._auxs[name] = auxs[name];
                     }
                 }

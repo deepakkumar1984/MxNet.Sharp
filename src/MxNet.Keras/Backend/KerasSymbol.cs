@@ -66,7 +66,9 @@ namespace MxNet.Keras
         {
             get
             {
-                return GetDtype();
+                return null;
+                //return GetDtype();
+                //ToDo: Recheck this
             }
         }
 
@@ -166,16 +168,17 @@ namespace MxNet.Keras
 
         internal Shape GetShape()
         {
-            if (_keras_shape != null)
-                return _keras_shape;
+            //ToDo: Recheck this condition
+            //if (_keras_shape != null)
+            //    return _keras_shape;
 
-            var (out_shape, _, _) = Symbol.InferShapePartial(new Dictionary<string, Shape>());
+            var (_, out_shape, _) = Symbol.InferShapePartial();
             return out_shape[0];
         }
 
         internal DType GetDtype()
         {
-            var (out_type, _, _) = Symbol.InferType();
+            var ( _, out_type, _) = Symbol.InferType();
             return out_type[0];
         }
 
@@ -272,72 +275,72 @@ namespace MxNet.Keras
 
         public KerasSymbol Abs()
         {
-            return new KerasSymbol(sym.Abs(Symbol), neighbors: new KerasSymbol[] { this });
+            return new KerasSymbol(sym.Abs(Symbol, "abs"), neighbors: new KerasSymbol[] { this });
         }
 
         public static KerasSymbol operator +(KerasSymbol lhs, KerasSymbol rhs)
         {
-            return sym.BroadcastAdd(lhs.Symbol, rhs.Symbol);
+            return sym.BroadcastAdd(lhs.Symbol, rhs.Symbol, "add");
         }
 
         public static KerasSymbol operator +(KerasSymbol lhs, float scalar)
         {
-            return sym.PlusScalar(lhs.Symbol, scalar);
+            return sym.PlusScalar(lhs.Symbol, scalar, "add");
         }
 
         public static KerasSymbol operator +(float scalar, KerasSymbol rhs)
         {
-            return sym.PlusScalar(rhs.Symbol, scalar);
+            return sym.PlusScalar(rhs.Symbol, scalar, "add");
         }
 
         public static KerasSymbol operator -(KerasSymbol lhs, KerasSymbol rhs)
         {
-            return sym.BroadcastSub(lhs.Symbol, rhs.Symbol);
+            return sym.BroadcastSub(lhs.Symbol, rhs.Symbol, "sub");
         }
 
         public static KerasSymbol operator -(KerasSymbol lhs, float scalar)
         {
-            return sym.MinusScalar(lhs.Symbol, scalar);
+            return sym.MinusScalar(lhs.Symbol, scalar, "sub");
         }
 
         public static KerasSymbol operator -(float scalar, KerasSymbol rhs)
         {
-            return sym.RminusScalar(rhs.Symbol, scalar);
+            return sym.RminusScalar(rhs.Symbol, scalar, "sub");
         }
 
         public static KerasSymbol operator -(KerasSymbol x)
         {
-            return sym.Negative(x.Symbol);
+            return sym.Negative(x.Symbol, "neg");
         }
 
         public static KerasSymbol operator *(KerasSymbol lhs, KerasSymbol rhs)
         {
-            return sym.BroadcastMul(lhs.Symbol, rhs.Symbol);
+            return sym.BroadcastMul(lhs.Symbol, rhs.Symbol, "mul");
         }
 
         public static KerasSymbol operator *(KerasSymbol lhs, float scalar)
         {
-            return sym.MulScalar(lhs.Symbol, scalar);
+            return sym.MulScalar(lhs.Symbol, scalar, "mul");
         }
 
         public static KerasSymbol operator *(float scalar, KerasSymbol rhs)
         {
-            return sym.MulScalar(rhs.Symbol, scalar);
+            return sym.MulScalar(rhs.Symbol, scalar, "mul");
         }
 
         public static KerasSymbol operator /(KerasSymbol lhs, KerasSymbol rhs)
         {
-            return sym.BroadcastDiv(lhs.Symbol, rhs.Symbol);
+            return sym.BroadcastDiv(lhs.Symbol, rhs.Symbol, "div");
         }
 
         public static KerasSymbol operator /(KerasSymbol lhs, float scalar)
         {
-            return sym.DivScalar(lhs.Symbol, scalar);
+            return sym.DivScalar(lhs.Symbol, scalar, "div");
         }
 
         public static KerasSymbol operator /(float scalar, KerasSymbol rhs)
         {
-            return sym.RdivScalar(rhs.Symbol, scalar);
+            return sym.RdivScalar(rhs.Symbol, scalar, "div");
         }
 
         public static KerasSymbol operator %(KerasSymbol lhs, float scalar)
