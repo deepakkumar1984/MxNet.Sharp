@@ -121,7 +121,7 @@ namespace MxNet.Keras.Layers
                 Debug.Assert(input_shape != null && input_shape.Dimension >= 2);
                 Debug.Assert(input_shape.Data.Last() > 0);
                 var output_shape = input_shape;
-                output_shape[output_shape.Data.Length - 1] = this.units;
+                output_shape[-1] = this.units;
                 result.Add(output_shape);
             }
 

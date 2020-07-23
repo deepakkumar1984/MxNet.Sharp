@@ -465,6 +465,7 @@ namespace MxNet.Keras.Engine
                     var input_shapes = new List<Shape>();
                     foreach (var x_elem in inputs)
                     {
+                        //ToDo: recheck this one
                         if (x_elem._keras_shape != null)
                         {
                             input_shapes.Add(x_elem._keras_shape);
@@ -629,7 +630,7 @@ namespace MxNet.Keras.Engine
                     }
                 }
                 // masking not explicitly supported: return None as mask
-                return null;
+                return mask;
             }
             // if masking is explicitly supported, by default
             // carry over the input mask
@@ -741,8 +742,9 @@ namespace MxNet.Keras.Engine
             {
                 // Updates indexed by None are unconditional
                 // rather than input-dependent
-                inputs_hash = null;
+                inputs_hash = "";
             }
+
             if (!this._per_input_updates.ContainsKey(inputs_hash))
             {
                 this._per_input_updates[inputs_hash] = new List<(KerasSymbol, KerasSymbol)>();
@@ -785,7 +787,7 @@ namespace MxNet.Keras.Engine
             }
             else
             {
-                inputs_hash = null;
+                inputs_hash = "";
             }
 
             if (this._per_input_losses.ContainsKey(inputs_hash))

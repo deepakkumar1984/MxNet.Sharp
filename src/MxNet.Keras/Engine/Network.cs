@@ -731,7 +731,7 @@ namespace MxNet.Keras.Engine
                 var x = this.inputs[i];
                 var y = inputs[i];
                 var mask = masks[i];
-                tensor_map[x.GetMemPtr().ToString()] = (y, mask);
+                tensor_map[x.Symbol.GetMemPtr().ToString()] = (y, mask);
             }
 
             var output_tensors = new List<KerasSymbol>();
@@ -754,9 +754,9 @@ namespace MxNet.Keras.Engine
                     var computed_data = new List<(KerasSymbol, KerasSymbol)>();
                     foreach (var x in reference_input_tensors)
                     {
-                        if (tensor_map.ContainsKey(x.GetMemPtr().ToString()))
+                        if (tensor_map.ContainsKey(x.Symbol.GetMemPtr().ToString()))
                         {
-                            computed_data.Add(tensor_map[x.GetMemPtr().ToString()]);
+                            computed_data.Add(tensor_map[x.Symbol.GetMemPtr().ToString()]);
                         }
                     }
 
@@ -874,7 +874,7 @@ namespace MxNet.Keras.Engine
                             var x = reference_output_tensors[i];
                             var y = output_tensors[i];
                             var mask = output_masks[i];
-                            tensor_map[x.GetMemPtr().ToString()] = (y, mask);
+                            tensor_map[x.Symbol.GetMemPtr().ToString()] = (y, mask);
                         }
                     }
                 }
@@ -882,8 +882,8 @@ namespace MxNet.Keras.Engine
 
             foreach (var x in this.outputs)
             {
-                Debug.Assert(tensor_map.ContainsKey(x.GetMemPtr().ToString()), "Could not compute output " + x.ToString());
-                var _tup_5 = tensor_map[x.GetMemPtr().ToString()];
+                Debug.Assert(tensor_map.ContainsKey(x.Symbol.GetMemPtr().ToString()), "Could not compute output " + x.ToString());
+                var _tup_5 = tensor_map[x.Symbol.GetMemPtr().ToString()];
                 var tensor = _tup_5.Item1;
                 var mask = _tup_5.Item2;
                 if (x._keras_shape != null && output_shapes != null)

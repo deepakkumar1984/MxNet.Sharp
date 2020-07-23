@@ -90,7 +90,7 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.Float32;
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data,
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data.ToArray(),
                 shape.Dimension,
                 ctx.GetDeviceType(),
                 ctx.GetDeviceId(),
@@ -114,7 +114,7 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.InferDtype(data);
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data,
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data.ToArray(),
                    shape.Dimension,
                    ctx.GetDeviceType(),
                    ctx.GetDeviceId(),
@@ -152,7 +152,7 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(shape));
 
             NDArrayHandle @out = new NDArrayHandle();
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data,
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data.ToArray(),
                     shape.Dimension,
                     ctx.GetDeviceType(),
                     ctx.GetDeviceId(),
@@ -533,7 +533,7 @@ namespace MxNet
 
         public static NDArray NewFromSharedMem(int shared_pid, int shared_id, Shape shape, DType dtype)
         {
-            NativeMethods.MXNDArrayCreateFromSharedMemEx(shared_pid, shared_id, shape.Data, shape.Dimension,
+            NativeMethods.MXNDArrayCreateFromSharedMemEx(shared_pid, shared_id, shape.Data.ToArray(), shape.Dimension,
                 dtype.Index, out var handle);
             return new NDArray(handle);
         }

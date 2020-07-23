@@ -28,19 +28,11 @@ namespace MxNet.Keras.Engine
 
         internal bool stop_training;
 
-        internal Optimizer optimizer;
-
         internal Symbol _pred_mxnet_symbol;
 
         internal BucketingModule _module;
 
         public KerasSymbol[] _collected_trainable_weights;
-
-        public List<string> _feed_input_names;
-
-        public List<Shape> _feed_input_shapes;
-
-        public List<KerasSymbol> _feed_inputs;
 
         public List<Func<KerasSymbol, KerasSymbol, KerasSymbol>> _feed_loss_fns;
 
@@ -58,14 +50,6 @@ namespace MxNet.Keras.Engine
 
         public FuncArgs _function_kwargs;
 
-        public bool _is_compiled;
-
-        public bool built;
-
-        public List<string> input_names;
-
-        public List<KerasSymbol> inputs;
-
         public string loss;
 
         public List<Func<KerasSymbol, KerasSymbol, KerasSymbol>> loss_functions;
@@ -79,10 +63,6 @@ namespace MxNet.Keras.Engine
         public List<KerasSymbol> metrics_tensors;
 
         public object metrics_updates;
-
-        public List<string> output_names;
-
-        public List<KerasSymbol> outputs;
 
         public object predict_function;
 
@@ -102,7 +82,7 @@ namespace MxNet.Keras.Engine
 
         public KerasSymbol total_loss;
 
-        public object train_function;
+        public Func<KerasSymbol[], float[]> train_function;
 
         public object weighted_metrics;
 
@@ -329,43 +309,46 @@ namespace MxNet.Keras.Engine
             // Prepare sample weights.
             var sample_weights = new List<KerasSymbol>();
             this.sample_weight_modes = new List<string>();
-            if (sample_weight_mode.Length != this.outputs.Count)
+            if (sample_weight_mode != null)
             {
-                throw new Exception("When passing a list as sample_weight_mode, it should have one entry per model output. The model has " + this.outputs.Count.ToString() + " outputs, but you passed sample_weight_mode=" + sample_weight_mode.ToString());
-            }
-
-            foreach (var i in Enumerable.Range(0, this.output_names.Count))
-            {
-                if (skip_target_weighing_indices.Contains(i))
+                if (sample_weight_mode.Length != this.outputs.Count)
                 {
-                    weight = null;
-                    sample_weight_modes.Add(null);
+                    throw new Exception("When passing a list as sample_weight_mode, it should have one entry per model output. The model has " + this.outputs.Count.ToString() + " outputs, but you passed sample_weight_mode=" + sample_weight_mode.ToString());
                 }
-                else
+
+                foreach (var i in Enumerable.Range(0, this.output_names.Count))
                 {
-                    var mode = sample_weight_mode[i];
-                    name = this.output_names[i];
-                    if (mode == "temporal")
+                    if (skip_target_weighing_indices.Contains(i))
                     {
-                        weight = K.Placeholder(ndim: 2, name: name + "_sample_weights");
-                        sample_weight_modes.Add("temporal");
+                        weight = null;
+                        sample_weight_modes.Add(null);
                     }
                     else
                     {
-                        weight = K.Placeholder(ndim: 1, name: name + "_sample_weights");
-                        sample_weight_modes.Append(null);
+                        var mode = sample_weight_mode[i];
+                        name = this.output_names[i];
+                        if (mode == "temporal")
+                        {
+                            weight = K.Placeholder(ndim: 2, name: name + "_sample_weights");
+                            sample_weight_modes.Add("temporal");
+                        }
+                        else
+                        {
+                            weight = K.Placeholder(ndim: 1, name: name + "_sample_weights");
+                            sample_weight_modes.Append(null);
+                        }
                     }
+
+                    sample_weights.Add(weight);
                 }
 
-                sample_weights.Add(weight);
-            }
-            
-            this._feed_sample_weight_modes = new List<string>();
-            foreach (var i in Enumerable.Range(0, this.outputs.Count))
-            {
-                if (!skip_target_weighing_indices.Contains(i))
+                this._feed_sample_weight_modes = new List<string>();
+                foreach (var i in Enumerable.Range(0, this.outputs.Count))
                 {
-                    this._feed_sample_weight_modes.Add(this.sample_weight_modes[i]);
+                    if (!skip_target_weighing_indices.Contains(i))
+                    {
+                        this._feed_sample_weight_modes.Add(this.sample_weight_modes[i]);
+                    }
                 }
             }
 
@@ -387,7 +370,7 @@ namespace MxNet.Keras.Engine
                     var y_true = this.targets[i];
                     var y_pred = this.outputs[i];
                     var weighted_loss = weighted_losses[i];
-                    var sample_weight = sample_weights[i];
+                    var sample_weight = sample_weights.Count > 0 ? sample_weights[i] : null;
                     var mask = masks[i];
                     var loss_weight = loss_weights_list[i];
                     KerasSymbol output_loss = null;
@@ -450,7 +433,7 @@ namespace MxNet.Keras.Engine
 
                     var y_true = this.targets[i];
                     var y_pred = this.outputs[i];
-                    var weights = sample_weights[i];
+                    var weights = sample_weights.Count > 0 ? sample_weights[i] : null;
                     var output_metrics = nested_metrics[i];
                     var output_weighted_metrics = nested_weighted_metrics[i];
                     HandleMetrics(output_metrics.ToArray(), null, i, y_true, y_pred, masks[i]);
@@ -1306,9 +1289,129 @@ namespace MxNet.Keras.Engine
             return (x, y, sample_weights);
         }
 
-        public void Fit(NDArray x, NDArray y, int? batch_size= null, int epochs= 1, int verbose= 1, Callback[] callbacks= null, float validation_split= 0, NDArrayList validation_data= null, bool shuffle= true, Dictionary<int, float> class_weight= null, NDArray sample_weight= null, int initial_epoch= 0, int? steps_per_epoch= null, int? validation_steps= null)
+        public void Fit(NDArray x, NDArray y, int? batch_size= null, int epochs= 1, int verbose= 1, Callback[] callbacks= null, float validation_split= 0, NDArrayList validation_data= null, bool shuffle= true, NDArrayDict class_weight= null, NDArray sample_weight= null, int initial_epoch= 0, int? steps_per_epoch= null, int? validation_steps= null)
         {
-            throw new NotImplementedException();
+            List<string> callback_metrics = new List<string>();
+            object val_function;
+            NDArrayList fit_inputs = null;
+            int split_at;
+            NDArrayList val_inputs = null;
+            NDArray val_sample_weights = null;
+            NDArray val_sample_weight = null;
+            NDArray val_y = null;
+            NDArray val_x = null;
+            // Backwards compatibility
+            if (batch_size == null && steps_per_epoch == null)
+            {
+                batch_size = 32;
+            }
+           
+            if (x == null && y == null && steps_per_epoch == null)
+            {
+                throw new Exception("If fitting from data tensors, you should specify the `steps_per_epoch` argument.");
+            }
+            // Validate user data.
+            var _tup_1 = this.StandardizeUserData(x, y, sample_weight: sample_weight, class_weight: class_weight, batch_size: batch_size);
+            x = _tup_1.Item1;
+            y = _tup_1.Item2;
+            NDArray sample_weights = _tup_1.Item3;
+            // Prepare validation data.
+            var do_validation = false;
+            if (validation_data != null)
+            {
+                do_validation = true;
+                if (validation_data.Length == 2)
+                {
+                    val_x = validation_data[0];
+                    val_y = validation_data[1];
+                    val_sample_weight = null;
+                }
+                else if (validation_data.Length == 3)
+                {
+                    val_x = validation_data[0];
+                    val_y = validation_data[1];
+                    val_sample_weight = validation_data[2];
+                }
+                else
+                {
+                    throw new Exception(String.Format("When passing validation_data, it must contain 2 (x_val, y_val) or 3 (x_val, y_val, val_sample_weights) items, however it contains {0} items", validation_data.Length));
+                }
+
+                var _tup_4 = this.StandardizeUserData(val_x, val_y, sample_weight: val_sample_weight, batch_size: batch_size);
+                val_x = _tup_4.Item1;
+                val_y = _tup_4.Item2;
+                val_sample_weights = _tup_4.Item3;
+                if (this._uses_dynamic_learning_phase())
+                {
+                    val_inputs = new NDArrayList(val_x, val_y, val_sample_weights, 0f);
+                }
+                else
+                {
+                    val_inputs = new NDArrayList(val_x, val_y, val_sample_weights);
+                }
+            }
+            else if ((validation_split > 0) && (validation_split < 1))
+            {
+                do_validation = true;
+                split_at = Convert.ToInt32(Convert.ToInt32(x.Shape[0]) * (1.0 - validation_split));
+
+                var _tup_5 = (GenericUtils.SliceArrays(x, 0, split_at), GenericUtils.SliceArrays(x, split_at));
+                x = _tup_5.Item1;
+                val_x = _tup_5.Item2;
+                var _tup_6 = (GenericUtils.SliceArrays(y, 0, split_at), GenericUtils.SliceArrays(y, split_at));
+                y = _tup_6.Item1;
+                val_y = _tup_6.Item2;
+                var _tup_7 = (GenericUtils.SliceArrays(sample_weights, 0, split_at), GenericUtils.SliceArrays(sample_weights, split_at, null));
+                sample_weights = _tup_7.Item1;
+                val_sample_weights = _tup_7.Item2;
+                if (this._uses_dynamic_learning_phase())
+                {
+                    val_inputs = new NDArrayList(val_x, val_y, val_sample_weights, 0f);
+                }
+                else
+                {
+                    val_inputs = new NDArrayList(val_x, val_y, val_sample_weights, 0f);
+                }
+            }
+            else if (validation_steps.HasValue)
+            {
+                do_validation = true;
+                if (this._uses_dynamic_learning_phase())
+                {
+                    val_inputs = new NDArrayList(0);
+                }
+            }
+            // Prepare input arrays and training function.
+            if (this._uses_dynamic_learning_phase())
+            {
+                fit_inputs = new NDArrayList(x, y, sample_weights, 0);
+            }
+            else
+            {
+                fit_inputs = x + y + sample_weights;
+            }
+
+            this.MakeTrainFunction();
+            var fit_function = this.train_function;
+            // Prepare display labels.
+            var out_labels = this.metrics_names;
+            if (do_validation)
+            {
+                this.MakeTestFunction();
+                val_function = this.test_function;
+                callback_metrics.AddRange(out_labels);
+                callback_metrics.AddRange((from n in out_labels
+                                           select ("val_" + n)));
+            }
+            else
+            {
+                callback_metrics.AddRange(out_labels);
+                val_function = null;
+                val_inputs = new NDArrayList();
+            }
+
+            // Delegate logic to `fit_loop`.
+            return TrainingArrays.FitLoop(this, fit_function, fit_inputs, out_labels: out_labels, batch_size: batch_size, epochs: epochs, verbose: verbose, callbacks: callbacks, val_function: val_function, val_inputs: val_inputs, shuffle: shuffle, callback_metrics: callback_metrics, initial_epoch: initial_epoch, steps_per_epoch: steps_per_epoch, validation_steps: validation_steps);
         }
 
         public void Evaluate(NDArray x, NDArray y, int? batch_size = null, int epochs = 1, int verbose = 1, NDArray sample_weight = null, int? steps = null)

@@ -63,9 +63,9 @@ namespace MxNet.Keras.Initializers
                 }
                 else if (data_format == "channels_last")
                 {
-                    receptive_field_size = shape.Data.Take(shape.Data.Length - 2).ToList().Aggregate((a, b) => a * b);
-                    fan_in = shape[shape.Data.Length - 2] * receptive_field_size;
-                    fan_out = shape[shape.Data.Length - 1] * receptive_field_size;
+                    receptive_field_size = shape.Data.Take(shape.Data.Count - 2).ToList().Aggregate((a, b) => a * b);
+                    fan_in = shape[shape.Data.Count - 2] * receptive_field_size;
+                    fan_out = shape[shape.Data.Count - 1] * receptive_field_size;
                 }
                 else
                 {

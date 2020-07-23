@@ -113,6 +113,8 @@ namespace MxNet.Keras
                     return CategorialHinge;
                 case "log_cosh":
                     return Logcosh;
+                case "binary_crossentropy":
+                    return BinaryCrossentropy;
                 case "categorical_crossentropy":
                     return CategoricalCrossentropy;
                 case "sparse_categorical_crossentropy":

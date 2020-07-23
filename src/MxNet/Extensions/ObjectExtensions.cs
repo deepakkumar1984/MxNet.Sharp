@@ -34,6 +34,7 @@ namespace MxNet
             if (src.GetType().Name == "Symbol")
                 return ((Symbol)src).NativePtr;
 
+
             GCHandle handle = GCHandle.Alloc(src, GCHandleType.Pinned);
             IntPtr pointer = handle.AddrOfPinnedObject();
             handle.Free();

@@ -80,7 +80,7 @@ namespace MxNet.Keras
             }
         }
 
-        public KerasSymbol(Symbol mxnet_symbol, StorageStype stype = StorageStype.Default, KerasSymbol[] neighbors = null, bool is_var = false)
+        public KerasSymbol(Symbol mxnet_symbol, StorageStype stype = StorageStype.Default, KerasSymbol[] neighbors = null, bool is_var = true)
         {
             if (is_var)
             {

@@ -66,7 +66,7 @@ namespace MxNet.Keras.Utils
 
         public static string ObjectListUid<T>(T[] object_list)
         {
-            var idList = object_list.Select(x => Math.Abs(x != null ? new ObjectIDGenerator().GetId(x, out var ft) : new object().GetHashCode())).ToList();
+            var idList = object_list.Select(x => Math.Abs(x != null ? x.GetHashCode() : new object().GetHashCode())).ToList();
             return string.Join(", ", idList);
         }
 

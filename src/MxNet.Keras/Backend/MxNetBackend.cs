@@ -241,7 +241,7 @@ namespace MxNet.Keras
 
         public static int[] IntShape(KerasSymbol x)
         {
-            return x.Shape.Data;
+            return x.Shape.Data.ToArray();
         }
 
         public static int NDim(KerasSymbol x)
@@ -2033,6 +2033,8 @@ namespace MxNet.Keras
 
         private static Shape NormalizeAxis(Shape shape, int ndim)
         {
+            if (shape == null)
+                return null;
             var axis = shape.Data.ToList();
 
             if (ndim == 0)
@@ -2040,10 +2042,9 @@ namespace MxNet.Keras
                 return shape;
             }
 
-            foreach (var _tup_1 in axis.Select((_p_1, _p_2) => Tuple.Create(_p_2, _p_1)))
+            for (int i = 0; i < axis.Count; i++)
             {
-                var i = _tup_1.Item1;
-                var a = _tup_1.Item2;
+                var a = axis[i];
                 if (a < 0)
                 {
                     axis[i] = a % ndim;
@@ -2184,7 +2185,7 @@ namespace MxNet.Keras
         {
             if (data_format == "channels_last")
             {
-                output_shape = new Shape(output_shape.Data.Skip(1).Take(output_shape.Data.Length - 2).ToArray());
+                output_shape = new Shape(output_shape.Data.Skip(1).Take(output_shape.Data.Count - 2).ToArray());
             }
             else if (data_format == "channels_first")
             {
@@ -2311,7 +2312,7 @@ namespace MxNet.Keras
             var num_out_channel = pointwise_kernel_shape[1];
             pointwise_kernel_shape = new Shape(pointwise_kernel_shape[2]);
             // Calculate padding requirement.
-            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, depthwise_kernel.Shape.Data, strides, filter_dilation);
+            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, depthwise_kernel.Shape.Data.ToArray(), strides, filter_dilation);
             var padding = _tup_1.Item1;
             var is_slice = _tup_1.Item2;
             var out_size = _tup_1.Item3;
@@ -2353,7 +2354,7 @@ namespace MxNet.Keras
             var nb_filter = kernel_shape[0];
             var depth_multiplier = kernel_shape[1];
             // Calculate padding requirement.
-            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, layout_kernel.Data, strides, filter_dilation);
+            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, layout_kernel.Data.ToArray(), strides, filter_dilation);
             var padding = _tup_1.Item1;
             var is_slice = _tup_1.Item2;
             var out_size = _tup_1.Item3;
@@ -2405,7 +2406,7 @@ namespace MxNet.Keras
             var layout_kernel = new Shape(kernel_shape[2]);
             var nb_filter = kernel_shape[0];
             // Calculate padding requirement.
-            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, layout_kernel.Data, strides, filter_dilation);
+            var _tup_1 = PreprocessPaddingMode(padding_mode, x.Shape, layout_kernel.Data.ToArray(), strides, filter_dilation);
             var padding = _tup_1.Item1;
             var is_slice = _tup_1.Item2;
             var out_size = _tup_1.Item3;
@@ -2449,7 +2450,7 @@ namespace MxNet.Keras
             }
             else
             {
-                output_shape = new Shape(output_shape.Data.Skip(1).Take(output_shape.Data.Length - 2).ToList());
+                output_shape = new Shape(output_shape.Data.Skip(1).Take(output_shape.Data.Count - 2).ToList());
             }
             // Perform transpose convolution
             var deconv = sym.Deconvolution(data: x.Symbol, symbol_name: PrepareName(name, "convnd_transpose"), kernel: layout_kernel, stride: new Shape(strides), num_filter: nb_filter, weight: kernel.Symbol, no_bias: true, bias: null, target_shape: output_shape, dilate: new Shape(dilation_rate));

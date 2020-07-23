@@ -45,7 +45,7 @@ namespace MxNet
 
         public static implicit operator string(DType value)
         {
-            return value.Name;
+            return value != null ? value.Name : "";
         }
 
         public static implicit operator DType(string value)
