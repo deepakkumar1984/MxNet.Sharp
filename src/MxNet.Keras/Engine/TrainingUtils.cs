@@ -310,7 +310,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public static NDArray CheckNumSamples(NDArrayList ins, int? batch_size = null, int? steps = null, string steps_name = "steps")
+        public static int CheckNumSamples(NDArrayList ins, int? batch_size = null, int? steps = null, string steps_name = "steps")
         {
             throw new NotImplementedException();
         }

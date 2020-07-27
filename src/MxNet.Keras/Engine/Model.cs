@@ -64,7 +64,7 @@ namespace MxNet.Keras.Engine
 
         public object metrics_updates;
 
-        public object predict_function;
+        public Func<NDArrayList, NDArrayList> predict_function;
 
         public object sample_weight_mode;
 
@@ -78,13 +78,15 @@ namespace MxNet.Keras.Engine
 
         public List<KerasSymbol> targets;
 
-        public object test_function;
+        public Func<NDArrayList, float[]> test_function;
 
         public KerasSymbol total_loss;
 
-        public Func<KerasSymbol[], float[]> train_function;
+        public Func<NDArrayList, float[]> train_function;
 
         public object weighted_metrics;
+
+        public History history;
 
         internal Context[] _context;
         internal string _kvstore;
@@ -739,7 +741,7 @@ namespace MxNet.Keras.Engine
             this.compiled = true;
         }
 
-        internal (NDArray[], NDArray[], Phase, DataDesc[], DataDesc[]) AdjustModule(KerasSymbol[] inputs, Phase phase)
+        internal (NDArray[], NDArray[], Phase, DataDesc[], DataDesc[]) AdjustModule(NDArray[] inputs, Phase phase)
         {
             DataDesc[] label_shapes;
             NDArray[] label;
@@ -909,7 +911,7 @@ namespace MxNet.Keras.Engine
 
         internal void MakeTrainFunction()
         {
-            Func<KerasSymbol[], float[]> train_function = inputs => 
+            Func<NDArrayList, float[]> train_function = inputs => 
             {
                 //Training._check_trainable_weights_consistency();
                 var (data, label, _, data_shapes, label_shapes) = this.AdjustModule(inputs, Phase.Train);
@@ -928,7 +930,7 @@ namespace MxNet.Keras.Engine
 
         internal void MakeTestFunction()
         {
-            Func<KerasSymbol[], float[]> test_function = inputs =>
+            Func<NDArrayList, float[]> test_function = inputs =>
             {
                 //Training._check_trainable_weights_consistency();
                 var (data, label, _, data_shapes, label_shapes) = this.AdjustModule(inputs, Phase.Test);
@@ -950,7 +952,7 @@ namespace MxNet.Keras.Engine
 
         internal void MakePredictFunction()
         {
-            Func<KerasSymbol[], float[]> pred_function = inputs =>
+            Func<NDArrayList, NDArrayList> pred_function = inputs =>
             {
                 if (!this.compiled)
                 {
@@ -977,8 +979,8 @@ namespace MxNet.Keras.Engine
                 }
 
                 var outs = this._module.GetOutputs()[0].Take(this._npred.Value);
-                return (from x in outs
-                        select x.Mean()).ToArray();
+                return new NDArrayList((from x in outs
+                                        select x).ToArray());
             };
 
             this.predict_function = pred_function;
@@ -1289,10 +1291,10 @@ namespace MxNet.Keras.Engine
             return (x, y, sample_weights);
         }
 
-        public void Fit(NDArray x, NDArray y, int? batch_size= null, int epochs= 1, int verbose= 1, Callback[] callbacks= null, float validation_split= 0, NDArrayList validation_data= null, bool shuffle= true, NDArrayDict class_weight= null, NDArray sample_weight= null, int initial_epoch= 0, int? steps_per_epoch= null, int? validation_steps= null)
+        public History Fit(NDArray x, NDArray y, int? batch_size= null, int epochs= 1, int verbose= 1, Callback[] callbacks= null, float validation_split= 0, NDArrayList validation_data= null, bool shuffle= true, NDArrayDict class_weight= null, NDArray sample_weight= null, int initial_epoch= 0, int? steps_per_epoch= null, int? validation_steps= null)
         {
             List<string> callback_metrics = new List<string>();
-            object val_function;
+            Func<NDArrayList, float[]> val_function;
             NDArrayList fit_inputs = null;
             int split_at;
             NDArrayList val_inputs = null;
@@ -1411,47 +1413,144 @@ namespace MxNet.Keras.Engine
             }
 
             // Delegate logic to `fit_loop`.
-            return TrainingArrays.FitLoop(this, fit_function, fit_inputs, out_labels: out_labels, batch_size: batch_size, epochs: epochs, verbose: verbose, callbacks: callbacks, val_function: val_function, val_inputs: val_inputs, shuffle: shuffle, callback_metrics: callback_metrics, initial_epoch: initial_epoch, steps_per_epoch: steps_per_epoch, validation_steps: validation_steps);
+            return TrainingArrays.FitLoop(this, fit_function, fit_inputs, out_labels: out_labels.ToArray(), batch_size: batch_size, epochs: epochs, verbose: verbose, callbacks: callbacks, val_function: val_function, val_inputs: val_inputs, shuffle: shuffle, callback_metrics: callback_metrics.ToArray(), initial_epoch: initial_epoch, steps_per_epoch: steps_per_epoch, validation_steps: validation_steps);
         }
 
-        public void Evaluate(NDArray x, NDArray y, int? batch_size = null, int epochs = 1, int verbose = 1, NDArray sample_weight = null, int? steps = null)
+        public NDArrayList Evaluate(NDArray x, NDArray y, int? batch_size = null, int epochs = 1, int verbose = 1, NDArray sample_weight = null, int? steps = null)
         {
-            throw new NotImplementedException();
+            NDArrayList ins = new NDArrayList();
+            // Backwards compatibility.
+            if (batch_size == null && steps == null)
+            {
+                batch_size = 32;
+            }
+            if (x == null && y == null && steps == null)
+            {
+                throw new Exception("If evaluating from data tensors, you should specify the `steps` argument.");
+            }
+            // Validate user data.
+            var _tup_1 = this.StandardizeUserData(x, y, sample_weight: sample_weight, batch_size: batch_size);
+            x = _tup_1.Item1;
+            y = _tup_1.Item2;
+            var sample_weights = _tup_1.Item3;
+            // Prepare inputs, delegate logic to `test_loop`.
+            if (this._uses_dynamic_learning_phase())
+            {
+                ins = new NDArrayList(x, y, sample_weights, 0f);
+            }
+            else
+            {
+                ins = new NDArrayList(x, y, sample_weights);
+            }
+
+            this.MakeTestFunction();
+            var f = this.test_function;
+            return TrainingArrays.TestLoop(this, f, ins, batch_size: batch_size.Value, verbose: verbose, steps: steps);
         }
 
         public NDArray Predict(NDArray x, int? batch_size = null, int verbose = 0, int? steps = null)
         {
-            throw new NotImplementedException();
+            NDArrayList ins = new NDArrayList();
+            // Backwards compatibility.
+            if (batch_size == null && steps == null)
+            {
+                batch_size = 32;
+            }
+            if (x == null && steps == null)
+            {
+                throw new Exception("If predicting from data tensors, you should specify the `steps` argument.");
+            }
+            // Validate user data.
+            var _tup_1 = this.StandardizeUserData(x);
+            x = _tup_1.Item1;
+            if (this.stateful)
+            {
+                if (x[0].Shape[0] > batch_size && x[0].Shape[0] % batch_size != 0)
+                {
+                    throw new Exception("In a stateful network, you should only pass inputs with a number of samples that can be divided by the batch size. Found: " + x[0].Shape[0].ToString() + " samples. Batch size: " + batch_size.ToString() + ".");
+                }
+            }
+            // Prepare inputs, delegate logic to `predict_loop`.
+            if (this._uses_dynamic_learning_phase())
+            {
+                ins = new NDArrayList(x, 0f);
+            }
+            else
+            {
+                ins = new NDArrayList(x);
+            }
+
+            this.MakePredictFunction();
+            var f = this.predict_function;
+            return TrainingArrays.PredictLoop(this, f, ins, batch_size: batch_size.Value, verbose: verbose, steps: steps);
         }
 
-        public void TrainOnBatch(NDArray x, NDArray y, NDArray sample_weight = null, Dictionary<int, float> class_weight = null)
+        public float[] TrainOnBatch(NDArray x, NDArray y, NDArray sample_weight = null, NDArrayDict class_weight = null)
         {
-            throw new NotImplementedException();
+            NDArrayList ins = new NDArrayList();
+            (x, y, sample_weight) = this.StandardizeUserData(x, y, sample_weight: sample_weight, class_weight: class_weight);
+            if (this._uses_dynamic_learning_phase())
+            {
+                ins = new NDArrayList(x, y, sample_weight, 0f);
+            }
+            else
+            {
+                ins = new NDArrayList(x, y, sample_weight);
+            }
+
+            this.MakeTrainFunction();
+            var outputs = this.train_function(ins);
+            return outputs;
         }
 
-        public void TestOnBatch(NDArray x, NDArray y, NDArray sample_weight = null)
+        public float[] TestOnBatch(NDArray x, NDArray y, NDArray sample_weight = null)
         {
-            throw new NotImplementedException();
+            NDArrayList ins = new NDArrayList();
+            (x, y, sample_weight) = this.StandardizeUserData(x, y, sample_weight: sample_weight);
+            if (this._uses_dynamic_learning_phase())
+            {
+                ins = new NDArrayList(x, y, sample_weight, 0f);
+            }
+            else
+            {
+                ins = new NDArrayList(x, y, sample_weight);
+            }
+
+            this.MakeTestFunction();
+            var outputs = this.test_function(ins);
+            return outputs;
         }
 
-        public void PredictOnBatch(NDArray x)
+        public NDArrayList PredictOnBatch(NDArray x)
         {
-            throw new NotImplementedException();
+            NDArrayList ins = new NDArrayList();
+            if (this._uses_dynamic_learning_phase())
+            {
+                ins = new NDArrayList(x, 0f);
+            }
+            else
+            {
+                ins = new NDArrayList(x);
+            }
+
+            this.MakePredictFunction();
+            var outputs = this.predict_function(ins);
+            return outputs;
         }
 
-        public void FitGenerator(Sequence<(NDArray, NDArray, NDArray)> x, int? steps_per_epoch = null, int epochs = 1, int verbose = 1, Callback[] callbacks = null, NDArrayList validation_data = null, int? validation_steps = null, Dictionary<int, float> class_weight = null, int max_queue_size= 10, int workers= 1, bool use_multiprocessing= false, bool shuffle = true, int initial_epoch = 0)
+        public History FitGenerator(Sequence<(NDArray, NDArray, NDArray)> generator, int? steps_per_epoch = null, int epochs = 1, int verbose = 1, Callback[] callbacks = null, NDArrayList validation_data = null, int? validation_steps = null, Dictionary<int, float> class_weight = null, int max_queue_size= 10, int workers= 1, bool use_multiprocessing= false, bool shuffle = true, int initial_epoch = 0)
         {
-            throw new NotImplementedException();
+            return TrainingGenerator.FitGenerator(this, generator, steps_per_epoch: steps_per_epoch, epochs: epochs, verbose: verbose, callbacks: callbacks, validation_data: validation_data, validation_steps: validation_steps, class_weight: class_weight, max_queue_size: max_queue_size, workers: workers, use_multiprocessing: use_multiprocessing, shuffle: shuffle, initial_epoch: initial_epoch);
         }
 
-        public void EvaluateGenerator(Sequence<(NDArray, NDArray, NDArray)> x, int? steps = null, int max_queue_size = 10, int workers = 1, bool use_multiprocessing = false, int verbose = 0)
+        public float[] EvaluateGenerator(Sequence<(NDArray, NDArray, NDArray)> generator, int? steps = null, int max_queue_size = 10, int workers = 1, bool use_multiprocessing = false, int verbose = 0)
         {
-            throw new NotImplementedException();
+            return TrainingGenerator.EvaluateGenerator(this, generator, steps: steps, max_queue_size: max_queue_size, workers: workers, use_multiprocessing: use_multiprocessing, verbose: verbose);
         }
 
-        public void PredictGenerator(Sequence<(NDArray, NDArray, NDArray)> x, int? steps = null, int max_queue_size = 10, int workers = 1, bool use_multiprocessing = false, int verbose = 0)
+        public NDArrayList PredictGenerator(Sequence<(NDArray, NDArray, NDArray)> generator, int? steps = null, int max_queue_size = 10, int workers = 1, bool use_multiprocessing = false, int verbose = 0)
         {
-            throw new NotImplementedException();
+            return TrainingGenerator.PredictGenerator(this, generator, steps: steps, max_queue_size: max_queue_size, workers: workers, use_multiprocessing: use_multiprocessing, verbose: verbose);
         }
     }
 }
