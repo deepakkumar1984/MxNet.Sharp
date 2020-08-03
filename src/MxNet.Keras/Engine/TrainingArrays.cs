@@ -1,25 +1,26 @@
 ﻿using MxNet.Keras.Callbacks;
+using MxNet.Keras.Utils;
 using System;   
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using K = MxNet.Keras.MxNetBackend;
 
 namespace MxNet.Keras.Engine
 {
     public class TrainingArrays
     {
         public static History FitLoop(Model model, Func<NDArrayList, float[]> fit_function, NDArrayList fit_inputs, string[] out_labels= null, int? batch_size= null, int epochs= 100,
-                                int verbose= 1, Callback[] callbacks= null, Func<NDArrayList, float[]> val_function = null, NDArrayList val_inputs= null, bool shuffle= true,
+                                int verbose= 1, CallbackList callbacks= null, Func<NDArrayList, float[]> val_function = null, NDArrayList val_inputs= null, bool shuffle= true,
                                 string[] callback_metrics= null, int initial_epoch= 0, int? steps_per_epoch= null, int? validation_steps= null)
         {
-            object ins_batch;
-            object val_outs;
-            object o;
-            object l;
-            object outs;
-            object batch_logs;
-            object callback_model;
+            NDArrayList ins_batch = null;
+            float[] val_outs = null;
+            float[] outs = null;
+            Dictionary<string, float> batch_logs;
+            Model callback_model;
             string count_mode;
-            object index_array;
+            NDArray index_array = null;
             var do_validation = false;
             if (val_function != null && val_inputs != null)
             {
@@ -67,27 +68,19 @@ namespace MxNet.Keras.Engine
                 {
                     count_mode = "samples";
                 }
-                _callbacks.Add(new ProgbarLogger(count_mode, stateful_metrics: model.stateful_metric_names));
+                _callbacks.Add(new ProgbarLogger(count_mode, stateful_metrics: model.stateful_metric_names.ToArray()));
             }
 
-            _callbacks += (callbacks || new List<object>()) + new List<object> {
-                model.history
-            };
+            _callbacks.Add(model.history);
 
             callbacks = new CallbackList(_callbacks.ToArray());
-            out_labels = out_labels || new List<object>();
+            out_labels = out_labels ?? new string[0];
             // it's possible to callback a different model than itself
             // (used by Sequential models)
-            if (hasattr(model, "callback_model") && model.callback_model)
-            {
-                callback_model = model.callback_model;
-            }
-            else
-            {
-                callback_model = model;
-            }
-            callbacks.set_model(callback_model);
-            callbacks.set_params(new Dictionary<object, object> {
+            callback_model = model;
+
+            callbacks.SetModel(callback_model);
+            callbacks.SetParams(new Dictionary<string, object> {
                 {
                     "batch_size",
                     batch_size},
@@ -108,54 +101,70 @@ namespace MxNet.Keras.Engine
                     do_validation},
                 {
                     "metrics",
-                    callback_metrics || new List<object>()}});
-            callbacks.on_train_begin();
+                    callback_metrics ?? new string[0]}});
+
+            callbacks.OnTrainBegin();
             callback_model.stop_training = false;
-            foreach (var cbk in callbacks)
+            foreach (var cbk in callbacks.callbacks)
             {
                 cbk.validation_data = val_inputs;
             }
+
             // To prevent a slowdown,
             // we find beforehand the arrays that need conversion.
-            var feed = model._feed_inputs + model._feed_targets + model._feed_sample_weights;
-            var indices_for_conversion_to_dense = new List<object>();
+            List<KerasSymbol> feed = new List<KerasSymbol>();
+            feed.AddRange(model._feed_inputs);
+            feed.AddRange(model._feed_targets);
+            feed.AddRange(model._feed_sample_weights);
+            
+            var indices_for_conversion_to_dense = new List<int>();
             foreach (var i in Enumerable.Range(0, feed.Count))
             {
-                if (issparse(fit_inputs[i]) && !K.is_sparse(feed[i]))
+                if (!K.IsSparse(feed[i]))
                 {
-                    indices_for_conversion_to_dense.append(i);
+                    indices_for_conversion_to_dense.Add(i);
                 }
             }
+
             foreach (var epoch in Enumerable.Range(initial_epoch, epochs - initial_epoch))
             {
                 // Reset stateful metrics
-                foreach (var m in model.stateful_metric_functions)
-                {
-                    m.reset_states();
-                }
-                callbacks.on_epoch_begin(epoch);
-                var epoch_logs = new Dictionary<object, object>
+                //ToDo: Recheck code
+                //foreach (var m in model.stateful_metric_functions)
+                //{
+                //    m.reset_states();
+                //}
+
+                callbacks.OnEpochBegin(epoch);
+                var epoch_logs = new Dictionary<string, float>
                 {
                 };
                 if (steps_per_epoch != null)
                 {
-                    foreach (var step_index in Enumerable.Range(0, steps_per_epoch))
+                    foreach (var step_index in Enumerable.Range(0, steps_per_epoch.Value))
                     {
-                        batch_logs = new Dictionary<object, object>
+                        batch_logs = new Dictionary<string, float>
                         {
                         };
+
                         batch_logs["batch"] = step_index;
                         batch_logs["size"] = 1;
-                        callbacks.on_batch_begin(step_index, batch_logs);
+                        callbacks.OnBatchBegin(step_index, batch_logs);
                         outs = fit_function(fit_inputs);
-                        outs = to_list(outs);
-                        foreach (var _tup_1 in zip(out_labels, outs))
+
+                        for (int i = 0; i < out_labels.Length; i++)
                         {
-                            l = _tup_1.Item1;
-                            o = _tup_1.Item2;
-                            batch_logs[l] = o;
+                            if(batch_logs.ContainsKey(out_labels[i]))
+                            {
+                                batch_logs.Add(out_labels[i], outs[i]);
+                            }
+                            else
+                            {
+                                batch_logs[out_labels[i]] = outs[i];
+                            }
                         }
-                        callbacks.on_batch_end(step_index, batch_logs);
+                       
+                        callbacks.OnBatchEnd(step_index, batch_logs);
                         if (callback_model.stop_training)
                         {
                             break;
@@ -163,99 +172,106 @@ namespace MxNet.Keras.Engine
                     }
                     if (do_validation)
                     {
-                        val_outs = test_loop(model, val_function, val_inputs, steps: validation_steps, verbose: 0);
-                        val_outs = to_list(val_outs);
+                        val_outs = TestLoop(model, val_function, val_inputs, steps: validation_steps, verbose: 0);
                         // Same labels assumed.
-                        foreach (var _tup_2 in zip(out_labels, val_outs))
+                        for (int i = 0; i < out_labels.Length; i++)
                         {
-                            l = _tup_2.Item1;
-                            o = _tup_2.Item2;
-                            epoch_logs["val_" + l] = o;
+                            var l = "val_" + out_labels[i];
+                            if (epoch_logs.ContainsKey(l))
+                            {
+                                epoch_logs.Add(l, val_outs[i]);
+                            }
+                            else
+                            {
+                                epoch_logs[l] = val_outs[i];
+                            }
                         }
                     }
                 }
                 else
                 {
-                    if (shuffle == "batch")
+                    if (shuffle && batch_size.HasValue)
                     {
-                        index_array = batch_shuffle(index_array, batch_size);
+                        index_array = TrainingUtils.BatchShuffle(index_array, batch_size.Value);
                     }
                     else if (shuffle)
                     {
-                        np.random.shuffle(index_array);
+                        nd.Shuffle(index_array);
                     }
-                    var batches = make_batches(num_train_samples, batch_size);
+
+                    var batches = TrainingUtils.MakeBatches(num_train_samples, batch_size.Value);
                     foreach (var _tup_3 in batches.Select((_p_1, _p_2) => Tuple.Create(_p_2, _p_1)))
                     {
                         var batch_index = _tup_3.Item1;
-                        (batch_start, batch_end) = _tup_3.Item2;
-                        var batch_ids = index_array[batch_start::batch_end];
+                        var (batch_start, batch_end) = _tup_3.Item2;
+                        var batch_ids = index_array[$"{batch_start}:{batch_end}"];
                         try
                         {
-                            if (fit_inputs[-1] is float)
+                            ins_batch = GenericUtils.SliceArrays(fit_inputs, batch_ids.ArrayData.Cast<int>().ToArray());
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("TypeError while preparing batch. If using HDF5 input data, pass shuffle=\"batch\".");
+                        }
+
+                        batch_logs = new Dictionary<string, float>();
+                        batch_logs["batch"] = batch_index;
+                        batch_logs["size"] = batch_ids.Shape[0];
+                        callbacks.OnBatchBegin(batch_index, batch_logs);
+                        foreach (var i in indices_for_conversion_to_dense)
+                        {
+                            ins_batch[i] = ins_batch[i];
+                        }
+
+                        outs = fit_function(ins_batch);
+                        for (int i = 0; i < out_labels.Length; i++)
+                        {
+                            if (batch_logs.ContainsKey(out_labels[i]))
                             {
-                                // Do not slice the training phase flag.
-                                ins_batch = slice_arrays(fit_inputs[:: - 1], batch_ids) + new List<object> {
-                                    fit_inputs[-1]
-                                };
+                                batch_logs.Add(out_labels[i], outs[i]);
                             }
                             else
                             {
-                                ins_batch = slice_arrays(fit_inputs, batch_ids);
+                                batch_logs[out_labels[i]] = outs[i];
                             }
                         }
-                        catch (TypeError)
-                        {
-                            throw new TypeError("TypeError while preparing batch. If using HDF5 input data, pass shuffle=\"batch\".");
-                        }
-                        batch_logs = new Dictionary<object, object>
-                        {
-                        };
-                        batch_logs["batch"] = batch_index;
-                        batch_logs["size"] = batch_ids.Count;
-                        callbacks.on_batch_begin(batch_index, batch_logs);
-                        foreach (var i in indices_for_conversion_to_dense)
-                        {
-                            ins_batch[i] = ins_batch[i].toarray();
-                        }
-                        outs = fit_function(ins_batch);
-                        outs = to_list(outs);
-                        foreach (var _tup_4 in zip(out_labels, outs))
-                        {
-                            l = _tup_4.Item1;
-                            o = _tup_4.Item2;
-                            batch_logs[l] = o;
-                        }
-                        callbacks.on_batch_end(batch_index, batch_logs);
+
+                        callbacks.OnBatchEnd(batch_index, batch_logs);
                         if (callback_model.stop_training)
                         {
                             break;
                         }
-                        if (batch_index == batches.Count - 1)
+                        if (batch_index == batches.Length - 1)
                         {
                             // Last batch.
                             if (do_validation)
                             {
-                                val_outs = test_loop(model, val_function, val_inputs, batch_size: batch_size, verbose: 0);
-                                val_outs = to_list(val_outs);
+                                val_outs = TestLoop(model, val_function, val_inputs, batch_size: batch_size.Value, verbose: 0);
                                 // Same labels assumed.
-                                foreach (var _tup_5 in zip(out_labels, val_outs))
+                                for (int i = 0; i < out_labels.Length; i++)
                                 {
-                                    l = _tup_5.Item1;
-                                    o = _tup_5.Item2;
-                                    epoch_logs["val_" + l] = o;
+                                    var l = "val_" + out_labels[i];
+                                    if (epoch_logs.ContainsKey(l))
+                                    {
+                                        epoch_logs.Add(l, val_outs[i]);
+                                    }
+                                    else
+                                    {
+                                        epoch_logs[l] = val_outs[i];
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                callbacks.on_epoch_end(epoch, epoch_logs);
+                callbacks.OnEpochEnd(epoch, epoch_logs);
                 if (callback_model.stop_training)
                 {
                     break;
                 }
             }
-            callbacks.on_train_end();
+
+            callbacks.OnTrainEnd();
             return model.history;
         }
 
@@ -264,7 +280,7 @@ namespace MxNet.Keras.Engine
             throw new NotImplementedException();
         }
 
-        public static NDArrayList TestLoop(Model model, Func<NDArrayList, float[]> f, NDArrayList ins, int batch_size = 32, int verbose = 0, int? steps = null)
+        public static float[] TestLoop(Model model, Func<NDArrayList, float[]> f, NDArrayList ins, int batch_size = 32, int verbose = 0, int? steps = null)
         {
             throw new NotImplementedException();
         }

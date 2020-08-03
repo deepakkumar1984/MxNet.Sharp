@@ -91,9 +91,18 @@ namespace MxNet.Keras.Utils
             return arrays.Slice(start, end);
         }
 
-        public static NDArray[] SliceArrays(NDArray[] arrays, int start, int? end = null)
+        public static NDArray[] SliceArrays(NDArray[] arrays, int[] start, int[] end = null)
         {
-            return arrays.Select(x => SliceArrays(x, start, end)).ToArray();
+            List<NDArray> result = new List<NDArray>();
+            for (int i = 0; i < arrays.Length; i++)
+            {
+                if(end != null)
+                    result.Add(SliceArrays(arrays[i], start[i], end[i]));
+                else
+                    result.Add(SliceArrays(arrays[i], start[i]));
+            }
+
+            return result.ToArray();
         }
 
         public static NDArray SliceArrays(NDArray arrays, Shape start, Shape end = null)

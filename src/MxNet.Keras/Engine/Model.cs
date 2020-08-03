@@ -1413,10 +1413,10 @@ namespace MxNet.Keras.Engine
             }
 
             // Delegate logic to `fit_loop`.
-            return TrainingArrays.FitLoop(this, fit_function, fit_inputs, out_labels: out_labels.ToArray(), batch_size: batch_size, epochs: epochs, verbose: verbose, callbacks: callbacks, val_function: val_function, val_inputs: val_inputs, shuffle: shuffle, callback_metrics: callback_metrics.ToArray(), initial_epoch: initial_epoch, steps_per_epoch: steps_per_epoch, validation_steps: validation_steps);
+            return TrainingArrays.FitLoop(this, fit_function, fit_inputs, out_labels: out_labels.ToArray(), batch_size: batch_size, epochs: epochs, verbose: verbose, callbacks: new CallbackList(callbacks), val_function: val_function, val_inputs: val_inputs, shuffle: shuffle, callback_metrics: callback_metrics.ToArray(), initial_epoch: initial_epoch, steps_per_epoch: steps_per_epoch, validation_steps: validation_steps);
         }
 
-        public NDArrayList Evaluate(NDArray x, NDArray y, int? batch_size = null, int epochs = 1, int verbose = 1, NDArray sample_weight = null, int? steps = null)
+        public float[] Evaluate(NDArray x, NDArray y, int? batch_size = null, int epochs = 1, int verbose = 1, NDArray sample_weight = null, int? steps = null)
         {
             NDArrayList ins = new NDArrayList();
             // Backwards compatibility.
