@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "description": "MxNet.Sharp is a CSharp binding coving all the Imperative, Symbolic and Gluon API's with an easy to use interface",
-  "name": "ames",
+  "name": "MxNet.Shar",
   "codeRepository": "https://github.com/tech-quantum/MxNet.Sharp",
   "issueTracker": "https://github.com/tech-quantum/MxNet.Sharp/issues",
   "license": "https://github.com/tech-quantum/MxNet.Sharp/blob/master/LICENSE",
