@@ -302,7 +302,7 @@ namespace MxNet.Gluon
             foreach (var name in names)
             {
                 var i = 0;
-                while (i < prefix.Length && i < name.Length && prefix.ToList()[0] == name.ToList()[0])
+                while (i < prefix.Length && i < name.Length && prefix[i] == name[i])
                     i++;
 
                 prefix = prefix.Substring(0, i);
@@ -324,7 +324,7 @@ namespace MxNet.Gluon
             foreach (var in_param in in_params)
             {
                 var input_sym_arg_type = in_param.InferType().Item1;
-                if (input_sym_arg_type != null || input_sym_arg_type.Length < 1)
+                if (input_sym_arg_type == null || input_sym_arg_type.Length < 1)
                 {
                     can_infer_input_type = false;
                     break;
