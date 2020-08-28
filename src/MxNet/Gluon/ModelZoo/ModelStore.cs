@@ -61,7 +61,7 @@ namespace MxNet.Gluon.ModelZoo
         };
 
         private static readonly string apache_repo_url = "https://apache-mxnet.s3-accelerate.dualstack.amazonaws.com/";
-        private static readonly string _url_format = "{0}gluon/{1}.zip";
+        private static readonly string _url_format = "{0}gluon/models/{1}.zip";
 
         public static string ShortHash(string name)
         {
