@@ -124,6 +124,7 @@ namespace MxNet
 
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint) shape.Size);
+            datagch.Free();
 
             NativePtr = @out;
             _Blob = new NDBlob(@out);
@@ -162,6 +163,7 @@ namespace MxNet
 
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint)shape.Size);
+            datagch.Free();
 
             NativePtr = @out;
             _Blob = new NDBlob(@out);
@@ -589,6 +591,8 @@ namespace MxNet
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
 
             NativeMethods.MXNDArraySyncCopyFromCPU(NativePtr, datagch.AddrOfPinnedObject(), (uint) size);
+
+            datagch.Free();
         }
 
         public virtual void SyncCopyFromCPU(Array data)
@@ -598,6 +602,7 @@ namespace MxNet
 
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(NativePtr, datagch.AddrOfPinnedObject(), (uint) data.Length);
+            datagch.Free();
         }
 
         public void SyncCopyToCPU(Array data)
