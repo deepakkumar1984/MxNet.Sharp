@@ -122,7 +122,7 @@ namespace MxNet.Gluon
             var ret = new ParameterDict();
             if (!string.IsNullOrWhiteSpace(prefix)) prefix += ".";
 
-            foreach (var item in Params.Items()) ret[prefix + item.Value.Name] = item.Value;
+            foreach (var item in _reg_params) ret[prefix + item.Key] = item.Value;
 
             foreach (var item in _childrens) ret.Update(item.Value.CollectParamsWithPrefix(prefix + item.Key));
 
@@ -142,7 +142,7 @@ namespace MxNet.Gluon
         public void LoadParameters(string filename, Context ctx = null, bool allow_missing = false,
             bool ignore_extra = false, bool cast_dtype = false, string dtype_source = "current")
         {
-            LoadParameters(filename, new[] {ctx}, allow_missing, ignore_extra, cast_dtype, dtype_source);
+            LoadParameters(filename, ctx == null ? null : new []{ ctx }, allow_missing, ignore_extra, cast_dtype, dtype_source);
         }
 
         public void LoadParameters(string filename, Context[] ctx = null, bool allow_missing = false,
