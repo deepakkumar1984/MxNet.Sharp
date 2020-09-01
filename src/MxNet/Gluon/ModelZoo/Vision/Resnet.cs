@@ -157,13 +157,14 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 ds = new HybridSequential();
                 ds.Add(new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels));
                 ds.Add(new BatchNorm());
+                RegisterChild(ds, "downsample");
             }
             else
             {
                 ds = null;
             }
 
-            RegisterChild(body);
+            RegisterChild(body, "body");
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -198,8 +199,16 @@ namespace MxNet.Gluon.ModelZoo.Vision
             conv1 = ResNet.Conv3x3(channels, stride, in_channels);
             bn2 = new BatchNorm();
             conv2 = ResNet.Conv3x3(channels, 1, in_channels);
+            RegisterChild(bn1, "bn1");
+            RegisterChild(conv1, "conv1");
+            RegisterChild(bn2, "bn2");
+            RegisterChild(conv2, "conv2");
+
             if (downsample)
+            {
                 ds = new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels);
+                RegisterChild(ds, "downsample");
+            }
             else
                 ds = null;
         }
@@ -250,18 +259,20 @@ namespace MxNet.Gluon.ModelZoo.Vision
             body.Add(new Activation(ActivationType.Relu));
             body.Add(new Conv2D(channels, (1, 1), (1, 1)));
             body.Add(new BatchNorm());
+
             if (downsample)
             {
                 ds = new HybridSequential();
                 ds.Add(new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels));
                 ds.Add(new BatchNorm());
+                RegisterChild(ds, "downsample");
             }
             else
             {
                 ds = null;
             }
 
-            RegisterChild(body);
+            RegisterChild(body, "body");
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -301,10 +312,21 @@ namespace MxNet.Gluon.ModelZoo.Vision
             conv2 = ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth);
             bn3 = new BatchNorm();
             conv3 = new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels);
+            RegisterChild(bn1, "bn1");
+            RegisterChild(conv1, "conv1");
+            RegisterChild(bn2, "bn2");
+            RegisterChild(conv2, "conv2");
+            RegisterChild(bn3, "bn3");
+            RegisterChild(conv3, "conv3");
+
             if (downsample)
+            {
                 ds = new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels);
+                RegisterChild(ds, "downsample");
+            }
             else
                 ds = null;
+
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -374,8 +396,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             Output = new Dense(classes, in_units: channels.Last());
 
-            RegisterChild(Features);
-            RegisterChild(Output);
+            RegisterChild(Features, "features");
+            RegisterChild(Output, "output");
         }
 
         public HybridSequential Features { get; set; }
@@ -395,17 +417,16 @@ namespace MxNet.Gluon.ModelZoo.Vision
             if (block == "basic_block")
             {
                 layer.Add(new BasicBlockV1(channels, stride, channels != in_channels, in_channels, ""));
-                for (var i = 0; i < layer.Length - 1; i++)
+                for (var i = 0; i < layers - 1; i++)
                     layer.Add(new BasicBlockV1(channels, 1, false, in_channels, ""));
             }
             else if (block == "bottle_neck")
             {
                 layer.Add(new BottleneckV1(channels, stride, channels != in_channels, in_channels, ""));
-                for (var i = 0; i < layer.Length - 1; i++)
+                for (var i = 0; i < layers - 1; i++)
                     layer.Add(new BottleneckV1(channels, 1, false, in_channels, ""));
             }
 
-            RegisterChild(layer);
             return layer;
         }
     }
@@ -447,8 +468,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             Output = new Dense(classes, in_units: channels.Last(), prefix: "output");
 
-            RegisterChild(Features);
-            RegisterChild(Output);
+            RegisterChild(Features, "features");
+            RegisterChild(Output, "output");
         }
 
         public HybridSequential Features { get; set; }
@@ -468,13 +489,13 @@ namespace MxNet.Gluon.ModelZoo.Vision
             if (block == "basic_block")
             {
                 layer.Add(new BasicBlockV2(channels, stride, channels != in_channels, in_channels, ""));
-                for (var i = 0; i < layer.Length - 1; i++)
+                for (var i = 0; i < layers - 1; i++)
                     layer.Add(new BasicBlockV2(channels, 1, false, in_channels, ""));
             }
             else if (block == "bottle_neck")
             {
                 layer.Add(new BottleneckV2(channels, stride, channels != in_channels, in_channels, ""));
-                for (var i = 0; i < layer.Length - 1; i++)
+                for (var i = 0; i < layers - 1; i++)
                     layer.Add(new BottleneckV2(channels, 1, false, in_channels, ""));
             }
 
