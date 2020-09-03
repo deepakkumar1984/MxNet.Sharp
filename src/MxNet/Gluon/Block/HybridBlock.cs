@@ -44,7 +44,7 @@ namespace MxNet.Gluon
         internal (SymbolList, Symbol)? _cached_graph;
         internal CachedOp _cached_op;
         internal readonly List<CachedOpArg> _cached_op_args = new List<CachedOpArg>();
-        internal readonly NDArrayDict _flags = new NDArrayDict();
+        internal readonly Dictionary<string, string> _flags = new Dictionary<string, string>();
         internal List<int> _in_format;
         internal List<int> _out_format;
 
@@ -157,10 +157,10 @@ namespace MxNet.Gluon
                 }
             }
 
-            var flags = new NDArrayDict
+            var flags = new Dictionary<string, string>()
             {
-                {"data_indices", new NDArray(data_indices.ToArray())},
-                {"param_indices", new NDArray(param_indices.ToArray())}
+                { "data_indices", "[" + string.Join(",", data_indices.Select(i => i.ToString()).ToArray()) + "]" },
+                { "param_indices", "[" + string.Join(",", param_indices.Select(i => i.ToString()).ToArray()) + "]" }
             };
             foreach (var item in _flags) flags.Add(item.Key, item.Value);
 
@@ -185,6 +185,7 @@ namespace MxNet.Gluon
                 BuildCache(args);
 
             var (args_sym, fmt) = Flatten(args.NDArrayOrSymbols, "input");
+            _out_format = fmt.ToList();
             args = args_sym.ToList().ToNDArrays();
             var cargs = new List<NDArrayOrSymbol>();
             try

@@ -20,6 +20,7 @@ using CachedOpHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
+using System.Collections.Generic;
 
 namespace MxNet
 {
@@ -27,11 +28,11 @@ namespace MxNet
     {
         private readonly CachedOpHandle handle;
 
-        public CachedOp(Symbol sym, NDArrayDict flags)
+        public CachedOp(Symbol sym, IDictionary<string, string> flags)
         {
             handle = IntPtr.Zero;
-            NativeMethods.MXCreateCachedOpEx(sym.GetHandle(), flags.Count, flags.Keys.ToArray(),
-                MxUtil.GetNDArrayHandles(flags.Values.ToArray()), out handle);
+            Logging.CHECK_EQ(NativeMethods.MXCreateCachedOpEx(sym.GetHandle(), flags.Count, flags.Keys.ToArray(),
+                flags.Values.ToArray(), out handle, false), NativeMethods.OK);
         }
 
         public void Dispose()
