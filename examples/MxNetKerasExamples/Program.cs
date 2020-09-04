@@ -15,7 +15,7 @@ namespace MxNetKerasExamples
 
             var model = new Sequential();
             model.Add(new Dense(4, "relu", input_dim: 2));
-            //model.Add(new Dense(4, "relu"));
+            model.Add(new Dense(4, "relu"));
             model.Add(new Dense(1));
 
             model.Compile(new SGD(), "binary_crossentropy", new string[] { "binary_accuracy" });

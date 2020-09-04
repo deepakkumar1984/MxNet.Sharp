@@ -107,7 +107,7 @@ namespace MxNet.Keras.Engine
             }
             else if (this.outputs != null && this.outputs.Count > 0)
             {
-                var output_tensor = layer.Call(new KerasSymbol[] { this.outputs[0] }, null);
+                var output_tensor = layer.Call(this.outputs[0]);
                 if (output_tensor.Length > 1)
                 {
                     throw new Exception("All layers in a Sequential model should have a single output tensor. For multi-output layers, use the functional API.");
