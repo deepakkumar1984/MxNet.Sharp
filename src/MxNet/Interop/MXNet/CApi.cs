@@ -319,7 +319,9 @@ namespace MxNet.Interop
         public static extern int MXCreateCachedOpEx(AtomicSymbolCreator handle, int num_flags,
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
             string[] keys,
-            NDArrayHandle[] vals, out AtomicSymbolCreator @out, bool thread_safe = false);
+            [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
+            string[] vals,
+            out AtomicSymbolCreator @out, bool thread_safe = false);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXFreeCachedOp(AtomicSymbolCreator handle);
