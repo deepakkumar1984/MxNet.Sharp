@@ -210,6 +210,21 @@ namespace MxNet
             return NativePtr;
         }
 
+        public Symbol GetInternals()
+        {
+            Logging.CHECK_EQ(NativeMethods.MXSymbolGetInternals(GetHandle(), out var handle), NativeMethods.OK);
+            return new Symbol(handle);
+        }
+
+        public Symbol GetChildren()
+        {
+            Logging.CHECK_EQ(NativeMethods.MXSymbolGetChildren(GetHandle(), out var handle), NativeMethods.OK);
+            var ret = new Symbol(handle);
+            if (ret.ListOutputs().Count == 0)
+                return null;
+            return ret;
+        }
+
         public static Symbol Group(SymbolList symbols)
         {
             var handleList = symbols.Select(symbol => symbol.GetHandle()).ToArray();
