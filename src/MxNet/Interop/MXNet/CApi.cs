@@ -453,6 +453,24 @@ namespace MxNet.Interop
         public static extern int MXSymbolGetName(SymbolHandle symbol, out AtomicSymbolCreator @out, out int success);
 
         /// <summary>
+        /// Get a symbol that contains all the internals.
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        /// <param name="out">The output symbol whose outputs are all the internals.</param>
+        /// <returns>0 when success, -1 when failure happens</returns>
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolGetInternals(SymbolHandle symbol, out SymbolHandle @out);
+
+        /// <summary>
+        ///     Get a symbol that contains only direct children.
+        /// </summary>
+        /// <param name="symbol">The symbol</param>
+        /// <param name="out">The output symbol whose outputs are the direct children.</param>
+        /// <returns>0 when success, -1 when failure happens</returns>
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolGetChildren(SymbolHandle symbol, out SymbolHandle @out);
+
+        /// <summary>
         ///     Get index-th outputs of the symbol.
         /// </summary>
         /// <param name="symbol">The symbol</param>
