@@ -13,9 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
 using System.Runtime.InteropServices;
 using OpHandle = System.IntPtr;
 using nn_uint = System.UInt32;
+using SymbolHandle = System.IntPtr;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet.Interop
@@ -53,6 +55,23 @@ namespace MxNet.Interop
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int NNListAllOpNames(out uint out_size, out OpHandle out_array);
+
+        /// <summary>
+        ///     List input names in the symbol.
+        /// </summary>
+        /// <param name="symbol">the symbol</param>
+        /// <param name="option">The option to list the inputs
+        ///     option=0 means list all arguments.
+        ///     option=1 means list arguments that are readed only by the graph.
+        ///     option=2 means list arguments that are mutated by the graph.</param>
+        /// <param name="out_size">output size</param>
+        /// <param name="out_str_array">pointer to hold the output string array</param>
+        /// <returns>return 0 when success, -1 when failure happens</returns>
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int NNSymbolListInputNames(SymbolHandle symbol,
+            int type,
+            out uint out_size,
+            out IntPtr out_str_array);
 
         #endregion
     }

@@ -99,7 +99,7 @@ namespace MxNet.Gluon
             var (data, @out) = GetGraph(args);
             var data_names = data.Select(x => x.Name).ToArray();
             var @params = CollectParams();
-            var input_names = @out.ListArguments().ToArray();
+            var input_names = @out.ListInputs().ToArray();
 
             var param_names = MxUtil.Set(@params.Keys().ToList()).ToArray();
             var expected_names = MxUtil.Set(input_names.ToList());
