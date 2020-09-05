@@ -254,7 +254,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             body.Add(new Conv2D(channel_one_fourth, (1, 1), (stride, stride)));
             body.Add(new BatchNorm());
             body.Add(new Activation(ActivationType.Relu));
-            body.Add(ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth));
+            body.Add(ResNet.Conv3x3(channel_one_fourth, 1, channel_one_fourth));
             body.Add(new BatchNorm());
             body.Add(new Activation(ActivationType.Relu));
             body.Add(new Conv2D(channels, (1, 1), (1, 1)));
@@ -311,7 +311,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             bn2 = new BatchNorm();
             conv2 = ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth);
             bn3 = new BatchNorm();
-            conv3 = new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels);
+            conv3 = new Conv2D(channels, (1, 1), (1, 1), use_bias: false, in_channels: in_channels);
             RegisterChild(bn1, "bn1");
             RegisterChild(conv1, "conv1");
             RegisterChild(bn2, "bn2");
@@ -418,13 +418,13 @@ namespace MxNet.Gluon.ModelZoo.Vision
             {
                 layer.Add(new BasicBlockV1(channels, stride, channels != in_channels, in_channels, ""));
                 for (var i = 0; i < layers - 1; i++)
-                    layer.Add(new BasicBlockV1(channels, 1, false, in_channels, ""));
+                    layer.Add(new BasicBlockV1(channels, 1, false, channels, ""));
             }
             else if (block == "bottle_neck")
             {
                 layer.Add(new BottleneckV1(channels, stride, channels != in_channels, in_channels, ""));
                 for (var i = 0; i < layers - 1; i++)
-                    layer.Add(new BottleneckV1(channels, 1, false, in_channels, ""));
+                    layer.Add(new BottleneckV1(channels, 1, false, channels, ""));
             }
 
             return layer;
@@ -458,7 +458,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
             {
                 var stride = i == 0 ? 1 : 2;
                 var num_layer = layers[i];
-                Features.Add(MakeLayer(block, num_layer, channels[i + 1], stride, i + 1, channels[i]));
+                Features.Add(MakeLayer(block, num_layer, channels[i + 1], stride, i + 1, in_channels));
+                in_channels = channels[i + 1];
             }
 
             Features.Add(new BatchNorm());
@@ -466,7 +467,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             Features.Add(new GlobalAvgPool2D());
             Features.Add(new Flatten());
 
-            Output = new Dense(classes, in_units: channels.Last(), prefix: "output");
+            Output = new Dense(classes, in_units: in_channels);
 
             RegisterChild(Features, "features");
             RegisterChild(Output, "output");
@@ -490,13 +491,13 @@ namespace MxNet.Gluon.ModelZoo.Vision
             {
                 layer.Add(new BasicBlockV2(channels, stride, channels != in_channels, in_channels, ""));
                 for (var i = 0; i < layers - 1; i++)
-                    layer.Add(new BasicBlockV2(channels, 1, false, in_channels, ""));
+                    layer.Add(new BasicBlockV2(channels, 1, false, channels, ""));
             }
             else if (block == "bottle_neck")
             {
                 layer.Add(new BottleneckV2(channels, stride, channels != in_channels, in_channels, ""));
                 for (var i = 0; i < layers - 1; i++)
-                    layer.Add(new BottleneckV2(channels, 1, false, in_channels, ""));
+                    layer.Add(new BottleneckV2(channels, 1, false, channels, ""));
             }
 
             return layer;
