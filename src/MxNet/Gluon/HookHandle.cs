@@ -45,7 +45,7 @@ namespace MxNet.Gluon
 
         public void Attach(Dictionary<int, Hook> hooks_dict, Hook hook)
         {
-            if (_hooks_dict_ref == null)
+            if (_hooks_dict_ref != null)
                 throw new Exception("The same handle cannot be attached twice.");
 
             _id = hook.GetHashCode();
