@@ -715,6 +715,19 @@ namespace MxNet
             return ret;
         }
 
+        public IList<string> ListInputs()
+        {
+            ThrowIfDisposed();
+
+            NativeMethods.NNSymbolListInputNames(GetHandle(), 0, out var size, out var sarry);
+            var sarryArray = InteropHelper.ToPointerArray(sarry, size);
+            var ret = new string[size];
+            for (var i = 0; i < size; i++)
+                ret[i] = Marshal.PtrToStringAnsi(sarryArray[i]);
+
+            return ret;
+        }
+
         public IList<string> ListOutputs()
         {
             ThrowIfDisposed();
