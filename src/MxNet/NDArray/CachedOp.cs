@@ -43,8 +43,8 @@ namespace MxNet
 
         public NDArrayList Call(NDArrayList args)
         {
-            NativeMethods.MXInvokeCachedOpEx(handle, args.Length, MxUtil.GetNDArrayHandles(args), out var num_outputs,
-                out var outputs, out var out_stypes);
+            Logging.CHECK_EQ(NativeMethods.MXInvokeCachedOpEx(handle, args.Length, MxUtil.GetNDArrayHandles(args), out var num_outputs,
+                out var outputs, out var out_stypes), NativeMethods.OK);
             var result = new NDArrayList();
             for (var i = 0; i < num_outputs; i++)
                 result.Add(new NDArray(outputs[i]).ToSType((StorageStype) out_stypes[i]));
