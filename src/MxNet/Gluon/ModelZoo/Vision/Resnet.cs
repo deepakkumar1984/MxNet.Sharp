@@ -150,7 +150,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             body.Add(ResNet.Conv3x3(channels, stride, in_channels));
             body.Add(new BatchNorm());
             body.Add(new Activation(ActivationType.Relu));
-            body.Add(ResNet.Conv3x3(channels, 1, in_channels));
+            body.Add(ResNet.Conv3x3(channels, 1, channels));
             body.Add(new BatchNorm());
             if (downsample)
             {
@@ -198,7 +198,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             bn1 = new BatchNorm();
             conv1 = ResNet.Conv3x3(channels, stride, in_channels);
             bn2 = new BatchNorm();
-            conv2 = ResNet.Conv3x3(channels, 1, in_channels);
+            conv2 = ResNet.Conv3x3(channels, 1, channels);
             RegisterChild(bn1, "bn1");
             RegisterChild(conv1, "conv1");
             RegisterChild(bn2, "bn2");
@@ -311,7 +311,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             bn2 = new BatchNorm();
             conv2 = ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth);
             bn3 = new BatchNorm();
-            conv3 = new Conv2D(channels, (1, 1), (1, 1), use_bias: false, in_channels: in_channels);
+            conv3 = new Conv2D(channels, (1, 1), (1, 1), use_bias: false);
             RegisterChild(bn1, "bn1");
             RegisterChild(conv1, "conv1");
             RegisterChild(bn2, "bn2");
