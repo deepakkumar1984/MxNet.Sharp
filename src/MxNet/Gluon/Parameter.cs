@@ -257,6 +257,7 @@ namespace MxNet.Gluon
                 if (ctx == null || MxUtil.Set(ctx.ToList()) != MxUtil.Set(deferred_init.Contexts.ToList()))
                     throw new Exception($"Failed to load Parameter '{Name}' on {ctx[0]} because it was " +
                                         $"previous initialized on {ListCtx()[0]}.");
+                SetData(data);
             }
 
             deferred_init = default;
