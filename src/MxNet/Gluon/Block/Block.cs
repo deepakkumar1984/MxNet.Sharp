@@ -134,7 +134,7 @@ namespace MxNet.Gluon
             var arg_dict = new NDArrayDict();
             var collected_params = CollectParamsWithPrefix();
 
-            foreach (var item in Params.Items()) arg_dict[item.Key] = item.Value.Reduce();
+            foreach (var item in collected_params.Items()) arg_dict[item.Key] = item.Value.Reduce();
 
             NDArray.Save(filename, arg_dict);
         }
@@ -152,7 +152,7 @@ namespace MxNet.Gluon
             var @params = CollectParamsWithPrefix();
             NDArray.Load(filename, out loaded);
 
-            if (loaded == null && Params == null)
+            if (loaded == null && @params == null)
                 return;
 
             if (!loaded.Keys.Any(x => x.Contains(".")))
