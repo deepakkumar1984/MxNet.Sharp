@@ -14,7 +14,8 @@ namespace ImageClassification
         {
             var alex_net = AlexNet.GetAlexNet(true);
             var image = Img.ImRead("goldfish.jpg");
-            image = Img.ResizeShort(image, 227);
+            image = Img.ResizeShort(image, 224);
+            image = Img.CenterCrop(image, (224, 224)).Item1;
             image = image.AsType(DType.Float32) / 255;
             var normalized = Img.ColorNormalize(image, new NDArray(new[] { 0.485f, 0.456f, 0.406f }),
                 new NDArray(new[] { 0.229f, 0.224f, 0.225f }));
