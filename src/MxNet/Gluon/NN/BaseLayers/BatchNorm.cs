@@ -24,6 +24,7 @@ namespace MxNet.Gluon.NN
             string running_mean_initializer = "zeros", string running_variance_initializer = "ones",
             int in_channels = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
+            Axis = axis;
             Momentum = momentum;
             Epsilon = epsilon;
             Center = center;
@@ -34,10 +35,10 @@ namespace MxNet.Gluon.NN
                 init: Initializer.Get(gamma_initializer), allow_deferred_init: true, differentiable: scale);
             this["beta"] = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
                 init: Initializer.Get(beta_initializer), allow_deferred_init: true, differentiable: center);
-            this["running_mean"] = Params.Get("running_mean", OpGradReq.Write, new Shape(in_channels),
-                init: Initializer.Get(running_mean_initializer), allow_deferred_init: true);
-            this["running_var"] = Params.Get("running_var", OpGradReq.Write, new Shape(in_channels),
-                init: Initializer.Get(running_variance_initializer), allow_deferred_init: true);
+            this["running_mean"] = Params.Get("running_mean", OpGradReq.Null, new Shape(in_channels),
+                init: Initializer.Get(running_mean_initializer), allow_deferred_init: true, differentiable: false);
+            this["running_var"] = Params.Get("running_var", OpGradReq.Null, new Shape(in_channels),
+                init: Initializer.Get(running_variance_initializer), allow_deferred_init: true, differentiable: false);
         }
 
         public int Axis { get; set; }
@@ -45,6 +46,7 @@ namespace MxNet.Gluon.NN
         public float Epsilon { get; }
         public bool Center { get; }
         public bool Scale { get; }
+        public bool FixGamma => !Scale;
         public bool Use_Global_Stats { get; set; }
         public int In_Channels { get; set; }
         public Parameter Gamma { get; set; }
@@ -60,10 +62,9 @@ namespace MxNet.Gluon.NN
             var running_var = args.Length > 3 ? args[3] : null;
 
             if (x.IsNDArray)
-                return nd.BatchNorm(x.NdX, gamma.NdX, beta.NdX, running_mean.NdX, running_var.NdX, eps: Epsilon, momentum: Momentum, axis: Axis, use_global_stats: Use_Global_Stats);
+                return nd.BatchNorm(x.NdX, gamma.NdX, beta.NdX, running_mean.NdX, running_var.NdX, eps: Epsilon, momentum: Momentum, axis: Axis, use_global_stats: Use_Global_Stats, fix_gamma: FixGamma);
 
-            return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX, eps: Epsilon, momentum: Momentum, axis: Axis, use_global_stats: Use_Global_Stats,
-                symbol_name: "fwd");
+            return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX, eps: Epsilon, momentum: Momentum, axis: Axis, use_global_stats: Use_Global_Stats, fix_gamma: FixGamma, symbol_name: "fwd");
         }
     }
 }
