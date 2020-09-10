@@ -24,7 +24,9 @@ namespace MxNet.Gluon.NN
             Kernel = pool_size;
             Strides = strides ?? pool_size;
             Padding = padding;
+            CeilMode = ceil_mode;
             GlobalPool = global_pool;
+            PoolType = pool_type;
             Layout = layout;
             CountIncludePad = count_include_pad;
         }
