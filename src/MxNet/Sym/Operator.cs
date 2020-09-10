@@ -179,9 +179,9 @@ namespace MxNet
 
                 NDArrayHandle[] outputsReceivers = { outputsReceiver };
 
-                NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs,
+                Logging.CHECK_EQ(NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs,
                     ref outputsReceiver,
-                    paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray());
+                    paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray()), NativeMethods.OK);
 
                 if (outputs.Length > 0)
                 {
