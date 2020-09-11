@@ -4,8 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>1.5.1.8</Version>
-    <Authors>Deepak Battini</Authors>
+    <Version>1.5.2.0</Version>
+    <Authors>@deepakkumar1984, @horker</Authors>
     <Product />
     <Description>C# Binding for the Apache MxNet library. NDArray, Symbolic and Gluon Supported
 
