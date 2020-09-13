@@ -62,7 +62,7 @@ namespace MxNet
 
         private static readonly string[] OperatorSymbols;
 
-        private static readonly bool ThrowException = false;
+        public static bool ThrowException { get; set; } = true;
 
         #endregion
 
