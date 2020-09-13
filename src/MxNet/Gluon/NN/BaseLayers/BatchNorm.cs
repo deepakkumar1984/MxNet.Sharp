@@ -66,5 +66,11 @@ namespace MxNet.Gluon.NN
 
             return sym.BatchNorm(x.SymX, gamma.SymX, beta.SymX, running_mean.SymX, running_var.SymX, eps: Epsilon, momentum: Momentum, axis: Axis, use_global_stats: Use_Global_Stats, fix_gamma: FixGamma, symbol_name: "fwd");
         }
+
+        public override string ToString()
+        {
+            var in_channels = Params["gamma"].Shape[0];
+            return $"{GetType().Name}(axis={Axis}, eps={Epsilon}, momentum={Momentum}, fix_gamma={!Scale}, use_global_stats={Use_Global_Stats}, in_channels={(in_channels > 0 ? in_channels.ToString() : "None")})";
+        }
     }
 }

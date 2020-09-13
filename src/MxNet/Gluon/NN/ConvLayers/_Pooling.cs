@@ -64,5 +64,12 @@ namespace MxNet.Gluon.NN
         {
             return "pool";
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}(size=({string.Join(", ", Kernel)}), stride=({string.Join(", ", Strides)})" +
+                $", padding=({string.Join(", ", Padding)}), ceil_mode={CeilMode}" +
+                $", global_pool={GlobalPool}, pool_type={PoolType}, layout={Layout})";
+        }
     }
 }

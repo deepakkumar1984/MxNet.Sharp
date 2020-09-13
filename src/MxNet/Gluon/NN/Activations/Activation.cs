@@ -42,7 +42,7 @@ namespace MxNet.Gluon.NN
 
         public override string ToString()
         {
-            return Prefix + Alias();
+            return $"{GetType().Name}({ActType})";
         }
     }
 }

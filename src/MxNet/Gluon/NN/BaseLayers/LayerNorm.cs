@@ -28,9 +28,9 @@ namespace MxNet.Gluon.NN
             Center = center;
             Scale = scale;
             In_Channels = in_channels;
-            Gamma = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
+            this["gamma"] = Params.Get("gamma", scale ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
                 init: Initializer.Get(gamma_initializer), allow_deferred_init: true);
-            Beta = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
+            this["beta"] = Params.Get("beta", center ? OpGradReq.Write : OpGradReq.Null, new Shape(in_channels),
                 init: Initializer.Get(beta_initializer), allow_deferred_init: true);
         }
 
@@ -51,6 +51,12 @@ namespace MxNet.Gluon.NN
                 return nd.InstanceNorm(x.NdX, gamma.NdX, beta.NdX, Epsilon);
 
             return sym.InstanceNorm(x.SymX, gamma.SymX, beta.SymX, Epsilon, "fwd");
+        }
+
+        public override string ToString()
+        {
+            var in_channels = Params["gamma"].Shape[0];
+            return $"{GetType().Name}(eps={Epsilon}, axis={Axis}, center={Center}, scale={Scale}, in_channels={in_channels})";
         }
     }
 }

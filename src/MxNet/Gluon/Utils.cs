@@ -114,26 +114,21 @@ namespace MxNet.Gluon
             return total_norm;
         }
 
-        private static string Indent(string s_, int numSpaces)
+        public static string Indent(string s_, int numSpaces)
         {
             var s = s_.Split('\n');
             if (s.Length == 1)
                 return s_;
 
-            var first = s[0];
-            s.ToList().RemoveAt(0);
-            var result = first;
-            foreach (var item in s)
+            var result = new StringBuilder(s[0]);
+            foreach (var item in s.Skip(1))
             {
-                result += "\n";
-
-                for (var i = 0; i < numSpaces; i++)
-                    result += " ";
-
-                result += item;
+                result.Append('\n');
+                result.Append(' ', numSpaces);
+                result.Append(item);
             }
 
-            return result;
+            return result.ToString();
         }
 
         public static bool CheckSha1(string filename, string sha1_hash)

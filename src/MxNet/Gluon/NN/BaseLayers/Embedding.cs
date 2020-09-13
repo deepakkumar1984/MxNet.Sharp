@@ -27,7 +27,7 @@ namespace MxNet.Gluon.NN
             Output_Dim = output_dim;
             Dtype = dtype;
             Sparse_Grad = sparse_grad;
-            Weight = Params.Get("weight", OpGradReq.Write, new Shape(input_dim, output_dim), dtype,
+            this["weight"] = Params.Get("weight", OpGradReq.Write, new Shape(input_dim, output_dim), dtype,
                 init: Initializer.Get(weight_initializer), allow_deferred_init: true,
                 grad_stype: Sparse_Grad ? StorageStype.RowSparse : StorageStype.Default);
         }
@@ -47,5 +47,11 @@ namespace MxNet.Gluon.NN
 
             return sym.Embedding(x.SymX, weight.SymX, Input_Dim, Output_Dim, Dtype, Sparse_Grad);
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Input_Dim} -> {Output_Dim}, {Dtype ?? DType.Float32})";
+        }
+
     }
 }

@@ -55,7 +55,8 @@ namespace MxNet.Gluon.NN
 
         public override string ToString()
         {
-            return string.Format("{0}: {1}", GetType().Name, Name);
+            var modstr = string.Join("\n", _childrens.Select(c => $"  ({c.Key}): {Utils.Indent(c.Value.ToString(), 2)}"));
+            return $"{GetType().Name}(\n{modstr}\n)";
         }
 
         public override void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)

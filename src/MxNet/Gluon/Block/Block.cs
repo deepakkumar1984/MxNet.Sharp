@@ -368,5 +368,11 @@ namespace MxNet.Gluon
 
             return (arg_types, aux_types);
         }
+
+        public override string ToString()
+        {
+            var modstr = string.Join("\n", _childrens.Select(i => $"  ({i.Key}): {Utils.Indent(i.Value.ToString(), 2)}"));
+            return $"{GetType().Name}(\n{modstr}\n)";
+        }
     }
 }

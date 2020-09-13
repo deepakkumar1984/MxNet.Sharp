@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MxNet.Gluon.NN
 {
@@ -57,6 +58,12 @@ namespace MxNet.Gluon.NN
             foreach (var item in _childrens) x = item.Value.Call(x, args);
 
             return x;
+        }
+
+        public override string ToString()
+        {
+            var modstr = string.Join("\n", _childrens.Select(c => $"  ({c.Key}): {Utils.Indent(c.Value.ToString(), 2)}"));
+            return $"{GetType().Name}(\n{modstr}\n)";
         }
     }
 }
