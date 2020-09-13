@@ -36,5 +36,10 @@ namespace MxNet.Gluon.NN
 
             return sym.LeakyReLU(x.SymX, slope: Alpha);
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Alpha})";
+        }
     }
 }

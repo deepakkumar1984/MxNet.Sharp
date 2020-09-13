@@ -31,5 +31,10 @@ namespace MxNet.Gluon.NN
 
             return sym.Sigmoid(x.SymX * Beta, "fwd");
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}({Beta})";
+        }
     }
 }
