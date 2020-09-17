@@ -28,5 +28,10 @@ namespace MxNet.Gluon.NN
 
             return sym.LeakyReLU(x.SymX, act_type: ReluActType.Gelu, symbol_name: "fwd");
         }
+
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
     }
 }

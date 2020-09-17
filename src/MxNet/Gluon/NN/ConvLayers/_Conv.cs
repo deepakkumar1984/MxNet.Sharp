@@ -117,5 +117,25 @@ namespace MxNet.Gluon.NN
         {
             return "conv";
         }
+
+        public override string ToString()
+        {
+            var shape = Params["weight"].Shape;
+            var mapping = $"{(shape.Dimension >= 2 && shape[1] > 0 ? shape[1].ToString() : "None")} -> {shape[0]}";
+            var s = $"{this.GetType().Name}({mapping}, kernel_size=({string.Join(", ", KernalSize)}), stride=({string.Join(", ", Strides)})";
+            var len_kernal_size = KernalSize.Length;
+            if (!Padding.All(i => i == 0))
+                s += $", padding=({string.Join(", ", Padding)})";
+            if (!Dialation.All(i => i == 1))
+                s += $", dilation=({string.Join(", ", Dialation)})";
+            if (NumGroup != 1)
+                s += $", groups={NumGroup}";
+            if (!UseBias)
+                s += ", bias=False";
+            if (Activation != null)
+                s += $", {Activation.Name}";
+            s += ")";
+            return s;
+        }
     }
 }

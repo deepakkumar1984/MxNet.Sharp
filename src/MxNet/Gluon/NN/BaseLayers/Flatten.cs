@@ -28,5 +28,10 @@ namespace MxNet.Gluon.NN
 
             return sym.Flatten(x.SymX, "fwd");
         }
+
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
     }
 }

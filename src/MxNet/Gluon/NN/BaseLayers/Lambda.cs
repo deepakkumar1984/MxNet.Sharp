@@ -30,5 +30,10 @@ namespace MxNet.Gluon.NN
         {
             return Function(input);
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}(<lambda>)";
+        }
     }
 }

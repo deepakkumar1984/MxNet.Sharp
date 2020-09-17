@@ -20,16 +20,17 @@ namespace MxNet.Gluon.NN
     public class Dense : HybridBlock
     {
         public Dense(int units, ActivationType? activation = null, bool use_bias = true, bool flatten = true,
-            DType dtype = null, Initializer weight_initializer = null, string bias_initializer = "zeros",
+            DType dtype = null, string weight_initializer = null, string bias_initializer = "zeros",
             int in_units = 0, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
         {
             Units = units;
+            InUnits = in_units;
             Act = activation != null ? new Activation(activation.Value) : null;
             UseBias = use_bias;
             Flatten_ = flatten;
             DataType = dtype;
             this["weight"] = Params.Get("weight", OpGradReq.Write, new Shape(units, in_units), dtype,
-                init: weight_initializer, allow_deferred_init: true);
+                init: Initializer.Get(weight_initializer), allow_deferred_init: true);
 
             if (UseBias)
                 this["bias"] = Params.Get("bias", OpGradReq.Write, new Shape(units), dtype,
@@ -63,6 +64,12 @@ namespace MxNet.Gluon.NN
                 output = Act.HybridForward(output);
 
             return output;
+        }
+
+        public override string ToString()
+        {
+            var shape = Params["weight"].Shape;
+            return $"{GetType().Name} ({(shape.Dimension >= 2 && shape[1] > 0 ? shape[1].ToString() : "None")} -> {shape[0]}, {(Act == null ? "linear" : Act.ToString())})";
         }
     }
 }

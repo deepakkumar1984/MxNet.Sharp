@@ -41,5 +41,10 @@ namespace MxNet.Gluon.NN
 
             return x;
         }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}(p={Rate}, axes={(Axes != null ? Axes.ToString() : "()")})";
+        }
     }
 }
