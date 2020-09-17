@@ -138,7 +138,7 @@ namespace MxNet
         public static NDArray Cvimdecode(byte[] buf, int flag = 1, bool to_rgb = true)
         {
             return new Operator("_cvimdecode")
-                .SetParam("buf", buf)
+                .SetInput("buf", new NDArray(buf))
                 .SetParam("flag", flag)
                 .SetParam("to_rgb", to_rgb)
                 .Invoke();
