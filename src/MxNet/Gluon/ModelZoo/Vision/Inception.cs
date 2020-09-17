@@ -15,11 +15,21 @@
 ******************************************************************************/
 using MxNet.Gluon.Contrib.NN;
 using MxNet.Gluon.NN;
+using System;
+
 
 namespace MxNet.Gluon.ModelZoo.Vision
 {
+    using ConvSetting = Tuple<int, (int, int), (int, int)?, (int, int)?>;
+
     public class Inception
     {
+        internal static ConvSetting MakeConvSetting(
+            int channels, (int, int) kernel_size, (int, int)? strides = null, (int, int)? padding = null)
+        {
+            return Tuple.Create(channels, kernel_size, strides, padding);
+        }
+
         internal static HybridSequential MakeBasicConv(int channels, (int, int) kernel_size,
             (int, int)? strides = default, (int, int)? padding = default)
         {
@@ -31,17 +41,19 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        internal static HybridSequential MakeBranch(string use_pool, int? channels = null,
-            (int, int)? kernel_size = null, (int, int)? strides = null, (int, int)? padding = null)
+        internal static HybridSequential MakeBranch(string use_pool, ConvSetting[] conv_settings = null)
         {
             var output = new HybridSequential("");
             if (use_pool == "avg")
                 output.Add(new AvgPool2D((3, 3), (1, 1), (1, 1)));
-            else if (use_pool == "avg")
-                output.Add(new MaxPool2D((3, 3), (1, 1)));
+            else if (use_pool == "max")
+                output.Add(new MaxPool2D((3, 3), (2, 2)));
 
-            if (channels.HasValue)
-                output.Add(MakeBasicConv(channels.Value, kernel_size.Value, strides, padding));
+            if (conv_settings != null)
+            {
+                foreach (var cs in conv_settings)
+                    output.Add(MakeBasicConv(cs.Item1, cs.Item2, cs.Item3, cs.Item4));
+            }
 
             return output;
         }
@@ -49,90 +61,150 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static HybridConcurrent MakeA(int pool_features, string prefix = "")
         {
             var output = new HybridConcurrent(1, prefix);
-            output.Add(MakeBranch("", 64, (1, 1)));
+            using (output.NameScope.With())
+            {
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(64, (1, 1))
+                }));
 
-            output.Add(MakeBranch("", 48, (1, 1)));
-            output.Add(MakeBranch("", 64, (5, 5), null, (2, 2)));
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(48, (1, 1)),
+                    MakeConvSetting(64, (5, 5), null, (2, 2))
+                }));
 
-            output.Add(MakeBranch("", 64, (1, 1)));
-            output.Add(MakeBranch("", 96, (3, 3), null, (1, 1)));
-            output.Add(MakeBranch("", 96, (3, 3), null, (1, 1)));
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(64, (1, 1)),
+                    MakeConvSetting(96, (3, 3), null, (1, 1)),
+                    MakeConvSetting(96, (3, 3), null, (1, 1))
+                }));
 
-            output.Add(MakeBranch("avg", pool_features, (1, 1)));
+                output.Add(MakeBranch("avg", new[] {
+                    MakeConvSetting(pool_features, (1, 1))
+                }));
+            }
+
             return output;
         }
 
         internal static HybridConcurrent MakeB(string prefix)
         {
             var output = new HybridConcurrent(1, prefix);
-            output.Add(MakeBranch("", 384, (3, 3), (2, 2)));
+            using (output.NameScope.With())
+            {
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(384, (3, 3), (2, 2))
+                }));
 
-            output.Add(MakeBranch("", 64, (1, 1)));
-            output.Add(MakeBranch("", 96, (3, 3), null, (1, 1)));
-            output.Add(MakeBranch("", 96, (3, 3), (2, 2)));
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(64, (1, 1)),
+                    MakeConvSetting(96, (3, 3), null, (1, 1)),
+                    MakeConvSetting(96, (3, 3), (2, 2))
+                }));
 
-            output.Add(MakeBranch("max"));
+                output.Add(MakeBranch("max"));
+            }
+
             return output;
         }
 
         internal static HybridConcurrent MakeC(int channels_7x7, string prefix)
         {
             var output = new HybridConcurrent(1, prefix);
-            output.Add(MakeBranch("", 192, (1, 1)));
+            using (output.NameScope.With())
+            {
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(192, (1, 1))
+                }));
 
-            output.Add(MakeBranch("", channels_7x7, (1, 1)));
-            output.Add(MakeBranch("", channels_7x7, (1, 1), null, (0, 3)));
-            output.Add(MakeBranch("", 192, (7, 1), null, (3, 0)));
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(channels_7x7, (1, 1)),
+                    MakeConvSetting(channels_7x7, (1, 7), null, (0, 3)),
+                    MakeConvSetting(192, (7, 1), null, (3, 0))
+                }));
 
-            output.Add(MakeBranch("", channels_7x7, (1, 1)));
-            output.Add(MakeBranch("", channels_7x7, (7, 1), null, (3, 0)));
-            output.Add(MakeBranch("", channels_7x7, (1, 7), null, (0, 3)));
-            output.Add(MakeBranch("", channels_7x7, (7, 1), null, (3, 0)));
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(channels_7x7, (1, 1)),
+                    MakeConvSetting(channels_7x7, (7, 1), null, (3, 0)),
+                    MakeConvSetting(channels_7x7, (1, 7), null, (0, 3)),
+                    MakeConvSetting(channels_7x7, (7, 1), null, (3, 0)),
+                    MakeConvSetting(192, (1, 7), null, (0, 3))
+                }));
 
-            output.Add(MakeBranch("avg", 192, (1, 1)));
+                output.Add(MakeBranch("avg", new[] {
+                    MakeConvSetting(192, (1, 1))
+                }));
+            }
+
             return output;
         }
 
         internal static HybridConcurrent MakeD(string prefix = "")
         {
             var output = new HybridConcurrent(1, prefix);
-            output.Add(MakeBranch("", 192, (1, 1)));
-            output.Add(MakeBranch("", 320, (3, 3), (2, 2)));
+            using (output.NameScope.With())
+            {
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(192, (1, 1)),
+                    MakeConvSetting(320, (3, 3), (2, 2))
+                }));
 
-            output.Add(MakeBranch("", 192, (1, 1)));
-            output.Add(MakeBranch("", 192, (7, 1), null, (0, 3)));
-            output.Add(MakeBranch("", 192, (1, 7), null, (3, 0)));
-            output.Add(MakeBranch("", 192, (3, 3), (2, 2)));
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(192, (1, 1)),
+                    MakeConvSetting(192, (1, 7), null, (0, 3)),
+                    MakeConvSetting(192, (7, 1), null, (3, 0)),
+                    MakeConvSetting(192, (3, 3), (2, 2))
+                }));
 
-            output.Add(MakeBranch("max"));
+                output.Add(MakeBranch("max"));
+            }
+
             return output;
         }
 
         internal static HybridConcurrent MakeE(string prefix)
         {
             var output = new HybridConcurrent(1, prefix);
-            output.Add(MakeBranch("", 320, (1, 1)));
+            using (output.NameScope.With())
+            {
+                output.Add(MakeBranch("", new[] {
+                    MakeConvSetting(320, (1, 1))
+                }));
 
-            var branch_3x3 = new HybridSequential("");
-            branch_3x3.Add(MakeBranch("", 384, (1, 1)));
-            output.Add(branch_3x3);
+                var branch_3x3 = new HybridSequential("");
+                branch_3x3.Add(MakeBranch("", new[] {
+                    MakeConvSetting(384, (1, 1))
+                }));
+                output.Add(branch_3x3);
 
-            var branch_3x3_split = new HybridConcurrent(1, prefix);
-            branch_3x3_split.Add(MakeBranch("", 384, (1, 3), null, (0, 1)));
-            branch_3x3_split.Add(MakeBranch("", 384, (3, 1), null, (1, 0)));
-            output.Add(branch_3x3_split);
+                var branch_3x3_split = new HybridConcurrent(1, "");
+                branch_3x3_split.Add(MakeBranch("", new[] {
+                    MakeConvSetting(384, (1, 3), null, (0, 1))
+                }));
+                branch_3x3_split.Add(MakeBranch("", new[] {
+                    MakeConvSetting(384, (3, 1), null, (1, 0))
+                }));
+                branch_3x3.Add(branch_3x3_split);
 
-            var branch_3x3dbl = new HybridSequential("");
-            branch_3x3dbl.Add(MakeBranch("", 448, (1, 1)));
-            branch_3x3dbl.Add(MakeBranch("", 384, (3, 3), null, (1, 1)));
-            output.Add(branch_3x3dbl);
+                var branch_3x3dbl = new HybridSequential("");
+                branch_3x3dbl.Add(MakeBranch("", new[] {
+                    MakeConvSetting(448, (1, 1)),
+                    MakeConvSetting(384, (3, 3), null, (1, 1))
+                }));
+                output.Add(branch_3x3dbl);
 
-            var branch_3x3dbl_split = new HybridConcurrent(1, prefix);
-            branch_3x3dbl_split.Add(MakeBranch("", 384, (1, 3), null, (0, 1)));
-            branch_3x3dbl_split.Add(MakeBranch("", 384, (3, 1), null, (1, 0)));
-            output.Add(branch_3x3dbl_split);
-            output.Add(MakeBranch("avg", 192));
+                var branch_3x3dbl_split = new HybridConcurrent(1, "");
+                branch_3x3dbl_split.Add(MakeBranch("", new[] {
+                    MakeConvSetting(384, (1, 3), null, (0, 1))
+                }));
+                branch_3x3dbl_split.Add(MakeBranch("", new[] {
+                    MakeConvSetting(384, (3, 1), null, (1, 0))
+                }));
+                branch_3x3dbl.Add(branch_3x3dbl_split);
 
+                output.Add(MakeBranch("avg", new[] {
+                    MakeConvSetting(192, (1, 1))
+                }));
+            }
             return output;
         }
 
@@ -179,12 +251,14 @@ namespace MxNet.Gluon.ModelZoo.Vision
             Features.Add(Inception.MakeC(160, "C3_"));
             Features.Add(Inception.MakeC(192, "C4_"));
             Features.Add(Inception.MakeD("D_"));
-            Features.Add(Inception.MakeD("E1_"));
-            Features.Add(Inception.MakeD("E2_"));
+            Features.Add(Inception.MakeE("E1_"));
+            Features.Add(Inception.MakeE("E2_"));
             Features.Add(new AvgPool2D((8, 8)));
             Features.Add(new Dropout(0.5f));
+            RegisterChild(Features, "features");
 
             Output = new Dense(classes);
+            RegisterChild(Output, "output");
         }
 
         public HybridSequential Features { get; set; }
