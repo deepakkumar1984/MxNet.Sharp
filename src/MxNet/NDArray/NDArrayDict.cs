@@ -13,9 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Linq;
+using NDArrayHandle = System.IntPtr;
+using MxNet.Interop;
 
 namespace MxNet
 {
@@ -81,6 +85,42 @@ namespace MxNet
             foreach (var item in dict)
             {
                 this[item.Key] = item.Value;
+            }
+        }
+
+        public static NDArrayDict LoadFromBuffer(byte[] buffer)
+        {
+            LoadFromBuffer(buffer, out var data);
+            return data;
+        }
+
+        public static void LoadFromBuffer(byte[] buffer, out NDArrayDict data)
+        {
+            data = new NDArrayDict();
+            uint outSize;
+            IntPtr outArrPtr;
+            uint outNameSize;
+            IntPtr outNamesPtr;
+            NativeMethods.MXNDArrayLoadFromBuffer(buffer, buffer.Length, out outSize, out outArrPtr, out outNameSize, out outNamesPtr);
+
+            var outArr = new NDArrayHandle[outSize];
+            Marshal.Copy(outArrPtr, outArr, 0, (int)outSize);
+
+
+            if (outNameSize == 0)
+            {
+                for (var i = 0; i < outArr.Length; i++) data.Add(i.ToString(), new NDArray(outArr[i]));
+            }
+            else
+            {
+                var outNames = new IntPtr[outNameSize];
+                Marshal.Copy(outNamesPtr, outNames, 0, (int)outNameSize);
+
+                for (var i = 0; i < outArr.Length; i++)
+                {
+                    var key = Marshal.PtrToStringAnsi(outNames[i]);
+                    if (!string.IsNullOrEmpty(key)) data.Add(key, new NDArray(outArr[i]));
+                }
             }
         }
     }

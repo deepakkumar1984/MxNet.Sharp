@@ -137,6 +137,25 @@ namespace MxNet.Interop
             out AtomicSymbolCreator out_names);
 
         /// <summary>
+        ///     Load list / dictionary of narrays from file content loaded into memory. 
+        ///     This will load a list of ndarrays in a similar manner to MXNDArrayLoad, however, it loads from buffer containing the contents of a file, rather than from a specified file.
+        /// </summary>
+        /// <param name="ndarray_buffer">pointer to the start of the ndarray file content</param>
+        /// <param name="size">size of the file</param>
+        /// <param name="out_size">number of narray loaded.</param>
+        /// <param name="out_arr">head of the returning narray handles.</param>
+        /// <param name="out_name_size">size of output name arrray.</param>
+        /// <param name="out_names">the names of returning NDArrays, can be NULL</param>
+        /// <returns>0 when success, -1 when failure happens</returns>
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayLoadFromBuffer(byte[] ndarray_buffer,
+            int size,
+            out uint out_size,
+            out AtomicSymbolCreator out_arr,
+            out uint out_name_size,
+            out AtomicSymbolCreator out_names);
+
+        /// <summary>
         ///     Save list of narray into the file.
         /// </summary>
         /// <param name="fname">name of the file.</param>
