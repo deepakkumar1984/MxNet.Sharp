@@ -750,25 +750,22 @@ namespace MxNet
                 if (string.IsNullOrEmpty(slice))
                     return this;
 
-                var (rowBegin, rowEnd, colBegin, colEnd) = MxUtil.GetSliceNotation(slice, Shape);
+                var (begin, end) = MxUtil.GetSliceNotation(slice, Shape);
 
-                if (colBegin == 0 && colEnd == 0)
-                    return Slice(rowBegin, rowEnd);
-
-                return Slice(new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd));
+                return Slice(begin, end);
             }
             set
             {
                 if (string.IsNullOrEmpty(slice))
                     value.CopyTo(this);
 
-                var (rowBegin, rowEnd, colBegin, colEnd) = MxUtil.GetSliceNotation(slice, Shape);
+                var (begin, end) = MxUtil.GetSliceNotation(slice, Shape);
                 NDArray output = null;
 
-                if(value.Size == 1)
-                    output = nd.SliceAssignScalar(this, new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd), value.AsScalar<double>());
+                if (value.Size == 1)
+                    output = nd.SliceAssignScalar(this, begin, end, value.AsScalar<double>());
                 else
-                    output = nd.SliceAssign(this, value, new Shape(rowBegin, colBegin), new Shape(rowEnd, colEnd));
+                    output = nd.SliceAssign(this, value, begin, end);
 
                 output.CopyTo(this);
             }
