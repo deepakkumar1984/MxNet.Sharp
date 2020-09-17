@@ -51,56 +51,32 @@ namespace MxNet
             return keys.Distinct().OrderBy(x => x).ToList();
         }
 
-        public static (int, int, int, int) GetSliceNotation(string slice, Shape shape)
+        public static (Shape, Shape) GetSliceNotation(string slice, Shape shape)
         {
-            int rowBegin = 0, rowEnd = shape[0], colBegin = 0, colEnd = 0;
-
-            if (slice.Contains(","))
+            string[] split = slice.Split(',');
+            int[] begin = new int[split.Length];
+            int[] end = new int[split.Length];
+            for (int i = 0; i < split.Length; i++)
             {
-                var splitRowCol = slice.Split(',');
-                var rowSpan = splitRowCol[0];
-                var colSpan = splitRowCol[1];
-                var rowRange = rowSpan.Contains(":") ? rowSpan.Split(':') : null;
-                if (rowRange != null)
+                begin[i] = 0;
+                end[i] = shape[i];
+                var range = split[i].Contains(":") ? split[i].Split(':') : null;
+                if (range != null)
                 {
-                    rowBegin = !string.IsNullOrEmpty(rowRange[0]) ? Convert.ToInt32(rowRange[0].Trim()) : rowBegin;
-                    rowEnd = !string.IsNullOrEmpty(rowRange[1]) ? Convert.ToInt32(rowRange[1].Trim()) : rowEnd;
+                    begin[i] = !string.IsNullOrEmpty(range[0]) ? Convert.ToInt32(range[0].Trim()) : begin[i];
+                    end[i] = !string.IsNullOrEmpty(range[1]) ? Convert.ToInt32(range[1].Trim()) : end[i];
                 }
                 else
                 {
-                    if (!string.IsNullOrWhiteSpace(rowSpan))
+                    if (!string.IsNullOrWhiteSpace(split[i]))
                     {
-                        rowEnd = Convert.ToInt32(rowSpan.Trim());
-                        rowBegin = rowEnd - 1;
-                    }
-                }
-
-                var colRange = colSpan.Contains(":") ? colSpan.Split(':') : null;
-                if (colRange != null)
-                {
-                    colBegin = !string.IsNullOrEmpty(colRange[0]) ? Convert.ToInt32(colRange[0].Trim()) : colBegin;
-                    colEnd = !string.IsNullOrEmpty(colRange[1]) ? Convert.ToInt32(colRange[1].Trim()) : shape[1];
-                }
-                else
-                {
-                    if (!string.IsNullOrWhiteSpace(colSpan))
-                    {
-                        colEnd = Convert.ToInt32(colSpan.Trim());
-                        colBegin = colEnd - 1;
+                        begin[i] = Convert.ToInt32(split[i].Trim());
+                        end[i] = begin[i] + 1;
                     }
                 }
             }
-            else
-            {
-                var rowRange = slice.Contains(":") ? slice.Split(':') : null;
-                if (rowRange != null)
-                {
-                    rowBegin = !string.IsNullOrEmpty(rowRange[0]) ? Convert.ToInt32(rowRange[0].Trim()) : rowBegin;
-                    rowEnd = !string.IsNullOrEmpty(rowRange[1]) ? Convert.ToInt32(rowRange[1].Trim()) : rowEnd;
-                }
-            }
 
-            return (rowBegin, rowEnd, colBegin, colEnd);
+            return (new Shape(begin), new Shape(end));
         }
     }
 }
