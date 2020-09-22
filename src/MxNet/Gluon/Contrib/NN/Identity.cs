@@ -21,12 +21,11 @@ namespace MxNet.Gluon.Contrib.NN
     {
         public Identity(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
         {
-            throw new NotImplementedException();
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            return x;
         }
     }
 }
