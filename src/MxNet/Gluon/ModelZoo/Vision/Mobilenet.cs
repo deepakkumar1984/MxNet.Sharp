@@ -44,8 +44,10 @@ namespace MxNet.Gluon.ModelZoo.Vision
             use_shortcut = stride == 1 && in_channels == channels;
             output = new HybridSequential();
             MobileNet.AddConv(output, in_channels * t, relu6: true);
-            MobileNet.AddConv(output, in_channels * t, 3, stride, 1, in_channels, relu6: true);
+            MobileNet.AddConv(output, in_channels * t, 3, stride, 1, in_channels * t, relu6: true);
             MobileNet.AddConv(output, channels, active: false, relu6: true);
+
+            RegisterChild(output, "out");
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -65,10 +67,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
     public class MobileNet : HybridBlock
     {
-        private readonly int[] channels = {64, 128, 128, 256, 256, 512, 512, 512, 512, 512, 512, 1024, 1024};
-
-        private readonly int[] dw_channels = {32, 64, 128, 128, 256, 256, 512, 512, 512, 512, 512, 512, 1024};
-        private readonly int[] strides = {1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1};
+        private static readonly int[] channels = {64, 128, 128, 256, 256, 512, 512, 512, 512, 512, 512, 1024, 1024};
+        private static readonly int[] dw_channels = {32, 64, 128, 128, 256, 256, 512, 512, 512, 512, 512, 512, 1024};
+        private static readonly int[] strides = {1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1};
 
         public MobileNet(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null) :
             base(prefix, @params)
@@ -86,8 +87,10 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             Features.Add(new GlobalAvgPool2D());
             Features.Add(new Flatten());
+            RegisterChild(Features, "features");
 
             Output = new Dense(classes);
+            RegisterChild(Output, "output");
         }
 
         public HybridSequential Features { get; set; }
@@ -119,7 +122,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static void AddConvDW(HybridSequential @out, int dw_channels, int channels = 1, int stride = 1,
             bool relu6 = false)
         {
-            AddConv(@out, dw_channels, 3, stride, 1, dw_channels, relu6);
+            AddConv(@out, dw_channels, 3, stride, 1, dw_channels, relu6: relu6);
             AddConv(@out, channels, relu6: relu6);
         }
 
@@ -127,7 +130,12 @@ namespace MxNet.Gluon.ModelZoo.Vision
             string root = "", int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
             var net = new MobileNet(multiplier, classes, prefix, @params);
-            if (pretrained) net.LoadParameters(ModelStore.GetModelFile($"mobilenet{multiplier}"), ctx);
+
+            var version_suffix = string.Format("{0:0.00}", multiplier);
+            if (version_suffix == "1.00" || version_suffix == "0.50")
+                version_suffix = version_suffix.Substring(0, 3);
+
+            if (pretrained) net.LoadParameters(ModelStore.GetModelFile($"mobilenet{version_suffix}"), ctx);
 
             return net;
         }
@@ -155,20 +163,20 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
     public class MobileNetV2 : HybridBlock
     {
-        private readonly int[] channels_group =
+        private static readonly int[] channels_group =
             {16, 24, 24, 32, 32, 32, 64, 64, 64, 64, 96, 96, 96, 160, 160, 160, 320};
 
-        private readonly int[] in_channels_group =
+        private static readonly int[] in_channels_group =
             {32, 16, 24, 24, 32, 32, 32, 64, 64, 64, 64, 96, 96, 96, 160, 160, 160};
 
-        private readonly int[] strides = {1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1};
-        private readonly int[] ts = {1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
+        private static readonly int[] strides = {1, 2, 1, 2, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1};
+        private static readonly int[] ts = {1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
 
         public MobileNetV2(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null)
             : base(prefix, @params)
         {
-            Features = new HybridSequential("");
-            MobileNet.AddConv(Features, Convert.ToInt32(32 * multiplier), 3, pad: 1, stride: 2);
+            Features = new HybridSequential("features_");
+            MobileNet.AddConv(Features, Convert.ToInt32(32 * multiplier), 3, pad: 1, stride: 2, relu6: true);
             for (var i = 0; i < in_channels_group.Length; i++)
             {
                 var in_c = Convert.ToInt32(multiplier * in_channels_group[i]);
@@ -184,9 +192,13 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             Features.Add(new GlobalAvgPool2D());
 
+            RegisterChild(Features, "features");
+
             Output = new HybridSequential("output_");
             Output.Add(new Conv2D(classes, (1, 1), use_bias: false, prefix: "pred_"));
             Output.Add(new Flatten());
+
+            RegisterChild(Output, "output");
         }
 
         public HybridSequential Features { get; set; }
@@ -199,31 +211,36 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return x;
         }
 
-        public static MobileNet GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null,
+        public static MobileNetV2 GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null,
             string root = "", int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
-            var net = new MobileNet(multiplier, classes, prefix, @params);
-            if (pretrained) net.LoadParameters(ModelStore.GetModelFile($"mobilenetv2_{multiplier}"), ctx);
+            var net = new MobileNetV2(multiplier, classes, prefix, @params);
+
+            var version_suffix = string.Format("{0:0.00}", multiplier);
+            if (version_suffix == "1.00" || version_suffix == "0.50")
+                version_suffix = version_suffix.Substring(0, 3);
+
+            if (pretrained) net.LoadParameters(ModelStore.GetModelFile($"mobilenetv2_{version_suffix}"), ctx);
 
             return net;
         }
 
-        public static MobileNet MobileNetV2_1_0(bool pretrained = false, Context ctx = null, string root = "")
+        public static MobileNetV2 MobileNetV2_1_0(bool pretrained = false, Context ctx = null, string root = "")
         {
             return GetMobileNetV2(1, pretrained, ctx, root);
         }
 
-        public static MobileNet MobileNetV2_0_75(bool pretrained = false, Context ctx = null, string root = "")
+        public static MobileNetV2 MobileNetV2_0_75(bool pretrained = false, Context ctx = null, string root = "")
         {
             return GetMobileNetV2(0.75f, pretrained, ctx, root);
         }
 
-        public static MobileNet MobileNetV2_0_5(bool pretrained = false, Context ctx = null, string root = "")
+        public static MobileNetV2 MobileNetV2_0_5(bool pretrained = false, Context ctx = null, string root = "")
         {
             return GetMobileNetV2(0.5f, pretrained, ctx, root);
         }
 
-        public static MobileNet MobileNetV2_0_25(bool pretrained = false, Context ctx = null, string root = "")
+        public static MobileNetV2 MobileNetV2_0_25(bool pretrained = false, Context ctx = null, string root = "")
         {
             return GetMobileNetV2(0.25f, pretrained, ctx, root);
         }
