@@ -32,13 +32,20 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public VGG(int[] layers, int[] filters, int classes = 1000, bool batch_norm = false, string prefix = null,
             ParameterDict @params = null) : base(prefix, @params)
         {
-            Features = MakeFeatures(layers, filters, batch_norm);
-            Features.Add(new Dense(4096, ActivationType.Relu, weight_initializer: "normal"));
-            Features.Add(new Dropout(0.5f));
-            Features.Add(new Dense(4096, ActivationType.Relu, weight_initializer: "normal"));
-            Features.Add(new Dropout(0.5f));
+            using (NameScope.With())
+            {
+                Features = MakeFeatures(layers, filters, batch_norm);
+                Features.Add(new Dense(4096, ActivationType.Relu, weight_initializer: "normal"));
+                Features.Add(new Dropout(0.5f));
+                Features.Add(new Dense(4096, ActivationType.Relu, weight_initializer: "normal"));
+                Features.Add(new Dropout(0.5f));
 
-            Output = new Dense(classes, weight_initializer: "normal");
+                RegisterChild(Features, "features");
+
+                Output = new Dense(classes, weight_initializer: "normal");
+
+                RegisterChild(Output, "output");
+            }
         }
 
         public HybridSequential Features { get; set; }
@@ -57,9 +64,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             for (var i = 0; i < layers.Length; i++)
             {
                 var num = layers[i];
-                for (var j = 0; i < num; j++)
+                for (var j = 0; j < num; j++)
                 {
-                    featurizer.Add(new Conv2D(filters[i], (3, 3), (1, 1),
+                    featurizer.Add(new Conv2D(filters[i], (3, 3), padding: (1, 1),
                         weight_initializer: new Xavier("gaussian", "out", 2)));
                     if (batch_norm)
                         featurizer.Add(new BatchNorm());
@@ -81,7 +88,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             if (pretrained)
             {
                 var batch_norm_suffix = batch_norm ? "_bn" : "";
-                net.LoadParameters(ModelStore.GetModelFile($"vgg{num_layers}{batch_norm_suffix}"), ctx);
+                net.LoadParameters(ModelStore.GetModelFile($"vgg{num_layers}{batch_norm_suffix}", root), ctx);
             }
 
             return net;
