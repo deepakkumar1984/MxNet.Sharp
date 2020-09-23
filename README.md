@@ -1,4 +1,5 @@
 [![Gitter](https://badges.gitter.im/mxnet-sharp/community.svg)](https://gitter.im/mxnet-sharp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+![MxNet.Sharp CI](https://github.com/tech-quantum/MxNet.Sharp/workflows/MxNet.Sharp%20Build/badge.svg)
 
 <div align="center">
   <a href="https://mxnet.apache.org/"><img src="https://raw.githubusercontent.com/dmlc/web-data/master/mxnet/image/mxnet_logo_2.png"></a><br>
