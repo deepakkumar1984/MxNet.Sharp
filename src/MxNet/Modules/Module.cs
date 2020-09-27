@@ -73,8 +73,8 @@ namespace MxNet.Modules
 
             _group2ctxs = group2ctxs;
             _symbol = symbol;
-            _data_names = data_names != null ? data_names : new string[0];
-            _label_names = label_names != null ? label_names : new string[0];
+            _data_names = data_names != null ? data_names : new[] { "data" };
+            _label_names = label_names != null ? label_names : new[] { "softmax_label" };
             _state_names = state_names != null ? state_names : new string[0];
             _fixed_param_names = fixed_param_names != null ? fixed_param_names : new string[0];
             CheckInputNames(symbol, _data_names, "data", true);
