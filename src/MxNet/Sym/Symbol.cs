@@ -98,7 +98,7 @@ namespace MxNet
                 if (NativePtr == SymbolHandle.Zero)
                     return null;
 
-                NativeMethods.MXSymbolGetName(NativePtr, out var @out, out var success);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolGetName(NativePtr, out var @out, out var success), NativeMethods.OK);
                 if (@out == SymbolHandle.Zero)
                     return null;
 
@@ -112,7 +112,7 @@ namespace MxNet
             {
                 ThrowIfDisposed();
 
-                NativeMethods.MXSymbolGetOutput(NativePtr, (uint) index, out var @out);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolGetOutput(NativePtr, (uint) index, out var @out), NativeMethods.OK);
                 return new Symbol(@out);
             }
         }
@@ -124,7 +124,7 @@ namespace MxNet
                 var names = this.ListOutputs().ToList();
                 ThrowIfDisposed();
 
-                NativeMethods.MXSymbolGetOutput(NativePtr, (uint)names.IndexOf(name), out var @out);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolGetOutput(NativePtr, (uint)names.IndexOf(name), out var @out), NativeMethods.OK);
                 return new Symbol(@out);
             }
         }
@@ -228,7 +228,7 @@ namespace MxNet
         public static Symbol Group(SymbolList symbols)
         {
             var handleList = symbols.Select(symbol => symbol.GetHandle()).ToArray();
-            NativeMethods.MXSymbolCreateGroup((uint) handleList.Length, handleList, out var @out);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolCreateGroup((uint) handleList.Length, handleList, out var @out), NativeMethods.OK);
             return new Symbol(@out);
         }
 
@@ -683,7 +683,7 @@ namespace MxNet
         {
             ThrowIfDisposed();
 
-            NativeMethods.MXSymbolListArguments(GetHandle(), out var size, out var sarry);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolListArguments(GetHandle(), out var size, out var sarry), NativeMethods.OK);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
 
             var ret = new string[size];
@@ -697,7 +697,7 @@ namespace MxNet
         {
             ThrowIfDisposed();
 
-            NativeMethods.MXSymbolListAuxiliaryStates(GetHandle(), out var size, out var sarry);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolListAuxiliaryStates(GetHandle(), out var size, out var sarry), NativeMethods.OK);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
 
             Dictionary<string, Dictionary<string, string>> ret = new Dictionary<string, Dictionary<string, string>>();
@@ -720,7 +720,7 @@ namespace MxNet
         {
             ThrowIfDisposed();
 
-            NativeMethods.MXSymbolListAuxiliaryStates(GetHandle(), out var size, out var sarry);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolListAuxiliaryStates(GetHandle(), out var size, out var sarry), NativeMethods.OK);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
 
             var ret = new string[size];
@@ -734,7 +734,7 @@ namespace MxNet
         {
             ThrowIfDisposed();
 
-            NativeMethods.NNSymbolListInputNames(GetHandle(), 0, out var size, out var sarry);
+            Logging.CHECK_EQ(NativeMethods.NNSymbolListInputNames(GetHandle(), 0, out var size, out var sarry), NativeMethods.OK);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
             var ret = new string[size];
             for (var i = 0; i < size; i++)
@@ -747,7 +747,7 @@ namespace MxNet
         {
             ThrowIfDisposed();
 
-            NativeMethods.MXSymbolListOutputs(GetHandle(), out var size, out var sarry);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolListOutputs(GetHandle(), out var size, out var sarry), NativeMethods.OK);
             var sarryArray = InteropHelper.ToPointerArray(sarry, size);
             var ret = new string[size];
             for (var i = 0; i < size; i++)
@@ -792,7 +792,7 @@ namespace MxNet
                 throw new ArgumentNullException("kwargs");
 
             int num_args = kwargs.Count;
-            NativeMethods.MXSymbolCompose(NativePtr, name, num_args, kwargs.Keys.ToArray(), kwargs.Values.Select(x => x.NativePtr).ToArray());
+            Logging.CHECK_EQ(NativeMethods.MXSymbolCompose(NativePtr, name, num_args, kwargs.Keys.ToArray(), kwargs.Values.Select(x => x.NativePtr).ToArray()), NativeMethods.OK);
             return this;
         }
 
@@ -881,14 +881,14 @@ namespace MxNet
                 ExecutorHandle exe_handle;
                 int num_aux_states;
 
-                NativeMethods.MXExecutorSimpleBindEx(NativePtr, (int)ctx.GetDeviceType(), ctx.GetDeviceId(), num_ctx_map_keys, ctx_map_keys,
+                Logging.CHECK_EQ(NativeMethods.MXExecutorSimpleBindEx(NativePtr, (int)ctx.GetDeviceType(), ctx.GetDeviceId(), num_ctx_map_keys, ctx_map_keys,
                                                     ctx_map_dev_types, ctx_map_dev_ids, provided_req_type_list_len, provided_grad_req_names, provided_grad_req_types,
                                                     provided_arg_shape_names.Count, provided_arg_shape_names.ToArray(), provided_arg_shape_data.ToArray(),
                                                     provided_arg_shape_idx.ToArray(), num_provided_arg_types, provided_arg_type_names, provided_arg_type_data,
                                                     num_provided_arg_stypes, provided_arg_stype_names, provided_arg_stype_data, shared_arg_name_list.Length,
                                                     shared_arg_name_list, &shared_buffer_len, shared_buffer_names, shared_buffer_handles, &updated_shared_buffer_names,
                                                     &updated_shared_buffer_handles, &num_in_args, &in_arg_handles, &arg_grad_handles,
-                                                    &num_aux_states, &aux_state_handles, shared_exec_handle, &exe_handle);
+                                                    &num_aux_states, &aux_state_handles, shared_exec_handle, &exe_handle), NativeMethods.OK);
 
                 if (shared_buffer != null && shared_buffer.Count > 0)
                 {
@@ -945,7 +945,7 @@ namespace MxNet
             float? lr_mult = null, float? wd_mult = null,
             DType dtype = null, Initializer init = null, StorageStype? stype = null)
         {
-            NativeMethods.MXSymbolCreateVariable(name, out var handle);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolCreateVariable(name, out var handle), NativeMethods.OK);
             var ret = new Symbol(handle);
             if (attr == null)
                 attr = new Dictionary<string, string>();
@@ -978,7 +978,7 @@ namespace MxNet
 
         public string Attr(string key)
         {
-            NativeMethods.MXSymbolGetAttr(GetHandle(), key, out var @out, out var success);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolGetAttr(GetHandle(), key, out var @out, out var success), NativeMethods.OK);
             if (success != 0)
                 return @out;
 
@@ -987,7 +987,7 @@ namespace MxNet
 
         public Dictionary<string, string> ListAttr()
         {
-            NativeMethods.MXSymbolListAttrShallow(GetHandle(), out var out_size, out var pairs);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolListAttrShallow(GetHandle(), out var out_size, out var pairs), NativeMethods.OK);
 
             var dict = new Dictionary<string, string>();
             var i = 0;
@@ -998,7 +998,7 @@ namespace MxNet
 
         public Dictionary<string, Dictionary<string, string>> AttrDict()
         {
-            NativeMethods.MXSymbolListAttr(GetHandle(), out var out_size, out var sarray);
+            Logging.CHECK_EQ(NativeMethods.MXSymbolListAttr(GetHandle(), out var out_size, out var sarray), NativeMethods.OK);
             var array = InteropHelper.ToPointerArray(sarray, out_size);
             List<string> pairs = array.Select(x => (Marshal.PtrToStringAnsi(x))).ToList();
             var dict = new Dictionary<string, Dictionary<string, string>>();
@@ -1018,7 +1018,10 @@ namespace MxNet
 
         public void SetAttr(Dictionary<string, string> attrs)
         {
-            foreach (var attr in attrs) NativeMethods.MXSymbolSetAttr(GetHandle(), attr.Key, attr.Value);
+            foreach (var attr in attrs)
+            {
+                Logging.CHECK_EQ(NativeMethods.MXSymbolSetAttr(GetHandle(), attr.Key, attr.Value), NativeMethods.OK);
+            }
         }
 
         public SymbolList ToList()
