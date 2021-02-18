@@ -67,7 +67,7 @@ namespace MxNet.Callbacks
                         var name_value = eval_metric.GetNameValue();
                         if (_auto_reset)
                         {
-                            eval_metric.ResetLocal();
+                            eval_metric.Reset();
                             msg = string.Format("Epoch[{0}] Batch [{1}-{2}]\tSpeed: {3} samples/sec", epoch,
                                 count - _frequent, count, speed);
                             foreach (var item in name_value) msg += string.Format("\t {0}={1}", item.Key, item.Value);

@@ -26,7 +26,5 @@ namespace MxNet
         CPUPinned = 3,
 
         CPUShared = 5,
-
-        EIA = 8
     }
 }

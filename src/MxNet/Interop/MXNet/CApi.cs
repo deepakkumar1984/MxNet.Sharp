@@ -1230,6 +1230,18 @@ namespace MxNet.Interop
         public static extern int MXRecordIOWriterTell(IntPtr handle, out int pos);
         #endregion
 
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayIsDeferredCompute(out bool ret);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArraySetIsDeferredCompute(bool state, out bool prev);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetDeferredComputeSymbol(NDArrayHandle[] output_handles, int count, out SymbolHandle handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArraySetDeferredComputeVariable(NDArrayHandle[] arrays, NDArrayHandle[] variables, int count);
         #endregion
     }
 }

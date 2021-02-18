@@ -20,27 +20,28 @@ using MxNet.Modules;
 
 namespace MxNet.Callbacks
 {
-    public class ModuleCheckpoint : IIterEndCallback
-    {
-        private readonly Module _mod;
-        private int _period;
-        private readonly string _prefix;
-        private readonly bool _save_optimizer_states;
+    //ToDo: Removed on v2.0
+    //public class ModuleCheckpoint : IIterEndCallback
+    //{
+    //    private readonly Module _mod;
+    //    private int _period;
+    //    private readonly string _prefix;
+    //    private readonly bool _save_optimizer_states;
 
-        public ModuleCheckpoint(Module mod, string prefix, int period = 1, bool save_optimizer_states = false)
-        {
-            _mod = mod;
-            _prefix = prefix;
-            _period = period;
-            _save_optimizer_states = save_optimizer_states;
-        }
+    //    public ModuleCheckpoint(Module mod, string prefix, int period = 1, bool save_optimizer_states = false)
+    //    {
+    //        _mod = mod;
+    //        _prefix = prefix;
+    //        _period = period;
+    //        _save_optimizer_states = save_optimizer_states;
+    //    }
 
-        public void Invoke(int epoch)
-        {
-            _period = Math.Max(1, _period);
-            if ((epoch + 1) % _period == 0) _mod.SaveCheckpoint(_prefix, epoch + 1, _save_optimizer_states);
-        }
-    }
+    //    public void Invoke(int epoch)
+    //    {
+    //        _period = Math.Max(1, _period);
+    //        if ((epoch + 1) % _period == 0) _mod.SaveCheckpoint(_prefix, epoch + 1, _save_optimizer_states);
+    //    }
+    //}
 
 
     public class DoCheckPoint : IEpochEndCallback
@@ -82,7 +83,7 @@ namespace MxNet.Callbacks
                         item.Value));
 
                 if (_auto_reset)
-                    eval_metric.ResetLocal();
+                    eval_metric.Reset();
             }
         }
     }
