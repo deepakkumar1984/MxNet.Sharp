@@ -726,16 +726,8 @@ namespace MxNet.Keras.Engine
             };
 
             this._weights_dirty = false;
-            if (this._context != null && this._context[0].GetDeviceType() ==  DeviceType.EIA)
-            {
-                // Only Prediction is Supported with EIA Context
-                //this._module = new Module(this._pred_mxnet_symbol, data_names: this._data_names, label_names: this._label_names, context: this._context, fixed_param_names: this._fixed_weights);
-            }
-            else
-            {
-                // set the module
-                this._module = new BucketingModule(sym_gen: sym_gen, default_bucket_key: (int)Phase.Pred, context: this._context, fixed_param_names: this._fixed_weights);
-            }
+            // set the module
+            this._module = new BucketingModule(sym_gen: sym_gen, default_bucket_key: (int)Phase.Pred, context: this._context, fixed_param_names: this._fixed_weights);
 
             K.SetModel(this);
             this.compiled = true;
@@ -1030,20 +1022,12 @@ namespace MxNet.Keras.Engine
 
             this._weights_dirty = false;
             // set module for prediction only
-            if (this._context != null && this._context[0].GetDeviceType() ==  DeviceType.EIA)
-            {
-                // Only Prediction is Supported with EI Context
-                //this._predict_only_module = mx.mod.Module(this._pred_mxnet_symbol, data_names: this._data_names, label_names: this._label_names, context: this._context[0], ////fixed_param_names: this._fixed_weights);
-            }
-            else
-            {
-                Func<int, (Symbol, string[], string[])> sym_gen = phase => {
-                    return (this._pred_mxnet_symbol, this._data_names, null);
-                };
+            Func<int, (Symbol, string[], string[])> sym_gen = phase => {
+                return (this._pred_mxnet_symbol, this._data_names, null);
+            };
 
-                // separate module for using predict without compiling model
-                this._predict_only_module = new BucketingModule(sym_gen: sym_gen, default_bucket_key: (int)Phase.Pred, context: this._context, fixed_param_names: this._fixed_weights);
-            }
+            // separate module for using predict without compiling model
+            this._predict_only_module = new BucketingModule(sym_gen: sym_gen, default_bucket_key: (int)Phase.Pred, context: this._context, fixed_param_names: this._fixed_weights);
         }
 
         public void SetMxNetContext(Context context)

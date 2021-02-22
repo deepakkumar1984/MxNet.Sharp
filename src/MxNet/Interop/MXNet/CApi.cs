@@ -1030,7 +1030,7 @@ namespace MxNet.Interop
             out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayCreateEx(
+        public static extern int MXNDArrayCreate64(
            [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.U4)]
             int[] shape,
            int ndim, DeviceType devType,

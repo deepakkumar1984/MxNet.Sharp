@@ -56,8 +56,8 @@ namespace MxNet.RecurrentLayer
                 "l"
             };
 
-            var initializer = new FusedRNN(null, num_hidden, num_layers, mode, bidirectional, forget_bias);
-            this._parameter = this.Params.Get("parameters", init: initializer);
+            //var initializer = new FusedRNN(null, num_hidden, num_layers, mode, bidirectional, forget_bias);
+            //this._parameter = this.Params.Get("parameters", init: initializer);
         }
 
         public override StateInfo[] StateInfo

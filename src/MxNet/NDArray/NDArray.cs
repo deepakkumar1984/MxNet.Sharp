@@ -90,7 +90,7 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.Float32;
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data.ToArray(),
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
                 shape.Dimension,
                 ctx.GetDeviceType(),
                 ctx.GetDeviceId(),
@@ -114,7 +114,7 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.InferDtype(data);
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data.ToArray(),
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
                    shape.Dimension,
                    ctx.GetDeviceType(),
                    ctx.GetDeviceId(),
@@ -153,7 +153,7 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(shape));
 
             NDArrayHandle @out = new NDArrayHandle();
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreateEx(shape.Data.ToArray(),
+            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
                     shape.Dimension,
                     ctx.GetDeviceType(),
                     ctx.GetDeviceId(),

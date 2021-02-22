@@ -16,10 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MxNet.Runtime.Redist" Version="1.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\MxNet\MxNet.csproj" />
   </ItemGroup>
 
