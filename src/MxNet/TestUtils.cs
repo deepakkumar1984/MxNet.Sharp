@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -32,6 +33,107 @@ namespace MxNet
         public static void SetDefaultContext(Context ctx)
         {
             Context.CurrentContext = ctx;
+        }
+
+        public static Dictionary<DType, double> DefaultRtols()
+        {
+            return new Dictionary<DType, double>
+            {
+                {
+                    DType.Float16,
+                    0.01},
+                {
+                    DType.Float32,
+                    0.0001},
+                {
+                    DType.Float64,
+                    1E-05},
+                {
+                    DType.Int8,
+                    0},
+                {
+                    DType.UInt8,
+                    0},
+                {
+                    DType.Int32,
+                    0},
+                {
+                    DType.Int64,
+                    0
+                }
+            };
+        }
+
+        public static Dictionary<DType, double> DefaultAtols()
+        {
+            return new Dictionary<DType, double> {
+            {
+                DType.Float16,
+                0.1},
+            {
+                DType.Float32,
+                0.001},
+            {
+                DType.Float64,
+                1E-20},
+            {
+                DType.Int8,
+                0},
+            {
+                DType.UInt8,
+                0},
+            {
+                DType.Int32,
+                0
+                },
+            {
+                DType.Int64,
+                0},
+            };
+        }
+
+        public static Dictionary<DType, double> DefaultNumericEps()
+        {
+            // prefer a power-of-two eps, since no bits are dropped when serving as an input delta
+            return new Dictionary<DType, double> {
+            {
+                DType.Float16,
+                1.0 / Math.Pow(2, 6)},
+            {
+                DType.Float32,
+                1.0 / Math.Pow(2, 9)},
+            {
+                DType.Float64,
+                1.0 / Math.Pow(2, 14)}};
+        }
+
+        public static DType EffectiveDtype(NDArray dat)
+        {
+            // On arch 80 gpus, a float32-io gemm or conv op will trim the mantissa of data
+            // inputs to be of comparable precision to a float16, so float16 becomes the
+            // 'effective dtype' for tolerance tests involving such op outputs.
+            // Is TF32 enabled in the ctx (the default on arch 80 GPUs)
+            Func<Context, bool> is_TF32_enabled = (context) => {
+                try
+                {
+                    return context.GetDeviceType() ==  DeviceType.GPU && MxUtil.GetCudaComputeCapability(context) == 80 && Environment.GetEnvironmentVariable("NVIDIA_TF32_OVERRIDE") != "0";
+                }
+                catch
+                {
+                    // pylint: disable=bare-except
+                    return false;
+                }
+            };
+
+            var ctx = dat.Context;
+            if (dat.DataType == DType.Float32  && is_TF32_enabled(ctx))
+            {
+                return DType.Float16;
+            }
+            else
+            {
+                return dat.DataType;
+            }
         }
 
         public static DType DefaultDtype()

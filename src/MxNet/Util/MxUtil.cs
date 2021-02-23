@@ -19,6 +19,42 @@ using System.Linq;
 
 namespace MxNet
 {
+    public class _NumpyShapeScope : MxDisposable
+    {
+        public _NumpyShapeScope(bool is_np_shape)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Exit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override MxDisposable With()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class _NumpyArrayScope : MxDisposable
+    {
+        public _NumpyArrayScope(bool is_np_array)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Exit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override MxDisposable With()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class MxUtil
     {
         public static string EnumToString<TEnum>(TEnum? _enum, List<string> convert) where TEnum : struct, IConvertible
@@ -77,6 +113,53 @@ namespace MxNet
             }
 
             return (new Shape(begin), new Shape(end));
+        }
+
+        public static int GetGPUCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static (long, long) GetGPUMemory(int gpu_dev_id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool SetNpShape(bool active)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsNpShape()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static _NumpyShapeScope NpShape(bool active)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Func<Dictionary<string, object>, NDArrayOrSymbol> UseNpShape(Func<Dictionary<string, object>, NDArrayOrSymbol> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void SanityCheckParams(string func_name, string[] unsupported_params, Dictionary<string, object> param_dict)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void SetModule(string module)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public static int GetCudaComputeCapability(Context ctx)
+        {
+            throw new NotImplementedException();
         }
     }
 }
