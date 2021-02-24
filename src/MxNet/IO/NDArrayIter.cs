@@ -188,8 +188,13 @@ namespace MxNet.IO
             return result.ToArray();
         }
 
-        private NDArrayList _concat(NDArrayList first_data, NDArrayList second_data)
+        private NDArrayList Concat(NDArrayList first_data, NDArrayList second_data)
         {
+            if (first_data != null || second_data != null)
+            {
+                return first_data != null ? first_data : second_data;
+            }
+
             if (first_data.Length != second_data.Length)
                 throw new Exception("Data source should be of same size.");
 
@@ -200,6 +205,27 @@ namespace MxNet.IO
                 );
 
             return result.ToArray();
+        }
+
+        public NDArrayList Tile(NDArrayList data, int repeats)
+        {
+            if (data == null)
+            {
+                return new NDArrayList();
+            }
+
+            var res = new NDArrayList();
+            foreach (var datum in data)
+            {
+                var reps = new List<int>();
+                for (int i = 0; i < datum.Shape.Dimension; i++)
+                    reps.Add(1);
+
+                reps[0] = repeats;
+                res.Add(nd.Tile(datum, new Shape(reps)));
+            }
+
+            return res;
         }
 
         private NDArrayList _batchify(NDArrayDict data_source)
@@ -219,15 +245,29 @@ namespace MxNet.IO
                 else
                     _cache_label = null;
 
-                return _concat(cache_data, second_data);
+                return Concat(cache_data, second_data);
             }
 
             if (last_batch_handle == "pad" && Cursor + BatchSize > num_data)
             {
                 var pad = BatchSize - num_data + Cursor;
                 var first_data = _getdata(data_source, Cursor);
-                var second_data = _getdata(data_source, end: pad);
-                return _concat(first_data, second_data);
+                NDArrayList second_data = null;
+                if (pad > this.num_data)
+                {
+                    var repeats = pad / this.num_data;
+                    second_data = this.Tile(this._getdata(data_source, end: this.num_data), repeats);
+                    if (pad % this.num_data != 0)
+                    {
+                        second_data = this.Concat(second_data, this._getdata(data_source, end: pad % this.num_data));
+                    }
+                }
+                else
+                {
+                    second_data = this._getdata(data_source, end: pad);
+                }
+
+                return Concat(first_data, second_data);
             }
 
             var end_idx = 0;

@@ -55,6 +55,24 @@ namespace MxNet
         }
     }
 
+    public class _NumpyDefaultDtypeScope : MxDisposable
+    {
+        public _NumpyDefaultDtypeScope(bool is_np_shape)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Exit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override MxDisposable With()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class MxUtil
     {
         public static string EnumToString<TEnum>(TEnum? _enum, List<string> convert) where TEnum : struct, IConvertible
@@ -155,9 +173,92 @@ namespace MxNet
             throw new NotImplementedException();
         }
 
+        public static _NumpyArrayScope NpArray(bool active)
+        {
+            throw new NotImplementedException();
+        }
 
+        public static bool IsNpArray()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Func<Dictionary<string, object>, NDArrayOrSymbol> UseNpArray(Func<Dictionary<string, object>, NDArrayOrSymbol> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Func<Dictionary<string, object>, NDArrayOrSymbol> UseNp(Func<Dictionary<string, object>, NDArrayOrSymbol> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool UseUFuncLegalOption(string key, string value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Func<NDArray, NDArray> WrapNpUraryFunc(Func<NDArray, NDArray> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Func<NDArray, NDArray, NDArray> WrapNpBinaryFunc(Func<NDArray, NDArray, NDArray> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool SetNpArray(bool active)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool SetNp(bool shape = true, bool array = true, bool dtype = false)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void ResetNp()
+        {
+            SetNp(false, false, false);
+        }
 
         public static int GetCudaComputeCapability(Context ctx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static NDArray DefaultArray(Array source_array, Context ctx= null, DType dtype= null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static _NumpyDefaultDtypeScope NpDefaultDtype(bool active = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Func<Dictionary<string, object>, NDArrayOrSymbol> UseNpDefaultDtype(Func<Dictionary<string, object>, NDArrayOrSymbol> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool IsNpDefaultDtype()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool SetNpDefaultDtype()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string GetEnv(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static string SetEnv(string name, string value)
         {
             throw new NotImplementedException();
         }

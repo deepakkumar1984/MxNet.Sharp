@@ -15,6 +15,8 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using MxNet.Interop;
 using MxNet.Optimizers;
 using KVStoreHandle = System.IntPtr;
@@ -31,9 +33,13 @@ namespace MxNet.KVstore
 
         public abstract int NumWorkers { get; }
 
-        public abstract void Broadcast(string key, NDArray value, NDArrayList @out, int priority = 0);
+        public abstract void Broadcast(string key, NDArrayList value, NDArrayList @out, int priority = 0);
 
-        public abstract void PushPull(string key, NDArray value, NDArrayList @out, int priority = 0);
+        public abstract void Broadcast(int key, NDArrayList value, NDArrayList @out, int priority = 0);
+
+        public abstract void PushPull(string key, NDArrayList value, NDArrayList @out, int priority = 0);
+
+        public abstract void PushPull(int key, NDArrayList value, NDArrayList @out, int priority = 0);
 
         public abstract void SetOptimizer(Optimizer optimizer);
 
@@ -61,6 +67,35 @@ namespace MxNet.KVstore
             var kv = new KVStore(handle);
             Profiler.profiler_kvstore_handle = handle;
             return kv;
+        }
+
+        internal static (string[], string[], bool?) CTypeKeyValue(string[] keys, string[] vals)
+        {
+            bool? use_str_keys = null;
+            var c_keys = new List<string>();
+            var c_vals = new List<string>();
+            Debug.Assert(keys.Length == vals.Length);
+            c_keys = new List<string>();
+
+            use_str_keys = null;
+            for (int i = 0; i < keys.Length; i++)
+            {
+                var key = keys[i];
+                var val = vals[i];
+                var (c_key_i, c_val_i, str_keys_i) = CTypeKeyValue(new string[] { key }, new string[] { val });
+                c_keys.AddRange(c_key_i);
+                c_vals.AddRange(c_val_i);
+                use_str_keys = use_str_keys == null ? str_keys_i : use_str_keys;
+                Debug.Assert(use_str_keys == str_keys_i, "inconsistent types of keys detected.");
+            }
+
+            return (c_keys.ToArray(), c_vals.ToArray(), use_str_keys);
+        }
+
+        // Returns ctype arrays for keys and values(converted to strings) in a dictionary
+        public static (string[], string[]) _ctype_dict(Dictionary<string, string> param_dict)
+        {
+            return (param_dict.Keys.ToArray(), param_dict.Values.ToArray());
         }
     }
 }

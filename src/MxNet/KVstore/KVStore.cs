@@ -15,6 +15,8 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using MxNet.Interop;
 using MxNet.Optimizers;
@@ -40,7 +42,32 @@ namespace MxNet.KVstore
         internal KVStoreHandle handle;
         internal IntPtr str_updater_func;
         internal IntPtr updater_func;
+        internal bool _is_p3;
 
+        public static int GetKVStoreServerCommandType(string command)
+        {
+            var command_types = new Dictionary<string, int> {
+                {
+                    "kController",
+                    0},
+                {
+                    "kSetMultiPrecision",
+                    1},
+                {
+                    "kStopServer",
+                    2},
+                {
+                    "kSyncMode",
+                    3},
+                {
+                    "kSetGradientCompression",
+                    4},
+                {
+                    "kSetProfilerParams",
+                    5}};
+            Debug.Assert(command_types.ContainsKey(command), "Unknown command type to send to server");
+            return command_types[command];
+        }
 
         public KVStore(KVStoreHandle handle)
         {
@@ -48,6 +75,7 @@ namespace MxNet.KVstore
             _updater = null;
             updater_func = IntPtr.Zero;
             str_updater_func = IntPtr.Zero;
+            _is_p3 = Environment.GetEnvironmentVariable("DMLC_PS_VAN_TYPE") == "p3";
         }
 
         public override int Rank
@@ -83,31 +111,142 @@ namespace MxNet.KVstore
             NativeMethods.MXKVStoreFree(handle);
         }
 
-        public override void Broadcast(string key, NDArray value, NDArrayList @out, int priority = 0)
+        public override void Broadcast(string key, NDArrayList value, NDArrayList @out, int priority = 0)
         {
-            Init(key, value);
+            List<string> cv_keys = new List<string>();
+            for(int i = 0; i< value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            List<string> co_keys = new List<string>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                co_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStoreBroadcastEx(handle, cv_keys.Count, cv_keys.ToArray(), co_keys.Count, co_keys.ToArray(), value.Handles, @out.Handles, priority);
             Pull(key, @out, priority);
         }
 
-        public void Init(string key, NDArray value)
+        public override void Broadcast(int key, NDArrayList value, NDArrayList @out, int priority = 0)
         {
-            NativeMethods.MXKVStoreInitEx(handle, 1, new[] {key}, new[] {value.NativePtr});
+            List<int> cv_keys = new List<int>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            List<int> co_keys = new List<int>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                co_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStoreBroadcast(handle, cv_keys.Count, cv_keys.ToArray(), co_keys.Count, co_keys.ToArray(), value.Handles, @out.Handles, priority);
+        }
+
+        public void Init(string key, NDArrayList value)
+        {
+            List<string> cv_keys = new List<string>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+            
+            NativeMethods.MXKVStoreInitEx(handle, cv_keys.Count, cv_keys.ToArray(), value.Handles);
+        }
+
+        public void Init(int key, NDArrayList value)
+        {
+            List<int> cv_keys = new List<int>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStoreInit(handle, cv_keys.Count, cv_keys.ToArray(), value.Handles);
         }
 
         public void Push(string key, NDArrayList value, int priority = 0)
         {
-            NativeMethods.MXKVStorePushEx(handle, 1, new[] {key}, MxUtil.GetNDArrayHandles(value), priority);
+            List<string> cv_keys = new List<string>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStorePushEx(handle, cv_keys.Count, cv_keys.ToArray(), MxUtil.GetNDArrayHandles(value), priority);
         }
 
-        public void Pull(string key, NDArrayList @out, int priority = 0, bool ignore_sparse = true)
+        public void Push(int key, NDArrayList value, int priority = 0)
         {
-            NativeMethods.MXKVStorePullWithSparseEx(handle, 1, new[] {key}, MxUtil.GetNDArrayHandles(@out), priority,
+            List<int> cv_keys = new List<int>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStorePush(handle, cv_keys.Count, cv_keys.ToArray(), MxUtil.GetNDArrayHandles(value), priority);
+        }
+
+        public void Pull(string key, NDArrayList @out = null, int priority = 0, bool ignore_sparse = true)
+        {
+            List<string> cv_keys = new List<string>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStorePullWithSparseEx(handle, cv_keys.Count, cv_keys.ToArray(), MxUtil.GetNDArrayHandles(@out), priority,
                 ignore_sparse);
         }
 
-        public override void PushPull(string key, NDArray value, NDArrayList @out, int priority = 0)
+        public void Pull(int key, NDArrayList @out = null, int priority = 0, bool ignore_sparse = true)
         {
-            NativeMethods.MXKVStorePushPullEx(handle, 1, new[] {key}, @out.Length, new[] {key}, new[] {value.NativePtr},
+            List<int> cv_keys = new List<int>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStorePullWithSparse(handle, cv_keys.Count, cv_keys.ToArray(), MxUtil.GetNDArrayHandles(@out), priority,
+                ignore_sparse);
+        }
+
+        public override void PushPull(string key, NDArrayList value, NDArrayList @out, int priority = 0)
+        {
+            List<string> cv_keys = new List<string>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            List<string> co_keys = new List<string>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                co_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStorePushPullEx(handle, cv_keys.Count, cv_keys.ToArray(), co_keys.Count, co_keys.ToArray(), value.Handles,
+                MxUtil.GetNDArrayHandles(@out), priority);
+        }
+
+        public override void PushPull(int key, NDArrayList value, NDArrayList @out, int priority = 0)
+        {
+            List<int> cv_keys = new List<int>();
+            for (int i = 0; i < value.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            List<int> co_keys = new List<int>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                co_keys.Add(key);
+            }
+
+            NativeMethods.MXKVStorePushPull(handle, cv_keys.Count, cv_keys.ToArray(), co_keys.Count, co_keys.ToArray(), value.Handles,
                 MxUtil.GetNDArrayHandles(@out), priority);
         }
 
@@ -119,14 +258,42 @@ namespace MxNet.KVstore
             if (row_ids == null)
                 throw new ArgumentNullException("row_ids");
 
+            List<string> cv_keys = new List<string>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
             var first_out = new NDArrayList();
             if (row_ids.Length == 1)
                 first_out.Add(@out[0]);
             else
                 first_out = @out.ToList();
 
-            NativeMethods.MXKVStorePullRowSparseEx(handle, 1, new[] {key},
-                MxUtil.GetNDArrayHandles(first_out.ToArray()), MxUtil.GetNDArrayHandles(row_ids), priority);
+            NativeMethods.MXKVStorePullRowSparseEx(handle, cv_keys.Count, cv_keys.ToArray(), MxUtil.GetNDArrayHandles(first_out.ToArray()), MxUtil.GetNDArrayHandles(row_ids), priority);
+        }
+
+        public void RowSparsePull(int key, NDArrayList @out, int priority = 0, NDArrayList row_ids = null)
+        {
+            if (@out == null)
+                throw new ArgumentNullException("@out");
+
+            if (row_ids == null)
+                throw new ArgumentNullException("row_ids");
+
+            List<int> cv_keys = new List<int>();
+            for (int i = 0; i < @out.Length; i++)
+            {
+                cv_keys.Add(key);
+            }
+
+            var first_out = new NDArrayList();
+            if (row_ids.Length == 1)
+                first_out.Add(@out[0]);
+            else
+                first_out = @out.ToList();
+
+            NativeMethods.MXKVStorePullRowSparse(handle, cv_keys.Count, cv_keys.ToArray(), MxUtil.GetNDArrayHandles(first_out.ToArray()), MxUtil.GetNDArrayHandles(row_ids), priority);
         }
 
 
@@ -139,20 +306,29 @@ namespace MxNet.KVstore
 
         public void SetGradientCompression(Dictionary<string, object> compression_params)
         {
-            var ckeys = compression_params.Keys.ToArray();
-            var cvals = compression_params.Values.Select(x => x.ToString()).ToArray();
+            if (Type.Contains("device") || Type.Contains("dist"))
+            {
+                var ckeys = compression_params.Keys.ToArray();
+                var cvals = compression_params.Values.Select(x => x.ToString()).ToArray();
 
-            NativeMethods.MXKVStoreSetGradientCompression(handle, compression_params.Count, ckeys, cvals);
+                NativeMethods.MXKVStoreSetGradientCompression(handle, compression_params.Count, ckeys, cvals);
+            }
+            else
+            {
+                throw new Exception("Gradient compression is not supported for this type of kvstore");
+            }
         }
 
         public override void LoadOptimizerStates(string fname)
         {
-            throw new NotImplementedException();
+            var data = File.ReadAllText(fname);
+            this._updater.SetStates(data);
         }
 
         public override void SaveOptimizerStates(string fname, bool dump_optimizer = false)
         {
-            throw new NotImplementedException();
+            Debug.Assert(this._updater != null, "Cannot save states for distributed training");
+            File.WriteAllText(fname, this._updater.GetStates(dump_optimizer));
         }
 
         public override void SetOptimizer(Optimizer optimizer)
@@ -171,6 +347,16 @@ namespace MxNet.KVstore
             {
                 SetUpdater(Optimizer.GetUpdater(optimizer));
             }
+        }
+
+        public virtual void Barrier()
+        {
+            NativeMethods.MXKVStoreBarrier(this.handle);
+        }
+
+        public virtual void SendCommandToServers(int head, string body)
+        {
+            NativeMethods.MXKVStoreSendCommmandToServers(this.handle, head, body);
         }
 
         private UpdaterHandle UpdaterWrapper(Updater updater)

@@ -17,6 +17,7 @@ using System;
 using MxNet.Interop;
 using mx_float = System.Single;
 using DataIterHandle = System.IntPtr;
+using System.Linq;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet.IO
@@ -173,6 +174,27 @@ namespace MxNet.IO
         public void SetParam(string key, object value)
         {
             op.SetParam(key, value);
+        }
+
+        public NDArrayList GetItems()
+        {
+            var output_vars = new NDArrayList();
+            NativeMethods.MXDataIterGetItems(this.handle, out var num_output, output_vars.Handles);
+            return output_vars;
+        }
+
+        public int Length
+        {
+            get
+            {
+                NativeMethods.MXDataIterGetLenHint(this.handle, out var length);
+                if (length < 0)
+                {
+                    return 0;
+                }
+
+                return length;
+            }
         }
     }
 }

@@ -1071,16 +1071,27 @@ namespace MxNet.Interop
             string[] keys, NDArrayHandle[] vals);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreInit(KVStoreHandle handle, int num, int[] keys, NDArrayHandle[] vals);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePushEx(KVStoreHandle handle, int num,
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
             string[] keys,
             NDArrayHandle[] vals, int priority);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePush(KVStoreHandle handle, int num,
+            int[] keys, NDArrayHandle[] vals, int priority);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePullWithSparseEx(KVStoreHandle handle, int num,
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
             string[] keys,
             NDArrayHandle[] vals, int priority, bool ignore_sparse);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePullWithSparse(KVStoreHandle handle, int num,
+            int[] keys, NDArrayHandle[] vals, int priority, bool ignore_sparse);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePushPullEx(KVStoreHandle handle, int vnum,
@@ -1092,10 +1103,19 @@ namespace MxNet.Interop
             NDArrayHandle[] vals, NDArrayHandle[] outs, int priority);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePushPull(KVStoreHandle handle, int vnum,
+            int[] vkeys, int onum, int[] okeys,
+            NDArrayHandle[] vals, NDArrayHandle[] outs, int priority);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStorePullRowSparseEx(KVStoreHandle handle, int num,
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPStr)]
             string[] keys,
             NDArrayHandle[] vals, NDArrayHandle[] row_ids, int priority);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStorePullRowSparse(KVStoreHandle handle, int num,
+            int[] keys, NDArrayHandle[] vals, NDArrayHandle[] row_ids, int priority);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStoreSetGradientCompression(KVStoreHandle handle, int num_params,
@@ -1107,6 +1127,9 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXKVStoreSetUpdaterEx(KVStoreHandle handle, AtomicSymbolCreator updater,
             AtomicSymbolCreator str_updater, AtomicSymbolCreator updater_handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreBarrier(KVStoreHandle handle);
 
         #endregion
 
@@ -1242,6 +1265,18 @@ namespace MxNet.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArraySetDeferredComputeVariable(NDArrayHandle[] arrays, NDArrayHandle[] variables, int count);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreBroadcastEx(NDArrayHandle handle, int nCvkeys, string[] cvKeys, int nCoKeys, string[] coKeys, NDArrayHandle[] cvals, NDArrayHandle[] couts, int priority);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXKVStoreBroadcast(NDArrayHandle handle, int nCvkeys, int[] cvKeys, int nCoKeys, int[] coKeys, NDArrayHandle[] cvals, NDArrayHandle[] couts, int priority);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXDataIterGetLenHint(NDArrayHandle handle, out int length);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXDataIterGetItems(NDArrayHandle handle, out int num_output, NDArrayHandle[] output_vars);
         #endregion
     }
 }
