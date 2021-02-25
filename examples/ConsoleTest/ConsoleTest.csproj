@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MxNet.GluonCV\MxNet.GluonCV.csproj" />
     <ProjectReference Include="..\..\src\MxNet\MxNet.csproj" />
   </ItemGroup>
 
