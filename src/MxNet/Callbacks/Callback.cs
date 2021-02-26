@@ -16,7 +16,6 @@
 
 using System;
 using MxNet.Metrics;
-using MxNet.Modules;
 
 namespace MxNet.Callbacks
 {

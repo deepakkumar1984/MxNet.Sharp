@@ -2,7 +2,6 @@
 using MxNet;
 using MxNet.Gluon;
 using MxNet.Gluon.NN;
-using MxNet.GluonCV.Data.Transforms.Presets;
 using MxNet.Image;
 using NumpyDotNet;
 using OpenCvSharp;

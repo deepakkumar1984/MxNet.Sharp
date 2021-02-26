@@ -14,7 +14,9 @@
    limitations under the License.
 ******************************************************************************/
 using System;
+using System.Collections.Generic;
 using MxNet.Interop;
+using MxNet.Libs;
 using ProfileHandle = System.IntPtr;
 
 namespace MxNet
@@ -259,5 +261,12 @@ namespace MxNet
                 return new Marker(this, name);
             }
         }
+
+        public static List<List<string>> Scope(string name = "<unk>:", bool append_mode = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static ContextVar _current_scope = new ContextVar("profilerscope", @default: "<unk>:");
     }
 }

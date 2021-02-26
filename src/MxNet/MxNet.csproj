@@ -42,10 +42,13 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modules\**" />
     <Compile Remove="NN\**" />
     <Compile Remove="RNN\**" />
+    <EmbeddedResource Remove="Modules\**" />
     <EmbeddedResource Remove="NN\**" />
     <EmbeddedResource Remove="RNN\**" />
+    <None Remove="Modules\**" />
     <None Remove="NN\**" />
     <None Remove="RNN\**" />
     <None Include="..\..\icon_64.PNG">

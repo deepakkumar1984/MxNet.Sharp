@@ -28,11 +28,16 @@ namespace MxNet
     {
         private readonly CachedOpHandle handle;
 
-        public CachedOp(Symbol sym, IDictionary<string, string> flags)
+        public CachedOp(Symbol sym, IDictionary<string, string> flags, bool thread_safe = false)
         {
             handle = IntPtr.Zero;
             Logging.CHECK_EQ(NativeMethods.MXCreateCachedOpEx(sym.GetHandle(), flags.Count, flags.Keys.ToArray(),
-                flags.Values.ToArray(), out handle, false), NativeMethods.OK);
+                flags.Values.ToArray(), out handle, thread_safe), NativeMethods.OK);
+        }
+
+        public Symbol GetOptimizedSymbol()
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()

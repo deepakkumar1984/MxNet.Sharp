@@ -12,6 +12,11 @@ namespace MxNet._ffi
         {
             throw new NotImplementedException();
         }
+
+        public static IntPtr InitHandleConstructor(FunctionBase fconstructor, params object[] args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class FunctionBase : IDisposable
