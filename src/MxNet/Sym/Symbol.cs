@@ -142,9 +142,9 @@ namespace MxNet
         #region Methods
 
         public Executor Bind(Context context,
-            NDArrayList argArrays,
-            NDArrayList gradArrays,
-            IList<OpGradReq> gradReqs,
+            NDArrayDict argArrays,
+            NDArrayDict gradArrays,
+            Dictionary<string, OpGradReq> gradReqs,
             NDArrayList auxArrays)
         {
             return new Executor(this,
@@ -152,16 +152,15 @@ namespace MxNet
                 argArrays,
                 gradArrays,
                 gradReqs,
-                auxArrays,
-                new Dictionary<string, Context>());
+                auxArrays);
         }
 
         public Executor Bind(Context context,
-            NDArrayList argArrays,
-            NDArrayList gradArrays,
-            IList<OpGradReq> gradReqs,
+            NDArrayDict argArrays,
+            NDArrayDict gradArrays,
+            Dictionary<string, OpGradReq> gradReqs,
             NDArrayList auxArrays,
-            IDictionary<string, Context> groupToCtx)
+            NDArrayDict aux_states)
         {
             return new Executor(this,
                 context,
@@ -169,16 +168,16 @@ namespace MxNet
                 gradArrays,
                 gradReqs,
                 auxArrays,
-                groupToCtx,
+                aux_states,
                 null);
         }
 
         public Executor Bind(Context context,
-            NDArrayList argArrays,
-            NDArrayList gradArrays,
-            IList<OpGradReq> gradReqs,
+            NDArrayDict argArrays,
+            NDArrayDict gradArrays,
+            Dictionary<string, OpGradReq> gradReqs,
             NDArrayList auxArrays,
-            IDictionary<string, Context> groupToCtx,
+            NDArrayDict aux_states,
             Executor sharedExec)
         {
             if (context == null)
@@ -191,8 +190,6 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(gradReqs));
             if (auxArrays == null)
                 throw new ArgumentNullException(nameof(auxArrays));
-            if (groupToCtx == null)
-                throw new ArgumentNullException(nameof(groupToCtx));
 
             return new Executor(this,
                 context,
@@ -200,7 +197,7 @@ namespace MxNet
                 gradArrays,
                 gradReqs,
                 auxArrays,
-                groupToCtx,
+                aux_states,
                 sharedExec);
         }
 
@@ -762,7 +759,7 @@ namespace MxNet
             return new Symbol(handle);
         }
 
-        public static Symbol LoadJSON(string json)
+        public static Symbol FromJSON(string json)
         {
             Logging.CHECK_EQ(NativeMethods.MXSymbolCreateFromJSON(json, out var handle), NativeMethods.OK);
             return new Symbol(handle);
@@ -798,140 +795,18 @@ namespace MxNet
 
         public Executor SimpleBind(Context ctx, Dictionary<string, OpGradReq> grad_req = null, Dictionary<string, DType> type_dict = null, Dictionary<string, StorageStype> stype_dict = null, Dictionary<string, Context> group2ctx = null, string[] shared_arg_names = null, Executor shared_exec = null, NDArrayDict shared_buffer = null, DataDesc[] kwargs = null)
         {
-            int num_provided_arg_types = 0;
-            string[] provided_arg_type_names = null;
-            int[] provided_arg_type_data = null;
-            if (type_dict != null)
-            {
-                provided_arg_type_names = type_dict.Keys.ToArray();
-                provided_arg_type_data = type_dict.Values.Select(x => x.Index).ToArray();
-                num_provided_arg_types = type_dict.Count;
-            }
-
-            int num_provided_arg_stypes = 0;
-            string[] provided_arg_stype_names = null;
-            int[] provided_arg_stype_data = null;
-            if (stype_dict != null)
-            {
-                provided_arg_stype_names = stype_dict.Keys.ToArray();
-                provided_arg_stype_data = stype_dict.Values.Select(x => (int)x).ToArray();
-                num_provided_arg_stypes = stype_dict.Count;
-            }
-
-            List<int> provided_arg_shape_data = new List<int>();
-            List<int> provided_arg_shape_idx = new List<int>() { 0 };
-            List<string> provided_arg_shape_names = new List<string>();
-            if (kwargs != null)
-            {
-                foreach (var desc in kwargs)
-                {
-                    provided_arg_shape_names.Add(desc.Name);
-                    provided_arg_shape_data.AddRange(desc.Shape.Data.Where(x => x > 0).ToList());
-                    provided_arg_shape_idx.Add(provided_arg_shape_data.Count);
-                }
-            }
-
-            int provided_req_type_list_len = 0;
-            string[] provided_grad_req_names = new string[0];
-            string[] provided_grad_req_types = new string[0];
-            if (grad_req != null)
-            {
-                provided_grad_req_names = grad_req.Keys.ToArray();
-                provided_grad_req_types = grad_req.Values.Select(x => Enum.GetName(x.GetType(), x).ToLower()).ToArray();
-                provided_req_type_list_len = grad_req.Count;
-            }
-
-            int num_ctx_map_keys = 0;
-            string[] ctx_map_keys = new string[0];
-            int[] ctx_map_dev_types = new int[0];
-            int[] ctx_map_dev_ids = new int[0];
-            if (group2ctx != null)
-            {
-                ctx_map_keys = group2ctx.Keys.ToArray();
-                ctx_map_dev_types = group2ctx.Values.Select(x => (int)x.GetDeviceType()).ToArray();
-                ctx_map_dev_ids = group2ctx.Values.Select(x => x.GetDeviceId()).ToArray();
-                num_ctx_map_keys = group2ctx.Count;
-            }
-
-            string[] shared_arg_name_list = new string[0];
-            if (shared_arg_names != null)
-                shared_arg_name_list = shared_arg_names;
-
-            unsafe
-            {
-                int shared_start = -1;
-                int shared_buffer_len = shared_start;
-                string[] shared_buffer_names = null;
-                IntPtr[] shared_buffer_handles = null;
-                if (shared_buffer != null && shared_buffer.Count > 0)
-                {
-                    shared_buffer_len = shared_buffer.Count;
-                    shared_buffer_names = shared_buffer.Keys;
-                    shared_buffer_handles = shared_buffer.Values.Handles;
-                }
-
-                var shared_exec_handle = shared_exec != null ? shared_exec.Handle : new ExecutorHandle();
-
-                char** updated_shared_buffer_names;
-                SymbolHandle* updated_shared_buffer_handles;
-                int num_in_args;
-                SymbolHandle* in_arg_handles;
-                SymbolHandle* arg_grad_handles;
-                SymbolHandle* aux_state_handles;
-                ExecutorHandle exe_handle;
-                int num_aux_states;
-
-                Logging.CHECK_EQ(NativeMethods.MXExecutorSimpleBindEx(NativePtr, (int)ctx.GetDeviceType(), ctx.GetDeviceId(), num_ctx_map_keys, ctx_map_keys,
-                                                    ctx_map_dev_types, ctx_map_dev_ids, provided_req_type_list_len, provided_grad_req_names, provided_grad_req_types,
-                                                    provided_arg_shape_names.Count, provided_arg_shape_names.ToArray(), provided_arg_shape_data.ToArray(),
-                                                    provided_arg_shape_idx.ToArray(), num_provided_arg_types, provided_arg_type_names, provided_arg_type_data,
-                                                    num_provided_arg_stypes, provided_arg_stype_names, provided_arg_stype_data, shared_arg_name_list.Length,
-                                                    shared_arg_name_list, &shared_buffer_len, shared_buffer_names, shared_buffer_handles, &updated_shared_buffer_names,
-                                                    &updated_shared_buffer_handles, &num_in_args, &in_arg_handles, &arg_grad_handles,
-                                                    &num_aux_states, &aux_state_handles, shared_exec_handle, &exe_handle), NativeMethods.OK);
-
-                if (shared_buffer != null && shared_buffer.Count > 0)
-                {
-                    int l = shared_buffer_len;
-                    for (int i = 0; i < l; i++)
-                    {
-                        string k = new string(updated_shared_buffer_names[i]);
-                        NDArray v = new NDArray(updated_shared_buffer_handles[i]);
-                        shared_buffer[k] = v;
-                    }
-                }
-
-                NDArrayList arg_arrays = new NDArrayList();
-                for (int i = 0; i < num_in_args; i++)
-                {
-                    arg_arrays.Add(new NDArray(in_arg_handles[i]));
-                }
-
-                NDArrayList grad_arrays = new NDArrayList();
-                for (int i = 0; i < num_in_args; i++)
-                {
-                    if (arg_grad_handles[i] == IntPtr.Zero)
-                        continue;
-                    grad_arrays.Add(new NDArray(arg_grad_handles[i]));
-                }
-
-                NDArrayList aux_arrays = new NDArrayList();
-                for (int i = 0; i < num_aux_states; i++)
-                {
-                    aux_arrays.Add(new NDArray(aux_state_handles[i]));
-                }
-
-                var executor = new Executor(exe_handle, ctx, grad_req.Values.ToList(), group2ctx);
-                executor.ArgmentArrays = arg_arrays;
-                executor.GradientArrays = grad_arrays;
-                executor.AuxiliaryArrays = aux_arrays;
-                executor._Symbol = this;
-                return executor;
-            }
+            throw new NotImplementedException();
         }
 
-        public string ToJSON()
+        public string ToJSON(bool remove_amp_cast = true)
         {
+            if (remove_amp_cast)
+            {
+                Logging.CHECK_EQ(NativeMethods.MXSymbolRemoveAmpCast(this.GetHandle(), out var handle), NativeMethods.OK);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToJSON(handle, out var outJson1), NativeMethods.OK);
+                return Marshal.PtrToStringAnsi(outJson1);
+            }
+
             Logging.CHECK_EQ(NativeMethods.MXSymbolSaveToJSON(GetHandle(), out var outJson), NativeMethods.OK);
             return Marshal.PtrToStringAnsi(outJson);
         }
@@ -943,7 +818,7 @@ namespace MxNet
 
         public static Symbol Var(string name, Dictionary<string, string> attr = null, Shape shape = null,
             float? lr_mult = null, float? wd_mult = null,
-            DType dtype = null, Initializer init = null, StorageStype? stype = null)
+            DType dtype = null, Initializer init = null, StorageStype? stype = null, string profiler_scope = null)
         {
             Logging.CHECK_EQ(NativeMethods.MXSymbolCreateVariable(name, out var handle), NativeMethods.OK);
             var ret = new Symbol(handle);
@@ -966,6 +841,15 @@ namespace MxNet
             {
                 var init_string = init.Dumps();
                 attr.Add("__init__", init_string);
+            }
+
+            if (profiler_scope != null)
+            {
+                attr["__profiler_scope__"] = profiler_scope;
+            }
+            else
+            {
+                attr["__profiler_scope__"] = Profiler._current_scope.Get().ToString();
             }
 
             if (stype.HasValue)
@@ -1103,6 +987,252 @@ namespace MxNet
             //}
 
             return Reshape(new Shape(shape));
+        }
+
+        public Symbol AsNPArray()
+        {
+            NativeMethods.MXShallowCopySymbol(this.GetHandle(), out SymbolHandle hdl);
+            return new Symbol(hdl);
+        }
+
+        // Returns self. For the convenience of conversion between legacy and np symbols.
+        public Symbol AsNDArray()
+        {
+            return this;
+        }
+
+        public Symbol GetInputs()
+        {
+            NativeMethods.MXSymbolGetInputs(this.GetHandle(), out SymbolHandle handle);
+            return new Symbol(handle);
+        }
+
+        private (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayDict args, string[] arg_names, bool allow_missing)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Symbol OptimizeFor(
+                string backend,
+                NDArrayDict args = null,
+                NDArrayDict aux = null,
+                Context ctx = null,
+                Dictionary<string, Shape> shape_dict = null,
+                Dictionary<string, DType> type_dict = null,
+                Dictionary<string, StorageStype> stype_dict = null,
+                bool skip_infer = false)
+        {
+            //IntPtr[] aux_handle;
+            //NDArrayList aux_;
+            //IntPtr[] args_handle;
+            //NDArrayList args_;
+
+            //if (args == null || args.Count == 0)
+            //{
+            //    args_ = args.Values.ToArray();
+            //    args_handle = args_.Handles;
+            //}
+            //else
+            //{
+            //    var _tup_1 = this.GetNDArrayInputs("args", args, this.ListArguments().ToArray(), true);
+            //    args_handle = _tup_1.Item1;
+            //    args_ = _tup_1.Item2;
+            //}
+
+            //if (aux == null || aux.Count == 0)
+            //{
+            //    aux_ = new NDArrayList();
+            //    aux_handle = aux_.Handles;
+            //}
+            //else
+            //{
+            //    var _tup_2 = this.GetNDArrayInputs("aux_states", aux, this.ListAuxiliaryStates().ToArray(), true);
+            //    aux_handle = _tup_2.Item1;
+            //    aux_ = _tup_2.Item2;
+            //}
+            //if (ctx == null)
+            //{
+            //    ctx = Context.CurrentContext;
+            //}
+
+            //unsafe
+            //{
+            //    var num_input_shapes = 0;
+            //    char** input_shape_names;
+            //    int** input_shape_data;
+            //    int input_shape_idx;
+            //    if (shape_dict != null)
+            //    {
+            //        input_shape_names = new List<object>();
+            //        input_shape_data = new List<object>();
+            //        input_shape_idx = new List<int> {
+            //            0
+            //        };
+            //        foreach (var _tup_3 in shape_dict.items())
+            //        {
+            //            k = _tup_3.Item1;
+            //            v = _tup_3.Item2;
+            //            if (v is tuple || v is list)
+            //            {
+            //                input_shape_names.append(k);
+            //                input_shape_data.extend(v);
+            //                input_shape_idx.append(input_shape_data.Count);
+            //            }
+            //            else
+            //            {
+            //                throw new ValueError(v.ToString() + " has to be a tuple or list.");
+            //            }
+            //        }
+            //        num_input_shapes = mx_uint(input_shape_names.Count);
+            //        input_shape_names = c_str_array(input_shape_names);
+            //        input_shape_data = c_array_buf(mx_int64, new array("q", input_shape_data));
+            //        input_shape_idx = c_array_buf(mx_uint, new array("i", input_shape_idx));
+            //    }
+            //    // parse input data types dict
+            //    var num_input_types = 0;
+            //    var input_type_names = ctypes.POINTER(ctypes.c_char_p)();
+            //    var input_type_data = ctypes.POINTER(mx_uint)();
+            //    if (type_dict != null)
+            //    {
+            //        input_type_names = new List<object>();
+            //        input_type_data = new List<object>();
+            //        foreach (var _tup_4 in type_dict.items())
+            //        {
+            //            k = _tup_4.Item1;
+            //            v = _tup_4.Item2;
+            //            v = _numpy.dtype(v).type;
+            //            if (_DTYPE_NP_TO_MX.Contains(v))
+            //            {
+            //                input_type_names.append(k);
+            //                input_type_data.append(_DTYPE_NP_TO_MX[v]);
+            //            }
+            //            else
+            //            {
+            //                throw new ValueError(v.ToString() + " is not a MXNet type.");
+            //            }
+            //        }
+            //        num_input_types = mx_uint(input_type_names.Count);
+            //        input_type_names = c_str_array(input_type_names);
+            //        input_type_data = c_array_buf(ctypes.c_int, new array("i", input_type_data));
+            //    }
+            //    // parse input data storage types dict
+            //    var num_input_stypes = 0;
+            //    // provided storage type argument names
+            //    var input_stype_names = ctypes.POINTER(ctypes.c_char_p)();
+            //    var input_stype_data = ctypes.POINTER(mx_uint)();
+            //    if (stype_dict != null)
+            //    {
+            //        input_stype_names = new List<object>();
+            //        input_stype_data = new List<object>();
+            //        foreach (var _tup_5 in stype_dict.items())
+            //        {
+            //            k = _tup_5.Item1;
+            //            v = _tup_5.Item2;
+            //            if (_STORAGE_TYPE_STR_TO_ID.Contains(v))
+            //            {
+            //                input_stype_names.append(k);
+            //                input_stype_data.append(_STORAGE_TYPE_STR_TO_ID[v]);
+            //            }
+            //            else
+            //            {
+            //                throw new ValueError(v.ToString() + " is not a MXNet storage type.");
+            //            }
+            //        }
+            //        num_input_stypes = mx_uint(input_stype_names.Count);
+            //        input_stype_names = c_str_array(input_stype_names);
+            //        input_stype_data = c_array_buf(ctypes.c_int, new array("i", input_stype_data));
+            //    }
+
+            //    var new_args_size = ctypes.c_uint();
+            //    var new_arg_names = ctypes.POINTER(ctypes.c_char_p)();
+            //    var new_args_handle = ctypes.POINTER(NDArrayHandle)();
+            //    var new_aux_size = ctypes.c_uint();
+            //    var new_aux_names = ctypes.POINTER(ctypes.c_char_p)();
+            //    var new_aux_handle = ctypes.POINTER(NDArrayHandle)();
+            //    var key_list = new List<object>();
+            //    var val_list = new List<object>();
+            //    foreach (var _tup_6 in kwargs.items())
+            //    {
+            //        var key = _tup_6.Item1;
+            //        var val = _tup_6.Item2;
+            //        key_list.append(key);
+            //        val_list.append(val.ToString());
+            //    }
+            //    check_call(_LIB.MXOptimizeForBackend(this.handle, c_str(backend), ctypes.c_int(ctx.device_typeid), ctypes.byref(@out), mx_uint(args_.Count), args_handle, mx_uint(aux_.Count), aux_handle, mx_uint(key_list.Count), c_str_array(key_list), c_str_array(val_list), num_input_shapes, input_shape_names, input_shape_data, input_shape_idx, num_input_types, input_type_names, input_type_data, num_input_stypes, input_stype_names, input_stype_data, ctypes.c_bool(skip_infer), ctypes.byref(new_args_size), ctypes.byref(new_args_handle), ctypes.byref(new_arg_names), ctypes.byref(new_aux_size), ctypes.byref(new_aux_handle), ctypes.byref(new_aux_names)));
+            //}
+            //// parse input data shape dict
+
+            //// add new args/aux
+            //if (!(args == null))
+            //{
+            //    foreach (var i in Enumerable.Range(0, new_args_size.value))
+            //    {
+            //        args[py_str(new_arg_names[i])] = NDArray(NDArrayHandle(new_args_handle[i]));
+            //    }
+            //}
+            //else if (new_args_size.value > 0)
+            //{
+            //    throw new RuntimeError("Cannot add new args in optimize_for since args is None\n" + "Provide a dictionary to the args argument to optimize_for");
+            //}
+            //if (!(aux == null))
+            //{
+            //    foreach (var i in Enumerable.Range(0, new_aux_size.value))
+            //    {
+            //        aux[py_str(new_aux_names[i])] = NDArray(NDArrayHandle(new_aux_handle[i]));
+            //    }
+            //}
+            //else if (new_aux_size.value > 0)
+            //{
+            //    throw new RuntimeError("Cannot add new aux in optimize_for since aux is None\n" + "Provide a dictionary to the aux argument to optimize_for");
+            //}
+            //var new_sym = new Symbol(@out);
+            //var arg_names = this.list_arguments();
+            //new_arg_names = new_sym.list_arguments();
+            //var deleted_arg_names = new HashSet<object>((from item in arg_names
+            //                                             where !new HashSet<object>(new_arg_names).Contains(item)
+            //                                             select item).ToList());
+            //if (deleted_arg_names.Count > 0)
+            //{
+            //    if (args != null)
+            //    {
+            //        foreach (var a_n in deleted_arg_names)
+            //        {
+            //            if (args.Contains(a_n))
+            //            {
+            //                args.pop(a_n);
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        warnings.warn("A param was deleted during optimization, but no args dictionary was provided.\n" + "Please ensure that your model weights match the newly optimized model.");
+            //    }
+            //}
+            //var aux_names = this.list_auxiliary_states();
+            //new_aux_names = new_sym.list_auxiliary_states();
+            //var deleted_aux_names = new HashSet<object>((from item in aux_names
+            //                                             where !new HashSet<object>(new_aux_names).Contains(item)
+            //                                             select item).ToList());
+            //if (deleted_aux_names.Count > 0)
+            //{
+            //    if (aux != null)
+            //    {
+            //        foreach (var a_n in deleted_aux_names)
+            //        {
+            //            if (aux.Contains(a_n))
+            //            {
+            //                aux.pop(a_n);
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        warnings.warn("A param was deleted during optimization, but no args dictionary was provided.\n" + "Please ensure that your model weights match the newly optimized model.");
+            //    }
+            //}
+            //return new_sym;
+
+            throw new NotImplementedException();
         }
 
         #region Overrides

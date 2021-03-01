@@ -28,9 +28,11 @@ namespace MxNet
     {
         private readonly CachedOpHandle handle;
 
-        public CachedOp(Symbol sym, IDictionary<string, string> flags, bool thread_safe = false)
+        public CachedOp(Symbol sym, IDictionary<string, string> flags = null, bool thread_safe = false)
         {
             handle = IntPtr.Zero;
+            if (flags == null)
+                flags = new Dictionary<string, string>();
             Logging.CHECK_EQ(NativeMethods.MXCreateCachedOpEx(sym.GetHandle(), flags.Count, flags.Keys.ToArray(),
                 flags.Values.ToArray(), out handle, thread_safe), NativeMethods.OK);
         }

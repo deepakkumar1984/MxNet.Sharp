@@ -10,5 +10,10 @@ namespace MxNet.Libs
         {
             throw new NotImplementedException();
         }
+
+        public object Get()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

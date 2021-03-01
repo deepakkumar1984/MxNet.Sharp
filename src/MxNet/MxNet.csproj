@@ -51,6 +51,9 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
     <None Remove="Modules\**" />
     <None Remove="NN\**" />
     <None Remove="RNN\**" />
+    <Compile Remove="DataParallelExecutorGroup.cs" />
+    <Compile Remove="DataParallelExecutorManager.cs" />
+    <Compile Remove="ExecuterManager.cs" />
     <None Include="..\..\icon_64.PNG">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

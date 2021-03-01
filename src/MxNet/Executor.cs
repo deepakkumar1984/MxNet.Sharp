@@ -28,7 +28,27 @@ namespace MxNet
     {
         #region Fields
 
-        internal Symbol _Symbol;
+        public string[] _arg_names;
+
+        public NDArrayList _args;
+
+        public NDArrayDict _args_grad;
+
+        public string[] _aux_names;
+
+        public CachedOp _cached_op;
+
+        public Context _ctx;
+
+        public Dictionary<string, OpGradReq> _grad_req;
+
+        public string[] _input_names;
+
+        public string[] _output_names;
+
+        public bool _requires_grad;
+
+        public NDArrayList outputs;
 
         #endregion
 
@@ -36,111 +56,108 @@ namespace MxNet
 
         public Executor(Symbol symbol,
             Context context,
-            NDArrayList argmentArrays,
-            NDArrayList gradientArrays,
-            IList<OpGradReq> gradReqs,
+            NDArrayDict argmentArrays,
+            NDArrayDict gradientArrays,
+            Dictionary<string, OpGradReq> gradReqs,
             NDArrayList auxiliaryArrays)
             : this(symbol, context, argmentArrays, gradientArrays, gradReqs, auxiliaryArrays,
-                new Dictionary<string, Context>(), null)
+                new NDArrayDict(), null)
         {
         }
 
         public Executor(Symbol symbol,
             Context context,
-            NDArrayList argmentArrays,
-            NDArrayList gradientArrays,
-            IList<OpGradReq> gradReqs,
+            NDArrayDict argmentArrays,
+            NDArrayDict gradientArrays,
+            Dictionary<string, OpGradReq> gradReqs,
             NDArrayList auxiliaryArrays,
-            IDictionary<string, Context> groupToCtx)
-            : this(symbol, context, argmentArrays, gradientArrays, gradReqs, auxiliaryArrays, groupToCtx, null)
+            NDArrayDict aux_states)
+            : this(symbol, context, argmentArrays, gradientArrays, gradReqs, auxiliaryArrays, aux_states, null)
         {
         }
 
-        public Executor(Symbol symbol,
-            Context context,
-            NDArrayList argmentArrays,
-            NDArrayList gradientArrays,
-            IList<OpGradReq> gradReqs,
+        public Executor(Symbol sym,
+            Context ctx,
+            NDArrayDict args,
+            NDArrayDict args_grad,
+            Dictionary<string, OpGradReq> grad_req,
             NDArrayList auxiliaryArrays,
-            IDictionary<string, Context> groupToCtx,
+            NDArrayDict aux_states,
             Executor sharedExec)
         {
-            if (symbol == null)
-                throw new ArgumentNullException(nameof(symbol));
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (argmentArrays == null)
-                throw new ArgumentNullException(nameof(argmentArrays));
-            if (gradientArrays == null)
-                throw new ArgumentNullException(nameof(gradientArrays));
-            if (gradReqs == null)
-                throw new ArgumentNullException(nameof(gradReqs));
-            if (auxiliaryArrays == null)
-                throw new ArgumentNullException(nameof(auxiliaryArrays));
-            if (groupToCtx == null)
-                throw new ArgumentNullException(nameof(groupToCtx));
-
-            ArgmentArrays = argmentArrays;
-            GradientArrays = gradientArrays;
-            AuxiliaryArrays = auxiliaryArrays;
-            _Symbol = symbol;
-
-            var argHandles = argmentArrays.Select(array => array.GetHandle()).ToArray();
-            var gradHandles = gradientArrays.Select(array => array.GetHandle()).ToArray();
-            var auxHandles = auxiliaryArrays.Select(array => array.GetHandle()).ToArray();
-            var gradReqsUint = gradReqs.Select(s => (uint) s).ToArray();
-
-            var mapKeys = new string[groupToCtx.Count];
-            var devTypes = new int[groupToCtx.Count];
-            var devIds = new int[groupToCtx.Count];
-            var keys = groupToCtx.Keys.ToArray();
-            for (var index = 0; index < keys.Length; index++)
+            this.outputs = null;
+            this._input_names = sym.ListInputs().ToArray();
+            this._aux_names = sym.ListAuxiliaryStates().ToArray();
+            this._arg_names = sym.ListArguments().ToArray();
+            this._output_names = sym.ListOutputs().ToArray();
+            this._ctx = ctx;
+            this._grad_req = grad_req;
+            // grad_req
+            this._requires_grad = false;
+            foreach (var x in grad_req)
             {
-                var key = keys[index];
-                mapKeys[index] = key;
-                var value = groupToCtx[key];
-                devTypes[index] = (int) value.GetDeviceType();
-                devIds[index] = value.GetDeviceId();
+                if (this._input_names.Contains(x.Key) && x.Value != OpGradReq.Null)
+                {
+                    this._requires_grad = true;
+                }
             }
 
-            var sharedExecHandle = sharedExec?.Handle ?? IntPtr.Zero;
+            // args grad
+            this._args_grad = args_grad;
 
-            Logging.CHECK_EQ(NativeMethods.MXExecutorBindEX(symbol.GetHandle(),
-                (int) context.GetDeviceType(),
-                context.GetDeviceId(),
-                (uint) groupToCtx.Count,
-                mapKeys,
-                devTypes,
-                devIds,
-                (uint) argHandles.Length,
-                argHandles,
-                gradHandles,
-                gradReqsUint,
-                (uint) auxHandles.Length,
-                auxHandles,
-                sharedExecHandle,
-                out var handle), NativeMethods.OK);
-            Handle = handle;
+            // args
+            this._args = new NDArrayList(this._input_names.Length);
+            foreach (var x in args)
+            {
+                try
+                {
+                    var i = this._input_names.ToList().IndexOf(x.Key);
+                    this._args[i] = x.Value.ChangeContext(ctx);
+                }
+                catch (Exception)
+                {
+                    // ignore provided arg which is not present in
+                    // input_names
+                }
+            }
 
-            Outputs = new NDArrayList();
-            Logging.CHECK_EQ(NativeMethods.MXExecutorOutputs(Handle, out var outSize, out var outArray), 0);
-            var outArrayArray = InteropHelper.ToPointerArray(outArray, outSize);
-            for (uint i = 0; i < outSize; ++i)
-                Outputs.Add(new NDArray(outArrayArray[i]));
-        }
+            // aux states
+            if (aux_states != null)
+            {
+                foreach (var x in aux_states)
+                {
+                    if (this._aux_names.Contains(x.Key))
+                    {
+                        var i = this._input_names.ToList().IndexOf(x.Key);
+                        this._args[i] = x.Value.ChangeContext(ctx);
+                    }
+                }
+            }
+            // arg grad
+            if (this._args_grad != null)
+            {
+                foreach (var x in this._args_grad)
+                {
+                    try
+                    {
+                        var i = this._input_names.ToList().IndexOf(x.Key);
+                        var req = grad_req[x.Key];
 
-        public Executor(ExecutorHandle h, Context context,
-            List<OpGradReq> gradReqs,
-            Dictionary<string, Context> groupToCtx)
-        {
-            if (h == IntPtr.Zero)
-                throw new ArgumentException("Can not pass IntPtr.Zero", nameof(h));
-            Outputs = new NDArrayList();
-            Handle = h;
-            Logging.CHECK_EQ(NativeMethods.MXExecutorOutputs(Handle, out var outSize, out var outArray), 0);
-            var outArrayArray = InteropHelper.ToPointerArray(outArray, outSize);
-            for (uint i = 0; i < outSize; ++i)
-                Outputs.Add(new NDArray(outArrayArray[i]));
+                        if (req !=  OpGradReq.Null)
+                        {
+                            this._args[i].AttachGrad(req, stype: x.Value.SType);
+                             x.Value.CopyTo(this._args[i].Grad);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // ignore provided arg which is not present in
+                        // input_names
+                    }
+                }
+            }
+
+            this._cached_op = new CachedOp(sym);
         }
 
         #endregion
@@ -163,24 +180,29 @@ namespace MxNet
 
         #region Methods
 
+        public Symbol GetOptimizedSymbol()
+        {
+            return this._cached_op.GetOptimizedSymbol();
+        }
+
         public NDArrayDict ArgmentDictionary()
         {
-            return GetDictionary(_Symbol.ListArguments(), ArgmentArrays);
+            return GetDictionary(GetOptimizedSymbol().ListArguments(), ArgmentArrays);
         }
 
         public NDArrayDict GradientDictionary()
         {
-            return GetDictionary(_Symbol.ListArguments(), GradientArrays);
+            return GetDictionary(GetOptimizedSymbol().ListArguments(), GradientArrays);
         }
 
         public NDArrayDict AuxiliaryDictionary()
         {
-            return GetDictionary(_Symbol.ListAuxiliaryStates(), AuxiliaryArrays);
+            return GetDictionary(GetOptimizedSymbol().ListAuxiliaryStates(), AuxiliaryArrays);
         }
 
         public NDArrayDict OutputDictionary()
         {
-            return GetDictionary(_Symbol.ListOutputs(), Outputs);
+            return GetDictionary(GetOptimizedSymbol().ListOutputs(), Outputs);
         }
 
         public void Backward()
@@ -188,30 +210,77 @@ namespace MxNet
             Backward(new NDArrayList());
         }
 
-        public void Backward(NDArrayList headGrads)
+        public void Backward(NDArrayList out_grads = null)
         {
-            if (headGrads == null)
-                throw new ArgumentNullException(nameof(headGrads));
-
-            var tmp = headGrads.Select(d => d.GetHandle()).ToArray();
-            if (tmp.Length > 0)
-                NativeMethods.MXExecutorBackward(Handle, (uint) tmp.Length, tmp);
-            else
-                NativeMethods.MXExecutorBackward(Handle, 0, null);
-        }
-
-        public NDArrayList Forward(bool isTrain)
-        {
-            NativeMethods.MXExecutorForward(Handle, isTrain ? 1 : 0);
-            Logging.CHECK_EQ(NativeMethods.MXExecutorOutputs(Handle, out var outSize, out var outArray), 0);
-            var outArrayArray = InteropHelper.ToPointerArray(outArray, outSize);
-            for (var i = 0; i < outSize; ++i)
+            if (out_grads != null)
             {
-                Outputs[i]?.Dispose();
-                Outputs[i] = new NDArray(outArrayArray[i]);
+                out_grads = (from o in out_grads
+                             select o.ChangeContext(this._ctx)).ToList();
             }
 
-            return Outputs;
+            if (this._requires_grad)
+            {
+                if (this.outputs == null)
+                {
+                    this.Forward();
+                }
+
+                Autograd.Backward(this.outputs, head_grads: out_grads);
+
+                foreach (var x in this._args_grad)
+                {
+                    var k = x.Key;
+                    var v = x.Value;
+                    try
+                    {
+                        var i = this._input_names.ToList().IndexOf(k);
+                        if (this._args[i].Grad != null)
+                        {
+                            v = this._args[i].Grad;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // ignore provided arg grad which is not present in
+                        // input_names
+                    }
+                }
+            }
+        }
+
+        public NDArrayList Forward(bool isTrain = false, NDArrayDict kwargs = null)
+        {
+            if (kwargs != null)
+            {
+                foreach (var x in kwargs)
+                {
+                    var name = x.Key;
+                    var array = x.Value;
+                    if (this._input_names.Contains(name))
+                    {
+                        var index = this._input_names.ToList().IndexOf(name);
+                        if (this._args.Length < index)
+                        {
+                            this._args.Add(array);
+                            var req = _grad_req[name];
+                            if (req != OpGradReq.Null)
+                            {
+                                this._args[index].AttachGrad(req);
+                            }
+                        }
+                        else
+                        {
+                            this._args[index] = array;
+                        }
+                    }
+                }
+            }
+
+            using(var ag = Autograd.Record(train_mode: isTrain)) { 
+                this.outputs = this._cached_op.Call(this._args);
+            }
+            
+            return this.outputs;
         }
 
         public void CopyFromParams(NDArrayDict arg_params, NDArrayDict aux_params = null,
@@ -223,6 +292,7 @@ namespace MxNet
                 if (arg_dict.Contains(item.Key))
                 {
                     var dst = arg_dict[item.Key];
+                    //ToDo: Missing AMP cast for float16
                     item.Value.AsType(dst.DataType).CopyTo(dst);
                 }
                 else if (!allow_extra_params)
@@ -237,17 +307,13 @@ namespace MxNet
                 if (aux_dict.Contains(item.Key))
                 {
                     var dst = aux_dict[item.Key];
+                    //ToDo: Missing AMP cast for float16
                     item.Value.AsType(dst.DataType).CopyTo(dst);
                 }
                 else if (!allow_extra_params)
                 {
                     throw new Exception($"Find name \"{item.Key}\" that is not in the auxiliary states");
                 }
-        }
-
-        public Executor Reshape(bool partial_shaping = false, bool allow_up_sizing = false, DataDesc[] newShapes = null)
-        {
-            throw new NotImplementedException();
         }
 
         #region Overrids

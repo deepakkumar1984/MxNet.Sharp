@@ -167,6 +167,11 @@ namespace MxNet
                 else
                     NativeMethods.MXRandomSeedContext(seed, (int)ctx.GetDeviceType(), ctx.GetDeviceId());
             }
+
+            public static Symbol Randn(float loc = 0, float scale = 1, DType dtype = null, Shape shape = null)
+            {
+                return RandomNormal(loc, scale, shape, dtype: dtype);
+            }
         }
     }
 }

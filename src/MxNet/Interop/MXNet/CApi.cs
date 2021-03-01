@@ -1277,6 +1277,12 @@ namespace MxNet.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXDataIterGetItems(NDArrayHandle handle, out int num_output, NDArrayHandle[] output_vars);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXShallowCopySymbol(SymbolHandle handle, out SymbolHandle hdl);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSymbolGetInputs(SymbolHandle handle, out SymbolHandle hdl);
         #endregion
     }
 }
