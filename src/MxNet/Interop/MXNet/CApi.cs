@@ -182,6 +182,11 @@ namespace MxNet.Interop
             out int out_dim,
             out AtomicSymbolCreator out_pdata);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNDArrayGetShape64(NDArrayHandle handle,
+          out int out_dim,
+          out AtomicSymbolCreator out_pdata);
+
         /// <summary>
         ///     Slice the NDArray along axis 0.
         /// </summary>
@@ -204,7 +209,7 @@ namespace MxNet.Interop
             out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXNDArrayCreateFromSharedMemEx(int shared_pid, int shared_id, int[] shape,
+        public static extern int MXNDArrayCreateFromSharedMem(int shared_pid, int shared_id, int[] shape,
             int ndim, int dtype, out NDArrayHandle @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
@@ -1027,6 +1032,7 @@ namespace MxNet.Interop
             int ndim, DeviceType devType,
             int devId,
             int delayAlloc,
+            int dtype,
             out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]

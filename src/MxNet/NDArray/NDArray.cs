@@ -25,6 +25,7 @@ using mx_float = System.Single;
 using size_t = System.UInt64;
 using System.IO.Compression;
 using System.IO;
+using System.Diagnostics;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
@@ -34,6 +35,7 @@ namespace MxNet
         #region Fields
 
         internal NDBlob _Blob;
+        bool? _INT64_TENSOR_SIZE_ENABLED = null;
 
         public Context Context
         {
@@ -43,7 +45,7 @@ namespace MxNet
             }
         }
 
-        public Shape Shape => new Shape(GetShape());
+        public Shape Shape => new Shape(GetShape().ToArray());
 
         public DType DataType => DType.GetType(GetDType());
 
@@ -90,15 +92,37 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.Float32;
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
-                shape.Dimension,
-                ctx.GetDeviceType(),
-                ctx.GetDeviceId(),
-                delayAlloc.ToInt32(),
-                dtype.Index,
-                out var @out), NativeMethods.OK);
-            NativePtr = @out;
-            _Blob = new NDBlob(@out);
+            if (Int64Enabled())
+            {
+                Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
+                       shape.Dimension,
+                       ctx.GetDeviceType(),
+                       ctx.GetDeviceId(),
+                       false.ToInt32(),
+                       dtype.Index,
+                       out var @out), NativeMethods.OK);
+                NativePtr = @out;
+                _Blob = new NDBlob(@out);
+            }
+            else
+            {
+                if (shape.Size > Int32.MaxValue)
+                {
+                    throw new Exception("[_new_alloc_handle] Size of tensor you are trying to allocate is " + "larger than 2^31 elements. Please build with flag " + "USE_INT64_TENSOR_SIZE=1");
+                }
+
+                Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data.ToArray(),
+                       shape.Dimension,
+                       ctx.GetDeviceType(),
+                       ctx.GetDeviceId(),
+                       false.ToInt32(),
+                       dtype.Index,
+                       out var @out), NativeMethods.OK);
+                NativePtr = @out;
+                _Blob = new NDBlob(@out);
+            }
+
+            
         }
 
         public NDArray(Array data, Shape shape, Context ctx = null, DType dtype = null)
@@ -114,13 +138,31 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.InferDtype(data);
 
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
-                   shape.Dimension,
-                   ctx.GetDeviceType(),
-                   ctx.GetDeviceId(),
-                   false.ToInt32(),
-                   dtype.Index,
-                   out @out), NativeMethods.OK);
+            if (Int64Enabled())
+            {
+                Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
+                       shape.Dimension,
+                       ctx.GetDeviceType(),
+                       ctx.GetDeviceId(),
+                       false.ToInt32(),
+                       dtype.Index,
+                       out @out), NativeMethods.OK);
+            }
+            else
+            {
+                if (shape.Size > Int32.MaxValue)
+                {
+                    throw new Exception("[_new_alloc_handle] Size of tensor you are trying to allocate is " + "larger than 2^31 elements. Please build with flag " + "USE_INT64_TENSOR_SIZE=1");
+                }
+
+                Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data.ToArray(),
+                       shape.Dimension,
+                       ctx.GetDeviceType(),
+                       ctx.GetDeviceId(),
+                       false.ToInt32(),
+                       dtype.Index,
+                       out @out), NativeMethods.OK);
+            }
 
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint) shape.Size);
@@ -142,7 +184,7 @@ namespace MxNet
                 shapeData.Add(data.GetLength(i));
             }
 
-            var shape = new Shape(shapeData);
+            var shape = new Shape(shapeData.ToArray());
 
             if(dtype == null)
                 dtype = DType.InferDtype(data);
@@ -153,13 +195,31 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(shape));
 
             NDArrayHandle @out = new NDArrayHandle();
-            Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
-                    shape.Dimension,
-                    ctx.GetDeviceType(),
-                    ctx.GetDeviceId(),
-                    false.ToInt32(),
-                    dtype.Index,
-                    out @out), NativeMethods.OK);
+            if (Int64Enabled())
+            {
+                Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
+                       shape.Dimension,
+                       ctx.GetDeviceType(),
+                       ctx.GetDeviceId(),
+                       false.ToInt32(),
+                       dtype.Index,
+                       out @out), NativeMethods.OK);
+            }
+            else
+            {
+                if (shape.Size > Int32.MaxValue)
+                {
+                    throw new Exception("[_new_alloc_handle] Size of tensor you are trying to allocate is " + "larger than 2^31 elements. Please build with flag " + "USE_INT64_TENSOR_SIZE=1");
+                }
+
+                Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate(shape.Data.ToArray(),
+                       shape.Dimension,
+                       ctx.GetDeviceType(),
+                       ctx.GetDeviceId(),
+                       false.ToInt32(),
+                       dtype.Index,
+                       out @out), NativeMethods.OK);
+            }
 
             var datagch = GCHandle.Alloc(data, GCHandleType.Pinned);
             NativeMethods.MXNDArraySyncCopyFromCPU(@out, datagch.AddrOfPinnedObject(), (uint)shape.Size);
@@ -169,15 +229,25 @@ namespace MxNet
             _Blob = new NDBlob(@out);
         }
 
+        private bool Int64Enabled()
+        {
+            if (_INT64_TENSOR_SIZE_ENABLED == null)
+            {
+                _INT64_TENSOR_SIZE_ENABLED = Runtime.FeatureList().IsEnabled("INT64_TENSOR_SIZE");
+            }
+
+            return _INT64_TENSOR_SIZE_ENABLED.Value;
+        }
+
         #endregion
 
         #region Properties
 
-        public virtual int Size
+        public virtual long Size
         {
             get
             {
-                var ret = 1;
+                long ret = 1;
                 var shape = GetShape();
                 for (var i = 0; i < shape.Count; i++)
                     ret *= shape[i];
@@ -273,8 +343,16 @@ namespace MxNet
 
         public IList<int> GetShape()
         {
-            NativeMethods.MXNDArrayGetShape(NativePtr, out var outDim, out var outData);
-            return InteropHelper.ToInt32Array(outData, outDim);
+            if (Int64Enabled())
+            {
+                NativeMethods.MXNDArrayGetShape(NativePtr, out var outDim, out var outData);
+                return InteropHelper.ToInt32Array(outData, outDim);
+            }
+            else
+            {
+                NativeMethods.MXNDArrayGetShape64(NativePtr, out var outDim, out var outData);
+                return InteropHelper.ToInt64Array(outData, outDim).Select(x => Convert.ToInt32(x)).ToList();
+            }
         }
 
         public static NDArrayDict LoadToMap(string fileName)
@@ -500,8 +578,8 @@ namespace MxNet
                     }
                     else if (dtype == DType.UInt8)
                     {
-                        var data = reader.ReadBytes(shape.Size);
-                        
+                        var data = reader.ReadBytes(Convert.ToInt32(shape.Size));
+
                         var x = nd.Array(data.Select(i => (float)i).ToArray()).Reshape(shape).AsType(dtype);
                         result.Add(x);
                     }
@@ -535,7 +613,7 @@ namespace MxNet
 
         public static NDArray NewFromSharedMem(int shared_pid, int shared_id, Shape shape, DType dtype)
         {
-            NativeMethods.MXNDArrayCreateFromSharedMemEx(shared_pid, shared_id, shape.Data.ToArray(), shape.Dimension,
+            NativeMethods.MXNDArrayCreateFromSharedMem(shared_pid, shared_id, shape.Data.ToArray(), shape.Dimension,
                 dtype.Index, out var handle);
             return new NDArray(handle);
         }
@@ -580,6 +658,16 @@ namespace MxNet
             Logging.CHECK_EQ(NativeMethods.MXNDArraySlice(GetHandle(), begin, end.Value, out var handle),
                 NativeMethods.OK);
             return new NDArray(handle);
+        }
+
+        public NDArray SliceAssignScalar(double value, Shape begin, Shape end, Shape step)
+        {
+            return nd.SliceAssignScalar(this, scalar: value, begin: begin, end: end, step: step);
+        }
+
+        public NDArray SliceAssign(NDArray rhs, Shape begin, Shape end, Shape step)
+        {
+            return nd.SliceAssign(this, rhs: rhs, begin: begin, end: end, step: step);
         }
 
         public void SyncCopyFromCPU(Array data, ulong size)
@@ -958,12 +1046,12 @@ namespace MxNet
         public virtual NDArray Reshape(params int[] shape)
         {
             var targetShape = new int[shape.Length];
-            var prod = -1 * shape.Aggregate(1, (a, b) => a * b);
+            long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
             for (var i = 0; i < targetShape.Length; i++)
                 if (shape[i] != -1)
                     targetShape[i] = shape[i];
                 else
-                    targetShape[i] = Size / (int)prod;
+                    targetShape[i] = Convert.ToInt32(Size / prod);
 
             return Reshape(new Shape(targetShape));
 
@@ -977,9 +1065,72 @@ namespace MxNet
             return Reshape(new Shape(n, m));
         }
 
-        public NDArray Squeeze(int axis)
+        public NDArray Squeeze(int? axis, bool inplace = false)
         {
-            return nd.Squeeze(this, new Shape(axis));
+            if (!inplace)
+            {
+                return nd.Squeeze(this, new Shape(axis));
+            }
+            else
+            {
+                var new_shape = this.Shape.Data;
+                
+                if (axis.HasValue)
+                {
+                    var axes = new List<int>() { axis.Value };
+                    Debug.Assert(axes.Count == new HashSet<int>(axes).Count, "axis contains duplicate which is not allowed.");
+                    var resolved_axes = (from i in axes
+                                         select i >= 0 ? i : i + this.Shape.Dimension).ToList();
+
+                    for (int i = 0; i < axes.Count; i++)
+                    {
+
+                    }
+
+                    Enumerable.Zip(axes, resolved_axes, (arg_axis, actual_axis) => 
+                    {
+                        Debug.Assert((-new_shape.Count <= arg_axis) && (arg_axis < new_shape.Count), $"axis {arg_axis} is out of range for {new_shape.Count}d array");
+                        var axis_size = new_shape[actual_axis];
+                        Debug.Assert(axis_size == 1, $"Squeeze target axis {arg_axis} must be size 1, got {axis_size}.");
+                        return axes;
+                    });
+
+                    foreach (var i in resolved_axes.OrderByDescending(_p_1 => _p_1).ToList())
+                    {
+                        new_shape.Remove(i);
+                    }
+                }
+                else
+                {
+                    foreach (var i in Enumerable.Range(0, new_shape.Count).Reverse())
+                    {
+                        if (new_shape[i] == 1)
+                        {
+                            new_shape.Remove(i);
+                        }
+                    }
+                }
+
+                if (new_shape.Count == 0)
+                {
+                    new_shape.Add(1);
+                }
+
+                return this.Reshape(new Shape(new_shape));
+            }
+        }
+
+        public static void CheckBooleanArrayDimension(Shape array_shape, int axis, Shape bool_shape)
+        {
+            foreach (var _tup_1 in bool_shape.Data.Select((_p_1, _p_2) => Tuple.Create(_p_2, _p_1)))
+            {
+                var i = _tup_1.Item1;
+                var val = _tup_1.Item2;
+                if (array_shape[axis + i] != val)
+                {
+                    throw new Exception($"boolean index did not match indexed array along axis {axis + i}; size is {array_shape[axis + i]} but corresponding boolean size is {val}");
+                }
+            }
         }
 
         #endregion

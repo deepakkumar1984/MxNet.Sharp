@@ -109,11 +109,11 @@ namespace MxNet
 
         public int Dimension { get; private set; }
 
-        public int Size
+        public long Size
         {
             get
             {
-                var size = 1;
+                long size = 1;
                 for (var index = 0; index < Dimension; index++)
                     size *= Data[index];
 

@@ -61,6 +61,19 @@ namespace MxNet
             }
         }
 
+        public static long[] ToInt64Array(IntPtr ptr, int count)
+        {
+            unsafe
+            {
+                var array = new long[count];
+                var p = (int*)ptr;
+                for (var i = 0; i < count; i++)
+                    array[i] = p[i];
+
+                return array;
+            }
+        }
+
         public static ulong[] ToUInt64Array(IntPtr ptr, uint count)
         {
             unsafe

@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace MxNet
 {
@@ -672,6 +673,11 @@ namespace MxNet
         /// <returns>returns new NDArray</returns>
         public NDArray ToSType(StorageStype stype)
         {
+            if (stype ==  StorageStype.Csr && this.Shape.Dimension != 2)
+            {
+                throw new System.Exception("To convert to a CSR, the NDArray should be 2 Dimensional. Current shape is " + this.Shape);
+            }
+
             if (this.SType == stype)
                 return this;
 
@@ -1159,6 +1165,7 @@ namespace MxNet
         /// </summary>
         /// <param name="data">The input array.</param>
         /// <returns>returns new NDArray</returns>
+       
         public NDArray Fix()
         {
             return new Operator("fix")
@@ -1981,12 +1988,27 @@ namespace MxNet
         ///     the range of the inserted axis is `[-ndim, ndim]`
         /// </param>
         /// <returns>returns new NDArray</returns>
-        public NDArray ExpandDims(int axis)
+        public NDArray ExpandDims(int axis, bool inPlace = false)
         {
-            return new Operator("expand_dims")
-                .SetParam("axis", axis)
-                .SetInput("data", this)
-                .Invoke();
+            if (!inPlace)
+            {
+                return new Operator("expand_dims")
+                    .SetParam("axis", axis)
+                    .SetInput("data", this)
+                    .Invoke();
+            }
+            else
+            {
+                var new_shape = this.Shape.Data;
+                Debug.Assert((-new_shape.Count - 1 <= axis) && (axis <= new_shape.Count), $"axis {axis} is out of range for {new_shape.Count}d array");
+                if (axis < 0)
+                {
+                    axis += new_shape.Count + 1;
+                }
+
+                new_shape.Insert(axis, 1);
+                return this.Reshape(new Shape(new_shape));
+            }
         }
 
         /// <summary>
@@ -2619,6 +2641,26 @@ namespace MxNet
                 .SetParam("keepdims", keepdims)
                 .SetParam("exclude", exclude)
                 .SetInput("data", this)
+                .Invoke();
+        }
+
+        public NDArray Fix(int value)
+        {
+            return new Operator("_full")
+                .SetParam("shape", this.Shape)
+                .SetParam("value", value)
+                .SetParam("ctx", this.Context)
+                .SetParam("dtype", this.DataType.Name)
+                .Invoke();
+        }
+
+        public NDArray ScatterSetNd(NDArray value_nd, NDArray indices)
+        {
+            return new Operator("_full")
+                .SetInput("lhs", this)
+                .SetInput("rhs", value_nd)
+                .SetInput("indices", indices)
+                .SetParam("shape", this.Shape)
                 .Invoke();
         }
     }

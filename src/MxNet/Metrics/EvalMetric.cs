@@ -20,12 +20,12 @@ namespace MxNet.Metrics
 {
     public abstract class EvalMetric : Base
     {
-        internal int global_num_inst;
+        internal long global_num_inst;
         internal float global_sum_metric;
 
         internal bool hasGlobalStats;
 
-        internal int num_inst;
+        internal long num_inst;
         internal float sum_metric;
 
         public EvalMetric(string name, string[] output_names = null, string[] label_names = null,

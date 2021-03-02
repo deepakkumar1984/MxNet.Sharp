@@ -173,9 +173,9 @@ namespace MxNet.Gluon
             {
                 InferShape(args);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception("Deferred initialization failed because shape cannot be inferred");
+                throw new Exception("Deferred initialization failed because shape cannot be inferred: " + ex.Message);
             }
         }
 

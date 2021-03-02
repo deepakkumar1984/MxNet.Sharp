@@ -33,9 +33,9 @@ namespace MxNet.Metrics
         public override void Update(NDArray labels, NDArray preds)
         {
             float loss = 0;
-            var num = 0;
+            long num = 0;
 
-            labels = labels.AsInContext(preds.Context).Reshape(preds.Size);
+            labels = labels.AsInContext(preds.Context).Reshape(Convert.ToInt32(preds.Size));
             preds = nd.Pick(preds, labels.AsType(DType.Int32), Axis);
             if (IgnoreLabel.HasValue)
             {

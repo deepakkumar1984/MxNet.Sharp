@@ -40,7 +40,7 @@ namespace MxNet.Sparse
 
         internal int NumAux => _STORAGE_AUX_TYPES[SType].Length;
 
-        public override int Size => throw new NotSupportedException("Not supported for Sparse NDArray");
+        public override long Size => throw new NotSupportedException("Not supported for Sparse NDArray");
 
         public override void SyncCopyFromCPU(Array data)
         {

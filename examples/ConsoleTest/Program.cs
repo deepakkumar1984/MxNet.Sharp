@@ -12,7 +12,7 @@ namespace ConsoleTest
     {
         private static void Main(string[] args)
         {
-            var arrays = NDArray.LoadNpz(@"C:\Users\deepa\Downloads\imdb.npz");
+            NDArray x = new NDArray(new float[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
             Console.ReadLine();
         }
     }

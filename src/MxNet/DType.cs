@@ -29,6 +29,11 @@ namespace MxNet
         public static readonly DType Int32 = new DType("int32", "Int32", 4);
         public static readonly DType Int8 = new DType("int8", "SByte", 5);
         public static readonly DType Int64 = new DType("int64", "Int64", 6);
+        public static readonly DType Bool = new DType("bool_", "Boolean", 7);
+        public static readonly DType Int16 = new DType("int16", "Int16", 8);
+        public static readonly DType UInt16 = new DType("uint16", "UInt16", 9);
+        public static readonly DType UInt32 = new DType("uint32", "UInt32", 10);
+        public static readonly DType UInt64 = new DType("uint64", "UInt64", 11);
 
         public DType(string name, string csName, int index)
         {
@@ -91,9 +96,25 @@ namespace MxNet
             {
                 dtype = DType.Int32;
             }
-            else if (data.GetType().Name.Contains("Int64"))
+            else if (data.GetType().Name.Contains("Boolean"))
             {
-                dtype = DType.Int64;
+                dtype = DType.Bool;
+            }
+            else if (data.GetType().Name.Contains("Int16"))
+            {
+                dtype = DType.Int16;
+            }
+            else if (data.GetType().Name.Contains("UInt16"))
+            {
+                dtype = DType.UInt16;
+            }
+            else if (data.GetType().Name.Contains("UInt32"))
+            {
+                dtype = DType.UInt32;
+            }
+            else if (data.GetType().Name.Contains("UInt64"))
+            {
+                dtype = DType.UInt64;
             }
 
             return dtype;
