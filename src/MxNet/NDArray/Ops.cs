@@ -394,10 +394,12 @@ namespace MxNet
         /// <param name="clip_gradient">
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray MpAdamwUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, NDArray weight32,
+        public static NDArray MpAdamWUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, NDArray weight32,
             NDArray rescale_grad, float lr, float eta, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f,
             float wd = 0f, float clip_gradient = -1f)
         {
+            rescale_grad = GetRescaleGrad(rescale_grad, ctx: weight.Context);
+
             return new Operator("_mp_adamw_update")
                 .SetParam("lr", lr)
                 .SetParam("beta1", beta1)
@@ -458,10 +460,11 @@ namespace MxNet
         /// <param name="clip_gradient">
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <returns>returns new NDArray</returns>
-        public static NDArray AdamwUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, NDArray rescale_grad,
+        public static NDArray AdamWUpdate(NDArray weight, NDArray grad, NDArray mean, NDArray var, NDArray rescale_grad,
             float lr, float eta, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f, float wd = 0f,
             float clip_gradient = -1f)
         {
+            rescale_grad = GetRescaleGrad(rescale_grad, ctx: weight.Context);
             return new Operator("_adamw_update")
                 .SetParam("lr", lr)
                 .SetParam("beta1", beta1)
@@ -10428,6 +10431,26 @@ namespace MxNet
             return new Operator("stop_gradient")
                 .SetInput("data", data)
                 .Invoke();
+        }
+
+        public static NDArrayList FlattenList(List<NDArrayList> nested_list)
+        {
+            NDArrayList result = new NDArrayList();
+            foreach (var item in nested_list)
+            {
+                result.Add(item);
+            }
+
+            return result;
+        }
+
+        public static NDArray GetRescaleGrad(double rescale_grad, Context ctx = null)
+        {
+            return nd.Full(shape: new Shape(1), value: rescale_grad, ctx: ctx);
+        }
+        public static NDArray GetRescaleGrad(NDArray rescale_grad, Context ctx = null)
+        {
+            return rescale_grad.AsInContext(ctx);
         }
     }
 }

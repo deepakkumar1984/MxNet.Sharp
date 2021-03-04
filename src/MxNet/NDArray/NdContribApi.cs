@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
 using System.Collections.Generic;
 
 namespace MxNet
@@ -1967,6 +1968,14 @@ namespace MxNet
                 .SetParam("pooled_size", pooled_size)
                 .SetParam("group_size", group_size)
                 .Invoke();
+        }
+
+        public static NDArray MultiAdamWUpdate(NDArrayList weight, NDArrayList grad, NDArrayList mean, NDArrayList var,
+          NDArrayList rescale_grad, float lr, float eta, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f,
+          float wd = 0f, float clip_gradient = -1f)
+        {
+            throw new NotImplementedException();
+
         }
     }
 }

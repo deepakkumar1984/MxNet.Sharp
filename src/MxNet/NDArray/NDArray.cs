@@ -1082,11 +1082,6 @@ namespace MxNet
                     var resolved_axes = (from i in axes
                                          select i >= 0 ? i : i + this.Shape.Dimension).ToList();
 
-                    for (int i = 0; i < axes.Count; i++)
-                    {
-
-                    }
-
                     Enumerable.Zip(axes, resolved_axes, (arg_axis, actual_axis) => 
                     {
                         Debug.Assert((-new_shape.Count <= arg_axis) && (arg_axis < new_shape.Count), $"axis {arg_axis} is out of range for {new_shape.Count}d array");
