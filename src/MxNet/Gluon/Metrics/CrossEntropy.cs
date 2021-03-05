@@ -16,34 +16,32 @@
 using System;
 using NumpyDotNet;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
-    public class NegativeLogLikelihood : EvalMetric
+    public class CrossEntropy : EvalMetric
     {
         private readonly float eps;
 
-        public NegativeLogLikelihood(float eps = 1e-12f, string output_name = null, string label_name = null)
-            : base("nll-loss", output_name, label_name, true)
+        public CrossEntropy(float eps = 1e-12f, string output_name = null, string label_name = null) : base(
+            "cross-entropy", output_name, label_name, true)
         {
             this.eps = eps;
         }
 
         public override void Update(NDArray labels, NDArray preds)
         {
-            CheckLabelShapes(labels, preds);
+            var l = labels.AsNumpy();
             if (preds.Shape[0] != labels.Shape[0])
                 throw new ArgumentException("preds.Shape[0] != labels.Shape[0]");
 
-            var l = labels.AsNumpy();
             l = l.ravel();
             var p = preds.AsNumpy();
-            var num_examples = p.shape.iDims[0];
-            var prob = p[np.arange(num_examples).astype(np.Int64), l.astype(np.UInt64)];
-            var nll = (-np.log((ndarray)prob + eps)).Sum().asscalar<float>();
-            sum_metric += nll;
-            global_sum_metric += nll;
-            num_inst += (int)num_examples;
-            global_num_inst += (int)num_examples;
+            var prob = p[np.arange(l.shape.iDims[0]), l.astype(np.Int64)];
+            var cross_entropy = np.sum(-np.log((ndarray)prob + eps)).asscalar<float>();
+            sum_metric += sum_metric;
+            global_sum_metric += sum_metric;
+            num_inst += (int)l.shape.iDims[0];
+            global_num_inst += (int)l.shape.iDims[0];
         }
     }
 }

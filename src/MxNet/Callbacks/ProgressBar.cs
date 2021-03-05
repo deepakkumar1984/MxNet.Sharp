@@ -14,7 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using System;
-using MxNet.Metrics;
+using MxNet.Gluon.Metrics;
 
 namespace MxNet.Callbacks
 {

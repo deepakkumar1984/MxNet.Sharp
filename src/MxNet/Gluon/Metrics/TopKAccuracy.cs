@@ -16,7 +16,7 @@
 using System;
 using NumpyDotNet;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
     public class TopKAccuracy : EvalMetric
     {

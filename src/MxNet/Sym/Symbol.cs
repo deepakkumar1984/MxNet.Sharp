@@ -305,11 +305,12 @@ namespace MxNet
                 var argIndPtrArray = argIndPtr.ToArray();
                 var argShapeDataArray = argShapeData.ToArray();
                 {
+
                     int inShapeSize;
                     int* inShapeNdim;
                     int** inShapeData;
 
-                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapeEx(NativePtr,
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShape(NativePtr,
                         (uint) argShapes.Count,
                         keys,
                         argIndPtrArray,
@@ -390,7 +391,7 @@ namespace MxNet
                     int* inShapeNdim;
                     int** inShapeData;
 
-                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapePartialEx(NativePtr,
+                    Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapePartial(NativePtr,
                         (uint) argShapes.Count,
                         keys,
                         argIndPtrArray,

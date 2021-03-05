@@ -15,7 +15,7 @@
 ******************************************************************************/
 using System;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
     public class Perplexity : EvalMetric
     {

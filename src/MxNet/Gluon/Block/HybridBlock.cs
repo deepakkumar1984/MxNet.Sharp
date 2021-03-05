@@ -272,7 +272,7 @@ namespace MxNet.Gluon
 
                 var collectedValues = CollectParams().Values();
                 for (var i = 0; i < collectedValues.Length; i++)
-                    collectedValues[i]._shape = sdict[collectedValues[i].Name];
+                    collectedValues[i]._shape = sdict[collectedValues[i]._var_name];
             }
             else if (infer_fn == "infer_type")
             {
@@ -292,7 +292,7 @@ namespace MxNet.Gluon
 
                 var collectedValues = CollectParams().Values();
                 for (var i = 0; i < collectedValues.Length; i++)
-                    collectedValues[i].DataType = sdict[collectedValues[i].Name];
+                    collectedValues[i].DataType = sdict[collectedValues[i]._var_name];
             }
         }
 

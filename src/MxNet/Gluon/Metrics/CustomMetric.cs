@@ -13,26 +13,35 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-using NumpyDotNet;
+using System;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
-    public class PearsonCorrelation : EvalMetric
+    public class CustomMetric : EvalMetric
     {
-        public PearsonCorrelation(string output_name = null, string label_name = null)
-            : base("pearsonr", output_name, label_name, true)
+        private bool _allow_extra_outputs;
+        private readonly Func<NDArray, NDArray, float> _feval;
+
+        public CustomMetric(Func<NDArray, NDArray, float> feval, string name, string output_name = null,
+            string label_name = null, bool has_global_stats = false)
+            : base(string.Format("custom({0})", name), output_name, label_name, has_global_stats)
         {
+            _feval = feval;
         }
 
         public override void Update(NDArray labels, NDArray preds)
         {
-            CheckLabelShapes(labels, preds, true);
+            CheckLabelShapes(labels, preds);
+            var reval = _feval(labels, preds);
+            num_inst++;
+            global_num_inst++;
+            sum_metric += reval;
+            global_sum_metric += reval;
+        }
 
-            ndarray pearson_corr = (ndarray)nd.Correlation(labels.Ravel(), preds.Ravel()).AsNumpy()[0, 1];
-            sum_metric += pearson_corr.asscalar<float>();
-            global_sum_metric += pearson_corr.asscalar<float>();
-            num_inst += 1;
-            global_num_inst += 1;
+        public override ConfigData GetConfig()
+        {
+            throw new NotImplementedException("Custom metric cannot be serialized");
         }
     }
 }

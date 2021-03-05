@@ -13,12 +13,22 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
-    public class Torch : Loss
+    public class Loss : EvalMetric
     {
-        public Torch(string output_name = null, string label_name = null) : base("torch", output_name, label_name)
+        public Loss(string name = "loss", string output_name = null, string label_name = null) : base(name, output_name,
+            label_name, true)
         {
+        }
+
+        public override void Update(NDArray _, NDArray preds)
+        {
+            var loss = nd.Sum(preds).AsScalar<float>();
+            sum_metric += loss;
+            global_sum_metric += loss;
+            num_inst += preds.Shape.Size;
+            global_num_inst += preds.Shape.Size;
         }
     }
 }

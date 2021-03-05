@@ -13,32 +13,26 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-namespace MxNet.Metrics
-{
-    public class BinaryAccuracy : EvalMetric
-    {
-        public BinaryAccuracy(float threshold = 0.5f, string output_name = null, string label_name = null) : base("accuracy",
-            output_name, label_name, true)
-        {
-            Threshold = threshold;
-        }
+using NumpyDotNet;
 
-        public float Threshold { get; }
+namespace MxNet.Gluon.Metrics
+{
+    public class PearsonCorrelation : EvalMetric
+    {
+        public PearsonCorrelation(string output_name = null, string label_name = null)
+            : base("pearsonr", output_name, label_name, true)
+        {
+        }
 
         public override void Update(NDArray labels, NDArray preds)
         {
             CheckLabelShapes(labels, preds, true);
 
-            preds = preds.Clip(0, 1);
-            var label = labels.Ravel();
-            preds = preds.Ravel() > Threshold;
-
-            var num_correct = nd.Equal(preds, label).AsType(DType.Float32).Sum();
-
-            sum_metric += num_correct;
-            global_sum_metric += num_correct;
-            num_inst += preds.Shape.Size;
-            global_num_inst += preds.Shape.Size;
+            ndarray pearson_corr = (ndarray)nd.Correlation(labels.Ravel(), preds.Ravel()).AsNumpy()[0, 1];
+            sum_metric += pearson_corr.asscalar<float>();
+            global_sum_metric += pearson_corr.asscalar<float>();
+            num_inst += 1;
+            global_num_inst += 1;
         }
     }
 }

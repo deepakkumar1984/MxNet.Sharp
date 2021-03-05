@@ -13,20 +13,30 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
-    public class Loss : EvalMetric
+    public class BinaryAccuracy : EvalMetric
     {
-        public Loss(string name = "loss", string output_name = null, string label_name = null) : base(name, output_name,
-            label_name, true)
+        public BinaryAccuracy(float threshold = 0.5f, string output_name = null, string label_name = null) : base("accuracy",
+            output_name, label_name, true)
         {
+            Threshold = threshold;
         }
 
-        public override void Update(NDArray _, NDArray preds)
+        public float Threshold { get; }
+
+        public override void Update(NDArray labels, NDArray preds)
         {
-            var loss = nd.Sum(preds).AsScalar<float>();
-            sum_metric += loss;
-            global_sum_metric += loss;
+            CheckLabelShapes(labels, preds, true);
+
+            preds = preds.Clip(0, 1);
+            var label = labels.Ravel();
+            preds = preds.Ravel() > Threshold;
+
+            var num_correct = nd.Equal(preds, label).AsType(DType.Float32).Sum();
+
+            sum_metric += num_correct;
+            global_sum_metric += num_correct;
             num_inst += preds.Shape.Size;
             global_num_inst += preds.Shape.Size;
         }

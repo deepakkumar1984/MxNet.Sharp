@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
     public class Accuracy : EvalMetric
     {

@@ -10448,9 +10448,20 @@ namespace MxNet
         {
             return nd.Full(shape: new Shape(1), value: rescale_grad, ctx: ctx);
         }
+
         public static NDArray GetRescaleGrad(NDArray rescale_grad, Context ctx = null)
         {
             return rescale_grad.AsInContext(ctx);
+        }
+
+        public static NDArrayList MultiSumSq(NDArrayList arrays, int num_arrays)
+        {
+            NDArrayList ret = new NDArrayList();
+            new Operator("multi_sum_sq")
+                .SetInput(arrays).SetParam("num_arrays", num_arrays)
+                .Invoke(ret);
+
+            return ret;
         }
     }
 }

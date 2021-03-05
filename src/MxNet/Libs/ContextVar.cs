@@ -6,14 +6,18 @@ namespace MxNet.Libs
 {
     public class ContextVar
     {
+        private object defaultVal;
+        private string name;
+
         public ContextVar(string name, object @default)
         {
-            throw new NotImplementedException();
+            this.name = name;
+            defaultVal = @default;
         }
 
         public object Get()
         {
-            throw new NotImplementedException();
+            return defaultVal;
         }
     }
 }

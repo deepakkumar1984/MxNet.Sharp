@@ -24,7 +24,7 @@ namespace MxNet
             public static NDArray Uniform(float low = 0f, float high = 1f, Shape shape = null, Context ctx = null,
                 DType dtype = null)
             {
-                return new Operator("uniform")
+                return new Operator("random_uniform")
                     .SetParam("low", low)
                     .SetParam("high", high)
                     .SetParam("shape", shape)
@@ -36,7 +36,7 @@ namespace MxNet
             public static NDArray Normal(float loc = 0f, float scale = 1f, Shape shape = null, Context ctx = null,
                 DType dtype = null)
             {
-                return new Operator("normal")
+                return new Operator("random_normal")
                     .SetParam("loc", loc)
                     .SetParam("scale", scale)
                     .SetParam("shape", shape)

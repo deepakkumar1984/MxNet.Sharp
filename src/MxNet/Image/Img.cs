@@ -204,6 +204,16 @@ namespace MxNet.Image
             return CenterCrop(src, size, interp);
         }
 
+        public static NDArray ImRotate(NDArray src, float rotation_degrees, bool zoom_in, bool zoom_out)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static NDArray RandomRotate(NDArray src, (float, float) angle_limits, bool zoom_in, bool zoom_out)
+        {
+            throw new NotImplementedException();
+        }
+
         public static Augmenter CreateAugmenter(Shape data_shape, int resize = 0, bool rand_crop = false,
             bool rand_resize = false, bool rand_mirror = false, NDArray mean = null, NDArray std = null,
             float brightness = 0, float contrast = 0, float saturation = 0, float hue = 0, float pca_noise = 0,

@@ -6,7 +6,7 @@ using MxNet.Gluon.Losses;
 using MxNet.Gluon.NN;
 using MxNet.Initializers;
 using MxNet.IO;
-using MxNet.Metrics;
+using MxNet.Gluon.Metrics;
 using MxNet.Optimizers;
 using NumpyDotNet;
 

@@ -16,7 +16,7 @@
 using System;
 using System.Reflection;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
     public class Base
     {

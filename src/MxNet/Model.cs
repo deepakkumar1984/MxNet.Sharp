@@ -20,7 +20,7 @@ using System.Linq;
 using MxNet.Callbacks;
 using MxNet.IO;
 using MxNet.KVstore;
-using MxNet.Metrics;
+using MxNet.Gluon.Metrics;
 using MxNet.Optimizers;
 
 namespace MxNet

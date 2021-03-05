@@ -15,33 +15,27 @@
 ******************************************************************************/
 using System;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
-    public class CustomMetric : EvalMetric
+    public class RMSE : EvalMetric
     {
-        private bool _allow_extra_outputs;
-        private readonly Func<NDArray, NDArray, float> _feval;
-
-        public CustomMetric(Func<NDArray, NDArray, float> feval, string name, string output_name = null,
-            string label_name = null, bool has_global_stats = false)
-            : base(string.Format("custom({0})", name), output_name, label_name, has_global_stats)
+        public RMSE(string output_name = null, string label_name = null) : base("rmse", output_name, label_name, true)
         {
-            _feval = feval;
         }
 
         public override void Update(NDArray labels, NDArray preds)
         {
-            CheckLabelShapes(labels, preds);
-            var reval = _feval(labels, preds);
-            num_inst++;
-            global_num_inst++;
-            sum_metric += reval;
-            global_sum_metric += reval;
-        }
+            if (labels.Shape.Dimension == 1)
+                labels = labels.Reshape(labels.Shape[0], 1);
+            if (preds.Shape.Dimension == 1)
+                preds = preds.Reshape(preds.Shape[0], 1);
 
-        public override ConfigData GetConfig()
-        {
-            throw new NotImplementedException("Custom metric cannot be serialized");
+            var rmse = (float) Math.Sqrt(nd.Square(labels - preds).Mean());
+
+            sum_metric += rmse;
+            global_sum_metric += rmse;
+            num_inst += 1;
+            global_num_inst += 1;
         }
     }
 }

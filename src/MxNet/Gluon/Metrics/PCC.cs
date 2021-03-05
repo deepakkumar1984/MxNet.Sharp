@@ -17,7 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NumpyDotNet;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
     public class PCC : EvalMetric
     {

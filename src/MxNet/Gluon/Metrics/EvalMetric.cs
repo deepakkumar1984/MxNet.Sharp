@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MxNet.Metrics
+namespace MxNet.Gluon.Metrics
 {
     public abstract class EvalMetric : Base
     {

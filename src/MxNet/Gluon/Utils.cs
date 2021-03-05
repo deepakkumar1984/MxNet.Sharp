@@ -83,23 +83,39 @@ namespace MxNet.Gluon
             return result.ToArray();
         }
 
-        public static NDArray clip_global_norm(NDArrayList arrays, float max_norm, bool check_isfinite = true)
+        public static NDArray ClipGlobalNorm(NDArrayList arrays, float max_norm, bool check_isfinite = true)
         {
-            Func<NDArray, NDArray> norm = array =>
+            Func<NDArrayList, Dictionary<Context, NDArrayList>> group_by_ctx = arr_list =>
             {
-                if (array.SType == StorageStype.Default)
+                Dictionary<Context, NDArrayList> groups = new Dictionary<Context, NDArrayList>();
+                foreach (var arr in arr_list)
                 {
-                    var x = array.Reshape(-1);
-                    return nd.Dot(x, x);
+                    if(groups.ContainsKey(arr.Context))
+                    {
+                        groups[arr.Context].Add(arr);
+                    }
+                    else
+                    {
+                        groups.Add(arr.Context, arr);
+                    }
                 }
 
-                return array.Norm().Square();
+                return groups;
             };
 
             if (arrays.Length == 0)
                 throw new ArgumentException("arrays.Length == 0");
 
+            var arrays_groups = group_by_ctx(arrays);
+            var all_ctx_sum = new NDArrayList();
             var ctx = arrays[0].Context;
+            foreach (var group in arrays_groups)
+            {
+                var sum_sq = nd.MultiSumSq(group.Value, num_arrays: group.Value.Length);
+                sum_sq = nd.AddN(sum_sq);
+                all_ctx_sum.Add(sum_sq[0].AsInContext(ctx));
+            }
+
             var total_norm = nd.AddN(arrays.Select(x => x.AsInContext(ctx)).ToArray());
             total_norm = total_norm.Sqrt();
             if (check_isfinite)

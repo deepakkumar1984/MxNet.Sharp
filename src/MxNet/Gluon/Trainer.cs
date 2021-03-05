@@ -46,8 +46,9 @@ namespace MxNet.Gluon
         {
             var paramValues = @params.Values();
             _params = new List<Parameter>();
-            var keys = @params.Keys();
-            for (var i = 0; i < keys.Length; i++)
+            var keys = @params.Keys().ToList();
+            keys.Sort();
+            for (var i = 0; i < keys.Count; i++)
             {
                 var param = @params[keys[i]];
                 _param2idx[keys[i]] = i;
@@ -64,6 +65,20 @@ namespace MxNet.Gluon
             _contexts = CheckContexts();
             InitOptimizer(optimizer);
             _scale = optimizer.RescaleGrad;
+
+            if (this.Optimizer.AggregateNum > 1 && update_on_kvstore != null)
+            {
+                if (update_on_kvstore.HasValue)
+                {
+                    throw new Exception("Cannot set update_on_kvstore=True when optimizer.aggregate_num > 1.");
+                }
+            }
+
+            if (update_on_kvstore == null && this.Optimizer.AggregateNum > 1)
+            {
+                update_on_kvstore = false;
+            }
+
             _kvstore_params = new Dictionary<string, object>();
             _kvstore_params.Add("kvstore", kvstore);
             _kvstore_params.Add("update_on_kvstore", update_on_kvstore);
@@ -123,10 +138,12 @@ namespace MxNet.Gluon
                     else
                     {
                         var param_arrays = param.CheckAndGet(param._data, null);
-                        var idx = _param2idx[param.Name];
+                        var idx = _param2idx[param._uuid];
                         _kvstore.Init(idx.ToString(), param_arrays[0]);
                         if (param.Stype == StorageStype.Default)
-                            _kvstore.Pull(idx.ToString(), param_arrays, -idx);
+                            _kvstore.Init(idx, param_arrays[0]);
+                        else
+                            _kvstore.Broadcast(idx, param_arrays[0], param_arrays);
                     }
 
             _params_to_init = params_to_init;
@@ -160,7 +177,7 @@ namespace MxNet.Gluon
             else if (_contains_sparse_grad)
             {
                 var arg_arrays = new NDArrayDict();
-                foreach (var param in _params) arg_arrays[param.Name] = param.Data(_contexts[0]);
+                foreach (var param in _params) arg_arrays[param._uuid] = param.Data(_contexts[0]);
 
                 (kvstore, _) = MxModel.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
                 if (kvstore != null)
@@ -181,7 +198,7 @@ namespace MxNet.Gluon
             else
             {
                 var arg_arrays = new NDArrayDict();
-                foreach (var param in _params) arg_arrays[param.Name] = param.Data(_contexts[0]);
+                foreach (var param in _params) arg_arrays[param._uuid] = param.Data(_contexts[0]);
 
                 (kvstore, update_on_kvstore) =
                     MxModel.CreateKVStore(config["kvstore"].ToString(), _contexts.Length, arg_arrays);
@@ -200,6 +217,15 @@ namespace MxNet.Gluon
 
                 if (config.ContainsKey("update_on_kvstore") && config["update_on_kvstore"] != null)
                     update_on_kvstore = (bool) config["update_on_kvstore"];
+
+                if (update_on_kvstore && !kvstore.IsCapable("optimizer"))
+                {
+                    if (update_on_kvstore)
+                    {
+                        throw new Exception($"Please set update_on_kvstore=False when training with {kvstore.GetType().Name}");
+                    }
+                    update_on_kvstore = false;
+                }
             }
 
             if (kvstore != null)
@@ -230,7 +256,7 @@ namespace MxNet.Gluon
             if (_params_to_init != null)
                 InitParams();
 
-            var idx = _param2idx[parameter.Name];
+            var idx = _param2idx[parameter._uuid];
             if (full_idx && _kvstore.Type.Contains("dist"))
             {
                 if (row_id.Size != @out[0].Shape[0])
@@ -297,9 +323,40 @@ namespace MxNet.Gluon
             {
                 if (param.GradReg != OpGradReq.Null)
                 {
-                    _kvstore.Push(i.ToString(), param.ListGrad(), -i);
-                    if (!_update_on_kvstore.Value)
-                        _kvstore.Pull(i.ToString(), param.ListGrad(), -i, _distributed.Value);
+                    var idx = this._param2idx[param._uuid];
+                    var grad_list = param.ListGrad();
+                    NDArrayList pull_list = null;
+                    // sparse gradients, call push and pull separately
+                    if (grad_list[0].SType !=  StorageStype.Default)
+                    {
+                        this._kvstore.Push(idx, grad_list, priority: -i);
+                        if (param.Stype == StorageStype.Default)
+                        {
+                            if (this._update_on_kvstore.Value)
+                            {
+                                pull_list = param.ListData();
+                            }
+                            else
+                            {
+                                pull_list = param.ListGrad();
+                            }
+
+                            this._kvstore.Pull(idx, pull_list, priority: -i, ignore_sparse: this._distributed.Value);
+                        }
+                    }
+                    else
+                    {
+                        // allreduce dense gradients if not update_on_kvstore,
+                        // otherwise push dense gradients, pull dense weights
+                        if (this._update_on_kvstore.Value)
+                        {
+                            this._kvstore.PushPull(idx, grad_list, @out: param.ListData(), priority: -i);
+                        }
+                        else
+                        {
+                            this._kvstore.PushPull(idx, grad_list, @out: param.ListGrad(), priority: -i);
+                        }
+                    }
                 }
 
                 i++;
@@ -352,9 +409,6 @@ namespace MxNet.Gluon
 
                 if (_kvstore == null && _update_on_kvstore.Value)
                 {
-                    if (param.Stype == StorageStype.Default)
-                        _kvstore.Pull(i.ToString(), param.ListData(), -i);
-
                     continue;
                 }
 

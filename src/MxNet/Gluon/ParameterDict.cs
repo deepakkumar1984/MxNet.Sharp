@@ -21,7 +21,7 @@ using MxNet.Initializers;
 
 namespace MxNet.Gluon
 {
-    public class ParameterDict : IEnumerable<KeyValuePair<string, Parameter>>
+    public class ParameterDict : Dictionary<string, Parameter>
     {
         private readonly Dictionary<string, Parameter> _params;
 
@@ -36,7 +36,7 @@ namespace MxNet.Gluon
 
         public ParameterDict Shared { get; }
 
-        public Parameter this[string name]
+        public new Parameter this[string name]
         {
             get
             {
@@ -52,22 +52,12 @@ namespace MxNet.Gluon
             set => _params[name] = value;
         }
 
-        public IEnumerator<KeyValuePair<string, Parameter>> GetEnumerator()
-        {
-            return _params.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _params.GetEnumerator();
-        }
-
-        public string[] Keys()
+        public new string[] Keys()
         {
             return _params.Keys.ToArray();
         }
 
-        public Parameter[] Values()
+        public new Parameter[] Values()
         {
             return _params.Values.ToArray();
         }

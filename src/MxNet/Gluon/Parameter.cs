@@ -60,8 +60,10 @@ namespace MxNet.Gluon
         internal bool differentiable;
         private OpGradReq grad_req;
         internal Trainer trainer;
+        internal string _uuid;
+        internal string _var_name;
 
-        public Parameter(string name, OpGradReq grad_req = OpGradReq.Write, Shape shape = null, DType dtype = null,
+        public Parameter(string name = "weight", OpGradReq grad_req = OpGradReq.Write, Shape shape = null, DType dtype = null,
             float lr_mult = 1.0f, float wd_mult = 1.0f, Initializer init = null, bool allow_deferred_init = false,
             bool differentiable = true, StorageStype stype = StorageStype.Default,
             StorageStype grad_stype = StorageStype.Default)
@@ -78,6 +80,8 @@ namespace MxNet.Gluon
             Grad_Stype = grad_stype;
             this.allow_deferred_init = allow_deferred_init;
             grad_req = OpGradReq.Null;
+            this._uuid = Guid.NewGuid().ToString();
+            this._var_name = null;
             _ctx_map = new Dictionary<int, List<int>>();
         }
 
@@ -230,6 +234,8 @@ namespace MxNet.Gluon
                                         $"dtype incompatible expected {DataType} vs saved {data.DataType}. " +
                                         "Set cast_dtype=True to cast the dtype of saved params.");
                 }
+
+                //ToDo: support for float 16
             }
 
             if (Stype != data.SType)
@@ -343,7 +349,10 @@ namespace MxNet.Gluon
             if (Stype == StorageStype.Default)
             {
                 var block = ListData();
-                data = nd.AddN(block.Select(x => x.AsInContext(ctx)).ToArray()) / block.Length;
+                if (block.Length > 1)
+                    data = nd.AddN(block.Select(x => x.AsInContext(ctx)).ToArray()) / block.Length;
+                else
+                    data = this.Data().ChangeContext(ctx);
             }
             else
             {
@@ -461,7 +470,9 @@ namespace MxNet.Gluon
                                     $"list_row_sparse_data() because its storage type is {Stype}. Please " +
                                     "use RowSparseData() instead.");
 
-            return CheckAndGet(_data, ctx).FirstOrDefault();
+            NDArray data = CheckAndGet(_data, ctx).FirstOrDefault();
+            DeferredCompute.SetVariable(data, this.Var());
+            return data;
         }
 
         public NDArrayList ListData()
@@ -515,7 +526,15 @@ namespace MxNet.Gluon
         public Symbol Var()
         {
             if (_var == null)
-                _var = Symbol.Var(Name, shape: Shape, dtype: DataType, lr_mult: Lr_Mult, wd_mult: Wd_Mult, init: Init,
+            {
+                if (string.IsNullOrWhiteSpace(this._var_name))
+                {
+                    // _var_name is set manually in SymbolBlock.import
+                    // The variable name is required by the storage profiler.
+                    this._var_name = this._uuid.Replace("-", "_") + "_" + this.Name;
+                }
+            }
+                _var = Symbol.Var(_var_name, shape: Shape, dtype: DataType, lr_mult: Lr_Mult, wd_mult: Wd_Mult, init: Init,
                     stype: Stype);
 
             return _var;
@@ -523,13 +542,27 @@ namespace MxNet.Gluon
 
         public void Cast(DType dtype)
         {
-            if (_data != null)
-                for (var i = 0; i < _data.Length; i++)
-                    _data[i] = _data[i].Cast(dtype);
+            this._var = null;
+            this.DataType = dtype;
+            if (this._data == null)
+            {
+                return;
+            }
 
-            if (_grad != null)
-                for (var i = 0; i < _grad.Length; i++)
-                    _data[i] = _data[i].Cast(dtype);
+            using (var ag = Autograd.Pause())
+            {
+                if (_data != null)
+                    for (var i = 0; i < _data.Length; i++)
+                        _data[i] = _data[i].Cast(dtype);
+
+                if (_grad != null)
+                    for (var i = 0; i < _grad.Length; i++)
+                        _data[i] = _data[i].Cast(dtype);
+
+                Autograd.MarkVariables(this._data, this._grad, this.grad_req);
+            }
         }
+
+
     }
 }

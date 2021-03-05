@@ -10690,5 +10690,12 @@ namespace MxNet
                 .SetInput("data", data)
                 .CreateSymbol(symbol_name);
         }
+
+        public static Symbol MultiSumSq(SymbolList arrays, int num_arrays)
+        {
+            return new Operator("multi_sum_sq")
+                .SetInput(arrays).SetParam("num_arrays", num_arrays)
+                .CreateSymbol();
+        }
     }
 }
