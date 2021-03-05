@@ -17,8 +17,8 @@ namespace MxNet.Optimizers
 {
     public class Ftlr : Optimizer
     {
-        public Ftlr(float lamda1 = 0.1f, float learning_rate = 0.1f, float beta = 1) : base(
-            learning_rate: learning_rate)
+        public Ftlr(float lamda1 = 0.1f, float learning_rate = 0.1f, float beta = 1, bool use_fused_step = true) 
+            : base(learning_rate: learning_rate, use_fused_step: use_fused_step)
         {
             Lamda1 = lamda1;
             Beta = beta;
@@ -36,7 +36,33 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            this.UpdateCount(index);
+            var lr = this.GetLr(index);
+            var wd = this.GetWd(index);
+            // preprocess grad
+            grad *= this.RescaleGrad;
+            if (this.ClipGradient != null)
+            {
+                grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
+            }
+            // update z, n
+            var sigma = nd.Negative(nd.Sqrt(state["n"]));
+            state["n"] += nd.Square(grad);
+            var denom = nd.Sqrt(state["n"]);
+            sigma += denom;
+            sigma /= lr;
+            state["z"] += grad - sigma * weight;
+            // update weight
+            denom += this.Beta;
+            denom /= lr;
+            denom += wd;
+            var d = nd.Sign(state["z"]) * nd.Maximum(nd.Abs(state["z"]) - this.Lamda1, 0);
+            weight = nd.Negative(d) / denom;
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);

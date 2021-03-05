@@ -17,7 +17,7 @@ namespace MxNet.Optimizers
 {
     public class AdaGrad : Optimizer
     {
-        public AdaGrad(float lr, float epsilon = 1e-07f)
+        public AdaGrad(float lr, float epsilon = 1e-07f, bool use_fused_step = true) : base(use_fused_step: use_fused_step)
         {
             LearningRate = lr;
             Epsilon = epsilon;
@@ -32,7 +32,21 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            var lr = GetLr(index);
+            var wd = GetWd(index);
+            var history = state["history"];
+            grad = grad * RescaleGrad;
+            if (ClipGradient.HasValue)
+                grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
+
+            history += nd.Square(grad);
+            var div = grad / nd.Sqrt(history + Epsilon);
+            weight += (div + weight * wd) * -lr;
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);
@@ -47,13 +61,7 @@ namespace MxNet.Optimizers
             }
             else
             {
-                grad = grad * RescaleGrad;
-                if (ClipGradient.HasValue)
-                    grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
-
-                history += nd.Square(grad);
-                var div = grad / nd.Sqrt(history + Epsilon);
-                weight += (div + weight * wd) * -lr;
+                Step(index, weight, grad, state);
             }
         }
     }

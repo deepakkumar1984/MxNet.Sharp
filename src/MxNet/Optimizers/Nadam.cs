@@ -20,7 +20,7 @@ namespace MxNet.Optimizers
     public class Nadam : Optimizer
     {
         public Nadam(float learning_rate = 0.001f, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-8f,
-            float schedule_decay = 0.004f) : base(learning_rate: learning_rate)
+            float schedule_decay = 0.004f, bool use_fused_step = false) : base(learning_rate: learning_rate, use_fused_step: use_fused_step)
         {
             Beta1 = beta1;
             Beta2 = beta2;
@@ -60,7 +60,7 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);
@@ -71,8 +71,8 @@ namespace MxNet.Optimizers
             if (ClipGradient.HasValue)
                 grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
 
-            var momentum_t = Beta1 * (1 - 0.5f * (float) Math.Pow(0.96, t * ScheduleDecay));
-            var momentum_t_1 = Beta1 * (1 - 0.5f * (float) Math.Pow(0.96, (t + 1) * ScheduleDecay));
+            var momentum_t = Beta1 * (1 - 0.5f * (float)Math.Pow(0.96, t * ScheduleDecay));
+            var momentum_t_1 = Beta1 * (1 - 0.5f * (float)Math.Pow(0.96, (t + 1) * ScheduleDecay));
             MSchedule = MSchedule * momentum_t;
             var m_schedule_next = MSchedule * momentum_t_1;
             var m_t = state["mean"];
@@ -85,10 +85,15 @@ namespace MxNet.Optimizers
 
             var grad_prime = grad / (1 - MSchedule);
             var m_t_prime = m_t / (1 - m_schedule_next);
-            var v_t_prime = v_t / (1 - (float) Math.Pow(Beta2, t));
+            var v_t_prime = v_t / (1 - (float)Math.Pow(Beta2, t));
             var m_t_bar = (1 - momentum_t) * grad_prime + momentum_t_1 * m_t_prime;
 
             weight -= lr * m_t_bar / (nd.Sqrt(v_t_prime) + Epsilon);
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            throw new NotSupportedException();
         }
     }
 }

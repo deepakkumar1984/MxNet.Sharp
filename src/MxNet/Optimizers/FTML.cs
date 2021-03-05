@@ -13,11 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
+
 namespace MxNet.Optimizers
 {
     public class FTML : Optimizer
     {
-        public FTML(float beta1 = 0.6f, float beta2 = 0.999f, float epsilon = 1e-8f)
+        public FTML(float beta1 = 0.6f, float beta2 = 0.999f, float epsilon = 1e-8f, bool use_fused_step = true) : base(use_fused_step: use_fused_step)
         {
             Beta1 = beta1;
             Beta2 = beta2;
@@ -39,7 +41,37 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            this.UpdateCount(index);
+            var lr = this.GetLr(index);
+            var wd = this.GetWd(index);
+            var t = this.index_update_count[index];
+            // preprocess grad
+            grad *= this.RescaleGrad;
+            if (this.ClipGradient != null)
+            {
+                grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
+            }
+
+            grad += wd * weight;
+            var coef1 = 1.0 - Math.Pow(this.Beta1, t);
+            var coef2 = 1.0 - Math.Pow(this.Beta2, t);
+            // update d, v, z
+            state["prev_v"] *= this.Beta2;
+            state["prev_v"] += (1.0 - this.Beta2) * nd.Square(grad);
+            var sigma = -this.Beta1 * state["prev_d"];
+            state["prev_d"] = nd.Sqrt(state["prev_v"] / coef2) + this.Epsilon;
+            state["prev_d"] *= coef1 / lr;
+            sigma += state["prev_d"];
+            state["prev_z"] *= this.Beta1;
+            state["prev_z"] += (1.0 - this.Beta1) * grad;
+            state["prev_z"] -= sigma * weight;
+            // update weight
+            weight = nd.Negative(state["prev_z"]) / state["prev_d"];
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);

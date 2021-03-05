@@ -13,11 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
+
 namespace MxNet.Optimizers
 {
     public class DCASGD : Optimizer
     {
-        public DCASGD(float momentum = 0, float lamda = 0.04f)
+        public DCASGD(float momentum = 0, float lamda = 0.04f, bool use_fused_step = false) : base (use_fused_step: use_fused_step)
         {
             Momentum = momentum;
             Lamda = lamda;
@@ -44,7 +46,7 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);
@@ -66,6 +68,11 @@ namespace MxNet.Optimizers
 
             state["prev_weight"] = weight;
             weight += state["momentum"];
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            throw new NotSupportedException();
         }
     }
 }

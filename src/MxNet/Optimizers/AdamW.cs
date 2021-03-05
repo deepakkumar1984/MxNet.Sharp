@@ -17,15 +17,16 @@ using System;
 
 namespace MxNet.Optimizers
 {
-    public class Adam : Optimizer
+    public class AdamW : Optimizer
     {
-        public Adam(float learning_rate = 0.001f, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-8f,
-            bool lazy_update = true, bool use_fused_step = true) : base(learning_rate: learning_rate, use_fused_step: use_fused_step)
+        public bool CorrectBias { get; set; }
+        public AdamW(float learning_rate = 0.001f, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-8f,
+            bool correct_bias = true, bool use_fused_step = true) : base(learning_rate: learning_rate, use_fused_step: use_fused_step)
         {
             Beta1 = beta1;
             Beta2 = beta2;
             Epsilon = epsilon;
-            LazyUpdate = lazy_update;
+            CorrectBias = correct_bias;
         }
 
 
@@ -64,6 +65,8 @@ namespace MxNet.Optimizers
             var lr = this.GetLr(index);
             var wd = this.GetWd(index);
             var t = this.index_update_count[index];
+            double coef1;
+            double coef2;
             // preprocess grad
             grad *= this.RescaleGrad;
             if (this.ClipGradient != null)
@@ -71,9 +74,16 @@ namespace MxNet.Optimizers
                 grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
             }
 
+            if (this.CorrectBias)
+            {
+                coef1 = 1.0 - Math.Pow(this.Beta1, t);
+                coef2 = 1.0 - Math.Pow(this.Beta2, t);
+                lr *= Convert.ToSingle(Math.Sqrt(coef2) / coef1);
+            }
+
             grad += wd * weight;
-            var coef1 = 1.0 - Math.Pow(this.Beta1, t);
-            var coef2 = 1.0 - Math.Pow(this.Beta2, t);
+            coef1 = 1.0 - Math.Pow(this.Beta1, t);
+            coef2 = 1.0 - Math.Pow(this.Beta2, t);
             lr *= Convert.ToSingle(Math.Sqrt(coef2) / coef1);
             // update mean and var
             state["mean"] *= this.Beta1;
@@ -87,18 +97,31 @@ namespace MxNet.Optimizers
 
         public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
+            var multi_precision = this.MultiPrecision && weight.DataType == DType.Float16;
             UpdateCount(index);
             var lr = GetLr(index);
             var wd = GetWd(index);
 
             var t = index_update_count[index];
+            double coef1;
+            double coef2;
+            if (this.CorrectBias)
+            {
+                coef1 = 1.0 - Math.Pow(this.Beta1, t);
+                coef2 = 1.0 - Math.Pow(this.Beta2, t);
+                lr *= Convert.ToSingle(Math.Sqrt(coef2) / coef1);
+            }
 
-            var coef1 = 1 - (float) Math.Pow(Beta1, t);
-            var coef2 = 1 - (float) Math.Pow(Beta2, t);
+            coef1 = 1 - Math.Pow(Beta1, t);
+            coef2 = 1 - Math.Pow(Beta2, t);
 
-            lr *= (float) Math.Sqrt(coef2) / coef1;
-            weight = nd.AdamUpdate(weight, grad, state["mean"], state["variance"], lr, Beta1, Beta2, Epsilon, wd,
-                RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1, LazyUpdate);
+            lr *= Convert.ToSingle(Math.Sqrt(coef2) / coef1);
+            if(multi_precision)
+                weight = nd.MpAdamWUpdate(weight, grad, state["mean"], state["variance"], lr, Beta1, Beta2, Epsilon, wd,
+                                            RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
+            else
+                weight = nd.AdamUpdate(weight, grad, state["mean"], state["variance"], lr, Beta1, Beta2, Epsilon, wd,
+                                        RescaleGrad, ClipGradient.HasValue ? ClipGradient.Value : -1);
         }
     }
 }

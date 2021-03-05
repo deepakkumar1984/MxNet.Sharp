@@ -19,8 +19,8 @@ namespace MxNet.Optimizers
 {
     public class Adamax : Optimizer
     {
-        public Adamax(float learning_rate = 0.00f, float beta1 = 0.9f, float beta2 = 0.999f) : base(
-            learning_rate: learning_rate)
+        public Adamax(float learning_rate = 0.00f, float beta1 = 0.9f, float beta2 = 0.999f, bool use_fused_step = false) : base(
+            learning_rate: learning_rate, use_fused_step: use_fused_step)
         {
             Beta1 = beta1;
             Beta2 = beta2;
@@ -50,25 +50,28 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);
             var wd = GetWd(index);
 
             var t = index_update_count[index];
-            lr /= 1 - (float) Math.Pow(Beta1, t);
+            lr /= 1 - (float)Math.Pow(Beta1, t);
             grad = grad * RescaleGrad + wd * weight;
             if (ClipGradient.HasValue)
                 grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
 
-            var m_t = state["mean"];
-            var u_t = state["variance"];
-            m_t *= Beta1;
-            m_t += (1 - Beta1) * grad;
-            u_t = nd.Maximum(Beta2 * u_t, nd.Abs(grad));
+            state["mean"] *= Beta1;
+            state["mean"] += (1 - Beta1) * grad;
+            state["variance"] = nd.Maximum(Beta2 * state["variance"], nd.Abs(grad));
 
-            weight -= lr * m_t / u_t;
+            weight -= lr * state["mean"] / state["variance"];
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            throw new NotSupportedException();
         }
     }
 }

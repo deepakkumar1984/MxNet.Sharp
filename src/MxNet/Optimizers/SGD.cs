@@ -23,8 +23,8 @@ namespace MxNet.Optimizers
         public readonly bool lazy_update;
         public readonly float momentum;
 
-        public SGD(float learning_rate= 0.01f, float momentum = 0, bool lazy_update = true, bool multi_precision = false)
-            : base(learning_rate: learning_rate, multi_precision: multi_precision)
+        public SGD(float learning_rate= 0.01f, float momentum = 0, bool lazy_update = true, bool multi_precision = false, bool use_fused_step = true)
+            : base(learning_rate: learning_rate, multi_precision: multi_precision, use_fused_step: use_fused_step)
         {
             this.momentum = momentum;
             this.lazy_update = lazy_update;
@@ -50,7 +50,35 @@ namespace MxNet.Optimizers
             _update_impl(indices, weights, grads, states.Select(x=>(ValueTuple.Create<NDArrayDict, NDArray>(x, null))).ToArray());
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            this.UpdateCount(index);
+            var lr = this.GetLr(index);
+            var wd = this.GetWd(index);
+            // preprocess grad
+            grad *= this.RescaleGrad;
+            if (this.ClipGradient != null)
+            {
+                grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
+            }
+
+            grad += wd * weight;
+            // update mom
+            if (state["mom"] != null)
+            {
+                state["mom"] *= this.momentum;
+                state["mom"] -= lr * grad;
+            }
+            else
+            {
+                state["mom"] = -lr * grad;
+            }
+
+            // update weight
+            weight += state["mom"];
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             _update_impl(new[] {index}, weight, grad, new (NDArrayDict, NDArray)[] { (state, null) });
         }

@@ -37,6 +37,7 @@ namespace MxNet.Optimizers
         private Dictionary<string, Optimizer> opt_registry = new Dictionary<string, Optimizer>();
         private readonly (Dictionary<string, Dictionary<string, string>>, List<string>) sym_info;
         private Dictionary<string, float> wd_mult = new Dictionary<string, float>();
+        private bool use_fused_step;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Optimizer" /> class.
@@ -45,12 +46,13 @@ namespace MxNet.Optimizers
         /// <param name="name">The name.</param>
         public Optimizer(float rescale_grad = 1, Dictionary<int, string> param_idx2name = null, float wd = 0,
             float? clip_gradient = null, float learning_rate = 0.01f, LRScheduler lr_scheduler = null,
-            Symbol sym = null, uint begin_num_update = 0, bool multi_precision = false,
+            Symbol sym = null, uint begin_num_update = 0, bool multi_precision = false, bool use_fused_step = true,
             Dictionary<int, Parameter> param_dict = null)
         {
             lr = learning_rate;
             RescaleGrad = rescale_grad;
             Scheduler = lr_scheduler;
+            this.use_fused_step = use_fused_step;
             if (Scheduler != null)
                 Scheduler.BaseLearningRate = learning_rate;
 
@@ -130,11 +132,16 @@ namespace MxNet.Optimizers
         {
             for (int i = 0; i < indices.Length; i++)
             {
-                Update(indices[i], weights[i], grads[i], states[i]);
+                if(use_fused_step)
+                    FusedStep(indices[i], weights[i], grads[i], states[i]);
+                else
+                    Step(indices[i], weights[i], grads[i], states[i]);
             }
         }
 
-        public abstract void Update(int index, NDArray weight, NDArray grad, NDArrayDict state);
+        public abstract void Step(int index, NDArray weight, NDArray grad, NDArrayDict state);
+
+        public abstract void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state);
 
         public virtual void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states)
         {
@@ -150,12 +157,19 @@ namespace MxNet.Optimizers
             {
                 var weight_master_copy = state.Item2;
                 var grad32 = grad.AsType(DType.Float32);
-                Update(index, weight_master_copy, grad32, state.Item1);
-                weight = weight_master_copy.Cast(weight.DataType);
+                if (use_fused_step)
+                    FusedStep(index, weight_master_copy, grad32, state.Item1);
+                else
+                    Step(index, weight_master_copy, grad32, state.Item1);
+
+                weight_master_copy.Cast(weight.DataType).CopyTo(weight);
             }
             else
             {
-                Update(index, weight, grad, state.Item1);
+                if(use_fused_step)
+                    FusedStep(index, weight, grad, state.Item1);
+                else
+                    Step(index, weight, grad, state.Item1);
             }
         }
 

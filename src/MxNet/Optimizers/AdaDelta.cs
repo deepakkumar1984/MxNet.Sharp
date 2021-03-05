@@ -13,11 +13,14 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
+
 namespace MxNet.Optimizers
 {
     public class AdaDelta : Optimizer
     {
-        public AdaDelta(float lr = 1, float rho = 0.95f, float decayRate = 0, float epsilon = 1e-07f)
+        public AdaDelta(float lr = 1, float rho = 0.95f, float decayRate = 0, float epsilon = 1e-07f, bool use_fused_step = false)
+            : base(use_fused_step: use_fused_step)
         {
             LearningRate = lr;
             Rho = rho;
@@ -34,7 +37,7 @@ namespace MxNet.Optimizers
 
         public float Epsilon { get; set; }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             var wd = GetWd(index);
             UpdateCount(index);
@@ -50,6 +53,11 @@ namespace MxNet.Optimizers
             acc_delta *= Rho;
             acc_delta += (1 - Rho) * current_delta * current_delta;
             weight -= current_delta + wd * weight;
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            throw new NotSupportedException();
         }
 
         public override NDArrayDict CreateState(int index, NDArray weight)

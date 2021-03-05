@@ -108,7 +108,17 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override (NDArrayDict, NDArray) CreateStateMultiPrecision(int index, NDArray weight)
+        {
+            return base.CreateStateMultiPrecision(index, weight);
+        }
+
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             var lr = GetLr(index);
             var wd = GetWd(index);

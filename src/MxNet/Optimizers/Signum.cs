@@ -17,8 +17,8 @@ namespace MxNet.Optimizers
 {
     public class Signum : Optimizer
     {
-        public Signum(float learning_rate = 0.01f, float momentum = 0.9f, float wd_lh = 0) : base(
-            learning_rate: learning_rate)
+        public Signum(float learning_rate = 0.01f, float momentum = 0.9f, float wd_lh = 0, bool use_fused_step = true) : base(
+            learning_rate: learning_rate, use_fused_step: use_fused_step)
         {
             Momentum = momentum;
             WdLh = wd_lh;
@@ -38,7 +38,37 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            this.UpdateCount(index);
+            var lr = this.GetLr(index);
+            var wd = this.GetWd(index);
+            if (state != null)
+            {
+                // preprocess grad
+                grad *= this.RescaleGrad;
+                if (this.ClipGradient != null)
+                {
+                    grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
+                }
+                grad += wd * weight;
+                // update mom
+                var mom = state["momentum"];
+                mom *= this.Momentum;
+                mom -= (1 - this.Momentum) * grad;
+                // update weight
+                weight *= 1 - lr * this.WdLh;
+                weight += lr * ((mom > 0) - (mom < 0));
+            }
+            else
+            {
+                // update weight
+                weight *= 1 - lr * (wd + this.WdLh);
+                weight -= lr * ((grad > 0) - (grad < 0));
+            }
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);

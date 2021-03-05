@@ -17,9 +17,11 @@ namespace MxNet.Optimizers
 {
     public class NAG : Optimizer
     {
-        public NAG(float momentum = 0)
+        public NAG(float learning_rate = 0.1f, float momentum = 0, bool multi_precision = false, bool use_fused_step = false)
+            : base(learning_rate: learning_rate, use_fused_step: use_fused_step)
         {
             Momentum = momentum;
+            MultiPrecision = multi_precision;
         }
 
         public float Momentum { get; }
@@ -38,7 +40,37 @@ namespace MxNet.Optimizers
             return base.CreateStateMultiPrecision(index, weight);
         }
 
-        public override void Update(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        {
+            this.UpdateCount(index);
+            var lr = this.GetLr(index);
+            var wd = this.GetWd(index);
+            // preprocess grad
+            grad *= this.RescaleGrad;
+            if (this.ClipGradient != null)
+            {
+                grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
+            }
+
+            grad += wd * weight;
+            NDArray d;
+            // update mom
+            if (state["momentum"] != null)
+            {
+                state["momentum"] *= this.Momentum;
+                state["momentum"] -= lr * grad;
+                d = this.Momentum * state["momentum"] - lr * grad;
+            }
+            else
+            {
+                d = -lr * grad;
+            }
+
+            // update weight
+            weight += d;
+        }
+
+        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
         {
             _update_impl(index, weight, grad, state);
         }
