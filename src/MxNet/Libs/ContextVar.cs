@@ -4,20 +4,33 @@ using System.Text;
 
 namespace MxNet.Libs
 {
-    public class ContextVar
+    public class ContextVar<T>
     {
-        private object defaultVal;
+        private T defaultVal;
         private string name;
+        private T value;
 
-        public ContextVar(string name, object @default)
+        public ContextVar(string name, T @default = default(T))
         {
             this.name = name;
             defaultVal = @default;
+            value = @default;
         }
 
-        public object Get()
+        public T Get()
         {
-            return defaultVal;
+            return value;
+        }
+
+        public T Set(T value)
+        {
+            this.value = value;
+            return this.value;
+        }
+
+        public void Reset(T value)
+        {
+            this.value = value;
         }
     }
 }

@@ -158,14 +158,6 @@ namespace MxNet.Gluon
             {
                 p.Value.Initialize(null, ctx, init, force_reinit);
             }
-            //for (int i = 0; i < _params.Count; i++)
-            //{
-            //    var key = keys[i];
-            //    var p = _params[key];
-            //    p.Initialize(null, ctx, init, force_reinit);
-            //    _params[key] = p;
-            //}
-           
         }
 
 

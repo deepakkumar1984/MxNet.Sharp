@@ -10463,5 +10463,15 @@ namespace MxNet
 
             return ret;
         }
+
+        public static NDArrayList ResetArrays(NDArrayList arrays)
+        {
+            NDArrayList ret = new NDArrayList();
+            new Operator("reset_arrays")
+                .SetInput(arrays).SetParam("num_arrays", arrays.Length)
+                .Invoke(ret);
+
+            return ret;
+        }
     }
 }

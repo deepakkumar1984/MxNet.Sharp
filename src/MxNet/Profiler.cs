@@ -267,6 +267,6 @@ namespace MxNet
             throw new NotImplementedException();
         }
 
-        public static ContextVar _current_scope = new ContextVar("profilerscope", @default: "<unk>:");
+        public static ContextVar<string> _current_scope = new ContextVar<string>("profilerscope", @default: "<unk>:");
     }
 }

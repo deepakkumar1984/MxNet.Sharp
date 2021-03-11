@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Libs;
 using System.Collections.Generic;
 using System.Threading;
 using static MxNet.Name;
@@ -22,82 +23,49 @@ namespace MxNet.Gluon
     public class _BlockScope : MxDisposable
     {
         private static readonly ThreadLocal<_BlockScope> _current = new ThreadLocal<_BlockScope>();
-
+        internal ContextVar<Dictionary<string, int>> _naming_counter = new ContextVar<Dictionary<string, int>>("namecounter");
+        internal ContextVar<string> _prefix = new ContextVar<string>("prefix", "");
         private readonly Block _block;
         private readonly Dictionary<string, int> _counter = new Dictionary<string, int>();
-        private Prefix _name_scope;
-        private _BlockScope _old_scope;
 
         public _BlockScope(Block block)
         {
             _block = block;
-            _old_scope = null;
-            _name_scope = null;
             _counter = new Dictionary<string, int>();
         }
 
         public ParameterDict Params { get; set; }
 
-        public static (string, ParameterDict) Create(string prefix, ParameterDict @params, string hint)
-        {
-            var current = _current.IsValueCreated ? _current.Value : null;
-            if (current == null)
-            {
-                if (prefix == null)
-                {
-                    if (!NameManager.current.IsValueCreated)
-                        NameManager.current.Value = new NameManager();
-
-                    prefix = NameManager.current.Value.Get(null, hint) + "_";
-                }
-
-                if (@params == null)
-                    @params = new ParameterDict(prefix);
-                else
-                    @params = new ParameterDict(@params.Prefix, @params);
-
-                return (prefix, @params);
-            }
-
-            if (string.IsNullOrWhiteSpace(prefix))
-            {
-                var count = current._counter.ContainsKey(hint) ? _current.Value._counter[hint] : 0;
-                prefix = hint + count;
-                current._counter[hint] = count + 1;
-            }
-
-            if (@params == null)
-            {
-                var parent = current._block.Params;
-                @params = new ParameterDict(parent.Prefix + prefix, parent.Shared);
-            }
-            else
-            {
-                @params = new ParameterDict(@params.Prefix + prefix, @params);
-            }
-
-            return (current._block.Prefix + prefix, @params);
-        }
-
         public override MxDisposable With()
         {
-            if (string.IsNullOrWhiteSpace(_block.Prefix))
-                return null;
+            var name = _block.GetType().Name.ToLower();
+            var counter = _naming_counter.Get();
+            if (counter != null)
+            {
+                var count = counter.ContainsKey(name) ? counter[name] : 0;
+                if (!counter.ContainsKey(name))
+                    counter.Add(name, 0);
 
-            _old_scope = _current.Value;
-            _name_scope = new Prefix(_block.Prefix);
-            _name_scope.With();
+                counter[name] = count + 1;
+                name = $"{name}{count}";
+            }
+
+            var counter_token = _naming_counter.Set(new Dictionary<string, int>());
+            var prefix_token = _prefix.Set(_prefix.Get() + name + "_");
+            
+            using (var n =  new Prefix(_prefix.Get())) {
+                var p = Profiler.Scope(name + ":");
+            }
+
+            _naming_counter.Reset(counter_token);
+
             return this;
         }
 
         public override void Exit()
         {
-            if (string.IsNullOrWhiteSpace(_block.Prefix))
+            if (string.IsNullOrWhiteSpace(_block.GetType().Name.ToLower()))
                 return;
-
-            _name_scope.Exit();
-            _name_scope = null;
-            _current.Value = _old_scope;
         }
     }
 }

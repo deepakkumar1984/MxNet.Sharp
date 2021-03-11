@@ -40,16 +40,34 @@ namespace MxNet.Gluon
 
     public class HybridBlock : Block
     {
-        internal bool _active;
-        internal (SymbolList, Symbol)? _cached_graph;
         internal CachedOp _cached_op;
         internal readonly List<CachedOpArg> _cached_op_args = new List<CachedOpArg>();
         internal readonly Dictionary<string, string> _flags = new Dictionary<string, string>();
-        internal List<int> _in_format;
-        internal List<int> _out_format;
+        internal bool _called_infer_shape_already;
+        internal bool _monitor_all;
+        internal string _backend;
+        internal Dictionary<object, object> _backend_opts;
+        internal Action<string, string, NDArray> _callback;
+        internal bool _v2;
+        internal bool _partition_if_dynamic;
+        internal bool _first_forward;
 
-        public HybridBlock(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+        public HybridBlock() : base()
         {
+            this._v2 = true;
+            this._cached_graph = (null, null);
+            this._cached_op = null;
+            this._out_format = null;
+            this._in_format = null;
+            this._called_infer_shape_already = false;
+            this._active = false;
+            this._flags = new Dictionary<string, string>();
+            this._callback = null;
+            this._monitor_all = false;
+            this._backend = null;
+            this._backend_opts = new Dictionary<object, object>();
+            this._partition_if_dynamic = true;
+            this._first_forward = true;
         }
 
         public HybridBlock(Dictionary<string, Block> blocks, bool loadkeys = false)
@@ -64,44 +82,147 @@ namespace MxNet.Gluon
             }
         }
 
-        private (SymbolList, Symbol) GetGraph(NDArrayList args)
+        private (SymbolList, Symbol) GetGraphV1(NDArrayList args)
         {
-            if (!_cached_graph.HasValue)
+            if (_cached_graph.Item1 == null)
             {
                 var inputs = new SymbolList();
-                var (args_sym, _in_format) = Flatten(args.Select(x => new NDArrayOrSymbol(x)).ToArray(), "input");
-                if (args_sym.Length > 1)
-                    for (var i = 0; i < args_sym.Length; i++)
-                        inputs.Add(Symbol.Variable($"data{i}"));
-                else
-                    inputs.Add(Symbol.Variable("data"));
+                var (flatten_args, _in_format) = Flatten(args.Select(x => new NDArrayOrSymbol(x)).ToArray(), "input");
 
-                var grouped_inputs = Regroup(new List<NDArrayOrSymbol[]> {inputs.ToNDArrayOrSymbols()},
-                    _in_format.ToList()).Item1;
+                var flatten_inputs = new List<NDArrayOrSymbol[]>();
+                var symbol_inputs = new List<Symbol>();
+                var cnt = 0;
+                var real_arg_num = flatten_args.Select(x => x != null).Count();
+                if (real_arg_num == 0)
+                {
+                    throw new Exception($"All args are None and we do not support such a case.");
+                }
 
-                var @params = new SymbolDict();
-                foreach (var item in _reg_params) @params[item.Key] = item.Value.Var();
+                foreach (var arg in flatten_args)
+                {
+                    Symbol arg_sym;
+                    if (arg != null)
+                    {
+                        if (real_arg_num > 1)
+                        {
+                            arg_sym = Symbol.Var("datacnt{}");
+                        }
+                        else
+                        {
+                            arg_sym = Symbol.Var("data");
+                        }
 
+                        cnt += 1;
+                        flatten_inputs.Add(new NDArrayOrSymbol[] { arg_sym });
+                        symbol_inputs.Add(arg_sym);
+                    }
+                    else
+                    {
+                        flatten_inputs.Add(null);
+                    }
+                }
+
+                var grouped_inputs = Regroup(flatten_inputs, this._in_format).Item1;
                 var outputs = new List<NDArrayOrSymbol>();
+                using (var _ = new _BlockScope(this))
+                {
+                    var @params = new SymbolDict();
+                    foreach (var item in _reg_params) @params[item.Key] = item.Value.Var();
 
-                foreach (var input in grouped_inputs)
-                    outputs.Add(HybridForward(input, @params.Values.ToNDArrayOrSymbols()));
+                    foreach (var input in grouped_inputs)
+                        outputs.Add(HybridForward(input, @params.Values.ToNDArrayOrSymbols()));
+                }
 
                 var (@out, _out_format) = Flatten(outputs.ToArray(), "output");
                 _cached_graph = (inputs.ToArray(), Symbol.Group(@out.ToList().ToSymbols()));
             }
 
-            return _cached_graph.Value;
+            return _cached_graph;
+        }
+
+        private (SymbolList, Symbol)  GetGraphV2(NDArrayList args)
+        {
+            List<string> arg_names = new List<string>();
+            if (_cached_graph.Item1 == null)
+            {
+                var inputs = new SymbolList();
+                var (flatten_args, _in_format) = Flatten(args.Select(x => new NDArrayOrSymbol(x)).ToArray(), "input");
+                flatten_args = new NDArrayOrSymbolList((from ele in flatten_args
+                                                        select ele != null ? ele.NdX.Detach() : null).ToArray()).ToArray();
+                var real_args = (from ele in flatten_args
+                                 where ele != null
+                                 select ele).ToList();
+                if (real_args.Count == 0)
+                {
+                    throw new Exception("All args are None and we do not support such a case.");
+                }
+                if (real_args.Count == 1)
+                {
+                    arg_names = new List<string> { "data" };
+                }
+                else
+                {
+                    for(int i = 0; i<real_args.Count; i++)
+                    {
+                        arg_names.Add($"data{i}");
+                    }
+                }
+
+                SymbolList symbol_inputs = new SymbolList();
+                for(int i = 0; i< real_args.Count; i++)
+                {
+                    var name = arg_names[i];
+                    var arg = real_args[i];
+                    symbol_inputs.Add(Symbol.Var(name));
+                }
+
+                DeferredCompute.SetVariable(real_args, symbol_inputs);
+                args = Regroup(new List<NDArrayOrSymbol[]> { flatten_args }, this._in_format).Item1;
+                NDArrayOrSymbol @out;
+                using(var ag = Autograd.Pause())
+                {
+                    DeferredCompute.Context();
+                    @out = base.Call(args.ToNDArrayOrSymbols()[0], args.Length > 1 ? args.ToNDArrayOrSymbols().Skip(1).ToArray() : null);
+                }
+
+                var (flatten_out, out_format) = Flatten(new NDArrayOrSymbol[] { @out }, "output");
+                this._out_format = out_format.ToList();
+                var symbol_outputs = DeferredCompute.GetSymbol(flatten_out);
+                this._cached_graph = (symbol_inputs, symbol_outputs);
+            }
+            return this._cached_graph;
+        }
+
+        private (SymbolList, Symbol) GetGraph(NDArrayList args)
+        {
+            if (_cached_graph.Item1 == null)
+            {
+                if (!this._v2)
+                {
+                    return this.GetGraphV1(args);
+                }
+                else
+                {
+                    // Gluon 2 based on deferred compute mode
+                    return this.GetGraphV2(args);
+                }
+            }
+
+            return this._cached_graph;
         }
 
         private void BuildCache(NDArrayList args)
         {
             var (data, @out) = GetGraph(args);
             var data_names = data.Select(x => x.Name).ToArray();
-            var @params = CollectParams();
-            var input_names = @out.ListInputs().ToArray();
+            
 
-            var param_names = MxUtil.Set(@params.Keys().ToList()).ToArray();
+            var @params = this.CollectParams().Values().ToDictionary(p => p.Var().Name, p => p);
+            var param_serialization_names = this.CollectParams().Items().ToDictionary(_tup_3 => _tup_3.Value.Var().Name, _tup_3 => _tup_3.Key);
+            var param_names = new HashSet<string>(@params.Keys).ToArray();
+
+            param_names = MxUtil.Set(@params.Keys.ToList()).ToArray();
+            var input_names = @out.ListInputs().ToArray();
             var expected_names = MxUtil.Set(input_names.ToList());
             foreach (var name in expected_names)
                 if (!param_names.Contains(name) && !data_names.Contains(name))
@@ -138,6 +259,92 @@ namespace MxNet.Gluon
             if (used_param_names.Count != param_names.Length)
                 Logger.Warning($"The {string.Join(",", used_param_names)} input to HybridBlock is not used by any " +
                                "computation. Is this intended?");
+
+            var _tup_5 = Flatten(new NDArrayOrSymbolList(args).ToArray(), "input");
+            args = _tup_5.Item1;
+            try
+            {
+                foreach (var name in input_names)
+                {
+                    if (@params.ContainsKey(name)) 
+                    {
+                        @params[name].Data();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this.DeferredInferShape(args);
+                foreach (var name in input_names)
+                {
+                    if (@params.ContainsKey(name)) {
+                        @params[name].FinishDeferredInit();
+                    }
+                }
+            }
+
+            var arg_dict = new NDArrayDict();
+            var aux_dict = new NDArrayDict();
+            if (!string.IsNullOrWhiteSpace(this._backend))
+            {
+                // set context for inputs
+                var _tup_6 = GatherTypeCtxInfo(args.ToNDArrayOrSymbols());
+                var ctx_set = _tup_6.Item3;
+                Context ctx = null;
+                if(ctx_set.Length > 0)
+                {
+                    ctx = ctx_set.Last();
+                    ctx_set.ToList().RemoveAt(ctx_set.Length - 1);
+                }
+                
+                // get list of params in the order of out.list_arguments
+                var input_shapes = new Dictionary<string, Shape>();
+                foreach (var name in @out.ListArguments())
+                {
+                    if (data_names.keys().Contains(name) && data_names[name] < args.Count)
+                    {
+                        if (args[data_names[name]] is NDArray)
+                        {
+                            arg_dict[name] = args[data_names[name]];
+                        }
+                        else if (args[data_names[name]] is symbol.Symbol && args[data_names[name]].list_attr().Contains("__shape__"))
+                        {
+                            shape_str = args[data_names[name]].list_attr()["__shape__"];
+                            input_shapes[name] = tuple(map(@int, shape_str.strip("()").split(",")));
+                        }
+                    }
+                    else if (params.Contains(name)) {
+                        arg_dict[name] = params[name].data();
+                    }
+                }
+                foreach (var name in @out.ListAuxiliaryStates())
+                {
+                    if (data_names.keys().Contains(name) && data_names[name] < args.Count)
+                    {
+                        if (args[data_names[name]] is NDArray)
+                        {
+                            aux_dict[name] = args[data_names[name]];
+                        }
+                        else if (args[data_names[name]] is symbol.Symbol && args[data_names[name]].list_attr().Contains("__shape__"))
+                        {
+                            shape_str = args[data_names[name]].list_attr()["__shape__"];
+                            input_shapes[name] = tuple(map(@int, shape_str.strip("()").split(",")));
+                        }
+                    }
+                    else if (params.Contains(name)) {
+                        aux_dict[name] = params[name].data();
+                    }
+                }
+                // Partition the graph
+                @out = @out.OptimizeFor(this._backend, arg_dict, aux_dict, ctx, input_shapes, this._backend_opts);
+                //update cached graph with partitioned graph
+                if (update_graph)
+                {
+                    this._cached_graph = (data, @out);
+                }
+            }
+
+            input_names = @out.ListInputs();
 
             var data_indices = new List<int>();
             var param_indices = new List<int>();
@@ -308,11 +515,11 @@ namespace MxNet.Gluon
 
         public void Export(string path, int epoch = 0, bool remove_amp_cast = true)
         {
-            if (!_cached_graph.HasValue)
+            if (_cached_graph.Item1 == null)
                 throw new Exception("Please first call block.hybridize() and then run forward with " +
                                     "this block at least once before calling export.");
 
-            var sym = _cached_graph.Value.Item2;
+            var sym = _cached_graph.Item2;
             sym.Save($"{path}\\symbol.json", remove_amp_cast);
 
             var arg_names = MxUtil.Set(sym.ListArguments().ToList());

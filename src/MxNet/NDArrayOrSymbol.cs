@@ -355,6 +355,24 @@ namespace MxNet
             data = args.ToList();
         }
 
+        public NDArrayOrSymbolList(params NDArray[] args)
+        {
+            data = new List<NDArrayOrSymbol>();
+            foreach (var item in args)
+            {
+                data.Add(item);
+            }
+        }
+
+        public NDArrayOrSymbolList(params Symbol[] args)
+        {
+            data = new List<NDArrayOrSymbol>();
+            foreach (var item in args)
+            {
+                data.Add(item);
+            }
+        }
+
         public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol) args)
         {
             data = new List<NDArrayOrSymbol> { args.Item1, args.Item2 };

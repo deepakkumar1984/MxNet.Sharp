@@ -15,7 +15,9 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using MxNet.Initializers;
@@ -28,31 +30,25 @@ namespace MxNet.Gluon
 
         public delegate void Hook(Block block, NDArrayOrSymbol input);
 
+        public bool _active;
+        public (SymbolList, Symbol) _cached_graph;
         public Dictionary<string, Block> _childrens;
         internal Dictionary<int, Hook> _forward_hooks;
         internal Dictionary<int, Hook> _forward_pre_hooks;
         internal Dictionary<string, Parameter> _reg_params;
+        public List<int> _in_format;
+        public List<int> _out_format;
 
-        internal _BlockScope _scope;
-
-        public Block(string prefix, ParameterDict @params)
+        public Block()
         {
-            (Prefix, Params) = _BlockScope.Create(prefix, @params, Alias());
-            Name = prefix != null && prefix.EndsWith("_") ? prefix.Substring(0, prefix.Length - 1) : prefix;
-            _scope = new _BlockScope(this);
+            
             _childrens = new Dictionary<string, Block>();
             _reg_params = new Dictionary<string, Parameter>();
             _forward_hooks = new Dictionary<int, Hook>();
             _forward_pre_hooks = new Dictionary<int, Hook>();
         }
 
-        public string Prefix { get; set; }
-
         public virtual ParameterDict Params { get; set; }
-
-        public string Name { get; set; }
-
-        public _BlockScope NameScope => _scope;
 
         public object this[string name]
         {
@@ -63,6 +59,19 @@ namespace MxNet.Gluon
 
                 if (value is Block)
                     RegisterChild((Block) value);
+
+                if (value is HybridBlock) 
+                {
+                    var blk = (HybridBlock)value;
+                    if (this._active)
+                    {
+                        Logger.Warning("Currently the model has been hybridized. Automatically deactivate the hybridization when changing the children blocks.");
+                        this._active = false;
+                    }
+
+                    blk.ClearCachedOp();
+                    RegisterChild(blk);
+                }
             }
         }
 
@@ -89,6 +98,49 @@ namespace MxNet.Gluon
             _reg_params[name] = value;
         }
 
+        public virtual Block ShareParameters(ParameterDict shared)
+        {
+            if (shared == null)
+            {
+                return this;
+            }
+           
+            var shared_set = new HashSet<string>(shared.Keys()).ToList();
+            this._shared_parameters(shared, shared_set);
+            if (shared_set.Count > 0)
+            {
+                foreach (var name in shared_set)
+                {
+                    Logger.Warning($"Parameter name {name} is not in the current model!");
+                }
+            }
+            return this;
+        }
+
+        public virtual void _shared_parameters(ParameterDict shared, List<string> shared_set, string prefix = "")
+        {
+            if (!string.IsNullOrWhiteSpace(prefix))
+            {
+                prefix += ".";
+            }
+
+            foreach (var p in this._reg_params)
+            {
+                var key = prefix + p.Key;
+                if (shared.Get(key) != null)
+                {
+                    this[p.Key] = shared[key];
+                    shared_set.Remove(key);
+                }
+            }
+            foreach (var c in this._childrens)
+            {
+                var name = c.Key;
+                var child = c.Value;
+                child._shared_parameters(shared, shared_set, prefix + name);
+            }
+        }
+
         public virtual string Alias()
         {
             return GetType().Name.ToLower();
@@ -96,43 +148,63 @@ namespace MxNet.Gluon
 
         public ParameterDict CollectParams(string select = null)
         {
-            var ret = new ParameterDict(Params.Prefix);
-            if (string.IsNullOrWhiteSpace(select))
+            return CollectParamsWithPrefix(select: select);
+        }
+
+        public virtual ParameterDict CollectParamsWithPrefix(string prefix = "", string select = null)
+        {
+            ParameterDict ret = new ParameterDict(); 
+            if (!string.IsNullOrWhiteSpace(prefix))
             {
-                ret.Update(Params);
+                prefix += ".";
+            }
+
+            if (select == null)
+            {
+                foreach (var item in _reg_params)
+                {
+                    ret.Add(prefix + item.Key, item.Value);
+                }
             }
             else
             {
                 var pattern = new Regex(select);
-                var matchedParams = new ParameterDict();
-                foreach (var item in Params.Items())
-                    if (pattern.IsMatch(item.Key))
-                        matchedParams[item.Key] = item.Value;
-
-                ret.Update(matchedParams);
+                foreach (var item in _reg_params)
+                {
+                    if(pattern.IsMatch(prefix + item.Key))
+                        ret.Add(prefix + item.Key, item.Value);
+                }
             }
 
-            foreach (var item in _childrens.Values) ret.Update(item.CollectParams(select));
+            foreach (var item in this._childrens)
+            {
+                var name = item.Key;
+                var child = item.Value;
+                ret.Update(child.CollectParamsWithPrefix(prefix + name, select));
+            }
 
             return ret;
         }
 
-        public virtual ParameterDict CollectParamsWithPrefix(string prefix = "")
-        {
-            var ret = new ParameterDict();
-            if (!string.IsNullOrWhiteSpace(prefix)) prefix += ".";
-
-            foreach (var item in _reg_params) ret[prefix + item.Key] = item.Value;
-
-            foreach (var item in _childrens) ret.Update(item.Value.CollectParamsWithPrefix(prefix + item.Key));
-
-            return ret;
-        }
-
-        public void SaveParameters(string filename)
+        public void SaveParameters(string filename, bool deduplicate = false)
         {
             var arg_dict = new NDArrayDict();
             var collected_params = CollectParamsWithPrefix();
+
+            if (deduplicate)
+            {
+                ParameterDict reverse_params = new ParameterDict();
+                foreach (var item in collected_params)
+                {
+                    if(!reverse_params.ContainsValue(item.Value))
+                    {
+                        reverse_params.Add(item.Key, item.Value);
+                    }
+                }
+
+                collected_params.Clear();
+                collected_params = reverse_params;
+            }
 
             foreach (var item in collected_params.Items()) arg_dict[item.Key] = item.Value.Reduce();
 
@@ -142,39 +214,60 @@ namespace MxNet.Gluon
         public void LoadParameters(string filename, Context ctx = null, bool allow_missing = false,
             bool ignore_extra = false, bool cast_dtype = false, string dtype_source = "current")
         {
-            LoadParameters(filename, ctx == null ? null : new []{ ctx }, allow_missing, ignore_extra, cast_dtype, dtype_source);
+            NDArray.Load(filename, out var loaded);
+            LoadDict(filename, loaded, ctx, allow_missing, ignore_extra, cast_dtype, dtype_source);
         }
 
-        public void LoadParameters(string filename, Context[] ctx = null, bool allow_missing = false,
-            bool ignore_extra = false, bool cast_dtype = false, string dtype_source = "current")
+        public virtual void LoadDict(
+                string filename,
+                NDArrayDict param_dict,
+                Context ctx = null,
+                bool allow_missing = false,
+                bool ignore_extra = false,
+                bool cast_dtype = false,
+                string dtype_source = "current")
         {
-            var loaded = new NDArrayDict();
-            var @params = CollectParamsWithPrefix();
-            NDArray.Load(filename, out loaded);
-
-            if (loaded == null && @params == null)
-                return;
-
-            if (!loaded.Keys.Any(x => x.Contains(".")))
-            {
-                loaded = null;
-                CollectParams().Load(filename, ctx, allow_missing, ignore_extra, Prefix, cast_dtype, dtype_source);
-                return;
-            }
+            var @params = this.CollectParams();
+            var error_str = filename != null ? $"file: {filename}" : "param_dict";
+            var loaded = param_dict.ToDictionary(_tup_1 => _tup_1.Key.StartsWith("arg:") || _tup_1.Key.StartsWith("aux:") ? _tup_1.Key.Substring(4): _tup_1.Key, _tup_1 => _tup_1.Value);
 
             if (!allow_missing)
-                foreach (var name in @params.Keys())
-                    if (!loaded.Contains(name))
-                        throw new Exception(string.Format("Parameter '{0}' is missing in file '{1}'", name, filename));
+            {
+                var params_inv = new Dictionary<Parameter, List<string>>();
+                foreach (var p in @params) {
+                    if(params_inv.ContainsKey(p.Value))
+                    {
+                        params_inv[p.Value].Add(p.Key);
+                    }
+                    else
+                    {
+                        params_inv.Add(p.Value, new List<string>() { p.Key });
+                    }
+                }
+
+                foreach (var p in @params) {
+                    var name = p.Key;
+                    var param = p.Value;
+                    Debug.Assert((from pkey in params_inv[param]
+                                     select loaded.ContainsKey(pkey)).Any(),
+                                     $"Parameter '{name}' is missing in '{error_str}', which contains parameters: {string.Join(",", loaded.Keys)}. Set allow_missing=True to ignore missing parameters.");
+                }
+            }
+            if (ctx == null)
+            {
+                ctx = Context.CurrentContext;
+            }
 
             foreach (var name in loaded.Keys)
             {
-                if (!ignore_extra && !@params.Contains(name))
-                    throw new Exception(string.Format(
-                        "Parameter '{0}' loaded from file {1} is not present in ParameterDict", name, filename));
+                if (!ignore_extra && !@params.ContainsKey(name)) {
+                    throw new Exception($"Parameter '{name}' loaded from '{error_str}' is not present in Dict, which contains parameters {string.Join(",", loaded.Keys)}. Set ignore_extra=True to ignore. ");
+                }
 
-                if (@params.Contains(name))
-                    @params[name].LoadInit(loaded[name], ctx, cast_dtype, dtype_source);
+                if (@params.ContainsKey(name)) {
+                    var param = loaded[name];
+                    @params[name].LoadInit(param, new Context[] { ctx }, cast_dtype: cast_dtype, dtype_source: dtype_source);
+                }
             }
         }
 
@@ -184,6 +277,7 @@ namespace MxNet.Gluon
                 name = _childrens.Count.ToString();
 
             _childrens[name] = block;
+            //ToDo: Implement weak reference
         }
 
         public HookHandle RegisterForwardPreHook(Hook hook)
@@ -216,6 +310,131 @@ namespace MxNet.Gluon
             CollectParams().Initialize(init, ctx, verbose, force_reinit);
         }
 
+        private int _save_cached_graphs(Block blk, Dictionary<string, object> structure, int index)
+        {
+            // create new entry for this block
+            var mdl = new Dictionary<string, object>();
+
+            // encode unique name based on block type and ID
+            var name = blk.GetType().Name.ToLower();
+            structure[name + index.ToString()] = mdl;
+            index += 1;
+            if (blk is HybridBlock)
+            {
+                if (blk._cached_graph.Item1 != null)
+                {
+                    // save in/out formats
+                    mdl["in_format"] = blk._in_format;
+                    mdl["out_format"] = blk._out_format;
+                    // save cached graph & input symbols
+                    var _tup_1 = blk._cached_graph;
+                    var syms = _tup_1.Item1;
+                    var @out = _tup_1.Item2;
+                    var mdl_syms = new List<string>();
+                    foreach (var sym in syms)
+                    {
+                        mdl_syms.Add(sym.ToJSON());
+                    }
+
+                    mdl["inputs"] = mdl_syms;
+                    mdl["symbol"] = @out.ToJSON();
+                    mdl["hybridized"] = true;
+                }
+                else
+                {
+                    mdl["hybridized"] = false;
+                }
+            }
+            // save param uuids
+            var pmap = new Dictionary<string, string>();
+            var pnames = blk.Params.Keys();
+
+            foreach (var p in pnames)
+            {
+                var param = blk.Params[p];
+                pmap[p] = param._uuid;
+            }
+
+            mdl["params"] = pmap;
+
+            // recursively save children
+            foreach (var child in blk._childrens.Values)
+            {
+                index = _save_cached_graphs(child, mdl, index);
+            }
+
+            // return latest index (ie. block count)
+            return index;
+        }
+
+        public virtual void Save(string prefix)
+        {
+            // create empty model structure
+            var model = new Dictionary<string, object>();
+
+            // save top-level block
+            _save_cached_graphs(this, model, 0);
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+            File.WriteAllText(prefix + "-model.json", json);
+            // save params
+            this.SaveParameters("MyModel-model.params");
+        }
+
+        private int _load_cached_graphs(Block blk, Dictionary<string, object> structure, int index)
+        {
+            var name = type(blk).@__name__.lower();
+            // lookup previous encoded name based on block type and ID
+            var mdl = (Dictionary<string, object>)structure[name + index.ToString()];
+            index += 1;
+            if (blk is HybridBlock)
+            {
+                if (mdl.ContainsKey("hybridized"))
+                {
+                    // restore in/out formats
+                    blk._in_format = (List<int>)mdl["in_format"];
+                    blk._out_format = (List<int>)mdl["out_format"];
+                    // get saved symbol
+                    var @out = Symbol.FromJSON(mdl["symbol"].ToString());
+                    var syms = new List<Symbol>();
+                    // recreate inputs for this symbol
+                    foreach (var inp in (string[])mdl["inputs"])
+                    {
+                        syms.Add(Symbol.FromJSON(inp));
+                    }
+                    // reset cached_graph and active status
+                    blk._cached_graph = (syms, @out);
+                    blk._active = true;
+                }
+            }
+            // reload param uuids
+            var pmap = (Dictionary<string, string>)mdl["params"];
+            foreach (var p in pmap)
+            {
+                var param = blk.Params[p.Key];
+                param._uuid = p.Value;
+            }
+
+            // recursively reload children
+            foreach (var child in blk._childrens)
+            {
+                index = _load_cached_graphs(child.Value, mdl, index);
+            }
+            // return latest index (ie. block count)
+            return index;
+        }
+
+        public virtual void Load(string prefix)
+        {
+            // load model json from file
+            var json = File.ReadAllText(prefix + "-model.json");
+            var model = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
+
+            // load top-level block
+            _load_cached_graphs(this, model, 0);
+            // load params
+            this.LoadParameters("MyModel-model.params");
+        }
+
         public virtual void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)
         {
             foreach (var cld in _childrens.Values) cld.Hybridize(active, static_alloc, static_shape);
@@ -226,6 +445,53 @@ namespace MxNet.Gluon
             foreach (var item in _childrens.Values) item.Cast(dtype);
 
             foreach (var item in Params.Items()) item.Value.Cast(dtype);
+        }
+
+        public virtual void zero_grad()
+        {
+            // collect gradient arrays for each ctx
+            var arrays = new Dictionary<Context, NDArrayList>();
+            var @params = this.CollectParams();
+            foreach (var p in @params.Values()) {
+                if (p.GradReg ==  OpGradReq.Null || p._grad == null)
+                {
+                    continue;
+                }
+
+                var grads = p.ListGrad();
+                for(int i = 0; i< grads.Length; i++)
+                {
+                    var g = grads[i];
+                    if (g.SType == StorageStype.RowSparse)
+                    {
+                        g = nd.ZerosLike(g);
+                    }
+                    else
+                    {
+                        if (arrays.ContainsKey(g.Context))
+                            arrays.Add(g.Context, g);
+                        else
+                            arrays[g.Context].Add(g);
+                    }
+                }
+            }
+            if (arrays.Count == 0)
+            {
+                return;
+            }
+
+            foreach (var arr in arrays.Values)
+            {
+                nd.ResetArrays(arr);
+            }
+        }
+
+        public void ResetCtx(Context ctx)
+        {
+            var @params = this.CollectParams();
+            foreach (var i in @params.Values()) {
+                i.ResetCtx(new Context[] { ctx });
+            }
         }
 
         public virtual NDArrayOrSymbol Call(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
@@ -239,6 +505,14 @@ namespace MxNet.Gluon
         }
 
         public abstract NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args);
+
+        public virtual void RegisterOpHook(Action<string, string, NDArray> callback, bool monitor_all = false)
+        {
+            foreach (var cld in this._childrens.Values)
+            {
+                cld.RegisterOpHook(callback, monitor_all);
+            }
+        }
 
         public virtual void Summary(NDArrayList inputs)
         {
@@ -367,6 +641,57 @@ namespace MxNet.Gluon
             }
 
             return (arg_types, aux_types);
+        }
+
+        public static (bool, bool, Context[], Context) GatherTypeCtxInfo(NDArrayOrSymbolList args)
+        {
+            var has_symbol = false;
+            var has_ndarray = false;
+            var ctx_set = new List<Context>();
+            Context first_ctx = null;
+            foreach (var ele in args)
+            {
+                var _tup_1 = GatherTypeCtxInfo(ele);
+                var ele_has_sym = _tup_1.Item1;
+                var ele_has_nd = _tup_1.Item2;
+                var ele_ctx_set = _tup_1.Item3;
+                var ele_first_ctx = _tup_1.Item4;
+                has_symbol = has_symbol || ele_has_sym;
+                has_ndarray = has_ndarray || ele_has_nd;
+                if (first_ctx == null && ele_first_ctx != null)
+                {
+                    first_ctx = ele_first_ctx;
+                }
+
+                foreach (var item in ele_ctx_set)
+                {
+                    if (!ctx_set.Contains(item))
+                        ctx_set.Add(item);
+                }
+                
+                if (has_symbol && has_ndarray)
+                {
+                    break;
+                }
+            }
+
+            return (has_symbol, has_ndarray, ctx_set.ToArray(), first_ctx);
+        }
+
+        public static (bool, bool, Context[], Context) GatherTypeCtxInfo(NDArrayOrSymbol args)
+        {
+            if (args.IsNDArray)
+            {
+                return(false, true, new Context[]{ args.NdX.Context }, args.NdX.Context);
+            }
+            else if (args.IsSymbol)
+            {
+                return (true, false, new Context[0], null);
+            }
+            else
+            {
+                return (false, false, null, null);
+            }
         }
 
         public override string ToString()
