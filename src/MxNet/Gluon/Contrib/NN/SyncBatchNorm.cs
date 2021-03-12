@@ -26,7 +26,7 @@ namespace MxNet.Gluon.Contrib.NN
             string running_variance_initializer = "ones",
             string prefix = "", ParameterDict @params = null)
             : base(1, momentum, epsilon, center, scale, use_global_stats, beta_initializer, gamma_initializer,
-                running_mean_initializer, running_variance_initializer, in_channels, prefix, @params)
+                running_mean_initializer, running_variance_initializer, in_channels)
         {
             throw new NotImplementedException();
         }

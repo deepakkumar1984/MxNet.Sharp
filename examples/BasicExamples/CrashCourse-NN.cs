@@ -99,7 +99,7 @@ namespace BasicExamples
         public static float Acc(NDArray output, NDArray label)
         {
             // output: (batch, num_output) float32 ndarray
-            // label: (batch, ) int32 ndarray
+            // label: (batch) int32 ndarray
             return nd.Equal(output.Argmax(axis: 1), label.AsType(DType.Float32)).Mean();
         }
     }

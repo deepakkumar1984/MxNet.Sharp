@@ -26,7 +26,7 @@ namespace MxNet.Gluon.Contrib.CNN
             string bias_initializer = "zeros", string offset_weight_initializer = "zeros",
             string offset_bias_initializer = "zeros", bool offset_use_bias = true,
             string op_name = "DeformableConvolution", (int, int)? adj = null,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "") : base()
         {
             throw new NotImplementedException();
         }

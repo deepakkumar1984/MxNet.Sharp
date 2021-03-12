@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Losses
     public class HingeLoss : Loss
     {
         public HingeLoss(float margin = 1, float? weight = null, int? batch_axis = 0, string prefix = null,
-            ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+            ParameterDict @params = null) : base(weight, batch_axis)
         {
             Margin = margin;
         }

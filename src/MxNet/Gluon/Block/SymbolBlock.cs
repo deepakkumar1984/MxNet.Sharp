@@ -22,7 +22,7 @@ namespace MxNet.Gluon
     public class SymbolBlock : HybridBlock
     {
         public SymbolBlock(SymbolList outputs, SymbolList inputs, ParameterDict @params = null)
-            : base("", new ParameterDict("", @params))
+            : base()
         {
             Construct(outputs, inputs, @params);
         }
@@ -54,7 +54,29 @@ namespace MxNet.Gluon
             var arg_params = @out.ListArguments().ToArray();
             var aux_params = @out.ListAuxiliaryStates().ToArray();
             var (arg_types, aux_types) = InferParamTypes(syms, @out, arg_params, aux_params);
+            if (@params == null) {
+                @params = new ParameterDict();
+            }
 
+            var unused_params = new HashSet<string>(@params.Keys()).ToList();
+            foreach (var item in new HashSet<string>(arg_params).ToList())
+            {
+                if (unused_params.Contains(item))
+                    unused_params.Remove(item);
+            }
+
+            foreach (var item in new HashSet<string>(aux_params).ToList())
+            {
+                if (unused_params.Contains(item))
+                    unused_params.Remove(item);
+            }
+
+            if (unused_params.Count > 0)
+            {
+                throw new Exception($"{string.Join(",", unused_params)} params are unused by the model.");
+            }
+
+            this._reg_params = @params;
             for (int i = 0; i < arg_params.Length; i++)
             {
                 var arg = arg_params[i];
@@ -80,9 +102,14 @@ namespace MxNet.Gluon
 
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, NDArrayOrSymbol[] args)
         {
-            if(x.IsNDArray)
+            if (DeferredCompute.IsDeferredCompute())
             {
-                return CallCachedOp(args.ToList().ToNDArrays())[0];
+                throw new Exception("Calling a SymbolBlock from within HybridBlock is not yet supported in Gluon 2.");
+            }
+
+            if (x.IsNDArray)
+            {
+                return CallCachedOp(args)[0];
             }
 
             int[] in_fmt = null;
@@ -94,7 +121,7 @@ namespace MxNet.Gluon
             if (in_fmt != _in_format.ToArray())
                 throw new Exception("Invalid input format");
 
-            var ret = _cached_graph.Value.Item2.Shallowcopy();
+            var ret = _cached_graph.Value.Item2.ShallowCopy();
             SymbolDict composeArgs = new SymbolDict();
             for(int i = 0;i< _cached_graph.Value.Item1.Length;i++)
             {
@@ -138,6 +165,49 @@ namespace MxNet.Gluon
         {
             ClearCachedOp();
             base.Cast(dtype);
+            //ToDo support for float 16
+            //if (np.dtype(dtype).name == "float16")
+            //{
+            //    // correct BatchNorm types back to float32 due to its special requirement
+            //    var @out = this._cached_graph[1];
+            //    var params_list = @out.get_internals().list_inputs();
+            //    foreach (var node in params_list)
+            //    {
+            //        if (node.endswith("running_var"))
+            //        {
+            //            prefix = node[:: - 11];
+            //            sibs = (from t in ("running_mean", "gamma", "beta")
+            //                    select (prefix + t)).ToList();
+            //            is_bn = all(from p in sibs
+            //                        select params_list.Contains(p));
+            //            if (is_bn)
+            //            {
+            //                this.params.get(node).cast("float32");
+            //                foreach (var sib in sibs)
+            //                {
+            //                    this.params.get(sib).cast("float32");
+            //                }
+            //            }
+            //        }
+            //        if (node.endswith("moving_var"))
+            //        {
+            //            // another convention used
+            //            prefix = node[:: - 10];
+            //            sibs = (from t in ("moving_mean", "gamma", "beta")
+            //                    select (prefix + t)).ToList();
+            //            is_bn = all(from p in sibs
+            //                        select params_list.Contains(p));
+            //            if (is_bn)
+            //            {
+            //                this.params.get(node).cast("float32");
+            //                foreach (var sib in sibs)
+            //                {
+            //                    this.params.get(sib).cast("float32");
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
         }
     }
 }

@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Losses
     public class HuberLoss : Loss
     {
         public HuberLoss(float rho = 1, float? weight = null, int? batch_axis = 0, string prefix = null,
-            ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+            ParameterDict @params = null) : base(weight, batch_axis)
         {
             Rho = rho;
         }

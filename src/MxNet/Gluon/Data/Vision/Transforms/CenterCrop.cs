@@ -23,7 +23,7 @@ namespace MxNet.Gluon.Data.Vision.Transforms
         private readonly InterpolationFlags _interpolation;
         private readonly (int, int) _size;
 
-        public CenterCrop((int, int) size, InterpolationFlags interpolation = InterpolationFlags.Linear) : base(null, null)
+        public CenterCrop((int, int) size, InterpolationFlags interpolation = InterpolationFlags.Linear) : base()
         {
             _size = size;
             _interpolation = interpolation;

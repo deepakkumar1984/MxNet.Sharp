@@ -779,7 +779,7 @@ namespace MxNet
             }
         }
 
-        public Symbol Shallowcopy()
+        public Symbol ShallowCopy()
         {
             return (Symbol)MemberwiseClone();
         }
@@ -1002,13 +1002,19 @@ namespace MxNet
             return this;
         }
 
-        public Symbol GetInputs()
+        public SymbolList GetInputs()
         {
             NativeMethods.MXSymbolGetInputs(this.GetHandle(), out SymbolHandle handle);
-            return new Symbol(handle);
+            var sym =  new Symbol(handle);
+            return sym.ToList();
         }
 
         private (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayDict args, string[] arg_names, bool allow_missing)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasDynamicShapeOp()
         {
             throw new NotImplementedException();
         }

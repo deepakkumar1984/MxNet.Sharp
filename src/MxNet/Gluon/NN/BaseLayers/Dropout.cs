@@ -17,8 +17,7 @@ namespace MxNet.Gluon.NN
 {
     public class Dropout : HybridBlock
     {
-        public Dropout(float rate, Shape axes = null, string prefix = null, ParameterDict @params = null) : base(prefix,
-            @params)
+        public Dropout(float rate, Shape axes = null) : base()
         {
             Rate = rate;
             Axes = axes;

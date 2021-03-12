@@ -22,7 +22,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
     public class SqueezeNet : HybridBlock
     {
         public SqueezeNet(string version, int classes = 1000, string prefix = "", ParameterDict @params = null) :
-            base(prefix, @params)
+            base()
         {
             if (version != "1.0" && version != "1.1")
                 throw new NotSupportedException("Unsupported version");
@@ -110,7 +110,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public static SqueezeNet GetSqueezeNet(string version, bool pretrained = false, Context ctx = null,
             string root = "", int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
-            var net = new SqueezeNet(version, classes, prefix, @params);
+            var net = new SqueezeNet(version, classes);
             if (pretrained) net.LoadParameters(ModelStore.GetModelFile("squeezenet" + version), ctx);
 
             return net;
@@ -119,13 +119,13 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public static SqueezeNet SqueezeNet1_0(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
-            return GetSqueezeNet("1.0", pretrained, ctx, root, classes, prefix, @params);
+            return GetSqueezeNet("1.0", pretrained, ctx, root, classes);
         }
 
         public static SqueezeNet SqueezeNet1_1(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
-            return GetSqueezeNet("1.1", pretrained, ctx, root, classes, prefix, @params);
+            return GetSqueezeNet("1.1", pretrained, ctx, root, classes);
         }
     }
 }

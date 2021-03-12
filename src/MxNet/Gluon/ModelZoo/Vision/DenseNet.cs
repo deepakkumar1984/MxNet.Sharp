@@ -33,40 +33,37 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         public DenseNet(int num_init_features, int growth_rate, int[] block_config,
             int bn_size = 4, float? dropout = null, int classes = 1000,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base()
         {
-            using (NameScope.With())
+            Features = new HybridSequential(prefix = "");
+            Features.Add(new Conv2D(num_init_features, (7, 7), (2, 2), (3, 3), use_bias: false));
+            Features.Add(new BatchNorm());
+            Features.Add(new Activation(ActivationType.Relu));
+            Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
+
+            var num_features = num_init_features;
+            for (var i = 0; i < block_config.Length; i++)
             {
-                Features = new HybridSequential(prefix = "");
-                Features.Add(new Conv2D(num_init_features, (7, 7), (2, 2), (3, 3), use_bias: false));
-                Features.Add(new BatchNorm());
-                Features.Add(new Activation(ActivationType.Relu));
-                Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
-
-                var num_features = num_init_features;
-                for (var i = 0; i < block_config.Length; i++)
+                var num_layers = block_config[i];
+                Features.Add(MakeDenseBlock(num_layers, bn_size, growth_rate, dropout, i + 1));
+                num_features = num_features + num_layers * growth_rate;
+                if (i != block_config.Length - 1)
                 {
-                    var num_layers = block_config[i];
-                    Features.Add(MakeDenseBlock(num_layers, bn_size, growth_rate, dropout, i + 1));
-                    num_features = num_features + num_layers * growth_rate;
-                    if (i != block_config.Length - 1)
-                    {
-                        num_features = (int)Math.Truncate(Convert.ToDouble(num_features) / 2);
-                        Features.Add(MakeTransition(num_features));
-                    }
+                    num_features = (int)Math.Truncate(Convert.ToDouble(num_features) / 2);
+                    Features.Add(MakeTransition(num_features));
                 }
-
-                Features.Add(new BatchNorm());
-                Features.Add(new Activation(ActivationType.Relu));
-                Features.Add(new AvgPool2D((7, 7)));
-                Features.Add(new Flatten());
-
-                RegisterChild(Features, "features");
-
-                Output = new Dense(classes);
-
-                RegisterChild(Output, "output");
             }
+
+            Features.Add(new BatchNorm());
+            Features.Add(new Activation(ActivationType.Relu));
+            Features.Add(new AvgPool2D((7, 7)));
+            Features.Add(new Flatten());
+
+            RegisterChild(Features, "features");
+
+            Output = new Dense(classes);
+
+            RegisterChild(Output, "output");
         }
 
         public HybridSequential Features { get; set; }
@@ -117,10 +114,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             int stage_index)
         {
             var block = new HybridSequential($"stage{stage_index}_");
-            using (block.NameScope.With())
-            {
-                for (var i = 0; i < num_layers; i++) block.Add(MakeDenseLayer(growth_rate, bn_size, dropout));
-            }
+            for (var i = 0; i < num_layers; i++) block.Add(MakeDenseLayer(growth_rate, bn_size, dropout));
 
             return block;
         }

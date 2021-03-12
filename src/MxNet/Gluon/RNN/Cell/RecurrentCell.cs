@@ -157,7 +157,7 @@ namespace MxNet.Gluon.RNN
         internal int _init_counter;
         internal bool _modified;
 
-        public RecurrentCell(string prefix, ParameterDict @params) : base(prefix, @params)
+        public RecurrentCell() : base()
         {
             _modified = false;
             Reset();
@@ -196,7 +196,7 @@ namespace MxNet.Gluon.RNN
             {
                 var info = state_info[i];
                 _init_counter++;
-                args.Add("name", $"{Prefix}begin_state_{_init_counter}");
+                args.Add("name", $"{Alias()}begin_state_{_init_counter}");
                 if (info != null)
                     info.Update(args);
                 else

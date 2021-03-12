@@ -18,8 +18,7 @@ namespace MxNet.Gluon.NN
     public abstract class _Pooling : HybridBlock
     {
         public _Pooling(int[] pool_size, int[] strides, int[] padding, bool ceil_mode, bool global_pool,
-            PoolingType pool_type, string layout, bool? count_include_pad = null, string prefix = null,
-            ParameterDict @params = null) : base(prefix, @params)
+            PoolingType pool_type, string layout, bool? count_include_pad = null) : base()
         {
             Kernel = pool_size;
             Strides = strides ?? pool_size;

@@ -21,7 +21,7 @@ namespace MxNet.Gluon.RNN
 {
     public class SequentialRNNCell : RecurrentCell
     {
-        public SequentialRNNCell(string prefix, ParameterDict @params) : base(prefix, @params)
+        public SequentialRNNCell() : base()
         {
         }
 

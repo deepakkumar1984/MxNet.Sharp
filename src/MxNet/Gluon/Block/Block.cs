@@ -31,11 +31,13 @@ namespace MxNet.Gluon
         public delegate void Hook(Block block, NDArrayOrSymbol input);
 
         public bool _active;
-        public (SymbolList, Symbol) _cached_graph;
+        public (SymbolList, Symbol)? _cached_graph;
         public Dictionary<string, Block> _childrens;
         internal Dictionary<int, Hook> _forward_hooks;
         internal Dictionary<int, Hook> _forward_pre_hooks;
         internal Dictionary<string, Parameter> _reg_params;
+        internal bool _monitor_all;
+        internal Action<string, string, NDArray> _callback;
         public List<int> _in_format;
         public List<int> _out_format;
 
@@ -321,13 +323,13 @@ namespace MxNet.Gluon
             index += 1;
             if (blk is HybridBlock)
             {
-                if (blk._cached_graph.Item1 != null)
+                if (blk._cached_graph != null)
                 {
                     // save in/out formats
                     mdl["in_format"] = blk._in_format;
                     mdl["out_format"] = blk._out_format;
                     // save cached graph & input symbols
-                    var _tup_1 = blk._cached_graph;
+                    var _tup_1 = blk._cached_graph.Value;
                     var syms = _tup_1.Item1;
                     var @out = _tup_1.Item2;
                     var mdl_syms = new List<string>();
@@ -382,7 +384,7 @@ namespace MxNet.Gluon
 
         private int _load_cached_graphs(Block blk, Dictionary<string, object> structure, int index)
         {
-            var name = type(blk).@__name__.lower();
+            var name = this.Alias();
             // lookup previous encoded name based on block type and ID
             var mdl = (Dictionary<string, object>)structure[name + index.ToString()];
             index += 1;
@@ -435,7 +437,8 @@ namespace MxNet.Gluon
             this.LoadParameters("MyModel-model.params");
         }
 
-        public virtual void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)
+        public virtual void Hybridize(bool active = true, bool partition_if_dynamic = true, bool static_alloc = false, bool static_shape = false,
+            int inline_limit = 2, int? forward_bulk_size = null, int? backward_bulk_size = null)
         {
             foreach (var cld in _childrens.Values) cld.Hybridize(active, static_alloc, static_shape);
         }
@@ -486,11 +489,11 @@ namespace MxNet.Gluon
             }
         }
 
-        public void ResetCtx(Context ctx)
+        public virtual void ResetCtx(Context ctx)
         {
             var @params = this.CollectParams();
             foreach (var i in @params.Values()) {
-                i.ResetCtx(new Context[] { ctx });
+                i.ResetCtx(ctx);
             }
         }
 
@@ -522,7 +525,7 @@ namespace MxNet.Gluon
             }
         }
 
-        internal static (NDArrayOrSymbol[], int[]) Flatten(NDArrayOrSymbol[] args, string inout_str)
+        internal static (NDArrayOrSymbolList, int[]) Flatten(NDArrayOrSymbolList args, string inout_str)
         {
             var flat = new List<NDArrayOrSymbol>();
             var fmts = new List<int>();

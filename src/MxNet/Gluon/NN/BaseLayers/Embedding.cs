@@ -21,7 +21,7 @@ namespace MxNet.Gluon.NN
     {
         public Embedding(int input_dim, int output_dim, DType dtype = null,
             string weight_initializer = null, bool sparse_grad = false, string prefix = null,
-            ParameterDict @params = null) : base(prefix, @params)
+            ParameterDict @params = null) : base()
         {
             Input_Dim = input_dim;
             Output_Dim = output_dim;

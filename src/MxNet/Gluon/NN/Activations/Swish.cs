@@ -17,7 +17,7 @@ namespace MxNet.Gluon.NN
 {
     public class Swish : HybridBlock
     {
-        public Swish(float beta = 1, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Swish(float beta = 1, string prefix = null, ParameterDict @params = null) : base()
         {
             Beta = beta;
         }

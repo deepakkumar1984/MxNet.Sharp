@@ -20,8 +20,7 @@ namespace MxNet.Gluon.RNN
         private readonly Shape _axes;
         private readonly float _rate;
 
-        public DropoutCell(float rate, Shape axes = null, string prefix = "", ParameterDict @params = null) : base(
-            prefix, @params)
+        public DropoutCell(float rate, Shape axes = null) : base()
         {
             _rate = rate;
             _axes = axes;

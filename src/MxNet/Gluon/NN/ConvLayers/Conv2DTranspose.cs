@@ -29,7 +29,7 @@ namespace MxNet.Gluon.NN
                 padding == default ? new[] {0, 0} : new[] {padding.Item1, padding.Item2},
                 dilation == default ? new[] {1, 1} : new[] {dilation.Item1, dilation.Item2},
                 groups, layout, in_channels, activation, use_bias,
-                weight_initializer, bias_initializer, null, "Convolution", prefix, @params)
+                weight_initializer, bias_initializer, null, "Convolution")
         {
         }
     }

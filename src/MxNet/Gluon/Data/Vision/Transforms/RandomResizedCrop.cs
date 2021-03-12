@@ -26,7 +26,7 @@ namespace MxNet.Gluon.Data.Vision.Transforms
         private readonly (int, int) _size;
 
         public RandomResizedCrop((int, int) size, (float, float)? scale = null, (float, float)? ratio = null,
-            InterpolationFlags interpolation = InterpolationFlags.Linear) : base(null, null)
+            InterpolationFlags interpolation = InterpolationFlags.Linear) : base()
         {
             _size = size;
             _scale = scale.HasValue ? scale.Value : (0.08f, 1.0f);

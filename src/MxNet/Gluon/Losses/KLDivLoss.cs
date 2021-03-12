@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Losses
     public class KLDivLoss : Loss
     {
         public KLDivLoss(bool from_logits = true, int axis = -1, float? weight = null, int? batch_axis = 0,
-            string prefix = "", ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base(weight, batch_axis)
         {
             FromLogit = from_logits;
             Axis = axis;

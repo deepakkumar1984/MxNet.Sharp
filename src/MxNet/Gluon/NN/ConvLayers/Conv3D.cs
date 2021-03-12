@@ -27,7 +27,7 @@ namespace MxNet.Gluon.NN
                 !padding.HasValue ? new[] {0, 0, 0} : new[] {padding.Value.Item1, padding.Value.Item2, padding.Value.Item3},
                 !dilation.HasValue ? new[] {1, 1, 1} : new[] {dilation.Value.Item1, dilation.Value.Item2, dilation.Value.Item3},
                 groups, layout, in_channels, activation, use_bias,
-                weight_initializer, bias_initializer, null, "Convolution", prefix, @params)
+                weight_initializer, bias_initializer, null, "Convolution")
         {
         }
     }

@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Losses
     public class Loss : HybridBlock
     {
         public Loss(float? weight = null, int? batch_axis = null, string prefix = "", ParameterDict @params = null) :
-            base(prefix, @params)
+            base()
         {
             Weight = weight;
             BatchAxis = batch_axis;

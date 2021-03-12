@@ -18,7 +18,7 @@ namespace MxNet.Gluon.RNN
     public class ModifierCell : HybridRecurrentCell
     {
         public ModifierCell(RecurrentCell base_cell)
-            : base(base_cell.Prefix + base_cell.Alias(), base_cell.Params)
+            : base()
         {
             BaseCell = base_cell;
         }

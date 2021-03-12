@@ -20,7 +20,7 @@ namespace MxNet.Gluon.NN
 {
     public class Sequential : Block
     {
-        public Sequential(string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public Sequential() : base()
         {
         }
 
@@ -30,7 +30,7 @@ namespace MxNet.Gluon.NN
         {
             get
             {
-                var net = new Sequential(Prefix);
+                var net = new Sequential();
                 net.Add(_childrens[key]);
                 return net;
             }
@@ -59,13 +59,13 @@ namespace MxNet.Gluon.NN
             return $"{GetType().Name}(\n{modstr}\n)";
         }
 
-        public override void Hybridize(bool active = true, bool static_alloc = false, bool static_shape = false)
+        public override void Hybridize(bool active = true, bool partition_if_dynamic = true, bool static_alloc = false, bool static_shape = false, int inline_limit = 2, int? forward_bulk_size = null, int? backward_bulk_size = null)
         {
             if (_childrens.Values.All(x => x.GetType() == typeof(HybridBlock)))
                 Logger.Warning(string.Format("All children of this Sequential layer '{0}' are HybridBlocks. Consider " +
-                                             "using HybridSequential for the best performance.", Prefix));
+                                             "using HybridSequential for the best performance.", Alias()));
 
-            base.Hybridize(active, static_alloc, static_shape);
+            base.Hybridize(active, partition_if_dynamic, static_alloc, static_shape, inline_limit, forward_bulk_size, backward_bulk_size);
         }
     }
 }

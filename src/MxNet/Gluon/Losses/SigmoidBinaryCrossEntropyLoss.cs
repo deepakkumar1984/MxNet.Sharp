@@ -20,7 +20,7 @@ namespace MxNet.Gluon.Losses
         private readonly bool _from_sigmoid;
 
         public SigmoidBinaryCrossEntropyLoss(bool from_sigmoid = false, float? weight = null, int? batch_axis = 0,
-            string prefix = "", ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base(weight, batch_axis)
         {
             _from_sigmoid = from_sigmoid;
         }

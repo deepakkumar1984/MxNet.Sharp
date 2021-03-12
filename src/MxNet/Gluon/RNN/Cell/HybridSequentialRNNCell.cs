@@ -21,7 +21,7 @@ namespace MxNet.Gluon.RNN
 {
     public class HybridSequentialRNNCell : HybridRecurrentCell
     {
-        public HybridSequentialRNNCell(string prefix, ParameterDict @params) : base(prefix, @params)
+        public HybridSequentialRNNCell() : base()
         {
         }
 

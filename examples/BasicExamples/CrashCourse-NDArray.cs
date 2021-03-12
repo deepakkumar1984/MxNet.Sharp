@@ -70,7 +70,7 @@ namespace BasicExamples
         public Sequential blk;
         public Block dense;
 
-        public MixMLP(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+        public MixMLP() : base()
         {
             blk = new Sequential();
             blk.Add(new Dense(3, activation: ActivationType.Relu),

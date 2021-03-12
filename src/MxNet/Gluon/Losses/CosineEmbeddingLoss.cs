@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Losses
     public class CosineEmbeddingLoss : Loss
     {
         public CosineEmbeddingLoss(float? weight = null, int? batch_axis = null, float margin = 0, string prefix = null,
-            ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+            ParameterDict @params = null) : base(weight, batch_axis)
         {
             Margin = margin;
         }

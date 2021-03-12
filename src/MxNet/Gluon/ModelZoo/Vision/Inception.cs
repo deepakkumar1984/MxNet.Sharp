@@ -61,27 +61,24 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static HybridConcurrent MakeA(int pool_features, string prefix = "")
         {
             var output = new HybridConcurrent(1, prefix);
-            using (output.NameScope.With())
-            {
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(64, (1, 1))
                 }));
 
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(48, (1, 1)),
                     MakeConvSetting(64, (5, 5), null, (2, 2))
                 }));
 
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(64, (1, 1)),
                     MakeConvSetting(96, (3, 3), null, (1, 1)),
                     MakeConvSetting(96, (3, 3), null, (1, 1))
                 }));
 
-                output.Add(MakeBranch("avg", new[] {
+            output.Add(MakeBranch("avg", new[] {
                     MakeConvSetting(pool_features, (1, 1))
                 }));
-            }
 
             return output;
         }
@@ -89,20 +86,17 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static HybridConcurrent MakeB(string prefix)
         {
             var output = new HybridConcurrent(1, prefix);
-            using (output.NameScope.With())
-            {
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (3, 3), (2, 2))
                 }));
 
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(64, (1, 1)),
                     MakeConvSetting(96, (3, 3), null, (1, 1)),
                     MakeConvSetting(96, (3, 3), (2, 2))
                 }));
 
-                output.Add(MakeBranch("max"));
-            }
+            output.Add(MakeBranch("max"));
 
             return output;
         }
@@ -110,19 +104,17 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static HybridConcurrent MakeC(int channels_7x7, string prefix)
         {
             var output = new HybridConcurrent(1, prefix);
-            using (output.NameScope.With())
-            {
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(192, (1, 1))
                 }));
 
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(channels_7x7, (1, 1)),
                     MakeConvSetting(channels_7x7, (1, 7), null, (0, 3)),
                     MakeConvSetting(192, (7, 1), null, (3, 0))
                 }));
 
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(channels_7x7, (1, 1)),
                     MakeConvSetting(channels_7x7, (7, 1), null, (3, 0)),
                     MakeConvSetting(channels_7x7, (1, 7), null, (0, 3)),
@@ -130,10 +122,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
                     MakeConvSetting(192, (1, 7), null, (0, 3))
                 }));
 
-                output.Add(MakeBranch("avg", new[] {
+            output.Add(MakeBranch("avg", new[] {
                     MakeConvSetting(192, (1, 1))
                 }));
-            }
 
             return output;
         }
@@ -141,22 +132,19 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static HybridConcurrent MakeD(string prefix = "")
         {
             var output = new HybridConcurrent(1, prefix);
-            using (output.NameScope.With())
-            {
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(192, (1, 1)),
                     MakeConvSetting(320, (3, 3), (2, 2))
                 }));
 
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(192, (1, 1)),
                     MakeConvSetting(192, (1, 7), null, (0, 3)),
                     MakeConvSetting(192, (7, 1), null, (3, 0)),
                     MakeConvSetting(192, (3, 3), (2, 2))
                 }));
 
-                output.Add(MakeBranch("max"));
-            }
+            output.Add(MakeBranch("max"));
 
             return output;
         }
@@ -164,47 +152,44 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static HybridConcurrent MakeE(string prefix)
         {
             var output = new HybridConcurrent(1, prefix);
-            using (output.NameScope.With())
-            {
-                output.Add(MakeBranch("", new[] {
+            output.Add(MakeBranch("", new[] {
                     MakeConvSetting(320, (1, 1))
                 }));
 
-                var branch_3x3 = new HybridSequential("");
-                branch_3x3.Add(MakeBranch("", new[] {
+            var branch_3x3 = new HybridSequential("");
+            branch_3x3.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (1, 1))
                 }));
-                output.Add(branch_3x3);
+            output.Add(branch_3x3);
 
-                var branch_3x3_split = new HybridConcurrent(1, "");
-                branch_3x3_split.Add(MakeBranch("", new[] {
+            var branch_3x3_split = new HybridConcurrent(1, "");
+            branch_3x3_split.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (1, 3), null, (0, 1))
                 }));
-                branch_3x3_split.Add(MakeBranch("", new[] {
+            branch_3x3_split.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (3, 1), null, (1, 0))
                 }));
-                branch_3x3.Add(branch_3x3_split);
+            branch_3x3.Add(branch_3x3_split);
 
-                var branch_3x3dbl = new HybridSequential("");
-                branch_3x3dbl.Add(MakeBranch("", new[] {
+            var branch_3x3dbl = new HybridSequential("");
+            branch_3x3dbl.Add(MakeBranch("", new[] {
                     MakeConvSetting(448, (1, 1)),
                     MakeConvSetting(384, (3, 3), null, (1, 1))
                 }));
-                output.Add(branch_3x3dbl);
+            output.Add(branch_3x3dbl);
 
-                var branch_3x3dbl_split = new HybridConcurrent(1, "");
-                branch_3x3dbl_split.Add(MakeBranch("", new[] {
+            var branch_3x3dbl_split = new HybridConcurrent(1, "");
+            branch_3x3dbl_split.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (1, 3), null, (0, 1))
                 }));
-                branch_3x3dbl_split.Add(MakeBranch("", new[] {
+            branch_3x3dbl_split.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (3, 1), null, (1, 0))
                 }));
-                branch_3x3dbl.Add(branch_3x3dbl_split);
+            branch_3x3dbl.Add(branch_3x3dbl_split);
 
-                output.Add(MakeBranch("avg", new[] {
+            output.Add(MakeBranch("avg", new[] {
                     MakeConvSetting(192, (1, 1))
                 }));
-            }
             return output;
         }
 
@@ -222,7 +207,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public static Inception3 GetInception3(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
-            var net = new Inception3(classes, prefix, @params);
+            var net = new Inception3(classes);
             if (pretrained) net.LoadParameters(ModelStore.GetModelFile("inceptionv3"), ctx);
 
             return net;
@@ -231,8 +216,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
     public class Inception3 : HybridBlock
     {
-        public Inception3(int classes = 1000, string prefix = "", ParameterDict @params = null) : base(prefix,
-            @params)
+        public Inception3(int classes = 1000) : base()
         {
             Features = new HybridSequential("");
             Features.Add(Inception.MakeBasicConv(32, (3, 3), (2, 2)));

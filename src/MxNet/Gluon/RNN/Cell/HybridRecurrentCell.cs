@@ -17,10 +17,6 @@ namespace MxNet.Gluon.RNN
 {
     public abstract class HybridRecurrentCell : RecurrentCell
     {
-        public HybridRecurrentCell(string prefix, ParameterDict @params) : base(prefix, @params)
-        {
-        }
-
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
         {
             return input;

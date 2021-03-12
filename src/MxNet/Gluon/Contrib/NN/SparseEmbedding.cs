@@ -20,8 +20,7 @@ namespace MxNet.Gluon.Contrib.NN
     public class SparseEmbedding : Block
     {
         public SparseEmbedding(int input_dim, int output_dim, DType dtype = null,
-            string weight_initializer = null, string prefix = "", ParameterDict @params = null) : base(prefix,
-            @params)
+            string weight_initializer = null) : base()
         {
             throw new NotImplementedException();
         }

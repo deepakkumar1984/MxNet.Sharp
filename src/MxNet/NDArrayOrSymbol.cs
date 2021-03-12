@@ -411,10 +411,44 @@ namespace MxNet
             data.AddRange(x);
         }
 
+        public NDArrayList NDArrays
+        {
+            get
+            {
+                NDArrayList result = new NDArrayList();
+                foreach (var item in data)
+                {
+                    if (item.IsNDArray)
+                        result.Add(item);
+                }
+                return result;
+            }
+        }
+
+        public SymbolList Symbols
+        {
+            get
+            {
+                SymbolList result = new SymbolList();
+                foreach (var item in data)
+                {
+                    if (item.IsSymbol)
+                        result.Add(item);
+                }
+                return result;
+            }
+        }
+
         public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol[] x)
         {
             return new NDArrayOrSymbolList(x);
         }
+
+        public static implicit operator NDArrayOrSymbol[] (NDArrayOrSymbolList x)
+        {
+            return x.ToArray();
+        }
+
 
         public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol x)
         {

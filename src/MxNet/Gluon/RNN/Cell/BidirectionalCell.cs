@@ -23,8 +23,7 @@ namespace MxNet.Gluon.RNN
     {
         private readonly string _output_prefix;
 
-        public BidirectionalCell(RecurrentCell l_cell, RecurrentCell r_cell, string output_prefix = "bi_") : base("",
-            null)
+        public BidirectionalCell(RecurrentCell l_cell, RecurrentCell r_cell, string output_prefix = "bi_") : base()
         {
             RegisterChild(l_cell, "l_cell");
             RegisterChild(r_cell, "r_cell");

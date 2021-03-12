@@ -26,8 +26,7 @@ namespace MxNet.Gluon.RNN
 
         public LSTMCell(int hidden_size, string activation = "tanh", string recurrent_activation = "sigmoid",
             string i2h_weight_initializer = null, string h2h_weight_initializer = null,
-            string i2h_bias_initializer = "zeros", string h2h_bias_initializer = "zeros", int input_size = 0,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string i2h_bias_initializer = "zeros", string h2h_bias_initializer = "zeros", int input_size = 0) : base()
         {
             _hidden_size = hidden_size;
             _activation = activation;

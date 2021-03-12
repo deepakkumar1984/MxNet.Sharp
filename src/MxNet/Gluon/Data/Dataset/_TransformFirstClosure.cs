@@ -23,7 +23,7 @@ namespace MxNet.Gluon.Data
     {
         private readonly Block _fn;
 
-        public _TransformFirstClosure(Block fn) : base(null, null)
+        public _TransformFirstClosure(Block fn) : base()
         {
             _fn = fn;
         }

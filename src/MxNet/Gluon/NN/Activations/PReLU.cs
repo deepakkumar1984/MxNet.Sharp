@@ -22,7 +22,7 @@ namespace MxNet.Gluon.NN
         private NDArray alpha;
 
         public PReLU(Initializer alpha_initializer = null, string prefix = null, ParameterDict @params = null) : base(
-            prefix, @params)
+            )
         {
             AlphaInitializer = alpha_initializer ?? new Initializers.Constant(0.25f);
         }

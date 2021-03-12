@@ -25,7 +25,7 @@ namespace MxNet.Gluon.Losses
 
         public SoftmaxCrossEntropyLoss(int axis = -1, bool sparse_label = true, bool from_logits = false,
             float? weight = null, int? batch_axis = 0, string prefix = "", ParameterDict @params = null) : base(
-            weight, batch_axis, prefix, @params)
+            weight, batch_axis)
         {
             _axis = axis;
             _sparse_label = sparse_label;
@@ -88,7 +88,7 @@ namespace MxNet.Gluon.Losses
     {
         public SoftmaxCELoss(int axis = -1, bool sparse_label = true, bool from_logits = false,
             float? weight = null, int? batch_axis = 0, string prefix = "", ParameterDict @params = null) : base(
-            axis, sparse_label, from_logits, weight, batch_axis, prefix, @params)
+            axis, sparse_label, from_logits, weight, batch_axis)
         {
         }
     }

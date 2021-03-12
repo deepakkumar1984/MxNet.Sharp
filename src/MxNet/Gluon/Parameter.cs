@@ -399,23 +399,20 @@ namespace MxNet.Gluon
             FinishDeferredInit();
         }
 
-        public void ResetCtx(Context[] ctx)
+        public void ResetCtx(Context ctx)
         {
-            if (ctx == null)
-                ctx = new[] {Context.CurrentContext};
-
             if (_data != null)
             {
                 var data = Reduce();
                 using (var p = Autograd.Pause())
                 {
-                    InitImpl(data, ctx);
+                    InitImpl(data, new Context[] { ctx });
                 }
             }
             else if (deferred_init != null)
             {
                 var (init, _, default_init, data) = deferred_init;
-                deferred_init = new DeferredInit(init, ctx, default_init, data);
+                deferred_init = new DeferredInit(init, new Context[] { ctx }, default_init, data);
             }
             else
             {

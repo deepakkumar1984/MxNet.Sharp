@@ -19,8 +19,7 @@ namespace MxNet.Gluon.NN
 {
     public class Activation : HybridBlock
     {
-        public Activation(ActivationType activation, string prefix = null, ParameterDict @params = null) : base(
-            prefix, @params)
+        public Activation(ActivationType activation) : base()
         {
             ActType = activation;
         }

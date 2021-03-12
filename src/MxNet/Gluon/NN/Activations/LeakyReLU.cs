@@ -19,7 +19,7 @@ namespace MxNet.Gluon.NN
 {
     public class LeakyReLU : HybridBlock
     {
-        public LeakyReLU(float alpha, string prefix = null, ParameterDict @params = null) : base(prefix, @params)
+        public LeakyReLU(float alpha, string prefix = null, ParameterDict @params = null) : base()
         {
             if (alpha < 0)
                 throw new ArgumentException("Slope coefficient for LeakyReLU must be no less than 0");

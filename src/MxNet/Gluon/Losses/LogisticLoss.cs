@@ -20,7 +20,7 @@ namespace MxNet.Gluon.Losses
     public class LogisticLoss : Loss
     {
         public LogisticLoss(float? weight = null, int? batch_axis = 0, string label_format = "signed",
-            string prefix = "", ParameterDict @params = null) : base(weight, batch_axis, prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base(weight, batch_axis)
         {
             if (label_format != "signed" && label_format != "binary")
                 throw new ArgumentException($"Label_format can only be signed or binary, recieved {label_format}");

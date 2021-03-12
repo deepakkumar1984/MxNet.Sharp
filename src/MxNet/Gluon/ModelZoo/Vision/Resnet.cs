@@ -71,70 +71,70 @@ namespace MxNet.Gluon.ModelZoo.Vision
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV1(18, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV1(18, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV1 ResNet34_v1(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV1(34, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV1(34, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV1 ResNet50_v1(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV1(50, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV1(50, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV1 ResNet101_v1(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV1(101, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV1(101, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV1 ResNet152_v1(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV1(152, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV1(152, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV2 ResNet18_v2(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV2(18, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV2(18, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV2 ResNet34_v2(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV2(34, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV2(34, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV2 ResNet50_v2(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV2(50, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV2(50, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV2 ResNet101_v2(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV2(101, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV2(101, pretrained, ctx, root, classes, thumbnail);
         }
 
         public static ResNetV2 ResNet152_v2(bool pretrained = false, Context ctx = null, string root = "",
             int classes = 1000,
             bool thumbnail = false, string prefix = "", ParameterDict @params = null)
         {
-            return GetResNetV2(152, pretrained, ctx, root, classes, thumbnail, prefix, @params);
+            return GetResNetV2(152, pretrained, ctx, root, classes, thumbnail);
         }
     }
 
@@ -144,7 +144,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private readonly HybridSequential ds;
 
         public BasicBlockV1(int channels, int stride, bool downsample = false, int in_channels = 0,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base()
         {
             body = new HybridSequential("");
             body.Add(ResNet.Conv3x3(channels, stride, in_channels));
@@ -193,7 +193,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private readonly Conv2D ds;
 
         public BasicBlockV2(int channels, int stride, bool downsample = false, int in_channels = 0,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base()
         {
             bn1 = new BatchNorm();
             conv1 = ResNet.Conv3x3(channels, stride, in_channels);
@@ -247,7 +247,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private readonly HybridSequential ds;
 
         public BottleneckV1(int channels, int stride, bool downsample = false, int in_channels = 0,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base()
         {
             var channel_one_fourth = Convert.ToInt32(channels / 4);
             body = new HybridSequential("");
@@ -303,7 +303,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private readonly Conv2D ds;
 
         public BottleneckV2(int channels, int stride, bool downsample = false, int in_channels = 0,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base()
         {
             var channel_one_fourth = Convert.ToInt32(channels / 4);
             bn1 = new BatchNorm();
@@ -367,7 +367,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
     public class ResNetV1 : HybridBlock
     {
         public ResNetV1(string block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base()
         {
             if (layers.Length != channels.Length - 1)
                 throw new Exception("layers.length should be equal to channels.length - 1");
@@ -434,7 +434,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
     public class ResNetV2 : HybridBlock
     {
         public ResNetV2(string block, int[] layers, int[] channels, int classes = 1000, bool thumbnail = false,
-            string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string prefix = "", ParameterDict @params = null) : base()
         {
             if (layers.Length != channels.Length - 1)
                 throw new Exception("layers.length should be equal to channels.length - 1");

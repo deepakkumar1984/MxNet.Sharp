@@ -31,7 +31,7 @@ namespace MxNet.Gluon.NN
                 , !padding.HasValue
                     ? new[] {0, 0, 0}
                     : new[] {padding.Value.Item1, padding.Value.Item2, padding.Value.Item3}
-                , ceil_mode, false, PoolingType.Avg, layout, null, prefix, @params)
+                , ceil_mode, false, PoolingType.Avg, layout, null)
         {
             if (layout != "NCDHW" && layout != "NDHWC")
                 throw new Exception("Only NCDHW and NDHWC layouts are valid for 3D Pooling");

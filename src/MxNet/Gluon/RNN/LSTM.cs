@@ -32,7 +32,7 @@ namespace MxNet.Gluon.RecurrentNN
                  DType dtype= null, string prefix = null, ParameterDict @params = null) : 
                 base(hidden_size, num_layers, layout, dropout, bidirectional, input_size, i2h_weight_initializer, 
                     h2h_weight_initializer, i2h_bias_initializer, h2h_bias_initializer, "lstm", projection_size, 
-                    h2r_weight_initializer, state_clip_min, state_clip_max, state_clip_nan, dtype, false, prefix, @params)
+                    h2r_weight_initializer, state_clip_min, state_clip_max, state_clip_nan, dtype, false)
         {
             throw new NotImplementedException();
         }

@@ -20,7 +20,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 {
     public class RELU6 : HybridBlock
     {
-        public RELU6(string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+        public RELU6(string prefix = "", ParameterDict @params = null) : base()
         {
         }
 
@@ -39,7 +39,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private readonly bool use_shortcut;
 
         public LinearBottleneck(int in_channels, int channels, int t, int stride, string prefix = null,
-            ParameterDict @params = null) : base(prefix, @params)
+            ParameterDict @params = null) : base()
         {
             use_shortcut = stride == 1 && in_channels == channels;
             output = new HybridSequential();
@@ -72,7 +72,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private static readonly int[] strides = {1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1};
 
         public MobileNet(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null) :
-            base(prefix, @params)
+            base()
         {
             Features = new HybridSequential("");
             AddConv(Features, Convert.ToInt32(32 * multiplier), 3, pad: 1, stride: 2);
@@ -129,7 +129,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public static MobileNet GetMobileNet(float multiplier, bool pretrained = false, Context ctx = null,
             string root = "", int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
-            var net = new MobileNet(multiplier, classes, prefix, @params);
+            var net = new MobileNet(multiplier, classes);
 
             var version_suffix = string.Format("{0:0.00}", multiplier);
             if (version_suffix == "1.00" || version_suffix == "0.50")
@@ -173,7 +173,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private static readonly int[] ts = {1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6};
 
         public MobileNetV2(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null)
-            : base(prefix, @params)
+            : base()
         {
             Features = new HybridSequential("features_");
             MobileNet.AddConv(Features, Convert.ToInt32(32 * multiplier), 3, pad: 1, stride: 2, relu6: true);
@@ -214,7 +214,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public static MobileNetV2 GetMobileNetV2(float multiplier, bool pretrained = false, Context ctx = null,
             string root = "", int classes = 1000, string prefix = "", ParameterDict @params = null)
         {
-            var net = new MobileNetV2(multiplier, classes, prefix, @params);
+            var net = new MobileNetV2(multiplier, classes);
 
             var version_suffix = string.Format("{0:0.00}", multiplier);
             if (version_suffix == "1.00" || version_suffix == "0.50")

@@ -26,7 +26,7 @@ namespace MxNet.Gluon.NN
         public _Conv(int channels, int[] kernel_size, int[] strides, int[] padding, int[] dilation,
             int groups, string layout, int in_channels = 0, ActivationType? activation = null, bool use_bias = true,
             Initializer weight_initializer = null, string bias_initializer = "zeros", int[] adj = null,
-            string op_name = "Convolution", string prefix = "", ParameterDict @params = null) : base(prefix, @params)
+            string op_name = "Convolution", string prefix = "", ParameterDict @params = null) : base()
         {
             NumFilter = channels;
             InChannels = in_channels;
@@ -133,7 +133,7 @@ namespace MxNet.Gluon.NN
             if (!UseBias)
                 s += ", bias=False";
             if (Activation != null)
-                s += $", {Activation.Name}";
+                s += $", {Activation.Alias()}";
             s += ")";
             return s;
         }
