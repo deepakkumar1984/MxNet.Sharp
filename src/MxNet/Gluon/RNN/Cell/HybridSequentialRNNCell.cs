@@ -21,14 +21,18 @@ namespace MxNet.Gluon.RNN
 {
     public class HybridSequentialRNNCell : HybridRecurrentCell
     {
+        public List<RecurrentCell> _layers;
+
         public HybridSequentialRNNCell() : base()
         {
+            _layers = new List<RecurrentCell>();
         }
 
         public new SequentialRNNCell this[string i] => (SequentialRNNCell) _childrens[i];
 
         public void Add(RecurrentCell cell)
         {
+            _layers.Add(cell);
             RegisterChild(cell);
         }
 

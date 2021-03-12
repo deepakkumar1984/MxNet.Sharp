@@ -74,7 +74,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public MobileNet(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null) :
             base()
         {
-            Features = new HybridSequential("");
+            Features = new HybridSequential();
             AddConv(Features, Convert.ToInt32(32 * multiplier), 3, pad: 1, stride: 2);
             for (var i = 0; i < dw_channels.Length; i++)
             {
@@ -109,7 +109,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         {
             @out.Add(new Conv2D(channels, (kernel, kernel), (stride, stride), (pad, pad), groups: num_group,
                 use_bias: false));
-            @out.Add(new BatchNorm());
+            @out.Add(new _BatchNorm());
             if (active)
             {
                 if (relu6)
@@ -175,7 +175,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public MobileNetV2(float multiplier = 1, int classes = 1000, string prefix = "", ParameterDict @params = null)
             : base()
         {
-            Features = new HybridSequential("features_");
+            Features = new HybridSequential();
             MobileNet.AddConv(Features, Convert.ToInt32(32 * multiplier), 3, pad: 1, stride: 2, relu6: true);
             for (var i = 0; i < in_channels_group.Length; i++)
             {
@@ -194,8 +194,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
             RegisterChild(Features, "features");
 
-            Output = new HybridSequential("output_");
-            Output.Add(new Conv2D(classes, (1, 1), use_bias: false, prefix: "pred_"));
+            Output = new HybridSequential();
+            Output.Add(new Conv2D(classes, (1, 1), use_bias: false));
             Output.Add(new Flatten());
 
             RegisterChild(Output, "output");

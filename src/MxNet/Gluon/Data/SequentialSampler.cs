@@ -21,17 +21,19 @@ namespace MxNet.Gluon.Data
     public class SequentialSampler : Sampler<int>
     {
         private readonly int _length;
+        private readonly int _start;
 
-        public SequentialSampler(int length)
+        public SequentialSampler(int length, int start = 0)
         {
             _length = length;
+            _start = start;
         }
 
         public override int Length => _length;
 
         public override IEnumerator<int> GetEnumerator()
         {
-            return Enumerable.Range(0, _length).GetEnumerator();
+            return Enumerable.Range(this._start, this._start + this._length - this._start).GetEnumerator();
         }
     }
 }

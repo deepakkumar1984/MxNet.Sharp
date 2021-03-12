@@ -13,34 +13,25 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-using System.Collections.Generic;
-using MxNet.Gluon.Data;
-
-namespace MxNet.Gluon.Contrib.Data
+namespace MxNet.Gluon.NN
 {
-    public class IntervalSampler : Sampler<int>
+    public class SiLU : HybridBlock
     {
-        private readonly int _interval;
-
-        private readonly int _length;
-
-        private readonly bool _rollover;
-
-        public IntervalSampler(int length, int interval, bool rollover = true)
+        public SiLU() : base()
         {
-            _interval = interval;
-            _rollover = rollover;
-            _length = length;
         }
 
-        public override int Length => _length;
-
-        public override IEnumerator<int> GetEnumerator()
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            var n = _rollover ? _interval : 1;
-            for (var i = 0; i < n; i++)
-            for (var j = i; j < _length; j = j + _interval)
-                yield return j;
+            if (x.IsNDArray)
+                return x.NdX * nd.Sigmoid(x.NdX);
+
+            return x.SymX * sym.Sigmoid(x.SymX, "fwd");
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name}()";
         }
     }
 }

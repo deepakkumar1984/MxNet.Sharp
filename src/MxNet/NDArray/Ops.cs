@@ -10433,6 +10433,16 @@ namespace MxNet
                 .Invoke();
         }
 
+        public static NDArray GroupNorm(NDArray data, NDArray gamma, NDArray beta, float eps = 0.001f)
+        {
+            return new Operator("GroupNorm")
+                .SetParam("eps", eps)
+                .SetInput("data", data)
+                .SetInput("gamma", gamma)
+                .SetInput("beta", beta)
+                .Invoke();
+        }
+
         public static NDArrayList FlattenList(List<NDArrayList> nested_list)
         {
             NDArrayList result = new NDArrayList();

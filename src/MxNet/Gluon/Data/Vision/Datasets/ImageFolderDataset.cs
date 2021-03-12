@@ -28,6 +28,11 @@ namespace MxNet.Gluon.Data.Vision.Datasets
         internal List<string> synsets;
         public ImageFolderDataset(string root, int flag = 1, Func<NDArray, int, (NDArray, int)> transform = null)
         {
+            if (transform != null)
+            {
+                throw new Exception("Directly apply transform to dataset is deprecated. Please use dataset.transform() or dataset.transform_first() instead...");
+            }
+
             Root = root;
             Flag = flag;
             TransformFn = transform;

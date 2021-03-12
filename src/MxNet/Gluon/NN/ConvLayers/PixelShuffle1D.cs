@@ -15,11 +15,11 @@
 ******************************************************************************/
 using System;
 
-namespace MxNet.Gluon.Contrib.NN
+namespace MxNet.Gluon.NN
 {
-    public class PixelShuffle3D : HybridBlock
+    public class PixelShuffle1D : HybridBlock
     {
-        public PixelShuffle3D((int, int, int) factor)
+        public PixelShuffle1D(int factor)
         {
             throw new NotImplementedException();
         }

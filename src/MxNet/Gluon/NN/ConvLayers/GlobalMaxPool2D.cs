@@ -19,7 +19,7 @@ namespace MxNet.Gluon.NN
 {
     public class GlobalMaxPool2D : _Pooling
     {
-        public GlobalMaxPool2D(string layout = "NCHW", string prefix = null, ParameterDict @params = null)
+        public GlobalMaxPool2D(string layout = "NCHW")
             : base(new[] {1, 1}, null, new[] {0, 0}, true, true, PoolingType.Max, layout, null)
         {
             if (layout != "NCHW" && layout != "NHWC")

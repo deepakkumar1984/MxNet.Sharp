@@ -13,20 +13,34 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-using System;
+using System.Collections.Generic;
+using MxNet.Gluon.Data;
 
-namespace MxNet.Gluon.Contrib.NN
+namespace MxNet.Gluon.Data
 {
-    public class PixelShuffle2D : HybridBlock
+    public class IntervalSampler : Sampler<int>
     {
-        public PixelShuffle2D((int, int) factor)
+        private readonly int _interval;
+
+        private readonly int _length;
+
+        private readonly bool _rollover;
+
+        public IntervalSampler(int length, int interval, bool rollover = true)
         {
-            throw new NotImplementedException();
+            _interval = interval;
+            _rollover = rollover;
+            _length = length;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override int Length => _length;
+
+        public override IEnumerator<int> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var n = _rollover ? _interval : 1;
+            for (var i = 0; i < n; i++)
+            for (var j = i; j < _length; j = j + _interval)
+                yield return j;
         }
     }
 }

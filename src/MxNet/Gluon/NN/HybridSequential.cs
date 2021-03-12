@@ -20,16 +20,24 @@ namespace MxNet.Gluon.NN
 {
     public class HybridSequential : HybridBlock
     {
-        public HybridSequential(string prefix = null, ParameterDict @params = null) : base()
+        private List<Block> _layers;
+        private bool _v2;
+        private bool _v2_checked;
+        private bool _forward;
+
+        public HybridSequential() : base()
         {
+            this._layers = new List<Block>();
+            this._v2_checked = false;
         }
 
         public new HybridSequential this[string key]
         {
             get
             {
+                var layer = this._childrens[key];
                 var net = new HybridSequential();
-                net.Add((HybridBlock) _childrens[key]);
+                net.Add((HybridBlock)layer);
                 return net;
             }
         }
@@ -50,7 +58,42 @@ namespace MxNet.Gluon.NN
 
         public void Add(params HybridBlock[] blocks)
         {
-            foreach (var item in blocks) RegisterChild(item);
+            foreach (var item in blocks)
+            {
+                _layers.Add(item);
+                RegisterChild(item);
+            }
+        }
+
+        public override NDArrayOrSymbol Call(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            if (this._active && !this._v2_checked && !DeferredCompute.IsDeferredCompute())
+            {
+                // If any of the child Blocks implements the Gluon 2 interface, the
+                // container must not pass a Symbol to them
+                if ((from chld in this._childrens.Values
+                        select chld is HybridBlock).Any())
+                {
+                    this._v2 = true;
+                    this._v2_checked = true;
+                    this._forward = true;
+                }
+            }
+
+            return base.Call(x, args);
+        }
+
+        public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        {
+            if (_forward)
+            {
+                foreach (var item in _childrens) x = item.Value.Call(x, args);
+                return x;
+            }
+            else
+            {
+                return base.Forward(x, args);
+            }
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)

@@ -15,17 +15,18 @@
 ******************************************************************************/
 using System;
 
-namespace MxNet.Gluon.Contrib.NN
+namespace MxNet.Gluon.NN
 {
-    public class Identity : HybridBlock
+    public class PixelShuffle3D : HybridBlock
     {
-        public Identity(string prefix = "", ParameterDict @params = null) : base()
+        public PixelShuffle3D((int, int, int) factor)
         {
+            throw new NotImplementedException();
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            return x;
+            throw new NotImplementedException();
         }
     }
 }

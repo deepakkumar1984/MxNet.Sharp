@@ -14,19 +14,24 @@
    limitations under the License.
 ******************************************************************************/
 using System;
+using MxNet.Gluon.NN;
 
-namespace MxNet.Gluon.Contrib.CNN
+namespace MxNet.Gluon.NN
 {
-    public class DeformableConvolution : HybridBlock
+    public class SyncBatchNorm : _BatchNorm
     {
-        public DeformableConvolution(int channels, (int, int)? kernel_size = null, (int, int)? strides = null,
-            (int, int)? padding = null,
-            (int, int)? dilation = null, int groups = 1, int num_deformable_group = 1, string layout = "NCHW",
-            bool use_bias = true, int in_channels = 0, string activation = null, string weight_initializer = null,
-            string bias_initializer = "zeros", string offset_weight_initializer = "zeros",
-            string offset_bias_initializer = "zeros", bool offset_use_bias = true,
-            string op_name = "DeformableConvolution", (int, int)? adj = null,
-            string prefix = "") : base()
+        public SyncBatchNorm(int in_channels = 0, int? num_devices = null, float momentum = 0.9f, float epsilon = 1e-5f,
+            bool center = true, bool scale = true, bool use_global_stats = false, string beta_initializer = "zeros",
+            string gamma_initializer = "ones", string running_mean_initializer = "zeros",
+            string running_variance_initializer = "ones",
+            string prefix = "", ParameterDict @params = null)
+            : base(1, momentum, epsilon, center, scale, false, use_global_stats, beta_initializer, gamma_initializer,
+                running_mean_initializer, running_variance_initializer, in_channels)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal int GetNumDevices()
         {
             throw new NotImplementedException();
         }

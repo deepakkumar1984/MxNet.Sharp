@@ -86,10 +86,10 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         private HybridSequential MakeFire(int squeeze_channels, int expand1x1_channels, int expand3x3_channels)
         {
-            var output = new HybridSequential("");
+            var output = new HybridSequential();
             output.Add(MakeFireConv(squeeze_channels, (1, 1)));
 
-            var paths = new HybridConcurrent(1, "");
+            var paths = new HybridConcatenate(1);
             paths.Add(MakeFireConv(expand1x1_channels, (1, 1)));
             paths.Add(MakeFireConv(expand3x3_channels, (3, 3), (1, 1)));
 
@@ -100,7 +100,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         private HybridSequential MakeFireConv(int channels, (int, int) kernel_size, (int, int)? padding = null)
         {
-            var output = new HybridSequential("");
+            var output = new HybridSequential();
             output.Add(new Conv2D(channels, kernel_size, padding: padding));
             output.Add(new Activation(ActivationType.Relu));
 

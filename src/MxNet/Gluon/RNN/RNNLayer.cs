@@ -39,11 +39,6 @@ namespace MxNet.Gluon.RecurrentNN
 
         public abstract StateInfo[] StateInfo(int batch_size = 0);
 
-        public HybridSequentialRNNCell Unfuse()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Cast(DType dtype)
         {
             throw new NotImplementedException();

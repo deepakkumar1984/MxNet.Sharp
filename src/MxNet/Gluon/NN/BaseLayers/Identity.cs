@@ -13,27 +13,19 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using System;
+
 namespace MxNet.Gluon.NN
 {
-    public class Lambda : Block
+    public class Identity : HybridBlock
     {
-        public delegate NDArray LambdaFn(NDArray x, params object[] args);
-
-        public Lambda(LambdaFn function) : base()
+        public Identity() : base()
         {
-            Function = function;
         }
 
-        public LambdaFn Function { get; }
-
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            return Function(input);
-        }
-
-        public override string ToString()
-        {
-            return $"{GetType().Name}(<lambda>)";
+            return x;
         }
     }
 }

@@ -17,13 +17,12 @@ using MxNet.Initializers;
 
 namespace MxNet.Gluon.NN
 {
-    public class InstanceNorm : HybridBlock
+    public class GroupNorm : HybridBlock
     {
-        public InstanceNorm(int axis = 1, float epsilon = 1e-5f, bool center = true, bool scale = false,
-            string beta_initializer = "zeros", string gamma_initializer = "ones",
-            int in_channels = 0) : base()
+        public GroupNorm(int num_groups = 1, float epsilon = 1e-5f, bool center = true, bool scale = false,
+            string beta_initializer = "zeros", string gamma_initializer = "ones", int in_channels = 0) : base()
         {
-            Axis = axis;
+            NumGroups = num_groups;
             Epsilon = epsilon;
             Center = center;
             Scale = scale;
@@ -34,7 +33,7 @@ namespace MxNet.Gluon.NN
                 init: Initializer.Get(beta_initializer), allow_deferred_init: true);
         }
 
-        public int Axis { get; }
+        public int NumGroups { get; }
         public float Epsilon { get; }
         public bool Center { get; }
         public bool Scale { get; }
@@ -47,29 +46,16 @@ namespace MxNet.Gluon.NN
             var gamma = args[0];
             var beta = args[1];
 
-            if (Axis == 1)
-            {
-                if (x.IsNDArray)
-                    return nd.InstanceNorm(x.NdX, gamma.NdX, beta.NdX, Epsilon);
-                return sym.InstanceNorm(x.SymX, gamma.SymX, beta.SymX, Epsilon, "fwd");
-            }
-
             if (x.IsNDArray)
-            {
-                var xs = nd.SwapAxis(x.NdX, 1, (uint)Axis);
-                return nd.SwapAxis(nd.InstanceNorm(xs, gamma.NdX, beta.NdX, Epsilon), 1, (uint)Axis);
-            }
-            else
-            {
-                var xs = sym.SwapAxis(x.SymX, 1, Axis);
-                return sym.SwapAxis(sym.InstanceNorm(xs, gamma.SymX, beta.SymX, Epsilon, "fwd"), 1, Axis);
-            }
+                return nd.GroupNorm(x.NdX, gamma.NdX, beta.NdX, Epsilon);
+
+            return sym.GroupNorm(x.SymX, gamma.SymX, beta.SymX, Epsilon, "fwd");
         }
 
         public override string ToString()
         {
             var in_channels = Params["gamma"].Shape[0];
-            return $"{GetType().Name}(eps={Epsilon}, axis={Axis}, cneter={Center}, scale={Scale}, in_channels={in_channels})";
+            return $"{GetType().Name}(eps={Epsilon}, num_groups={NumGroups}, center={Center}, scale={Scale}, in_channels={in_channels})";
         }
     }
 }

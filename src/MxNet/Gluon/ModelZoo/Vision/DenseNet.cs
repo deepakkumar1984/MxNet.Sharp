@@ -35,9 +35,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             int bn_size = 4, float? dropout = null, int classes = 1000,
             string prefix = "", ParameterDict @params = null) : base()
         {
-            Features = new HybridSequential(prefix = "");
+            Features = new HybridSequential();
             Features.Add(new Conv2D(num_init_features, (7, 7), (2, 2), (3, 3), use_bias: false));
-            Features.Add(new BatchNorm());
+            Features.Add(new _BatchNorm());
             Features.Add(new Activation(ActivationType.Relu));
             Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
 
@@ -54,7 +54,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 }
             }
 
-            Features.Add(new BatchNorm());
+            Features.Add(new _BatchNorm());
             Features.Add(new Activation(ActivationType.Relu));
             Features.Add(new AvgPool2D((7, 7)));
             Features.Add(new Flatten());
@@ -113,26 +113,26 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private static HybridSequential MakeDenseBlock(int num_layers, int bn_size, int growth_rate, float? dropout,
             int stage_index)
         {
-            var block = new HybridSequential($"stage{stage_index}_");
+            var block = new HybridSequential();
             for (var i = 0; i < num_layers; i++) block.Add(MakeDenseLayer(growth_rate, bn_size, dropout));
 
             return block;
         }
 
-        private static HybridConcurrent MakeDenseLayer(int growth_rate, int bn_size, float? dropout)
+        private static HybridConcatenate MakeDenseLayer(int growth_rate, int bn_size, float? dropout)
         {
-            var new_features = new HybridSequential("");
-            new_features.Add(new BatchNorm());
+            var new_features = new HybridSequential();
+            new_features.Add(new _BatchNorm());
             new_features.Add(new Activation(ActivationType.Relu));
             new_features.Add(new Conv2D(bn_size * growth_rate, (1, 1), use_bias: false));
-            new_features.Add(new BatchNorm());
+            new_features.Add(new _BatchNorm());
             new_features.Add(new Activation(ActivationType.Relu));
             new_features.Add(new Conv2D(growth_rate, (3, 3), padding: (1, 1), use_bias: false));
 
             if (dropout.HasValue)
                 new_features.Add(new Dropout(dropout.Value));
 
-            var result = new HybridConcurrent(1, "");
+            var result = new HybridConcatenate(1);
             result.Add(new Identity());
             result.Add(new_features);
 
@@ -141,8 +141,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         private static HybridSequential MakeTransition(int num_output_features)
         {
-            var block = new HybridSequential("");
-            block.Add(new BatchNorm());
+            var block = new HybridSequential();
+            block.Add(new _BatchNorm());
             block.Add(new Activation(ActivationType.Relu));
             block.Add(new Conv2D(num_output_features, (1, 1), use_bias: false));
             block.Add(new AvgPool2D((2, 2), (2, 2)));

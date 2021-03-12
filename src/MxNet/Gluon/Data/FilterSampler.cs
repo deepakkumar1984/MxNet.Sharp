@@ -14,17 +14,24 @@
    limitations under the License.
 ******************************************************************************/
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace MxNet.Gluon.Contrib.NN
+namespace MxNet.Gluon.Data
 {
-    public class PixelShuffle1D : HybridBlock
+    public class FilterSampler : Sampler<int>
     {
-        public PixelShuffle1D(int factor)
+        private Func<int, bool> function;
+        private int[] dataset;
+
+        public FilterSampler(Func<int, bool> fn, int[] dataset)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override int Length => throw new NotImplementedException();;
+
+        public override IEnumerator<int> GetEnumerator()
         {
             throw new NotImplementedException();
         }

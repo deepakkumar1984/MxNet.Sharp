@@ -28,6 +28,11 @@ namespace MxNet.Gluon.Data.Vision.Datasets
         public ImageRecordDataset(string filename, int flag = 1, Func<NDArray, NDArray, (NDArray, NDArray)> transform = null) :
             base(filename)
         {
+            if (transform != null)
+            {
+                throw new Exception("Directly apply transform to dataset is deprecated. Please use dataset.transform() or dataset.transform_first() instead...");
+            }
+
             this._flag = flag;
             this._transform = transform;
         }

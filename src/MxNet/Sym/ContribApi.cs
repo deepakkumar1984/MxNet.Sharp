@@ -1953,5 +1953,24 @@ namespace MxNet
                 .SetParam("group_size", group_size)
                 .CreateSymbol(symbol_name);
         }
+        public Symbol BatchNormWithReLU(Symbol data, Symbol gamma, Symbol beta, Symbol moving_mean, Symbol moving_var,
+           double eps = 0.001, float momentum = 0.9f, bool fix_gamma = true, bool use_global_stats = false,
+           bool output_mean_var = false, int axis = 1, bool cudnn_off = false, string symbol_name = "")
+        {
+            return new Operator("BatchNormWithReLU")
+                .SetParam("eps", eps)
+                .SetParam("momentum", momentum)
+                .SetParam("fix_gamma", fix_gamma)
+                .SetParam("use_global_stats", use_global_stats)
+                .SetParam("output_mean_var", output_mean_var)
+                .SetParam("axis", axis)
+                .SetParam("cudnn_off", cudnn_off)
+                .SetInput("data", data)
+                .SetInput("gamma", gamma)
+                .SetInput("beta", beta)
+                .SetInput("moving_mean", moving_mean)
+                .SetInput("moving_var", moving_var)
+                .CreateSymbol(symbol_name);
+        }
     }
 }

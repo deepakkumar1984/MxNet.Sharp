@@ -20,8 +20,7 @@ namespace MxNet.Gluon.Contrib.NN
 {
     public class HybridConcurrent : HybridSequential
     {
-        public HybridConcurrent(int axis = -1, string prefix = "", ParameterDict @params = null) : base(prefix,
-            @params)
+        public HybridConcurrent(int axis = -1) : base()
         {
             Axis = axis;
         }

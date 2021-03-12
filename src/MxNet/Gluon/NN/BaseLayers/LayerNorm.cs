@@ -21,7 +21,7 @@ namespace MxNet.Gluon.NN
     {
         public LayerNorm(int axis = 1, float epsilon = 1e-5f, bool center = true, bool scale = false,
             string beta_initializer = "zeros", string gamma_initializer = "ones",
-            int in_channels = 0, string prefix = null, ParameterDict @params = null) : base()
+            int in_channels = 0) : base()
         {
             Axis = axis;
             Epsilon = epsilon;

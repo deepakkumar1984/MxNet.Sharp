@@ -21,7 +21,7 @@ namespace MxNet.Gluon.NN
     {
         public AvgPool2D((int, int)? pool_size = null, (int, int)? strides = null, (int, int)? padding = null,
             string layout = "NCHW",
-            bool ceil_mode = false, string prefix = null, ParameterDict @params = null)
+            bool ceil_mode = false)
             : base(!pool_size.HasValue ? new[] {2, 2} : new[] {pool_size.Value.Item1, pool_size.Value.Item2}
                 , strides.HasValue
                     ? new[] {strides.Value.Item1, strides.Value.Item2}

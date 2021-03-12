@@ -253,5 +253,11 @@ namespace MxNet.Gluon.RNN
 
             return reversed_sequences;
         }
+
+        internal static (NDArrayOrSymbol[], NDArrayOrSymbol[]) DynamicUnroll(RecurrentCell cell, NDArrayOrSymbol[] inputs,
+            NDArrayOrSymbol[] begin_state = null, int drop_inputs = 0, int drop_outputs = 0, string layout = "NTC", Symbol valid_length = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

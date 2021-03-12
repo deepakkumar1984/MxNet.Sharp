@@ -10691,6 +10691,17 @@ namespace MxNet
                 .CreateSymbol(symbol_name);
         }
 
+        public static Symbol GroupNorm(Symbol data, Symbol gamma, Symbol beta, float eps = 0.001f,
+            string symbol_name = "")
+        {
+            return new Operator("GroupNorm")
+                .SetParam("eps", eps)
+                .SetInput("data", data)
+                .SetInput("gamma", gamma)
+                .SetInput("beta", beta)
+                .CreateSymbol(symbol_name);
+        }
+
         public static Symbol MultiSumSq(SymbolList arrays, int num_arrays)
         {
             return new Operator("multi_sum_sq")

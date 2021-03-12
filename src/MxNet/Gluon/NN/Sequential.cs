@@ -20,8 +20,11 @@ namespace MxNet.Gluon.NN
 {
     public class Sequential : Block
     {
+        private List<Block> _layers;
+
         public Sequential() : base()
         {
+            _layers = new List<Block>();
         }
 
         public List<Block> Blocks => _childrens.Values.ToList();
@@ -30,8 +33,9 @@ namespace MxNet.Gluon.NN
         {
             get
             {
+                var layer = this._childrens[key];
                 var net = new Sequential();
-                net.Add(_childrens[key]);
+                net.Add(layer);
                 return net;
             }
         }
@@ -42,13 +46,17 @@ namespace MxNet.Gluon.NN
         {
             foreach (var item in blocks)
             {
+                _layers.Add(item);
                 RegisterChild(item);
             }
         }
 
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
         {
-            foreach (var item in Blocks) input = item.Call(input, args);
+            foreach (var block in this._childrens.Values)
+            {
+                input = block.Call(input, args);
+            }
 
             return input;
         }

@@ -33,9 +33,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
         internal static HybridSequential MakeBasicConv(int channels, (int, int) kernel_size,
             (int, int)? strides = default, (int, int)? padding = default)
         {
-            var output = new HybridSequential("");
+            var output = new HybridSequential();
             output.Add(new Conv2D(channels, kernel_size, strides, padding, use_bias: false));
-            output.Add(new BatchNorm(epsilon: 0.001f));
+            output.Add(new _BatchNorm(epsilon: 0.001f));
             output.Add(new Activation(ActivationType.Relu));
 
             return output;
@@ -43,7 +43,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         internal static HybridSequential MakeBranch(string use_pool, ConvSetting[] conv_settings = null)
         {
-            var output = new HybridSequential("");
+            var output = new HybridSequential();
             if (use_pool == "avg")
                 output.Add(new AvgPool2D((3, 3), (1, 1), (1, 1)));
             else if (use_pool == "max")
@@ -58,9 +58,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        internal static HybridConcurrent MakeA(int pool_features, string prefix = "")
+        internal static HybridConcatenate MakeA(int pool_features)
         {
-            var output = new HybridConcurrent(1, prefix);
+            var output = new HybridConcatenate(1);
             output.Add(MakeBranch("", new[] {
                     MakeConvSetting(64, (1, 1))
                 }));
@@ -83,9 +83,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        internal static HybridConcurrent MakeB(string prefix)
+        internal static HybridConcatenate MakeB()
         {
-            var output = new HybridConcurrent(1, prefix);
+            var output = new HybridConcatenate(1);
             output.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (3, 3), (2, 2))
                 }));
@@ -101,9 +101,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        internal static HybridConcurrent MakeC(int channels_7x7, string prefix)
+        internal static HybridConcatenate MakeC(int channels_7x7)
         {
-            var output = new HybridConcurrent(1, prefix);
+            var output = new HybridConcatenate(1);
             output.Add(MakeBranch("", new[] {
                     MakeConvSetting(192, (1, 1))
                 }));
@@ -129,9 +129,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        internal static HybridConcurrent MakeD(string prefix = "")
+        internal static HybridConcatenate MakeD()
         {
-            var output = new HybridConcurrent(1, prefix);
+            var output = new HybridConcatenate(1);
             output.Add(MakeBranch("", new[] {
                     MakeConvSetting(192, (1, 1)),
                     MakeConvSetting(320, (3, 3), (2, 2))
@@ -149,20 +149,20 @@ namespace MxNet.Gluon.ModelZoo.Vision
             return output;
         }
 
-        internal static HybridConcurrent MakeE(string prefix)
+        internal static HybridConcatenate MakeE()
         {
-            var output = new HybridConcurrent(1, prefix);
+            var output = new HybridConcatenate(1);
             output.Add(MakeBranch("", new[] {
                     MakeConvSetting(320, (1, 1))
                 }));
 
-            var branch_3x3 = new HybridSequential("");
+            var branch_3x3 = new HybridSequential();
             branch_3x3.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (1, 1))
                 }));
             output.Add(branch_3x3);
 
-            var branch_3x3_split = new HybridConcurrent(1, "");
+            var branch_3x3_split = new HybridConcatenate(1);
             branch_3x3_split.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (1, 3), null, (0, 1))
                 }));
@@ -171,14 +171,14 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 }));
             branch_3x3.Add(branch_3x3_split);
 
-            var branch_3x3dbl = new HybridSequential("");
+            var branch_3x3dbl = new HybridSequential();
             branch_3x3dbl.Add(MakeBranch("", new[] {
                     MakeConvSetting(448, (1, 1)),
                     MakeConvSetting(384, (3, 3), null, (1, 1))
                 }));
             output.Add(branch_3x3dbl);
 
-            var branch_3x3dbl_split = new HybridConcurrent(1, "");
+            var branch_3x3dbl_split = new HybridConcatenate(1);
             branch_3x3dbl_split.Add(MakeBranch("", new[] {
                     MakeConvSetting(384, (1, 3), null, (0, 1))
                 }));
@@ -195,7 +195,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         internal static HybridSequential MakeAux(int classes)
         {
-            var output = new HybridSequential("");
+            var output = new HybridSequential();
             output.Add(new AvgPool2D((5, 5), (3, 3)));
             output.Add(MakeBasicConv(128, (1, 1)));
             output.Add(MakeBasicConv(768, (5, 5)));
@@ -218,7 +218,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
     {
         public Inception3(int classes = 1000) : base()
         {
-            Features = new HybridSequential("");
+            Features = new HybridSequential();
             Features.Add(Inception.MakeBasicConv(32, (3, 3), (2, 2)));
             Features.Add(Inception.MakeBasicConv(32, (3, 3)));
             Features.Add(Inception.MakeBasicConv(64, (3, 3), padding: (1, 1)));
@@ -226,17 +226,17 @@ namespace MxNet.Gluon.ModelZoo.Vision
             Features.Add(Inception.MakeBasicConv(80, (1, 1)));
             Features.Add(Inception.MakeBasicConv(192, (3, 3)));
             Features.Add(new MaxPool2D((3, 3), (2, 2)));
-            Features.Add(Inception.MakeA(32, "A1_"));
-            Features.Add(Inception.MakeA(64, "A2_"));
-            Features.Add(Inception.MakeA(64, "A3_"));
-            Features.Add(Inception.MakeB("B_"));
-            Features.Add(Inception.MakeC(128, "C1_"));
-            Features.Add(Inception.MakeC(160, "C2_"));
-            Features.Add(Inception.MakeC(160, "C3_"));
-            Features.Add(Inception.MakeC(192, "C4_"));
-            Features.Add(Inception.MakeD("D_"));
-            Features.Add(Inception.MakeE("E1_"));
-            Features.Add(Inception.MakeE("E2_"));
+            Features.Add(Inception.MakeA(32));
+            Features.Add(Inception.MakeA(64));
+            Features.Add(Inception.MakeA(64));
+            Features.Add(Inception.MakeB());
+            Features.Add(Inception.MakeC(128));
+            Features.Add(Inception.MakeC(160));
+            Features.Add(Inception.MakeC(160));
+            Features.Add(Inception.MakeC(192));
+            Features.Add(Inception.MakeD());
+            Features.Add(Inception.MakeE());
+            Features.Add(Inception.MakeE());
             Features.Add(new AvgPool2D((8, 8)));
             Features.Add(new Dropout(0.5f));
             RegisterChild(Features, "features");

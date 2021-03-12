@@ -57,7 +57,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
         private HybridSequential MakeFeatures(int[] layers, int[] filters, bool batch_norm = false)
         {
-            var featurizer = new HybridSequential("");
+            var featurizer = new HybridSequential();
             for (var i = 0; i < layers.Length; i++)
             {
                 var num = layers[i];
@@ -66,7 +66,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
                     featurizer.Add(new Conv2D(filters[i], (3, 3), padding: (1, 1),
                         weight_initializer: new Xavier("gaussian", "out", 2)));
                     if (batch_norm)
-                        featurizer.Add(new BatchNorm());
+                        featurizer.Add(new _BatchNorm());
 
                     featurizer.Add(new Activation(ActivationType.Relu));
                 }

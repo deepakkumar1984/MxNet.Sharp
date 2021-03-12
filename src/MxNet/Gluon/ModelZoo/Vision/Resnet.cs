@@ -146,17 +146,17 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public BasicBlockV1(int channels, int stride, bool downsample = false, int in_channels = 0,
             string prefix = "", ParameterDict @params = null) : base()
         {
-            body = new HybridSequential("");
+            body = new HybridSequential();
             body.Add(ResNet.Conv3x3(channels, stride, in_channels));
-            body.Add(new BatchNorm());
+            body.Add(new _BatchNorm());
             body.Add(new Activation(ActivationType.Relu));
             body.Add(ResNet.Conv3x3(channels, 1, channels));
-            body.Add(new BatchNorm());
+            body.Add(new _BatchNorm());
             if (downsample)
             {
                 ds = new HybridSequential();
                 ds.Add(new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels));
-                ds.Add(new BatchNorm());
+                ds.Add(new _BatchNorm());
                 RegisterChild(ds, "downsample");
             }
             else
@@ -186,8 +186,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
     public class BasicBlockV2 : HybridBlock
     {
-        private readonly BatchNorm bn1;
-        private readonly BatchNorm bn2;
+        private readonly _BatchNorm bn1;
+        private readonly _BatchNorm bn2;
         private readonly Conv2D conv1;
         private readonly Conv2D conv2;
         private readonly Conv2D ds;
@@ -195,9 +195,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
         public BasicBlockV2(int channels, int stride, bool downsample = false, int in_channels = 0,
             string prefix = "", ParameterDict @params = null) : base()
         {
-            bn1 = new BatchNorm();
+            bn1 = new _BatchNorm();
             conv1 = ResNet.Conv3x3(channels, stride, in_channels);
-            bn2 = new BatchNorm();
+            bn2 = new _BatchNorm();
             conv2 = ResNet.Conv3x3(channels, 1, channels);
             RegisterChild(bn1, "bn1");
             RegisterChild(conv1, "conv1");
@@ -250,21 +250,21 @@ namespace MxNet.Gluon.ModelZoo.Vision
             string prefix = "", ParameterDict @params = null) : base()
         {
             var channel_one_fourth = Convert.ToInt32(channels / 4);
-            body = new HybridSequential("");
+            body = new HybridSequential();
             body.Add(new Conv2D(channel_one_fourth, (1, 1), (stride, stride)));
-            body.Add(new BatchNorm());
+            body.Add(new _BatchNorm());
             body.Add(new Activation(ActivationType.Relu));
             body.Add(ResNet.Conv3x3(channel_one_fourth, 1, channel_one_fourth));
-            body.Add(new BatchNorm());
+            body.Add(new _BatchNorm());
             body.Add(new Activation(ActivationType.Relu));
             body.Add(new Conv2D(channels, (1, 1), (1, 1)));
-            body.Add(new BatchNorm());
+            body.Add(new _BatchNorm());
 
             if (downsample)
             {
                 ds = new HybridSequential();
                 ds.Add(new Conv2D(channels, (1, 1), (stride, stride), use_bias: false, in_channels: in_channels));
-                ds.Add(new BatchNorm());
+                ds.Add(new _BatchNorm());
                 RegisterChild(ds, "downsample");
             }
             else
@@ -294,9 +294,9 @@ namespace MxNet.Gluon.ModelZoo.Vision
 
     public class BottleneckV2 : HybridBlock
     {
-        private readonly BatchNorm bn1;
-        private readonly BatchNorm bn2;
-        private readonly BatchNorm bn3;
+        private readonly _BatchNorm bn1;
+        private readonly _BatchNorm bn2;
+        private readonly _BatchNorm bn3;
         private readonly Conv2D conv1;
         private readonly Conv2D conv2;
         private readonly Conv2D conv3;
@@ -306,11 +306,11 @@ namespace MxNet.Gluon.ModelZoo.Vision
             string prefix = "", ParameterDict @params = null) : base()
         {
             var channel_one_fourth = Convert.ToInt32(channels / 4);
-            bn1 = new BatchNorm();
+            bn1 = new _BatchNorm();
             conv1 = new Conv2D(channel_one_fourth, (1, 1), (1, 1), use_bias: false);
-            bn2 = new BatchNorm();
+            bn2 = new _BatchNorm();
             conv2 = ResNet.Conv3x3(channel_one_fourth, stride, channel_one_fourth);
-            bn3 = new BatchNorm();
+            bn3 = new _BatchNorm();
             conv3 = new Conv2D(channels, (1, 1), (1, 1), use_bias: false);
             RegisterChild(bn1, "bn1");
             RegisterChild(conv1, "conv1");
@@ -380,7 +380,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             else
             {
                 Features.Add(new Conv2D(channels[0], (7, 7), (2, 2), (3, 3), use_bias: false));
-                Features.Add(new BatchNorm());
+                Features.Add(new _BatchNorm());
                 Features.Add(new Activation(ActivationType.Relu));
                 Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
             }
@@ -413,7 +413,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private HybridSequential MakeLayer(string block, int layers, int channels, int stride, int stage_index,
             int in_channels = 0)
         {
-            var layer = new HybridSequential($"stage{stage_index}_");
+            var layer = new HybridSequential();
             if (block == "basic_block")
             {
                 layer.Add(new BasicBlockV1(channels, stride, channels != in_channels, in_channels, ""));
@@ -439,8 +439,8 @@ namespace MxNet.Gluon.ModelZoo.Vision
             if (layers.Length != channels.Length - 1)
                 throw new Exception("layers.length should be equal to channels.length - 1");
 
-            Features = new HybridSequential("features");
-            Features.Add(new BatchNorm(scale: false, center: false));
+            Features = new HybridSequential();
+            Features.Add(new _BatchNorm(scale: false, center: false));
             if (thumbnail)
             {
                 Features.Add(ResNet.Conv3x3(channels[0], 1, 0));
@@ -448,7 +448,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
             else
             {
                 Features.Add(new Conv2D(channels[0], (7, 7), (2, 2), (3, 3), use_bias: false));
-                Features.Add(new BatchNorm());
+                Features.Add(new _BatchNorm());
                 Features.Add(new Activation(ActivationType.Relu));
                 Features.Add(new MaxPool2D((3, 3), (2, 2), (1, 1)));
             }
@@ -462,7 +462,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
                 in_channels = channels[i + 1];
             }
 
-            Features.Add(new BatchNorm());
+            Features.Add(new _BatchNorm());
             Features.Add(new Activation(ActivationType.Relu));
             Features.Add(new GlobalAvgPool2D());
             Features.Add(new Flatten());
@@ -486,7 +486,7 @@ namespace MxNet.Gluon.ModelZoo.Vision
         private HybridSequential MakeLayer(string block, int layers, int channels, int stride, int stage_index,
             int in_channels = 0)
         {
-            var layer = new HybridSequential($"stage{stage_index}_");
+            var layer = new HybridSequential();
             if (block == "basic_block")
             {
                 layer.Add(new BasicBlockV2(channels, stride, channels != in_channels, in_channels, ""));
