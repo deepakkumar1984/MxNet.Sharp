@@ -29,7 +29,7 @@ namespace MxNet.Gluon.Data
             throw new NotImplementedException();
         }
 
-        public override int Length => throw new NotImplementedException();;
+        public override int Length => throw new NotImplementedException();
 
         public override IEnumerator<int> GetEnumerator()
         {

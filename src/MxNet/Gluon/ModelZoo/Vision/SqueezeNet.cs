@@ -14,7 +14,6 @@
    limitations under the License.
 ******************************************************************************/
 using System;
-using MxNet.Gluon.Contrib.NN;
 using MxNet.Gluon.NN;
 
 namespace MxNet.Gluon.ModelZoo.Vision

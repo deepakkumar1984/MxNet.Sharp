@@ -15,7 +15,6 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
-using MxNet.Gluon.Contrib.NN;
 using MxNet.Gluon.NN;
 
 namespace MxNet.Gluon.ModelZoo.Vision
