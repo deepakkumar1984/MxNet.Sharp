@@ -98,6 +98,22 @@ namespace MxNet
             }
         }
 
+        public static NDArrayOrSymbol One
+        {
+            get
+            {
+                return 1f;
+            }
+        }
+
+        public static NDArrayOrSymbol Zero
+        {
+            get
+            {
+                return 0f;
+            }
+        }
+
         public static implicit operator NDArrayOrSymbol(NDArray x)
         {
             if (x == null)
@@ -124,6 +140,12 @@ namespace MxNet
             if (x == null)
                 return null;
             return x.SymX;
+        }
+
+        public static implicit operator NDArrayOrSymbol(float x)
+        {
+            NDArray array = new NDArray(new float[] { x });
+            return array;
         }
 
         public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1)
