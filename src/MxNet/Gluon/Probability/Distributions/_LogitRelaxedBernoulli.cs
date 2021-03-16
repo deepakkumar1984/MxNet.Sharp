@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MxNet.Gluon.Probability.Distributions
 {
-    public class OneHotCategorical : Distribution
+    public class _LogitRelaxedBernoulli : Distribution
     {
         public NDArrayOrSymbol Prob
         {
@@ -22,28 +22,7 @@ namespace MxNet.Gluon.Probability.Distributions
             }
         }
 
-        public override NDArrayOrSymbol Mean
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override NDArrayOrSymbol Variance
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public OneHotCategorical(int num_events = 1, NDArrayOrSymbol prob = null, NDArrayOrSymbol logit = null, bool? validate_args = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override NDArrayOrSymbol BroadcastTo(Shape batch_shape)
+        public _LogitRelaxedBernoulli(NDArrayOrSymbol prob = null, NDArrayOrSymbol logit = null, bool? validate_args = null)
         {
             throw new NotImplementedException();
         }
@@ -53,7 +32,7 @@ namespace MxNet.Gluon.Probability.Distributions
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol EnumerateSupport()
+        public override NDArrayOrSymbol Sample(Shape size)
         {
             throw new NotImplementedException();
         }

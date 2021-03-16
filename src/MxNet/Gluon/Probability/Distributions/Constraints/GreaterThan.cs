@@ -4,11 +4,14 @@ using System.Text;
 
 namespace MxNet.Gluon.Probability.Distributions.Constraints
 {
-    public abstract class Constraint
+    public class GreaterThan : Constraint
     {
-        public abstract bool Check(NDArrayOrSymbol value);
+        public GreaterThan(float lower_bound)
+        {
+            throw new NotImplementedException();
+        }
 
-        public static bool IsDependent(Constraint constraint)
+        public override bool Check(NDArrayOrSymbol value)
         {
             throw new NotImplementedException();
         }

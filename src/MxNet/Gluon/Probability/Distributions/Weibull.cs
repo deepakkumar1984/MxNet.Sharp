@@ -4,24 +4,8 @@ using System.Text;
 
 namespace MxNet.Gluon.Probability.Distributions
 {
-    public class OneHotCategorical : Distribution
+    public class Weibull : TransformedDistribution
     {
-        public NDArrayOrSymbol Prob
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public NDArrayOrSymbol Logit
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public override NDArrayOrSymbol Mean
         {
             get
@@ -38,22 +22,22 @@ namespace MxNet.Gluon.Probability.Distributions
             }
         }
 
-        public OneHotCategorical(int num_events = 1, NDArrayOrSymbol prob = null, NDArrayOrSymbol logit = null, bool? validate_args = null)
+        public Weibull(Shape concentration, NDArrayOrSymbol scale = null, bool? validate_args = null)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol BroadcastTo(Shape batch_shape)
+        public override NDArrayOrSymbol Sample(Shape size)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol LogProb(NDArrayOrSymbol value)
+        public override NDArrayOrSymbol SampleN(Shape size)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol EnumerateSupport()
+        public override NDArrayOrSymbol Entropy()
         {
             throw new NotImplementedException();
         }

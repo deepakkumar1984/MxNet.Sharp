@@ -88,8 +88,4 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Gluon\Contrib\Data\" />
-  </ItemGroup>
-
 </Project>
