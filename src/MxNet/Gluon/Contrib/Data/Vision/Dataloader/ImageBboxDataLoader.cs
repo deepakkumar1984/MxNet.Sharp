@@ -12,7 +12,7 @@ namespace MxNet.Gluon.Contrib.Data.Vision
         public int Length => throw new NotImplementedRelease1Exception();
 
         public ImageBboxDataLoader(int batch_size, Shape data_shape, string path_imgrec= null, string path_imglist= null, string path_root= ".",
-                 int part_index= 0, int num_parts= 1, Augmenter[] aug_list= null, List<(string, float[])> imglist= null, vool coord_normalized = false,
+                 int part_index= 0, int num_parts= 1, Augmenter[] aug_list= null, List<(string, float[])> imglist= null, bool coord_normalized = false,
                  DType dtype= null, bool shuffle= false, Sampler<int> sampler= null, string last_batch= null, BatchSampler batch_sampler= null,
                  Func<(NDArray, NDArray)[], (NDArray, NDArray)>  batchify_fn = null,  int num_workers= 0, bool pin_memory= false,
                  int pin_device_id= 0, int? prefetch= null, bool thread_pool= false, int timeout= 120)
