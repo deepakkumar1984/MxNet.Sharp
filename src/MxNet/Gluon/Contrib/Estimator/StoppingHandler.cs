@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.Gluon.Contrib.Estimator
+namespace MxNet.Gluon.Contrib
 {
     public class StoppingHandler : IEventHandler
     {

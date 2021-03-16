@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MxNet.Gluon.Contrib.Estimator
+namespace MxNet.Gluon.Contrib
 {
     public class EarlyStoppingHandler : IEventHandler
     {
