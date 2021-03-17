@@ -23,7 +23,21 @@ namespace MxNet.Contrib.ONNX.Mx2ONNX
 
         public static int GetBooleanAttributeValue(Dictionary<string, object> attrs, string attr_name)
         {
-            
+            throw new NotImplementedRelease2Exception();
+        }
+
+        public  static (string, dynamic[], Dictionary<string,object>) GetInputs(dynamic node, FuncArgs kwargs, bool with_shapes= false)
+        {
+            throw new NotImplementedRelease2Exception();
+        }
+
+        public static dynamic CreateBasicOpNode(string op_name, dynamic node, FuncArgs kwargs)
+        {
+            throw new NotImplementedRelease2Exception();
+        }
+
+        public static dynamic ConvertWeightsAndInputs(dynamic node, FuncArgs kwargs)
+        {
             throw new NotImplementedRelease2Exception();
         }
     }
