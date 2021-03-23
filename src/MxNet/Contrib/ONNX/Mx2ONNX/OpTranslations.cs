@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Onnx;
+    
 namespace MxNet.Contrib.ONNX.Mx2ONNX
 {
     public class OpTranslations
@@ -26,547 +27,547 @@ namespace MxNet.Contrib.ONNX.Mx2ONNX
             throw new NotImplementedRelease2Exception();
         }
 
-        public  static (string, dynamic[], Dictionary<string,object>) GetInputs(dynamic node, FuncArgs kwargs, bool with_shapes= false)
+        public  static (string, NodeProto[], Dictionary<string,object>) GetInputs(NodeProto node, FuncArgs kwargs, bool with_shapes= false)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateBasicOpNode(string op_name, dynamic node, FuncArgs kwargs)
+        public static NodeProto CreateBasicOpNode(string op_name, NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertWeightsAndInputs(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertWeightsAndInputs(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertConvolution(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertConvolution(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertDeconvolution(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertDeconvolution(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertCrop(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertCrop(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertFullyConnected(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertFullyConnected(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBatchNorm(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBatchNorm(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertTanh(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertTanh(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertCos(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertCos(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSin(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSin(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertTan(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertTan(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertAcos(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertAcos(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertAsin(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertAsin(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertAtan(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertAtan(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSigmoid(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSigmoid(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertRelu(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertRelu(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertActivation(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertActivation(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertPad(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertPad(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperTensorNode(NDArray input_vals, string output_name, FuncArgs kwargs)
+        public static NodeProto CreateHelperTensorNode(NDArray input_vals, string output_name, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperReshapeNode(string input_name, string output_name, Shape shape, FuncArgs kwargs)
+        public static NodeProto CreateHelperReshapeNode(string input_name, string output_name, Shape shape, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperTransNode(string input_name, string output_name, int[] perm = null)
+        public static NodeProto CreateHelperTransNode(string input_name, string output_name, int[] perm = null)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperConcatNode(NDArrayList inputs, string output_name, int axis=0)
+        public static NodeProto CreateHelperConcatNode(NDArrayList inputs, string output_name, int axis=0)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperExpandNode(string input_name, string output_name, Shape expand_shape)
+        public static NodeProto CreateHelperExpandNode(string input_name, string output_name, Shape expand_shape)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperGatherNode(string input_name, string output_name, NDArray indices, FuncArgs kwargs, int? axis = null)
+        public static NodeProto CreateHelperGatherNode(string input_name, string output_name, NDArray indices, FuncArgs kwargs, int? axis = null)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperBuildValuesNode(NDArrayList inputs, string output_name, DType dtype, FuncArgs kwargs, int axis = 0)
+        public static NodeProto CreateHelperBuildValuesNode(NDArrayList inputs, string output_name, DType dtype, FuncArgs kwargs, int axis = 0)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic CreateHelperShapeNode(string input_name, string output_name)
+        public static NodeProto CreateHelperShapeNode(string input_name, string output_name)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertDot(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertDot(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
 
-        public static dynamic ConvertLinalgGemm2(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertLinalgGemm2(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertPooling(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertPooling(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertExp(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertExp(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertCopy(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertCopy(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertIdentity(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertIdentity(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertInstantNorm(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertInstantNorm(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertLeakyRelu(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertLeakyRelu(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSoftmax(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSoftmax(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBlockgrad(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBlockgrad(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMakeloss(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMakeloss(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertConcat(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertConcat(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertRNN(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertRNN(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertRNNParamConcat(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertRNNParamConcat(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertFull(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertFull(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertTranspose(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertTranspose(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertLrn(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertLrn(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertL2Normalization(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertL2Normalization(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertDropout(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertDropout(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertFlatten(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertFlatten(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertClip(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertClip(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic scalar_op_helper(dynamic node, string op_name, FuncArgs kwargs)
+        public static NodeProto scalar_op_helper(NodeProto node, string op_name, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMulscalar(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMulscalar(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMinusScalar(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMinusScalar(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertRminusScalar(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertRminusScalar(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertAddScalar(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertAddScalar(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertDivScalar(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertDivScalar(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertRdivScalar(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertRdivScalar(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertPowScalar(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertPowScalar(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertArgmax(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertArgmax(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertArgmin(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertArgmin(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMaximum(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMaximum(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMinimum(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMinimum(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMin(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMin(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMax(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMax(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMean(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMean(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertProd(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertProd(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertElementwiseAdd(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertElementwiseAdd(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroadcastAdd(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroadcastAdd(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertElementwiseSub(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertElementwiseSub(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroadcastSub(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroadcastSub(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertElementwiseMul(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertElementwiseMul(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroadcastMul(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroadcastMul(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertElementwiseDiv(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertElementwiseDiv(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroadcastDiv(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroadcastDiv(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertNegative(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertNegative(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertAbs(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertAbs(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertAddN(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertAddN(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertFloor(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertFloor(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertReshape(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertReshape(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertCast(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertCast(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSliceAxis(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSliceAxis(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSliceChannel(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSliceChannel(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertExpandDims(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertExpandDims(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSqueeze(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSqueeze(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertLog(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertLog(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertReciprocal(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertReciprocal(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertPower(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertPower(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroatcastPower(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastPower(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertDepthToSpace(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertDepthToSpace(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSpaceToDepth(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSpaceToDepth(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSquare(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSquare(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSum(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSum(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertShape(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertShape(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertHardSigmoid(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertHardSigmoid(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
-        public static dynamic ConvertBroatcastGreater(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastGreater(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroatcastLesser(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastLesser(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroatcastEqual(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastEqual(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroatcastLogicalAnd(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastLogicalAnd(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroatcastLogicalOr(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastLogicalOr(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroatcastLogicalXor(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastLogicalXor(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertLogicalNot(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertLogicalNot(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertSize(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertSize(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertLogSoftmax(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertLogSoftmax(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertNorm(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertNorm(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertMultinomial(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertMultinomial(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertRandomNormal(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertRandomNormal(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertROIPooling(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertROIPooling(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertTile(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertTile(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertBroatcastTo(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertBroatcastTo(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertTopK(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertTopK(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
 
-        public static dynamic ConvertTake(dynamic node, FuncArgs kwargs)
+        public static NodeProto ConvertTake(NodeProto node, FuncArgs kwargs)
         {
             throw new NotImplementedRelease2Exception();
         }
