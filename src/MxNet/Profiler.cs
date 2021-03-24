@@ -15,6 +15,7 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MxNet.Interop;
 using MxNet.Libs;
 using ProfileHandle = System.IntPtr;
@@ -262,9 +263,21 @@ namespace MxNet
             }
         }
 
-        public static List<List<string>> Scope(string name = "<unk>:", bool append_mode = true)
+        public static IEnumerable<string> Scope(string name = "<unk>:", bool append_mode = true)
         {
-            throw new NotImplementedException();
+            name = name.EndsWith(":") ? name : name + ":";
+            
+            if (append_mode && _current_scope.Get() != "<unk>:")
+                name = _current_scope.Get() + name;
+
+            var token = _current_scope.Set(name);
+            // Invoke the C API to propagate the profiler scope information to the
+            // C++ backend.
+            NativeMethods.MXSetProfilerScope(name);
+            yield return name;
+            _current_scope.Reset(token);
+            // Invoke the C API once again to recover the previous scope information.
+            NativeMethods.MXSetProfilerScope(_current_scope.Get());
         }
 
         public static ContextVar<string> _current_scope = new ContextVar<string>("profilerscope", @default: "<unk>:");

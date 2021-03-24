@@ -1289,6 +1289,9 @@ namespace MxNet.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSymbolGetInputs(SymbolHandle handle, out SymbolHandle hdl);
+        
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSetProfilerScope(string name);
         #endregion
     }
 }
