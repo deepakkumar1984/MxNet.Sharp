@@ -10,7 +10,10 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
 
         public static bool IsDependent(Constraint constraint)
         {
-            throw new NotImplementedException();
+            return constraint.GetType().Name == "_Dependent";
         }
+
+        
+             
     }
 }

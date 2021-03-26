@@ -22,7 +22,7 @@ namespace MxNet.Gluon.Probability.Distributions
             }
         }
 
-        public override object[] NaturalParams
+        public override NDArrayOrSymbolList NaturalParams
         {
             get
             {
@@ -35,7 +35,7 @@ namespace MxNet.Gluon.Probability.Distributions
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol BroadcastTo(Shape batch_shape)
+        public override Distribution BroadcastTo(Shape batch_shape)
         {
             throw new NotImplementedException();
         }
@@ -55,7 +55,7 @@ namespace MxNet.Gluon.Probability.Distributions
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol LogNormalizer(params object[] natural_params)
+        public override NDArrayOrSymbol LogNormalizer(NDArrayOrSymbol natural_params)
         {
             throw new NotImplementedException();
         }

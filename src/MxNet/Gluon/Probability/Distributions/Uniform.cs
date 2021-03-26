@@ -29,7 +29,7 @@ namespace MxNet.Gluon.Probability.Distributions
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol BroadcastTo(Shape batch_shape)
+        public override Distribution BroadcastTo(Shape batch_shape)
         {
             throw new NotImplementedException();
         }

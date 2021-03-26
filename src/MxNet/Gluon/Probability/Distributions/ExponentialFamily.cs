@@ -6,7 +6,11 @@ namespace MxNet.Gluon.Probability.Distributions
 {
     public class ExponentialFamily : Distribution
     {
-        public virtual object[] NaturalParams
+        public ExponentialFamily(int? event_dim = null, bool? validate_args = null) : base(event_dim, validate_args)
+        {
+        }
+
+        public virtual NDArrayOrSymbolList NaturalParams
         {
             get
             {
@@ -14,7 +18,7 @@ namespace MxNet.Gluon.Probability.Distributions
             }
         }
 
-        public virtual NDArrayOrSymbol LogNormalizer(params object[] natural_params)
+        public virtual NDArrayOrSymbol LogNormalizer(NDArrayOrSymbol x)
         {
             throw new NotSupportedException();
         }
