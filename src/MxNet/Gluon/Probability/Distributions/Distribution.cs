@@ -182,7 +182,7 @@ namespace MxNet.Gluon.Probability.Distributions
             return this.GetType().Name + "(" + args_string + ")";
         }
 
-        public bool ValidateSamples(NDArray value)
+        public NDArray ValidateSamples(NDArray value)
         {
             return this.Support.Check(value);
         }

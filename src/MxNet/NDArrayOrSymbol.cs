@@ -481,5 +481,15 @@ namespace MxNet
         {
             return new NDArrayOrSymbolList(x.ToArray());
         }
+
+        public static implicit operator NDArrayOrSymbolList(SymbolList x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
+
+        public static implicit operator NDArrayOrSymbolList(NDArrayList x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
     }
 }

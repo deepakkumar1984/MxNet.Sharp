@@ -61,8 +61,8 @@ namespace MxNet.Gluon.NN
             }
             else
             {
-                var xs = sym.SwapAxis(x.SymX, 1, Axis);
-                return sym.SwapAxis(sym.InstanceNorm(xs, gamma.SymX, beta.SymX, Epsilon, "fwd"), 1, Axis);
+                var xs = sym.SwapAxis(x.SymX, 1,(uint) Axis);
+                return sym.SwapAxis(sym.InstanceNorm(xs, gamma.SymX, beta.SymX, Epsilon, "fwd"), 1, (uint)Axis);
             }
         }
 

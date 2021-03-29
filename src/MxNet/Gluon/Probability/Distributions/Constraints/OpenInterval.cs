@@ -6,14 +6,24 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
 {
     public class OpenInterval : Constraint
     {
+        public float _lower_bound;
+
+        public float _upper_bound;
+
         public OpenInterval(float lower_bound, float upper_bound)
         {
-            throw new NotImplementedException();
+            this._lower_bound = lower_bound;
+            this._upper_bound = upper_bound;
         }
 
-        public override bool Check(NDArrayOrSymbol value)
+        public override NDArrayOrSymbol Check(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            var err_msg = $"Constraint violated: value should be > {_lower_bound} and < {_upper_bound}.";
+            NDArrayOrSymbol condition = value.IsNDArray ? nd.LogicalAnd(value > this._lower_bound, value < this._upper_bound)
+                                : sym.LogicalAnd(value > this._lower_bound, value < this._upper_bound);
+            var constraint_check = DistributionsUtils.ConstraintCheck();
+            var _value = constraint_check(condition, err_msg) * value;
+            return _value;
         }
     }
 }

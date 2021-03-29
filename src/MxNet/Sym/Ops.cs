@@ -350,7 +350,7 @@ namespace MxNet
         /// <param name="clip_gradient">
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MpAdamwUpdate(Symbol weight, Symbol grad, Symbol mean, Symbol var, Symbol weight32,
+        public static Symbol MpAdamWUpdate(Symbol weight, Symbol grad, Symbol mean, Symbol var, Symbol weight32,
             Symbol rescale_grad, float lr, float eta, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f,
             float wd = 0f, float clip_gradient = -1f, string symbol_name = "")
         {
@@ -414,7 +414,7 @@ namespace MxNet
         /// <param name="clip_gradient">
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol AdamwUpdate(Symbol weight, Symbol grad, Symbol mean, Symbol var, Symbol rescale_grad,
+        public static Symbol AdamWUpdate(Symbol weight, Symbol grad, Symbol mean, Symbol var, Symbol rescale_grad,
             float lr, float eta, float beta1 = 0.9f, float beta2 = 0.999f, float epsilon = 1e-08f, float wd = 0f,
             float clip_gradient = -1f, string symbol_name = "")
         {
@@ -1037,11 +1037,10 @@ namespace MxNet
         ///     NCDHW for 3d.NHWC and NDHWC are only supported on GPU.
         /// </param>
         /// <returns>returns new symbol</returns>
-        public static Symbol Deconvolution(Symbol data, Symbol weight, Shape kernel, int num_filter,
+        public static Symbol Deconvolution(NDArray data, NDArray weight, NDArray bias, Shape kernel, uint num_filter,
             Shape stride = null, Shape dilate = null, Shape pad = null, Shape adj = null, Shape target_shape = null,
-            Symbol bias = null, bool no_bias = true, int num_group = 1, ulong workspace = 512,
-            DeconvolutionCudnnTune? cudnn_tune = null, bool cudnn_off = false, DeconvolutionLayout? layout = null,
-            string symbol_name = "")
+            uint num_group = 1, ulong workspace = 512, bool no_bias = true, DeconvolutionCudnnTune? cudnn_tune = null,
+            bool cudnn_off = false, DeconvolutionLayout? layout = null, string symbol_name = "")
         {
             if (stride == null) stride = new Shape();
             if (dilate == null) dilate = new Shape();
@@ -1710,7 +1709,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiSgdUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds,
+        public static Symbol MultiSgdUpdate(SymbolList data, float[] lrs, float[] wds,
             float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, string symbol_name = "")
         {
             return new Operator("multi_sgd_update")
@@ -1758,7 +1757,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiSgdMomUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds, float momentum = 0f,
+        public static Symbol MultiSgdMomUpdate(SymbolList data, float[] lrs, float[] wds, float momentum = 0f,
             float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, string symbol_name = "")
         {
             return new Operator("multi_sgd_mom_update")
@@ -1794,7 +1793,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiMpSgdUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds,
+        public static Symbol MultiMpSgdUpdate(SymbolList data, float[] lrs, float[] wds,
             float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1, string symbol_name = "")
         {
             return new Operator("multi_mp_sgd_update")
@@ -1842,7 +1841,7 @@ namespace MxNet
         ///     Clip gradient to the range of [-clip_gradient, clip_gradient] If clip_gradient <= 0, gradient clipping is turned off. grad = max(min(grad, clip_gradient), -clip_gradient).</param>
         /// <param name="num_weights">Number of updated weights.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol MultiMpSgdMomUpdate(SymbolList data, Tuple<double> lrs, Tuple<double> wds,
+        public static Symbol MultiMpSgdMomUpdate(SymbolList data, float[] lrs, float[] wds,
             float momentum = 0f, float rescale_grad = 1f, float clip_gradient = -1f, int num_weights = 1,
             string symbol_name = "")
         {
@@ -2028,6 +2027,37 @@ namespace MxNet
                 .SetParam("rescale_grad", rescale_grad)
                 .SetParam("clip_gradient", clip_gradient)
                 .SetParam("lazy_update", lazy_update)
+                .SetInput("weight", weight)
+                .SetInput("grad", grad)
+                .SetInput("mom", mom)
+                .SetInput("weight32", weight32)
+                .CreateSymbol(symbol_name);
+        }
+
+        public static Symbol NAGMomUpdate(NDArray weight, NDArray grad, NDArray mom, float lr, float momentum = 0,
+           float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, string symbol_name = "")
+        {
+            return new Operator("nag_mom_update")
+                .SetParam("lr", lr)
+                .SetParam("momentum", momentum)
+                .SetParam("wd", wd)
+                .SetParam("rescale_grad", rescale_grad)
+                .SetParam("clip_gradient", clip_gradient)
+                .SetInput("weight", weight)
+                .SetInput("grad", grad)
+                .SetInput("mom", mom)
+                .CreateSymbol(symbol_name);
+        }
+
+        public static Symbol MPNAGMomUpdate(NDArray weight, NDArray grad, NDArray mom, NDArray weight32, float lr,
+            float momentum = 0, float wd = 0f, float rescale_grad = 1f, float clip_gradient = -1f, string symbol_name = "")
+        {
+            return new Operator("mp_nag_mom_update")
+                .SetParam("lr", lr)
+                .SetParam("momentum", momentum)
+                .SetParam("wd", wd)
+                .SetParam("rescale_grad", rescale_grad)
+                .SetParam("clip_gradient", clip_gradient)
                 .SetInput("weight", weight)
                 .SetInput("grad", grad)
                 .SetInput("mom", mom)
@@ -3223,7 +3253,7 @@ namespace MxNet
         /// <param name="ctx">Context of output, in format [cpu|gpu|cpu_pinned](n). Only used for imperative calls.</param>
         /// <param name="dtype">DType of the output in case this can't be inferred. Defaults to int32 if not defined (dtype=None).</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol RandomRandint(Tuple<double> low, Tuple<double> high, Shape shape = null,
+        public static Symbol RandomRandint(float[] low, float[] high, Shape shape = null,
             Context ctx = null, DType dtype = null, string symbol_name = "")
         {
             return new Operator("_random_randint")
@@ -3655,8 +3685,8 @@ namespace MxNet
         ///     range is not specified, this option is ignored.
         /// </param>
         /// <returns>returns new symbol</returns>
-        public static Symbol RNN(Symbol data, Symbol parameters, Symbol state, Symbol state_cell, int state_size,
-            int num_layers, RNNMode mode, bool bidirectional = false, float p = 0f, bool state_outputs = false,
+        public static Symbol RNN(Symbol data, Symbol parameters, Symbol state, Symbol state_cell, uint state_size,
+            uint num_layers, RNNMode mode, bool bidirectional = false, float p = 0f, bool state_outputs = false,
             int? projection_size = null, double? lstm_state_clip_min = null, double? lstm_state_clip_max = null,
             bool lstm_state_clip_nan = false, string symbol_name = "")
         {
@@ -3851,7 +3881,7 @@ namespace MxNet
         /// <param name="dim1">the first axis to be swapped.</param>
         /// <param name="dim2">the second axis to be swapped.</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol SwapAxis(Symbol data, int dim1 = 0, int dim2 = 0, string symbol_name = "")
+        public static Symbol SwapAxis(Symbol data, uint dim1 = 0, uint dim2 = 0, string symbol_name = "")
         {
             return new Operator("SwapAxis")
                 .SetParam("dim1", dim1)
@@ -8533,11 +8563,16 @@ namespace MxNet
         /// </summary>
         /// <param name="A">Tensor of input matrices to be factorized</param>
         /// <returns>returns new symbol</returns>
-        public static Symbol LinalgSyevd(Symbol A, string symbol_name = "")
+        public static (Symbol, Symbol) LinalgSyevd(Symbol A, string symbol_name = "")
         {
-            return new Operator("_linalg_syevd")
+            var result = new Operator("_linalg_syevd")
                 .SetInput("A", A)
                 .CreateSymbol(symbol_name);
+
+            if (result.ListOutputs().Count > 1)
+                return (result[0], result[1]);
+
+            return (result, null);
         }
 
         /// <summary>
@@ -9098,6 +9133,15 @@ namespace MxNet
                 .SetInput("data", data)
                 .CreateSymbol(symbol_name);
         }
+
+        public static Symbol Flip(Symbol data, int axis, string symbol_name = "")
+        {
+            return new Operator("reverse")
+                .SetParam("axis", new Shape(axis))
+                .SetInput("data", data)
+                .CreateSymbol(symbol_name);
+        }
+
 
         /// <summary>
         ///     <para>Reverses the order of elements along given axis while preserving array shape.</para>
@@ -10702,11 +10746,11 @@ namespace MxNet
                 .CreateSymbol(symbol_name);
         }
 
-        public static Symbol MultiSumSq(SymbolList arrays, int num_arrays)
+        public static SymbolList MultiSumSq(SymbolList arrays, int num_arrays)
         {
             return new Operator("multi_sum_sq")
                 .SetInput(arrays).SetParam("num_arrays", num_arrays)
-                .CreateSymbol();
+                .CreateSymbol().ToList();
         }
     }
 }

@@ -6,14 +6,19 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
 {
     public class GreaterThanEq : Constraint
     {
+        public float _lower_bound;
         public GreaterThanEq(float lower_bound)
         {
-            throw new NotImplementedException();
+            this._lower_bound = lower_bound;
         }
 
-        public override bool Check(NDArrayOrSymbol value)
+        public override NDArrayOrSymbol Check(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            var err_msg = $"Constraint violated: value should be greater than equal {_lower_bound}";
+            var condition = value >= this._lower_bound;
+            var constraint_check = DistributionsUtils.ConstraintCheck();
+            var _value = constraint_check(condition, err_msg) * value;
+            return _value;
         }
     }
 }

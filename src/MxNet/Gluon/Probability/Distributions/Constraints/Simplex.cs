@@ -6,7 +6,7 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
 {
     public class Simplex : Constraint
     {
-        public override bool Check(NDArrayOrSymbol value)
+        public override NDArrayOrSymbol Check(NDArrayOrSymbol value)
         {
             throw new NotImplementedException();
         }

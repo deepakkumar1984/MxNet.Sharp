@@ -6,14 +6,11 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
 {
     public abstract class Constraint
     {
-        public abstract bool Check(NDArrayOrSymbol value);
+        public abstract NDArrayOrSymbol Check(NDArrayOrSymbol value);
 
         public static bool IsDependent(Constraint constraint)
         {
             return constraint.GetType().Name == "_Dependent";
         }
-
-        
-             
     }
 }

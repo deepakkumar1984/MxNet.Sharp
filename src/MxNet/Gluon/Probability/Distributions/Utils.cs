@@ -6,27 +6,27 @@ namespace MxNet.Gluon.Probability.Distributions
 {
     public class DistributionsUtils
     {
-        public static Func<NDArray, string, NDArray> ConstraintCheck()
+        public static Func<NDArrayOrSymbol, string, NDArrayOrSymbol> ConstraintCheck()
         {
             throw new NotImplementedException();
         }
 
-        public static Func<NDArray, NDArray> DiGamma()
+        public static Func<NDArrayOrSymbol, NDArrayOrSymbol> DiGamma()
         {
             throw new NotImplementedException();
         }
 
-        public static Func<NDArray, NDArray> GammaLn()
+        public static Func<NDArrayOrSymbol, NDArrayOrSymbol> GammaLn()
         {
             throw new NotImplementedException();
         }
 
-        public static Func<NDArray, NDArray> Erf()
+        public static Func<NDArrayOrSymbol, NDArrayOrSymbol> Erf()
         {
             throw new NotImplementedException();
         }
 
-        public static Func<NDArray, NDArray> ErfInv()
+        public static Func<NDArrayOrSymbol, NDArrayOrSymbol> ErfInv()
         {
             throw new NotImplementedException();
         }
@@ -41,7 +41,7 @@ namespace MxNet.Gluon.Probability.Distributions
             throw new NotImplementedException();
         }
 
-        public static NDArray SumRightMost(NDArray x, int ndim)
+        public static NDArray SumRightMost(NDArrayOrSymbol x, int ndim)
         {
             throw new NotImplementedException();
         }
