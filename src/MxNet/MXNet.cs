@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using MxNet.Interop;
 
 // ReSharper disable once CheckNamespace
@@ -89,6 +90,83 @@ namespace MxNet
                 NativeMethods.MXRandomSeed(seed);
             else
                 NativeMethods.MXRandomSeedContext(seed, (int)ctx.GetDeviceType(), ctx.GetDeviceId());
+        }
+
+        public static string[] GetAllRegisteredCApiOperators()
+        {
+            List<string> methods = new List<string>();
+
+            int r = NativeMethods.MXSymbolListAtomicSymbolCreators(out uint numSymbolCreators, out IntPtr symbolCreatorsPtr);
+            IntPtr[] symbolCreators = new IntPtr[numSymbolCreators];
+            Marshal.Copy(symbolCreatorsPtr, symbolCreators, 0, (int)numSymbolCreators);
+
+            for (int i = 0; i < numSymbolCreators; i++)
+            {
+                IntPtr returnTypePtr = new IntPtr();
+                
+                r = NativeMethods.MXSymbolGetAtomicSymbolInfo(symbolCreators[i],
+                out IntPtr namePtr,
+                out IntPtr descriptionPtr,
+                out uint numArgs,
+                out IntPtr argNamesPtr,
+                out IntPtr argTypeInfosPtr,
+                out IntPtr argDescriptionsPtr,
+                out IntPtr keyVarNumArgsPtr,
+                ref returnTypePtr);
+                string name = Marshal.PtrToStringAnsi(namePtr);
+                if (name == null)
+                {
+                    Console.WriteLine($"error namePtr {i}");
+                    continue; ;
+                }
+
+                if (name.ToLower().Contains("backward"))
+                    continue;
+
+                methods.Add(name);
+                string description = Marshal.PtrToStringAnsi(descriptionPtr);
+
+                IntPtr[] argNamesArray = new IntPtr[numArgs];
+                IntPtr[] argTypeInfosArray = new IntPtr[numArgs];
+                IntPtr[] argDescriptionsArray = new IntPtr[numArgs];
+                if (numArgs > 0)
+                {
+                    Marshal.Copy(argNamesPtr, argNamesArray, 0, (int)numArgs);
+                    Marshal.Copy(argTypeInfosPtr, argTypeInfosArray, 0, (int)numArgs);
+                    Marshal.Copy(argDescriptionsPtr, argDescriptionsArray, 0, (int)numArgs);
+
+                }
+
+                List<string> args = new List<string>();
+                for (int j = 0; j < numArgs; j++)
+                {
+                    string descriptions = Marshal.PtrToStringAnsi(argDescriptionsArray[j]);
+                    if (descriptions == null || descriptions.Contains("Deprecated"))
+                    {
+                        continue;
+                    }
+
+                    //MxOpArg arg = new MxOpArg(name,
+                    //    Marshal.PtrToStringAnsi(argNamesArray[j]),
+                    //    Marshal.PtrToStringAnsi(argTypeInfosArray[j]),
+                    //    descriptions
+                    //    );
+
+                    //args.Add(arg);
+                }
+
+                //ops.Add(new MxOp(name, description, args));
+            }
+
+            return methods.ToArray();
+        }
+
+        public static string[] GetAllRegisteredOperators()
+        {
+            int r = NativeMethods.MXListAllOpNames(out uint numSymbolCreators, out IntPtr symbolCreatorsPtr);
+            IntPtr[] symbolCreators = new IntPtr[numSymbolCreators];
+            Marshal.Copy(symbolCreatorsPtr, symbolCreators, 0, (int)numSymbolCreators);
+            return symbolCreators.Select(x => Marshal.PtrToStringAnsi(x)).ToArray();
         }
 
         #endregion

@@ -379,7 +379,7 @@ namespace MxNet.Interop
         /// <param name="out_array">the output operator name array.</param>
         /// <returns>0 when success, -1 when failure happens</returns>
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int MXListAllOpNames(out uint out_size, out AtomicSymbolCreator[] out_array);
+        public static extern unsafe int MXListAllOpNames(out uint out_size, out IntPtr out_array);
 
         /// <summary>
         ///     This function will change the sym hanlde. To achieve function apply behavior, copy the symbol first before apply.

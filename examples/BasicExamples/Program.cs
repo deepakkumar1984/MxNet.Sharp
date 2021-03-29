@@ -14,6 +14,11 @@ namespace BasicExamples
             //CrashCourse_NN.Run();
             //LogisticRegressionExplained.Run();
 
+            var methods = mx.GetAllRegisteredOperators();
+        }
+
+        private static void GenerateFOps()
+        {
             var methods = typeof(nd).GetMethods();
             StringBuilder fclass = new StringBuilder();
             foreach (var method in methods)
@@ -74,7 +79,7 @@ namespace BasicExamples
 
                 string firstNdParam = "";
                 var ndparam = parameters.FirstOrDefault(x => x.ParameterType.Name == "NDArray");
-                if(ndparam == null)
+                if (ndparam == null)
                 {
                     ndparam = parameters.FirstOrDefault(x => x.ParameterType.Name == "NDArrayList");
                 }

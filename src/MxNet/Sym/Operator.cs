@@ -62,7 +62,7 @@ namespace MxNet
             _OpName = operatorName;
             _Handle = OpMap.GetSymbolCreator(operatorName);
 
-            var return_type = SymbolHandle.Zero;
+            IntPtr return_type = new SymbolHandle();
             Logging.CHECK_EQ(NativeMethods.MXSymbolGetAtomicSymbolInfo(_Handle,
                 out var name,
                 out var description,
