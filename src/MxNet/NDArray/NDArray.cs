@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MxNet.Interop;
-using NumpyDotNet;
 using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
@@ -26,16 +25,18 @@ using size_t = System.UInt64;
 using System.IO.Compression;
 using System.IO;
 using System.Diagnostics;
+using MxNet.ND.Numpy;
+using MxNet.Numpy;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
+    [Obsolete("Legacy API after MxNet v2, will be deprecated in v3", false)]
     public partial class NDArray : DisposableMXNetObject
     {
         #region Fields
 
         internal NDBlob _Blob;
-        bool? _INT64_TENSOR_SIZE_ENABLED = null;
 
         public Context Context
         {
@@ -58,7 +59,6 @@ namespace MxNet
                 return Transpose();
             }
         }
-
 
         #endregion
 
@@ -92,7 +92,7 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.Float32;
 
-            if (Int64Enabled())
+            if (nd_np_ops.Int64Enabled())
             {
                 Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
                        shape.Dimension,
@@ -138,7 +138,7 @@ namespace MxNet
             if (dtype == null)
                 dtype = DType.InferDtype(data);
 
-            if (Int64Enabled())
+            if (nd_np_ops.Int64Enabled())
             {
                 Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
                        shape.Dimension,
@@ -195,7 +195,7 @@ namespace MxNet
                 throw new ArgumentNullException(nameof(shape));
 
             NDArrayHandle @out = new NDArrayHandle();
-            if (Int64Enabled())
+            if (nd_np_ops.Int64Enabled())
             {
                 Logging.CHECK_EQ(NativeMethods.MXNDArrayCreate64(shape.Data.ToArray(),
                        shape.Dimension,
@@ -227,16 +227,6 @@ namespace MxNet
 
             NativePtr = @out;
             _Blob = new NDBlob(@out);
-        }
-
-        private bool Int64Enabled()
-        {
-            if (_INT64_TENSOR_SIZE_ENABLED == null)
-            {
-                _INT64_TENSOR_SIZE_ENABLED = Runtime.FeatureList().IsEnabled("INT64_TENSOR_SIZE");
-            }
-
-            return _INT64_TENSOR_SIZE_ENABLED.Value;
         }
 
         #endregion
@@ -276,6 +266,14 @@ namespace MxNet
             {
                 NativeMethods.MXNDArrayGetGrad(NativePtr, out var h);
                 return new NDArray(h);
+            }
+        }
+
+        public ndarray NP
+        {
+            get
+            {
+                return AsNumpy();
             }
         }
 
@@ -343,7 +341,7 @@ namespace MxNet
 
         public IList<int> GetShape()
         {
-            if (Int64Enabled())
+            if (nd_np_ops.Int64Enabled())
             {
                 NativeMethods.MXNDArrayGetShape(NativePtr, out var outDim, out var outData);
                 return InteropHelper.ToInt32Array(outData, outDim);
@@ -806,18 +804,7 @@ namespace MxNet
 
         public virtual ndarray AsNumpy()
         {
-            ndarray x = np.array(AsArray()); ;
-
-            var npShape = new List<int>();
-            foreach (var item in Shape.Data)
-            {
-                if (item == 0)
-                    continue;
-
-                npShape.Add(item);
-            }
-
-            return x.reshape(new shape(npShape.ToArray()));
+            return new ndarray(this.NativePtr);
         }
 
         public NDArray this[int index]
@@ -867,7 +854,7 @@ namespace MxNet
             if (stype.HasValue)
                 grad = grad.ToSType(stype.Value);
 
-            Autograd.MarkVariables(this, grad, grad_req);
+            Autograd.MarkVariables(NP, grad.NP, grad_req);
         }
 
         public NDArray Detach()

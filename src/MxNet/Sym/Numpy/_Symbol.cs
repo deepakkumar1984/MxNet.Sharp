@@ -1,34 +1,15 @@
-﻿/*****************************************************************************
-   Copyright 2018 The MxNet.Sharp Authors. All Rights Reserved.
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-******************************************************************************/
+﻿using MxNet.Interop;
+using MxNet.IO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using MxNet.Initializers;
-using MxNet.Interop;
-using MxNet.IO;
-using mx_uint = System.UInt32;
 using SymbolHandle = System.IntPtr;
-using ExecutorHandle = System.IntPtr;
 
-// ReSharper disable once CheckNamespace
-namespace MxNet
+namespace MxNet.Sym.Numpy
 {
-    [Obsolete("Legacy API after MxNet v2, will be deprecated in v3", false)]
-    public class Symbol : DisposableMXNetObject
+    public class _Symbol : DisposableMXNetObject, IEnumerable<_Symbol>
     {
         #region Fields
 
@@ -36,25 +17,25 @@ namespace MxNet
 
         #region Constructors
 
-        public Symbol()
+        internal _Symbol()
             : this(SymbolHandle.Zero)
         {
         }
 
-        public Symbol(SymbolHandle handle)
+        internal _Symbol(SymbolHandle handle)
         {
             NativePtr = handle;
         }
 
-        public Symbol(string name)
+        internal _Symbol(string name)
         {
             if (NativeMethods.MXSymbolCreateVariable(name, out var @out) != NativeMethods.OK)
-                throw new MXNetException($"Failed to create {nameof(Symbol)}");
+                throw new MXNetException($"Failed to create {nameof(_Symbol)}");
 
             NativePtr = @out;
         }
 
-        //public Symbol(string operatorName, 
+        //public _Symbol(string operatorName, 
         //              string name,
         //              IList<string> inputKeys,
         //              IList<SymbolHandle> inputValues,
@@ -70,8 +51,8 @@ namespace MxNet
         //    if (configValues == null)
         //        throw new ArgumentNullException(nameof(configValues));
 
-        //    var creator = OpMap.GetSymbolCreator(operatorName);
-        //    NativeMethods.MXSymbolCreateAtomicSymbol(creator, 
+        //    var creator = OpMap.Get_SymbolCreator(operatorName);
+        //    NativeMethods.MXSymbolCreateAtomic_Symbol(creator, 
         //                                             (uint)configKeys.Count,
         //                                             configKeys.ToArray(),
         //                                             configValues.ToArray(),
@@ -107,18 +88,18 @@ namespace MxNet
             }
         }
 
-        public Symbol this[int index]
+        public _Symbol this[int index]
         {
             get
             {
                 ThrowIfDisposed();
 
-                Logging.CHECK_EQ(NativeMethods.MXSymbolGetOutput(NativePtr, (uint) index, out var @out), NativeMethods.OK);
-                return new Symbol(@out);
+                Logging.CHECK_EQ(NativeMethods.MXSymbolGetOutput(NativePtr, (uint)index, out var @out), NativeMethods.OK);
+                return new _Symbol(@out);
             }
         }
 
-        public Symbol this[string name]
+        public _Symbol this[string name]
         {
             get
             {
@@ -126,15 +107,15 @@ namespace MxNet
                 ThrowIfDisposed();
 
                 Logging.CHECK_EQ(NativeMethods.MXSymbolGetOutput(NativePtr, (uint)names.IndexOf(name), out var @out), NativeMethods.OK);
-                return new Symbol(@out);
+                return new _Symbol(@out);
             }
         }
 
-        public Symbol this[int rowBegin, int rowEnd]
+        public _Symbol this[int rowBegin, int rowEnd]
         {
             get
             {
-                return sym.Slice(this, new Shape(rowBegin), new Shape(rowEnd));
+                throw new NotImplementedException();
             }
         }
 
@@ -142,92 +123,32 @@ namespace MxNet
 
         #region Methods
 
-        public Executor Bind(Context context,
-            NDArrayDict argArrays,
-            NDArrayDict gradArrays,
-            Dictionary<string, OpGradReq> gradReqs,
-            NDArrayList auxArrays)
-        {
-            return new Executor(this,
-                context,
-                argArrays,
-                gradArrays,
-                gradReqs,
-                auxArrays);
-        }
-
-        public Executor Bind(Context context,
-            NDArrayDict argArrays,
-            NDArrayDict gradArrays,
-            Dictionary<string, OpGradReq> gradReqs,
-            NDArrayList auxArrays,
-            NDArrayDict aux_states)
-        {
-            return new Executor(this,
-                context,
-                argArrays,
-                gradArrays,
-                gradReqs,
-                auxArrays,
-                aux_states,
-                null);
-        }
-
-        public Executor Bind(Context context,
-            NDArrayDict argArrays,
-            NDArrayDict gradArrays,
-            Dictionary<string, OpGradReq> gradReqs,
-            NDArrayList auxArrays,
-            NDArrayDict aux_states,
-            Executor sharedExec)
-        {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
-            if (argArrays == null)
-                throw new ArgumentNullException(nameof(argArrays));
-            if (gradArrays == null)
-                throw new ArgumentNullException(nameof(gradArrays));
-            if (gradReqs == null)
-                throw new ArgumentNullException(nameof(gradReqs));
-            if (auxArrays == null)
-                throw new ArgumentNullException(nameof(auxArrays));
-
-            return new Executor(this,
-                context,
-                argArrays,
-                gradArrays,
-                gradReqs,
-                auxArrays,
-                aux_states,
-                sharedExec);
-        }
-
         public SymbolHandle GetHandle()
         {
             ThrowIfDisposed();
             return NativePtr;
         }
 
-        public Symbol GetInternals()
+        public _Symbol GetInternals()
         {
             Logging.CHECK_EQ(NativeMethods.MXSymbolGetInternals(GetHandle(), out var handle), NativeMethods.OK);
-            return new Symbol(handle);
+            return new _Symbol(handle);
         }
 
-        public Symbol GetChildren()
+        public _Symbol GetChildren()
         {
             Logging.CHECK_EQ(NativeMethods.MXSymbolGetChildren(GetHandle(), out var handle), NativeMethods.OK);
-            var ret = new Symbol(handle);
+            var ret = new _Symbol(handle);
             if (ret.ListOutputs().Count == 0)
                 return null;
             return ret;
         }
 
-        public static Symbol Group(SymbolList symbols)
+        public static _Symbol Group(SymbolList _Symbols)
         {
-            var handleList = symbols.Select(symbol => symbol.GetHandle()).ToArray();
-            Logging.CHECK_EQ(NativeMethods.MXSymbolCreateGroup((uint) handleList.Length, handleList, out var @out), NativeMethods.OK);
-            return new Symbol(@out);
+            var handleList = _Symbols.Select(_Symbol => _Symbol.GetHandle()).ToArray();
+            Logging.CHECK_EQ(NativeMethods.MXSymbolCreateGroup((uint)handleList.Length, handleList, out var @out), NativeMethods.OK);
+            return new _Symbol(@out);
         }
 
         public void InferArgsMap(Context context,
@@ -284,7 +205,7 @@ namespace MxNet
             var outShape = new List<Shape>();
 
             ThrowIfDisposed();
-            var argIndPtr = new List<int> {0};
+            var argIndPtr = new List<int> { 0 };
             var argShapeData = new List<int>();
 
             foreach (var item in argShapes.Values)
@@ -312,7 +233,7 @@ namespace MxNet
                     int** inShapeData;
 
                     Logging.CHECK_EQ(NativeMethods.MXSymbolInferShape(NativePtr,
-                        (uint) argShapes.Count,
+                        (uint)argShapes.Count,
                         keys,
                         argIndPtrArray,
                         argShapeDataArray,
@@ -366,7 +287,7 @@ namespace MxNet
             var outShape = new List<Shape>();
 
             ThrowIfDisposed();
-            var argIndPtr = new List<int> {0};
+            var argIndPtr = new List<int> { 0 };
             var argShapeData = new List<int>();
 
             foreach (var item in argShapes.Values)
@@ -393,7 +314,7 @@ namespace MxNet
                     int** inShapeData;
 
                     Logging.CHECK_EQ(NativeMethods.MXSymbolInferShapePartial(NativePtr,
-                        (uint) argShapes.Count,
+                        (uint)argShapes.Count,
                         keys,
                         argIndPtrArray,
                         argShapeDataArray,
@@ -755,16 +676,16 @@ namespace MxNet
             return ret;
         }
 
-        public static Symbol Load(string fileName)
+        public static _Symbol Load(string fileName)
         {
             Logging.CHECK_EQ(NativeMethods.MXSymbolCreateFromFile(fileName, out var handle), NativeMethods.OK);
-            return new Symbol(handle);
+            return new _Symbol(handle);
         }
 
-        public static Symbol FromJSON(string json)
+        public static _Symbol FromJSON(string json)
         {
             Logging.CHECK_EQ(NativeMethods.MXSymbolCreateFromJSON(json, out var handle), NativeMethods.OK);
-            return new Symbol(handle);
+            return new _Symbol(handle);
         }
 
         public void Save(string fileName, bool remove_amp_cast = true)
@@ -780,12 +701,12 @@ namespace MxNet
             }
         }
 
-        public Symbol ShallowCopy()
+        public _Symbol ShallowCopy()
         {
-            return (Symbol)MemberwiseClone();
+            return (_Symbol)MemberwiseClone();
         }
 
-        public Symbol Compose(SymbolDict kwargs, string name = "")
+        public _Symbol Compose(SymbolDict kwargs, string name = "")
         {
             if (kwargs == null)
                 throw new ArgumentNullException("kwargs");
@@ -813,17 +734,17 @@ namespace MxNet
             return Marshal.PtrToStringAnsi(outJson);
         }
 
-        public static Symbol Variable(string name)
+        public static _Symbol Variable(string name)
         {
             return Var(name);
         }
 
-        public static Symbol Var(string name, Dictionary<string, string> attr = null, Shape shape = null,
+        public static _Symbol Var(string name, Dictionary<string, string> attr = null, Shape shape = null,
             float? lr_mult = null, float? wd_mult = null,
             DType dtype = null, Initializer init = null, StorageStype? stype = null, string profiler_scope = null)
         {
             Logging.CHECK_EQ(NativeMethods.MXSymbolCreateVariable(name, out var handle), NativeMethods.OK);
-            var ret = new Symbol(handle);
+            var ret = new _Symbol(handle);
             if (attr == null)
                 attr = new Dictionary<string, string>();
 
@@ -855,7 +776,7 @@ namespace MxNet
             }
 
             if (stype.HasValue)
-                attr.Add("__storage_type__", ((int) stype).ToString());
+                attr.Add("__storage_type__", ((int)stype).ToString());
 
             ret.SetAttr(attr);
 
@@ -892,9 +813,9 @@ namespace MxNet
             while (i < out_size)
             {
                 var keys = pairs[i].Split('$');
-                if(!dict.ContainsKey(keys[0]))
+                if (!dict.ContainsKey(keys[0]))
                     dict[keys[0]] = new Dictionary<string, string>();
-                if ((i + 1) != pairs.Count) 
+                if ((i + 1) != pairs.Count)
                     dict[keys[0]][keys[1]] = pairs[i + 1];
                 i = i + 2;
             }
@@ -910,95 +831,26 @@ namespace MxNet
             }
         }
 
-        public SymbolList ToList()
+        public _SymbolList ToList()
         {
             var outputs = ListOutputs();
-            SymbolList ret = new SymbolList();
+            _SymbolList ret = new _SymbolList();
             foreach (var i in outputs)
             {
                 ret.Add(this[i]);
             }
-            
+
             return ret;
         }
 
-        public virtual Symbol Reshape(Shape shape, bool reverse = false)
-        {
-            return sym.Reshape(this, shape, reverse);
-        }
-
-        public virtual Symbol SliceAxis(int axis, int begin, int? end)
-        {
-            return sym.SliceAxis(this, axis, begin, end);
-        }
-
-        public virtual Symbol ExpandDims(int axis)
-        {
-            return sym.ExpandDims(this, axis);
-        }
-
-        public virtual Symbol Tile(Shape reps)
-        {
-            return sym.Tile(this, reps);
-        }
-
-        public virtual Symbol Squeeze(int axis)
-        {
-            return sym.Squeeze(this, new Shape(axis));
-        }
-
-        public virtual Symbol Transpose()
-        {
-            return sym.Transpose(this);
-        }
-
-        public virtual Symbol Transpose(Shape axes)
-        {
-            return sym.Transpose(this, axes);
-        }
-
-        public virtual Symbol Prod()
-        {
-            return sym.Prod(this);
-        }
-
-        public virtual Symbol Mean(int axis)
-        {
-            return sym.Mean(this, axis);
-        }
-
-        public virtual Symbol AsType(DType dtype)
-        {
-            return sym.Cast(this, dtype);
-        }
-
-        public virtual Symbol Reshape(params int[] shape)
-        {
-            //int[] targetShape = new int[shape.Length];
-            //long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
-            //for (int i = 0; i < targetShape.Length; i++)
-            //{
-            //    if (shape[i] > 0)
-            //    {
-            //        targetShape[i] = shape[i];
-            //    }
-            //    else
-            //    {
-            //        targetShape[i] = Size / (int)prod;
-            //    }
-            //}
-
-            return Reshape(new Shape(shape));
-        }
-
-        public Symbol AsNPArray()
+        public _Symbol AsNPArray()
         {
             NativeMethods.MXShallowCopySymbol(this.GetHandle(), out SymbolHandle hdl);
-            return new Symbol(hdl);
+            return new _Symbol(hdl);
         }
 
-        // Returns self. For the convenience of conversion between legacy and np symbols.
-        public Symbol AsNDArray()
+        // Returns self. For the convenience of conversion between legacy and np _Symbols.
+        public _Symbol AsNDArray()
         {
             return this;
         }
@@ -1006,7 +858,7 @@ namespace MxNet
         public SymbolList GetInputs()
         {
             NativeMethods.MXSymbolGetInputs(this.GetHandle(), out SymbolHandle handle);
-            var sym =  new Symbol(handle);
+            var sym = new _Symbol(handle);
             return sym.ToList();
         }
 
@@ -1020,7 +872,7 @@ namespace MxNet
             throw new NotImplementedException();
         }
 
-        public virtual Symbol OptimizeFor(
+        public virtual _Symbol OptimizeFor(
                 string backend,
                 NDArrayDict args = null,
                 NDArrayDict aux = null,
@@ -1193,7 +1045,7 @@ namespace MxNet
             //{
             //    throw new RuntimeError("Cannot add new aux in optimize_for since aux is None\n" + "Provide a dictionary to the aux argument to optimize_for");
             //}
-            //var new_sym = new Symbol(@out);
+            //var new_sym = new _Symbol(@out);
             //var arg_names = this.list_arguments();
             //new_arg_names = new_sym.list_arguments();
             //var deleted_arg_names = new HashSet<object>((from item in arg_names
@@ -1247,7 +1099,7 @@ namespace MxNet
 
         #region Operators
 
-        public static Symbol operator +(Symbol lhs, Symbol rhs)
+        public static _Symbol operator +(_Symbol lhs, _Symbol rhs)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1257,10 +1109,10 @@ namespace MxNet
             lhs.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
 
-            return sym_ops.Plus(lhs, rhs);
+            return sym_np_ops.add(lhs, rhs);
         }
 
-        public static Symbol operator -(Symbol lhs, Symbol rhs)
+        public static _Symbol operator -(_Symbol lhs, _Symbol rhs)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1270,10 +1122,10 @@ namespace MxNet
             lhs.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
 
-            return sym_ops.Minus(lhs, rhs);
+            return sym_np_ops.subtract(lhs, rhs);
         }
 
-        public static Symbol operator *(Symbol lhs, Symbol rhs)
+        public static _Symbol operator *(_Symbol lhs, _Symbol rhs)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1283,10 +1135,10 @@ namespace MxNet
             lhs.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
 
-            return sym_ops.Mul(lhs, rhs);
+            return sym_np_ops.mutiply(lhs, rhs);
         }
 
-        public static Symbol operator /(Symbol lhs, Symbol rhs)
+        public static _Symbol operator /(_Symbol lhs, _Symbol rhs)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1296,10 +1148,10 @@ namespace MxNet
             lhs.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
 
-            return sym_ops.Div(lhs, rhs);
+            return sym_np_ops.divide(lhs, rhs);
         }
 
-        public static Symbol operator %(Symbol lhs, Symbol rhs)
+        public static _Symbol operator %(_Symbol lhs, _Symbol rhs)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1309,45 +1161,45 @@ namespace MxNet
             lhs.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
 
-            return sym_ops.Mod(lhs, rhs);
+            return sym_np_ops.mod(lhs, rhs);
         }
 
-        public static Symbol operator +(Symbol lhs, float scalar)
+        public static _Symbol operator +(_Symbol lhs, float scalar)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
 
             lhs.ThrowIfDisposed();
 
-            return sym_ops.PlusScalar(lhs, scalar);
+            return sym_np_ops.add(lhs, sym_np_ops.full_like(lhs, scalar));
         }
 
-        public static Symbol operator +(float lhs, Symbol rhs)
+        public static _Symbol operator +(float lhs, _Symbol rhs)
         {
             return rhs + lhs;
         }
 
-        public static Symbol operator -(Symbol lhs, float scalar)
+        public static _Symbol operator -(_Symbol lhs, float scalar)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
 
             lhs.ThrowIfDisposed();
 
-            return sym_ops.MinusScalar(lhs, scalar);
+            return sym_np_ops.subtract(lhs, sym_np_ops.full_like(lhs, scalar));
         }
 
-        public static Symbol operator -(float lhs, Symbol rhs)
+        public static _Symbol operator -(float lhs, _Symbol rhs)
         {
             if (rhs == null)
                 throw new ArgumentNullException(nameof(rhs));
 
             rhs.ThrowIfDisposed();
-
-            return sym_ops.RMinusScalar(lhs, rhs);
+            
+            return sym_np_ops.subtract(sym_np_ops.full_like(rhs, lhs), rhs);
         }
 
-        public static Symbol operator *(Symbol lhs, float scalar)
+        public static _Symbol operator *(_Symbol lhs, float scalar)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1357,12 +1209,12 @@ namespace MxNet
             return sym_ops.MulScalar(lhs, scalar);
         }
 
-        public static Symbol operator *(float lhs, Symbol rhs)
+        public static _Symbol operator *(float lhs, _Symbol rhs)
         {
             return rhs * lhs;
         }
 
-        public static Symbol operator /(Symbol lhs, float scalar)
+        public static _Symbol operator /(_Symbol lhs, float scalar)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1372,7 +1224,7 @@ namespace MxNet
             return sym_ops.DivScalar(lhs, scalar);
         }
 
-        public static Symbol operator /(float lhs, Symbol rhs)
+        public static _Symbol operator /(float lhs, _Symbol rhs)
         {
             if (rhs == null)
                 throw new ArgumentNullException(nameof(rhs));
@@ -1382,7 +1234,7 @@ namespace MxNet
             return sym_ops.RDivScalar(lhs, rhs);
         }
 
-        public static Symbol operator %(Symbol lhs, float scalar)
+        public static _Symbol operator %(_Symbol lhs, float scalar)
         {
             if (lhs == null)
                 throw new ArgumentNullException(nameof(lhs));
@@ -1392,7 +1244,7 @@ namespace MxNet
             return sym_ops.ModScalar(lhs, scalar);
         }
 
-        public static Symbol operator %(float lhs, Symbol rhs)
+        public static _Symbol operator %(float lhs, _Symbol rhs)
         {
             if (rhs == null)
                 throw new ArgumentNullException(nameof(rhs));
@@ -1402,62 +1254,62 @@ namespace MxNet
             return sym_ops.RModScalar(lhs, rhs);
         }
 
-        public static Symbol operator >(Symbol lhs, Symbol rhs)
+        public static _Symbol operator >(_Symbol lhs, _Symbol rhs)
         {
             return sym.BroadcastGreater(lhs, rhs);
         }
 
-        public static Symbol operator >=(Symbol lhs, Symbol rhs)
+        public static _Symbol operator >=(_Symbol lhs, _Symbol rhs)
         {
             return sym.BroadcastGreaterEqual(lhs, rhs);
         }
 
-        public static Symbol operator >(Symbol lhs, float rhs)
+        public static _Symbol operator >(_Symbol lhs, float rhs)
         {
             return sym.GreaterScalar(lhs, rhs);
         }
 
-        public static Symbol operator >=(Symbol lhs, float rhs)
+        public static _Symbol operator >=(_Symbol lhs, float rhs)
         {
             return sym.GreaterEqualScalar(lhs, rhs);
         }
 
-        public static Symbol operator >(float lhs, Symbol rhs)
+        public static _Symbol operator >(float lhs, _Symbol rhs)
         {
             return sym.GreaterScalar(rhs, lhs);
         }
 
-        public static Symbol operator >=(float lhs, Symbol rhs)
+        public static _Symbol operator >=(float lhs, _Symbol rhs)
         {
             return sym.GreaterEqualScalar(rhs, lhs);
         }
 
-        public static Symbol operator <(Symbol lhs, Symbol rhs)
+        public static _Symbol operator <(_Symbol lhs, _Symbol rhs)
         {
             return sym.BroadcastLesser(lhs, rhs);
         }
 
-        public static Symbol operator <=(Symbol lhs, Symbol rhs)
+        public static _Symbol operator <=(_Symbol lhs, _Symbol rhs)
         {
             return sym.BroadcastLesserEqual(lhs, rhs);
         }
 
-        public static Symbol operator <(Symbol lhs, float rhs)
+        public static _Symbol operator <(_Symbol lhs, float rhs)
         {
             return sym.LesserScalar(lhs, rhs);
         }
 
-        public static Symbol operator <=(Symbol lhs, float rhs)
+        public static _Symbol operator <=(_Symbol lhs, float rhs)
         {
             return sym.LesserEqualScalar(lhs, rhs);
         }
 
-        public static Symbol operator <(float lhs, Symbol rhs)
+        public static _Symbol operator <(float lhs, _Symbol rhs)
         {
             return sym.LesserScalar(rhs, lhs);
         }
 
-        public static Symbol operator <=(float lhs, Symbol rhs)
+        public static _Symbol operator <=(float lhs, _Symbol rhs)
         {
             return sym.LesserEqualScalar(rhs, lhs);
         }
@@ -1477,5 +1329,15 @@ namespace MxNet
         #endregion
 
         #endregion
+
+        public IEnumerator<_Symbol> GetEnumerator()
+        {
+            return ListOutputs().Select(x => this[x]).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MxNet;
+using MxNet.Numpy;
 using System;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,9 @@ namespace BasicExamples
             //LogisticRegressionExplained.Run();
 
             var methods = mx.GetAllRegisteredOperators();
+
+            var x = np.zeros(new Shape(3, 3), np.Float32);
+            var s = x.Shape;
         }
 
         private static void GenerateFOps()

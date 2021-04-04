@@ -21,6 +21,8 @@ using MxNet.Interop;
 using SymbolHandle = System.IntPtr;
 using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
@@ -136,6 +138,40 @@ namespace MxNet
             return new Symbol(symbolHandle);
         }
 
+        internal _Symbol CreateNpSymbol(string name = "")
+        {
+            if (_InputKeys.Count > 0)
+                Logging.CHECK_EQ(_InputKeys.Count, _InputSymbols.Count);
+
+            var pname = name == "" ? null : name;
+
+            var keys = _Params.Keys.ToArray();
+            var paramKeys = new string[keys.Length];
+            var paramValues = new string[keys.Length];
+            for (var index = 0; index < keys.Length; index++)
+            {
+                var key = keys[index];
+                paramKeys[index] = key;
+                paramValues[index] = _Params[key];
+            }
+
+            var inputKeys = _InputKeys.Count != 0 ? _InputKeys.ToArray() : null;
+
+            Logging.CHECK_EQ(NativeMethods.MXSymbolCreateAtomicSymbol(_Handle,
+                (uint)paramKeys.Length,
+                paramKeys,
+                paramValues,
+                out var symbolHandle), NativeMethods.OK);
+
+            Logging.CHECK_EQ(NativeMethods.MXSymbolCompose(symbolHandle,
+                pname,
+                (uint)_InputSymbols.Count,
+                inputKeys,
+                _InputSymbols.ToArray()), NativeMethods.OK);
+
+            return new _Symbol(symbolHandle);
+        }
+
         public NDArray Invoke()
         {
             var output = new NDArray();
@@ -198,6 +234,77 @@ namespace MxNet
                 gcHandle?.Free();
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                gcHandle?.Free();
+            }
+        }
+
+        public ndarray InvokeNp()
+        {
+            var output = new ndarray();
+            Invoke(output);
+            return output;
+        }
+
+        public void Invoke(ndarray output)
+        {
+            if (output == null)
+                throw new ArgumentNullException(nameof(output));
+
+            var outputs = new List<ndarray> { output };
+            Invoke(outputs);
+        }
+
+        public void Invoke(List<ndarray> outputs)
+        {
+            var paramKeys = new List<string>();
+            var paramValues = new List<string>();
+
+            foreach (var data in _Params)
+            {
+                paramKeys.Add(data.Key);
+                paramValues.Add(data.Value);
+            }
+
+            var numInputs = _InputNdarrays.Count;
+            var numOutputs = outputs.Count;
+
+            var outputHandles = outputs.Select(s => s.GetHandle()).ToArray();
+            var outputsReceiver = IntPtr.Zero;
+            GCHandle? gcHandle = null;
+            try
+            {
+                if (outputs.Count > 0)
+                {
+                    gcHandle = GCHandle.Alloc(outputHandles, GCHandleType.Pinned);
+                    outputsReceiver = gcHandle.Value.AddrOfPinnedObject();
+                }
+
+                NDArrayHandle[] outputsReceivers = { outputsReceiver };
+
+                Logging.CHECK_EQ(NativeMethods.MXImperativeInvoke(_Handle, numInputs, _InputNdarrays.ToArray(), ref numOutputs,
+                    ref outputsReceiver,
+                    paramKeys.Count, paramKeys.ToArray(), paramValues.ToArray()), NativeMethods.OK);
+
+                if (outputs.Count > 0)
+                {
+                    gcHandle?.Free();
+                    return;
+                }
+
+                outputHandles = new NDArrayHandle[numOutputs];
+
+                Marshal.Copy(outputsReceiver, outputHandles, 0, numOutputs);
+
+                foreach (var outputHandle in outputHandles) outputs.Add(new ndarray(outputHandle));
+
+                gcHandle?.Free();
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

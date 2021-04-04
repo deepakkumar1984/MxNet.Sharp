@@ -19,6 +19,7 @@ using MxNet.Interop;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
+    [Obsolete("Legacy API after MxNet v2, will be deprecated in v3", false)]
     public sealed class NDListHandle : DisposableMXNetObject
     {
         #region Constructors

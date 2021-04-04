@@ -2,11 +2,26 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MxNet.NumpyExtensions
+namespace MxNet.Numpy
 {
-    public class Utils
+    public partial class Utils
     {
-        public static void Save(string file, NDArray arr)
+        public static void save(string file, ndarray arr)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void savez(string file, ndarray[] args)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void savez(string file, Dictionary<string, ndarray> args)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Dictionary<string, ndarray> load(string file)
         {
             throw new NotImplementedException();
         }

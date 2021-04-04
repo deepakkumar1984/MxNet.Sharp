@@ -18,7 +18,7 @@ using mx_float = System.Single;
 // ReSharper disable once CheckNamespace
 namespace MxNet
 {
-    public static class OperatorSupply
+    public static class sym_ops
     {
         public static Symbol Plus(Symbol lhs, Symbol rhs)
         {

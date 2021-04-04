@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,51 +21,51 @@ using System.Linq;
 
 namespace MxNet
 {
-    public class NDArrayList : IEnumerable<NDArray>
+    public class NDArrayList : IEnumerable<ndarray>
     {
-        public List<NDArray> data;
+        public List<ndarray> data;
 
         public NDArrayList()
         {
-            data = new List<NDArray>();
+            data = new List<ndarray>();
         }
 
         public NDArrayList(int length)
         {
-            data = new List<NDArray>();
+            data = new List<ndarray>();
             for (int i = 0; i < length; i++)
-                data.Add(new NDArray());
+                data.Add(new ndarray());
         }
 
-        public NDArrayList(params NDArray[] args)
+        public NDArrayList(params ndarray[] args)
         {
             data = args.ToList();
         }
 
-        public NDArrayList((NDArray, NDArray) args)
+        public NDArrayList((ndarray, ndarray) args)
         {
-            data = new List<NDArray> { args.Item1, args.Item2 };
+            data = new List<ndarray> { args.Item1, args.Item2 };
         }
 
-        public NDArrayList((NDArray, NDArray, NDArray) args)
+        public NDArrayList((ndarray, ndarray, ndarray) args)
         {
-            data = new List<NDArray> { args.Item1, args.Item2, args.Item3 };
+            data = new List<ndarray> { args.Item1, args.Item2, args.Item3 };
         }
 
-        public void Deconstruct(out NDArray x0, out NDArray x1)
+        public void Deconstruct(out ndarray x0, out ndarray x1)
         {
             x0 = this[0];
             x1 = this[1];
         }
 
-        public void Deconstruct(out NDArray x0, out NDArray x1, out NDArray x2)
+        public void Deconstruct(out ndarray x0, out ndarray x1, out ndarray x2)
         {
             x0 = this[0];
             x1 = this[1];
             x2 = this[2];
         }
 
-        public void Deconstruct(out NDArray x0, out NDArray x1, out NDArray x2, out NDArray x3)
+        public void Deconstruct(out ndarray x0, out ndarray x1, out ndarray x2, out ndarray x3)
         {
             x0 = this[0];
             x1 = this[1];
@@ -72,7 +73,7 @@ namespace MxNet
             x3 = this[3];
         }
 
-        public NDArray[] Data => data.ToArray();
+        public ndarray[] Data => data.ToArray();
 
         public IntPtr[] Handles
         {
@@ -94,7 +95,7 @@ namespace MxNet
 
         public NDArrayOrSymbol[] NDArrayOrSymbols => data.Select(x => new NDArrayOrSymbol(x)).ToArray();
 
-        public NDArray this[int i]
+        public ndarray this[int i]
         {
             get => data[i];
             set => data[i] = value;
@@ -102,7 +103,7 @@ namespace MxNet
 
         public int Length => data.Count;
 
-        public IEnumerator<NDArray> GetEnumerator()
+        public IEnumerator<ndarray> GetEnumerator()
         {
             return data.GetEnumerator();
         }
@@ -112,7 +113,7 @@ namespace MxNet
             return data.GetEnumerator();
         }
 
-        public void Add(params NDArray[] x)
+        public void Add(params ndarray[] x)
         {
             if (x == null)
                 return;
@@ -120,17 +121,17 @@ namespace MxNet
             data.AddRange(x);
         }
 
-        public static implicit operator NDArrayList(NDArray[] x)
+        public static implicit operator NDArrayList(ndarray[] x)
         {
             return new NDArrayList(x);
         }
 
-        public static implicit operator NDArrayList(NDArray x)
+        public static implicit operator NDArrayList(ndarray x)
         {
             return new NDArrayList(x);
         }
 
-        public static implicit operator NDArrayList(List<NDArray> x)
+        public static implicit operator NDArrayList(List<ndarray> x)
         {
             return new NDArrayList(x.ToArray());
         }
@@ -150,17 +151,17 @@ namespace MxNet
             return new NDArrayList(x.Select(i => i.NdX).ToArray());
         }
 
-        public static implicit operator NDArray(NDArrayList x)
+        public static implicit operator ndarray(NDArrayList x)
         {
             return x.data.Count > 0 ? x[0] : null;
         }
 
-        public static implicit operator List<NDArray>(NDArrayList x)
+        public static implicit operator List<ndarray>(NDArrayList x)
         {
             return x.data.ToList();
         }
 
-        public static implicit operator NDArray[](NDArrayList x)
+        public static implicit operator ndarray[](NDArrayList x)
         {
             if (x == null)
                 return null;

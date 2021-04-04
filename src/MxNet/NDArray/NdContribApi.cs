@@ -18,6 +18,7 @@ using System.Collections.Generic;
 
 namespace MxNet
 {
+    [Obsolete("Legacy API after MxNet v2, will be deprecated in v3", false)]
     public class NDContribApi
     {
         private static readonly List<string> ContribBoxNmsInFormatConvert = new List<string> {"center", "corner"};

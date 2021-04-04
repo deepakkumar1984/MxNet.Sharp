@@ -49,5 +49,22 @@ namespace MxNet.Numpy
         {
             throw new NotImplementedException();
         }
+
+        public static (NumpyDotNet.ndarray, Context) _as_onp_array(ndarray obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static ndarray _np_ndarray_cls(IntPtr handle, bool writable= true, StorageStype stype= StorageStype.Default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Func<ndarray, ndarray> wrap_mxnp_np_ufunc(Func<ndarray, ndarray> func)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

@@ -16,6 +16,8 @@
 using System;
 using System.Linq;
 using MxNet.Interop;
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 
 namespace MxNet
 {
@@ -134,11 +136,11 @@ namespace MxNet
             return result.ToArray();
         }
 
-        public static Symbol GetSymbol(NDArray x)
+        internal static _Symbol GetSymbol(ndarray x)
         {
             var hdl = IntPtr.Zero;
             NativeMethods.MXAutogradGetSymbol(x.GetHandle(), hdl);
-            return new Symbol(hdl);
+            return new _Symbol(hdl);
         }
 
         public class _RecordingStateScope : MxDisposable
