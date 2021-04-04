@@ -1,4 +1,5 @@
-# Work In Progress version 2.0. There might be breaking change as per RFC: https://github.com/apache/incubator-mxnet/issues/16167
+# Work In Progress version 2.0. 
+There are many breaking change as per RFC: https://github.com/apache/incubator-mxnet/issues/16167. With this change we are introducing NumPy-compatible coding experience into MXNet
 
 [![Gitter](https://badges.gitter.im/mxnet-sharp/community.svg)](https://gitter.im/mxnet-sharp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 ![MxNet.Sharp CI](https://github.com/tech-quantum/MxNet.Sharp/workflows/MxNet.Sharp%20Build/badge.svg)
