@@ -1,0 +1,3 @@
+[submodule "Onnx.Net"]
+	path = Onnx.Net
+	url = https://github.com/deepakkumar1984/ONNX.Net.git
