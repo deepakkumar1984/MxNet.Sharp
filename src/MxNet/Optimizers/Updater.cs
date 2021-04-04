@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,7 +86,7 @@ namespace MxNet.Optimizers
 
                     while (current_index < indices.Length)
                     {
-                        var local_states = new Dictionary<int, (NDArrayDict, NDArray)>();
+                        var local_states = new Dictionary<int, (NDArrayDict, ndarray)>();
                         var step = Math.Min(optimizer.AggregateNum, indices.Length - current_index);
                         
                         for (var j = 0; j < step; j++) 

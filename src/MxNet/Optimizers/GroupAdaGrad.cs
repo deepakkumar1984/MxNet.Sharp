@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -15,14 +16,14 @@ namespace MxNet.Optimizers
             Epsilon = epsilon;
         }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("history");
             state["history"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
             return state;
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             var is_sparse = grad.SType == StorageStype.RowSparse;
 
@@ -41,7 +42,7 @@ namespace MxNet.Optimizers
             }
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             this.UpdateCount(index);
             var lr = this.GetLr(index);
@@ -54,9 +55,9 @@ namespace MxNet.Optimizers
                 grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
             }
             // update history
-            state["history"] += nd.Mean(nd.Square(grad), axis: 1, keepdims: true);
+            state["history"] += np.mean(np.square(grad), axis: 1, keepdims: true);
             // update weight
-            var d = grad / (nd.Sqrt(state["history"]) + this.Epsilon);
+            var d = grad / (np.sqrt(state["history"]) + this.Epsilon);
             weight -= lr * d;
         }
     }

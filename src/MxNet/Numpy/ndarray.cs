@@ -7,13 +7,19 @@ using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using MxNet.ND.Numpy;
+using System.IO.Compression;
+using System.IO;
 
 namespace MxNet.Numpy
 {
-    public class ndarray : DisposableMXNetObject
+    public partial class ndarray : DisposableMXNetObject
     {
         #region Fields
-
+        private static readonly List<string>
+           CastStorageStypeConvert = new List<string> { "default", "row_sparse", "csr" };
         internal NDBlob _Blob;
 
         public Context Context
@@ -323,9 +329,9 @@ namespace MxNet.Numpy
             }
         }
 
-        public static ndarrayDict LoadToMap(string fileName)
+        public static NDArrayDict LoadToMap(string fileName)
         {
-            var arrayMap = new ndarrayDict();
+            var arrayMap = new NDArrayDict();
             Logging.CHECK_EQ(NativeMethods.MXNDArrayLoad(fileName,
                 out var outSize,
                 out var outArr,
@@ -347,7 +353,7 @@ namespace MxNet.Numpy
             return arrayMap;
         }
 
-        public static void Save(string fileName, ndarrayDict arrayMap)
+        public static void Save(string fileName, NDArrayDict arrayMap)
         {
             var tmp = arrayMap.Keys.ToArray();
 
@@ -373,7 +379,7 @@ namespace MxNet.Numpy
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, keys), NativeMethods.OK);
         }
 
-        public static void Save(string fileName, ndarrayList arrayList)
+        public static void Save(string fileName, NDArrayList arrayList)
         {
             var args = arrayList.Select(array => array.GetHandle()).ToArray();
             Logging.CHECK_EQ(NativeMethods.MXNDArraySave(fileName, (uint)args.Length, args, null), NativeMethods.OK);
@@ -387,9 +393,9 @@ namespace MxNet.Numpy
             return buff;
         }
 
-        public static void Load(string filename, out ndarrayDict data)
+        public static void Load(string filename, out NDArrayDict data)
         {
-            data = new ndarrayDict();
+            data = new NDArrayDict();
             uint outSize;
             IntPtr outArrPtr;
             uint outNameSize;
@@ -417,7 +423,7 @@ namespace MxNet.Numpy
             }
         }
 
-        public static ndarrayDict Load(string filename)
+        public static NDArrayDict Load(string filename)
         {
             Load(filename, out var r);
             return r;
@@ -447,9 +453,9 @@ namespace MxNet.Numpy
             return ret;
         }
 
-        public static ndarrayList LoadNpz(string file)
+        public static NDArrayList LoadNpz(string file)
         {
-            ndarrayList result = new ndarrayList();
+            NDArrayList result = new NDArrayList();
             using (ZipArchive zip = ZipFile.OpenRead(file))
             {
                 foreach (ZipArchiveEntry entry in zip.Entries)
@@ -592,6 +598,14 @@ namespace MxNet.Numpy
             return (shared_pid, shared_id, Shape, DataType);
         }
 
+        public ndarray Cast(DType dtype)
+        {
+            return new Operator("cast")
+                .SetParam("dtype", dtype)
+                .SetInput("data", this)
+                .Invoke();
+        }
+
         public void Constant(float scalar)
         {
             using (var op = new Operator("_set_value"))
@@ -626,6 +640,18 @@ namespace MxNet.Numpy
             Logging.CHECK_EQ(NativeMethods.MXNDArraySlice(GetHandle(), begin, end.Value, out var handle),
                 NativeMethods.OK);
             return new ndarray(handle);
+        }
+
+        public ndarray Slice(Shape begin, Shape end, Shape step = null)
+        {
+            if (step == null) step = new Shape();
+
+            return new Operator("slice")
+                .SetParam("begin", begin)
+                .SetParam("end", end)
+                .SetParam("step", step)
+                .SetInput("data", this)
+                .Invoke();
         }
 
         public ndarray SliceAssignScalar(double value, Shape begin, Shape end, Shape step)
@@ -799,6 +825,22 @@ namespace MxNet.Numpy
             }
         }
 
+        public ndarray this[int begin, int end]
+        {
+            get
+            {
+                return Slice(begin, end);
+            }
+        }
+
+        public ndarray this[ndarray begin, ndarray end]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public ndarray this[string slice]
         {
             get
@@ -831,7 +873,7 @@ namespace MxNet.Numpy
 
         public void AttachGrad(OpGradReq grad_req = OpGradReq.Write, StorageStype? stype = null)
         {
-            ndarray grad = nd.ZerosLike(this);
+            ndarray grad = np.zeros_like(this);
             if (stype.HasValue)
                 grad = grad.ToSType(stype.Value);
 
@@ -857,6 +899,22 @@ namespace MxNet.Numpy
             NativeMethods.MXAutogradBackwardEx(1, new NDArrayHandle[1] { NativePtr }, ograd_handles.ToArray(),
                 0, var_handles.ToArray(), retain_graph ? 1 : 0,
                 0, train_mode ? 1 : 0, out var grad_handles, out var grad_count);
+        }
+
+        public ndarray ToSType(StorageStype stype)
+        {
+            if (stype == StorageStype.Csr && this.Shape.Dimension != 2)
+            {
+                throw new System.Exception("To convert to a CSR, the NDArray should be 2 Dimensional. Current shape is " + this.Shape);
+            }
+
+            if (this.SType == stype)
+                return this;
+
+            return new Operator("cast_storage")
+                .SetParam("stype", MxUtil.EnumToString<StorageStype>(stype, CastStorageStypeConvert))
+                .SetInput("data", this)
+                .Invoke();
         }
 
         #region Operators
@@ -1001,6 +1059,11 @@ namespace MxNet.Numpy
         public static ndarray operator <=(float lhs, ndarray rhs)
         {
             return nd.LesserEqualScalar(rhs, lhs);
+        }
+
+        public static ndarray operator -(ndarray x)
+        {
+            return np.negative(x);
         }
 
         public virtual ndarray Reshape(Shape shape, bool reverse = false)

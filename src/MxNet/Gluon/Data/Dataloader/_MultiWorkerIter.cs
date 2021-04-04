@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +23,14 @@ namespace MxNet.Gluon.Data
 {
     public class _MultiWorkerIter
     {
-        public delegate (NDArray, NDArray) WorkerFn(int[] r, Func<(NDArray, NDArray)[], (NDArray, NDArray)> _batchify_fn,
-            Dataset<(NDArray, NDArray)> dataset);
+        public delegate (ndarray, ndarray) WorkerFn(int[] r, Func<(ndarray, ndarray)[], (ndarray, ndarray)> _batchify_fn,
+            Dataset<(ndarray, ndarray)> dataset);
 
         private readonly BatchSampler _batch_sampler;
-        private readonly Func<(NDArray, NDArray)[], (NDArray, NDArray)> _batchify_fn;
-        private readonly Dictionary<int, (NDArray, NDArray)> _data_buffer;
+        private readonly Func<(ndarray, ndarray)[], (ndarray, ndarray)> _batchify_fn;
+        private readonly Dictionary<int, (ndarray, ndarray)> _data_buffer;
         private DataLoader _data_loader;
-        private readonly Dataset<(NDArray, NDArray)> _dataset;
+        private readonly Dataset<(ndarray, ndarray)> _dataset;
         private readonly IEnumerator<int[]> _iter;
         private readonly int _pin_device_id;
         private readonly bool _pin_memory;
@@ -38,15 +39,15 @@ namespace MxNet.Gluon.Data
         private readonly WorkerFn _worker_fn;
         private WorkerPool _worker_pool;
 
-        public _MultiWorkerIter(WorkerPool worker_pool, Func<(NDArray, NDArray)[], (NDArray, NDArray)> batchify_fn,
+        public _MultiWorkerIter(WorkerPool worker_pool, Func<(ndarray, ndarray)[], (ndarray, ndarray)> batchify_fn,
             BatchSampler batch_sampler,
             bool pin_memory = false, int pin_device_id = 0, WorkerFn worker_fn = null,
-            int prefetch = 0, Dataset<(NDArray, NDArray)> dataset = null, DataLoader data_loader = null)
+            int prefetch = 0, Dataset<(ndarray, ndarray)> dataset = null, DataLoader data_loader = null)
         {
             _worker_pool = worker_pool;
             _batchify_fn = batchify_fn;
             _batch_sampler = batch_sampler;
-            _data_buffer = new Dictionary<int, (NDArray, NDArray)>();
+            _data_buffer = new Dictionary<int, (ndarray, ndarray)>();
             _rcvd_idx = 0;
             _sent_idx = 0;
             _iter = _batch_sampler.GetEnumerator();
@@ -60,7 +61,7 @@ namespace MxNet.Gluon.Data
 
         public int Length => _batch_sampler.Length;
 
-        public (NDArray, NDArray) Next()
+        public (ndarray, ndarray) Next()
         {
             PushNext();
             if (_rcvd_idx == _sent_idx)

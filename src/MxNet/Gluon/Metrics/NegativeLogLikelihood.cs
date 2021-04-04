@@ -13,8 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
-using NumpyDotNet;
 
 namespace MxNet.Gluon.Metrics
 {
@@ -28,18 +28,18 @@ namespace MxNet.Gluon.Metrics
             this.eps = eps;
         }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             CheckLabelShapes(labels, preds);
             if (preds.Shape[0] != labels.Shape[0])
                 throw new ArgumentException("preds.Shape[0] != labels.Shape[0]");
 
-            var l = labels.AsNumpy();
+            var l = labels;
             l = l.ravel();
-            var p = preds.AsNumpy();
-            var num_examples = p.shape.iDims[0];
-            var prob = p[np.arange(num_examples).astype(np.Int64), l.astype(np.UInt64)];
-            var nll = (-np.log((ndarray)prob + eps)).Sum().asscalar<float>();
+            var p = preds;
+            var num_examples = p.Shape[0];
+            var prob = p[np.arange(num_examples).Cast(np.Int64), l.Cast(np.Int64)];
+            var nll = (-np.log(prob + eps)).sum().AsScalar<float>();
             sum_metric += nll;
             global_sum_metric += nll;
             num_inst += (int)num_examples;

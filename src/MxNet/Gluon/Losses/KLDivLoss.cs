@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Gluon.Losses
 {
     public class KLDivLoss : Loss
@@ -37,12 +39,12 @@ namespace MxNet.Gluon.Losses
             return F(pred.SymX, label, sample_weight);
         }
 
-        private NDArray F(NDArray pred, NDArray label, NDArray sample_weight = null)
+        private ndarray F(ndarray pred, ndarray label, ndarray sample_weight = null)
         {
             if (!FromLogit)
                 pred = nd.LogSoftmax(pred, Axis);
 
-            var loss = label * (nd.Log(label + 1e-12f) - pred);
+            var loss = label * (np.log(label + 1e-12f) - pred);
             loss = ApplyWeighting(loss, Weight, sample_weight);
             return nd.Mean(loss, BatchAxis.Value, exclude: true);
         }

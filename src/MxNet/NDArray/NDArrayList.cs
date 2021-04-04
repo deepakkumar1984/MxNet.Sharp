@@ -126,7 +126,17 @@ namespace MxNet
             return new NDArrayList(x);
         }
 
+        public static implicit operator NDArrayList(NDArray[] x)
+        {
+            return new NDArrayList(x.Select(x => new ndarray(x.NativePtr)).ToArray());
+        }
+
         public static implicit operator NDArrayList(ndarray x)
+        {
+            return new NDArrayList(x);
+        }
+
+        public static implicit operator NDArrayList(NDArray x)
         {
             return new NDArrayList(x);
         }

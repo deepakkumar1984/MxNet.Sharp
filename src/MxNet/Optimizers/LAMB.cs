@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,17 +20,17 @@ namespace MxNet.Optimizers
             throw new NotImplementedException();
         }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             throw new NotImplementedException();
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             throw new NotImplementedException();
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             throw new NotImplementedException();
         }

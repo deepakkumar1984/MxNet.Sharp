@@ -1,5 +1,5 @@
 ﻿using MxNet.Gluon.Probability.Distributions.Constraints;
-using NumpyDotNet;
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -99,19 +99,13 @@ namespace MxNet.Gluon.Probability.Distributions
             if (this.prob == null)
             {
                 var logit = this.logit;
-                if(logit.IsNDArray)
-                    return logit.NdX * (value.NdX - 1) - nd.Log(nd.Exp(nd.Negative(logit)) + 1);
-
-                return logit.SymX * (value.SymX - 1) - sym.Log(sym.Exp(sym.Negative(logit)) + 1);
+                return logit * (value - 1) - F.log(F.exp(F.negative(logit)) + 1);
             }
             else
             {
                 // Parameterized by probability
                 var eps = 1E-12f;
-                if(this.prob.IsNDArray)
-                    return nd.Log(this.prob + eps) * value.NdX + nd.Log1P(nd.Negative(this.prob) + eps) * (1 - value.NdX);
-
-                return sym.Log(this.prob + eps) * value.SymX + sym.Log1P(sym.Negative(this.prob) + eps) * (1 - value.SymX);
+                return F.log(this.prob + eps) * value + F.log1p(F.negative(this.prob) + eps) * (1 - value);
             }
         }
 
@@ -135,10 +129,7 @@ namespace MxNet.Gluon.Probability.Distributions
 
         public override NDArrayOrSymbol Entropy()
         {
-            if (this.prob.IsNDArray)
-                return nd.Negative(logit.NdX * (prob.NdX - 1) - nd.Log(nd.Exp(nd.Negative(logit)) + 1));
-
-            return sym.Negative(logit.SymX * (prob.SymX - 1) - sym.Log(sym.Exp(sym.Negative(logit)) + 1));
+            return F.negative(logit * (prob - 1) - F.log(F.exp(F.negative(logit)) + 1));
         }
     }
 }

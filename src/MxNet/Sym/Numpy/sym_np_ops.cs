@@ -894,32 +894,32 @@ namespace MxNet.Sym.Numpy
             throw new NotImplementedException();
         }
 
-        public static ndarray greater_equal(ndarray x1, ndarray x2, ndarray @out = null)
+        public static _Symbol greater_equal(_Symbol x1, _Symbol x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray greater_equal(ndarray x1, float x2, ndarray @out = null)
+        public static _Symbol greater_equal(_Symbol x1, float x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray greater_equal(float x1, ndarray x2, ndarray @out = null)
+        public static _Symbol greater_equal(float x1, _Symbol x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray less_equal(ndarray x1, ndarray x2, ndarray @out = null)
+        public static _Symbol less_equal(_Symbol x1, _Symbol x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray less_equal(ndarray x1, float x2, ndarray @out = null)
+        public static _Symbol less_equal(_Symbol x1, float x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray less_equal(float x1, ndarray x2, ndarray @out = null)
+        public static _Symbol less_equal(float x1, _Symbol x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }

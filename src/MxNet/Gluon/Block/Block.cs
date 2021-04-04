@@ -21,6 +21,8 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using MxNet.Initializers;
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 
 namespace MxNet.Gluon
 {
@@ -31,13 +33,13 @@ namespace MxNet.Gluon
         public delegate void Hook(Block block, NDArrayOrSymbol input);
 
         public bool _active;
-        public (SymbolList, Symbol)? _cached_graph;
+        public (SymbolList, _Symbol)? _cached_graph;
         public Dictionary<string, Block> _childrens;
         internal Dictionary<int, Hook> _forward_hooks;
         internal Dictionary<int, Hook> _forward_pre_hooks;
         internal Dictionary<string, Parameter> _reg_params;
         internal bool _monitor_all;
-        internal Action<string, string, NDArray> _callback;
+        internal Action<string, string, ndarray> _callback;
         public List<int> _in_format;
         public List<int> _out_format;
 
@@ -210,13 +212,13 @@ namespace MxNet.Gluon
 
             foreach (var item in collected_params.Items()) arg_dict[item.Key] = item.Value.Reduce();
 
-            NDArray.Save(filename, arg_dict);
+            ndarray.Save(filename, arg_dict);
         }
 
         public void LoadParameters(string filename, Context ctx = null, bool allow_missing = false,
             bool ignore_extra = false, bool cast_dtype = false, string dtype_source = "current")
         {
-            NDArray.Load(filename, out var loaded);
+            ndarray.Load(filename, out var loaded);
             LoadDict(filename, loaded, ctx, allow_missing, ignore_extra, cast_dtype, dtype_source);
         }
 
@@ -396,13 +398,14 @@ namespace MxNet.Gluon
                     blk._in_format = (List<int>)mdl["in_format"];
                     blk._out_format = (List<int>)mdl["out_format"];
                     // get saved symbol
-                    var @out = Symbol.FromJSON(mdl["symbol"].ToString());
-                    var syms = new List<Symbol>();
+                    var @out = _Symbol.FromJSON(mdl["symbol"].ToString());
+                    var syms = new List<_Symbol>();
                     // recreate inputs for this symbol
                     foreach (var inp in (string[])mdl["inputs"])
                     {
-                        syms.Add(Symbol.FromJSON(inp));
+                        syms.Add(_Symbol.FromJSON(inp));
                     }
+
                     // reset cached_graph and active status
                     blk._cached_graph = (syms, @out);
                     blk._active = true;
@@ -509,7 +512,7 @@ namespace MxNet.Gluon
 
         public abstract NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args);
 
-        public virtual void RegisterOpHook(Action<string, string, NDArray> callback, bool monitor_all = false)
+        public virtual void RegisterOpHook(Action<string, string, ndarray> callback, bool monitor_all = false)
         {
             foreach (var cld in this._childrens.Values)
             {

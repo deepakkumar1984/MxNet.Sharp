@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MxNet.Initializers;
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 
 namespace MxNet.Gluon
 {
@@ -53,7 +55,7 @@ namespace MxNet.Gluon
         internal NDArrayList _data;
         internal NDArrayList _grad;
         internal Shape _shape;
-        internal Symbol _var;
+        internal _Symbol _var;
         internal bool allow_deferred_init;
         internal Dictionary<int, List<int>> _ctx_map;
         internal DeferredInit deferred_init;
@@ -460,14 +462,14 @@ namespace MxNet.Gluon
             return GetRowSparse(_data, null, row_id);
         }
 
-        public NDArray Data(Context ctx = null)
+        public ndarray Data(Context ctx = null)
         {
             if (Stype != StorageStype.Default)
                 throw new Exception($"Cannot return copies of Parameter '{Name}' on all contexts via " +
                                     $"list_row_sparse_data() because its storage type is {Stype}. Please " +
                                     "use RowSparseData() instead.");
 
-            NDArray data = CheckAndGet(_data, ctx).FirstOrDefault();
+            ndarray data = CheckAndGet(_data, ctx).FirstOrDefault();
             DeferredCompute.SetVariable(data, this.Var());
             return data;
         }
@@ -520,7 +522,7 @@ namespace MxNet.Gluon
                 _grad[i] = nd.ZerosLike(_grad[i]);
         }
 
-        public Symbol Var()
+        public _Symbol Var()
         {
             if (_var == null)
             {
@@ -531,8 +533,8 @@ namespace MxNet.Gluon
                     this._var_name = this._uuid.Replace("-", "_") + "_" + this.Name;
                 }
             }
-                _var = Symbol.Var(_var_name, shape: Shape, dtype: DataType, lr_mult: Lr_Mult, wd_mult: Wd_Mult, init: Init,
-                    stype: Stype);
+            _var = _Symbol.Var(_var_name, shape: Shape, dtype: DataType, lr_mult: Lr_Mult, wd_mult: Wd_Mult, init: Init,
+                stype: Stype);
 
             return _var;
         }

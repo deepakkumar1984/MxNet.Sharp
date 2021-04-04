@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Gluon.Metrics
@@ -30,7 +31,7 @@ namespace MxNet.Gluon.Metrics
 
         public int Axis { get; }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             float loss = 0;
             long num = 0;
@@ -39,7 +40,7 @@ namespace MxNet.Gluon.Metrics
             preds = nd.Pick(preds, labels.AsType(DType.Int32), Axis);
             if (IgnoreLabel.HasValue)
             {
-                var ignore = nd.EqualScalar(labels, IgnoreLabel.Value).AsType(preds.DataType);
+                var ignore = np.equal(labels, IgnoreLabel.Value).AsType(preds.DataType);
                 num -= nd.Sum(ignore).AsScalar<int>();
                 preds = preds * (1 - ignore) + ignore;
             }

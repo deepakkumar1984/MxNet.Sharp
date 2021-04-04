@@ -13,15 +13,16 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Sym.Numpy;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MxNet
 {
-    public class SymbolDict : IEnumerable<KeyValuePair<string, Symbol>>
+    public class SymbolDict : IEnumerable<KeyValuePair<string, _Symbol>>
     {
-        private readonly Dictionary<string, Symbol> dict = new Dictionary<string, Symbol>();
+        private readonly Dictionary<string, _Symbol> dict = new Dictionary<string, _Symbol>();
 
         public SymbolDict(params string[] names)
         {
@@ -34,7 +35,7 @@ namespace MxNet
 
         public SymbolList Values => dict.Values.ToArray();
 
-        public Symbol this[string name]
+        public _Symbol this[string name]
         {
             get
             {
@@ -46,7 +47,7 @@ namespace MxNet
             set => dict[name] = value;
         }
 
-        public IEnumerator<KeyValuePair<string, Symbol>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, _Symbol>> GetEnumerator()
         {
             return dict.GetEnumerator();
         }
@@ -56,7 +57,7 @@ namespace MxNet
             return dict.GetEnumerator();
         }
 
-        public void Add(string name, Symbol value)
+        public void Add(string name, _Symbol value)
         {
             dict.Add(name, value);
         }

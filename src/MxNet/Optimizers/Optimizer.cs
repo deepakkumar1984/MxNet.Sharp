@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MxNet.Gluon;
+using MxNet.Numpy;
 
 namespace MxNet.Optimizers
 {
@@ -108,11 +109,11 @@ namespace MxNet.Optimizers
         public Dictionary<int, string> Idx2Name { get; set; }
         public Dictionary<int, Parameter> ParamDict { get; set; }
 
-        public abstract NDArrayDict CreateState(int index, NDArray weight);
+        public abstract NDArrayDict CreateState(int index, ndarray weight);
 
-        public virtual (NDArrayDict, NDArray) CreateStateMultiPrecision(int index, NDArray weight)
+        public virtual (NDArrayDict, ndarray) CreateStateMultiPrecision(int index, ndarray weight)
         {
-            NDArray weight_master_copy = null;
+            ndarray weight_master_copy = null;
             if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
             {
                 weight_master_copy = weight.AsType(DType.Float32);
@@ -139,11 +140,11 @@ namespace MxNet.Optimizers
             }
         }
 
-        public abstract void Step(int index, NDArray weight, NDArray grad, NDArrayDict state);
+        public abstract void Step(int index, ndarray weight, ndarray grad, NDArrayDict state);
 
-        public abstract void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state);
+        public abstract void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state);
 
-        public virtual void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states)
+        public virtual void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, ndarray)[] states)
         {
             for(int i = 0;i<indices.Length;i++)
             {
@@ -151,7 +152,7 @@ namespace MxNet.Optimizers
             }
         }
 
-        public virtual void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, (NDArrayDict, NDArray) state)
+        public virtual void UpdateMultiPrecision(int index, ndarray weight, ndarray grad, (NDArrayDict, ndarray) state)
         {
             if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
             {
@@ -302,7 +303,7 @@ namespace MxNet.Optimizers
             return GetWds(new[] {index})[0];
         }
 
-        internal static NDArrayList FlattenList(NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states = null)
+        internal static NDArrayList FlattenList(NDArrayList weights, NDArrayList grads, (NDArrayDict, ndarray)[] states = null)
         {
             var result = new NDArrayList();
             for (int i = 0; i < weights.Length; i++)

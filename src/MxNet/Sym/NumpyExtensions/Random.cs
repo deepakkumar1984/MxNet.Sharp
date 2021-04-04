@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using dtype = NumpyDotNet.dtype;
 
-namespace MxNet.ND.Numpy
+namespace MxNet.Sym.Numpy
 {
     internal partial class Random
     {

@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Optimizers
 {
     public class NAG : Optimizer
@@ -26,7 +28,7 @@ namespace MxNet.Optimizers
 
         public float Momentum { get; }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("momentum");
             if (Momentum != 0)
@@ -35,12 +37,12 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override (NDArrayDict, NDArray) CreateStateMultiPrecision(int index, NDArray weight)
+        public override (NDArrayDict, ndarray) CreateStateMultiPrecision(int index, ndarray weight)
         {
             return base.CreateStateMultiPrecision(index, weight);
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             this.UpdateCount(index);
             var lr = this.GetLr(index);
@@ -53,7 +55,7 @@ namespace MxNet.Optimizers
             }
 
             grad += wd * weight;
-            NDArray d;
+            ndarray d;
             // update mom
             if (state["momentum"] != null)
             {
@@ -70,12 +72,12 @@ namespace MxNet.Optimizers
             weight += d;
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             _update_impl(index, weight, grad, state);
         }
 
-        private void _update_impl(int index, NDArray weight, NDArray grad, NDArrayDict state,
+        private void _update_impl(int index, ndarray weight, ndarray grad, NDArrayDict state,
             bool multi_precision = false)
         {
             UpdateCount(index);
@@ -102,7 +104,7 @@ namespace MxNet.Optimizers
             }
         }
 
-        public override void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, (NDArrayDict, NDArray) state)
+        public override void UpdateMultiPrecision(int index, ndarray weight, ndarray grad, (NDArrayDict, ndarray) state)
         {
             base.UpdateMultiPrecision(index, weight, grad, state);
         }

@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Gluon.Losses
 {
     public class SigmoidBinaryCrossEntropyLoss : Loss
@@ -37,39 +39,24 @@ namespace MxNet.Gluon.Losses
             NDArrayOrSymbol loss = null;
 
             if (args.Length > 0)
-                pos_weight = args[0] is NDArray
+                pos_weight = args[0] is ndarray
                     ? new NDArrayOrSymbol((NDArray) args[0])
                     : new NDArrayOrSymbol((Symbol) args[0]);
 
             if (!_from_sigmoid)
             {
+               
                 if (pos_weight == null)
                 {
-                    if (label.IsNDArray)
-                        loss = nd.Relu(pred) - pred.NdX * label.NdX +
-                               nd.Activation(nd.Negative(nd.Abs(pred)), ActivationType.Softrelu);
-                    else
-                        loss = sym.Relu(pred) - pred.SymX * label.SymX +
-                               sym.Activation(sym.Negative(sym.Abs(pred)), ActivationType.Softrelu);
+                    loss = F.relu(pred) - pred * label +
+                              F.activation(F.negative(F.abs(pred)), "softrelu");
                 }
                 else
                 {
-                    if (label.IsNDArray)
-                    {
-                        var log_weight = 1 + nd.BroadcastMul(pos_weight.NdX - 1, label);
-                        loss = nd.Relu(pred) - pred.NdX * label.NdX + log_weight
-                                                                    + nd.Activation(nd.Negative(nd.Abs(pred)),
-                                                                        ActivationType.Softrelu)
-                                                                    + nd.Relu(nd.Negative(pred));
-                    }
-                    else
-                    {
-                        var log_weight = 1 + sym.BroadcastMul(pos_weight.SymX - 1, label);
-                        loss = sym.Relu(pred) - pred.SymX * label.SymX + log_weight
-                                                                       + sym.Activation(sym.Negative(sym.Abs(pred)),
-                                                                           ActivationType.Softrelu)
-                                                                       + sym.Relu(sym.Negative(pred));
-                    }
+                    var log_weight = 1 + F.multiply(pos_weight.NdX - 1, label);
+                    loss = F.relu(pred) - pred * label + log_weight
+                                                                + F.activation(F.negative(F.abs(pred)), "softrelu")
+                                                                + F.relu(F.negative(pred));
                 }
             }
             else
@@ -77,21 +64,13 @@ namespace MxNet.Gluon.Losses
                 var eps = 1e-12f;
                 if (pos_weight == null)
                 {
-                    if (label.IsNDArray)
-                        loss = nd.Negative(nd.Log(pred.NdX + eps) * label.NdX
-                                           + nd.Log(1 - pred.NdX + eps) * (1 - label.NdX));
-                    else
-                        loss = sym.Negative(sym.Log(pred.SymX + eps) * label.SymX
-                                            + sym.Log(1 - pred.SymX + eps) * (1 - label.SymX));
+                    loss = F.negative(F.log(pred + eps) * label
+                                           + F.log(1 - pred + eps) * (1 - label));
                 }
                 else
                 {
-                    if (label.IsNDArray)
-                        loss = nd.Negative(nd.BroadcastMul(nd.Log(pred.NdX + eps) * label.NdX, pos_weight)
-                                           + nd.Log(1 - pred.NdX + eps) * (1 - label.NdX));
-                    else
-                        loss = sym.Negative(sym.BroadcastMul(sym.Log(pred.SymX + eps) * label.SymX, pos_weight)
-                                            + sym.Log(1 - pred.SymX + eps) * (1 - label.SymX));
+                    loss = F.negative(F.multiply(F.log(pred + eps) * label, pos_weight)
+                                           + F.log(1 - pred + eps) * (1 - label));
                 }
             }
 

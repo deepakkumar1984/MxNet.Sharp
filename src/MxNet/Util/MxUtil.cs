@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -198,12 +199,12 @@ namespace MxNet
             throw new NotImplementedException();
         }
 
-        public static Func<NDArray, NDArray> WrapNpUraryFunc(Func<NDArray, NDArray> func)
+        public static Func<ndarray, ndarray> WrapNpUraryFunc(Func<ndarray, ndarray> func)
         {
             throw new NotImplementedException();
         }
 
-        public static Func<NDArray, NDArray, NDArray> WrapNpBinaryFunc(Func<NDArray, NDArray, NDArray> func)
+        public static Func<ndarray, ndarray, ndarray> WrapNpBinaryFunc(Func<ndarray, ndarray, ndarray> func)
         {
             throw new NotImplementedException();
         }
@@ -228,7 +229,7 @@ namespace MxNet
             throw new NotImplementedException();
         }
 
-        public static NDArray DefaultArray(Array source_array, Context ctx= null, DType dtype= null)
+        public static ndarray DefaultArray(Array source_array, Context ctx= null, DType dtype= null)
         {
             throw new NotImplementedException();
         }
@@ -262,5 +263,6 @@ namespace MxNet
         {
             throw new NotImplementedException();
         }
+
     }
 }

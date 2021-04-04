@@ -21,6 +21,8 @@ using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
 using System.Collections.Generic;
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 
 namespace MxNet
 {
@@ -28,7 +30,7 @@ namespace MxNet
     {
         private readonly CachedOpHandle handle;
 
-        public CachedOp(Symbol sym, IDictionary<string, string> flags = null, bool thread_safe = false)
+        public CachedOp(_Symbol sym, IDictionary<string, string> flags = null, bool thread_safe = false)
         {
             handle = IntPtr.Zero;
             if (flags == null)
@@ -37,7 +39,7 @@ namespace MxNet
                 flags.Values.ToArray(), out handle, thread_safe), NativeMethods.OK);
         }
 
-        public Symbol GetOptimizedSymbol()
+        public _Symbol GetOptimizedSymbol()
         {
             throw new NotImplementedException();
         }
@@ -54,12 +56,12 @@ namespace MxNet
                 out var outputs, out var out_stypes), NativeMethods.OK);
             var result = new NDArrayList();
             for (var i = 0; i < num_outputs; i++)
-                result.Add(new NDArray(outputs[i]).ToSType((StorageStype) out_stypes[i]));
+                result.Add(new ndarray(outputs[i]).ToSType((StorageStype) out_stypes[i]));
 
             return result.ToArray();
         }
 
-        public void RegisteropHook(Action<string, string, NDArray> callback, bool monitor_all = false)
+        public void RegisteropHook(Action<string, string, ndarray> callback, bool monitor_all = false)
         {
             throw new NotImplementedException();
         }

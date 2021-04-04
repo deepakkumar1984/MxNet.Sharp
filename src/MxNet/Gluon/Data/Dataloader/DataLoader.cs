@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Gluon.Data;
+using MxNet.Numpy;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,14 +25,14 @@ namespace MxNet.Gluon.Data
 {
     public class WorkerPool
     {
-        public delegate void WorkerInit(Dataset<(NDArray, NDArray)> dataset);
+        public delegate void WorkerInit(Dataset<(ndarray, ndarray)> dataset);
 
         public WorkerPool(int num_thread)
         {
             NumThreads = num_thread;
         }
 
-        public WorkerPool(int num_thread, WorkerInit initializer, Dataset<(NDArray, NDArray)> arg)
+        public WorkerPool(int num_thread, WorkerInit initializer, Dataset<(ndarray, ndarray)> arg)
         {
             NumThreads = num_thread;
             Initializer = initializer;
@@ -42,14 +43,14 @@ namespace MxNet.Gluon.Data
 
         public WorkerInit Initializer { get; }
 
-        public Dataset<(NDArray, NDArray)> Arg { get; }
+        public Dataset<(ndarray, ndarray)> Arg { get; }
     }
 
-    public partial class DataLoader : IEnumerable<(NDArray, NDArray)>
+    public partial class DataLoader : IEnumerable<(ndarray, ndarray)>
     {
         private readonly BatchSampler _batch_sampler;
-        private readonly Func<(NDArray, NDArray)[], (NDArray, NDArray)> _batchify_fn;
-        private readonly Dataset<(NDArray, NDArray)> _dataset;
+        private readonly Func<(ndarray, ndarray)[], (ndarray, ndarray)> _batchify_fn;
+        private readonly Dataset<(ndarray, ndarray)> _dataset;
         private readonly int _num_workers;
         private readonly int _pin_device_id;
         private readonly bool _pin_memory;
@@ -57,10 +58,10 @@ namespace MxNet.Gluon.Data
         private bool _thread_pool;
         private readonly WorkerPool _worker_pool;
 
-        public DataLoader(Dataset<(NDArray, NDArray)> dataset, int? batch_size = null, bool shuffle = false,
+        public DataLoader(Dataset<(ndarray, ndarray)> dataset, int? batch_size = null, bool shuffle = false,
             Sampler<int> sampler = null,
             string last_batch = null, BatchSampler batch_sampler = null,
-            Func<(NDArray, NDArray)[], (NDArray, NDArray)> batchify_fn = null,
+            Func<(ndarray, ndarray)[], (ndarray, ndarray)> batchify_fn = null,
             int num_workers = 0, bool pin_memory = false, int pin_device_id = 0, int? prefetch = null,
             bool thread_pool = false)
         {
@@ -116,7 +117,7 @@ namespace MxNet.Gluon.Data
 
         public int Length => _batch_sampler.Length;
 
-        public virtual IEnumerator<(NDArray, NDArray)> GetEnumerator()
+        public virtual IEnumerator<(ndarray, ndarray)> GetEnumerator()
         {
             if (_num_workers == 0)
                 foreach (var batch in _batch_sampler)
@@ -140,16 +141,16 @@ namespace MxNet.Gluon.Data
 
         #region Static Methods
 
-        internal static Dataset<(NDArray, NDArray)> _worker_dataset;
+        internal static Dataset<(ndarray, ndarray)> _worker_dataset;
 
-        public static NDArray RebuildNDArray(int shared_pid, int shared_id, Shape shape, DType dtype)
+        public static ndarray Rebuildndarray(int shared_pid, int shared_id, Shape shape, DType dtype)
         {
-            return NDArray.NewFromSharedMem(shared_pid, shared_id, shape, dtype);
+            return ndarray.NewFromSharedMem(shared_pid, shared_id, shape, dtype);
         }
 
-        public static (Func<int, int, Shape, DType, NDArray>, (int, int, Shape, DType)) ReduceNDArray(NDArray data)
+        public static (Func<int, int, Shape, DType, ndarray>, (int, int, Shape, DType)) Reducendarray(ndarray data)
         {
-            return (RebuildNDArray, data.ToSharedMem());
+            return (Rebuildndarray, data.ToSharedMem());
         }
 
         public static NDArrayList DefaultBatchifyFn(NDArrayList data)
@@ -169,7 +170,7 @@ namespace MxNet.Gluon.Data
             return ret;
         }
 
-        public static (NDArray, NDArray) DefaultBatchifyFn((NDArray, NDArray)[] data)
+        public static (ndarray, ndarray) DefaultBatchifyFn((ndarray, ndarray)[] data)
         {
             return (DefaultBatchifyFn(data.Select(x=>(x.Item1)).ToArray()), DefaultBatchifyFn(data.Select(x => (x.Item2)).ToArray()));
         }
@@ -195,15 +196,15 @@ namespace MxNet.Gluon.Data
             return data.Select(x => x.AsInContext(ctx)).ToList();
         }
 
-        public static (NDArray, NDArray) AsInContext((NDArray, NDArray) data, Context ctx)
+        public static (ndarray, ndarray) AsInContext((ndarray, ndarray) data, Context ctx)
         {
             return (data.Item1.AsInContext(ctx), data.Item2.AsInContext(ctx));
         }
 
-        public static void WorkerLoopV1(Dataset<NDArray> dataset, Queue<int> key_queue, Queue<NDArray> data_queue,
+        public static void WorkerLoopV1(Dataset<ndarray> dataset, Queue<int> key_queue, Queue<ndarray> data_queue,
             Func<NDArrayList, NDArrayList> batchify_fn)
         {
-            data_queue = new Queue<NDArray>();
+            data_queue = new Queue<ndarray>();
             var idx = 0;
             while (true)
             {
@@ -211,11 +212,11 @@ namespace MxNet.Gluon.Data
                 if (q == null)
                     break;
                 var batch = batchify_fn(q.Samples.Select(x => dataset[x]).ToArray());
-                data_queue.Enqueue(new QueueItem<NDArray>(idx, batch.ToArray()));
+                data_queue.Enqueue(new QueueItem<ndarray>(idx, batch.ToArray()));
             }
         }
 
-        public static void FetcherLoopV1(Queue<NDArray> data_queue, Dictionary<int, NDArrayList> data_buffer,
+        public static void FetcherLoopV1(Queue<ndarray> data_queue, Dictionary<int, NDArrayList> data_buffer,
             bool pin_memory = false, int pin_device_id = 0, object data_buffer_lock = null)
         {
             while (true)
@@ -239,13 +240,13 @@ namespace MxNet.Gluon.Data
             }
         }
 
-        public static void WorkerInitializer(Dataset<(NDArray, NDArray)> dataset)
+        public static void WorkerInitializer(Dataset<(ndarray, ndarray)> dataset)
         {
             _worker_dataset = dataset;
         }
 
-        public static (NDArray, NDArray) WorkerFn(int[] samples, Func<(NDArray, NDArray)[], (NDArray, NDArray)> batchify_fn,
-            Dataset<(NDArray, NDArray)> dataset)
+        public static (ndarray, ndarray) WorkerFn(int[] samples, Func<(ndarray, ndarray)[], (ndarray, ndarray)> batchify_fn,
+            Dataset<(ndarray, ndarray)> dataset)
         {
             _worker_dataset = dataset;
             var batch = batchify_fn(samples.Select(i => _worker_dataset[i]).ToArray());
@@ -253,7 +254,7 @@ namespace MxNet.Gluon.Data
         }
 
         public static NDArrayList ThreadWorkerFn(int[] samples, Func<NDArrayList, NDArrayList> batchify_fn,
-            Dataset<NDArray> dataset)
+            Dataset<ndarray> dataset)
         {
             return batchify_fn(samples.Select(i => dataset[i]).ToArray());
         }

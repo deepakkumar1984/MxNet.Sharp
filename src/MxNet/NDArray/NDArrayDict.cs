@@ -20,12 +20,13 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using NDArrayHandle = System.IntPtr;
 using MxNet.Interop;
+using MxNet.Numpy;
 
 namespace MxNet
 {
-    public class NDArrayDict : IEnumerable<KeyValuePair<string, NDArray>>
+    public class NDArrayDict : IEnumerable<KeyValuePair<string, ndarray>>
     {
-        private readonly Dictionary<string, NDArray> dict = new Dictionary<string, NDArray>();
+        private readonly Dictionary<string, ndarray> dict = new Dictionary<string, ndarray>();
 
         public NDArrayDict(params string[] names)
         {
@@ -38,7 +39,7 @@ namespace MxNet
 
         public NDArrayList Values => dict.Values.ToArray();
 
-        public NDArray this[string name]
+        public ndarray this[string name]
         {
             get
             {
@@ -50,7 +51,7 @@ namespace MxNet
             set => dict[name] = value;
         }
 
-        public IEnumerator<KeyValuePair<string, NDArray>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, ndarray>> GetEnumerator()
         {
             return dict.GetEnumerator();
         }
@@ -60,7 +61,7 @@ namespace MxNet
             return dict.GetEnumerator();
         }
 
-        public void Add(string name, NDArray value)
+        public void Add(string name, ndarray value)
         {
             dict.Add(name, value);
         }
@@ -109,7 +110,7 @@ namespace MxNet
 
             if (outNameSize == 0)
             {
-                for (var i = 0; i < outArr.Length; i++) data.Add(i.ToString(), new NDArray(outArr[i]));
+                for (var i = 0; i < outArr.Length; i++) data.Add(i.ToString(), new ndarray(outArr[i]));
             }
             else
             {
@@ -119,7 +120,7 @@ namespace MxNet
                 for (var i = 0; i < outArr.Length; i++)
                 {
                     var key = Marshal.PtrToStringAnsi(outNames[i]);
-                    if (!string.IsNullOrEmpty(key)) data.Add(key, new NDArray(outArr[i]));
+                    if (!string.IsNullOrEmpty(key)) data.Add(key, new ndarray(outArr[i]));
                 }
             }
         }

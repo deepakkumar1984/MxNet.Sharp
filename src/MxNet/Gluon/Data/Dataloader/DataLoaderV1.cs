@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections;
 using System.Linq;
@@ -23,12 +24,12 @@ namespace MxNet.Gluon.Data
     {
         private readonly BatchSampler _batch_sampler;
         private readonly Func<NDArrayList, NDArrayList> _batchify_fn;
-        private readonly Dataset<NDArray> _dataset;
+        private readonly Dataset<ndarray> _dataset;
         private readonly int _num_workers;
         private readonly int _pin_device_id;
         private readonly bool _pin_memory;
 
-        public DataLoaderV1(Dataset<NDArray> dataset, int? batch_size = null, bool shuffle = false,
+        public DataLoaderV1(Dataset<ndarray> dataset, int? batch_size = null, bool shuffle = false,
             Sampler<int> sampler = null,
             string last_batch = null, BatchSampler batch_sampler = null,
             Func<NDArrayList, NDArrayList> batchify_fn = null,

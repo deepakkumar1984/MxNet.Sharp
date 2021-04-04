@@ -13,7 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
-using NumpyDotNet;
+using MxNet.Numpy;
 
 namespace MxNet.Gluon.Metrics
 {
@@ -24,13 +24,14 @@ namespace MxNet.Gluon.Metrics
         {
         }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             CheckLabelShapes(labels, preds, true);
 
-            ndarray pearson_corr = (ndarray)nd.Correlation(labels.Ravel(), preds.Ravel()).AsNumpy()[0, 1];
-            sum_metric += pearson_corr.asscalar<float>();
-            global_sum_metric += pearson_corr.asscalar<float>();
+            ndarray pearson_corr = nd.Correlation(labels.Ravel(), preds.Ravel());
+            pearson_corr = pearson_corr[0, 1];
+            sum_metric += pearson_corr.AsScalar<float>();
+            global_sum_metric += pearson_corr.AsScalar<float>();
             num_inst += 1;
             global_num_inst += 1;
         }

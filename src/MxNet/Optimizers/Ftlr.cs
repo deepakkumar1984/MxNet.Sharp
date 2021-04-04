@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Optimizers
 {
     public class Ftlr : Optimizer
@@ -28,7 +30,7 @@ namespace MxNet.Optimizers
 
         public float Beta { get; set; }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict();
             state["z"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
@@ -36,7 +38,7 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             this.UpdateCount(index);
             var lr = this.GetLr(index);
@@ -48,9 +50,9 @@ namespace MxNet.Optimizers
                 grad = nd.Clip(grad, -this.ClipGradient.Value, this.ClipGradient.Value);
             }
             // update z, n
-            var sigma = nd.Negative(nd.Sqrt(state["n"]));
-            state["n"] += nd.Square(grad);
-            var denom = nd.Sqrt(state["n"]);
+            var sigma = np.negative(np.sqrt(state["n"]));
+            state["n"] += np.square(grad);
+            var denom = np.sqrt(state["n"]);
             sigma += denom;
             sigma /= lr;
             state["z"] += grad - sigma * weight;
@@ -58,11 +60,11 @@ namespace MxNet.Optimizers
             denom += this.Beta;
             denom /= lr;
             denom += wd;
-            var d = nd.Sign(state["z"]) * nd.Maximum(nd.Abs(state["z"]) - this.Lamda1, 0);
-            weight = nd.Negative(d) / denom;
+            var d = np.sign(state["z"]) * np.maximum(nd.Abs(state["z"]) - this.Lamda1, 0);
+            weight = np.negative(d) / denom;
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);

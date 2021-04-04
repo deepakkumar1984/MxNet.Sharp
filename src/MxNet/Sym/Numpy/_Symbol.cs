@@ -1,4 +1,5 @@
-﻿using MxNet.Interop;
+﻿using MxNet.Initializers;
+using MxNet.Interop;
 using MxNet.IO;
 using System;
 using System.Collections;
@@ -831,10 +832,10 @@ namespace MxNet.Sym.Numpy
             }
         }
 
-        public _SymbolList ToList()
+        public SymbolList ToList()
         {
             var outputs = ListOutputs();
-            _SymbolList ret = new _SymbolList();
+            SymbolList ret = new SymbolList();
             foreach (var i in outputs)
             {
                 ret.Add(this[i]);
@@ -1148,7 +1149,7 @@ namespace MxNet.Sym.Numpy
             lhs.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
 
-            return sym_np_ops.divide(lhs, rhs);
+            return sym_np_ops.true_divide(lhs, rhs);
         }
 
         public static _Symbol operator %(_Symbol lhs, _Symbol rhs)
@@ -1186,7 +1187,7 @@ namespace MxNet.Sym.Numpy
 
             lhs.ThrowIfDisposed();
 
-            return sym_np_ops.subtract(lhs, sym_np_ops.full_like(lhs, scalar));
+            return sym_np_ops.subtract(lhs, scalar);
         }
 
         public static _Symbol operator -(float lhs, _Symbol rhs)
@@ -1196,7 +1197,7 @@ namespace MxNet.Sym.Numpy
 
             rhs.ThrowIfDisposed();
             
-            return sym_np_ops.subtract(sym_np_ops.full_like(rhs, lhs), rhs);
+            return sym_np_ops.subtract(lhs, rhs);
         }
 
         public static _Symbol operator *(_Symbol lhs, float scalar)
@@ -1206,12 +1207,12 @@ namespace MxNet.Sym.Numpy
 
             lhs.ThrowIfDisposed();
 
-            return sym_ops.MulScalar(lhs, scalar);
+            return sym_np_ops.mutiply(lhs, scalar);
         }
 
         public static _Symbol operator *(float lhs, _Symbol rhs)
         {
-            return rhs * lhs;
+            return sym_np_ops.mutiply(lhs, rhs);
         }
 
         public static _Symbol operator /(_Symbol lhs, float scalar)
@@ -1221,7 +1222,7 @@ namespace MxNet.Sym.Numpy
 
             lhs.ThrowIfDisposed();
 
-            return sym_ops.DivScalar(lhs, scalar);
+            return sym_np_ops.true_divide(lhs, scalar);
         }
 
         public static _Symbol operator /(float lhs, _Symbol rhs)
@@ -1231,7 +1232,7 @@ namespace MxNet.Sym.Numpy
 
             rhs.ThrowIfDisposed();
 
-            return sym_ops.RDivScalar(lhs, rhs);
+            return sym_np_ops.true_divide(lhs, rhs);
         }
 
         public static _Symbol operator %(_Symbol lhs, float scalar)
@@ -1241,7 +1242,7 @@ namespace MxNet.Sym.Numpy
 
             lhs.ThrowIfDisposed();
 
-            return sym_ops.ModScalar(lhs, scalar);
+            return sym_np_ops.mod(lhs, scalar);
         }
 
         public static _Symbol operator %(float lhs, _Symbol rhs)
@@ -1251,67 +1252,67 @@ namespace MxNet.Sym.Numpy
 
             rhs.ThrowIfDisposed();
 
-            return sym_ops.RModScalar(lhs, rhs);
+            return sym_np_ops.mod(lhs, rhs);
         }
 
         public static _Symbol operator >(_Symbol lhs, _Symbol rhs)
         {
-            return sym.BroadcastGreater(lhs, rhs);
+            return sym_np_ops.greater(lhs, rhs);
         }
 
         public static _Symbol operator >=(_Symbol lhs, _Symbol rhs)
         {
-            return sym.BroadcastGreaterEqual(lhs, rhs);
+            return sym_np_ops.greater_equal(lhs, rhs);
         }
 
         public static _Symbol operator >(_Symbol lhs, float rhs)
         {
-            return sym.GreaterScalar(lhs, rhs);
+            return sym_np_ops.greater(lhs, rhs);
         }
 
         public static _Symbol operator >=(_Symbol lhs, float rhs)
         {
-            return sym.GreaterEqualScalar(lhs, rhs);
+            return sym_np_ops.greater_equal(lhs, rhs);
         }
 
         public static _Symbol operator >(float lhs, _Symbol rhs)
         {
-            return sym.GreaterScalar(rhs, lhs);
+            return sym_np_ops.greater(rhs, lhs);
         }
 
         public static _Symbol operator >=(float lhs, _Symbol rhs)
         {
-            return sym.GreaterEqualScalar(rhs, lhs);
+            return sym_np_ops.greater_equal(rhs, lhs);
         }
 
         public static _Symbol operator <(_Symbol lhs, _Symbol rhs)
         {
-            return sym.BroadcastLesser(lhs, rhs);
+            return sym_np_ops.less(lhs, rhs);
         }
 
         public static _Symbol operator <=(_Symbol lhs, _Symbol rhs)
         {
-            return sym.BroadcastLesserEqual(lhs, rhs);
+            return sym_np_ops.less_equal(lhs, rhs);
         }
 
         public static _Symbol operator <(_Symbol lhs, float rhs)
         {
-            return sym.LesserScalar(lhs, rhs);
+            return sym_np_ops.less(lhs, rhs);
         }
 
         public static _Symbol operator <=(_Symbol lhs, float rhs)
         {
-            return sym.LesserEqualScalar(lhs, rhs);
+            return sym_np_ops.less_equal(lhs, rhs);
         }
 
         public static _Symbol operator <(float lhs, _Symbol rhs)
         {
-            return sym.LesserScalar(rhs, lhs);
+            return sym_np_ops.less(rhs, lhs);
         }
 
         public static _Symbol operator <=(float lhs, _Symbol rhs)
         {
-            return sym.LesserEqualScalar(rhs, lhs);
+            return sym_np_ops.less_equal(rhs, lhs);
         }
 
         #endregion
@@ -1339,5 +1340,7 @@ namespace MxNet.Sym.Numpy
         {
             return GetEnumerator();
         }
+
+        public static implicit operator _Symbol(Symbol x) => new _Symbol(x.NativePtr);
     }
 }

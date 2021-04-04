@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Gluon.Metrics
 {
     public class BinaryAccuracy : EvalMetric
@@ -25,11 +27,11 @@ namespace MxNet.Gluon.Metrics
 
         public float Threshold { get; }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             CheckLabelShapes(labels, preds, true);
 
-            preds = preds.Clip(0, 1);
+            preds = preds.clip(0, 1);
             var label = labels.Ravel();
             preds = preds.Ravel() > Threshold;
 

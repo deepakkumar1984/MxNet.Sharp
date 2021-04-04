@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 
@@ -80,7 +81,7 @@ namespace MxNet.Optimizers
 
         public int InitUpdates { get; set; }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict();
             state["weight_master_copy"] = null;
@@ -108,17 +109,17 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override (NDArrayDict, NDArray) CreateStateMultiPrecision(int index, NDArray weight)
+        public override (NDArrayDict, ndarray) CreateStateMultiPrecision(int index, ndarray weight)
         {
             return base.CreateStateMultiPrecision(index, weight);
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             throw new NotImplementedException();
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             var lr = GetLr(index);
             var wd = GetWd(index);

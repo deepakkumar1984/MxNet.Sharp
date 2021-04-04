@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Gluon.Metrics
 {
     public class Accuracy : EvalMetric
@@ -25,13 +27,13 @@ namespace MxNet.Gluon.Metrics
 
         public int Axis { get; set; }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             CheckLabelShapes(labels, preds, true);
 
-            NDArray pred_label = null;
+            ndarray pred_label = null;
             if (preds.Shape != labels.Shape)
-                pred_label = preds.Argmax(Axis);
+                pred_label = preds.argmax(Axis);
             else
                 pred_label = preds;
 

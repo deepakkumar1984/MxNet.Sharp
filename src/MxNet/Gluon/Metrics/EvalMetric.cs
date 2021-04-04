@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 
@@ -63,7 +64,7 @@ namespace MxNet.Gluon.Metrics
             return config;
         }
 
-        public abstract void Update(NDArray labels, NDArray preds);
+        public abstract void Update(ndarray labels, ndarray preds);
 
         public virtual void Update(NDArrayList labels, NDArrayList preds)
         {

@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Optimizers
@@ -49,7 +50,7 @@ namespace MxNet.Optimizers
 
         public bool LazyUpdate { get; set; }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var stype = LazyUpdate ? weight.SType : StorageStype.Default;
             var state = new NDArrayDict("mean", "variance");
@@ -58,7 +59,7 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             this.UpdateCount(index);
             var lr = this.GetLr(index);
@@ -79,13 +80,13 @@ namespace MxNet.Optimizers
             state["mean"] *= this.Beta1;
             state["mean"] += (1.0 - this.Beta1) * grad;
             state["variance"] *= this.Beta2;
-            state["variance"] += (1.0 - this.Beta2) * nd.Square(grad);
+            state["variance"] += (1.0 - this.Beta2) * np.square(grad);
             // update weight
-            var d = state["mean"] / (nd.Sqrt(state["variance"]) + this.Epsilon);
+            var d = state["mean"] / (np.sqrt(state["variance"]) + this.Epsilon);
             weight -= lr * d;
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);

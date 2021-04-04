@@ -6,32 +6,32 @@ namespace MxNet.Numpy
 {
     public partial class Random
     {
-        public ndarray randint(int low, int? high= null, Shape size= null, NumpyDotNet.dtype dtype= null, Context ctx= null, ndarray @out= null)
+        public ndarray randint(int low, int? high= null, Shape size= null, DType dtype= null, Context ctx= null, ndarray @out= null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray uniform(float low = 0, float high = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray uniform(float low = 0, float high = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray normal(float loc = 0, float scale = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray normal(float loc = 0, float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray lognormal(float mean = 0, float sigma = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray lognormal(float mean = 0, float sigma = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray logistic(float loc = 0, float scale = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray logistic(float loc = 0, float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray gumbel(float loc = 0, float scale = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray gumbel(float loc = 0, float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
@@ -51,7 +51,7 @@ namespace MxNet.Numpy
             throw new NotImplementedException();
         }
 
-        public ndarray rayleigh(float scale = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray rayleigh(float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
@@ -61,37 +61,37 @@ namespace MxNet.Numpy
             throw new NotImplementedException();
         }
 
-        public ndarray exponential(float scale = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray exponential(float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray weibull(float a, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray weibull(float a, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray weibull(ndarray a, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray weibull(ndarray a, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray pareto(float a, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray pareto(float a, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray pareto(ndarray a, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray pareto(ndarray a, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray power(float a, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray power(float a, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray power(ndarray a, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray power(ndarray a, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
@@ -101,23 +101,23 @@ namespace MxNet.Numpy
             throw new NotImplementedException();
         }
 
-        public ndarray gamma(float shape, float scale=1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray gamma(float shape, float scale=1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray gamma(ndarray shape, ndarray scale, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray gamma(ndarray shape, ndarray scale, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
 
-        public ndarray beta(float a, float b, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray beta(float a, float b, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray beta(ndarray a, ndarray b, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray beta(ndarray a, ndarray b, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
@@ -132,12 +132,12 @@ namespace MxNet.Numpy
             throw new NotImplementedException();
         }
 
-        public ndarray chisquare(float df, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray chisquare(float df, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public ndarray chisquare(ndarray df, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray chisquare(ndarray df, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
@@ -147,7 +147,7 @@ namespace MxNet.Numpy
             throw new NotImplementedException();
         }
 
-        public ndarray laplace(float loc = 0, float scale = 1, Shape size = null, NumpyDotNet.dtype dtype = null, Context ctx = null, ndarray @out = null)
+        public ndarray laplace(float loc = 0, float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
         {
             throw new NotImplementedException();
         }

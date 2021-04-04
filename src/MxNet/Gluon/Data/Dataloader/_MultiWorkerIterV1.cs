@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,15 +22,15 @@ namespace MxNet.Gluon.Data
 {
     public class _MultiWorkerIterV1 : IDisposable
     {
-        public delegate void WorkerFn(Dataset<NDArray> _dataset, Queue<int> _key_queue, Queue<NDArray> _data_queue,
+        public delegate void WorkerFn(Dataset<ndarray> _dataset, Queue<int> _key_queue, Queue<ndarray> _data_queue,
             Func<NDArrayList, NDArrayList> _batchify_fn);
 
         private readonly BatchSampler _batch_sampler;
         private readonly Func<NDArrayList, NDArrayList> _batchify_fn;
         private readonly Dictionary<int, NDArrayList> _data_buffer;
         private readonly object _data_buffer_lock;
-        private Queue<NDArray> _data_queue;
-        private readonly Dataset<NDArray> _dataset;
+        private Queue<ndarray> _data_queue;
+        private readonly Dataset<ndarray> _dataset;
         private readonly Thread _fetcher;
         private readonly IEnumerator<int[]> _iter;
         private Queue<int> _key_queue;
@@ -39,7 +40,7 @@ namespace MxNet.Gluon.Data
         private bool _shutdown;
         private readonly List<Thread> _workers;
 
-        public _MultiWorkerIterV1(int num_workers, Dataset<NDArray> dataset, Func<NDArrayList, NDArrayList> batchify_fn,
+        public _MultiWorkerIterV1(int num_workers, Dataset<ndarray> dataset, Func<NDArrayList, NDArrayList> batchify_fn,
             BatchSampler batch_sampler, bool pin_memory = false, int pin_device_id = 0, WorkerFn worker_fn = null)
         {
             if (num_workers == 0)
@@ -50,7 +51,7 @@ namespace MxNet.Gluon.Data
             _batchify_fn = batchify_fn;
             _batch_sampler = batch_sampler;
             _key_queue = new Queue<int>();
-            _data_queue = new Queue<NDArray>();
+            _data_queue = new Queue<ndarray>();
             _data_buffer = new Dictionary<int, NDArrayList>();
             _data_buffer_lock = new object();
             _rcvd_idx = 0;

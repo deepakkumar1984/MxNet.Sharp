@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Optimizers
 {
     public class AdaGrad : Optimizer
@@ -25,28 +27,28 @@ namespace MxNet.Optimizers
 
         public float Epsilon { get; set; }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("history");
             state["history"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
             return state;
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             var lr = GetLr(index);
             var wd = GetWd(index);
             var history = state["history"];
             grad = grad * RescaleGrad;
             if (ClipGradient.HasValue)
-                grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
+                grad = np.clip(grad, -ClipGradient.Value, ClipGradient.Value);
 
-            history += nd.Square(grad);
-            var div = grad / nd.Sqrt(history + Epsilon);
+            history += np.square(grad);
+            var div = grad / np.sqrt(history + Epsilon);
             weight += (div + weight * wd) * -lr;
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);

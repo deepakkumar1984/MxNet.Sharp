@@ -13,18 +13,18 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System.Linq;
 using System.Threading.Tasks;
-using NumpyDotNet;
 
 namespace MxNet.Gluon.Metrics
 {
     public class PCC : EvalMetric
     {
-        private NDArray gcm;
+        private ndarray gcm;
 
         private int k;
-        private NDArray lcm;
+        private ndarray lcm;
 
         public PCC(string output_name = null, string label_name = null)
             : base("pcc", output_name, label_name, true)
@@ -43,30 +43,30 @@ namespace MxNet.Gluon.Metrics
             k += inc;
         }
 
-        private float CalcMcc(NDArray cmatArr)
+        private float CalcMcc(ndarray cmatArr)
         {
-            var n = cmatArr.Sum();
-            var x = cmatArr.Sum(1);
-            var y = cmatArr.Sum(0);
+            var n = cmatArr.sum();
+            var x = cmatArr.sum(1);
+            var y = cmatArr.sum(0);
             var cov_xx = nd.Sum(x * (n - x)).AsScalar<float>();
             var cov_yy = nd.Sum(y * (n - y)).AsScalar<float>();
 
             if (cov_xx == 0 || cov_yy == 0)
                 return float.NaN;
 
-            var i = cmatArr.Diag();
-            var cov_xy = nd.Sum(i * n - x * y).Sum();
+            var i = cmatArr.diag();
+            var cov_xy = np.sum(i * n - x * y).sum().AsScalar<float>();
             return (float)System.Math.Pow(cov_xy / (cov_xx * cov_yy), 0.5);
         }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             var pred = nd.Argmax(preds, 1).AsType(DType.Int32);
-            var n = nd.Maximum(pred.Max(), labels.Max()).AsScalar<int>();
+            var n = nd.Maximum(pred.Max(), labels.max()).AsScalar<int>();
             if (n >= k)
                 Grow(n + 1 - k);
 
-            var bcm = nd.Zeros(new Shape(k, k));
+            var bcm = np.zeros(new Shape(k, k));
             var pred_data = pred.GetValues<int>();
             var label_data = labels.GetValues<int>();
             Enumerable.Zip(pred_data, label_data, (i, j) => {

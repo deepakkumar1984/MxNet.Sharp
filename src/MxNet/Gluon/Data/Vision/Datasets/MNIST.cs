@@ -13,11 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using NumpyDotNet;
 
 namespace MxNet.Gluon.Data.Vision.Datasets
 {

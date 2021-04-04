@@ -42,6 +42,13 @@ namespace MxNet
             symx = x;
         }
 
+        internal NDArrayOrSymbol(params Symbol[] x)
+        {
+            IsNDArray = false;
+            IsSymbol = true;
+            symx = x.Select(x => new _Symbol(x.NativePtr)).ToArray();
+        }
+
         public bool IsSymbol { get; set; }
 
         public bool IsNDArray { get; set; }
@@ -124,11 +131,25 @@ namespace MxNet
             return new NDArrayOrSymbol(x);
         }
 
+        public static implicit operator NDArrayOrSymbol(NDArray x)
+        {
+            if (x == null)
+                return null;
+            return new NDArrayOrSymbol(x);
+        }
+
         public static implicit operator NDArrayOrSymbol(_Symbol x)
         {
             if (x == null)
                 return null;
             return new NDArrayOrSymbol(x);
+        }
+
+        public static implicit operator NDArrayOrSymbol(Symbol x)
+        {
+            if (x == null)
+                return null;
+            return new NDArrayOrSymbol(new _Symbol(x.NativePtr));
         }
 
         public static implicit operator ndarray(NDArrayOrSymbol x)
@@ -497,5 +518,6 @@ namespace MxNet
         {
             return new NDArrayOrSymbolList(x);
         }
+
     }
 }

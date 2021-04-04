@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Gluon.Losses
@@ -39,13 +40,13 @@ namespace MxNet.Gluon.Losses
             return F(pred.SymX, label, sample_weight);
         }
 
-        private NDArray F(NDArray pred, NDArray label, NDArray sample_weight = null)
+        private ndarray F(ndarray pred, ndarray label, ndarray sample_weight = null)
         {
             label = nd.ReshapeLike(label, pred);
             if (LabelFormat == "signed")
                 label = (label + 1) / 2;
 
-            var loss = nd.Relu(pred) - pred * label +
+            var loss = nd.Relu(pred) - (NDArray)pred * (NDArray)label +
                        nd.Activation(nd.Negative(nd.Abs(pred)), ActivationType.Softrelu);
             loss = ApplyWeighting(loss, Weight, sample_weight);
             return nd.Mean(loss, BatchAxis.Value, exclude: true);

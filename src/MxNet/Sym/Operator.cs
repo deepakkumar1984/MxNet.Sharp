@@ -172,20 +172,11 @@ namespace MxNet
             return new _Symbol(symbolHandle);
         }
 
-        public NDArray Invoke()
+        public ndarray Invoke()
         {
-            var output = new NDArray();
+            var output = new ndarray();
             Invoke(output);
             return output;
-        }
-
-        public void Invoke(NDArray output)
-        {
-            if (output == null)
-                throw new ArgumentNullException(nameof(output));
-
-            var outputs = new NDArrayList(output);
-            Invoke(outputs);
         }
 
         public void Invoke(NDArrayList outputs)
@@ -241,22 +232,6 @@ namespace MxNet
             {
                 gcHandle?.Free();
             }
-        }
-
-        public ndarray InvokeNp()
-        {
-            var output = new ndarray();
-            Invoke(output);
-            return output;
-        }
-
-        public void Invoke(ndarray output)
-        {
-            if (output == null)
-                throw new ArgumentNullException(nameof(output));
-
-            var outputs = new List<ndarray> { output };
-            Invoke(outputs);
         }
 
         public void Invoke(List<ndarray> outputs)

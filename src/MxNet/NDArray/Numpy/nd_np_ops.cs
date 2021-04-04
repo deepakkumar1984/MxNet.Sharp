@@ -30,7 +30,7 @@ namespace MxNet.ND.Numpy
                             .SetParam("shape", shape)
                             .SetParam("ctx", ctx.ToString())
                             .SetParam("dtype", dtype)
-                            .InvokeNp();
+                            .Invoke();
         }
 
         public static ndarray array(Array obj, DType dtype = null, Context ctx = null)
@@ -53,7 +53,7 @@ namespace MxNet.ND.Numpy
                             .SetParam("shape", shape)
                             .SetParam("ctx", ctx.ToString())
                             .SetParam("dtype", dtype)
-                            .InvokeNp();
+                            .Invoke();
         }
 
         public static ndarray ones(Shape shape, DType dtype = null, string order = "C", Context ctx = null)
@@ -66,7 +66,7 @@ namespace MxNet.ND.Numpy
                     .SetParam("shape", shape)
                     .SetParam("ctx", ctx.ToString())
                     .SetParam("dtype", dtype)
-                    .InvokeNp();
+                    .Invoke();
         }
 
         public static ndarray broadcast_to(ndarray array, Shape shape)

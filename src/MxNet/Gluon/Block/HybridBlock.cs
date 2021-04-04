@@ -14,6 +14,8 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Interop;
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -91,7 +93,7 @@ namespace MxNet.Gluon
             }
         }
 
-        private (SymbolList, Symbol) GetGraphV1(NDArrayOrSymbolList args)
+        private (SymbolList, _Symbol) GetGraphV1(NDArrayOrSymbolList args)
         {
             if (_cached_graph == null)
             {
@@ -99,7 +101,7 @@ namespace MxNet.Gluon
                 var (flatten_args, _in_format) = Flatten(args, "input");
 
                 var flatten_inputs = new List<NDArrayOrSymbol[]>();
-                var symbol_inputs = new List<Symbol>();
+                var symbol_inputs = new List<_Symbol>();
                 var cnt = 0;
                 var real_arg_num = flatten_args.Select(x => x != null).Count();
                 if (real_arg_num == 0)
@@ -109,16 +111,16 @@ namespace MxNet.Gluon
 
                 foreach (var arg in flatten_args)
                 {
-                    Symbol arg_sym;
+                    _Symbol arg_sym;
                     if (arg != null)
                     {
                         if (real_arg_num > 1)
                         {
-                            arg_sym = Symbol.Var("datacnt{}");
+                            arg_sym = _Symbol.Var("datacnt{}");
                         }
                         else
                         {
-                            arg_sym = Symbol.Var("data");
+                            arg_sym = _Symbol.Var("data");
                         }
 
                         cnt += 1;
@@ -143,13 +145,13 @@ namespace MxNet.Gluon
                 }
 
                 var (@out, _out_format) = Flatten(outputs.ToArray(), "output");
-                _cached_graph = (inputs.ToArray(), Symbol.Group(@out.ToList().ToSymbols()));
+                _cached_graph = (inputs, _Symbol.Group(@out.ToList().ToSymbols()));
             }
 
             return _cached_graph.Value;
         }
 
-        private (SymbolList, Symbol) GetGraphV2(NDArrayOrSymbolList args)
+        private (SymbolList, _Symbol) GetGraphV2(NDArrayOrSymbolList args)
         {
             List<string> arg_names = new List<string>();
             if (_cached_graph == null)
@@ -182,7 +184,7 @@ namespace MxNet.Gluon
                 {
                     var name = arg_names[i];
                     var arg = real_args[i];
-                    symbol_inputs.Add(Symbol.Var(name));
+                    symbol_inputs.Add(_Symbol.Var(name));
                 }
 
                 DeferredCompute.SetVariable(real_args, symbol_inputs);
@@ -202,7 +204,7 @@ namespace MxNet.Gluon
             return this._cached_graph.Value;
         }
 
-        private (SymbolList, Symbol) GetGraph(NDArrayOrSymbolList args)
+        private (SymbolList, _Symbol) GetGraph(NDArrayOrSymbolList args)
         {
             if (_cached_graph == null)
             {
@@ -798,15 +800,15 @@ namespace MxNet.Gluon
             if (remove_amp_cast)
             {
                 NativeMethods.MXSymbolRemoveAmpCast(sym.GetHandle(), out var handle);
-                sym = new Symbol(handle);
+                sym = new _Symbol(handle);
             }
 
             return (sym, arg_dict);
         }
 
-        public override void RegisterOpHook(Action<string, string, NDArray> callback, bool monitor_all = false)
+        public override void RegisterOpHook(Action<string, string, ndarray> callback, bool monitor_all = false)
         {
-            Action<string, string, NDArray> c_callback = (name, op_name, array) => {
+            Action<string, string, ndarray> c_callback = (name, op_name, array) => {
                 callback(name, op_name, array);
             };
 

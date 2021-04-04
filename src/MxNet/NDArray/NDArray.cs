@@ -1132,7 +1132,9 @@ namespace MxNet
 
         public static implicit operator ndarray(NDArray x) => x.AsNumpy();
 
-        public static implicit operator NDArray(ndarray x) => nd.Array(x);
+        public static implicit operator NDArray(ndarray x) => new NDArray(x.NativePtr);
+
+        public static implicit operator NDArray(NDArrayOrSymbol x) => new NDArray(x.NdX.NativePtr);
 
         public static implicit operator NDArray(int x) => nd.Array(new float[] { x }).AsType(DType.Int32);
 

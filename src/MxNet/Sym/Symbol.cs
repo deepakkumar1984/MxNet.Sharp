@@ -23,6 +23,7 @@ using MxNet.IO;
 using mx_uint = System.UInt32;
 using SymbolHandle = System.IntPtr;
 using ExecutorHandle = System.IntPtr;
+using MxNet.Sym.Numpy;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet
@@ -916,7 +917,7 @@ namespace MxNet
             SymbolList ret = new SymbolList();
             foreach (var i in outputs)
             {
-                ret.Add(this[i]);
+                ret.Add(new _Symbol(this[i].NativePtr));
             }
             
             return ret;
@@ -944,7 +945,7 @@ namespace MxNet
 
         public virtual Symbol Squeeze(int axis)
         {
-            return sym.Squeeze(this, new Shape(axis));
+            return sym.Squeeze(new SymbolList(new _Symbol(this.NativePtr)), new Shape(axis));
         }
 
         public virtual Symbol Transpose()
@@ -1475,7 +1476,9 @@ namespace MxNet
         }
 
         #endregion
+        public static implicit operator Symbol(_Symbol x) => new Symbol(x.NativePtr);
 
+        public static implicit operator Symbol(NDArrayOrSymbol x) => new Symbol(x.SymX.NativePtr);
         #endregion
     }
 }

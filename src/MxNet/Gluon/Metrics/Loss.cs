@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Gluon.Metrics
 {
     public class Loss : EvalMetric
@@ -22,7 +24,7 @@ namespace MxNet.Gluon.Metrics
         {
         }
 
-        public override void Update(NDArray _, NDArray preds)
+        public override void Update(ndarray _, ndarray preds)
         {
             var loss = nd.Sum(preds).AsScalar<float>();
             sum_metric += loss;

@@ -20,7 +20,7 @@ using NDArrayHandle = System.IntPtr;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
-using NumpyDotNet;
+using MxNet.Numpy;
 
 namespace MxNet.Sparse
 {

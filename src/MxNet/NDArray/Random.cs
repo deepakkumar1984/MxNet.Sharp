@@ -18,7 +18,6 @@ using System;
 
 namespace MxNet
 {
-    [Obsolete("Legacy API after MxNet v2, will be deprecated in v3", false)]
     public partial class nd
     {
         public class Random

@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Gluon.Losses
 {
     public class CosineEmbeddingLoss : Loss
@@ -34,16 +36,16 @@ namespace MxNet.Gluon.Losses
             return F(input1.SymX, input2, label, sample_weight);
         }
 
-        private NDArray F(NDArray input1, NDArray input2, NDArray label, NDArray sample_weight = null)
+        private ndarray F(ndarray input1, ndarray input2, ndarray label, ndarray sample_weight = null)
         {
             input1 = nd.ReshapeLike(input1, input2);
             label = label.Reshape(-1, 1);
             var cos_sim = _cosine_similarity(input1, input2);
-            var y_1 = nd.EqualScalar(label, 1);
-            var y_minus_1 = nd.EqualScalar(label, -1);
+            var y_1 = np.equal(label, 1);
+            var y_minus_1 = np.equal(label, -1);
             var cos_sim_a = (1 - cos_sim) * y_1;
-            var z_array = nd.Zeros(new Shape(1, 1));
-            var cos_sim_b =
+            var z_array = np.zeros(new Shape(1, 1));
+            ndarray cos_sim_b =
                 nd.BroadcastMaximum(z_array, y_minus_1 * (cos_sim - Margin)); //ToDo: Check missing axis parameter
             var loss = cos_sim_a + cos_sim_b;
             loss = ApplyWeighting(loss, Weight, sample_weight);
@@ -66,7 +68,7 @@ namespace MxNet.Gluon.Losses
             return loss;
         }
 
-        private NDArray _cosine_similarity(NDArray x, NDArray y, int axis = -1)
+        private ndarray _cosine_similarity(ndarray x, ndarray y, int axis = -1)
         {
             var x_norm = nd.Norm(x, axis: new Shape(axis)).Reshape(-1, 1);
             var y_norm = nd.Norm(y, axis: new Shape(axis)).Reshape(-1, 1);

@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Optimizers
@@ -24,12 +25,12 @@ namespace MxNet.Optimizers
 
         }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             return new NDArrayDict();
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);
@@ -39,11 +40,11 @@ namespace MxNet.Optimizers
                 grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
 
             weight += -lr / 2 * (grad + wd * weight);
-            weight += nd.Random.Normal(0, (float)Math.Sqrt(lr), weight.Shape, dtype: weight.DataType,
+            weight += np.random.normal(0, (float)Math.Sqrt(lr), weight.Shape, dtype: weight.DataType,
                 ctx: weight.Context);
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             throw new NotSupportedException();
         }

@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Optimizers
@@ -52,7 +53,7 @@ namespace MxNet.Optimizers
 
         public float MSchedule { get; set; }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("mean", "variance");
             state["mean"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
@@ -60,7 +61,7 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);
@@ -88,10 +89,10 @@ namespace MxNet.Optimizers
             var v_t_prime = v_t / (1 - (float)Math.Pow(Beta2, t));
             var m_t_bar = (1 - momentum_t) * grad_prime + momentum_t_1 * m_t_prime;
 
-            weight -= lr * m_t_bar / (nd.Sqrt(v_t_prime) + Epsilon);
+            weight -= lr * m_t_bar / (np.sqrt(v_t_prime) + Epsilon);
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             throw new NotSupportedException();
         }

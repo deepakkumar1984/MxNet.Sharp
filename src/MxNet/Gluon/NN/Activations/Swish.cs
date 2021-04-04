@@ -26,10 +26,7 @@ namespace MxNet.Gluon.NN
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            if (x.IsNDArray)
-                return x.NdX * nd.Sigmoid(x.NdX * Beta);
-
-            return x.SymX * sym.Sigmoid(x.SymX * Beta, "fwd");
+            return x * F.sigmoid(x * Beta);
         }
 
         public override string ToString()

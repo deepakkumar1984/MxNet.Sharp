@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Gluon.Losses
@@ -40,18 +41,18 @@ namespace MxNet.Gluon.Losses
             return F(pred.SymX, label, sample_weight);
         }
 
-        private NDArray F(NDArray pred, NDArray label, NDArray sample_weight = null)
+        private NDArray F(ndarray pred, ndarray label, ndarray sample_weight = null)
         {
             label = nd.ReshapeLike(label, pred);
-            NDArray loss = null;
+            ndarray loss = null;
             if (FromLogit)
-                loss = nd.Exp(pred) - label * pred;
+                loss = np.exp(pred) - label * pred;
             else
-                loss = pred - label * nd.Log(pred + 1e-08f);
+                loss = pred - label * np.log(pred + 1e-08f);
 
             if (ComputeFull)
             {
-                var stirling_factor = label * nd.Log(label) - label + 0.5f * nd.Log(2 * label * (float) Math.PI);
+                ndarray stirling_factor = label * np.log(label) - label + 0.5f * np.log(2 * label * (float) Math.PI);
                 var target_gt_1 = label > 1;
                 stirling_factor *= target_gt_1;
                 loss += stirling_factor;

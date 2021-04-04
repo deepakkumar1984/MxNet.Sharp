@@ -1,4 +1,5 @@
 ﻿using MxNet.Interop;
+using MxNet.Sym.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,10 +38,10 @@ namespace MxNet
             }
         }
 
-        public static Symbol GetSymbol(NDArrayList output_arrays)
+        public static _Symbol GetSymbol(NDArrayList output_arrays)
         {
             NativeMethods.MXNDArrayGetDeferredComputeSymbol(output_arrays.Handles, output_arrays.Length, out var handle);
-            return new Symbol(handle);
+            return new _Symbol(handle);
         }
 
         public static void SetVariable(NDArrayList arrays, SymbolList variables)

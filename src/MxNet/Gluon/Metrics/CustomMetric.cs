@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Gluon.Metrics
@@ -29,7 +30,7 @@ namespace MxNet.Gluon.Metrics
             _feval = feval;
         }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             CheckLabelShapes(labels, preds);
             var reval = _feval(labels, preds);

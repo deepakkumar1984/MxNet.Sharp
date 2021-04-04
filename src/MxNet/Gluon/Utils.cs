@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -124,8 +125,8 @@ namespace MxNet.Gluon
                                    "Clipping results will be undefined.");
 
             var scale = max_norm / (total_norm + 1e-8f);
-            scale = nd.Min(nd.Concat(new NDArrayList(scale, nd.Ones(new Shape(1), ctx)), 0));
-            for (var i = 0; i < arrays.Length; i++) arrays[i] *= scale.AsInContext(arrays[i].Context);
+            scale = np.min(np.concatenate(new NDArrayList(scale, np.ones(new Shape(1), ctx: ctx)), 0));
+            for (var i = 0; i < arrays.Length; i++) arrays[i] *= (ndarray)scale.AsInContext(arrays[i].Context);
 
             return total_norm;
         }

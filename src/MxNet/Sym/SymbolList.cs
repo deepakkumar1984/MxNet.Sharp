@@ -21,7 +21,7 @@ using System.Linq;
 
 namespace MxNet
 {
-    internal class SymbolList : IEnumerable<_Symbol>
+    public class SymbolList : IEnumerable<_Symbol>
     {
         public List<_Symbol> data;
 

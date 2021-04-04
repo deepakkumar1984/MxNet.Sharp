@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Reflection;
 
@@ -26,7 +27,7 @@ namespace MxNet.Gluon.Metrics
             return (EvalMetric) Activator.CreateInstance(type, args.Values);
         }
 
-        public void CheckLabelShapes(NDArray labels, NDArray preds, bool shape = false)
+        public void CheckLabelShapes(ndarray labels, ndarray preds, bool shape = false)
         {
             Shape label_shape = null;
             Shape pred_shape = null;

@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Optimizers
 {
     public class RMSProp : Optimizer
@@ -34,7 +36,7 @@ namespace MxNet.Optimizers
         public bool Centered { get; }
         public float ClipWeights { get; }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("n", "g", "delta");
             state["mean"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
@@ -43,7 +45,7 @@ namespace MxNet.Optimizers
             return state;
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             this.UpdateCount(index);
             var lr = this.GetLr(index);
@@ -60,9 +62,9 @@ namespace MxNet.Optimizers
             {
                 // update var
                 state["var"] *= this.Rho;
-                state["var"] += (1 - this.Rho) * nd.Square(grad);
+                state["var"] += (1 - this.Rho) * np.square(grad);
                 // update weight
-                var d = grad / (nd.Sqrt(state["var"]) + this.Epsilon);
+                var d = grad / (np.sqrt(state["var"]) + this.Epsilon);
                 weight -= lr * d;
             }
             else
@@ -72,9 +74,9 @@ namespace MxNet.Optimizers
                 state["mean"] *= this.Rho;
                 state["mean"] += (1 - this.Rho) * grad;
                 state["var"] *= this.Rho;
-                state["var"] += (1 - this.Rho) * nd.Square(grad);
+                state["var"] += (1 - this.Rho) * np.square(grad);
                 state["mom"] *= this.Momentum;
-                state["mom"] -= lr * grad / nd.Sqrt(state["var"] - nd.Square(state["mean"]) + this.Epsilon);
+                state["mom"] -= lr * grad / np.sqrt(state["var"] - np.square(state["mean"]) + this.Epsilon);
                 // update weight
                 weight[":"] += state["mom"];
             }
@@ -85,7 +87,7 @@ namespace MxNet.Optimizers
             }
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             UpdateCount(index);
             var lr = GetLr(index);

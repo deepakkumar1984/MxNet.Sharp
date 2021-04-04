@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Linq;
 
@@ -33,7 +34,7 @@ namespace MxNet.Optimizers
                 : Convert.ToInt32(Environment.GetEnvironmentVariable("MXNET_OPTIMIZER_AGGREGATION_SIZE"));
         }
 
-        public override NDArrayDict CreateState(int index, NDArray weight)
+        public override NDArrayDict CreateState(int index, ndarray weight)
         {
             NDArray m = null;
             if (momentum != 0)
@@ -47,10 +48,10 @@ namespace MxNet.Optimizers
 
         public override void Update(int[] indices, NDArrayList weights, NDArrayList grads, NDArrayDict[] states)
         {
-            _update_impl(indices, weights, grads, states.Select(x=>(ValueTuple.Create<NDArrayDict, NDArray>(x, null))).ToArray());
+            _update_impl(indices, weights, grads, states.Select(x=>(ValueTuple.Create<NDArrayDict, ndarray>(x, null))).ToArray());
         }
 
-        public override void Step(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void Step(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
             this.UpdateCount(index);
             var lr = this.GetLr(index);
@@ -78,24 +79,24 @@ namespace MxNet.Optimizers
             weight += state["mom"];
         }
 
-        public override void FusedStep(int index, NDArray weight, NDArray grad, NDArrayDict state)
+        public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
-            _update_impl(new[] {index}, weight, grad, new (NDArrayDict, NDArray)[] { (state, null) });
+            _update_impl(new[] {index}, weight, grad, new (NDArrayDict, ndarray)[] { (state, null) });
         }
 
-        public override void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states)
+        public override void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, ndarray)[] states)
         {
             var use_multi_precision = MultiPrecision && weights[0].DataType.Name == DType.Float16.Name;
             _update_impl(indices, weights, grads, states, use_multi_precision);
         }
 
-        public override void UpdateMultiPrecision(int index, NDArray weight, NDArray grad, (NDArrayDict, NDArray) state)
+        public override void UpdateMultiPrecision(int index, ndarray weight, ndarray grad, (NDArrayDict, ndarray) state)
         {
             var use_multi_precision = MultiPrecision && weight.DataType.Name == DType.Float16.Name;
-            _update_impl(new[] { index }, weight, grad, new (NDArrayDict, NDArray)[] { (state) }, use_multi_precision);
+            _update_impl(new[] { index }, weight, grad, new (NDArrayDict, ndarray)[] { (state) }, use_multi_precision);
         }
 
-        private void _update_impl(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, NDArray)[] states,
+        private void _update_impl(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, ndarray)[] states,
             bool multi_precision = false)
         {
             var aggregate = true;

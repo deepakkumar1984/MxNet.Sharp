@@ -93,6 +93,6 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
     <Folder Include="Contrib\ONNX\ONNX2Mx\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ONNX.Net\src\ONNX.Net\Onnx.Net.csproj" />
+    <ProjectReference Include="..\..\Onnx.Net\src\ONNX.Net\Onnx.Net.csproj" />
   </ItemGroup>
 </Project>

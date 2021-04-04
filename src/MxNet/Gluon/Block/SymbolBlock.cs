@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Sym.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,12 +31,12 @@ namespace MxNet.Gluon
         public void Construct(SymbolList outputs, SymbolList inputs, ParameterDict @params = null)
         {
             SymbolList syms = null;
-            Symbol @out = null;
+            _Symbol @out = null;
 
             var (s, _in_format) = Flatten(inputs.ToNDArrayOrSymbols(), "input");
             var (o, _out_format) = Flatten(outputs.ToNDArrayOrSymbols(), "output");
             syms = s.ToList().ToSymbols();
-            @out = Symbol.Group(o.ToList().ToSymbols());
+            @out = _Symbol.Group(o.ToList().ToSymbols());
 
             List<string> input_names = new List<string>();
             foreach (var item in syms)
@@ -136,12 +137,12 @@ namespace MxNet.Gluon
         public static SymbolBlock Imports(string symbol_file, string[] input_names, string param_file = null,
             Context[] ctx = null)
         {
-            Symbol sym = Symbol.Load(symbol_file);
+            _Symbol sym = _Symbol.Load(symbol_file);
             SymbolList inputs = null;
             if (string.IsNullOrWhiteSpace(param_file))
-                inputs = input_names.Select(x => (Symbol.Var(x, dtype: DType.Float32))).ToArray();
+                inputs = input_names.Select(x => (_Symbol.Var(x, dtype: DType.Float32))).ToArray();
             else
-                inputs = input_names.Select(x => (Symbol.Var(x))).ToArray();
+                inputs = input_names.Select(x => (_Symbol.Var(x))).ToArray();
 
             var ret = new SymbolBlock(new SymbolList { sym }, inputs);
 

@@ -20,6 +20,7 @@ using MxNet.Interop;
 using mx_uint = System.UInt32;
 using ExecutorHandle = System.IntPtr;
 using MxNet.IO;
+using MxNet.Sym.Numpy;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet

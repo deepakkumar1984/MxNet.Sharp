@@ -33,7 +33,7 @@ namespace MxNet.Image
         public override NDArray Call(NDArray src)
         {
             var alpha = nd.Random.Uniform(0, Alphastd, new Shape(3));
-            var rgb = nd.Dot(Eigvec * alpha, Eigval);
+            NDArray rgb = nd.Dot(Eigvec * alpha, Eigval);
             src += rgb;
             return src;
         }

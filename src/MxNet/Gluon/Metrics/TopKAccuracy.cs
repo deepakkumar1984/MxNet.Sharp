@@ -13,8 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
-using NumpyDotNet;
 
 namespace MxNet.Gluon.Metrics
 {
@@ -32,16 +32,16 @@ namespace MxNet.Gluon.Metrics
 
         public int TopK { get; set; }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             CheckLabelShapes(labels, preds);
-            var pred_label = preds.Argsort().AsType(DType.Int32); //ToDo: Use numpy argpartition
+            var pred_label = preds.argsort().AsType(DType.Int32); //ToDo: Use numpy argpartition
             var label = labels.AsType(DType.Int32);
             var num_samples = pred_label.Shape[0];
             var num_dims = pred_label.Shape.Dimension;
             if (num_dims == 1)
             {
-                sum_metric += nd.Equal(pred_label.Ravel(), label.Ravel()).Sum();
+                sum_metric += np.equal(pred_label.Ravel(), label.Ravel()).sum().AsScalar<float>();
             }
 
             else if (num_dims == 2)

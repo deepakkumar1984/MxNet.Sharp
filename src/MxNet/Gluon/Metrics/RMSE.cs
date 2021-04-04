@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Gluon.Metrics
@@ -23,14 +24,14 @@ namespace MxNet.Gluon.Metrics
         {
         }
 
-        public override void Update(NDArray labels, NDArray preds)
+        public override void Update(ndarray labels, ndarray preds)
         {
             if (labels.Shape.Dimension == 1)
                 labels = labels.Reshape(labels.Shape[0], 1);
             if (preds.Shape.Dimension == 1)
                 preds = preds.Reshape(preds.Shape[0], 1);
 
-            var rmse = (float) Math.Sqrt(nd.Square(labels - preds).Mean());
+            var rmse = (float)Math.Sqrt(nd.Square(labels - preds).Mean());
 
             sum_metric += rmse;
             global_sum_metric += rmse;

@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using MxNet.Interop;
-using NumpyDotNet;
+using MxNet.Numpy;
 
 namespace MxNet
 {
@@ -176,41 +176,7 @@ namespace MxNet
 
             return new NDArray(data, ctx, dtype);
         }
-
-        public static NDArray Array(ndarray data, Context ctx = null)
-        {
-            if(data.Dtype == np.Int8)
-            {
-                return Array(data.AsByteArray()).AsType(DType.Int8).Reshape(new Shape(data.shape.iDims));
-            }
-            else if (data.Dtype == np.Int16)
-            {
-                return Array(data.AsInt16Array()).AsType(DType.Int32).Reshape(new Shape(data.shape.iDims));
-            }
-            else if (data.Dtype == np.Int32)
-            {
-                return Array(data.AsInt32Array()).AsType(DType.Int32).Reshape(new Shape(data.shape.iDims));
-            }
-            else if (data.Dtype == np.Int64)
-            {
-                return Array(data.AsInt64Array()).AsType(DType.Int64).Reshape(new Shape(data.shape.iDims));
-            }
-            else if (data.Dtype == np.Float32)
-            {
-                return Array(data.AsFloatArray()).AsType(DType.Float32).Reshape(new Shape(data.shape.iDims));
-            }
-            else if (data.Dtype == np.Float64)
-            {
-                return Array(data.AsDoubleArray()).AsType(DType.Float64).Reshape(new Shape(data.shape.iDims));
-            }
-            else if (data.Dtype == np.UInt8)
-            {
-                return Array(data.AsSByteArray()).AsType(DType.UInt8).Reshape(new Shape(data.shape.iDims));
-            }
-
-            return Array(data.AsFloatArray()).Reshape(new Shape(data.shape.iDims));
-        }
-
+        
         public static NDArray NoGradient()
         {
             return new Operator("_NoGradient")
