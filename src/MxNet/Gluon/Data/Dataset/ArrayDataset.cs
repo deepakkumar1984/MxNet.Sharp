@@ -13,26 +13,27 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MxNet.Gluon.Data
 {
-    public class ArrayDataset : Dataset<(NDArray, NDArray)>
+    public class ArrayDataset : Dataset<(ndarray, ndarray)>
     {
-        public ArrayDataset(params (NDArray, NDArray)[] args)
+        public ArrayDataset(params (ndarray, ndarray)[] args)
         {
             if (args.Length == 0)
                 throw new ArgumentException("Need atleast 1 array");
-            Data = new List<(NDArray, NDArray)>();
+            Data = new List<(ndarray, ndarray)>();
             Length = args[0].Item1.Shape[0];
 
             for (var i = 0; i < args.Length; i++)
                 Data.Add(args[i]);
         }
 
-        public override (NDArray, NDArray) this[int idx]
+        public override (ndarray, ndarray) this[int idx]
         {
             get
             {

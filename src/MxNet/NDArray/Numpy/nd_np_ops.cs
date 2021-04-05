@@ -26,16 +26,7 @@ namespace MxNet.ND.Numpy
             if (dtype == null) dtype = np.Float32;
             if (ctx == null) ctx = Context.CurrentContext;
 
-            return new Operator("_npi_empty")
-                            .SetParam("shape", shape)
-                            .SetParam("ctx", ctx.ToString())
-                            .SetParam("dtype", dtype)
-                            .Invoke();
-        }
-
-        public static ndarray array(Array obj, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
+            return new ndarray(shape, ctx: ctx, dtype: dtype);
         }
 
         public static Shape shape(ndarray a)
@@ -154,17 +145,17 @@ namespace MxNet.ND.Numpy
             throw new NotImplementedException();
         }
 
-        public static ndarray mutiply(ndarray x1, ndarray x2, ndarray @out = null)
+        public static ndarray multiply(ndarray x1, ndarray x2, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray mutiply(ndarray x1, float x2, ndarray @out = null)
+        public static ndarray multiply(ndarray x1, float x2, ndarray @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray mutiply(float x1, ndarray x2, ndarray @out = null)
+        public static ndarray multiply(float x1, ndarray x2, ndarray @out = null)
         {
             throw new NotImplementedException();
         }

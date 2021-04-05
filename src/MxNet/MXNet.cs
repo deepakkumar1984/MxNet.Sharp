@@ -92,10 +92,10 @@ namespace MxNet
                 NativeMethods.MXRandomSeedContext(seed, (int)ctx.GetDeviceType(), ctx.GetDeviceId());
         }
 
-        public static string[] GetAllRegisteredCApiOperators()
+        public static List<MxOp> GetAllRegisteredCApiOperators()
         {
             List<string> methods = new List<string>();
-
+            List<MxOp> ops = new List<MxOp>();
             int r = NativeMethods.MXSymbolListAtomicSymbolCreators(out uint numSymbolCreators, out IntPtr symbolCreatorsPtr);
             IntPtr[] symbolCreators = new IntPtr[numSymbolCreators];
             Marshal.Copy(symbolCreatorsPtr, symbolCreators, 0, (int)numSymbolCreators);
@@ -120,9 +120,6 @@ namespace MxNet
                     continue; ;
                 }
 
-                if (name.ToLower().Contains("backward"))
-                    continue;
-
                 methods.Add(name);
                 string description = Marshal.PtrToStringAnsi(descriptionPtr);
 
@@ -134,31 +131,23 @@ namespace MxNet
                     Marshal.Copy(argNamesPtr, argNamesArray, 0, (int)numArgs);
                     Marshal.Copy(argTypeInfosPtr, argTypeInfosArray, 0, (int)numArgs);
                     Marshal.Copy(argDescriptionsPtr, argDescriptionsArray, 0, (int)numArgs);
-
                 }
 
-                List<string> args = new List<string>();
+                List<MxOpArg> args = new List<MxOpArg>();
                 for (int j = 0; j < numArgs; j++)
                 {
-                    string descriptions = Marshal.PtrToStringAnsi(argDescriptionsArray[j]);
-                    if (descriptions == null || descriptions.Contains("Deprecated"))
-                    {
-                        continue;
-                    }
+                    MxOpArg arg = new MxOpArg(
+                        Marshal.PtrToStringAnsi(argNamesArray[j]),
+                        Marshal.PtrToStringAnsi(argTypeInfosArray[j])
+                        );
 
-                    //MxOpArg arg = new MxOpArg(name,
-                    //    Marshal.PtrToStringAnsi(argNamesArray[j]),
-                    //    Marshal.PtrToStringAnsi(argTypeInfosArray[j]),
-                    //    descriptions
-                    //    );
-
-                    //args.Add(arg);
+                    args.Add(arg);
                 }
 
-                //ops.Add(new MxOp(name, description, args));
+                ops.Add(new MxOp(name, args));
             }
 
-            return methods.ToArray();
+            return ops;
         }
 
         public static string[] GetAllRegisteredOperators()

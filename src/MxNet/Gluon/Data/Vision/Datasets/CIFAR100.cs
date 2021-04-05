@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.IO;
 
@@ -23,7 +24,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
         public bool _fine_label;
 
         public CIFAR100(string root = "./datasets/cifar100", bool fine_label = false, bool train = true,
-            Func<NDArray, NDArray, (NDArray, NDArray)> transform = null)
+            Func<ndarray, ndarray, (ndarray, ndarray)> transform = null)
             : base(root, train, transform)
         {
             this._train = train;
@@ -38,9 +39,9 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             this._namespace = "cifar100";
         }
 
-        internal override (NDArray, NDArray) ReadBatch(string filename)
+        internal override (ndarray, ndarray) ReadBatch(string filename)
         {
-            NDArray data = null;
+            ndarray data = null;
             using (var fin = File.OpenRead(filename))
             {
                 byte[] buffer = new byte[fin.Length];
@@ -48,7 +49,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                 data = nd.Array(buffer).Reshape(-1, 3072 + 1);
             }
 
-            return (data[":,2:"].Reshape(-1, 3, 32, 32).Transpose(new Shape(0, 2, 3, 1)), data[$":,{0 + (_fine_label ? 1 : 0)}"].AsType(DType.Int32));
+            return (data[":,2:"].Reshape(-1, 3, 32, 32).transpose(0, 2, 3, 1), data[$":,{0 + (_fine_label ? 1 : 0)}"].AsType(DType.Int32));
         }
     }
 }

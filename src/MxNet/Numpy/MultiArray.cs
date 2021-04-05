@@ -16,9 +16,7 @@ namespace MxNet.Numpy
         public static int _NDARRAY_ZERO_DIM_BOOL_ARRAY_FALSE = 0;
         public static int _NDARRAY_ZERO_DIM_BOOL_ARRAY_TRUE = 1;
         public static int _SIGNED_INT32_UPPER_LIMIT = ((int)Math.Pow(2, 31) - 1);
-
         public static bool? _INT64_TENSOR_SIZE_ENABLED = null;
-
 
         public static bool _int64_enabled()
         {

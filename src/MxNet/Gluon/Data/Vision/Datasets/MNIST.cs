@@ -31,7 +31,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
         internal (string, string) _train_label;
 
         public MNIST(string root = "/datasets/mnist", bool train = true,
-            Func<NDArray, NDArray, (NDArray, NDArray)> transform = null) : base(mx.AppPath + root, transform)
+            Func<ndarray, ndarray, (ndarray, ndarray)> transform = null) : base(mx.AppPath + root, transform)
         {
             _train = train;
             _train_data = ("train-images-idx3-ubyte.gz",
@@ -77,7 +77,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                     stream.Seek(8, SeekOrigin.Begin);
                     stream.Read(buffer, 0, buffer.Length);
 
-                    _label = new NDArray(buffer.Select(x => (float) x).ToArray(), new Shape(60000));
+                    _label = new ndarray(buffer.Select(x => (float) x).ToArray(), new Shape(60000));
                 }
             }
 
@@ -92,7 +92,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                     stream.Seek(16, SeekOrigin.Begin);
                     stream.Read(buffer, 0, buffer.Length);
                     var x = np.array(buffer);
-                    _data = new NDArray(buffer.Select(y => (float) y).ToArray(), new Shape(60000, 28, 28, 1)) / 255;
+                    _data = new ndarray(buffer.Select(y => (float) y).ToArray(), new Shape(60000, 28, 28, 1)) / 255;
                 }
             }
         }

@@ -14,8 +14,7 @@ namespace BasicExamples
             //XORGate.Run();
             //CrashCourse_NN.Run();
             //LogisticRegressionExplained.Run();
-
-            var methods = mx.GetAllRegisteredOperators();
+            var methods = mx.GetAllRegisteredCApiOperators();
 
             var x = np.zeros(new Shape(3, 3), np.Float32);
             var s = x.Shape;
@@ -23,18 +22,25 @@ namespace BasicExamples
 
         private static void GenerateFOps()
         {
-            var methods = typeof(nd).GetMethods();
+            var methods = typeof(F).GetMethods();
             StringBuilder fclass = new StringBuilder();
             foreach (var method in methods)
             {
                 var parameters = method.GetParameters();
                 string paramstr = "";
-                string ndcall = $"nd.{method.Name}(";
-                string symcall = $"sym.{method.Name}(";
+                string ndcall = $"nd_np_ops.{method.Name}(";
+                string symcall = $"sym_np_ops.{method.Name}(";
+                bool is_symbol = false;
                 if (parameters.Length > 0)
                 {
                     foreach (var item in parameters)
-                    {
+                    { 
+                        if (item.ParameterType.Name == "is_symbol")
+                        {
+                            is_symbol = true;
+                            continue;
+                        }
+
                         if (item.ParameterType.Name == "NDArray")
                         {
                             paramstr += $"NDArrayOrSymbol {item.Name},";
@@ -82,13 +88,23 @@ namespace BasicExamples
                 methodBody += "\n{";
 
                 string firstNdParam = "";
-                var ndparam = parameters.FirstOrDefault(x => x.ParameterType.Name == "NDArray");
+                var ndparam = parameters.FirstOrDefault(x => x.ParameterType.Name == "NDArrayOrSymbol");
                 if (ndparam == null)
                 {
-                    ndparam = parameters.FirstOrDefault(x => x.ParameterType.Name == "NDArrayList");
+                    ndparam = parameters.FirstOrDefault(x => x.ParameterType.Name == "NDArrayOrSymbolList");
                 }
 
-                if (ndparam != null)
+                if (is_symbol)
+                {
+                    methodBody += $"if (!is_symbol)";
+                    methodBody += "\n{\n";
+                    methodBody += "return " + ndcall + "\n}\n";
+                    methodBody += "return " + symcall;
+                    methodBody += "\n}";
+
+                    fclass.AppendLine(methodBody);
+                }
+                else if (ndparam != null)
                 {
                     firstNdParam = ndparam.ParameterType.Name == "NDArrayList" ? $"{ndparam.Name}[0]" : ndparam.Name;
 

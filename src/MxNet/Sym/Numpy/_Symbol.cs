@@ -1136,7 +1136,7 @@ namespace MxNet.Sym.Numpy
             lhs.ThrowIfDisposed();
             rhs.ThrowIfDisposed();
 
-            return sym_np_ops.mutiply(lhs, rhs);
+            return sym_np_ops.multiply(lhs, rhs);
         }
 
         public static _Symbol operator /(_Symbol lhs, _Symbol rhs)
@@ -1207,12 +1207,12 @@ namespace MxNet.Sym.Numpy
 
             lhs.ThrowIfDisposed();
 
-            return sym_np_ops.mutiply(lhs, scalar);
+            return sym_np_ops.multiply(lhs, scalar);
         }
 
         public static _Symbol operator *(float lhs, _Symbol rhs)
         {
-            return sym_np_ops.mutiply(lhs, rhs);
+            return sym_np_ops.multiply(lhs, rhs);
         }
 
         public static _Symbol operator /(_Symbol lhs, float scalar)

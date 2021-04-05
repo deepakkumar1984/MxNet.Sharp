@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -33,7 +34,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
         internal (string, string)[] _train_data;
 
         public CIFAR10(string root = "/datasets/cifar10", bool train = true,
-            Func<NDArray, NDArray, (NDArray, NDArray)> transform = null) : base(mx.AppPath + root, transform)
+            Func<ndarray, ndarray, (ndarray, ndarray)> transform = null) : base(mx.AppPath + root, transform)
         {
             this._train = train;
             this._archive_file = ("cifar-10-binary.tar.gz", "fab780a1e191a7eda0f345501ccd62d20f7ed891");
@@ -53,9 +54,9 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             GetData();
         }
 
-        internal virtual (NDArray, NDArray) ReadBatch(string filename)
+        internal virtual (ndarray, ndarray) ReadBatch(string filename)
         {
-            NDArray data = null;
+            ndarray data = null;
             using (var fin = File.OpenRead(filename))
             {
                 byte[] buffer = new byte[fin.Length];
@@ -63,7 +64,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                 data = nd.Array(buffer).Reshape(-1, 3072 + 1);
             }
 
-            return (data[":,1:"].Reshape(-1, 3, 32, 32).Transpose(new Shape(0, 2, 3, 1)), data[":,0"].AsType(DType.Int32));
+            return (data[":,1:"].Reshape(-1, 3, 32, 32).transpose(0, 2, 3, 1), data[":,0"].AsType(DType.Int32));
         }
 
         public override void GetData()

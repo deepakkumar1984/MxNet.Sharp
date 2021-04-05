@@ -13,19 +13,20 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.IO;
 
 namespace MxNet.Gluon.Data
 {
-    public abstract class DownloadedDataset : Dataset<(NDArray, NDArray)>
+    public abstract class DownloadedDataset : Dataset<(ndarray, ndarray)>
     {
         internal NDArrayList _data;
         internal NDArrayList _label;
         internal string _root;
-        internal Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
+        internal Func<ndarray, ndarray, (ndarray, ndarray)> _transform;
 
-        public DownloadedDataset(string root, Func<NDArray, NDArray, (NDArray, NDArray)> transform)
+        public DownloadedDataset(string root, Func<ndarray, ndarray, (ndarray, ndarray)> transform)
         {
             _transform = transform;
             _data = null;
@@ -35,7 +36,7 @@ namespace MxNet.Gluon.Data
                 Directory.CreateDirectory(root);
         }
 
-        public override (NDArray, NDArray) this[int idx]
+        public override (ndarray, ndarray) this[int idx]
         {
             get
             {

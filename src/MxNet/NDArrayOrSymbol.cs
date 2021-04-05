@@ -246,25 +246,25 @@ namespace MxNet
         public static NDArrayOrSymbol operator *(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
         {
             if (lhs.IsNDArray)
-                return nd_np_ops.mutiply(lhs, rhs);
+                return nd_np_ops.multiply(lhs, rhs);
 
-            return sym_np_ops.mutiply(lhs, rhs);
+            return sym_np_ops.multiply(lhs, rhs);
         }
 
         public static NDArrayOrSymbol operator *(NDArrayOrSymbol lhs, float scalar)
         {
             if (lhs.IsNDArray)
-                return nd_np_ops.mutiply(lhs, scalar);
+                return nd_np_ops.multiply(lhs, scalar);
 
-            return sym_np_ops.mutiply(lhs, scalar);
+            return sym_np_ops.multiply(lhs, scalar);
         }
 
         public static NDArrayOrSymbol operator *(float scalar, NDArrayOrSymbol rhs)
         {
             if (rhs.IsNDArray)
-                return nd_np_ops.mutiply(rhs, scalar);
+                return nd_np_ops.multiply(rhs, scalar);
 
-            return sym_np_ops.mutiply(rhs, scalar);
+            return sym_np_ops.multiply(rhs, scalar);
         }
 
         public static NDArrayOrSymbol operator /(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
@@ -519,5 +519,14 @@ namespace MxNet
             return new NDArrayOrSymbolList(x);
         }
 
+        public static implicit operator NDArrayOrSymbolList(ndarray[] x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
+
+        public static implicit operator NDArrayOrSymbolList(_Symbol[] x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
     }
 }

@@ -20,24 +20,6 @@ namespace MxNet.Sym.Numpy
             return true;
         }
 
-        public static _Symbol empty(Shape shape, DType dtype = null, string order = "C", Context ctx = null)
-        {
-            if (shape == null) shape = new Shape();
-            if (dtype == null) dtype = np.Float32;
-            if (ctx == null) ctx = Context.CurrentContext;
-
-            return new Operator("_npi_empty")
-                            .SetParam("shape", shape)
-                            .SetParam("ctx", ctx.ToString())
-                            .SetParam("dtype", dtype)
-                            .CreateNpSymbol();
-        }
-
-        public static _Symbol array(Array obj, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public static Shape shape(_Symbol a)
         {
             throw new NotImplementedException();
@@ -154,17 +136,17 @@ namespace MxNet.Sym.Numpy
             throw new NotImplementedException();
         }
 
-        public static _Symbol mutiply(_Symbol x1, _Symbol x2, _Symbol @out = null)
+        public static _Symbol multiply(_Symbol x1, _Symbol x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static _Symbol mutiply(_Symbol x1, float x2, _Symbol @out = null)
+        public static _Symbol multiply(_Symbol x1, float x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
 
-        public static _Symbol mutiply(float x1, _Symbol x2, _Symbol @out = null)
+        public static _Symbol multiply(float x1, _Symbol x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }
@@ -880,6 +862,11 @@ namespace MxNet.Sym.Numpy
         }
 
         public static _Symbol less(float x1, _Symbol x2, _Symbol @out = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static _Symbol logical_and(_Symbol x1, _Symbol x2, _Symbol @out = null)
         {
             throw new NotImplementedException();
         }

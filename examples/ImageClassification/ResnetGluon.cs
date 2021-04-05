@@ -1,6 +1,7 @@
 ﻿using MxNet;
 using MxNet.Gluon.ModelZoo.Vision;
 using MxNet.Image;
+using MxNet.ND.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace ImageClassification
             normalized = normalized.Transpose(new Shape(2, 0, 1));
             normalized = normalized.ExpandDims(axis: 0);
             var pred = net.Call(normalized);
-            NDArray prob = nd.Softmax(pred).Topk(k: 5);
+            NDArray prob = npx.topk(npx.softmax(pred), k: 5);
             var label_index = prob.ArrayData.OfType<float>().ToList();
             var imagenet_labels = TestUtils.GetImagenetLabels();
             foreach (int i in label_index)
