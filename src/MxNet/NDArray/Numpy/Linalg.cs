@@ -7,87 +7,87 @@ namespace MxNet.ND.Numpy
 {
     internal class Linalg
     {
-        public static ndarray matrix_rank(ndarray M, ndarray tol= null, bool hermitian= false)
+        public ndarray matrix_rank(ndarray M, ndarray tol= null, bool hermitian= false)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray lstsq(ndarray a, ndarray b, string rcond= "warn")
+        public ndarray lstsq(ndarray a, ndarray b, string rcond= "warn")
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray pinv(ndarray a, float rcond= 1e-15f,bool hermitian= false)
+        public ndarray pinv(ndarray a, float rcond= 1e-15f,bool hermitian= false)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray norm(ndarray x, string ord= null, int? axis= null, bool keepdims= false)
+        public ndarray norm(ndarray x, string ord= null, int? axis= null, bool keepdims= false)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray svd(ndarray a)
+        public ndarray svd(ndarray a)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray cholesky(ndarray a)
+        public ndarray cholesky(ndarray a)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray qr(ndarray a, string mode = "reduced")
+        public ndarray qr(ndarray a, string mode = "reduced")
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray inv(ndarray a)
+        public ndarray inv(ndarray a)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray det(ndarray a)
+        public ndarray det(ndarray a)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray slogdet(ndarray a)
+        public ndarray slogdet(ndarray a)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray solve(ndarray a, ndarray b)
+        public ndarray solve(ndarray a, ndarray b)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray tensorinv(ndarray a, int ind = 2)
+        public ndarray tensorinv(ndarray a, int ind = 2)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray tensorsolve(ndarray a, ndarray b, params int[] axes)
+        public ndarray tensorsolve(ndarray a, ndarray b, params int[] axes)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray eigvals(ndarray a)
+        public ndarray eigvals(ndarray a)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray eigvalsh(ndarray a, string UPLO = "L")
+        public ndarray eigvalsh(ndarray a, string UPLO = "L")
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray eig(ndarray a)
+        public ndarray eig(ndarray a)
         {
             throw new NotImplementedException();
         }
 
-        public static ndarray eigh(ndarray a, string UPLO = "L")
+        public ndarray eigh(ndarray a, string UPLO = "L")
         {
             throw new NotImplementedException();
         }

@@ -49,7 +49,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                 data = nd.Array(buffer).Reshape(-1, 3072 + 1);
             }
 
-            return (data[":,2:"].Reshape(-1, 3, 32, 32).transpose(0, 2, 3, 1), data[$":,{0 + (_fine_label ? 1 : 0)}"].AsType(DType.Int32));
+            return (data[":,2:"].reshape(-1, 3, 32, 32).transpose(0, 2, 3, 1), data[$":,{0 + (_fine_label ? 1 : 0)}"].AsType(DType.Int32));
         }
     }
 }

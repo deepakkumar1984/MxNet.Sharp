@@ -39,7 +39,7 @@ namespace MxNet.Gluon.Losses
         private ndarray F(ndarray input1, ndarray input2, ndarray label, ndarray sample_weight = null)
         {
             input1 = nd.ReshapeLike(input1, input2);
-            label = label.Reshape(-1, 1);
+            label = label.reshape(-1, 1);
             var cos_sim = _cosine_similarity(input1, input2);
             var y_1 = np.equal(label, 1);
             var y_minus_1 = np.equal(label, -1);

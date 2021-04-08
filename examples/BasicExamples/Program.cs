@@ -14,10 +14,12 @@ namespace BasicExamples
             //XORGate.Run();
             //CrashCourse_NN.Run();
             //LogisticRegressionExplained.Run();
-            var methods = mx.GetAllRegisteredCApiOperators();
+            //var methods = mx.GetAllRegisteredCApiOperators();
 
             var x = np.zeros(new Shape(3, 3), np.Float32);
-            var s = x.Shape;
+            var y = np.ones(new Shape(3, 1), np.Float32);
+
+            y = np.broadcast_to(y, new Shape(3, 3));
         }
 
         private static void GenerateFOps()

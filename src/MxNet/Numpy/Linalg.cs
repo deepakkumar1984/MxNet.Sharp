@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.ND.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,87 +9,87 @@ namespace MxNet.Numpy
     {
         public ndarray matrix_rank(ndarray M, ndarray tol= null, bool hermitian= false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.matrix_rank(M, tol, hermitian);
         }
 
         public ndarray lstsq(ndarray a, ndarray b, string rcond= "warn")
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.lstsq(a, b, rcond);
         }
 
         public ndarray pinv(ndarray a, float rcond= 1e-15f,bool hermitian= false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.pinv(a, rcond, hermitian);
         }
 
         public ndarray norm(ndarray x, string ord= null, int? axis= null, bool keepdims= false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.norm(x, ord, axis, keepdims);
         }
 
         public ndarray svd(ndarray a)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.svd(a);
         }
 
         public ndarray cholesky(ndarray a)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.cholesky(a);
         }
 
         public ndarray qr(ndarray a, string mode = "reduced")
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.qr(a, mode);
         }
 
         public ndarray inv(ndarray a)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.inv(a);
         }
 
         public ndarray det(ndarray a)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.det(a);
         }
 
         public ndarray slogdet(ndarray a)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.slogdet(a);
         }
 
         public ndarray solve(ndarray a, ndarray b)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.solve(a, b);
         }
 
         public ndarray tensorinv(ndarray a, int ind = 2)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.tensorinv(a, ind);
         }
 
         public ndarray tensorsolve(ndarray a, ndarray b, params int[] axes)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.tensorsolve(a, b, axes);
         }
 
         public ndarray eigvals(ndarray a)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.eigvals(a);
         }
 
         public ndarray eigvalsh(ndarray a, string UPLO = "L")
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.eigvalsh(a, UPLO);
         }
 
         public ndarray eig(ndarray a)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.eig(a);
         }
 
         public ndarray eigh(ndarray a, string UPLO = "L")
         {
-            throw new NotImplementedException();
+            return nd_np_ops.linalg.eigh(a, UPLO);
         }
     }
 }

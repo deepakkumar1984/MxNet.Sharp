@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.ND.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,862 +9,786 @@ namespace MxNet.Numpy
     {
         public ndarray broadcast_to(Shape shape)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.broadcast_to(this, shape);
         }
 
         public ndarray empty_like(double fill_value, DType dtype = null, string order = "C", bool subok = false, Shape shape = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.empty_like(this, fill_value, dtype, order, subok, shape);
         }
 
         public bool all()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.all(this);
         }
 
         public ndarray all(int axis, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.all(this, axis, keepdims: keepdims);
         }
 
         public bool any()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.any(this);
         }
 
         public ndarray any(int axis, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.any(this, axis, keepdims: keepdims);
         }
 
-        public ndarray identity(int n, DType dtype = null, Context ctx = null)
+        public ndarray take(ndarray indices, int? axis = null, string mode = "raise")
         {
-            throw new NotImplementedException();
-        }
-
-        public ndarray take(int? axis = null, string mode = "raise")
-        {
-            throw new NotImplementedException();
+            return nd_np_ops.take(this, indices, axis, mode);
         }
 
         public ndarray unique(int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.unique(this, axis);
         }
 
         public (ndarray, ndarray, ndarray, ndarray) unique(bool return_index = false, bool return_inverse = false, bool return_counts = false, int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.unique(this, return_index, return_inverse, return_counts, axis);
         }
 
-        public ndarray mod()
+        public ndarray mod(ndarray x2)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.mod(this, x2);
         }
 
-        public ndarray fmod()
+        public ndarray mod(float x2)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.mod(this, x2);
+        }
+
+        public ndarray fmod(ndarray x2)
+        {
+            return nd_np_ops.fmod(this, x2);
         }
 
         public ndarray matmul(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.matmul(this, x);
         }
 
         public ndarray remainder(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.remainder(this, x);
         }
 
         public ndarray power(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.power(this, x);
         }
 
         public ndarray power(float x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.power(this, x);
         }
 
         public ndarray gcd(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.gcd(this, x);
         }
 
         public ndarray lcm(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.lcm(this, x);
         }
 
         public ndarray sin()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.sin(this);
         }
 
         public ndarray cos()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.cos(this);
         }
 
         public ndarray sinh()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.sinh(this);
         }
 
         public ndarray cosh()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.cosh(this);
         }
 
         public ndarray tanh()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.tanh(this);
         }
 
         public ndarray log10()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.log10(this);
         }
 
         public ndarray sqrt()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.sqrt(this);
         }
 
         public ndarray cbrt()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.cbrt(this);
         }
 
         public ndarray abs()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.abs(this);
         }
 
         public ndarray fabs()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.fabs(this);
         }
 
         public ndarray absolute()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.absolute(this);
         }
 
         public ndarray exp()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.exp(this);
         }
 
         public ndarray expm1()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.expm1(this);
         }
 
         public ndarray arcsin()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.arcsin(this);
         }
 
         public ndarray arccos()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.arccos(this);
         }
 
         public ndarray arctan()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.arctan(this);
         }
 
         public ndarray sign()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.sign(this);
         }
 
         public ndarray log()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.log(this);
         }
 
         public ndarray rint()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.rint(this);
         }
 
         public ndarray log2()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.log2(this);
         }
 
         public ndarray log1p()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.log1p(this);
         }
 
         public ndarray degrees()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.degrees(this);
         }
 
         public ndarray rad2deg()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.rad2deg(this);
         }
 
         public ndarray radians()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.radians(this);
         }
 
         public ndarray deg2rad()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.deg2rad(this);
         }
 
         public ndarray reciprocal()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.reciprocal(this);
         }
 
         public ndarray square()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.square(this);
         }
 
         public ndarray negative()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.negative(this);
         }
 
         public ndarray fix()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.fix(this);
         }
 
         public ndarray tan()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.tan(this);
         }
 
         public ndarray ceil()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.ceil(this);
         }
 
         public ndarray floor()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.floor(this);
         }
 
         public ndarray invert()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.invert(this);
         }
 
         public ndarray bitwise_not()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.bitwise_not(this);
         }
 
         public ndarray trunc()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.trunc(this);
         }
 
         public ndarray logical_not()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.logical_not(this);
         }
 
         public ndarray arcsinh()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.arcsinh(this);
         }
 
         public ndarray arccosh()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.arccosh(this);
         }
 
         public ndarray arctanh()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.arctanh(this);
         }
 
         public ndarray argsort(int axis = -1, string kind = null, string order = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.argsort(this, axis, kind, order);
         }
 
         public ndarray sort(int axis = -1, string kind = null, string order = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.sort(this, axis, kind, order);
         }
 
         public ndarray tensordot(ndarray b, int axes = 2)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.tensordot(this, b, axes);
         }
 
         public ndarray histogram(int bins = 10, (float, float)? range = null, bool? normed = null, ndarray weights = null, bool? density = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.histogram(this, bins, range, normed, weights, density);
         }
 
         public ndarray histogram(ndarray bins, (float, float)? range = null, bool? normed = null, ndarray weights = null, bool? density = null)
         {
-            throw new NotImplementedException();
-        }
-
-        public ndarray eye(int N, int? M = null, int k = 0, DType dtype = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray linspace(float start, float stop, int num = 50, bool endpoint = true, bool retstep = false, DType dtype = null, int axis = 0, Context ctx = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray logspace(float start, float stop, int num = 50, bool endpoint = true, bool retstep = false, DType dtype = null, int axis = 0, Context ctx = null)
-        {
-            throw new NotImplementedException();
+            return nd_np_ops.histogram(this, bins, range, normed, weights, density);
         }
 
         public ndarray expand_dims(int axis)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.expand_dims(this, axis);
         }
 
         public ndarray tile(params int[] reps)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.tile(this, reps);
         }
 
         public ndarray trace(int offset = 0, int axis1 = 0, int axis2 = 1)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.trace(this, offset, axis1, axis2);
         }
 
         public ndarray transpose(params int[] axes)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.transpose(this, axes);
         }
 
         public ndarray repeat(int repeats, int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.repeat(this, repeats, axis);
         }
 
-        public ndarray tril(ndarray m, int k = 0)
+        public ndarray tril(int k = 0)
         {
-            throw new NotImplementedException();
-        }
-
-        public ndarray tri(int N, int? M = null, int k = 0, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray triu_indices(int n, int k = 0, int? m = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray triu_indices_from(ndarray ndarray, int k = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray tril_indices(int n, int k = 0, int? m = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray triu(int n, int k = 0)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray arange(int start, int? stop = null, int step = 1, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
+            return nd_np_ops.tril(k);
         }
 
         public ndarray[] split(int[] indices_or_sections, int axis = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.split(this, indices_or_sections, axis);
         }
 
         public ndarray[] array_split(int[] indices_or_sections, int axis = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.array_split(this, indices_or_sections, axis);
         }
 
         public ndarray vsplit(int[] indices_or_sections)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.vsplit(this, indices_or_sections);
         }
 
         public ndarray dsplit(int[] indices_or_sections)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.dsplit(this, indices_or_sections);
         }
 
         public ndarray append(ndarray values, int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.append(this, values, axis);
         }
 
         public ndarray maximum(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.maximum(this, x);
         }
 
         public ndarray fmax(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.fmax(this, x);
         }
 
         public ndarray minimum(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.minimum(this, x);
         }
 
         public ndarray fmin(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.fmin(this, x);
         }
 
         public ndarray max(int? axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.max(this, axis, keepdims: keepdims);
         }
 
         public ndarray min(int? axis = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.min(this, axis, keepdims: keepdims);
         }
 
         public ndarray swapaxes(int axis1, int axis2)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.swapaxes(this, axis1, axis2);
         }
 
         public ndarray clip(float a_min, float a_max)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.clip(this, a_min, a_max);
         }
 
         public ndarray argmax(int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.argmax(this, axis);
         }
 
         public ndarray argmin(int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.argmin(this, axis);
         }
 
         public ndarray amax(int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.amax(this, axis);
         }
 
         public ndarray amin(int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.amin(this, axis);
         }
 
         public ndarray average(int? axis = null, ndarray weights = null, bool returned = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.average(this, axis, weights, returned);
         }
 
         public ndarray mean(int? axis = null, DType dtype = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.mean(this, axis, dtype, keepdims: keepdims);
         }
 
         public ndarray std(int? axis = null, DType dtype = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.std(this, axis, dtype, keepdims: keepdims);
         }
         public ndarray var(int? axis = null, DType dtype = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
-        }
-
-        public ndarray indices(Shape dimensions, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
+            return nd_np_ops.var(this, axis, dtype, keepdims: keepdims);
         }
 
         public ndarray copysign(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.copysign(this, x);
         }
 
         public ndarray ravel(string order = "x")
         {
-            throw new NotImplementedException();
+            return nd_np_ops.ravel(this, order);
         }
 
         public ndarray flatnonzero()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.flatnonzero(this);
         }
 
         public ndarray diag_indices_from()
         {
-            throw new NotImplementedException();
-        }
-
-        public ndarray hanning(int M, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray hamming(int M, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ndarray blackman(int M, DType dtype = null, Context ctx = null)
-        {
-            throw new NotImplementedException();
+            return nd_np_ops.diag_indices_from(this);
         }
 
         public ndarray flip(int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.flip(this, axis);
         }
 
         public ndarray flipud()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.flipud(this);
         }
 
         public ndarray fliplr()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.fliplr(this);
         }
 
         public ndarray around(int decimals = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.around(this, decimals);
         }
 
         public ndarray round(int decimals = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.round(this, decimals);
         }
 
         public ndarray round_(int decimals = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.round_(this, decimals);
         }
 
         public ndarray arctan2(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.arctan2(this, x);
         }
 
         public ndarray hypot(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.hypot(this, x);
         }
 
         public ndarray bitwise_and(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.bitwise_and(this, x);
         }
 
         public ndarray bitwise_xor(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.bitwise_xor(this, x);
         }
 
         public ndarray bitwise_or(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.bitwise_or(this, x);
         }
 
         public ndarray ldexp(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.ldexp(this, x);
         }
 
         public ndarray vdot(ndarray b)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.vdot(this, b);
         }
 
         public ndarray inner(ndarray b)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.inner(this, b);
         }
 
         public ndarray outer(ndarray b)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.outer(this, b);
         }
 
         public ndarray cross(ndarray b, int axisa = -1, int axisb = -1, int axisc = -1, int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.cross(this, b, axisa, axisb, axisc, axis);
         }
 
         public ndarray kron(ndarray b)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.kron(this, b);
         }
 
         public ndarray equal(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.equal(this, x);
         }
 
         public ndarray not_equal(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.not_equal(this, x);
         }
 
         public ndarray greater(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.greater(this, x);
         }
 
         public ndarray less(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.less(this, x);
         }
 
         public ndarray logical_and(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.logical_and(this, x);
         }
-
 
         public ndarray logical_or(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.logical_or(this, x);
         }
 
         public ndarray logical_xor(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.logical_xor(this, x);
         }
 
         public ndarray greater_equal(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.greater_equal(this, x);
         }
 
         public ndarray less_equal(ndarray x)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.less_equal(this, x);
         }
 
         public ndarray roll(int shift, int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.roll(this, shift, axis);
         }
 
         public ndarray roll(int[] shift, int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.roll(this, shift, axis);
         }
 
         public ndarray rot90(int k = 1, params int[] axes)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.rot90(this, k, axes);
         }
 
         public ndarray hsplit(params int[] indices_or_sections)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.hsplit(this, indices_or_sections);
         }
 
-        public ndarray einsum(string subscripts, ndarray[] operands, bool optimize = false)
+        public ndarray nonzero()
         {
-            throw new NotImplementedException();
-        }
-
-        public ndarray nonzero(ndarray a)
-        {
-            throw new NotImplementedException();
+            return nd_np_ops.nonzero(this);
         }
 
         public ndarray median(int? axis = null, bool? overwrite_input = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.median(this, axis, overwrite_input: overwrite_input, keepdims: keepdims);
         }
 
         public bool shares_memory(ndarray b, int? max_work = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.shares_memory(this, b, max_work);
         }
 
         public bool may_share_memory(ndarray b, int? max_work = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.may_share_memory(this, b, max_work);
         }
 
         public ndarray diff(int n = 1, int axis = -1, ndarray prepend = null, ndarray append = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.diff(this, n, axis, prepend, append);
         }
 
         public ndarray ediff1d(ndarray to_end = null, ndarray to_begin = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.ediff1d(this, to_end, to_begin);
         }
 
         public ndarray resize(Shape new_shape)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.resize(this, new_shape);
         }
 
         public ndarray interp(float[] xp, float[] fp, float? left = null, float? right = null, float? period = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.interp(this, xp, fp, left, right, period);
         }
 
         public ndarray full_like(float fill_value, DType dtype = null, string order = "C", Context ctx = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.full_like(this, fill_value, dtype, order, ctx);
         }
 
         public ndarray zeros_like(DType dtype = null, string order = "C", Context ctx = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.zeros_like(this, dtype, order, ctx);
         }
 
         public ndarray ones_like(DType dtype = null, string order = "C", Context ctx = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.ones_like(this, dtype, order, ctx);
         }
 
         public ndarray fill_diagonal(float val, bool wrap = false)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.fill_diagonal(this, val, wrap);
         }
 
         public ndarray nan_to_num(bool copy = true, float nan = 0, float? posinf = null, float? neginf = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.nan_to_num(this, copy, nan, posinf, neginf);
         }
 
         public ndarray squeeze(int? axis = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.squeeze(this, axis);
         }
 
         public ndarray isnan()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.isnan(this);
         }
 
         public ndarray isinf()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.isinf(this);
         }
 
         public ndarray isposinf()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.isposinf(this);
         }
 
         public ndarray isneginf()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.isneginf(this);
         }
 
         public ndarray isfinite()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.isfinite(this);
         }
 
         public ndarray where(ndarray x = null, ndarray y = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.where(this, x, y);
         }
 
         public ndarray polyval(ndarray p)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.polyval(this, p);
         }
 
         public ndarray bincount(ndarray weights = null, int minlength = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.bincount(this, weights, minlength);
         }
 
         public ndarray pad(int[] pad_width = null, string mode = "constant")
         {
-            throw new NotImplementedException();
+            return nd_np_ops.pad(this, pad_width, mode);
         }
 
         public ndarray prod(int? axis = null, DType dtype = null, bool keepdims = false, float? initial = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.prod(this, axis, dtype, keepdims: keepdims, initial: initial);
         }
 
         public ndarray dot(ndarray b)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.dot(this, b);
         }
 
         public ndarray cumsum(int? axis = null, DType dtype = null)
         {
-            throw new NotImplementedException();
-        }
-
-        public ndarray reshape(Shape newshape, bool reverse = false, string order = "C")
-        {
-            throw new NotImplementedException();
+            return nd_np_ops.cumsum(this, axis, dtype);
         }
 
         public ndarray moveaxis(int source, int destination)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.moveaxis(this, source, destination);
         }
 
         public ndarray moveaxis(int[] source, int[] destination)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.moveaxis(this, source, destination);
         }
 
         public ndarray copy()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.copy(this);
         }
 
         public ndarray rollaxis(int axis, int start = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.rollaxis(this, axis, start);
         }
 
         public ndarray diag(int k = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.diag(this, k);
         }
 
         public ndarray diagflat(int k = 0)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.diagflat(this, k);
         }
 
         public ndarray diagonal(int offset = 0, int axis1 = 0, int axis2 = 1)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.diagonal(this, offset, axis1, axis2);
         }
 
         public ndarray sum(int? axis = null, DType dtype = null, bool keepdims = false, float? initial = null)
         {
-            throw new NotImplementedException();
+            return nd_np_ops.sum(this, axis, dtype, keepdims: keepdims, initial: initial);
         }
     }
 }

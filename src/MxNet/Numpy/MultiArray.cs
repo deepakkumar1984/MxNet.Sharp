@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.ND.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,22 +21,26 @@ namespace MxNet.Numpy
 
         public static bool _int64_enabled()
         {
-            throw new NotImplementedException();
+            return nd_np_ops.Int64Enabled();
         }
 
         public static IntPtr _new_alloc_handle(Shape shape, Context ctx, bool delay_alloc, DType dtype= null)
         {
-            throw new NotImplementedException();
+            if (dtype == null)
+                dtype = np.Float32;
+
+            return new ndarray(shape, delay_alloc, ctx, dtype).NativePtr;
         }
 
-        public static ndarray _reshape_view(Shape shape)
+        public static ndarray _reshape_view(ndarray a, Shape shape)
         {
-            throw new NotImplementedException();
+            return a.reshape(shape);
         }
 
         public static ndarray _as_mx_np_array(NumpyDotNet.ndarray obj, Context ctx= null, bool zero_copy= false)
         {
-            throw new NotImplementedException();
+            var tensor = DLPack.NDArrayFromNumpy(obj, zero_copy);
+            return new ndarray(tensor.data);
         }
 
         public static ndarray _as_mx_np_array(NumpyDotNet.ndarray[] obj, Context ctx = null, bool zero_copy = false)
@@ -45,24 +50,23 @@ namespace MxNet.Numpy
 
         public static ndarray _as_mx_np_array(Array obj, Context ctx = null, bool zero_copy = false)
         {
-            throw new NotImplementedException();
+            return new ndarray(obj, ctx);
         }
 
         public static (NumpyDotNet.ndarray, Context) _as_onp_array(ndarray obj)
         {
-            throw new NotImplementedException();
+            return (obj.AsNumpy(), obj.Context);
         }
 
         public static ndarray _np_ndarray_cls(IntPtr handle, bool writable= true, StorageStype stype= StorageStype.Default)
         {
-            throw new NotImplementedException();
+            if (stype == StorageStype.Csr)
+                return new Sparse.CSRNDArray(handle);
+
+            if (stype == StorageStype.RowSparse)
+                return new Sparse.RowSparseNDArray(handle);
+
+            return new ndarray(handle);
         }
-
-        public static Func<ndarray, ndarray> wrap_mxnp_np_ufunc(Func<ndarray, ndarray> func)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

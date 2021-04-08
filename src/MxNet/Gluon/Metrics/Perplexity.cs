@@ -36,7 +36,7 @@ namespace MxNet.Gluon.Metrics
             float loss = 0;
             long num = 0;
 
-            labels = labels.AsInContext(preds.Context).Reshape(Convert.ToInt32(preds.Size));
+            labels = labels.AsInContext(preds.Context).reshape(Convert.ToInt32(preds.Size));
             preds = nd.Pick(preds, labels.AsType(DType.Int32), Axis);
             if (IgnoreLabel.HasValue)
             {

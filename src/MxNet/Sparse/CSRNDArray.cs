@@ -17,16 +17,21 @@ using System;
 using mx_uint = System.UInt32;
 using mx_float = System.Single;
 using size_t = System.UInt64;
+using MxNet.Numpy;
 
 namespace MxNet.Sparse
 {
     public class CSRNDArray : BaseSparseNDArray
     {
-        public NDArray Indices => AuxData(1);
+        internal CSRNDArray(IntPtr handle) : base(handle)
+        {
+        }
 
-        public NDArray IndPtr => AuxData(0);
+        public ndarray Indices => AuxData(1);
 
-        public new NDArray Data => base.Data();
+        public ndarray IndPtr => AuxData(0);
+
+        public new ndarray Data => base.Data();
 
         public static CSRNDArray operator +(CSRNDArray lhs, float scalar)
         {

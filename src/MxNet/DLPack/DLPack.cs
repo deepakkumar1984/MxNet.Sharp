@@ -27,7 +27,7 @@ namespace MxNet
             throw new NotImplementedException();
         }
 
-        public static Func<ndarray, DLTensor> NDArrayFromNumpy = (x) =>
+        public static Func<ndarray, bool, DLTensor> NDArrayFromNumpy = (x, zero_copy) =>
         {
             throw new NotImplementedException();
         };

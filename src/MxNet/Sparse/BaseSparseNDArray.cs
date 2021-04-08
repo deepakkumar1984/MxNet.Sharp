@@ -24,8 +24,19 @@ using MxNet.Numpy;
 
 namespace MxNet.Sparse
 {
-    public class BaseSparseNDArray : NDArray
+    public class BaseSparseNDArray : ndarray
     {
+        public BaseSparseNDArray()
+        {
+
+        }
+
+        internal BaseSparseNDArray(NDArrayHandle handle)
+            : base(handle)
+        {
+
+        }
+
         private readonly Dictionary<StorageStype, DType[]> _STORAGE_AUX_TYPES = new Dictionary<StorageStype, DType[]>
         {
             {
@@ -47,17 +58,17 @@ namespace MxNet.Sparse
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }
 
-        public override NDArray Reshape(params int[] shape)
+        public override ndarray reshape(params int[] shape)
         {
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }
 
-        public override NDArray Reshape(Shape shape, bool reverse = false)
+        public override ndarray reshape(Shape shape, bool reverse = false)
         {
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }
 
-        public override NDArray Slice(int begin, int? end)
+        public override ndarray Slice(int begin, int? end)
         {
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }
@@ -77,12 +88,12 @@ namespace MxNet.Sparse
             return aux_types.ToArray();
         }
 
-        public override ndarray AsNumpy()
+        public override NumpyDotNet.ndarray AsNumpy()
         {
             return ToSType(StorageStype.Default).AsNumpy();
         }
 
-        public override NDArray AsType(DType dtype)
+        public override ndarray AsType(DType dtype)
         {
             return base.AsType(dtype);
         }
@@ -92,18 +103,18 @@ namespace MxNet.Sparse
             NativeMethods.MXNDArraySyncCheckFormat(GetHandle(), full_check);
         }
 
-        public NDArray Data()
+        public ndarray Data()
         {
             WaitToRead();
             NativeMethods.MXNDArrayGetDataNDArray(GetHandle(), out var @out);
-            return new NDArray(@out);
+            return new ndarray(@out);
         }
 
-        internal NDArray AuxData(int i)
+        internal ndarray AuxData(int i)
         {
             WaitToRead();
             NativeMethods.MXNDArrayGetAuxNDArray(GetHandle(), i, out var @out);
-            return new NDArray(@out);
+            return new ndarray(@out);
         }
 
         #region Basic Ops
@@ -148,7 +159,7 @@ namespace MxNet.Sparse
             return (BaseSparseNDArray) nd.MulScalar(lhs, scalar);
         }
 
-        public static NDArray operator *(float scalar, BaseSparseNDArray rhs)
+        public static BaseSparseNDArray operator *(float scalar, BaseSparseNDArray rhs)
         {
             throw new NotSupportedException("Not supported for Sparse NDArray");
         }

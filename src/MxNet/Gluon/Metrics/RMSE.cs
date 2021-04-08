@@ -27,9 +27,9 @@ namespace MxNet.Gluon.Metrics
         public override void Update(ndarray labels, ndarray preds)
         {
             if (labels.Shape.Dimension == 1)
-                labels = labels.Reshape(labels.Shape[0], 1);
+                labels = labels.reshape(labels.Shape[0], 1);
             if (preds.Shape.Dimension == 1)
-                preds = preds.Reshape(preds.Shape[0], 1);
+                preds = preds.reshape(preds.Shape[0], 1);
 
             var rmse = (float)Math.Sqrt(nd.Square(labels - preds).Mean());
 

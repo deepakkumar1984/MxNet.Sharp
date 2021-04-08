@@ -1026,7 +1026,7 @@ namespace MxNet
         {
             NDArrayHandle handle;
             var dims = shape.Data.Select(s => s);
-            NativeMethods.MXNDArrayReshape(GetHandle(), shape.Dimension, dims.ToArray(), out handle);
+            NativeMethods.MXNDArrayReshape64(GetHandle(), shape.Dimension, dims.ToArray(), reverse, out handle);
             return new NDArray(handle);
         }
 

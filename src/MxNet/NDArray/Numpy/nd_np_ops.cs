@@ -9,6 +9,9 @@ namespace MxNet.ND.Numpy
     {
         private static bool? _INT64_TENSOR_SIZE_ENABLED = null;
 
+        public static Random random = new Random();
+        public static Linalg linalg = new Linalg();
+
         internal static bool Int64Enabled()
         {
             //if (_INT64_TENSOR_SIZE_ENABLED == null)
@@ -62,7 +65,10 @@ namespace MxNet.ND.Numpy
 
         public static ndarray broadcast_to(ndarray array, Shape shape)
         {
-            throw new NotImplementedException();
+            return new Operator("_npi_broadcast_to")
+                   .SetParam("shape", shape)
+                   .SetInput("array", array)
+                   .Invoke();
         }
 
         public static ndarray full(Shape shape, double fill_value, DType dtype = null, string order = "C", Context ctx = null, ndarray @out = null)
@@ -221,6 +227,11 @@ namespace MxNet.ND.Numpy
         }
 
         public static ndarray power(ndarray x1, ndarray x2, ndarray @out = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static ndarray power(ndarray x1, float x2, ndarray @out = null)
         {
             throw new NotImplementedException();
         }

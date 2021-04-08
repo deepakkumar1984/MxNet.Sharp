@@ -202,10 +202,11 @@ namespace MxNet.Interop
             out NDArrayHandle @out);
 
         [DllImport(NativeLibrary, EntryPoint = "MXNDArrayReshape", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int MXNDArrayReshape(NDArrayHandle handle,
+        public static extern int MXNDArrayReshape64(NDArrayHandle handle,
             int ndim,
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)]
             int[] dims,
+            bool reverse,
             out AtomicSymbolCreator @out);
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]

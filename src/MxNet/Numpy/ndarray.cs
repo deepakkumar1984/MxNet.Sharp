@@ -821,7 +821,7 @@ namespace MxNet.Numpy
                 var x = Slice(index, index + 1);
                 var new_shape = x.Shape.Data.ToList();
                 new_shape.RemoveAt(0);
-                return x.Reshape(new Shape(new_shape));
+                return x.reshape(new Shape(new_shape));
             }
         }
 
@@ -1066,15 +1066,15 @@ namespace MxNet.Numpy
             return np.negative(x);
         }
 
-        public virtual ndarray Reshape(Shape shape, bool reverse = false)
+        public virtual ndarray reshape(Shape shape, bool reverse = false)
         {
             NDArrayHandle handle;
             var dims = shape.Data.Select(s => s);
-            NativeMethods.MXNDArrayReshape(GetHandle(), shape.Dimension, dims.ToArray(), out handle);
+            NativeMethods.MXNDArrayReshape64(GetHandle(), shape.Dimension, dims.ToArray(), reverse, out handle);
             return new ndarray(handle);
         }
 
-        public virtual ndarray Reshape(params int[] shape)
+        public virtual ndarray reshape(params int[] shape)
         {
             var targetShape = new int[shape.Length];
             long prod = -1 * shape.Aggregate(1L, (a, b) => a * b);
@@ -1084,16 +1084,14 @@ namespace MxNet.Numpy
                 else
                     targetShape[i] = Convert.ToInt32(Size / prod);
 
-            return Reshape(new Shape(targetShape));
-
-            //return Reshape(new Shape(shape));
+            return reshape(new Shape(targetShape));
         }
 
         public ndarray Ravel()
         {
             var n = Shape[0];
             var m = Size / n;
-            return Reshape(new Shape(n, m));
+            return reshape(new Shape(n, m));
         }
 
         public ndarray Squeeze(int? axis, bool inplace = false)
@@ -1142,7 +1140,7 @@ namespace MxNet.Numpy
                     new_shape.Add(1);
                 }
 
-                return this.Reshape(new Shape(new_shape));
+                return this.reshape(new Shape(new_shape));
             }
         }
 

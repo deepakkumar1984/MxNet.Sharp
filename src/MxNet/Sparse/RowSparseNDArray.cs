@@ -22,6 +22,15 @@ namespace MxNet.Sparse
 {
     public class RowSparseNDArray : BaseSparseNDArray
     {
+        public RowSparseNDArray()
+        {
+
+        }
+
+        internal RowSparseNDArray(IntPtr handle) : base(handle)
+        {
+        }
+
         public RowSparseNDArray Indices => (RowSparseNDArray) AuxData(0);
 
         public new RowSparseNDArray Data => (RowSparseNDArray) Data();
