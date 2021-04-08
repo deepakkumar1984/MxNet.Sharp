@@ -61,9 +61,9 @@ namespace MxNet.Sym.Numpy
             throw new NotImplementedException();
         }
 
-        public static _Symbol empty_like(_Symbol prototype, double fill_value, DType dtype = null, string order = "C", bool subok = false, Shape shape = null)
+        public static _Symbol zero_like(_Symbol prototype, DType dtype = null, string order = "C", _Symbol @out = null)
         {
-            throw new NotImplementedException();
+            return full_like(prototype, 0, dtype, order, @out: @out);
         }
 
         public static bool all(_Symbol a)

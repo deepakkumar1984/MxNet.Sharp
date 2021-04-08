@@ -29,7 +29,7 @@ namespace MxNet
         public static readonly DType Int32 = new DType("int32", "Int32", 4);
         public static readonly DType Int8 = new DType("int8", "SByte", 5);
         public static readonly DType Int64 = new DType("int64", "Int64", 6);
-        public static readonly DType Bool = new DType("bool_", "Boolean", 7);
+        public static readonly DType Bool = new DType("bool", "Boolean", 7);
         public static readonly DType Int16 = new DType("int16", "Int16", 8);
         public static readonly DType UInt16 = new DType("uint16", "UInt16", 9);
         public static readonly DType UInt32 = new DType("uint32", "UInt32", 10);

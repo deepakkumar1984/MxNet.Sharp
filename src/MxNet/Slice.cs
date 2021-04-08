@@ -17,15 +17,18 @@ namespace MxNet
 {
     public class Slice
     {
-        public Slice(int begin, int? end)
+        public Slice(int begin, int? end, int step = 1)
         {
             Begin = begin;
             End = end;
+            Step = step;
         }
 
         public int Begin { get; set; }
 
         public int? End { get; set; }
+
+        public int Step { get; set; }
 
         public override string ToString()
         {

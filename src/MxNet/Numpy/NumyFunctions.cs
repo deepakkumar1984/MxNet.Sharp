@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using MxNet.ND.Numpy;
-using NumpyDotNet;
+using static NumpyDotNet.np;
+
 namespace MxNet.Numpy
 {
     public partial class np
@@ -105,9 +106,9 @@ namespace MxNet.Numpy
             return nd_np_ops.full(shape, fill_value, dtype, order, ctx, @out);
         }
 
-        public static ndarray empty_like(ndarray prototype, double fill_value, DType dtype = null, string order = "C", bool subok= false, Shape shape= null)
+        public static ndarray full_like(ndarray a, double fill_value, DType dtype = null, string order = "C", Context ctx = null, ndarray @out = null)
         {
-            return nd_np_ops.empty_like(prototype, fill_value, dtype, order, subok, shape);
+            return nd_np_ops.full_like(a, fill_value, dtype, order, ctx, @out);
         }
 
         public static bool all(ndarray a)
@@ -145,7 +146,7 @@ namespace MxNet.Numpy
             return nd_np_ops.unique(ar, axis);
         }
 
-        public static (ndarray, ndarray, ndarray, ndarray) unique(ndarray ar, bool return_index = false, bool return_inverse = false, bool return_counts = false, int? axis = null)
+        public static (ndarray, ndarray, ndarray, ndarray) unique(ndarray ar, bool return_index, bool return_inverse = false, bool return_counts = false, int? axis = null)
         {
             return nd_np_ops.unique(ar, return_index, return_inverse, return_counts, axis);
         }

@@ -12,9 +12,9 @@ namespace MxNet.Numpy
             return nd_np_ops.broadcast_to(this, shape);
         }
 
-        public ndarray empty_like(double fill_value, DType dtype = null, string order = "C", bool subok = false, Shape shape = null)
+        public ndarray zero_like(DType dtype = null, string order = "C")
         {
-            return nd_np_ops.empty_like(this, fill_value, dtype, order, subok, shape);
+            return nd_np_ops.zeros_like(this, dtype, order);
         }
 
         public bool all()

@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Text;
 
+
 namespace BasicExamples
 {
     class Program
@@ -16,10 +17,9 @@ namespace BasicExamples
             //LogisticRegressionExplained.Run();
             //var methods = mx.GetAllRegisteredCApiOperators();
 
-            var x = np.zeros(new Shape(3, 3), np.Float32);
-            var y = np.ones(new Shape(3, 1), np.Float32);
-
-            y = np.broadcast_to(y, new Shape(3, 3));
+            var x = np.full(new Shape(300, 100), 2);
+            var y = np.full(new Shape(3, 3), 4);
+            var z = np.histogram(x, 10, (3, 100));
         }
 
         private static void GenerateFOps()

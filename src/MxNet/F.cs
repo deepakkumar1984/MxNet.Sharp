@@ -8,7 +8,7 @@ namespace MxNet
 {
     public class F
     {
-        public static NDArrayOrSymbol nan_to_num(NDArrayOrSymbol x, Boolean copy, Single nan, Single? posinf, Single? neginf)
+        public static NDArrayOrSymbol nan_to_num(NDArrayOrSymbol x, bool copy = true, float nan = 0, float? posinf = null, float? neginf = null)
         {
             if (x.IsNDArray)
             {
@@ -16,7 +16,7 @@ namespace MxNet
             }
             return sym_np_ops.nan_to_num(x, copy, nan, posinf, neginf);
         }
-        public static NDArrayOrSymbol squeeze(NDArrayOrSymbol a, Int32? axis)
+        public static NDArrayOrSymbol squeeze(NDArrayOrSymbol a, int? axis)
         {
             if (a.IsNDArray)
             {
@@ -80,7 +80,7 @@ namespace MxNet
             }
             return sym_np_ops.polyval(p, x);
         }
-        public static NDArrayOrSymbol bincount(NDArrayOrSymbol x, NDArrayOrSymbol weights, Int32 minlength)
+        public static NDArrayOrSymbol bincount(NDArrayOrSymbol x, NDArrayOrSymbol weights, int minlength)
         {
             if (x.IsNDArray)
             {
@@ -88,7 +88,7 @@ namespace MxNet
             }
             return sym_np_ops.bincount(x, weights, minlength);
         }
-        public static NDArrayOrSymbol pad(NDArrayOrSymbol x, Int32[] pad_width, String mode)
+        public static NDArrayOrSymbol pad(NDArrayOrSymbol x, int[] pad_width, String mode)
         {
             if (x.IsNDArray)
             {
@@ -96,7 +96,7 @@ namespace MxNet
             }
             return sym_np_ops.pad(x, pad_width, mode);
         }
-        public static NDArrayOrSymbol prod(NDArrayOrSymbol a, Int32? axis, DType dtype, NDArrayOrSymbol @out, Boolean keepdims, Single? initial)
+        public static NDArrayOrSymbol prod(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims, float? initial)
         {
             if (a.IsNDArray)
             {
@@ -112,7 +112,7 @@ namespace MxNet
             }
             return sym_np_ops.dot(a, b, @out);
         }
-        public static NDArrayOrSymbol cumsum(NDArrayOrSymbol a, Int32? axis, DType dtype, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol cumsum(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -120,7 +120,7 @@ namespace MxNet
             }
             return sym_np_ops.cumsum(a, axis, dtype, @out);
         }
-        public static NDArrayOrSymbol reshape(NDArrayOrSymbol a, Shape newshape, Boolean reverse, String order)
+        public static NDArrayOrSymbol reshape(NDArrayOrSymbol a, Shape newshape, bool reverse, String order)
         {
             if (a.IsNDArray)
             {
@@ -128,7 +128,7 @@ namespace MxNet
             }
             return sym_np_ops.reshape(a, newshape, reverse, order);
         }
-        public static NDArrayOrSymbol moveaxis(NDArrayOrSymbol a, Int32 source, Int32 destination)
+        public static NDArrayOrSymbol moveaxis(NDArrayOrSymbol a, int source, int destination)
         {
             if (a.IsNDArray)
             {
@@ -136,7 +136,7 @@ namespace MxNet
             }
             return sym_np_ops.moveaxis(a, source, destination);
         }
-        public static NDArrayOrSymbol moveaxis(NDArrayOrSymbol a, Int32[] source, Int32[] destination)
+        public static NDArrayOrSymbol moveaxis(NDArrayOrSymbol a, int[] source, int[] destination)
         {
             if (a.IsNDArray)
             {
@@ -152,7 +152,7 @@ namespace MxNet
             }
             return sym_np_ops.copy(a);
         }
-        public static NDArrayOrSymbol rollaxis(NDArrayOrSymbol a, Int32 axis, Int32 start)
+        public static NDArrayOrSymbol rollaxis(NDArrayOrSymbol a, int axis, int start)
         {
             if (a.IsNDArray)
             {
@@ -160,7 +160,7 @@ namespace MxNet
             }
             return sym_np_ops.rollaxis(a, axis, start);
         }
-        public static NDArrayOrSymbol diag(NDArrayOrSymbol v, Int32 k)
+        public static NDArrayOrSymbol diag(NDArrayOrSymbol v, int k)
         {
             if (v.IsNDArray)
             {
@@ -168,7 +168,7 @@ namespace MxNet
             }
             return sym_np_ops.diag(v, k);
         }
-        public static NDArrayOrSymbol diagflat(NDArrayOrSymbol v, Int32 k)
+        public static NDArrayOrSymbol diagflat(NDArrayOrSymbol v, int k)
         {
             if (v.IsNDArray)
             {
@@ -176,7 +176,7 @@ namespace MxNet
             }
             return sym_np_ops.diagflat(v, k);
         }
-        public static NDArrayOrSymbol diagonal(NDArrayOrSymbol a, Int32 offset, Int32 axis1, Int32 axis2)
+        public static NDArrayOrSymbol diagonal(NDArrayOrSymbol a, int offset, int axis1, int axis2)
         {
             if (a.IsNDArray)
             {
@@ -184,7 +184,7 @@ namespace MxNet
             }
             return sym_np_ops.diagonal(a, offset, axis1, axis2);
         }
-        public static NDArrayOrSymbol sum(NDArrayOrSymbol a, Int32? axis, DType dtype, NDArrayOrSymbol @out, Boolean keepdims, Single? initial)
+        public static NDArrayOrSymbol sum(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims, float? initial)
         {
             if (a.IsNDArray)
             {
@@ -208,7 +208,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.activation(data, act_type);
         }
-        public static NDArrayOrSymbol batch_norm(NDArrayOrSymbol x, NDArrayOrSymbol gamma, NDArrayOrSymbol beta, NDArrayOrSymbol running_mean, NDArrayOrSymbol running_var, Single eps, Single momentum, Boolean fix_gamma, Boolean use_global_stats, Boolean output_mean_var, Int32 axis, Boolean cudnn_off, Single? min_calib_range, Single? max_calib_range)
+        public static NDArrayOrSymbol batch_norm(NDArrayOrSymbol x, NDArrayOrSymbol gamma, NDArrayOrSymbol beta, NDArrayOrSymbol running_mean, NDArrayOrSymbol running_var, float eps, float momentum, bool fix_gamma, bool use_global_stats, bool output_mean_var, int axis, bool cudnn_off, float? min_calib_range, float? max_calib_range)
         {
             if (x.IsNDArray)
             {
@@ -216,7 +216,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.batch_norm(x, gamma, beta, running_mean, running_var, eps, momentum, fix_gamma, use_global_stats, output_mean_var, axis, cudnn_off, min_calib_range, max_calib_range);
         }
-        public static NDArrayOrSymbol convolution(NDArrayOrSymbol data, NDArrayOrSymbol weight, NDArrayOrSymbol bias, Int32[] kernel, Int32[] stride, Int32[] dilate, Int32[] pad, Int32 num_filter, Int32 num_group, Int32 workspace, Boolean no_bias, String cudnn_tune, Boolean cudnn_off, String layout)
+        public static NDArrayOrSymbol convolution(NDArrayOrSymbol data, NDArrayOrSymbol weight, NDArrayOrSymbol bias, int[] kernel, int[] stride, int[] dilate, int[] pad, int num_filter, int num_group, int workspace, bool no_bias, String cudnn_tune, bool cudnn_off, String layout)
         {
             if (data.IsNDArray)
             {
@@ -224,7 +224,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.convolution(data, weight, bias, kernel, stride, dilate, pad, num_filter, num_group, workspace, no_bias, cudnn_tune, cudnn_off, layout);
         }
-        public static NDArrayOrSymbol dropout(NDArrayOrSymbol data, Single p, String mode, Shape axes, Boolean cudnn_off)
+        public static NDArrayOrSymbol dropout(NDArrayOrSymbol data, float p, String mode, Shape axes, bool cudnn_off)
         {
             if (data.IsNDArray)
             {
@@ -232,7 +232,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.dropout(data, p, mode, axes, cudnn_off);
         }
-        public static NDArrayOrSymbol embedding(NDArrayOrSymbol data, NDArrayOrSymbol weight, Int32 input_dim, Int32 output_dim, DType dtype, Boolean sparse_grad)
+        public static NDArrayOrSymbol embedding(NDArrayOrSymbol data, NDArrayOrSymbol weight, int input_dim, int output_dim, DType dtype, bool sparse_grad)
         {
             if (data.IsNDArray)
             {
@@ -240,7 +240,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.embedding(data, weight, input_dim, output_dim, dtype, sparse_grad);
         }
-        public static NDArrayOrSymbol fully_connected(NDArrayOrSymbol x, NDArrayOrSymbol weight, NDArrayOrSymbol bias, Int32 num_hidden, Boolean no_bias, Boolean flatten)
+        public static NDArrayOrSymbol fully_connected(NDArrayOrSymbol x, NDArrayOrSymbol weight, NDArrayOrSymbol bias, int num_hidden, bool no_bias, bool flatten)
         {
             if (x.IsNDArray)
             {
@@ -248,7 +248,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.fully_connected(x, weight, bias, num_hidden, no_bias, flatten);
         }
-        public static NDArrayOrSymbol layer_norm(NDArrayOrSymbol data, NDArrayOrSymbol gamma, NDArrayOrSymbol beta, Int32 axis, Single eps, Boolean output_mean_var)
+        public static NDArrayOrSymbol layer_norm(NDArrayOrSymbol data, NDArrayOrSymbol gamma, NDArrayOrSymbol beta, int axis, float eps, bool output_mean_var)
         {
             if (data.IsNDArray)
             {
@@ -256,7 +256,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.layer_norm(data, gamma, beta, axis, eps, output_mean_var);
         }
-        public static NDArrayOrSymbol pooling(NDArrayOrSymbol data, Int32[] kernel, Int32[] stride, Int32[] pad, String pool_type, String pooling_convention, Boolean global_pool, Boolean cudnn_off, Int32? p_value, Int32? count_include_pad, String layout)
+        public static NDArrayOrSymbol pooling(NDArrayOrSymbol data, int[] kernel, int[] stride, int[] pad, String pool_type, String pooling_convention, bool global_pool, bool cudnn_off, int? p_value, int? count_include_pad, String layout)
         {
             if (data.IsNDArray)
             {
@@ -264,7 +264,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.pooling(data, kernel, stride, pad, pool_type, pooling_convention, global_pool, cudnn_off, p_value, count_include_pad, layout);
         }
-        public static NDArrayOrSymbol rnn(NDArrayOrSymbol data, NDArrayOrSymbol parameters, NDArrayOrSymbol state, NDArrayOrSymbol state_cell, NDArrayOrSymbol sequence_length, String mode, Int32? state_size, Int32? num_layers, Boolean bidirectional, Boolean state_outputs, Single p, Boolean use_sequence_length, Int32? projection_size, Double? lstm_state_clip_min, Double? lstm_state_clip_max, Double? lstm_state_clip_nan)
+        public static NDArrayOrSymbol rnn(NDArrayOrSymbol data, NDArrayOrSymbol parameters, NDArrayOrSymbol state, NDArrayOrSymbol state_cell, NDArrayOrSymbol sequence_length, String mode, int? state_size, int? num_layers, bool bidirectional, bool state_outputs, float p, bool use_sequence_length, int? projection_size, Double? lstm_state_clip_min, Double? lstm_state_clip_max, Double? lstm_state_clip_nan)
         {
             if (data.IsNDArray)
             {
@@ -272,7 +272,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.rnn(data, parameters, state, state_cell, sequence_length, mode, state_size, num_layers, bidirectional, state_outputs, p, use_sequence_length, projection_size, lstm_state_clip_min, lstm_state_clip_max, lstm_state_clip_nan);
         }
-        public static NDArrayOrSymbol leaky_relu(NDArrayOrSymbol data, NDArrayOrSymbol gamma, String act_type, Single slope, Single lower_bound, Single upper_bound)
+        public static NDArrayOrSymbol leaky_relu(NDArrayOrSymbol data, NDArrayOrSymbol gamma, String act_type, float slope, float lower_bound, float upper_bound)
         {
             if (data.IsNDArray)
             {
@@ -280,7 +280,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.leaky_relu(data, gamma, act_type, slope, lower_bound, upper_bound);
         }
-        public static NDArrayOrSymbol multibox_detection(NDArrayOrSymbol cls_prob, NDArrayOrSymbol loc_pred, NDArrayOrSymbol anchor, Boolean clip, Single threshold, Int32 background_id, Single nms_threshold, Boolean force_suppress, Single[] variances, Int32 nms_topk)
+        public static NDArrayOrSymbol multibox_detection(NDArrayOrSymbol cls_prob, NDArrayOrSymbol loc_pred, NDArrayOrSymbol anchor, bool clip, float threshold, int background_id, float nms_threshold, bool force_suppress, float[] variances, int nms_topk)
         {
             if (cls_prob.IsNDArray)
             {
@@ -288,7 +288,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.multibox_detection(cls_prob, loc_pred, anchor, clip, threshold, background_id, nms_threshold, force_suppress, variances, nms_topk);
         }
-        public static NDArrayOrSymbol multibox_prior(NDArrayOrSymbol data, Single[] sizes, Single[] ratios, Boolean clip, Single[] steps, Single[] offsets)
+        public static NDArrayOrSymbol multibox_prior(NDArrayOrSymbol data, float[] sizes, float[] ratios, bool clip, float[] steps, float[] offsets)
         {
             if (data.IsNDArray)
             {
@@ -296,7 +296,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.multibox_prior(data, sizes, ratios, clip, steps, offsets);
         }
-        public static NDArrayOrSymbol multibox_target(NDArrayOrSymbol anchor, NDArrayOrSymbol label, NDArrayOrSymbol cls_pred, Single overlap_threshold, Single ignore_label, Single negative_mining_ratio, Single negative_mining_thresh, Int32 minimum_negative_samples, Single[] variances)
+        public static NDArrayOrSymbol multibox_target(NDArrayOrSymbol anchor, NDArrayOrSymbol label, NDArrayOrSymbol cls_pred, float overlap_threshold, float ignore_label, float negative_mining_ratio, float negative_mining_thresh, int minimum_negative_samples, float[] variances)
         {
             if (anchor.IsNDArray)
             {
@@ -304,7 +304,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.multibox_target(anchor, label, cls_pred, overlap_threshold, ignore_label, negative_mining_ratio, negative_mining_thresh, minimum_negative_samples, variances);
         }
-        public static NDArrayOrSymbol roi_pooling(NDArrayOrSymbol data, NDArrayOrSymbol rois, Int32[] pooled_size, Single spatial_scale)
+        public static NDArrayOrSymbol roi_pooling(NDArrayOrSymbol data, NDArrayOrSymbol rois, int[] pooled_size, float spatial_scale)
         {
             if (data.IsNDArray)
             {
@@ -312,7 +312,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.roi_pooling(data, rois, pooled_size, spatial_scale);
         }
-        public static NDArrayOrSymbol smooth_l1(NDArrayOrSymbol data, Single scalar)
+        public static NDArrayOrSymbol smooth_l1(NDArrayOrSymbol data, float scalar)
         {
             if (data.IsNDArray)
             {
@@ -328,7 +328,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.sigmoid(data);
         }
-        public static NDArrayOrSymbol softmax(NDArrayOrSymbol data, Int32 axis, NDArrayOrSymbol length, Double? temperature, Boolean use_length, DType dtype)
+        public static NDArrayOrSymbol softmax(NDArrayOrSymbol data, int axis, NDArrayOrSymbol length, Double? temperature, bool use_length, DType dtype)
         {
             if (data.IsNDArray)
             {
@@ -336,7 +336,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.softmax(data, axis, length, temperature, use_length, dtype);
         }
-        public static NDArrayOrSymbol log_softmax(NDArrayOrSymbol data, Int32 axis, NDArrayOrSymbol length, Double? temperature, Boolean use_length, DType dtype)
+        public static NDArrayOrSymbol log_softmax(NDArrayOrSymbol data, int axis, NDArrayOrSymbol length, Double? temperature, bool use_length, DType dtype)
         {
             if (data.IsNDArray)
             {
@@ -344,7 +344,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.log_softmax(data, axis, length, temperature, use_length, dtype);
         }
-        public static NDArrayOrSymbol topk(NDArrayOrSymbol data, Int32 axis, Int32 k, String ret_typ, Boolean is_ascend, DType dtype)
+        public static NDArrayOrSymbol topk(NDArrayOrSymbol data, int axis, int k, String ret_typ, bool is_ascend, DType dtype)
         {
             if (data.IsNDArray)
             {
@@ -360,7 +360,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.one_hot(data, depth, on_value, off_value, dtype);
         }
-        public static NDArrayOrSymbol pick(NDArrayOrSymbol data, NDArrayOrSymbol index, Int32 axis, String mode, Boolean keepdims)
+        public static NDArrayOrSymbol pick(NDArrayOrSymbol data, NDArrayOrSymbol index, int axis, String mode, bool keepdims)
         {
             if (data.IsNDArray)
             {
@@ -368,7 +368,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.pick(data, index, axis, mode, keepdims);
         }
-        public static NDArrayOrSymbol reshape_like(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs, Int32? lhs_begin, Int32? lhs_end, Int32? rhs_begin, Int32? rhs_end)
+        public static NDArrayOrSymbol reshape_like(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs, int? lhs_begin, int? lhs_end, int? rhs_begin, int? rhs_end)
         {
             if (lhs.IsNDArray)
             {
@@ -384,7 +384,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.batch_flatten(data);
         }
-        public static NDArrayOrSymbol batch_dot(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs, Boolean transpose_a, Boolean transpose_b, String forward_stype)
+        public static NDArrayOrSymbol batch_dot(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs, bool transpose_a, bool transpose_b, String forward_stype)
         {
             if (lhs.IsNDArray)
             {
@@ -400,7 +400,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.gamma(data);
         }
-        public static NDArrayOrSymbol sequence_mask(NDArrayOrSymbol data, NDArrayOrSymbol sequence_length, Boolean use_sequence_length, Single value, Int32 axis)
+        public static NDArrayOrSymbol sequence_mask(NDArrayOrSymbol data, NDArrayOrSymbol sequence_length, bool use_sequence_length, float value, int axis)
         {
             if (data.IsNDArray)
             {
@@ -408,7 +408,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.sequence_mask(data, sequence_length, use_sequence_length, value, axis);
         }
-        public static NDArrayOrSymbolList array_split(NDArrayOrSymbol ary, Int32[] indices_or_sections, Int32 axis)
+        public static NDArrayOrSymbolList array_split(NDArrayOrSymbol ary, int[] indices_or_sections, int axis)
         {
             if (ary.IsNDArray)
             {
@@ -417,7 +417,7 @@ namespace MxNet
 
             return sym_np_ops.array_split(ary, indices_or_sections, axis);
         }
-        public static NDArrayOrSymbol vsplit(NDArrayOrSymbol ary, Int32[] indices_or_sections)
+        public static NDArrayOrSymbol vsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
         {
             if (ary.IsNDArray)
             {
@@ -425,7 +425,7 @@ namespace MxNet
             }
             return sym_np_ops.vsplit(ary, indices_or_sections);
         }
-        public static NDArrayOrSymbol dsplit(NDArrayOrSymbol ary, Int32[] indices_or_sections)
+        public static NDArrayOrSymbol dsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
         {
             if (ary.IsNDArray)
             {
@@ -433,7 +433,7 @@ namespace MxNet
             }
             return sym_np_ops.dsplit(ary, indices_or_sections);
         }
-        public static NDArrayOrSymbol concatenate(NDArrayOrSymbolList seq, Int32 axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol concatenate(NDArrayOrSymbolList seq, int axis, NDArrayOrSymbol @out = null)
         {
             if (seq[0].IsNDArray)
 {
@@ -441,7 +441,7 @@ namespace MxNet
             }
             return sym_np_ops.concatenate(seq.Symbols, axis, @out);
         }
-        public static NDArrayOrSymbol append(NDArrayOrSymbol arr, NDArrayOrSymbol values, Int32? axis)
+        public static NDArrayOrSymbol append(NDArrayOrSymbol arr, NDArrayOrSymbol values, int? axis)
         {
             if (arr.IsNDArray)
             {
@@ -449,7 +449,7 @@ namespace MxNet
             }
             return sym_np_ops.append(arr, values, axis);
         }
-        public static NDArrayOrSymbol stack(NDArrayOrSymbolList arrays, Int32 axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol stack(NDArrayOrSymbolList arrays, int axis, NDArrayOrSymbol @out = null)
         {
             if (arrays[0].IsNDArray)
 {
@@ -499,7 +499,7 @@ namespace MxNet
             }
             return sym_np_ops.fmin(x1, x2, @out);
         }
-        public static NDArrayOrSymbol max(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol @out, Boolean keepdims)
+        public static NDArrayOrSymbol max(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -507,7 +507,7 @@ namespace MxNet
             }
             return sym_np_ops.max(a, axis, @out, keepdims);
         }
-        public static NDArrayOrSymbol min(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol @out, Boolean keepdims)
+        public static NDArrayOrSymbol min(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -515,7 +515,7 @@ namespace MxNet
             }
             return sym_np_ops.min(a, axis, @out, keepdims);
         }
-        public static NDArrayOrSymbol swapaxes(NDArrayOrSymbol a, Int32 axis1, Int32 axis2)
+        public static NDArrayOrSymbol swapaxes(NDArrayOrSymbol a, int axis1, int axis2)
         {
             if (a.IsNDArray)
             {
@@ -523,7 +523,7 @@ namespace MxNet
             }
             return sym_np_ops.swapaxes(a, axis1, axis2);
         }
-        public static NDArrayOrSymbol clip(NDArrayOrSymbol a, Single a_min, Single a_max, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol clip(NDArrayOrSymbol a, float a_min, float a_max, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -531,7 +531,7 @@ namespace MxNet
             }
             return sym_np_ops.clip(a, a_min, a_max, @out);
         }
-        public static NDArrayOrSymbol argmax(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol argmax(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -539,7 +539,7 @@ namespace MxNet
             }
             return sym_np_ops.argmax(a, axis, @out);
         }
-        public static NDArrayOrSymbol argmin(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol argmin(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -547,7 +547,7 @@ namespace MxNet
             }
             return sym_np_ops.argmin(a, axis, @out);
         }
-        public static NDArrayOrSymbol amax(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol amax(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -555,7 +555,7 @@ namespace MxNet
             }
             return sym_np_ops.amax(a, axis, @out);
         }
-        public static NDArrayOrSymbol amin(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol amin(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -563,7 +563,7 @@ namespace MxNet
             }
             return sym_np_ops.amin(a, axis, @out);
         }
-        public static NDArrayOrSymbol average(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol weights, Boolean returned, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol average(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol weights, bool returned, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -571,7 +571,7 @@ namespace MxNet
             }
             return sym_np_ops.average(a, axis, weights, returned, @out);
         }
-        public static NDArrayOrSymbol mean(NDArrayOrSymbol a, Int32? axis, DType dtype, NDArrayOrSymbol @out, Boolean keepdims)
+        public static NDArrayOrSymbol mean(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -579,7 +579,7 @@ namespace MxNet
             }
             return sym_np_ops.mean(a, axis, dtype, @out, keepdims);
         }
-        public static NDArrayOrSymbol std(NDArrayOrSymbol a, Int32? axis, DType dtype, NDArrayOrSymbol @out, Boolean keepdims)
+        public static NDArrayOrSymbol std(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -587,7 +587,7 @@ namespace MxNet
             }
             return sym_np_ops.std(a, axis, dtype, @out, keepdims);
         }
-        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, Int32 obj, Int32? axis)
+        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, int obj, int? axis)
         {
             if (arr.IsNDArray)
             {
@@ -595,7 +595,7 @@ namespace MxNet
             }
             return sym_np_ops.delete(arr, obj, axis);
         }
-        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, Int32[] obj, Int32? axis)
+        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, int[] obj, int? axis)
         {
             if (arr.IsNDArray)
             {
@@ -603,7 +603,7 @@ namespace MxNet
             }
             return sym_np_ops.delete(arr, obj, axis);
         }
-        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, NDArrayOrSymbol obj, Int32? axis)
+        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, NDArrayOrSymbol obj, int? axis)
         {
             if (arr.IsNDArray)
             {
@@ -611,7 +611,7 @@ namespace MxNet
             }
             return sym_np_ops.delete(arr, obj, axis);
         }
-        public static NDArrayOrSymbol var(NDArrayOrSymbol a, Int32? axis, DType dtype, NDArrayOrSymbol @out, Boolean keepdims)
+        public static NDArrayOrSymbol var(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -659,7 +659,7 @@ namespace MxNet
             }
             return sym_np_ops.diag_indices_from(x);
         }
-        public static NDArrayOrSymbol flip(NDArrayOrSymbol m, Int32? axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol flip(NDArrayOrSymbol m, int? axis, NDArrayOrSymbol @out = null)
         {
             if (m.IsNDArray)
             {
@@ -683,7 +683,7 @@ namespace MxNet
             }
             return sym_np_ops.fliplr(x);
         }
-        public static NDArrayOrSymbol around(NDArrayOrSymbol x, Int32 decimals, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol around(NDArrayOrSymbol x, int decimals, NDArrayOrSymbol @out = null)
         {
             if (x.IsNDArray)
             {
@@ -691,7 +691,7 @@ namespace MxNet
             }
             return sym_np_ops.around(x, decimals, @out);
         }
-        public static NDArrayOrSymbol round(NDArrayOrSymbol x, Int32 decimals, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol round(NDArrayOrSymbol x, int decimals, NDArrayOrSymbol @out = null)
         {
             if (x.IsNDArray)
             {
@@ -699,7 +699,7 @@ namespace MxNet
             }
             return sym_np_ops.round(x, decimals, @out);
         }
-        public static NDArrayOrSymbol round_(NDArrayOrSymbol x, Int32 decimals, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol round_(NDArrayOrSymbol x, int decimals, NDArrayOrSymbol @out = null)
         {
             if (x.IsNDArray)
             {
@@ -779,7 +779,7 @@ namespace MxNet
             }
             return sym_np_ops.outer(a, b);
         }
-        public static NDArrayOrSymbol cross(NDArrayOrSymbol a, NDArrayOrSymbol b, Int32 axisa, Int32 axisb, Int32 axisc, Int32? axis)
+        public static NDArrayOrSymbol cross(NDArrayOrSymbol a, NDArrayOrSymbol b, int axisa, int axisb, int axisc, int? axis)
         {
             if (a.IsNDArray)
             {
@@ -868,7 +868,7 @@ namespace MxNet
             }
             return sym_np_ops.less_equal(x1, x2, @out);
         }
-        public static NDArrayOrSymbol roll(NDArrayOrSymbol a, Int32 shift, Int32? axis)
+        public static NDArrayOrSymbol roll(NDArrayOrSymbol a, int shift, int? axis)
         {
             if (a.IsNDArray)
             {
@@ -876,7 +876,7 @@ namespace MxNet
             }
             return sym_np_ops.roll(a, shift, axis);
         }
-        public static NDArrayOrSymbol roll(NDArrayOrSymbol a, Int32[] shift, Int32? axis)
+        public static NDArrayOrSymbol roll(NDArrayOrSymbol a, int[] shift, int? axis)
         {
             if (a.IsNDArray)
             {
@@ -884,7 +884,7 @@ namespace MxNet
             }
             return sym_np_ops.roll(a, shift, axis);
         }
-        public static NDArrayOrSymbol rot90(NDArrayOrSymbol m, Int32 k, Int32[] axes)
+        public static NDArrayOrSymbol rot90(NDArrayOrSymbol m, int k, int[] axes)
         {
             if (m.IsNDArray)
             {
@@ -892,7 +892,7 @@ namespace MxNet
             }
             return sym_np_ops.rot90(m, k, axes);
         }
-        public static NDArrayOrSymbol hsplit(NDArrayOrSymbol ary, Int32[] indices_or_sections)
+        public static NDArrayOrSymbol hsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
         {
             if (ary.IsNDArray)
             {
@@ -900,7 +900,7 @@ namespace MxNet
             }
             return sym_np_ops.hsplit(ary, indices_or_sections);
         }
-        public static NDArrayOrSymbol insert(NDArrayOrSymbol arr, Int32 obj, NDArrayOrSymbol values, Int32? axis)
+        public static NDArrayOrSymbol insert(NDArrayOrSymbol arr, int obj, NDArrayOrSymbol values, int? axis)
         {
             if (arr.IsNDArray)
             {
@@ -908,7 +908,7 @@ namespace MxNet
             }
             return sym_np_ops.insert(arr, obj, values, axis);
         }
-        public static NDArrayOrSymbol insert(NDArrayOrSymbol arr, NDArrayOrSymbol obj, NDArrayOrSymbol values, Int32? axis)
+        public static NDArrayOrSymbol insert(NDArrayOrSymbol arr, NDArrayOrSymbol obj, NDArrayOrSymbol values, int? axis)
         {
             if (arr.IsNDArray)
             {
@@ -924,7 +924,7 @@ namespace MxNet
             }
             return sym_np_ops.nonzero(a);
         }
-        public static NDArrayOrSymbol percentile(NDArrayOrSymbol a, NDArrayOrSymbol q, Int32? axis, NDArrayOrSymbol @out, Boolean? overwrite_input, String interpolation, Boolean keepdims)
+        public static NDArrayOrSymbol percentile(NDArrayOrSymbol a, NDArrayOrSymbol q, int? axis, NDArrayOrSymbol @out, bool? overwrite_input, String interpolation, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -932,7 +932,7 @@ namespace MxNet
             }
             return sym_np_ops.percentile(a, q, axis, @out, overwrite_input, interpolation, keepdims);
         }
-        public static NDArrayOrSymbol median(NDArrayOrSymbol a, Int32? axis, NDArrayOrSymbol @out, Boolean? overwrite_input, Boolean keepdims)
+        public static NDArrayOrSymbol median(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out, bool? overwrite_input, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -940,7 +940,7 @@ namespace MxNet
             }
             return sym_np_ops.median(a, axis, @out, overwrite_input, keepdims);
         }
-        public static NDArrayOrSymbol quantile(NDArrayOrSymbol a, NDArrayOrSymbol q, Int32? axis, NDArrayOrSymbol @out, Boolean? overwrite_input, String interpolation, Boolean keepdims)
+        public static NDArrayOrSymbol quantile(NDArrayOrSymbol a, NDArrayOrSymbol q, int? axis, NDArrayOrSymbol @out, bool? overwrite_input, String interpolation, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -948,7 +948,7 @@ namespace MxNet
             }
             return sym_np_ops.quantile(a, q, axis, @out, overwrite_input, interpolation, keepdims);
         }
-        public static Boolean shares_memory(NDArrayOrSymbol a, NDArrayOrSymbol b, Int32? max_work)
+        public static bool shares_memory(NDArrayOrSymbol a, NDArrayOrSymbol b, int? max_work)
         {
             if (a.IsNDArray)
             {
@@ -956,7 +956,7 @@ namespace MxNet
             }
             return sym_np_ops.shares_memory(a, b, max_work);
         }
-        public static Boolean may_share_memory(NDArrayOrSymbol a, NDArrayOrSymbol b, Int32? max_work)
+        public static bool may_share_memory(NDArrayOrSymbol a, NDArrayOrSymbol b, int? max_work)
         {
             if (a.IsNDArray)
             {
@@ -964,7 +964,7 @@ namespace MxNet
             }
             return sym_np_ops.may_share_memory(a, b, max_work);
         }
-        public static NDArrayOrSymbol diff(NDArrayOrSymbol a, Int32 n, Int32 axis, NDArrayOrSymbol prepend, NDArrayOrSymbol append)
+        public static NDArrayOrSymbol diff(NDArrayOrSymbol a, int n, int axis, NDArrayOrSymbol prepend, NDArrayOrSymbol append)
         {
             if (a.IsNDArray)
             {
@@ -988,7 +988,7 @@ namespace MxNet
             }
             return sym_np_ops.resize(a, new_shape);
         }
-        public static NDArrayOrSymbol interp(NDArrayOrSymbol x, Single[] xp, Single[] fp, Single? left, Single? right, Single? period)
+        public static NDArrayOrSymbol interp(NDArrayOrSymbol x, float[] xp, float[] fp, float? left, float? right, float? period)
         {
             if (x.IsNDArray)
             {
@@ -996,7 +996,7 @@ namespace MxNet
             }
             return sym_np_ops.interp(x, xp, fp, left, right, period);
         }
-        public static NDArrayOrSymbol full_like(NDArrayOrSymbol a, Single fill_value, DType dtype, String order, Context ctx, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol full_like(NDArrayOrSymbol a, float fill_value, DType dtype, String order, Context ctx, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -1020,7 +1020,7 @@ namespace MxNet
             }
             return sym_np_ops.ones_like(a, dtype, order, ctx, @out);
         }
-        public static NDArrayOrSymbol fill_diagonal(NDArrayOrSymbol a, Single val, Boolean wrap)
+        public static NDArrayOrSymbol fill_diagonal(NDArrayOrSymbol a, float val, bool wrap)
         {
             if (a.IsNDArray)
             {
@@ -1036,7 +1036,7 @@ namespace MxNet
             }
             return sym_np_ops.broadcast_to(array, shape);
         }
-        public static NDArrayOrSymbol full(Shape shape, Double fill_value, DType dtype, String order, Context ctx, NDArrayOrSymbol @out, Boolean is_symbol)
+        public static NDArrayOrSymbol full(Shape shape, Double fill_value, DType dtype = null, String order = "C", Context ctx = null, NDArrayOrSymbol @out = null, bool is_symbol = false)
         {
             if (!is_symbol)
 {
@@ -1045,15 +1045,16 @@ namespace MxNet
             return sym_np_ops.full(shape, fill_value, dtype, order, ctx, @out);
         }
 
-        public static NDArrayOrSymbol empty_like(NDArrayOrSymbol prototype, Double fill_value, DType dtype, String order, Boolean subok, Shape shape)
+        public static NDArrayOrSymbol full_like(NDArrayOrSymbol prototype, DType dtype, String order = "C")
         {
             if (prototype.IsNDArray)
             {
-                return nd_np_ops.empty_like(prototype, fill_value, dtype, order, subok, shape);
+                return nd_np_ops.zeros_like(prototype, dtype, order);
             }
-            return sym_np_ops.empty_like(prototype, fill_value, dtype, order, subok, shape);
+
+            return sym_np_ops.zeros_like(prototype, dtype, order);
         }
-        public static Boolean all(NDArrayOrSymbol a)
+        public static bool all(NDArrayOrSymbol a)
         {
             if (a.IsNDArray)
             {
@@ -1061,7 +1062,7 @@ namespace MxNet
             }
             return sym_np_ops.all(a);
         }
-        public static NDArrayOrSymbol all(NDArrayOrSymbol a, Int32 axis, NDArrayOrSymbol @out, Boolean keepdims)
+        public static NDArrayOrSymbol all(NDArrayOrSymbol a, int axis, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -1069,7 +1070,7 @@ namespace MxNet
             }
             return sym_np_ops.all(a, axis, @out, keepdims);
         }
-        public static Boolean any(NDArrayOrSymbol a)
+        public static bool any(NDArrayOrSymbol a)
         {
             if (a.IsNDArray)
             {
@@ -1077,7 +1078,7 @@ namespace MxNet
             }
             return sym_np_ops.any(a);
         }
-        public static NDArrayOrSymbol any(NDArrayOrSymbol a, Int32 axis, NDArrayOrSymbol @out, Boolean keepdims)
+        public static NDArrayOrSymbol any(NDArrayOrSymbol a, int axis, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
             {
@@ -1085,7 +1086,7 @@ namespace MxNet
             }
             return sym_np_ops.any(a, axis, @out, keepdims);
         }
-        public static NDArrayOrSymbol take(NDArrayOrSymbol a, NDArrayOrSymbol indices, Int32? axis, String mode, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol take(NDArrayOrSymbol a, NDArrayOrSymbol indices, int? axis, String mode, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -1093,7 +1094,7 @@ namespace MxNet
             }
             return sym_np_ops.take(a, indices, axis, mode, @out);
         }
-        public static NDArrayOrSymbol unique(NDArrayOrSymbol ar, Int32? axis)
+        public static NDArrayOrSymbol unique(NDArrayOrSymbol ar, int? axis)
         {
             if (ar.IsNDArray)
             {
@@ -1101,7 +1102,7 @@ namespace MxNet
             }
             return sym_np_ops.unique(ar, axis);
         }
-        public static (NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol) unique(NDArrayOrSymbol ar, Boolean return_index, Boolean return_inverse, Boolean return_counts, Int32? axis)
+        public static (NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol) unique(NDArrayOrSymbol ar, bool return_index, bool return_inverse, bool return_counts, int? axis)
         {
             if (ar.IsNDArray)
             {
@@ -1520,7 +1521,7 @@ namespace MxNet
             }
             return sym_np_ops.arctanh(x, @out);
         }
-        public static NDArrayOrSymbol argsort(NDArrayOrSymbol x, Int32 axis, String kind, String order)
+        public static NDArrayOrSymbol argsort(NDArrayOrSymbol x, int axis, String kind, String order)
         {
             if (x.IsNDArray)
             {
@@ -1528,7 +1529,7 @@ namespace MxNet
             }
             return sym_np_ops.argsort(x, axis, kind, order);
         }
-        public static NDArrayOrSymbol sort(NDArrayOrSymbol x, Int32 axis, String kind, String order)
+        public static NDArrayOrSymbol sort(NDArrayOrSymbol x, int axis, String kind, String order)
         {
             if (x.IsNDArray)
             {
@@ -1536,7 +1537,7 @@ namespace MxNet
             }
             return sym_np_ops.sort(x, axis, kind, order);
         }
-        public static NDArrayOrSymbol tensordot(NDArrayOrSymbol a, NDArrayOrSymbol b, Int32 axes)
+        public static NDArrayOrSymbol tensordot(NDArrayOrSymbol a, NDArrayOrSymbol b, int axes)
         {
             if (a.IsNDArray)
             {
@@ -1544,7 +1545,7 @@ namespace MxNet
             }
             return sym_np_ops.tensordot(a, b, axes);
         }
-        public static NDArrayOrSymbol histogram(NDArrayOrSymbol a, Int32 bins, (float, float)? range, Boolean? normed, NDArrayOrSymbol weights, Boolean? density)
+        public static NDArrayOrSymbol histogram(NDArrayOrSymbol a, int bins, (float, float)? range, bool? normed, NDArrayOrSymbol weights, bool? density)
         {
             if (a.IsNDArray)
             {
@@ -1552,7 +1553,7 @@ namespace MxNet
             }
             return sym_np_ops.histogram(a, bins, range, normed, weights, density);
         }
-        public static NDArrayOrSymbol histogram(NDArrayOrSymbol a, NDArrayOrSymbol bins, (float, float)? range, Boolean? normed, NDArrayOrSymbol weights, Boolean? density)
+        public static NDArrayOrSymbol histogram(NDArrayOrSymbol a, NDArrayOrSymbol bins, (float, float)? range, bool? normed, NDArrayOrSymbol weights, bool? density)
         {
             if (a.IsNDArray)
             {
@@ -1560,7 +1561,7 @@ namespace MxNet
             }
             return sym_np_ops.histogram(a, bins, range, normed, weights, density);
         }
-        public static NDArrayOrSymbol expand_dims(NDArrayOrSymbol a, Int32 axis)
+        public static NDArrayOrSymbol expand_dims(NDArrayOrSymbol a, int axis)
         {
             if (a.IsNDArray)
             {
@@ -1568,7 +1569,7 @@ namespace MxNet
             }
             return sym_np_ops.expand_dims(a, axis);
         }
-        public static NDArrayOrSymbol tile(NDArrayOrSymbol a, Int32[] reps)
+        public static NDArrayOrSymbol tile(NDArrayOrSymbol a, int[] reps)
         {
             if (a.IsNDArray)
             {
@@ -1576,7 +1577,7 @@ namespace MxNet
             }
             return sym_np_ops.tile(a, reps);
         }
-        public static NDArrayOrSymbol trace(NDArrayOrSymbol a, Int32 offset, Int32 axis1, Int32 axis2, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol trace(NDArrayOrSymbol a, int offset, int axis1, int axis2, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -1584,7 +1585,7 @@ namespace MxNet
             }
             return sym_np_ops.trace(a, offset, axis1, axis2, @out);
         }
-        public static NDArrayOrSymbol transpose(NDArrayOrSymbol a, Int32[] axes)
+        public static NDArrayOrSymbol transpose(NDArrayOrSymbol a, int[] axes)
         {
             if (a.IsNDArray)
             {
@@ -1592,7 +1593,7 @@ namespace MxNet
             }
             return sym_np_ops.transpose(a, axes);
         }
-        public static NDArrayOrSymbol repeat(NDArrayOrSymbol a, Int32 repeats, Int32? axis)
+        public static NDArrayOrSymbol repeat(NDArrayOrSymbol a, int repeats, int? axis)
         {
             if (a.IsNDArray)
             {
@@ -1600,7 +1601,7 @@ namespace MxNet
             }
             return sym_np_ops.repeat(a, repeats, axis);
         }
-        public static NDArrayOrSymbol tril(NDArrayOrSymbol m, Int32 k)
+        public static NDArrayOrSymbol tril(NDArrayOrSymbol m, int k)
         {
             if (m.IsNDArray)
             {
@@ -1608,7 +1609,7 @@ namespace MxNet
             }
             return sym_np_ops.tril(m, k);
         }
-        public static NDArrayOrSymbol triu_indices_from(NDArrayOrSymbol NDArrayOrSymbol, Int32 k)
+        public static NDArrayOrSymbol triu_indices_from(NDArrayOrSymbol NDArrayOrSymbol, int k)
         {
             if (NDArrayOrSymbol.IsNDArray)
             {
@@ -1617,7 +1618,7 @@ namespace MxNet
             return sym_np_ops.triu_indices_from(NDArrayOrSymbol, k);
         }
 
-        public static NDArrayOrSymbolList split(NDArrayOrSymbol ary, Int32[] indices_or_sections, Int32 axis)
+        public static NDArrayOrSymbolList split(NDArrayOrSymbol ary, int[] indices_or_sections, int axis)
         {
             if (ary.IsNDArray)
             {

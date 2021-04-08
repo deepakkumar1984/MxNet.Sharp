@@ -725,6 +725,9 @@ namespace MxNet.Numpy
 
             switch (DataType.Name)
             {
+                case "bool":
+                    data = Array.CreateInstance(typeof(bool), size);
+                    break;
                 case "float16":
                     data = Array.CreateInstance(typeof(float), size);
                     break;
