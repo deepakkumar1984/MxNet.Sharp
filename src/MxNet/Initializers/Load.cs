@@ -40,9 +40,9 @@ namespace MxNet.Initializers
         {
             if (Param.Contains(name))
             {
-                if (arr.Shape != Param[name].Shape)
+                if (arr.Shape != Param[name].shape)
                     throw new MXNetException(string.Format("Shape mismatch, target {0} vs loaded {1}", arr.Shape,
-                        Param[name].Shape));
+                        Param[name].shape));
 
                 arr = Param[name];
                 if (Verbose)

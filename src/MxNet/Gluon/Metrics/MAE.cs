@@ -25,10 +25,10 @@ namespace MxNet.Gluon.Metrics
 
         public override void Update(ndarray labels, ndarray preds)
         {
-            if (labels.Shape.Dimension == 1)
-                labels = labels.reshape(labels.Shape[0], 1);
-            if (preds.Shape.Dimension == 1)
-                preds = preds.reshape(preds.Shape[0], 1);
+            if (labels.shape.Dimension == 1)
+                labels = labels.reshape(labels.shape[0], 1);
+            if (preds.shape.Dimension == 1)
+                preds = preds.reshape(preds.shape[0], 1);
 
             var mae = nd.Abs(labels = preds).Mean();
 

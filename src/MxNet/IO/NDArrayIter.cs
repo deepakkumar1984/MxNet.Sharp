@@ -40,7 +40,7 @@ namespace MxNet.IO
             this.label = IOUtils.InitData(label, false, label_name);
             BatchSize = batch_size;
             Cursor = batch_size;
-            num_data = data[0].Shape[0];
+            num_data = data[0].shape[0];
             this.last_batch_handle = last_batch_handle;
             this.shuffle = shuffle;
 
@@ -58,10 +58,10 @@ namespace MxNet.IO
                 var result = new List<DataDesc>();
                 foreach (var kv in data)
                 {
-                    var shape = kv.Value.Shape.Data.ToList();
+                    var shape = kv.Value.shape.Data.ToList();
                     shape.RemoveAt(0);
                     shape.Insert(0, BatchSize);
-                    result.Add(new DataDesc(kv.Key, new Shape(shape), kv.Value.DataType));
+                    result.Add(new DataDesc(kv.Key, new Shape(shape), kv.Value.dtype));
                 }
 
                 return result.ToArray();
@@ -75,10 +75,10 @@ namespace MxNet.IO
                 var result = new List<DataDesc>();
                 foreach (var kv in label)
                 {
-                    var shape = kv.Value.Shape.Data.ToList();
+                    var shape = kv.Value.shape.Data.ToList();
                     shape.RemoveAt(0);
                     shape.Insert(0, BatchSize);
-                    result.Add(new DataDesc(kv.Key, new Shape(shape), kv.Value.DataType));
+                    result.Add(new DataDesc(kv.Key, new Shape(shape), kv.Value.dtype));
                 }
 
                 return result.ToArray();
@@ -128,7 +128,7 @@ namespace MxNet.IO
             var d = GetData();
             var l = GetLabel();
             // iter should stop when last batch is not complete
-            if (d[0].Shape[0] != BatchSize)
+            if (d[0].shape[0] != BatchSize)
             {
                 //in this case, cache it for next epoch
                 _cache_data = d;
@@ -180,7 +180,7 @@ namespace MxNet.IO
                 throw new ArgumentException("Should atleast specify start or end");
 
             start = start.HasValue ? start : 0;
-            end = end.HasValue ? end : data_source.First().Value.Shape[0];
+            end = end.HasValue ? end : data_source.First().Value.shape[0];
 
             var result = new NDArrayList();
             foreach (var x in data_source) result.Add(x.Value.Slice(start.Value, end));
@@ -218,7 +218,7 @@ namespace MxNet.IO
             foreach (var datum in data)
             {
                 var reps = new List<int>();
-                for (int i = 0; i < datum.Shape.Dimension; i++)
+                for (int i = 0; i < datum.shape.Dimension; i++)
                     reps.Add(1);
 
                 reps[0] = repeats;

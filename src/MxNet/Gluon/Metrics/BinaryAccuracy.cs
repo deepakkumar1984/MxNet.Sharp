@@ -39,8 +39,8 @@ namespace MxNet.Gluon.Metrics
 
             sum_metric += num_correct;
             global_sum_metric += num_correct;
-            num_inst += preds.Shape.Size;
-            global_num_inst += preds.Shape.Size;
+            num_inst += preds.shape.Size;
+            global_num_inst += preds.shape.Size;
         }
     }
 }

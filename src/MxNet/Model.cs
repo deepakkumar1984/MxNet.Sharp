@@ -65,7 +65,7 @@ namespace MxNet
                 kV = KVStoreBase.Create(kvstore);
                 if (kvstore == "local")
                 {
-                    var max_size = arg_params.Values.Select(x => x.Shape.Size).ToList().Max();
+                    var max_size = arg_params.Values.Select(x => x.shape.Size).ToList().Max();
                     if (max_size > 1024 * 1024 * 16)
                         update_on_kvstore = false;
                 }
@@ -92,7 +92,7 @@ namespace MxNet
 
                 var name = param_names[i];
                 var param_on_devs = param_arrays[i];
-                if (!update_on_kvstore || arg_params[name].SType != StorageStype.Default)
+                if (!update_on_kvstore || arg_params[name].stype != StorageStype.Default)
                 {
                     kvstore.Init(name, arg_params[name]);
                 }
@@ -155,7 +155,7 @@ namespace MxNet
                     continue;
 
                 string name = param_names[index];
-                if (grad_list[0].SType == StorageStype.Default && arg_list[0].SType == StorageStype.Default)
+                if (grad_list[0].stype == StorageStype.Default && arg_list[0].stype == StorageStype.Default)
                 {
                     kvstore.PushPull(name, grad_list, @out: arg_list, priority: -index);
                 }
@@ -191,7 +191,7 @@ namespace MxNet
                 if (kvstore != null)
                 {
                     string name = param_names[index];
-                    if (grad_list[0].SType == StorageStype.Default && arg_list[0].SType == StorageStype.Default)
+                    if (grad_list[0].stype == StorageStype.Default && arg_list[0].stype == StorageStype.Default)
                     {
                         kvstore.PushPull(name, grad_list, @out: arg_list, priority: -index);
                     }

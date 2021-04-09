@@ -249,7 +249,7 @@ namespace MxNet
             var argNameList = ListArguments();
             foreach (var argName in argNameList)
                 if (knownArgs[argName] != null)
-                    argShapes[argName] = knownArgs[argName].Shape;
+                    argShapes[argName] = knownArgs[argName].shape;
 
             var (inShapes, outShapes, auxShapes) = InferShape(argShapes);
 
@@ -626,7 +626,7 @@ namespace MxNet
 
             foreach (var argName in argNameList)
                 if (argsMap[argName] != null)
-                    argShapes[argName] = argsMap[argName].Shape;
+                    argShapes[argName] = argsMap[argName].shape;
 
             var (inShapes, auxShapes, outShapes) = InferShape(argShapes);
 
@@ -643,7 +643,7 @@ namespace MxNet
                     argArrays.Add(new NDArray(shape, false));
                     //NDArray.SampleGaussian(0, 1, argArrays.Last());
                     var argArr = argArrays.Last();
-                    nd.Random.Uniform(0, 1, argArr.Shape).CopyTo(argArr);
+                    nd.Random.Uniform(0, 1, argArr.shape).CopyTo(argArr);
                 }
 
                 if (argGradStore[argName] != null)
@@ -674,7 +674,7 @@ namespace MxNet
                     auxArrays.Add(new NDArray(shape, false));
                     var aux = auxArrays.Last();
                     //NDArray.SampleGaussian(0, 1, auxArrays.Last());
-                    nd.Random.Uniform(0, 1, aux.Shape).CopyTo(aux);
+                    nd.Random.Uniform(0, 1, aux.shape).CopyTo(aux);
                 }
             }
         }

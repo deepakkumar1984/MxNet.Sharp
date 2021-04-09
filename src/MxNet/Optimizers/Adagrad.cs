@@ -30,7 +30,7 @@ namespace MxNet.Optimizers
         public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("history");
-            state["history"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+            state["history"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
             return state;
         }
 
@@ -53,7 +53,7 @@ namespace MxNet.Optimizers
             UpdateCount(index);
             var lr = GetLr(index);
             var wd = GetWd(index);
-            var is_sparse = grad.SType == StorageStype.RowSparse;
+            var is_sparse = grad.stype == StorageStype.RowSparse;
             var history = state["history"];
 
             if (is_sparse)

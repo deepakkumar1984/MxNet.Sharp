@@ -394,7 +394,7 @@ namespace MxNet
 
         public Operator SetParam(int pos, object val)
         {
-            _Params[_ArgNames[pos]] = val.ToString();
+            _Params[_ArgNames[pos]] = val != null ? val.ToString() : null;
             return this;
         }
 

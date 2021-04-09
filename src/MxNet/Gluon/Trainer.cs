@@ -259,7 +259,7 @@ namespace MxNet.Gluon
             var idx = _param2idx[parameter._uuid];
             if (full_idx && _kvstore.Type.Contains("dist"))
             {
-                if (row_id.Size != @out[0].Shape[0])
+                if (row_id.Size != @out[0].shape[0])
                     throw new Exception("row_id size not equal to @out row size");
 
                 _kvstore.Pull(idx.ToString(), @out.ToArray(), -idx, false);
@@ -327,7 +327,7 @@ namespace MxNet.Gluon
                     var grad_list = param.ListGrad();
                     NDArrayList pull_list = null;
                     // sparse gradients, call push and pull separately
-                    if (grad_list[0].SType !=  StorageStype.Default)
+                    if (grad_list[0].stype !=  StorageStype.Default)
                     {
                         this._kvstore.Push(idx, grad_list, priority: -i);
                         if (param.Stype == StorageStype.Default)
@@ -399,7 +399,7 @@ namespace MxNet.Gluon
                     foreach (var data in datalist)
                         if (!data.FreshGrad)
                             Logger.Warning(
-                                $"Gradient of Parameter `{param.Name}` on context {data.Context} has not been updated " +
+                                $"Gradient of Parameter `{param.Name}` on context {data.ctx} has not been updated " +
                                 "by backward since last `step`. This could mean a bug in your " +
                                 "model that made it only use a subset of the Parameters (Blocks) " +
                                 "for this iteration. If you are intentionally only using a subset, " +

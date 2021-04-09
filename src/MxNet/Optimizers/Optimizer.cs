@@ -114,13 +114,13 @@ namespace MxNet.Optimizers
         public virtual (NDArrayDict, ndarray) CreateStateMultiPrecision(int index, ndarray weight)
         {
             ndarray weight_master_copy = null;
-            if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+            if (MultiPrecision && weight.dtype.Name == DType.Float16.Name)
             {
                 weight_master_copy = weight.AsType(DType.Float32);
                 return (CreateState(index, weight_master_copy), weight_master_copy);
             }
 
-            if (!MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+            if (!MultiPrecision && weight.dtype.Name == DType.Float16.Name)
                 Logger.Warning("Accumulating with float16 in optimizer can lead to " +
                                "poor accuracy or slow convergence. " +
                                "Consider using multi_precision=True option of the " +
@@ -154,7 +154,7 @@ namespace MxNet.Optimizers
 
         public virtual void UpdateMultiPrecision(int index, ndarray weight, ndarray grad, (NDArrayDict, ndarray) state)
         {
-            if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+            if (MultiPrecision && weight.dtype.Name == DType.Float16.Name)
             {
                 var weight_master_copy = state.Item2;
                 var grad32 = grad.AsType(DType.Float32);
@@ -163,7 +163,7 @@ namespace MxNet.Optimizers
                 else
                     Step(index, weight_master_copy, grad32, state.Item1);
 
-                weight_master_copy.Cast(weight.DataType).CopyTo(weight);
+                weight_master_copy.Cast(weight.dtype).CopyTo(weight);
             }
             else
             {

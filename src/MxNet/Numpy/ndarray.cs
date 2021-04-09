@@ -22,7 +22,7 @@ namespace MxNet.Numpy
            CastStorageStypeConvert = new List<string> { "default", "row_sparse", "csr" };
         internal NDBlob _Blob;
 
-        public Context Context
+        public Context ctx
         {
             get
             {
@@ -30,11 +30,11 @@ namespace MxNet.Numpy
             }
         }
 
-        public Shape Shape => new Shape(GetShape().ToArray());
+        public Shape shape => new Shape(GetShape().ToArray());
 
-        public DType DataType => DType.GetType(GetDType());
+        public DType dtype => DType.GetType(GetDType());
 
-        public StorageStype SType => (StorageStype)StorageType();
+        public StorageStype stype => (StorageStype)StorageType();
 
         public ndarray T
         {
@@ -217,7 +217,7 @@ namespace MxNet.Numpy
 
         #region Properties
 
-        public virtual long Size
+        public virtual long size
         {
             get
             {
@@ -230,7 +230,7 @@ namespace MxNet.Numpy
             }
         }
 
-        public int Dimension => Shape.Dimension;
+        public int ndim => shape.Dimension;
 
         public bool FreshGrad
         {
@@ -242,9 +242,9 @@ namespace MxNet.Numpy
             set => NativeMethods.MXNDArraySetGradState(NativePtr, value);
         }
 
-        public Array ArrayData => AsArray();
+        public Array data => AsArray();
 
-        public ndarray Grad
+        public ndarray grad
         {
             get
             {
@@ -259,7 +259,7 @@ namespace MxNet.Numpy
 
         public ndarray Copy()
         {
-            var ret = new ndarray(Shape);
+            var ret = new ndarray(shape);
             using (var op = new Operator("_copyto"))
             {
                 op.Set(this).Invoke(ret);
@@ -283,7 +283,7 @@ namespace MxNet.Numpy
 
         public ndarray ChangeContext(Context ctx)
         {
-            var result = new ndarray(Shape, true, ctx, DataType);
+            var result = new ndarray(shape, true, ctx, dtype);
             CopyTo(result);
             return result;
         }
@@ -595,7 +595,7 @@ namespace MxNet.Numpy
         public (int, int, Shape, DType) ToSharedMem()
         {
             NativeMethods.MXNDArrayGetSharedMemHandle(NativePtr, out var shared_pid, out var shared_id);
-            return (shared_pid, shared_id, Shape, DataType);
+            return (shared_pid, shared_id, shape, dtype);
         }
 
         public ndarray Cast(DType dtype)
@@ -720,10 +720,10 @@ namespace MxNet.Numpy
 
         public Array AsArray()
         {
-            var size = Size;
+            var size = this.size;
             Array data = null;
 
-            switch (DataType.Name)
+            switch (dtype.Name)
             {
                 case "bool":
                     data = Array.CreateInstance(typeof(bool), size);
@@ -789,7 +789,7 @@ namespace MxNet.Numpy
 
         public ndarray AsInContext(Context context)
         {
-            if (this.Context == context)
+            if (this.ctx == context)
                 return this;
 
             return ChangeContext(context);
@@ -806,7 +806,7 @@ namespace MxNet.Numpy
             NumpyDotNet.ndarray x = NumpyDotNet.np.array(AsArray()); ;
 
             var npShape = new List<int>();
-            foreach (var item in Shape.Data)
+            foreach (var item in shape.Data)
             {
                 if (item == 0)
                     continue;
@@ -822,7 +822,7 @@ namespace MxNet.Numpy
             get
             {
                 var x = Slice(index, index + 1);
-                var new_shape = x.Shape.Data.ToList();
+                var new_shape = x.shape.Data.ToList();
                 new_shape.RemoveAt(0);
                 return x.reshape(new Shape(new_shape));
             }
@@ -851,7 +851,7 @@ namespace MxNet.Numpy
                 if (string.IsNullOrEmpty(slice))
                     return this;
 
-                var (begin, end) = MxUtil.GetSliceNotation(slice, Shape);
+                var (begin, end) = MxUtil.GetSliceNotation(slice, shape);
 
                 return Slice(begin, end);
             }
@@ -860,10 +860,10 @@ namespace MxNet.Numpy
                 if (string.IsNullOrEmpty(slice))
                     value.CopyTo(this);
 
-                var (begin, end) = MxUtil.GetSliceNotation(slice, Shape);
+                var (begin, end) = MxUtil.GetSliceNotation(slice, shape);
                 ndarray output = null;
 
-                if (value.Size == 1)
+                if (value.size == 1)
                     output = nd.SliceAssignScalar(this, begin, end, value.AsScalar<double>());
                 else
                     output = nd.SliceAssign(this, value, begin, end);
@@ -906,12 +906,12 @@ namespace MxNet.Numpy
 
         public ndarray ToSType(StorageStype stype)
         {
-            if (stype == StorageStype.Csr && this.Shape.Dimension != 2)
+            if (stype == StorageStype.Csr && this.shape.Dimension != 2)
             {
-                throw new System.Exception("To convert to a CSR, the NDArray should be 2 Dimensional. Current shape is " + this.Shape);
+                throw new System.Exception("To convert to a CSR, the NDArray should be 2 Dimensional. Current shape is " + this.shape);
             }
 
-            if (this.SType == stype)
+            if (this.stype == stype)
                 return this;
 
             return new Operator("cast_storage")
@@ -1085,15 +1085,15 @@ namespace MxNet.Numpy
                 if (shape[i] != -1)
                     targetShape[i] = shape[i];
                 else
-                    targetShape[i] = Convert.ToInt32(Size / prod);
+                    targetShape[i] = Convert.ToInt32(size / prod);
 
             return reshape(new Shape(targetShape));
         }
 
         public ndarray Ravel()
         {
-            var n = Shape[0];
-            var m = Size / n;
+            var n = shape[0];
+            var m = size / n;
             return reshape(new Shape(n, m));
         }
 
@@ -1105,14 +1105,14 @@ namespace MxNet.Numpy
             }
             else
             {
-                var new_shape = this.Shape.Data;
+                var new_shape = this.shape.Data;
 
                 if (axis.HasValue)
                 {
                     var axes = new List<int>() { axis.Value };
                     Debug.Assert(axes.Count == new HashSet<int>(axes).Count, "axis contains duplicate which is not allowed.");
                     var resolved_axes = (from i in axes
-                                         select i >= 0 ? i : i + this.Shape.Dimension).ToList();
+                                         select i >= 0 ? i : i + this.shape.Dimension).ToList();
 
                     Enumerable.Zip(axes, resolved_axes, (arg_axis, actual_axis) =>
                     {
@@ -1166,7 +1166,7 @@ namespace MxNet.Numpy
 
         public override string ToString()
         {
-            return DataType.Name + ": " + Shape;
+            return dtype.Name + ": " + shape;
         }
 
         protected override void DisposeUnmanaged()
@@ -1188,7 +1188,7 @@ namespace MxNet.Numpy
         public static implicit operator OpenCvSharp.Mat(ndarray x)
         {
             var buffer = x.AsType(DType.UInt8).GetBuffer();
-            var (h, w, c) = x.Shape;
+            var (h, w, c) = x.shape;
             OpenCvSharp.Mat mat = new OpenCvSharp.Mat(new OpenCvSharp.Size(w, h), OpenCvSharp.MatType.CV_8UC3);
             unsafe
             {

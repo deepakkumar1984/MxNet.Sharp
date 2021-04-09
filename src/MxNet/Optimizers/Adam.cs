@@ -52,10 +52,10 @@ namespace MxNet.Optimizers
 
         public override NDArrayDict CreateState(int index, ndarray weight)
         {
-            var stype = LazyUpdate ? weight.SType : StorageStype.Default;
+            var stype = LazyUpdate ? weight.stype : StorageStype.Default;
             var state = new NDArrayDict("mean", "variance");
-            state["mean"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(stype);
-            state["variance"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(stype);
+            state["mean"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(stype);
+            state["variance"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(stype);
             return state;
         }
 

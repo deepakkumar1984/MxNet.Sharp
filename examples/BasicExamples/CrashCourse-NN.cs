@@ -19,7 +19,7 @@ namespace BasicExamples
         {
             var mnist_train = new FashionMNIST(train: true);
             var (x, y) = mnist_train[0];
-            Console.WriteLine($"X shape: {x.Shape}, X dtype: {x.DataType}, Y shape: {y.Shape}, Y dtype: {y.DataType}");
+            Console.WriteLine($"X shape: {x.shape}, X dtype: {x.dtype}, Y shape: {y.shape}, Y dtype: {y.dtype}");
 
             var transformer = new Compose(
                                     new ToTensor(),
@@ -31,7 +31,7 @@ namespace BasicExamples
             var train_data = new DataLoader(train, batch_size: batch_size, shuffle: true);
             foreach (var (data, label) in train_data)
             {
-                Console.WriteLine(data.Shape + ", " + label.Shape);
+                Console.WriteLine(data.shape + ", " + label.shape);
                 break;
             }
 

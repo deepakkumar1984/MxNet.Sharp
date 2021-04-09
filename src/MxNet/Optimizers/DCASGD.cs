@@ -40,7 +40,7 @@ namespace MxNet.Optimizers
             }
             else
             {
-                state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
+                state["momentum"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype);
                 state["prev_weight"] = weight.Copy();
             }
 

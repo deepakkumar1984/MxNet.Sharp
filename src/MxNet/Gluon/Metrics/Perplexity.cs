@@ -36,17 +36,17 @@ namespace MxNet.Gluon.Metrics
             float loss = 0;
             long num = 0;
 
-            labels = labels.AsInContext(preds.Context).reshape(Convert.ToInt32(preds.Size));
+            labels = labels.AsInContext(preds.ctx).reshape(Convert.ToInt32(preds.size));
             preds = nd.Pick(preds, labels.AsType(DType.Int32), Axis);
             if (IgnoreLabel.HasValue)
             {
-                var ignore = np.equal(labels, IgnoreLabel.Value).AsType(preds.DataType);
+                var ignore = np.equal(labels, IgnoreLabel.Value).AsType(preds.dtype);
                 num -= nd.Sum(ignore).AsScalar<int>();
                 preds = preds * (1 - ignore) + ignore;
             }
 
             loss -= nd.Sum(nd.Log(nd.MaximumScalar(preds, 1e-10f))).AsScalar<float>();
-            num += preds.Size;
+            num += preds.size;
 
             sum_metric += loss;
             global_sum_metric += loss;

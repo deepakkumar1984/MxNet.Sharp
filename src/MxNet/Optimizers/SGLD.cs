@@ -40,8 +40,8 @@ namespace MxNet.Optimizers
                 grad = nd.Clip(grad, -ClipGradient.Value, ClipGradient.Value);
 
             weight += -lr / 2 * (grad + wd * weight);
-            weight += np.random.normal(0, (float)Math.Sqrt(lr), weight.Shape, dtype: weight.DataType,
-                ctx: weight.Context);
+            weight += np.random.normal(0, (float)Math.Sqrt(lr), weight.shape, dtype: weight.dtype,
+                ctx: weight.ctx);
         }
 
         public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)

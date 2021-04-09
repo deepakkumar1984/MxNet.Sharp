@@ -50,6 +50,10 @@ namespace MxNet.ND.Numpy
                     {
                         op.SetInput(k, (ndarray)value);
                     }
+                    else if (argType.Name == "NDArrayList")
+                    {
+                        op.SetInput((NDArrayList)value);
+                    }
                     else
                     {
                         op.SetParam(k, value);

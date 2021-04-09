@@ -29,8 +29,8 @@ namespace MxNet.Gluon.Metrics
             var loss = nd.Sum(preds).AsScalar<float>();
             sum_metric += loss;
             global_sum_metric += loss;
-            num_inst += preds.Shape.Size;
-            global_num_inst += preds.Shape.Size;
+            num_inst += preds.shape.Size;
+            global_num_inst += preds.shape.Size;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BasicExamples
 
             var x = np.full(new Shape(300, 100), 2);
             var y = np.full(new Shape(3, 3), 4);
-            var z = np.histogram(x, 10, (3, 100));
+            var z = np.histogram(x, range: (1, 100));
         }
 
         private static void GenerateFOps()

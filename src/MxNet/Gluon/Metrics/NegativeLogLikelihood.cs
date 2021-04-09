@@ -31,13 +31,13 @@ namespace MxNet.Gluon.Metrics
         public override void Update(ndarray labels, ndarray preds)
         {
             CheckLabelShapes(labels, preds);
-            if (preds.Shape[0] != labels.Shape[0])
+            if (preds.shape[0] != labels.shape[0])
                 throw new ArgumentException("preds.Shape[0] != labels.Shape[0]");
 
             var l = labels;
             l = l.ravel();
             var p = preds;
-            var num_examples = p.Shape[0];
+            var num_examples = p.shape[0];
             var prob = p[np.arange(num_examples).Cast(np.Int64), l.Cast(np.Int64)];
             var nll = (-np.log(prob + eps)).sum().AsScalar<float>();
             sum_metric += nll;

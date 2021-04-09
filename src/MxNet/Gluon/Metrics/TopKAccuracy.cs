@@ -37,8 +37,8 @@ namespace MxNet.Gluon.Metrics
             CheckLabelShapes(labels, preds);
             var pred_label = preds.argsort().AsType(DType.Int32); //ToDo: Use numpy argpartition
             var label = labels.AsType(DType.Int32);
-            var num_samples = pred_label.Shape[0];
-            var num_dims = pred_label.Shape.Dimension;
+            var num_samples = pred_label.shape[0];
+            var num_dims = pred_label.shape.Dimension;
             if (num_dims == 1)
             {
                 sum_metric += np.equal(pred_label.Ravel(), label.Ravel()).sum().AsScalar<float>();
@@ -46,7 +46,7 @@ namespace MxNet.Gluon.Metrics
 
             else if (num_dims == 2)
             {
-                var num_classes = pred_label.Shape[1];
+                var num_classes = pred_label.shape[1];
                 TopK = Math.Min(num_classes, TopK);
                 for (var j = 0; j < TopK; j++)
                 {

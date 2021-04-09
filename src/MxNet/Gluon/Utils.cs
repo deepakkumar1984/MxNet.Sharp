@@ -91,13 +91,13 @@ namespace MxNet.Gluon
                 Dictionary<Context, NDArrayList> groups = new Dictionary<Context, NDArrayList>();
                 foreach (var arr in arr_list)
                 {
-                    if(groups.ContainsKey(arr.Context))
+                    if(groups.ContainsKey(arr.ctx))
                     {
-                        groups[arr.Context].Add(arr);
+                        groups[arr.ctx].Add(arr);
                     }
                     else
                     {
-                        groups.Add(arr.Context, arr);
+                        groups.Add(arr.ctx, arr);
                     }
                 }
 
@@ -109,7 +109,7 @@ namespace MxNet.Gluon
 
             var arrays_groups = group_by_ctx(arrays);
             var all_ctx_sum = new NDArrayList();
-            var ctx = arrays[0].Context;
+            var ctx = arrays[0].ctx;
             foreach (var group in arrays_groups)
             {
                 var sum_sq = nd.MultiSumSq(group.Value, num_arrays: group.Value.Length);
@@ -126,7 +126,7 @@ namespace MxNet.Gluon
 
             var scale = max_norm / (total_norm + 1e-8f);
             scale = np.min(np.concatenate(new NDArrayList(scale, np.ones(new Shape(1), ctx: ctx)), 0));
-            for (var i = 0; i < arrays.Length; i++) arrays[i] *= (ndarray)scale.AsInContext(arrays[i].Context);
+            for (var i = 0; i < arrays.Length; i++) arrays[i] *= (ndarray)scale.AsInContext(arrays[i].ctx);
 
             return total_norm;
         }

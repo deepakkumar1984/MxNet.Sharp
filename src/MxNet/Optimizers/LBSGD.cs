@@ -86,16 +86,16 @@ namespace MxNet.Optimizers
             var state = new NDArrayDict();
             state["weight_master_copy"] = null;
             state["momentum"] = null;
-            if (MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+            if (MultiPrecision && weight.dtype.Name == DType.Float16.Name)
             {
                 state["weight_master_copy"] = weight.AsType(DType.Float32);
                 if (Momentum != 0)
-                    state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+                    state["momentum"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
 
                 return state;
             }
 
-            if (!MultiPrecision && weight.DataType.Name == DType.Float16.Name)
+            if (!MultiPrecision && weight.dtype.Name == DType.Float16.Name)
             {
                 Logger.Warning("Accumulating with float16 in optimizer can lead to " +
                                "poor accuracy or slow convergence. " +
@@ -104,7 +104,7 @@ namespace MxNet.Optimizers
             }
 
             if (Momentum != 0)
-                state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+                state["momentum"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
 
             return state;
         }

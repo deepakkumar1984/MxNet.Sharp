@@ -146,8 +146,8 @@ namespace MxNet
 
                         if (req !=  OpGradReq.Null)
                         {
-                            this._args[i].AttachGrad(req, stype: x.Value.SType);
-                             x.Value.CopyTo(this._args[i].Grad);
+                            this._args[i].AttachGrad(req, stype: x.Value.stype);
+                             x.Value.CopyTo(this._args[i].grad);
                         }
                     }
                     catch (Exception)
@@ -235,9 +235,9 @@ namespace MxNet
                     try
                     {
                         var i = this._input_names.ToList().IndexOf(k);
-                        if (this._args[i].Grad != null)
+                        if (this._args[i].grad != null)
                         {
-                            v = this._args[i].Grad;
+                            v = this._args[i].grad;
                         }
                     }
                     catch (Exception)
@@ -294,7 +294,7 @@ namespace MxNet
                 {
                     var dst = arg_dict[item.Key];
                     //ToDo: Missing AMP cast for float16
-                    item.Value.AsType(dst.DataType).CopyTo(dst);
+                    item.Value.AsType(dst.dtype).CopyTo(dst);
                 }
                 else if (!allow_extra_params)
                 {
@@ -309,7 +309,7 @@ namespace MxNet
                 {
                     var dst = aux_dict[item.Key];
                     //ToDo: Missing AMP cast for float16
-                    item.Value.AsType(dst.DataType).CopyTo(dst);
+                    item.Value.AsType(dst.dtype).CopyTo(dst);
                 }
                 else if (!allow_extra_params)
                 {

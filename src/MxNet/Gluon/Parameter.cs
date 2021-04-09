@@ -339,7 +339,7 @@ namespace MxNet.Gluon
 
             _grad = new NDArrayList();
             for (var i = 0; i < _data.Length; i++)
-                _grad.Add(nd.Zeros(_data[i].Shape, _data[i].Context, _data[i].DataType).ToSType(Stype));
+                _grad.Add(nd.Zeros(_data[i].shape, _data[i].ctx, _data[i].dtype).ToSType(Stype));
 
             Autograd.MarkVariables(CheckAndGet(_data, null), _grad.ToArray(), GradReg);
         }

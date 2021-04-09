@@ -19,13 +19,13 @@ namespace MxNet.Optimizers
         public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("history");
-            state["history"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+            state["history"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
             return state;
         }
 
         public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
-            var is_sparse = grad.SType == StorageStype.RowSparse;
+            var is_sparse = grad.stype == StorageStype.RowSparse;
 
             if (is_sparse)
             {

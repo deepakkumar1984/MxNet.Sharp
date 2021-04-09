@@ -12,7 +12,7 @@ namespace MxNet._ffi
             if (value.GetType().Name == "NDArray")
                 dtype = ((NDArray)value).DataType;
             if (value.GetType().Name == "NDArrayOrSymbol")
-                dtype = ((NDArrayOrSymbol)value).IsNDArray ? ((NDArrayOrSymbol)value).NdX.DataType : null;
+                dtype = ((NDArrayOrSymbol)value).IsNDArray ? ((NDArrayOrSymbol)value).NdX.dtype : null;
             else if (value.GetType().Name == "Single")
                 dtype = DType.Float32;
             else if (value.GetType().Name == "Int32")

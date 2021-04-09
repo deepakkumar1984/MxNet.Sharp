@@ -55,7 +55,7 @@ namespace MxNet.Numpy
 
         public static (NumpyDotNet.ndarray, Context) _as_onp_array(ndarray obj)
         {
-            return (obj.AsNumpy(), obj.Context);
+            return (obj.AsNumpy(), obj.ctx);
         }
 
         public static ndarray _np_ndarray_cls(IntPtr handle, bool writable= true, StorageStype stype= StorageStype.Default)

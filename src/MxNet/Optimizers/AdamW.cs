@@ -53,10 +53,10 @@ namespace MxNet.Optimizers
 
         public override NDArrayDict CreateState(int index, ndarray weight)
         {
-            var stype = LazyUpdate ? weight.SType : StorageStype.Default;
+            var stype = LazyUpdate ? weight.stype : StorageStype.Default;
             var state = new NDArrayDict("mean", "variance");
-            state["mean"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(stype);
-            state["variance"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(stype);
+            state["mean"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(stype);
+            state["variance"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(stype);
             return state;
         }
 
@@ -98,7 +98,7 @@ namespace MxNet.Optimizers
 
         public override void FusedStep(int index, ndarray weight, ndarray grad, NDArrayDict state)
         {
-            var multi_precision = this.MultiPrecision && weight.DataType == DType.Float16;
+            var multi_precision = this.MultiPrecision && weight.dtype == DType.Float16;
             UpdateCount(index);
             var lr = GetLr(index);
             var wd = GetWd(index);

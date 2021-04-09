@@ -39,7 +39,7 @@ namespace MxNet.IO
         public static bool HasInstance(NDArrayDict data, DType dtype)
         {
             foreach (var item in data)
-                if (item.Value.DataType.Name == dtype.Name)
+                if (item.Value.dtype.Name == dtype.Name)
                     return true;
 
             return false;

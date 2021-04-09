@@ -31,17 +31,17 @@ namespace MxNet.Gluon.Metrics
         public override void Update(ndarray labels, ndarray preds)
         {
             var l = labels;
-            if (preds.Shape[0] != labels.Shape[0])
+            if (preds.shape[0] != labels.shape[0])
                 throw new ArgumentException("preds.Shape[0] != labels.Shape[0]");
 
             l = l.ravel();
             var p = preds;
-            var prob = p[np.arange(l.Shape[0]), l.Cast(np.Int64)];
+            var prob = p[np.arange(l.shape[0]), l.Cast(np.Int64)];
             var cross_entropy = np.sum(-np.log(prob + eps)).AsScalar<float>();
             sum_metric += sum_metric;
             global_sum_metric += sum_metric;
-            num_inst += l.Shape[0];
-            global_num_inst += l.Shape[0];
+            num_inst += l.shape[0];
+            global_num_inst += l.shape[0];
         }
     }
 }

@@ -36,7 +36,7 @@ namespace MxNet.Optimizers
             state["momentum"] = null;
 
             if (Momentum != 0)
-                state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+                state["momentum"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
             return state;
         }
 

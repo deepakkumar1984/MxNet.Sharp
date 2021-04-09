@@ -27,7 +27,7 @@ namespace MxNet.Gluon.Data
             if (args.Length == 0)
                 throw new ArgumentException("Need atleast 1 array");
             Data = new List<(ndarray, ndarray)>();
-            Length = args[0].Item1.Shape[0];
+            Length = args[0].Item1.shape[0];
 
             for (var i = 0; i < args.Length; i++)
                 Data.Add(args[i]);

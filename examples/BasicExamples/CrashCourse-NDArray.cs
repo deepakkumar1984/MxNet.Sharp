@@ -53,8 +53,8 @@ namespace BasicExamples
             NDArray y = net.Call(x);
             Console.WriteLine(y.Shape);
 
-            Console.WriteLine(net[0].Params["weight"].Data().Shape);
-            Console.WriteLine(net[5].Params["bias"].Data().Shape);
+            Console.WriteLine(net[0].Params["weight"].Data().shape);
+            Console.WriteLine(net[5].Params["bias"].Data().shape);
 
             //var net = new MixMLP();
             //net.Initialize();

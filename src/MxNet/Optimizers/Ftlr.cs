@@ -33,8 +33,8 @@ namespace MxNet.Optimizers
         public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict();
-            state["z"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
-            state["n"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
+            state["z"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype);
+            state["n"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype);
             return state;
         }
 

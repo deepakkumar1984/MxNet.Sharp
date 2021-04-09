@@ -39,9 +39,9 @@ namespace MxNet.Optimizers
         public override NDArrayDict CreateState(int index, ndarray weight)
         {
             var state = new NDArrayDict("n", "g", "delta");
-            state["mean"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
-            state["var"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
-            state["mom"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+            state["mean"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
+            state["var"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
+            state["mom"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
             return state;
         }
 

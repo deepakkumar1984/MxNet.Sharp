@@ -491,9 +491,9 @@ namespace MxNet.Numpy
             return nd_np_ops.histogram(a, bins, range, normed, weights, density);
         }
 
-        public static ndarray eye(int N, int? M= null, int k= 0, DType dtype= null)
+        public static ndarray eye(int N, int? M= null, int k= 0, Context ctx = null, DType dtype= null)
         {
-            return nd_np_ops.eye(N, M, k, dtype);
+            return nd_np_ops.eye(N, M, k, ctx, dtype);
         }
 
         public static ndarray linspace(float start, float stop, int num= 50, bool endpoint= true, bool retstep= false, DType dtype= null, int axis= 0, Context ctx= null)

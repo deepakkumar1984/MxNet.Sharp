@@ -59,7 +59,7 @@ namespace BasicExamples
                     }
 
                     metric.Update(label, outputs.ToArray());
-                    trainer.Step(batch.Data[0].Shape[0]);
+                    trainer.Step(batch.Data[0].shape[0]);
                 }
 
                 var (name, acc) = metric.Get();

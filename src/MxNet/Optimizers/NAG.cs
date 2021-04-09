@@ -32,7 +32,7 @@ namespace MxNet.Optimizers
         {
             var state = new NDArrayDict("momentum");
             if (Momentum != 0)
-                state["momentum"] = nd.Zeros(weight.Shape, weight.Context, weight.DataType);
+                state["momentum"] = nd.Zeros(weight.shape, weight.ctx, weight.dtype);
 
             return state;
         }

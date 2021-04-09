@@ -39,8 +39,8 @@ namespace MxNet.Optimizers
             NDArray m = null;
             if (momentum != 0)
             {
-                var stype = lazy_update ? weight.SType : StorageStype.Default;
-                m = nd.Zeros(weight.Shape, weight.Context, weight.DataType).ToSType(weight.SType);
+                var stype = lazy_update ? weight.stype : StorageStype.Default;
+                m = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
             }
 
             return new NDArrayDict {{"mom", m}};
@@ -86,13 +86,13 @@ namespace MxNet.Optimizers
 
         public override void UpdateMultiPrecision(int[] indices, NDArrayList weights, NDArrayList grads, (NDArrayDict, ndarray)[] states)
         {
-            var use_multi_precision = MultiPrecision && weights[0].DataType.Name == DType.Float16.Name;
+            var use_multi_precision = MultiPrecision && weights[0].dtype.Name == DType.Float16.Name;
             _update_impl(indices, weights, grads, states, use_multi_precision);
         }
 
         public override void UpdateMultiPrecision(int index, ndarray weight, ndarray grad, (NDArrayDict, ndarray) state)
         {
-            var use_multi_precision = MultiPrecision && weight.DataType.Name == DType.Float16.Name;
+            var use_multi_precision = MultiPrecision && weight.dtype.Name == DType.Float16.Name;
             _update_impl(new[] { index }, weight, grad, new (NDArrayDict, ndarray)[] { (state) }, use_multi_precision);
         }
 
@@ -102,7 +102,7 @@ namespace MxNet.Optimizers
             var aggregate = true;
             weights.Zip(grads, (weight, grad) =>
             {
-                aggregate = aggregate && weight.SType == StorageStype.Default && grad.SType == StorageStype.Default;
+                aggregate = aggregate && weight.stype == StorageStype.Default && grad.stype == StorageStype.Default;
                 return 0;
             });
 

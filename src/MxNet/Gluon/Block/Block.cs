@@ -468,16 +468,16 @@ namespace MxNet.Gluon
                 for(int i = 0; i< grads.Length; i++)
                 {
                     var g = grads[i];
-                    if (g.SType == StorageStype.RowSparse)
+                    if (g.stype == StorageStype.RowSparse)
                     {
                         g = nd.ZerosLike(g);
                     }
                     else
                     {
-                        if (arrays.ContainsKey(g.Context))
-                            arrays.Add(g.Context, g);
+                        if (arrays.ContainsKey(g.ctx))
+                            arrays.Add(g.ctx, g);
                         else
-                            arrays[g.Context].Add(g);
+                            arrays[g.ctx].Add(g);
                     }
                 }
             }
@@ -688,7 +688,7 @@ namespace MxNet.Gluon
         {
             if (args.IsNDArray)
             {
-                return(false, true, new Context[]{ args.NdX.Context }, args.NdX.Context);
+                return(false, true, new Context[]{ args.NdX.ctx }, args.NdX.ctx);
             }
             else if (args.IsSymbol)
             {

@@ -33,18 +33,18 @@ namespace MxNet.Gluon.Metrics
             Shape pred_shape = null;
             if (!shape)
             {
-                label_shape = new Shape(labels.Size);
-                pred_shape = new Shape(preds.Size);
+                label_shape = new Shape(labels.size);
+                pred_shape = new Shape(preds.size);
             }
             else
             {
-                label_shape = labels.Shape;
-                pred_shape = preds.Shape;
+                label_shape = labels.shape;
+                pred_shape = preds.shape;
             }
 
             if (shape)
             {
-                if (labels.Shape[0] != preds.Shape[0])
+                if (labels.shape[0] != preds.shape[0])
                     throw new ArgumentException(string.Format(
                         "Shape of labels {0} does not match shape of predictions {1}", label_shape, pred_shape));
             }

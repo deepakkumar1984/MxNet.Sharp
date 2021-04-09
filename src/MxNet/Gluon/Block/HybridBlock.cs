@@ -631,7 +631,7 @@ namespace MxNet.Gluon
             {
                 var args_shape = new Dictionary<string, Shape>();
                 var sdict = new Dictionary<string, Shape>();
-                for (var i = 0; i < args_without_none.Length; i++) args_shape.Add(inputs[i].Name, args_without_none[i].NdX.Shape);
+                for (var i = 0; i < args_without_none.Length; i++) args_shape.Add(inputs[i].Name, args_without_none[i].NdX.shape);
 
                 var (arg_attrs, _, aux_attrs) = @out.InferShape(args_shape);
                 if (arg_attrs == null)
@@ -651,7 +651,7 @@ namespace MxNet.Gluon
             {
                 var args_shape = new Dictionary<string, DType>();
                 var sdict = new Dictionary<string, DType>();
-                for (var i = 0; i < args_without_none.Length; i++) args_shape.Add(inputs[i].Name, args_without_none[i].NdX.DataType);
+                for (var i = 0; i < args_without_none.Length; i++) args_shape.Add(inputs[i].Name, args_without_none[i].NdX.dtype);
 
                 var (arg_attrs, _, aux_attrs) = @out.InferType(args_shape);
                 if (arg_attrs == null)

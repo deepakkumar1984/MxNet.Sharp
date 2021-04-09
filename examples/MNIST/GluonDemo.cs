@@ -87,7 +87,7 @@ namespace MNIST
 
                     // Make one step of parameter update. Trainer needs to know the
                     // batch size of data to normalize the gradient by 1/batch_size.
-                    trainer.Step(batch.Data[0].Shape[0]);
+                    trainer.Step(batch.Data[0].shape[0]);
                 }
 
                 var toc = DateTime.Now;
@@ -165,7 +165,7 @@ namespace MNIST
                     }
 
                     metric.Update(label, outputs.ToArray());
-                    trainer.Step(batch.Data[0].Shape[0]);
+                    trainer.Step(batch.Data[0].shape[0]);
                 }
 
                 var toc = DateTime.Now;

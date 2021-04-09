@@ -43,7 +43,7 @@ namespace MxNet.Optimizers
         public void Call(int[] indices, NDArrayList grads, NDArrayList weights)
         {
             if (weights != null)
-                optimizer.SetCurrentContext(weights[0].Context.GetDeviceId());
+                optimizer.SetCurrentContext(weights[0].ctx.GetDeviceId());
 
             for (var i = 0; i < indices.Length; i++)
             {
@@ -55,7 +55,7 @@ namespace MxNet.Optimizers
                 }
                 else if (!states_synced[index])
                 {
-                    states[i] = SyncStateContext(states[i], weights[i].Context);
+                    states[i] = SyncStateContext(states[i], weights[i].ctx);
                     states_synced[index] = true;
                 }
             }
@@ -67,14 +67,14 @@ namespace MxNet.Optimizers
                 {
                     var w = weights[i];
                     var g = grads[i];
-                    if (type_map.ContainsKey(w.DataType.Name))
+                    if (type_map.ContainsKey(w.dtype.Name))
                     {
-                        type_map[w.DataType.Name].Add((i, w, g));
+                        type_map[w.dtype.Name].Add((i, w, g));
                     }
                     else
                     {
-                        type_map[w.DataType.Name] = new List<(int, NDArray, NDArray)>();
-                        type_map[w.DataType.Name].Add((i, w, g));
+                        type_map[w.dtype.Name] = new List<(int, NDArray, NDArray)>();
+                        type_map[w.dtype.Name].Add((i, w, g));
                     }
                 }
 

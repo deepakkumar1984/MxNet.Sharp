@@ -106,7 +106,7 @@ namespace MxNet.Gluon.RNN
             {
                 if (inputs.IsNDArray)
                 {
-                    var ctx = inputs.NdX.Context;
+                    var ctx = inputs.NdX.ctx;
                     var args = new FuncArgs();
                     args.Add("ctx", ctx);
                     begin_state = cell.BeginState(batch_size, "nd.Zeros", args);
@@ -127,7 +127,7 @@ namespace MxNet.Gluon.RNN
             {
                 if (inputs[0].IsNDArray)
                 {
-                    var ctx = inputs[0].NdX.Context;
+                    var ctx = inputs[0].NdX.ctx;
                     var args = new FuncArgs();
                     args.Add("ctx", ctx);
                     begin_state = cell.BeginState(batch_size, "nd.Zeros", args);
@@ -161,13 +161,13 @@ namespace MxNet.Gluon.RNN
             }
             else if (inputs.IsNDArray)
             {
-                batch_size = inputs.NdX.Shape[batch_axis];
+                batch_size = inputs.NdX.shape[batch_axis];
                 if (!merge)
                 {
-                    if (length != inputs.NdX.Shape[in_axis])
+                    if (length != inputs.NdX.shape[in_axis])
                         throw new Exception("Invalid length!");
 
-                    data_inputs = nd.Split(inputs.NdX, inputs.NdX.Shape[in_axis], in_axis, true).NDArrayOrSymbols;
+                    data_inputs = nd.Split(inputs.NdX, inputs.NdX.shape[in_axis], in_axis, true).NDArrayOrSymbols;
                 }
             }
 

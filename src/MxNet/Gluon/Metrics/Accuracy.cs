@@ -32,7 +32,7 @@ namespace MxNet.Gluon.Metrics
             CheckLabelShapes(labels, preds, true);
 
             ndarray pred_label = null;
-            if (preds.Shape != labels.Shape)
+            if (preds.shape != labels.shape)
                 pred_label = preds.argmax(Axis);
             else
                 pred_label = preds;
@@ -44,8 +44,8 @@ namespace MxNet.Gluon.Metrics
 
             sum_metric += num_correct;
             global_sum_metric += num_correct;
-            num_inst += pred_label.Shape.Size;
-            global_num_inst += pred_label.Shape.Size;
+            num_inst += pred_label.shape.Size;
+            global_num_inst += pred_label.shape.Size;
         }
     }
 }

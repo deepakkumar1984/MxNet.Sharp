@@ -155,7 +155,7 @@ namespace MxNet.Gluon.Data
 
         public static NDArrayList DefaultBatchifyFn(NDArrayList data)
         {
-            var shape = data[0].Shape.Data.ToList();
+            var shape = data[0].shape.Data.ToList();
             shape[0] = data.Length;
             var x = nd.Stack(data, data.Length);
             x = x.Reshape(shape.ToArray());
@@ -177,7 +177,7 @@ namespace MxNet.Gluon.Data
 
         public static NDArrayList DefaultMPBatchifyFn(NDArrayList data)
         {
-            var shape = data[0].Shape.Data.ToList();
+            var shape = data[0].shape.Data.ToList();
             shape.Insert(0, data.Length);
             var @out = nd.Stack(data, data.Length);
             return @out.Reshape(shape.ToArray()).AsInContext(new Context(DeviceType.CPUShared));
