@@ -7,14 +7,14 @@ trigger:
 - master
 
 variables:
-  solution: '**/*.sln'
+  solution: 'MxNet.Sharp.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   artifactName: 'drop'
 
 
 steps:
-- task: DotNetCoreCLI@2
+- task: Build MxNet
   inputs:
     command: 'build'
     projects: '$(solution)'
