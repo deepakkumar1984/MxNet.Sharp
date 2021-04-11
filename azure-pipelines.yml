@@ -9,12 +9,6 @@ trigger:
 pool:
 - vmImage: ubuntu-latest
 
-queue:
-  name: Default
-  demands: 
-  - msbuild
-  - visualstudio
-  - vstest
 
 variables:
   solution: '**/*.sln'
