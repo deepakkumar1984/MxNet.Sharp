@@ -2,7 +2,8 @@
 There are many breaking change as per RFC: https://github.com/apache/incubator-mxnet/issues/16167. With this change we are introducing NumPy-compatible coding experience into MXNet
 
 [![Gitter](https://badges.gitter.im/mxnet-sharp/community.svg)](https://gitter.im/mxnet-sharp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-![MxNet.Sharp CI](https://github.com/tech-quantum/MxNet.Sharp/workflows/MxNet.Sharp%20Build/badge.svg)
+[![Build Status](https://deepakkumarb.visualstudio.com/MxNet/_apis/build/status/deepakkumar1984.MxNet.Sharp?branchName=master)](https://deepakkumarb.visualstudio.com/MxNet/_build/latest?definitionId=7&branchName=master)
+[![NuGet](https://img.shields.io/nuget/dt/MxNet.Sharp.svg)](https://www.nuget.org/packages/MxNet.Sharp)
 
 <div align="center">
   <a href="https://mxnet.apache.org/"><img src="https://raw.githubusercontent.com/dmlc/web-data/master/mxnet/image/mxnet_logo_2.png"></a><br>
