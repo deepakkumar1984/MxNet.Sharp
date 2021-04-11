@@ -89,7 +89,7 @@ namespace MxNet.Sym.Numpy
 
         public _Symbol rand(Shape size = null)
         {
-            throw new NotImplementedException();
+            return uniform(size: size);
         }
 
         public _Symbol exponential(float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, _Symbol @out = null)

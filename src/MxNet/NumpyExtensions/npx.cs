@@ -9,42 +9,42 @@ namespace MxNet.Numpy
     {
         public static void set_np(bool shape = true, bool array = true, bool dtype = false)
         {
-            throw new NotImplementedException();
+            MxUtil.SetNp(shape, array, dtype);
         }
 
         public static void reset_np()
         {
-            throw new NotImplementedException();
+            MxUtil.ResetNp();
         }
 
         public static Context cpu(int device_id)
         {
-            throw new NotImplementedException();
+            return Context.Cpu(device_id);
         }
 
         public static Context cpu_pinned(int device_id)
         {
-            throw new NotImplementedException();
+            return Context.CpuPinned(device_id);
         }
 
         public static Context gpu(int device_id)
         {
-            throw new NotImplementedException();
+            return Context.Gpu(device_id);
         }
 
-        public static (int, int) gpu_memory_info(int device_id)
+        public static (long, long) gpu_memory_info(int device_id)
         {
-            throw new NotImplementedException();
+            return MxUtil.GetGPUMemory(device_id);
         }
 
         public static Context current_context()
         {
-            throw new NotImplementedException();
+            return Context.CurrentContext;
         }
 
         public static int num_gpus()
         {
-            throw new NotImplementedException();
+            return MxUtil.GetGPUCount();
         }
     }
 }
