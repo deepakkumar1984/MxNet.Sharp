@@ -30,6 +30,22 @@ namespace MxNet
 
         #endregion
 
+        public DeviceType device_type
+        {
+            get
+            {
+                return GetDeviceType();
+            }
+        }
+
+        public int device_id
+        {
+            get
+            {
+                return GetDeviceId();
+            }
+        }
+
         public static Context CurrentContext
         {
             get

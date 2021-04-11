@@ -10,7 +10,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
@@ -18,33 +18,33 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
         public HalfCauchy(NDArrayOrSymbol scale = null, bool? validate_args = null)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol LogProb(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol Cdf(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol Icdf(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol Entropy()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
     }

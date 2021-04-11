@@ -8,12 +8,12 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
     {
         public Cat(NDArrayOrSymbol constraint_seq, int axis = 0, int? lengths = null)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol Check(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

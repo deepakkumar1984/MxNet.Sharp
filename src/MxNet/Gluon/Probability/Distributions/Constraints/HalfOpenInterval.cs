@@ -26,7 +26,7 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
             //var _value = constraint_check(condition, err_msg) * value;
             //return _value;
 
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

@@ -8,22 +8,22 @@ namespace MxNet.Gluon.Probability.Transformations
     {
         public AffineTransform(float loc, float scale, int event_dim = 0)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol ForwardCompute(NDArrayOrSymbol x)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol InverseCompute(NDArrayOrSymbol x)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol LogDetJacobian(NDArrayOrSymbol x, NDArrayOrSymbol y)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

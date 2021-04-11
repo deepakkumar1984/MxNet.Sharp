@@ -9,14 +9,14 @@ namespace MxNet.Gluon.Probability.Distributions
     {
         public _CachedProperty(MethodInfo func)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public object this[object instance]
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
     }

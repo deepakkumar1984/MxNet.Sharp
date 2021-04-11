@@ -69,6 +69,24 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXGetVersion(out int version);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSetIsNumpyShape(bool is_np_shape, ref bool prev);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXIsNumpyShape(ref bool curr);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSetIsNumpyDefaultDtype(bool is_np_default_dtype, ref bool prev);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXIsNumpyDefaultDtype(ref bool curr);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXGetEnv(string name, out string value);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXSetEnv(string name, string value);
+
         #endregion
 
         #region Part 1: NDArray creation and deletion

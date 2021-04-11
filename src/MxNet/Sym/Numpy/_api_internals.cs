@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Text;
 
-namespace MxNet.ND.Numpy
+namespace MxNet.Sym.Numpy
 {
     internal class _api_internals : DynamicObject
     {
@@ -34,7 +34,6 @@ namespace MxNet.ND.Numpy
                 {
                     arguments[binder.CallInfo.ArgumentNames[i]] = args[i];
                 }
-
                 foreach (var (k, v) in arguments)
                 {
                     object value = v;
@@ -54,13 +53,13 @@ namespace MxNet.ND.Numpy
                         value = "None";
 
                     var argType = value.GetType();
-                    if (argType.Name == "ndarray")
+                    if (argType.Name == "_Symbol")
                     {
-                        op.SetInput(k, (ndarray)value);
+                        op.SetInput(k, (_Symbol)value);
                     }
-                    else if (argType.Name == "NDArrayList")
+                    else if (argType.Name == "SymbolList")
                     {
-                        op.SetInput((NDArrayList)value);
+                        op.SetInput((SymbolList)value);
                     }
                     else
                     {
@@ -74,13 +73,9 @@ namespace MxNet.ND.Numpy
             }
 
             if (multiple)
-            {
-                NDArrayList list = new NDArrayList();
-                op.Invoke(list);
-                result = list;
-            }
+                result = op.CreateNpSymbol().ToList();
             else
-                result = op.Invoke();
+                result = op.CreateNpSymbol();
 
             return true;
         }

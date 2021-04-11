@@ -8,7 +8,7 @@ namespace MxNet.Gluon.Probability
     {
         public List<Block> _layers;
 
-        public int Length => throw new NotImplementedException();
+        public int Length => throw new NotImplementedRelease1Exception();
 
         public new StochasticSequential this[string key]
         {

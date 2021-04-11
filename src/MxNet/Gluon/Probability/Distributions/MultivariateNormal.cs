@@ -10,7 +10,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
@@ -26,33 +26,33 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
         public MultivariateNormal(NDArrayOrSymbol loc, NDArrayOrSymbol cov = null, NDArrayOrSymbol precision = null, NDArrayOrSymbol scale_tril = null, bool? validate_args = null)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         private NDArrayOrSymbol _precision_to_scale_tril(NDArrayOrSymbol P)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol LogProb(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol Sample(Shape size)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol SampleN(Shape size)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

@@ -8,12 +8,12 @@ namespace MxNet.Gluon.Probability.Transformations
     {
         public override NDArrayOrSymbol ForwardCompute(NDArrayOrSymbol x)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol InverseCompute(NDArrayOrSymbol x)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol LogDetJacobian(NDArrayOrSymbol x, NDArrayOrSymbol y)

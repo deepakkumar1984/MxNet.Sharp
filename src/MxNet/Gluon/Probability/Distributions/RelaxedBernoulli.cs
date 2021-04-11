@@ -10,7 +10,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
@@ -26,18 +26,18 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
         public RelaxedBernoulli(NDArrayOrSymbol prob = null, NDArrayOrSymbol logit = null, bool? validate_args = null)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override Distribution BroadcastTo(Shape batch_shape)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

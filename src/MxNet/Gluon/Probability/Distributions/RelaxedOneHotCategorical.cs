@@ -10,7 +10,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
@@ -18,7 +18,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
@@ -26,13 +26,13 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 
         public RelaxedOneHotCategorical(int num_events = 1, NDArrayOrSymbol prob = null, NDArrayOrSymbol logit = null, bool? validate_args = null)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

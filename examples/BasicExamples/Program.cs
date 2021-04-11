@@ -16,10 +16,10 @@ namespace BasicExamples
             //CrashCourse_NN.Run();
             //LogisticRegressionExplained.Run();
             //var methods = mx.GetAllRegisteredCApiOperators();
-
-            var x = np.full(new Shape(300, 100), 2);
-            var y = np.full(new Shape(3, 3), 4);
-            var z = np.histogram(x, range: (1, 100));
+            var y = np.full(new Shape(3, 3), 0.6);
+            var x = np.random.power(y, new Shape(3, 3));
+            
+            var z = np.linalg.cholesky(x);
         }
 
         private static void GenerateFOps()

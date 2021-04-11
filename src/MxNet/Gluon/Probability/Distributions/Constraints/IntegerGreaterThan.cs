@@ -8,12 +8,12 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
     {
         public IntegerGreaterThan(float lower_bound)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol Check(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

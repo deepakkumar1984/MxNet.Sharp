@@ -6,13 +6,13 @@ using System.Text;
 
 namespace MxNet.ND.Numpy
 {
-    internal class _api_internals : DynamicObject
+    internal class _npx_internals : DynamicObject
     {
         public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
         {
             result = null;
             bool multiple = false;
-            var op = new Operator("_npi_" + binder.Name);
+            var op = new Operator("_npx_" + binder.Name);
             Dictionary<string, object> arguments = new Dictionary<string, object>();
             foreach (var item in binder.CallInfo.ArgumentNames)
             {
@@ -34,7 +34,6 @@ namespace MxNet.ND.Numpy
                 {
                     arguments[binder.CallInfo.ArgumentNames[i]] = args[i];
                 }
-
                 foreach (var (k, v) in arguments)
                 {
                     object value = v;

@@ -12,7 +12,7 @@ namespace MxNet.Numpy
             return nd_np_ops.linalg.matrix_rank(M, tol, hermitian);
         }
 
-        public ndarray lstsq(ndarray a, ndarray b, string rcond= "warn")
+        public (ndarray, ndarray, ndarray, ndarray) lstsq(ndarray a, ndarray b, string rcond= "warn")
         {
             return nd_np_ops.linalg.lstsq(a, b, rcond);
         }
@@ -22,7 +22,7 @@ namespace MxNet.Numpy
             return nd_np_ops.linalg.pinv(a, rcond, hermitian);
         }
 
-        public ndarray norm(ndarray x, string ord= null, int? axis= null, bool keepdims= false)
+        public ndarray norm(ndarray x, string ord= null, Shape axis= null, bool keepdims= false)
         {
             return nd_np_ops.linalg.norm(x, ord, axis, keepdims);
         }
@@ -82,12 +82,12 @@ namespace MxNet.Numpy
             return nd_np_ops.linalg.eigvalsh(a, UPLO);
         }
 
-        public ndarray eig(ndarray a)
+        public (ndarray, ndarray) eig(ndarray a)
         {
             return nd_np_ops.linalg.eig(a);
         }
 
-        public ndarray eigh(ndarray a, string UPLO = "L")
+        public (ndarray, ndarray) eigh(ndarray a, string UPLO = "L")
         {
             return nd_np_ops.linalg.eigh(a, UPLO);
         }

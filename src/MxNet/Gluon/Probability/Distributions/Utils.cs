@@ -8,62 +8,62 @@ namespace MxNet.Gluon.Probability.Distributions
     {
         public static Func<NDArrayOrSymbol, string, NDArrayOrSymbol> ConstraintCheck()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static Func<NDArrayOrSymbol, NDArrayOrSymbol> DiGamma()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static Func<NDArrayOrSymbol, NDArrayOrSymbol> GammaLn()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static Func<NDArrayOrSymbol, NDArrayOrSymbol> Erf()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static Func<NDArrayOrSymbol, NDArrayOrSymbol> ErfInv()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static Shape SampleNShapeConverter(Shape size)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static object GetF(NDArrayOrSymbolList @params)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static NDArray SumRightMost(NDArrayOrSymbol x, int ndim)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static NDArrayOrSymbol ClipProb(NDArrayOrSymbol prob)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static NDArrayOrSymbol ClipFloatEps(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static NDArrayOrSymbol Prob2Logit(NDArrayOrSymbol prob, bool binary = true)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public static NDArrayOrSymbol Logit2Prob(NDArrayOrSymbol logit, bool binary = true)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

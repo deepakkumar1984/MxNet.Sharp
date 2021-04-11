@@ -8,7 +8,7 @@ namespace MxNet.Gluon.Probability.Distributions.Constraints
     {
         public override NDArrayOrSymbol Check(NDArrayOrSymbol value)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
     }
 }

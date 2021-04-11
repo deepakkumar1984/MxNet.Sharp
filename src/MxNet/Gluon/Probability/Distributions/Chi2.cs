@@ -10,7 +10,7 @@ namespace MxNet.Gluon.Probability.Distributions
         {
             get
             {
-                throw new NotImplementedException();
+                throw new NotImplementedRelease1Exception();
             }
         }
 

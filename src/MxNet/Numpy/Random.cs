@@ -142,7 +142,7 @@ namespace MxNet.Numpy
             return nd_np_ops.random.chisquare(df, size, dtype, ctx, @out);
         }
 
-        public ndarray randn(Shape size = null)
+        public ndarray randn(params int[] size)
         {
             return nd_np_ops.random.randn(size);
         }

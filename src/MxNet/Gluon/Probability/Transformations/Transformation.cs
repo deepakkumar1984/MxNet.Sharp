@@ -26,7 +26,7 @@ namespace MxNet.Gluon.Probability.Transformations
 
         public Transformation()
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public virtual NDArrayOrSymbol Call(NDArrayOrSymbol x)

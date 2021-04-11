@@ -33,7 +33,8 @@ namespace MxNet
 
         private static readonly OpMap OpMap;
 
-        private readonly Dictionary<string, string> _Params = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> _KwParams = new Dictionary<string, string>();
+        private readonly List<string> _ArgParams = new List<string>();
 
         private readonly List<SymbolHandle> _InputSymbols = new List<SymbolHandle>();
 
@@ -104,27 +105,27 @@ namespace MxNet
 
         #region Methods
 
-        public Symbol CreateSymbol(string name = "")
+        public _Symbol CreateSymbol(string name = "")
         {
             if (_InputKeys.Count > 0)
                 Logging.CHECK_EQ(_InputKeys.Count, _InputSymbols.Count);
 
             var pname = name == "" ? null : name;
 
-            var keys = _Params.Keys.ToArray();
+            var keys = _KwParams.Keys.ToArray();
             var paramKeys = new string[keys.Length];
             var paramValues = new string[keys.Length];
             for (var index = 0; index < keys.Length; index++)
             {
                 var key = keys[index];
                 paramKeys[index] = key;
-                paramValues[index] = _Params[key];
+                paramValues[index] = _KwParams[key];
             }
 
             var inputKeys = _InputKeys.Count != 0 ? _InputKeys.ToArray() : null;
 
             Logging.CHECK_EQ(NativeMethods.MXSymbolCreateAtomicSymbol(_Handle,
-                (uint) paramKeys.Length,
+                (uint)paramValues.Length,
                 paramKeys,
                 paramValues,
                 out var symbolHandle), NativeMethods.OK);
@@ -135,7 +136,7 @@ namespace MxNet
                 inputKeys,
                 _InputSymbols.ToArray()), NativeMethods.OK);
 
-            return new Symbol(symbolHandle);
+            return new _Symbol(symbolHandle);
         }
 
         internal _Symbol CreateNpSymbol(string name = "")
@@ -145,20 +146,20 @@ namespace MxNet
 
             var pname = name == "" ? null : name;
 
-            var keys = _Params.Keys.ToArray();
+            var keys = _KwParams.Keys.ToArray();
             var paramKeys = new string[keys.Length];
             var paramValues = new string[keys.Length];
             for (var index = 0; index < keys.Length; index++)
             {
                 var key = keys[index];
                 paramKeys[index] = key;
-                paramValues[index] = _Params[key];
+                paramValues[index] = _KwParams[key];
             }
 
             var inputKeys = _InputKeys.Count != 0 ? _InputKeys.ToArray() : null;
 
             Logging.CHECK_EQ(NativeMethods.MXSymbolCreateAtomicSymbol(_Handle,
-                (uint)paramKeys.Length,
+                (uint)paramValues.Length,
                 paramKeys,
                 paramValues,
                 out var symbolHandle), NativeMethods.OK);
@@ -184,7 +185,7 @@ namespace MxNet
             var paramKeys = new List<string>();
             var paramValues = new List<string>();
 
-            foreach (var data in _Params)
+            foreach (var data in _KwParams)
             {
                 paramKeys.Add(data.Key);
                 paramValues.Add(data.Value);
@@ -220,7 +221,7 @@ namespace MxNet
 
                 Marshal.Copy(outputsReceiver, outputHandles, 0, numOutputs);
 
-                foreach (var outputHandle in outputHandles) outputs.Add(new NDArray(outputHandle));
+                foreach (var outputHandle in outputHandles) outputs.Add(new ndarray(outputHandle));
 
                 gcHandle?.Free();
             }
@@ -239,7 +240,7 @@ namespace MxNet
             var paramKeys = new List<string>();
             var paramValues = new List<string>();
 
-            foreach (var data in _Params)
+            foreach (var data in _KwParams)
             {
                 paramKeys.Add(data.Key);
                 paramValues.Add(data.Value);
@@ -312,11 +313,17 @@ namespace MxNet
             {
                 var arg = args[i];
                 if (arg is Symbol)
-                    SetParam(i, (Symbol) arg);
+                    SetParam(i, (Symbol)arg);
+                else if (arg is _Symbol)
+                    SetParam(i, (_Symbol)arg);
                 else if (arg is NDArray)
-                    SetParam(i, (NDArray) arg);
+                    SetParam(i, (NDArray)arg);
+                else if (arg is ndarray)
+                    SetParam(i, (ndarray)arg);
                 else if (arg is IEnumerable<Symbol>)
-                    SetParam(i, (IEnumerable<Symbol>) arg);
+                    SetParam(i, (IEnumerable<Symbol>)arg);
+                else if (arg is NDArrayList)
+                    SetParam(i, ((NDArrayList)arg).AsEnumerable());
                 else
                     SetParam(i, arg);
             }
@@ -362,7 +369,7 @@ namespace MxNet
         {
             if (value == null) return this;
 
-            _Params[key] = value.ToValueString();
+            _KwParams[key] = value.ToValueString();
             return this;
         }
 
@@ -370,11 +377,17 @@ namespace MxNet
         {
             if (value == null) return this;
 
-            _Params[key] = value.ToValueString();
+            _KwParams[key] = value.ToValueString();
             return this;
         }
 
         public Operator SetParam(int pos, NDArray val)
+        {
+            _InputNdarrays.Add(val.NativePtr);
+            return this;
+        }
+
+        public Operator SetParam(int pos, ndarray val)
         {
             _InputNdarrays.Add(val.NativePtr);
             return this;
@@ -386,7 +399,19 @@ namespace MxNet
             return this;
         }
 
+        public Operator SetParam(int pos, _Symbol val)
+        {
+            _InputNdarrays.Add(val.NativePtr);
+            return this;
+        }
+
         public Operator SetParam(int pos, IEnumerable<Symbol> val)
+        {
+            _InputSymbols.AddRange(val.Select(s => s.GetHandle()));
+            return this;
+        }
+
+        public Operator SetParam(int pos, IEnumerable<ndarray> val)
         {
             _InputSymbols.AddRange(val.Select(s => s.GetHandle()));
             return this;
@@ -394,7 +419,8 @@ namespace MxNet
 
         public Operator SetParam(int pos, object val)
         {
-            _Params[_ArgNames[pos]] = val != null ? val.ToString() : null;
+            _ArgParams.Add(val != null ? val.ToString() : null);
+            //_KwParams[_ArgNames[pos]] = val != null ? val.ToString() : null;
             return this;
         }
 

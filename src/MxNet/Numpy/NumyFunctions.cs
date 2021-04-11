@@ -496,7 +496,7 @@ namespace MxNet.Numpy
             return nd_np_ops.eye(N, M, k, ctx, dtype);
         }
 
-        public static ndarray linspace(float start, float stop, int num= 50, bool endpoint= true, bool retstep= false, DType dtype= null, int axis= 0, Context ctx= null)
+        public static (ndarray, float?) linspace(float start, float stop, int num= 50, bool endpoint= true, bool retstep= false, DType dtype= null, int axis= 0, Context ctx= null)
         {
             return nd_np_ops.linspace(start, stop, num, endpoint, retstep, dtype, axis, ctx);
         }
@@ -676,14 +676,14 @@ namespace MxNet.Numpy
             return nd_np_ops.argmin(a, axis, @out);
         }
 
-        public static ndarray amax(ndarray a, int? axis = null, ndarray @out = null)
+        public static ndarray amax(ndarray a, int? axis = null, bool keepdims = false, ndarray @out = null)
         {
-            return nd_np_ops.amax(a, axis, @out);
+            return nd_np_ops.amax(a, axis, keepdims,@out);
         }
 
-        public static ndarray amin(ndarray a, int? axis = null, ndarray @out = null)
+        public static ndarray amin(ndarray a, int? axis = null, bool keepdims = false, ndarray @out = null)
         {
-            return nd_np_ops.amin(a, axis, @out);
+            return nd_np_ops.amin(a, axis, keepdims, @out);
         }
 
         public static ndarray average(ndarray a, int? axis= null, ndarray weights= null, bool returned= false, ndarray @out = null)
@@ -706,7 +706,7 @@ namespace MxNet.Numpy
             return nd_np_ops.delete(arr, obj, axis);
         }
 
-        public static ndarray delete(ndarray arr, int[] obj, int? axis = null)
+        public static ndarray delete(ndarray arr, Slice obj, int? axis = null)
         {
             return nd_np_ops.delete(arr, obj, axis);
         }

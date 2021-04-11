@@ -111,12 +111,12 @@ namespace MxNet.Gluon.Probability.Distributions
 
         public override NDArrayOrSymbol Sample(Shape size)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol SampleN(Shape size)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
         }
 
         public override NDArrayOrSymbol LogNormalizer(NDArrayOrSymbol x)

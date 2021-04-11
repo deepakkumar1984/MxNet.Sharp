@@ -15,6 +15,7 @@
 ******************************************************************************/
 using NumpyDotNet;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace MxNet
@@ -23,7 +24,26 @@ namespace MxNet
     {
         public static string ToValueString(this object source)
         {
-            return source is bool b ? b ? "1" : "0" : source.ToString();
+            if (source is bool)
+                return ((bool)source) ? "1" : "0";
+            else if(source is Array)
+            {
+                string result = "";
+                var arr = (Array)source;
+                result = "[";
+                List<string> localList = new List<string>();
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    localList.Add(arr.GetValue(i).ToString());
+                }
+
+                result += string.Join(",", localList);
+                result += "]";
+
+                return result;
+            }
+
+            return source.ToString();
         }
 
         public static IntPtr GetMemPtr(this object src)

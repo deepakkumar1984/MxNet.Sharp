@@ -108,7 +108,7 @@ namespace MxNet.ND.Numpy
         {
             if (!new string[] { "wrap", "clip", "raise" }.Contains(mode))
             {
-                throw new NotImplementedException($"function take does not support mode '{mode}'");
+                throw new NotSupportedException($"function take does not support mode '{mode}'");
             }
             if (axis == null)
             {
@@ -690,7 +690,18 @@ namespace MxNet.ND.Numpy
 
         public static ndarray arange(int start, int? stop = null, int step = 1, DType dtype = null, Context ctx = null)
         {
-            throw new NotImplementedException();
+            if (stop == null)
+            {
+                stop = start;
+                start = 0;
+            }
+            
+            if (step == 0)
+            {
+                throw new Exception("step cannot be 0");
+            }
+
+            return _api_internal.arange(start: start, stop: stop, step: step, dtype: dtype, ctx: ctx);
         }
 
         public static NDArrayList split(ndarray ary, int[] indices_or_sections, int axis = 0)
@@ -906,17 +917,17 @@ namespace MxNet.ND.Numpy
 
         public static ndarray delete(ndarray arr, int obj, int? axis = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.delete(arr: arr, obj: obj, axis: axis);
         }
 
-        public static ndarray delete(ndarray arr, int[] obj, int? axis = null)
+        public static ndarray delete(ndarray arr, Slice obj, int? axis = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.delete(arr, start: obj.Begin, stop: obj.End, step: obj.Step, axis: axis);
         }
 
         public static ndarray delete(ndarray arr, ndarray obj, int? axis = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.delete(arr: arr, obj: obj, axis: axis);
         }
 
         public static ndarray var(ndarray a, int? axis = null, DType dtype = null, ndarray @out = null, bool keepdims = false)
@@ -968,7 +979,7 @@ namespace MxNet.ND.Numpy
             return _api_internal.unravel_index_fallback(indices: indices, shape: shape, multi: true);
         }
 
-        public static ndarray flatnonzero(ndarray a)
+        public static NDArrayList flatnonzero(ndarray a)
         {
             return nonzero(ravel(a));
         }
@@ -1310,22 +1321,22 @@ namespace MxNet.ND.Numpy
 
         public static ndarray roll(ndarray a, int shift, int? axis = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.roll(a: a, shift: shift, axis: axis);
         }
 
         public static ndarray roll(ndarray a, int[] shift, int? axis = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.roll(a: a, shift: new Shape(shift), axis: axis);
         }
 
         public static ndarray rot90(ndarray m, int k = 1, params int[] axes)
         {
-            throw new NotImplementedException();
+            return _api_internal.rot90(m: m, k: k, axes: new Shape(axes));
         }
 
         public static ndarray einsum(string subscripts, NDArrayList operands, ndarray @out = null, bool optimize = false)
         {
-            throw new NotImplementedException();
+            return _api_internal.einsum(subscripts: subscripts, optimize_arg: Convert.ToInt32(optimize), operands: operands);
         }
 
         public static ndarray insert(ndarray arr, int obj, ndarray values, int? axis = null)
@@ -1343,54 +1354,75 @@ namespace MxNet.ND.Numpy
             return _api_internal.insert_tensor(arr: arr, obj: obj, values: values, axis: axis);
         }
 
-        public static ndarray nonzero(ndarray a)
+        public static NDArrayList nonzero(ndarray a)
         {
-            throw new NotImplementedException();
+            NDArrayList @out = _api_internal.nonzero(a: a, multi: true);
+            @out = @out.Select(x => x.transpose()).ToList();
+            return @out;
         }
 
         public static ndarray percentile(ndarray a, ndarray q, int? axis = null, ndarray @out = null, bool? overwrite_input = null, string interpolation = "linear", bool keepdims = false)
         {
-            throw new NotImplementedException();
+            if (overwrite_input != null)
+            {
+                throw new NotSupportedException("overwrite_input is not supported yet");
+            }
+
+            @out = _api_internal.percentile(a: a, q: q, axis: axis, interpolation: interpolation, keepdims: keepdims);
+            return @out;
         }
 
         public static ndarray median(ndarray a, int? axis = null, ndarray @out = null, bool? overwrite_input = null, bool keepdims = false)
         {
-            throw new NotImplementedException();
+            return quantile(a: a, q: 0.5, axis: axis, @out: @out, overwrite_input: overwrite_input, interpolation: "midpoint", keepdims: keepdims);
         }
 
         public static ndarray quantile(ndarray a, ndarray q, int? axis = null, ndarray @out = null, bool? overwrite_input = null, string interpolation = "linear", bool keepdims = false)
         {
-            throw new NotImplementedException();
+            if (overwrite_input != null)
+            {
+                throw new NotSupportedException("overwrite_input is not supported yet");
+            }
+
+            @out = _api_internal.percentile(a: a, q: q * 100, axis: axis, interpolation: interpolation, keepdims: keepdims);
+            return @out;
         }
 
         public static bool shares_memory(ndarray a, ndarray b, int? max_work = null)
         {
-            throw new NotImplementedException();
+            ndarray ret = _api_internal.share_memory(a: a, b: b);
+            return ret.AsScalar<bool>();
         }
 
         public static bool may_share_memory(ndarray a, ndarray b, int? max_work = null)
         {
-            throw new NotImplementedException();
+            ndarray ret = _api_internal.share_memory(a: a, b: b);
+            return ret.AsScalar<bool>();
         }
 
         public static ndarray diff(ndarray a, int n = 1, int axis = -1, ndarray prepend = null, ndarray append = null)
         {
-            throw new NotImplementedException();
+            if (prepend != null || append != null)
+            {
+                throw new NotSupportedException("prepend and append options are not supported yet");
+            }
+
+            return _api_internal.diff(a: a, n: n, axis: axis);
         }
 
         public static ndarray ediff1d(ndarray ary, ndarray to_end = null, ndarray to_begin = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.ediff1d(ary: ary, to_end: to_end, to_begin: to_begin);
         }
 
         public static ndarray resize(ndarray a, Shape new_shape)
         {
-            throw new NotImplementedException();
+            return _api_internal.resize_fallback(a: a, new_shape: new_shape);
         }
 
         public static ndarray interp(ndarray x, float[] xp, float[] fp, float? left = null, float? right = null, float? period = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.interp(xp: xp, fp: fp, x: x, left: left, right: right, period: period);
         }
 
         public static ndarray full_like(ndarray a, double fill_value, DType dtype = null, string order = "C", Context ctx = null, ndarray @out = null)
@@ -1401,92 +1433,190 @@ namespace MxNet.ND.Numpy
 
         public static ndarray zeros_like(ndarray a, DType dtype = null, string order = "C", Context ctx = null, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            return full_like(a, 0, dtype, order, ctx, @out);
         }
 
         public static ndarray ones_like(ndarray a, DType dtype = null, string order = "C", Context ctx = null, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            return full_like(a, 1, dtype, order, ctx, @out);
+        }
+
+        public static ndarray fill_diagonal(ndarray a, float[] val, bool wrap = false)
+        {
+            return _api_internal.fill_diagonal(a, val, wrap, a);
         }
 
         public static ndarray fill_diagonal(ndarray a, float val, bool wrap = false)
         {
-            throw new NotImplementedException();
+            return fill_diagonal(a, new float[] { val }, wrap);
         }
 
         public static ndarray nan_to_num(ndarray x, bool copy = true, float nan = 0, float? posinf = null, float? neginf = null)
         {
-            throw new NotImplementedException();
+            if (new List<string> {
+                    "int8",
+                    "uint8",
+                    "int32",
+                    "int64"
+                }.Contains(x.dtype.Name))
+            {
+                return x;
+            }
+
+            if (!copy)
+            {
+                return _api_internal.nan_to_num(x, copy, nan, posinf, neginf, x);
+            }
+
+            return _api_internal.nan_to_num(x, copy, nan, posinf, neginf, null);
         }
 
         public static ndarray squeeze(ndarray a, int? axis = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.squeeze(x: a, axis: axis);
         }
 
-        public static ndarray isnan(ndarray a, ndarray @out = null)
+        public static ndarray isnan(ndarray x, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            @out = _api_internal.isnan(x: x);
+            return @out;
         }
 
-        public static ndarray isinf(ndarray a, ndarray @out = null)
+        public static ndarray isinf(ndarray x, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            @out = _api_internal.isinf(x: x);
+            return @out;
         }
 
-        public static ndarray isposinf(ndarray a, ndarray @out = null)
+        public static ndarray isposinf(ndarray x, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            @out = _api_internal.isposinf(x: x);
+            return @out;
         }
 
-        public static ndarray isneginf(ndarray a, ndarray @out = null)
+        public static ndarray isneginf(ndarray x, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            @out = _api_internal.isneginf(x: x);
+            return @out;
         }
 
-        public static ndarray isfinite(ndarray a, ndarray @out = null)
+        public static ndarray isfinite(ndarray x, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            @out = _api_internal.isfinite(x: x);
+            return @out;
         }
 
         public static ndarray where(ndarray condition, ndarray x = null, ndarray y = null)
         {
-            throw new NotImplementedException();
+            if (x == null && y == null)
+            {
+                return nonzero(condition);
+            }
+            else
+            {
+                return _api_internal.where(condition: condition, x: x, y: y);
+            }
         }
 
         public static ndarray polyval(ndarray p, ndarray x)
         {
-            throw new NotImplementedException();
+            return _api_internal.polyval(p: p, x: x);
         }
 
         public static ndarray bincount(ndarray x, ndarray weights = null, int minlength = 0)
         {
-            throw new NotImplementedException();
+            if (minlength < 0)
+            {
+                throw new Exception("Minlength value should greater than 0");
+            }
+
+            return _api_internal.bincount(x: x, weights: weights, minlength: minlength);
         }
 
         public static ndarray atleast_1d(NDArrayList arys)
         {
-            throw new NotImplementedException();
+            return _api_internal.atleast_1d(arys: arys, multi: true);
         }
 
         public static ndarray atleast_2d(NDArrayList arys)
         {
-            throw new NotImplementedException();
+            return _api_internal.atleast_2d(arys: arys, multi: true);
         }
 
         public static ndarray atleast_3d(NDArrayList arys)
         {
-            throw new NotImplementedException();
+            return _api_internal.atleast_3d(arys: arys, multi: true);
         }
 
-        public static ndarray pad(ndarray x, int[] pad_width = null, string mode = "constant")
+        public static ndarray pad(ndarray x, int[] pad_width = null, string mode = "constant", float constant_values = 0, string reflect_type = "even")
         {
-            throw new NotImplementedException();
+            if (mode == "linear_ramp")
+            {
+                throw new Exception("mode {'linear_ramp'} is not supported.");
+            }
+
+            if (mode == "wrap")
+            {
+                throw new Exception("mode {'wrap'} is not supported.");
+            }
+
+            if (mode == "median")
+            {
+                throw new Exception("mode {'median'} is not supported.");
+            }
+
+            if (mode == "mean")
+            {
+                throw new Exception("mode {'mean'} is not supported.");
+            }
+
+            if (mode == "empty")
+            {
+                throw new Exception("mode {'empty'} is not supported.");
+            }
+            
+            if (mode == "constant")
+            {
+                return _api_internal.pad(x, pad_width, "constant", constant_values, "even");
+            }
+            else if (mode == "symmetric")
+            {
+                if (reflect_type != "even" && reflect_type != null)
+                {
+                    throw new Exception($"unsupported reflect_type '{reflect_type}'");
+                }
+
+                return _api_internal.pad(x, pad_width, "symmetric", 0, "even");
+            }
+            else if (mode == "edge")
+            {
+                return _api_internal.pad(x, pad_width, "edge", 0, "even");
+            }
+            else if (mode == "reflect")
+            {
+                if (reflect_type != "even" && reflect_type != null)
+                {
+                    throw new Exception($"unsupported reflect_type '{reflect_type}'");
+                }
+
+                return _api_internal.pad(x, pad_width, "reflect", 0, "even");
+            }
+            else if (mode == "maximum")
+            {
+                return _api_internal.pad(x, pad_width, "maximum", 0, "even");
+            }
+            else if (mode == "minimum")
+            {
+                return _api_internal.pad(x, pad_width, "minimum", 0, "even");
+            }
+
+            return _api_internal.pad(x, pad_width, "constant", 0, "even");
         }
 
         public static ndarray prod(ndarray a, int? axis = null, DType dtype = null, ndarray @out = null, bool keepdims = false, float? initial = null)
         {
-            throw new NotImplementedException();
+            @out = _api_internal.prod(a: a, axis: axis, dtype: dtype, keepdims: keepdims, initial: initial);
+            return @out;
         }
 
         public static ndarray dot(ndarray a, ndarray b, ndarray @out = null)
@@ -1497,52 +1627,53 @@ namespace MxNet.ND.Numpy
 
         public static ndarray cumsum(ndarray a, int? axis = null, DType dtype = null, ndarray @out = null)
         {
-            throw new NotImplementedException();
+            return _api_internal.cumsum(a: a, axis: axis, dtype: dtype, @out: @out);
         }
 
         public static ndarray reshape(ndarray a, Shape newshape, bool reverse = false, string order = "C")
         {
-            throw new NotImplementedException();
+            return _api_internal.reshape(a: a, newshape: newshape, reverse: reverse, order: order);
         }
 
         public static ndarray moveaxis(ndarray a, int source, int destination)
         {
-            throw new NotImplementedException();
+            return _api_internal.moveaxis(a: a, source: source, destination: destination);
         }
 
         public static ndarray moveaxis(ndarray a, int[] source, int[] destination)
         {
-            throw new NotImplementedException();
+            return _api_internal.moveaxis(a: a, source: source, destination: destination);
         }
 
         public static ndarray copy(ndarray a)
         {
-            throw new NotImplementedException();
+            return _api_internal.copy(a: a);
         }
 
         public static ndarray rollaxis(ndarray a, int axis, int start = 0)
         {
-            throw new NotImplementedException();
+            return _api_internal.rollaxis(a: a, axis: axis, start: start);
         }
 
         public static ndarray diag(ndarray v, int k = 0)
         {
-            throw new NotImplementedException();
+            return _api_internal.diag(v: v, k: k);
         }
 
         public static ndarray diagflat(ndarray v, int k = 0)
         {
-            throw new NotImplementedException();
+            return _api_internal.diagflat(v: v, k: k);
         }
 
         public static ndarray diagonal(ndarray a, int offset = 0, int axis1 = 0, int axis2 = 1)
         {
-            throw new NotImplementedException();
+            return _api_internal.diagonal(a: a, offset: offset, axis1: axis1, axis2: axis2);
         }
 
         public static ndarray sum(ndarray a, int? axis = null, DType dtype = null, ndarray @out = null, bool keepdims = false, float? initial = null)
         {
-            throw new NotImplementedException();
+            @out = _api_internal.sum(a: a, axis: axis, dtype: dtype, keepdims: keepdims, initial: initial);
+            return @out;
         }
 
         public static ndarray meshgrid(NDArrayList xi, string indexing = "xy", bool sparse = false, bool copy = true)

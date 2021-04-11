@@ -8,14 +8,6 @@ namespace MxNet
 {
     public class F
     {
-        public static NDArrayOrSymbol nan_to_num(NDArrayOrSymbol x, bool copy = true, float nan = 0, float? posinf = null, float? neginf = null)
-        {
-            if (x.IsNDArray)
-            {
-                return nd_np_ops.nan_to_num(x, copy, nan, posinf, neginf);
-            }
-            return sym_np_ops.nan_to_num(x, copy, nan, posinf, neginf);
-        }
         public static NDArrayOrSymbol squeeze(NDArrayOrSymbol a, int? axis)
         {
             if (a.IsNDArray)
@@ -417,7 +409,7 @@ namespace MxNet
 
             return sym_np_ops.array_split(ary, indices_or_sections, axis);
         }
-        public static NDArrayOrSymbol vsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
+        public static NDArrayOrSymbolList vsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
         {
             if (ary.IsNDArray)
             {
@@ -425,7 +417,7 @@ namespace MxNet
             }
             return sym_np_ops.vsplit(ary, indices_or_sections);
         }
-        public static NDArrayOrSymbol dsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
+        public static NDArrayOrSymbolList dsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
         {
             if (ary.IsNDArray)
             {
@@ -547,21 +539,21 @@ namespace MxNet
             }
             return sym_np_ops.argmin(a, axis, @out);
         }
-        public static NDArrayOrSymbol amax(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol amax(NDArrayOrSymbol a, int? axis, bool keepdims = false, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
-                return nd_np_ops.amax(a, axis, @out);
+                return nd_np_ops.amax(a, axis, keepdims, @out);
             }
-            return sym_np_ops.amax(a, axis, @out);
+            return sym_np_ops.amax(a, axis, keepdims, @out);
         }
-        public static NDArrayOrSymbol amin(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol amin(NDArrayOrSymbol a, int? axis, bool keepdims = false, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
-                return nd_np_ops.amin(a, axis, @out);
+                return nd_np_ops.amin(a, axis, keepdims, @out);
             }
-            return sym_np_ops.amin(a, axis, @out);
+            return sym_np_ops.amin(a, axis, keepdims, @out);
         }
         public static NDArrayOrSymbol average(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol weights, bool returned, NDArrayOrSymbol @out = null)
         {
@@ -595,14 +587,6 @@ namespace MxNet
             }
             return sym_np_ops.delete(arr, obj, axis);
         }
-        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, int[] obj, int? axis)
-        {
-            if (arr.IsNDArray)
-            {
-                return nd_np_ops.delete(arr, obj, axis);
-            }
-            return sym_np_ops.delete(arr, obj, axis);
-        }
         public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, NDArrayOrSymbol obj, int? axis)
         {
             if (arr.IsNDArray)
@@ -611,6 +595,15 @@ namespace MxNet
             }
             return sym_np_ops.delete(arr, obj, axis);
         }
+        public static NDArrayOrSymbol delete(NDArrayOrSymbol arr, Slice obj, int? axis)
+        {
+            if (arr.IsNDArray)
+            {
+                return nd_np_ops.delete(arr, obj, axis);
+            }
+            return sym_np_ops.delete(arr, obj, axis);
+        }
+        
         public static NDArrayOrSymbol var(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
@@ -635,7 +628,7 @@ namespace MxNet
             }
             return sym_np_ops.ravel(x, order);
         }
-        public static NDArrayOrSymbol unravel_index(NDArrayOrSymbol indices, Shape shape, String order)
+        public static NDArrayOrSymbolList unravel_index(NDArrayOrSymbol indices, Shape shape, String order)
         {
             if (indices.IsNDArray)
             {
@@ -643,7 +636,7 @@ namespace MxNet
             }
             return sym_np_ops.unravel_index(indices, shape, order);
         }
-        public static NDArrayOrSymbol flatnonzero(NDArrayOrSymbol x)
+        public static NDArrayOrSymbolList flatnonzero(NDArrayOrSymbol x)
         {
             if (x.IsNDArray)
             {
@@ -651,7 +644,7 @@ namespace MxNet
             }
             return sym_np_ops.flatnonzero(x);
         }
-        public static NDArrayOrSymbol diag_indices_from(NDArrayOrSymbol x)
+        public static NDArrayOrSymbolList diag_indices_from(NDArrayOrSymbol x)
         {
             if (x.IsNDArray)
             {
@@ -892,7 +885,7 @@ namespace MxNet
             }
             return sym_np_ops.rot90(m, k, axes);
         }
-        public static NDArrayOrSymbol hsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
+        public static NDArrayOrSymbolList hsplit(NDArrayOrSymbol ary, int[] indices_or_sections)
         {
             if (ary.IsNDArray)
             {
@@ -916,7 +909,7 @@ namespace MxNet
             }
             return sym_np_ops.insert(arr, obj, values, axis);
         }
-        public static NDArrayOrSymbol nonzero(NDArrayOrSymbol a)
+        public static NDArrayOrSymbolList nonzero(NDArrayOrSymbol a)
         {
             if (a.IsNDArray)
             {
@@ -932,14 +925,7 @@ namespace MxNet
             }
             return sym_np_ops.percentile(a, q, axis, @out, overwrite_input, interpolation, keepdims);
         }
-        public static NDArrayOrSymbol median(NDArrayOrSymbol a, int? axis, NDArrayOrSymbol @out, bool? overwrite_input, bool keepdims)
-        {
-            if (a.IsNDArray)
-            {
-                return nd_np_ops.median(a, axis, @out, overwrite_input, keepdims);
-            }
-            return sym_np_ops.median(a, axis, @out, overwrite_input, keepdims);
-        }
+       
         public static NDArrayOrSymbol quantile(NDArrayOrSymbol a, NDArrayOrSymbol q, int? axis, NDArrayOrSymbol @out, bool? overwrite_input, String interpolation, bool keepdims)
         {
             if (a.IsNDArray)
@@ -948,22 +934,7 @@ namespace MxNet
             }
             return sym_np_ops.quantile(a, q, axis, @out, overwrite_input, interpolation, keepdims);
         }
-        public static bool shares_memory(NDArrayOrSymbol a, NDArrayOrSymbol b, int? max_work)
-        {
-            if (a.IsNDArray)
-            {
-                return nd_np_ops.shares_memory(a, b, max_work);
-            }
-            return sym_np_ops.shares_memory(a, b, max_work);
-        }
-        public static bool may_share_memory(NDArrayOrSymbol a, NDArrayOrSymbol b, int? max_work)
-        {
-            if (a.IsNDArray)
-            {
-                return nd_np_ops.may_share_memory(a, b, max_work);
-            }
-            return sym_np_ops.may_share_memory(a, b, max_work);
-        }
+       
         public static NDArrayOrSymbol diff(NDArrayOrSymbol a, int n, int axis, NDArrayOrSymbol prepend, NDArrayOrSymbol append)
         {
             if (a.IsNDArray)
@@ -1054,14 +1025,7 @@ namespace MxNet
 
             return sym_np_ops.zeros_like(prototype, dtype, order);
         }
-        public static bool all(NDArrayOrSymbol a)
-        {
-            if (a.IsNDArray)
-            {
-                return nd_np_ops.all(a);
-            }
-            return sym_np_ops.all(a);
-        }
+        
         public static NDArrayOrSymbol all(NDArrayOrSymbol a, int axis, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
@@ -1070,14 +1034,7 @@ namespace MxNet
             }
             return sym_np_ops.all(a, axis, @out, keepdims);
         }
-        public static bool any(NDArrayOrSymbol a)
-        {
-            if (a.IsNDArray)
-            {
-                return nd_np_ops.any(a);
-            }
-            return sym_np_ops.any(a);
-        }
+
         public static NDArrayOrSymbol any(NDArrayOrSymbol a, int axis, NDArrayOrSymbol @out, bool keepdims)
         {
             if (a.IsNDArray)
@@ -1608,14 +1565,6 @@ namespace MxNet
                 return nd_np_ops.tril(m, k);
             }
             return sym_np_ops.tril(m, k);
-        }
-        public static NDArrayOrSymbol triu_indices_from(NDArrayOrSymbol NDArrayOrSymbol, int k)
-        {
-            if (NDArrayOrSymbol.IsNDArray)
-            {
-                return nd_np_ops.triu_indices_from(NDArrayOrSymbol, k);
-            }
-            return sym_np_ops.triu_indices_from(NDArrayOrSymbol, k);
         }
 
         public static NDArrayOrSymbolList split(NDArrayOrSymbol ary, int[] indices_or_sections, int axis)
