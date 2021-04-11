@@ -14,32 +14,8 @@ variables:
 
 
 steps:
-
-- task: VSBuild@1
-  displayName: 'Build solution'
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'build'
+    projects: '$(solution)'
 
-- task: VSTest@2
-  inputs:
-    displayName: 'Test Assemblies'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    codeCoverageEnabled: true
-    testAssemblyVer2: '**\$(BuildConfiguration)\*test*.dll,!**\obj\**'
-
-- task: PublishSymbols@2
-  displayName: 'Publish symbols path'
-  inputs:
-    searchPattern: '**\bin\**\*.pdb'
-    publishSymbols: false
-  continueOnError: true
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact'
-  inputs:
-    PathtoPublish: '$(build.artifactStagingDirectory)'
-    ArtifactName: '$(artifactName)'
