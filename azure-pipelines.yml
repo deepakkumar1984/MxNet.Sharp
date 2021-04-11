@@ -14,7 +14,7 @@ variables:
 
 
 steps:
-- task: BuildMxNet
+- task: BuildMxNet@2
   inputs:
     command: 'build'
     projects: '$(solution)'
