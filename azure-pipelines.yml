@@ -14,12 +14,6 @@ variables:
 
 
 steps:
-- task: NuGetCommand@2
-  displayName: 'NuGet restore'
-  inputs:
-    restoreSolution: '$(solution)'
-    feedsToUse: config
-    nugetConfigPath: nuget.config
 
 - task: VSBuild@1
   displayName: 'Build solution'
