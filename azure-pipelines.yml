@@ -7,9 +7,63 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+- vmImage: ubuntu-latest
 
-- task: DotNetCoreCLI@2
+queue:
+  name: Default
+  demands: 
+  - msbuild
+  - visualstudio
+  - vstest
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  artifactName: 'drop'
+
+steps:
+- task: UseGitVersion@5
   inputs:
-    command: 'build'
-    projects: 'MxNet.Sharp.sln'
+    versionSpec: '5.x'
+
+- task: NuGetToolInstaller@0
+  inputs:
+    versionSpec: '>= 5.5.1'
+
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: '$(solution)'
+    feedsToUse: config
+    nugetConfigPath: nuget.config
+
+- task: VSBuild@1
+  displayName: 'Build solution'
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    displayName: 'Test Assemblies'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: true
+    testAssemblyVer2: '**\$(BuildConfiguration)\*test*.dll,!**\obj\**'
+
+- task: PublishSymbols@2
+  displayName: 'Publish symbols path'
+  inputs:
+    searchPattern: '**\bin\**\*.pdb'
+    publishSymbols: false
+  continueOnError: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactStagingDirectory)'
+    ArtifactName: '$(artifactName)'
