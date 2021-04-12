@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -26,7 +27,7 @@ namespace MxNet.Gluon.Data
         private _sendfn _send;
         private readonly ConnectionWrapper _writer;
 
-        public SimpleQueue() : base(new List<NDArray>())
+        public SimpleQueue() : base(new List<ndarray>())
         {
             _reader = new ConnectionWrapper(new Socket(new SocketInformation
                 {Options = SocketInformationOptions.Listening}));
@@ -37,8 +38,8 @@ namespace MxNet.Gluon.Data
             _recv = _reader.Recv;
         }
 
-        private delegate void _sendfn(NDArray obj);
+        private delegate void _sendfn(ndarray obj);
 
-        private delegate NDArray _recvfn();
+        private delegate ndarray _recvfn();
     }
 }

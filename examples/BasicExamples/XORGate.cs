@@ -8,6 +8,7 @@ using MxNet.Gluon.Metrics;
 using MxNet.Optimizers;
 using System;
 using System.Linq;
+using MxNet.Numpy;
 
 namespace BasicExamples
 {
@@ -16,8 +17,8 @@ namespace BasicExamples
         public static void Run()
         {
             // Create
-            var trainX = new NDArray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }).Reshape(4, 2);
-            var trainY = new NDArray(new float[] { 0, 1, 1, 0 });
+            var trainX = new ndarray(new float[] { 0, 0, 0, 1, 1, 0, 1, 1 }).reshape(new Shape(4, 2));
+            var trainY = new ndarray(new float[] { 0, 1, 1, 0 });
 
             var batch_size = 2;
             var train_data = new NDArrayIter(trainX, trainY, batch_size);
@@ -43,17 +44,17 @@ namespace BasicExamples
                 while (!train_data.End())
                 {
                     var batch = train_data.Next();
-                    var data = Utils.SplitAndLoad(batch.Data[0], ctxList);
-                    var label = Utils.SplitAndLoad(batch.Label[0], ctxList);
+                    var data = MxNet.Gluon.Utils.SplitAndLoad(batch.Data[0], ctxList);
+                    var label = MxNet.Gluon.Utils.SplitAndLoad(batch.Label[0], ctxList);
                     NDArrayList outputs = null;
                     using (var ag = Autograd.Record())
                     {
                         outputs = Enumerable.Zip(data, label, (x, y) =>
                         {
                             var z = net.Call(x);
-                            NDArray loss = binary_crossentropy.Call(z, y);
+                            ndarray loss = binary_crossentropy.Call(z, y);
                             loss.Backward();
-                            lossVal += loss.Mean();
+                            lossVal += loss.mean().AsScalar<float>();
                             return z;
                         }).ToList();
                     }

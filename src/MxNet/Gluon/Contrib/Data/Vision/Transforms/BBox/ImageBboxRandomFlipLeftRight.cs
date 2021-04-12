@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -16,12 +17,12 @@ namespace MxNet.Gluon.Contrib.Data.Vision.Transforms.BBox
             throw new NotImplementedRelease1Exception();
         }
 
-        private NDArray FlipImage(NDArray img)
+        private ndarray FlipImage(ndarray img)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        private NDArray FlipBBox(NDArray img, NDArray bbox)
+        private ndarray FlipBBox(ndarray img, ndarray bbox)
         {
             throw new NotImplementedRelease1Exception();
         }

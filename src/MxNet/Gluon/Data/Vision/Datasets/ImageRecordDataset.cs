@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Image;
+using MxNet.Numpy;
 using MxNet.Recordio;
 using System;
 
@@ -23,9 +24,9 @@ namespace MxNet.Gluon.Data.Vision.Datasets
     {
         internal int _flag;
 
-        internal Func<NDArray, NDArray, (NDArray, NDArray)> _transform;
+        internal Func<ndarray, ndarray, (ndarray, ndarray)> _transform;
 
-        public ImageRecordDataset(string filename, int flag = 1, Func<NDArray, NDArray, (NDArray, NDArray)> transform = null) :
+        public ImageRecordDataset(string filename, int flag = 1, Func<ndarray, ndarray, (ndarray, ndarray)> transform = null) :
             base(filename)
         {
             if (transform != null)
@@ -37,7 +38,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             this._transform = transform;
         }
 
-        public new (NDArray, NDArray) this[int idx]
+        public new (ndarray, ndarray) this[int idx]
         {
             get
             {

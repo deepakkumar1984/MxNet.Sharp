@@ -13,6 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
+
 namespace MxNet.Gluon.Losses
 {
     public class TripletLoss : Loss
@@ -35,7 +38,7 @@ namespace MxNet.Gluon.Losses
             return F(pred.SymX, label, negative);
         }
 
-        private NDArray F(NDArray pred, NDArray positive, NDArray negative)
+        private ndarray F(ndarray pred, ndarray positive, ndarray negative)
         {
             positive = nd.ReshapeLike(positive, pred);
             negative = nd.ReshapeLike(negative, pred);
@@ -45,7 +48,7 @@ namespace MxNet.Gluon.Losses
             return loss;
         }
 
-        private Symbol F(Symbol pred, Symbol positive, Symbol negative)
+        private _Symbol F(_Symbol pred, _Symbol positive, _Symbol negative)
         {
             positive = sym.ReshapeLike(positive, pred);
             negative = sym.ReshapeLike(negative, pred);

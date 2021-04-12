@@ -16,6 +16,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MxNet.Initializers;
+using MxNet.Sym.Numpy;
 
 namespace MxNet.Gluon.NN
 {
@@ -86,7 +87,7 @@ namespace MxNet.Gluon.NN
 
         private Shape[] _infer_weight_shape(string op_name, Shape data_shape)
         {
-            var conv = sym.Convolution(Symbol.Var("data", shape: data_shape), null, kernel: new Shape(KernalSize),
+            var conv = sym.Convolution(_Symbol.Var("data", shape: data_shape), null, kernel: new Shape(KernalSize),
                 num_filter: NumFilter,
                 stride: new Shape(Strides), dilate: new Shape(Dialation), pad: new Shape(Padding), no_bias: !UseBias,
                 num_group: NumGroup, bias: null);

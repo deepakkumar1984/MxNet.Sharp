@@ -1,4 +1,5 @@
 ﻿using MxNet.Gluon.Probability.Distributions.Constraints;
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -182,7 +183,7 @@ namespace MxNet.Gluon.Probability.Distributions
             return this.GetType().Name + "(" + args_string + ")";
         }
 
-        public NDArray ValidateSamples(NDArray value)
+        public ndarray ValidateSamples(ndarray value)
         {
             return this.Support.Check(value);
         }

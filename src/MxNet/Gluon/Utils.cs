@@ -30,14 +30,14 @@ namespace MxNet.Gluon
     {
         private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(0);
 
-        public static NDArrayList SplitData(NDArray data, int num_slice, int batch_axis = 0, bool even_split = true)
+        public static NDArrayList SplitData(ndarray data, int num_slice, int batch_axis = 0, bool even_split = true)
         {
-            var size = data.Shape[batch_axis];
+            var size = data.shape[batch_axis];
             if (even_split && size % num_slice != 0)
                 throw new ArgumentException(string.Format(
                     "data with shape {0} cannot be evenly split into {1} slices along axis {2}. " +
                     "Use a batch size that's multiple of {3} or set even_split=False to allow " +
-                    "uneven partitioning of data.", data.Shape, num_slice, batch_axis, num_slice));
+                    "uneven partitioning of data.", data.shape, num_slice, batch_axis, num_slice));
 
             var step = (int) Math.Truncate((double) size / num_slice);
 
@@ -70,7 +70,7 @@ namespace MxNet.Gluon
             return slices.ToArray();
         }
 
-        public static NDArrayList SplitAndLoad(NDArray data, Context[] ctx_list, int batch_axis = 0,
+        public static NDArrayList SplitAndLoad(ndarray data, Context[] ctx_list, int batch_axis = 0,
             bool even_split = true)
         {
             if (ctx_list.Length == 1)
@@ -84,7 +84,7 @@ namespace MxNet.Gluon
             return result.ToArray();
         }
 
-        public static NDArray ClipGlobalNorm(NDArrayList arrays, float max_norm, bool check_isfinite = true)
+        public static ndarray ClipGlobalNorm(NDArrayList arrays, float max_norm, bool check_isfinite = true)
         {
             Func<NDArrayList, Dictionary<Context, NDArrayList>> group_by_ctx = arr_list =>
             {

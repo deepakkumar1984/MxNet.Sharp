@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace MxNet._ffi
 {
-    public class MXNetValue
+    [StructLayout(LayoutKind.Sequential)]
+    public unsafe struct MXNetValue
     {
-        public Dictionary<string, Type> _fields_ = new Dictionary<string, Type>() {
-            { "v_int64", typeof(long)},
-            { "v_float64", typeof(double) },
-            { "v_handle", typeof(IntPtr)},
-            { "v_str", typeof(string) }
-        };
-
-        public static Dictionary<TypeCode, Type> RETURN_SWITCH = new Dictionary<TypeCode, Type>()
-        {
-            { TypeCode.INT, typeof(long) },
-            { TypeCode.FLOAT, typeof(double) },
-            { TypeCode.NULL, typeof(Nullable) },
-            { TypeCode.NDARRAYHANDLE, typeof(IntPtr) }
-        };
+        public long v_int64;
+        public double v_float64;
+        public IntPtr v_handle;
+        public char* v_str;
+        public int v_type;
     }
 }

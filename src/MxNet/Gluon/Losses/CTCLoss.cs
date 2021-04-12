@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 using System;
 using System.Linq;
 
@@ -42,16 +44,16 @@ namespace MxNet.Gluon.Losses
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label,
             NDArrayOrSymbol sample_weight = null, params object[] args)
         {
-            NDArrayOrSymbol pred_lengths = args.Length > 0 ? (NDArray) args[0] : null;
-            NDArrayOrSymbol label_lengths = args.Length > 1 ? (NDArray) args[1] : null;
+            NDArrayOrSymbol pred_lengths = args.Length > 0 ? (ndarray) args[0] : null;
+            NDArrayOrSymbol label_lengths = args.Length > 1 ? (ndarray) args[1] : null;
             if (pred.IsNDArray)
                 return F(pred.NdX, label, pred_lengths, label_lengths, sample_weight);
 
             return F(pred.SymX, label, pred_lengths, label_lengths, sample_weight);
         }
 
-        private NDArray F(NDArray pred, NDArray label, NDArray pred_lengths = null, NDArray label_lengths = null,
-            NDArray sample_weight = null)
+        private ndarray F(ndarray pred, ndarray label, ndarray pred_lengths = null, ndarray label_lengths = null,
+            ndarray sample_weight = null)
         {
             if (Layout == "NTC")
                 pred = nd.SwapAxis(pred, 0, 1);
@@ -66,8 +68,8 @@ namespace MxNet.Gluon.Losses
             return ApplyWeighting(loss, Weight, sample_weight);
         }
 
-        private Symbol F(Symbol pred, Symbol label, Symbol pred_lengths = null, Symbol label_lengths = null,
-            Symbol sample_weight = null)
+        private _Symbol F(_Symbol pred, _Symbol label, _Symbol pred_lengths = null, _Symbol label_lengths = null,
+            _Symbol sample_weight = null)
         {
             if (Layout == "NTC")
                 pred = sym.SwapAxis(pred, 0, 1);

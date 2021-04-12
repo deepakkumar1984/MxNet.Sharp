@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Initializers
@@ -26,10 +27,10 @@ namespace MxNet.Initializers
 
         public float ForgetBias { get; set; }
 
-        public override void InitWeight(string name, ref NDArray arr)
+        public override void InitWeight(string name, ref ndarray arr)
         {
             arr.Constant(0);
-            var num_hidden = Convert.ToInt32(arr.Shape[0] / 4);
+            var num_hidden = Convert.ToInt32(arr.shape[0] / 4);
             var data = arr.GetValues<float>();
             for (var i = num_hidden; i < 2 * num_hidden; i++)
                 data[i] = ForgetBias;

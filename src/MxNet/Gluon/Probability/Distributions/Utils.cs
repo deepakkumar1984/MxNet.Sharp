@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -41,7 +42,7 @@ namespace MxNet.Gluon.Probability.Distributions
             throw new NotImplementedRelease1Exception();
         }
 
-        public static NDArray SumRightMost(NDArrayOrSymbol x, int ndim)
+        public static ndarray SumRightMost(NDArrayOrSymbol x, int ndim)
         {
             throw new NotImplementedRelease1Exception();
         }

@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -28,20 +29,20 @@ namespace MxNet.Gluon.Data
             _conn = conn;
         }
 
-        public void Send(NDArray obj)
+        public void Send(ndarray obj)
         {
             var buffer = obj.GetBuffer();
             _conn.Send(buffer);
         }
 
-        public NDArray Recv()
+        public ndarray Recv()
         {
             var bufferSegment = new List<ArraySegment<byte>>();
             _conn.Receive(bufferSegment);
             var buffer = new List<byte>();
             foreach (var item in bufferSegment) buffer.AddRange(item.Array);
 
-            return NDArray.LoadFromBuffer(buffer.ToArray());
+            return ndarray.LoadFromBuffer(buffer.ToArray());
         }
     }
 }

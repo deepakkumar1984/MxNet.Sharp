@@ -30,9 +30,9 @@ namespace MxNet.Gluon
 
         public Initializer DefaultInit;
 
-        public NDArray Data;
+        public ndarray Data;
 
-        public DeferredInit(Initializer initializer, Context[] contexts, Initializer default_init, NDArray data)
+        public DeferredInit(Initializer initializer, Context[] contexts, Initializer default_init, ndarray data)
         {
             Initializer = initializer;
             Contexts = contexts;
@@ -40,7 +40,7 @@ namespace MxNet.Gluon
             Data = data;
         }
 
-        public void Deconstruct(out Initializer initializer, out Context[] contexts, out Initializer default_init, out NDArray data)
+        public void Deconstruct(out Initializer initializer, out Context[] contexts, out Initializer default_init, out ndarray data)
         {
             initializer = Initializer;
             contexts = Contexts;
@@ -189,7 +189,7 @@ namespace MxNet.Gluon
                                         "nested child Blocks");
         }
 
-        internal NDArrayList GetRowSparse(NDArrayList arr_list, Context ctx, NDArray row_id)
+        internal NDArrayList GetRowSparse(NDArrayList arr_list, Context ctx, ndarray row_id)
         {
             if (trainer == null)
                 throw new Exception($"Cannot get row_sparse data for Parameter '{Name}' when no " +
@@ -200,14 +200,14 @@ namespace MxNet.Gluon
             return results;
         }
 
-        internal void LoadInit(NDArray data, Context[] ctx, bool cast_dtype = false, string dtype_source = "current")
+        internal void LoadInit(ndarray data, Context[] ctx, bool cast_dtype = false, string dtype_source = "current")
         {
             if (cast_dtype) Assert.InList("dtype_source", dtype_source, new[] {"current", "saved"});
 
             if (_shape != null)
             {
                 var newshape = new List<int>();
-                newshape = Shape.Data.Zip(data.Shape.Data, (self_dim, data_dim) =>
+                newshape = Shape.Data.Zip(data.shape.Data, (self_dim, data_dim) =>
                 {
                     //ToDo: Review Assert
                     //Assert.InList("self_dim", (int)self_dim, Enumerable.Range(0, (int)data_dim).ToArray(),
@@ -223,24 +223,24 @@ namespace MxNet.Gluon
 
             if (DataType != null)
             {
-                if (cast_dtype && DataType.Name != data.DataType.Name)
+                if (cast_dtype && DataType.Name != data.dtype.Name)
                 {
                     if (dtype_source == "current")
                         data = data.AsType(DataType);
                     else if (dtype_source == "saved")
-                        DataType = data.DataType;
+                        DataType = data.dtype;
                 }
-                else if (DataType.Name != data.DataType.Name)
+                else if (DataType.Name != data.dtype.Name)
                 {
                     throw new Exception($"Failed loading Parameter '{Name}' from saved params: " +
-                                        $"dtype incompatible expected {DataType} vs saved {data.DataType}. " +
+                                        $"dtype incompatible expected {DataType} vs saved {data.dtype}. " +
                                         "Set cast_dtype=True to cast the dtype of saved params.");
                 }
 
                 //ToDo: support for float 16
             }
 
-            if (Stype != data.SType)
+            if (Stype != data.stype)
                 data = data.ToSType(Stype);
 
             if (_data == null)
@@ -304,7 +304,7 @@ namespace MxNet.Gluon
             }
         }
 
-        internal void InitImpl(NDArray data, Context[] ctx_list)
+        internal void InitImpl(ndarray data, Context[] ctx_list)
         {
             _ctx_list = ctx_list.ToList();
             _ctx_map = new Dictionary<int, List<int>>();
@@ -344,10 +344,10 @@ namespace MxNet.Gluon
             Autograd.MarkVariables(CheckAndGet(_data, null), _grad.ToArray(), GradReg);
         }
 
-        internal NDArray Reduce()
+        internal ndarray Reduce()
         {
             var ctx = Context.Cpu();
-            NDArray data = null;
+            ndarray data = null;
             if (Stype == StorageStype.Default)
             {
                 var block = ListData();
@@ -423,9 +423,9 @@ namespace MxNet.Gluon
             }
         }
 
-        public void SetData(NDArray data)
+        public void SetData(ndarray data)
         {
-            _shape = data.Shape;
+            _shape = data.shape;
             if (_data == null)
             {
                 if (deferred_init == null)
@@ -443,17 +443,17 @@ namespace MxNet.Gluon
             for (var i = 0; i < dlist.Length; i++) dlist[i] = data;
         }
 
-        public NDArray RowSparseData(NDArray row_id)
+        public ndarray RowSparseData(ndarray row_id)
         {
             if (Stype != StorageStype.RowSparse)
                 throw new Exception($"Cannot return copies of Parameter '{Name}' on all contexts via " +
                                     $"list_row_sparse_data() because its storage type is {Stype}. Please " +
                                     "use data() instead.");
 
-            return GetRowSparse(_data, row_id.Context, row_id).FirstOrDefault();
+            return GetRowSparse(_data, row_id.ctx, row_id).FirstOrDefault();
         }
 
-        public NDArrayList ListRowSparseData(NDArray row_id)
+        public NDArrayList ListRowSparseData(ndarray row_id)
         {
             if (Stype != StorageStype.RowSparse)
                 throw new Exception($"Cannot return a copy of Parameter {Name} via row_sparse_data() " +
@@ -483,7 +483,7 @@ namespace MxNet.Gluon
             return CheckAndGet(_data, null);
         }
 
-        public NDArray Grad(Context ctx = null)
+        public ndarray Grad(Context ctx = null)
         {
             if (_data != null && _grad == null)
                 throw new Exception($"Cannot get gradient array for Parameter '{Name}' " +

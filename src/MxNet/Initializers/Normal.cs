@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Initializers
 {
     public class Normal : Initializer
@@ -24,9 +26,9 @@ namespace MxNet.Initializers
 
         public float Sigma { get; set; }
 
-        public override void InitWeight(string name, ref NDArray arr)
+        public override void InitWeight(string name, ref ndarray arr)
         {
-            arr = nd.Random.Normal(0, Sigma, arr.Shape);
+            arr = nd.Random.Normal(0, Sigma, arr.shape);
         }
     }
 }

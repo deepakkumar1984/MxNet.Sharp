@@ -50,6 +50,7 @@ namespace MxNet.Gluon
             _reg_params = new Dictionary<string, Parameter>();
             _forward_hooks = new Dictionary<int, Hook>();
             _forward_pre_hooks = new Dictionary<int, Hook>();
+            Params = new ParameterDict();
         }
 
         public virtual ParameterDict Params { get; set; }
@@ -591,7 +592,7 @@ namespace MxNet.Gluon
             return prefix;
         }
 
-        internal static (DType[], DType[]) InferParamTypes(SymbolList in_params, Symbol out_params, string[] arg_params,
+        internal static (DType[], DType[]) InferParamTypes(SymbolList in_params, _Symbol out_params, string[] arg_params,
             string[] aux_params, DType default_dtype = null)
         {
             DType[] arg_types = null;

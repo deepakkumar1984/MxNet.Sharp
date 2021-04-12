@@ -13,11 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Initializers
 {
     public class Zero : Initializer
     {
-        public override void InitWeight(string name, ref NDArray arr)
+        public override void InitWeight(string name, ref ndarray arr)
         {
             arr.Constant(0);
         }

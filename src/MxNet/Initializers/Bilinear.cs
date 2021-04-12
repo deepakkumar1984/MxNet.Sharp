@@ -13,21 +13,22 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Initializers
 {
     public class Bilinear : Initializer
     {
-        public override void InitWeight(string name, ref NDArray arr)
+        public override void InitWeight(string name, ref ndarray arr)
         {
-            var weight = new float[arr.Shape.Size];
-            var f = (float) Math.Ceiling(arr.Shape[3] / 2f);
-            var shape = arr.Shape;
+            var weight = new float[arr.shape.Size];
+            var f = (float) Math.Ceiling(arr.shape[3] / 2f);
+            var shape = arr.shape;
             var c = (2 * f - 1 - f % 2) / (2f * f);
-            for (var i = 0; i < arr.Shape.Size; i++)
+            for (var i = 0; i < arr.size; i++)
             {
-                var x = i % arr.Shape[3];
+                var x = i % arr.shape[3];
                 var y = Math.Floor(Convert.ToDouble(i / shape[3])) % shape[2];
                 weight[i] = (1 - Math.Abs(x / f - c)) * (1 - (float) Math.Abs(y / f - c));
             }

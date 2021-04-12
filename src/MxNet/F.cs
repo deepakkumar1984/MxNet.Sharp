@@ -112,7 +112,7 @@ namespace MxNet
             }
             return sym_np_ops.cumsum(a, axis, dtype, @out);
         }
-        public static NDArrayOrSymbol reshape(NDArrayOrSymbol a, Shape newshape, bool reverse, String order)
+        public static NDArrayOrSymbol reshape(NDArrayOrSymbol a, Shape newshape, bool reverse = false, String order = "C")
         {
             if (a.IsNDArray)
             {
@@ -176,7 +176,7 @@ namespace MxNet
             }
             return sym_np_ops.diagonal(a, offset, axis1, axis2);
         }
-        public static NDArrayOrSymbol sum(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims, float? initial)
+        public static NDArrayOrSymbol sum(NDArrayOrSymbol a, int? axis = null, DType dtype = null, NDArrayOrSymbol @out = null, bool keepdims = false, float? initial = null)
         {
             if (a.IsNDArray)
             {
@@ -328,7 +328,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.softmax(data, axis, length, temperature, use_length, dtype);
         }
-        public static NDArrayOrSymbol log_softmax(NDArrayOrSymbol data, int axis, NDArrayOrSymbol length, Double? temperature, bool use_length, DType dtype)
+        public static NDArrayOrSymbol log_softmax(NDArrayOrSymbol data, int axis, NDArrayOrSymbol length = null, Double? temperature = null, bool use_length = false, DType dtype = null)
         {
             if (data.IsNDArray)
             {
@@ -360,7 +360,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.pick(data, index, axis, mode, keepdims);
         }
-        public static NDArrayOrSymbol reshape_like(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs, int? lhs_begin, int? lhs_end, int? rhs_begin, int? rhs_end)
+        public static NDArrayOrSymbol reshape_like(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs, int? lhs_begin = null, int? lhs_end = null, int? rhs_begin = null, int? rhs_end = null)
         {
             if (lhs.IsNDArray)
             {
@@ -563,7 +563,7 @@ namespace MxNet
             }
             return sym_np_ops.average(a, axis, weights, returned, @out);
         }
-        public static NDArrayOrSymbol mean(NDArrayOrSymbol a, int? axis, DType dtype, NDArrayOrSymbol @out, bool keepdims)
+        public static NDArrayOrSymbol mean(NDArrayOrSymbol a, int? axis = null, DType dtype = null, NDArrayOrSymbol @out = null, bool keepdims = false)
         {
             if (a.IsNDArray)
             {
@@ -1574,6 +1574,16 @@ namespace MxNet
                 return nd_np_ops.split(ary, indices_or_sections, axis);
             }
             return sym_np_ops.split(ary, indices_or_sections, axis);
+        }
+
+        public static NDArrayOrSymbol norm(NDArrayOrSymbol x, string ord = null, Shape axis = null, bool keepdims = false)
+        {
+            if (x.IsNDArray)
+            {
+                return nd_np_ops.linalg.norm(x, ord, axis, keepdims);
+            }
+
+            return sym_np_ops.linalg.norm(x, ord, axis, keepdims);
         }
     }
 }

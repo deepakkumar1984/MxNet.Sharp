@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Sym.Numpy;
 using System.Linq;
 
 namespace MxNet.Gluon.RNN
@@ -37,7 +38,7 @@ namespace MxNet.Gluon.RNN
 
         public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs,
             NDArrayOrSymbol[] begin_state = null, string layout = "NTC", bool? merge_outputs = null,
-            Symbol valid_length = null)
+            _Symbol valid_length = null)
         {
             Reset();
             BaseCell._modified = false;

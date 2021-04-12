@@ -789,7 +789,7 @@ namespace MxNet.Numpy
 
         public ndarray AsInContext(Context context)
         {
-            if (this.ctx == context)
+            if (this.ctx.ToString() == context.ToString())
                 return this;
 
             return ChangeContext(context);
@@ -1071,10 +1071,7 @@ namespace MxNet.Numpy
 
         public virtual ndarray reshape(Shape shape, bool reverse = false)
         {
-            NDArrayHandle handle;
-            var dims = shape.Data.Select(s => s);
-            NativeMethods.MXNDArrayReshape64(GetHandle(), shape.Dimension, dims.ToArray(), reverse, out handle);
-            return new ndarray(handle);
+            return nd_np_ops.reshape(this, shape, reverse);
         }
 
         public virtual ndarray reshape(params int[] shape)

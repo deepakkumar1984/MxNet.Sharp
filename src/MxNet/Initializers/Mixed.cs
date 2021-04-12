@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -32,7 +33,7 @@ namespace MxNet.Initializers
                 map.Add(new KeyValuePair<Regex, Initializer>(new Regex(patterns[i]), initializers[i]));
         }
 
-        public void Call(string name, NDArray arr)
+        public void Call(string name, ndarray arr)
         {
             foreach (var item in map)
                 if (item.Key.IsMatch(name))

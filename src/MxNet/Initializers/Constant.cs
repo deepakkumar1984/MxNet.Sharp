@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Initializers
 {
     public class Constant : Initializer
@@ -24,7 +26,7 @@ namespace MxNet.Initializers
 
         public float Value { get; set; }
 
-        public override void InitWeight(string name, ref NDArray arr)
+        public override void InitWeight(string name, ref ndarray arr)
         {
             arr.Constant(Value);
         }

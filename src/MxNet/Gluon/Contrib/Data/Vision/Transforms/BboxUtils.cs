@@ -1,4 +1,5 @@
 ﻿using MxNet.Gluon.Probability.Distributions.Constraints;
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,32 +8,32 @@ namespace MxNet.Gluon.Contrib.Data.Vision.Transforms
 {
     public class BboxUtils
     {
-        private static void _check_bbox_shape(NDArray bbox)
+        private static void _check_bbox_shape(ndarray bbox)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        public static NDArray BboxCrop(NDArray bbox, NDArray crop_box= null, bool allow_outside_center= true)
+        public static ndarray BboxCrop(ndarray bbox, ndarray crop_box= null, bool allow_outside_center= true)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        public static NDArray BboxFlip(NDArray bbox, (int, int) size, bool flip_x = false, bool flip_y = false)
+        public static ndarray BboxFlip(ndarray bbox, (int, int) size, bool flip_x = false, bool flip_y = false)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        public static NDArray BboxResize(NDArray bbox, (int, int) in_size, (int, int) out_size)
+        public static ndarray BboxResize(ndarray bbox, (int, int) in_size, (int, int) out_size)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        public static NDArray BboxTranslate(NDArray bbox, float x_offset= 0, float y_offset= 0)
+        public static ndarray BboxTranslate(ndarray bbox, float x_offset= 0, float y_offset= 0)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        public static NDArray BboxIou(NDArray bbox_a, NDArray bbox_b, float offset= 0)
+        public static ndarray BboxIou(ndarray bbox_a, ndarray bbox_b, float offset= 0)
         {
             throw new NotImplementedRelease1Exception();
         }
@@ -52,7 +53,7 @@ namespace MxNet.Gluon.Contrib.Data.Vision.Transforms
             throw new NotImplementedRelease1Exception();
         }
 
-        public static NDArray BboxRandomCropWithConstraints(NDArray bbox, (int, int) size, float min_scale= 0.3f, float max_scale= 1,
+        public static ndarray BboxRandomCropWithConstraints(ndarray bbox, (int, int) size, float min_scale= 0.3f, float max_scale= 1,
                                       float max_aspect_ratio= 2, Constraint[] constraints= null, int max_trial= 50)
         {
             throw new NotImplementedRelease1Exception();

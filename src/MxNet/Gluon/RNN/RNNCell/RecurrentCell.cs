@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -208,7 +210,7 @@ namespace MxNet.Gluon.RNN
                     var m = typeof(sym).GetMethod(func.Replace("sym.", ""), BindingFlags.Static);
                     var keys = m.GetParameters().Select(x => x.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    states.Add((Symbol) m.Invoke(obj, paramArgs));
+                    states.Add((_Symbol) m.Invoke(obj, paramArgs));
                 }
                 else if (func.StartsWith("nd."))
                 {
@@ -216,7 +218,7 @@ namespace MxNet.Gluon.RNN
                     var m = typeof(sym).GetMethod(func.Replace("nd.", ""), BindingFlags.Static);
                     var keys = m.GetParameters().Select(ids => ids.Name).ToArray();
                     var paramArgs = info.GetArgs(keys);
-                    states.Add((NDArray) m.Invoke(obj, paramArgs));
+                    states.Add((ndarray) m.Invoke(obj, paramArgs));
                 }
             }
 
@@ -225,7 +227,7 @@ namespace MxNet.Gluon.RNN
 
         public virtual (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs,
             NDArrayOrSymbol[] begin_state = null,
-            string layout = "NTC", bool? merge_outputs = null, Symbol valid_length = null)
+            string layout = "NTC", bool? merge_outputs = null, _Symbol valid_length = null)
         {
             if (!inputs[0].IsSymbol)
                 throw new Exception("Only symbols is supported");
@@ -259,7 +261,7 @@ namespace MxNet.Gluon.RNN
         }
 
 
-        internal Symbol Activation(Symbol input, string activation, FuncArgs args = null, string name = "")
+        internal _Symbol Activation(_Symbol input, string activation, FuncArgs args = null, string name = "")
         {
             switch (activation.ToLower())
             {
@@ -280,7 +282,7 @@ namespace MxNet.Gluon.RNN
             return input;
         }
 
-        internal NDArray Activation(NDArray input, string activation, FuncArgs args = null)
+        internal ndarray Activation(ndarray input, string activation, FuncArgs args = null)
         {
             switch (activation.ToLower())
             {

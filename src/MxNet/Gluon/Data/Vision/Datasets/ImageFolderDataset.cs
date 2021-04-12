@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Image;
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,12 +22,12 @@ using System.Linq;
 
 namespace MxNet.Gluon.Data.Vision.Datasets
 {
-    public class ImageFolderDataset : Dataset<(NDArray, int)>
+    public class ImageFolderDataset : Dataset<(ndarray, int)>
     {
         internal List<string> _exts;
         internal List<(string, int)> items;
         internal List<string> synsets;
-        public ImageFolderDataset(string root, int flag = 1, Func<NDArray, int, (NDArray, int)> transform = null)
+        public ImageFolderDataset(string root, int flag = 1, Func<ndarray, int, (ndarray, int)> transform = null)
         {
             if (transform != null)
             {
@@ -44,7 +45,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             this.ListImages(this.Root);
         }
 
-        public override (NDArray, int) this[int idx]
+        public override (ndarray, int) this[int idx]
         {
             get
             {
@@ -63,7 +64,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
 
         public string Root { get; set; }
         public int Flag { get; set; }
-        public Func<NDArray, int, (NDArray, int)> TransformFn { get; }
+        public Func<ndarray, int, (ndarray, int)> TransformFn { get; }
 
         private void ListImages(string root)
         {

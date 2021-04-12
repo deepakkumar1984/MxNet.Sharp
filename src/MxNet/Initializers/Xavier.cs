@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Initializers
@@ -32,9 +33,9 @@ namespace MxNet.Initializers
 
         public float Magnitude { get; set; }
 
-        public override void InitWeight(string name, ref NDArray arr)
+        public override void InitWeight(string name, ref ndarray arr)
         {
-            var shape = arr.Shape;
+            var shape = arr.shape;
             float hw_scale = 1;
             if (shape.Dimension < 2)
                 throw new ArgumentException(
@@ -55,9 +56,9 @@ namespace MxNet.Initializers
             var scale = (float) Math.Sqrt(Magnitude / factor);
 
             if (RndType == "uniform")
-                arr = nd.Random.Uniform(-scale, scale, arr.Shape);
+                arr = nd.Random.Uniform(-scale, scale, arr.shape);
             else if (RndType == "gaussian")
-                arr = nd.Random.Normal(0, scale, arr.Shape);
+                arr = nd.Random.Normal(0, scale, arr.shape);
             else
                 throw new ArgumentException("Unknown random type");
         }

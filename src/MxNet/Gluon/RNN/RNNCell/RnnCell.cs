@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MxNet.Initializers;
+using MxNet.Sym.Numpy;
 
 namespace MxNet.Gluon.RNN
 {
@@ -255,7 +256,7 @@ namespace MxNet.Gluon.RNN
         }
 
         internal static (NDArrayOrSymbol[], NDArrayOrSymbol[]) DynamicUnroll(RecurrentCell cell, NDArrayOrSymbol[] inputs,
-            NDArrayOrSymbol[] begin_state = null, int drop_inputs = 0, int drop_outputs = 0, string layout = "NTC", Symbol valid_length = null)
+            NDArrayOrSymbol[] begin_state = null, int drop_inputs = 0, int drop_outputs = 0, string layout = "NTC", _Symbol valid_length = null)
         {
             throw new NotImplementedException();
         }

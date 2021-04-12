@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Sym.Numpy;
+
 namespace MxNet.Gluon.RNN
 {
     public class DropoutCell : HybridRecurrentCell
@@ -52,7 +54,7 @@ namespace MxNet.Gluon.RNN
 
         public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs,
             NDArrayOrSymbol[] begin_state = null, string layout = "NTC", bool? merge_outputs = null,
-            Symbol valid_length = null)
+            _Symbol valid_length = null)
         {
             return base.Unroll(length, inputs, begin_state, layout);
         }

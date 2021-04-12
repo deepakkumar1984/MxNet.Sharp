@@ -29,6 +29,7 @@ using SymbolHandle = System.IntPtr;
 using CudaModuleHandle = System.IntPtr;
 using CudaKernelHandle = System.IntPtr;
 using uint64_t = System.UInt64;
+using MxNet._ffi;
 
 // ReSharper disable once CheckNamespace
 namespace MxNet.Interop
@@ -219,7 +220,7 @@ namespace MxNet.Interop
             int slice_end,
             out NDArrayHandle @out);
 
-        [DllImport(NativeLibrary, EntryPoint = "MXNDArrayReshape", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNDArrayReshape64(NDArrayHandle handle,
             int ndim,
             [In] [MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.I4)]
@@ -1311,6 +1312,22 @@ namespace MxNet.Interop
         
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXSetProfilerScope(string name);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNetFuncFree(IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNetFuncCall(IntPtr handle, IntPtr[] values, _ffi.TypeCode[] type_codes, int num_args, out IntPtr ret_value, out int ret_tcode);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNetObjectGetTypeIndex(IntPtr handle, out int index);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNetFuncGetGlobal(string name, out IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNetFuncListGlobalNames(out int size, out IntPtr handle);
+
         #endregion
     }
 }

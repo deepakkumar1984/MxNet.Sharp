@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +32,7 @@ namespace MxNet.Gluon.RNN
             _output_prefix = output_prefix;
         }
 
-        public (Symbol, List<SymbolList>) Call(Symbol inputs, List<SymbolList> states)
+        public (_Symbol, List<SymbolList>) Call(_Symbol inputs, List<SymbolList> states)
         {
             throw new NotSupportedException("Bidirectional cannot be stepped. Please use unroll");
         }
@@ -47,7 +49,7 @@ namespace MxNet.Gluon.RNN
 
         public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs,
             NDArrayOrSymbol[] begin_state = null, string layout = "NTC", bool? merge_outputs = null,
-            Symbol valid_length = null)
+            _Symbol valid_length = null)
         {
             Reset();
             var axis = 0;
@@ -99,7 +101,7 @@ namespace MxNet.Gluon.RNN
                     var l_o = l_outputs[i];
                     var r_o = reversed_r_outputs[i];
                     if (l_o.IsNDArray)
-                        outputs_temp.Add(nd.Concat(new NDArray[] {l_o, r_o}));
+                        outputs_temp.Add(nd.Concat(new ndarray[] {l_o, r_o}));
                     else
                         outputs_temp.Add(sym.Concat(new SymbolList {l_o, r_o}, 1, symbol_name: $"{_output_prefix}t{i}"));
                 }

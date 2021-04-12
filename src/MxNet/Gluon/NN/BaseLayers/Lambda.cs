@@ -13,11 +13,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Gluon.NN
 {
     public class Lambda : Block
     {
-        public delegate NDArray LambdaFn(NDArray x, params object[] args);
+        public delegate ndarray LambdaFn(ndarray x, params object[] args);
 
         public Lambda(LambdaFn function) : base()
         {

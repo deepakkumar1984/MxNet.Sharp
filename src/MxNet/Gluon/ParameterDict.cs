@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using MxNet.Initializers;
+using MxNet.Numpy;
 
 namespace MxNet.Gluon
 {
@@ -72,7 +73,7 @@ namespace MxNet.Gluon
             return _params.ContainsKey(key);
         }
 
-        public Parameter GetConstant(string name, NDArray value = null)
+        public Parameter GetConstant(string name, ndarray value = null)
         {
             name = Prefix + name;
             var param = GetImpl(name);
@@ -187,7 +188,7 @@ namespace MxNet.Gluon
                 args_dict[param.Key.Remove(0, strip_prefix.Length)] = param.Value.Reduce();
             }
 
-            NDArray.Save(filename, args_dict);
+            ndarray.Save(filename, args_dict);
         }
 
         public void Load(string filename, Context[] ctx = null, bool allow_missing = false,
@@ -201,7 +202,7 @@ namespace MxNet.Gluon
                             $"restore_prefix is '{restore_prefix}' but Parameters name '{name}' does not start with '{restore_prefix}'");
 
             var lprefix = restore_prefix.Length;
-            var loaded_ndarray = NDArray.Load(filename);
+            var loaded_ndarray = ndarray.Load(filename);
             var arg_dict = new NDArrayDict();
             foreach (var item in loaded_ndarray)
             {

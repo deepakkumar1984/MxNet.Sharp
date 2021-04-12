@@ -15,7 +15,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
 
         public List<string> _imgkeys;
 
-        public Dictionary<object, object> _imglist;
+        public Dictionary<string, (ndarray, string)> _imglist;
 
         public string _root;
 
@@ -24,9 +24,9 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             get
             {
                 var key = this._imgkeys[idx];
-                var img = Img.ImRead(this._imglist[key][1], this._flag);
-                var label = this._imglist[key][0];
-                return Tuple.Create(img, label);
+                var img = Img.ImRead(this._imglist[key].Item2, this._flag);
+                var label = this._imglist[key].Item1;
+                return (img, label);
             }
         }
 

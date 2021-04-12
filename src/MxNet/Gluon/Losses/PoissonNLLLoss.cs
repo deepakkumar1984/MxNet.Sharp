@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 using System;
 
 namespace MxNet.Gluon.Losses
@@ -35,52 +36,23 @@ namespace MxNet.Gluon.Losses
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label,
             NDArrayOrSymbol sample_weight = null, params object[] args)
         {
-            if (pred.IsNDArray)
-                return F(pred.NdX, label, sample_weight);
-
-            return F(pred.SymX, label, sample_weight);
-        }
-
-        private NDArray F(ndarray pred, ndarray label, ndarray sample_weight = null)
-        {
-            label = nd.ReshapeLike(label, pred);
-            ndarray loss = null;
+            label = F.reshape_like(label, pred);
+            NDArrayOrSymbol loss = null;
             if (FromLogit)
-                loss = np.exp(pred) - label * pred;
+                loss = F.exp(pred) - label * pred;
             else
-                loss = pred - label * np.log(pred + 1e-08f);
+                loss = pred - label * F.log(pred + 1e-08f);
 
             if (ComputeFull)
             {
-                ndarray stirling_factor = label * np.log(label) - label + 0.5f * np.log(2 * label * (float) Math.PI);
+                var stirling_factor = label * F.log(label) - label + 0.5f * F.log(2 * label * (float)Math.PI);
                 var target_gt_1 = label > 1;
                 stirling_factor *= target_gt_1;
                 loss += stirling_factor;
             }
 
             loss = ApplyWeighting(loss, Weight, sample_weight);
-            return nd.Mean(loss);
-        }
-
-        private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
-        {
-            label = sym.ReshapeLike(label, pred);
-            Symbol loss = null;
-            if (FromLogit)
-                loss = sym.Exp(pred) - label * pred;
-            else
-                loss = pred - label * sym.Log(pred + 1e-08f);
-
-            if (ComputeFull)
-            {
-                var stirling_factor = label * sym.Log(label) - label + 0.5f * sym.Log(2 * label * (float) Math.PI);
-                var target_gt_1 = sym.GreaterScalar(label, 1);
-                stirling_factor *= target_gt_1;
-                loss += stirling_factor;
-            }
-
-            loss = ApplyWeighting(loss, Weight, sample_weight);
-            return sym.Mean(loss);
+            return F.mean(loss);
         }
     }
 }

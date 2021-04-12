@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 using System;
 
 namespace MxNet.Gluon.Losses
@@ -34,34 +35,16 @@ namespace MxNet.Gluon.Losses
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label,
             NDArrayOrSymbol sample_weight = null, params object[] args)
         {
-            if (pred.IsNDArray)
-                return F(pred.NdX, label, sample_weight);
-
-            return F(pred.SymX, label, sample_weight);
-        }
-
-        private ndarray F(ndarray pred, ndarray label, ndarray sample_weight = null)
-        {
-            label = nd.ReshapeLike(label, pred);
+            label = F.reshape_like(label, pred);
             if (LabelFormat == "signed")
                 label = (label + 1) / 2;
 
-            var loss = nd.Relu(pred) - (NDArray)pred * (NDArray)label +
-                       nd.Activation(nd.Negative(nd.Abs(pred)), ActivationType.Softrelu);
+            var loss = F.relu(pred) - pred * label +
+                       F.activation(F.negative(F.abs(pred)), "softrelu");
             loss = ApplyWeighting(loss, Weight, sample_weight);
-            return nd.Mean(loss, BatchAxis.Value, exclude: true);
+            return F.mean(loss, BatchAxis.Value);
         }
 
-        private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
-        {
-            label = sym.ReshapeLike(label, pred);
-            if (LabelFormat == "signed")
-                label = (label + 1) / 2;
-
-            var loss = sym.Relu(pred) - pred * label +
-                       sym.Activation(sym.Negative(sym.Abs(pred)), ActivationType.Softrelu);
-            loss = ApplyWeighting(loss, Weight, sample_weight);
-            return sym.Mean(loss, BatchAxis.Value, exclude: true);
-        }
+       
     }
 }

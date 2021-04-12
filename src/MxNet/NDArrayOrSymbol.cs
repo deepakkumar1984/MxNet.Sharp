@@ -124,6 +124,11 @@ namespace MxNet
             }
         }
 
+        public NDArrayOrSymbol Reshape(params int[] shape)
+        {
+            return F.reshape(this, new Shape(shape));
+        }
+        
         public static implicit operator NDArrayOrSymbol(ndarray x)
         {
             if (x == null)
@@ -489,6 +494,7 @@ namespace MxNet
             }
         }
 
+       
         public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol[] x)
         {
             return new NDArrayOrSymbolList(x);

@@ -1,6 +1,7 @@
 ﻿using MxNet.Gluon.Data;
 using MxNet.Gluon.Losses;
 using MxNet.Gluon.Metrics;
+using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -49,7 +50,7 @@ namespace MxNet.Gluon.Contrib
             throw new NotImplementedRelease1Exception();
         }
 
-        private (NDArray, NDArray) GetDataAndLabel(NDArrayList batch, Context ctx, int batch_axis= 0)
+        private (ndarray, ndarray) GetDataAndLabel(NDArrayList batch, Context ctx, int batch_axis= 0)
         {
             throw new NotImplementedRelease1Exception();
         }

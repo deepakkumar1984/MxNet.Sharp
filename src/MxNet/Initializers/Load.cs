@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Initializers
 {
     public class Load
@@ -36,12 +38,12 @@ namespace MxNet.Initializers
 
         public bool Verbose { get; set; }
 
-        public void Call(string name, NDArray arr)
+        public void Call(string name, ndarray arr)
         {
             if (Param.Contains(name))
             {
-                if (arr.Shape != Param[name].shape)
-                    throw new MXNetException(string.Format("Shape mismatch, target {0} vs loaded {1}", arr.Shape,
+                if (arr.shape != Param[name].shape)
+                    throw new MXNetException(string.Format("Shape mismatch, target {0} vs loaded {1}", arr.shape,
                         Param[name].shape));
 
                 arr = Param[name];

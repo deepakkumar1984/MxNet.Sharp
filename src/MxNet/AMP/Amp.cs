@@ -10,15 +10,5 @@ namespace MxNet.AMP
         {
             throw new NotImplementedException();
         }
-
-        public static (string, Type[]) GetNdFuncToWrap(string name, Type module, Dictionary<string, object> submodule_dict)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static (string, Type[]) GetNpFuncToWrap(string name, Type module, Dictionary<string, object> submodule_dict)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

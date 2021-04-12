@@ -13,6 +13,9 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
+
 namespace MxNet.Gluon.Losses
 {
     public class HuberLoss : Loss
@@ -34,7 +37,7 @@ namespace MxNet.Gluon.Losses
             return F(pred.SymX, label, sample_weight);
         }
 
-        private NDArray F(NDArray pred, NDArray label, NDArray sample_weight = null)
+        private ndarray F(ndarray pred, ndarray label, ndarray sample_weight = null)
         {
             label = nd.ReshapeLike(label, pred);
             var loss = nd.Abs(label - pred);
@@ -43,7 +46,7 @@ namespace MxNet.Gluon.Losses
             return nd.Mean(loss, BatchAxis.Value, exclude: true);
         }
 
-        private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
+        private _Symbol F(_Symbol pred, _Symbol label, _Symbol sample_weight = null)
         {
             label = sym.ReshapeLike(label, pred);
             var loss = sym.Abs(label - pred);

@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 
 namespace MxNet.Gluon.Losses
 {
@@ -40,8 +41,8 @@ namespace MxNet.Gluon.Losses
 
             if (args.Length > 0)
                 pos_weight = args[0] is ndarray
-                    ? new NDArrayOrSymbol((NDArray) args[0])
-                    : new NDArrayOrSymbol((Symbol) args[0]);
+                    ? new NDArrayOrSymbol((ndarray) args[0])
+                    : new NDArrayOrSymbol((_Symbol) args[0]);
 
             if (!_from_sigmoid)
             {

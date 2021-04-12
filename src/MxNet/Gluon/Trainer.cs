@@ -19,6 +19,7 @@ using System.IO;
 using System.Linq;
 using MxNet.Initializers;
 using MxNet.KVstore;
+using MxNet.Numpy;
 using MxNet.Optimizers;
 
 namespace MxNet.Gluon
@@ -248,7 +249,7 @@ namespace MxNet.Gluon
             _kv_initialized = true;
         }
 
-        internal void RowSparsePull(Parameter parameter, NDArrayList @out, NDArray row_id, bool full_idx = false)
+        internal void RowSparsePull(Parameter parameter, NDArrayList @out, ndarray row_id, bool full_idx = false)
         {
             if (!_kv_initialized)
                 InitKVstore();
@@ -259,7 +260,7 @@ namespace MxNet.Gluon
             var idx = _param2idx[parameter._uuid];
             if (full_idx && _kvstore.Type.Contains("dist"))
             {
-                if (row_id.Size != @out[0].shape[0])
+                if (row_id.size != @out[0].shape[0])
                     throw new Exception("row_id size not equal to @out row size");
 
                 _kvstore.Pull(idx.ToString(), @out.ToArray(), -idx, false);

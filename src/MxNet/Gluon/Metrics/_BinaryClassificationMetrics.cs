@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System;
 
 namespace MxNet.Gluon.Metrics
@@ -94,7 +95,7 @@ namespace MxNet.Gluon.Metrics
         public int GlobalTotalExamples => global_false_negatives + global_false_positives + global_true_negatives +
                                           global_true_positives;
 
-        public void UpdateBinaryStats(NDArray label, NDArray pred)
+        public void UpdateBinaryStats(ndarray label, ndarray pred)
         {
             var pred_label = nd.Argmax(pred, 1);
             CheckLabelShapes(label, pred);

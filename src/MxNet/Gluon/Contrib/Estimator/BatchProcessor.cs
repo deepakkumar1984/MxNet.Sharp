@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MxNet.Numpy;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,17 +7,17 @@ namespace MxNet.Gluon.Contrib
 {
     public class BatchProcessor
     {
-        public (NDArray, NDArray) GetDataAndLabel(int batch, Context ctx, int batch_axis = 0)
+        public (ndarray, ndarray) GetDataAndLabel(int batch, Context ctx, int batch_axis = 0)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        public (NDArray, NDArray, NDArray, NDArray) FitBatch(Estimator estimator, (NDArray, NDArray) train_batch, int batch_axis = 0)
+        public (ndarray, ndarray, ndarray, ndarray) FitBatch(Estimator estimator, (ndarray, ndarray) train_batch, int batch_axis = 0)
         {
             throw new NotImplementedRelease1Exception();
         }
 
-        public (NDArray, NDArray, NDArray, NDArray) EvaluateBatch(Estimator estimator, (NDArray, NDArray) val_batch, int batch_axis = 0)
+        public (ndarray, ndarray, ndarray, ndarray) EvaluateBatch(Estimator estimator, (ndarray, ndarray) val_batch, int batch_axis = 0)
         {
             throw new NotImplementedRelease1Exception();
         }

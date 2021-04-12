@@ -158,6 +158,105 @@ namespace MxNet
             return symbolCreators.Select(x => Marshal.PtrToStringAnsi(x)).ToArray();
         }
 
+        public static MXNetException GetLastFfiError()
+        {
+            var c_err_msg_ptr = NativeMethods.MXGetLastError();
+            var c_err_msg = Marshal.PtrToStringAnsi(c_err_msg_ptr);
+            var _tup_1 = c2pyerror(c_err_msg);
+            var py_err_msg = _tup_1.Item1;
+            var err_type = _tup_1.Item2;
+            if (err_type != null && err_type.StartsWith("mxnet.error."))
+            {
+                err_type = err_type.Substring(12);
+            }
+
+            return new MXNetException(err_type);
+        }
+
+        private static (string, string) c2pyerror(string err_msg)
+        {
+            var arr = err_msg.Split('\n').ToList();
+            if (arr.Last() == "")
+            {
+                arr.RemoveAt(arr.Count - 1);
+            }
+
+            var err_type = _find_error_type(arr[0]);
+            var trace_mode = false;
+            var stack_trace = new List<string>();
+            var message = new List<string>();
+            foreach (var line in arr)
+            {
+                if (trace_mode)
+                {
+                    if (line.StartsWith("  "))
+                    {
+                        stack_trace.Add(line);
+                    }
+                    else
+                    {
+                        trace_mode = false;
+                    }
+                }
+                if (!trace_mode)
+                {
+                    if (line.StartsWith("Stack trace"))
+                    {
+                        trace_mode = true;
+                    }
+                    else
+                    {
+                        message.Add(line);
+                    }
+                }
+            }
+
+            var out_msg = "";
+            if (stack_trace.Count > 0)
+            {
+                out_msg += "Traceback (most recent call last):\n";
+                stack_trace.Reverse();
+                out_msg += string.Join("\n", stack_trace) + "\n";
+            }
+
+            out_msg += string.Join("\n", message);
+            return (out_msg, err_type);
+        }
+
+        private static bool _valid_error_name(string name)
+        {
+            foreach (var x in name)
+            {
+                if (x == ' ')
+                    return false;
+
+                if (x == '_')
+                    return false;
+
+                if (x == '.')
+                    return false;
+            }
+
+            return true;
+        }
+ 
+        private static string _find_error_type(string line)
+        {
+            var end_pos = line.IndexOf(':');
+            if (end_pos == -1)
+            {
+                return null;
+            }
+
+            var err_name = new string(line.Take(end_pos).ToArray());
+            if (_valid_error_name(err_name))
+            {
+                return err_name;
+            }
+
+            return null;
+        }
+
         #endregion
     }
 

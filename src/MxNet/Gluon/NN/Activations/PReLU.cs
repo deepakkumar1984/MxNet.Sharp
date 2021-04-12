@@ -14,12 +14,13 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Initializers;
+using MxNet.Numpy;
 
 namespace MxNet.Gluon.NN
 {
     public class PReLU : HybridBlock
     {
-        private NDArray alpha;
+        private ndarray alpha;
 
         public PReLU(Initializer alpha_initializer = null) : base(
             )

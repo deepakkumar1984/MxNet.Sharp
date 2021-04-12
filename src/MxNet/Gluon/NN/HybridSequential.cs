@@ -70,7 +70,7 @@ namespace MxNet.Gluon.NN
             if (this._active && !this._v2_checked && !DeferredCompute.IsDeferredCompute())
             {
                 // If any of the child Blocks implements the Gluon 2 interface, the
-                // container must not pass a Symbol to them
+                // container must not pass a _Symbol to them
                 if ((from chld in this._childrens.Values
                         select chld is HybridBlock).Any())
                 {

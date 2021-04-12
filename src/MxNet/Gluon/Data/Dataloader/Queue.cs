@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -43,9 +44,9 @@ namespace MxNet.Gluon.Data
             return ret;
         }
 
-        private delegate void _sendfn(NDArray obj);
+        private delegate void _sendfn(ndarray obj);
 
-        private delegate NDArray _recvfn();
+        private delegate ndarray _recvfn();
     }
 
     public class QueueItem<T>

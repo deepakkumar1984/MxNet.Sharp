@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 using System.Linq;
 
 namespace MxNet.Gluon.Losses
@@ -41,9 +43,9 @@ namespace MxNet.Gluon.Losses
             return F(pred.SymX, label.SymX, sample_weight != null ? sample_weight.SymX : null);
         }
 
-        private NDArray F(NDArray pred, NDArray label, NDArray sample_weight = null)
+        private ndarray F(ndarray pred, ndarray label, ndarray sample_weight = null)
         {
-            NDArray loss = null;
+            ndarray loss = null;
             if (!_from_logits)
                 pred = nd.LogSoftmax(pred, _axis);
 
@@ -61,9 +63,9 @@ namespace MxNet.Gluon.Losses
             return nd.Mean(loss, BatchAxis.Value, exclude: true);
         }
 
-        private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
+        private _Symbol F(_Symbol pred, _Symbol label, _Symbol sample_weight = null)
         {
-            Symbol loss = null;
+            _Symbol loss = null;
             if (_from_logits)
                 pred = sym.LogSoftmax(pred, _axis);
 

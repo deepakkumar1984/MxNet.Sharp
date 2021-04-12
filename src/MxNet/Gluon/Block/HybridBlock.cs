@@ -371,7 +371,7 @@ namespace MxNet.Gluon
             for (var i = 0; i < input_names.Length; i++)
             {
                 Parameter param = null;
-                NDArray param_data;
+                ndarray param_data;
                 var name = input_names[i];
                 (bool, string, Parameter) triple = (false, "", param);
                 if (data_names.ContainsKey(name))
@@ -405,10 +405,10 @@ namespace MxNet.Gluon
                             throw new Exception("A parameter was added to the graph during optimization but it was not added to the parameter dicts.\nPlease check the backend.");
                         }
 
-                        param = new Parameter(name, dtype: param_data.DataType);
+                        param = new Parameter(name, dtype: param_data.dtype);
                         param._var_name = name;
                         serialization_name = name;
-                        param.LoadInit(param_data, new Context[] { param_data.Context });
+                        param.LoadInit(param_data, new Context[] { param_data.ctx });
                     }
 
                     triple = (false, serialization_name, param);
@@ -511,7 +511,7 @@ namespace MxNet.Gluon
             return Regroup(new List<NDArrayOrSymbol[]> { @out.NDArrayOrSymbols }, _out_format).Item1;
         }
 
-        public void OptimizeFor(NDArray x, string backend = null, bool clear = false, bool partition_if_dynamic = true, bool static_alloc = false,
+        public void OptimizeFor(ndarray x, string backend = null, bool clear = false, bool partition_if_dynamic = true, bool static_alloc = false,
                bool static_shape = false, int inline_limit = 2, int? forward_bulk_size = null, int? backward_bulk_size = null, Dictionary<string, string> backend_opts = null, NDArrayList args = null)
         {
             this._backend = backend;
@@ -538,7 +538,7 @@ namespace MxNet.Gluon
             var ctx_set = _tup_1.Item3;
             if (!has_symbol && !has_ndarray)
             {
-                throw new Exception("In HybridBlock, there must be one NDArray or one Symbol in the input. Please check the type of the args.\n");
+                throw new Exception("In HybridBlock, there must be one ndarray or one _Symbol in the input. Please check the type of the args.\n");
             }
             if (ctx_set.Length > 1)
             {
@@ -745,14 +745,14 @@ namespace MxNet.Gluon
             var params_filename = String.Format("%s-%04d.params", path != null ? path : "", epoch);
             if (path != null)
             {
-                NDArray.Save(params_filename, arg_dict);
+                ndarray.Save(params_filename, arg_dict);
                 return (sym_filename, arg_dict.Count > 0 ? params_filename : null);
             }
 
             return ("", "");
         }
 
-        public (Symbol, NDArrayDict) Export(int epoch = 0, bool remove_amp_cast = true)
+        public (_Symbol, NDArrayDict) Export(int epoch = 0, bool remove_amp_cast = true)
         {
             if (_cached_graph == null)
                 throw new Exception("Please first call block.hybridize() and then run forward with " +
@@ -836,7 +836,7 @@ namespace MxNet.Gluon
 
             if (!has_symbol && !has_ndarray)
             {
-                throw new Exception("In HybridBlock, there must be one NDArray or one Symbol in the input. Please check the type of the args.\n");
+                throw new Exception("In HybridBlock, there must be one ndarray or one _Symbol in the input. Please check the type of the args.\n");
             }
 
             if (has_ndarray)

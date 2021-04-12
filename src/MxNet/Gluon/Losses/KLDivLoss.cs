@@ -14,6 +14,7 @@
    limitations under the License.
 ******************************************************************************/
 using MxNet.Numpy;
+using MxNet.Sym.Numpy;
 
 namespace MxNet.Gluon.Losses
 {
@@ -33,30 +34,12 @@ namespace MxNet.Gluon.Losses
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label,
             NDArrayOrSymbol sample_weight = null, params object[] args)
         {
-            if (pred.IsNDArray)
-                return F(pred.NdX, label, sample_weight);
-
-            return F(pred.SymX, label, sample_weight);
-        }
-
-        private ndarray F(ndarray pred, ndarray label, ndarray sample_weight = null)
-        {
             if (!FromLogit)
-                pred = nd.LogSoftmax(pred, Axis);
+                pred = F.log_softmax(pred, Axis);
 
-            var loss = label * (np.log(label + 1e-12f) - pred);
+            var loss = label * (F.log(label + 1e-12f) - pred);
             loss = ApplyWeighting(loss, Weight, sample_weight);
-            return nd.Mean(loss, BatchAxis.Value, exclude: true);
-        }
-
-        private Symbol F(Symbol pred, Symbol label, Symbol sample_weight = null)
-        {
-            if (!FromLogit)
-                pred = sym.LogSoftmax(pred, Axis);
-
-            var loss = label * (sym.Log(label + 1e-12f) - pred);
-            loss = ApplyWeighting(loss, Weight, sample_weight);
-            return sym.Mean(loss, BatchAxis.Value, exclude: true);
+            return F.mean(loss, BatchAxis.Value);
         }
     }
 }

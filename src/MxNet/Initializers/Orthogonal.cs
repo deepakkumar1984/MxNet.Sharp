@@ -13,6 +13,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Initializers
 {
     public class Orthogonal : Initializer
@@ -27,14 +29,14 @@ namespace MxNet.Initializers
 
         public string RandType { get; set; }
 
-        public override void InitWeight(string name, ref NDArray arr)
+        public override void InitWeight(string name, ref ndarray arr)
         {
-            var nout = arr.Shape[0];
+            var nout = arr.shape[0];
             var nin = 1;
-            NDArray tmp = null;
-            NDArray res = null;
-            for (var i = 1; i < arr.Shape.Dimension; i++)
-                nin *= arr.Shape[i];
+            ndarray tmp = null;
+            ndarray res = null;
+            for (var i = 1; i < arr.ndim; i++)
+                nin *= arr.shape[i];
 
             if (RandType == "uniform")
                 tmp = nd.Random.Uniform(-1, 1, new Shape(nout, nin));
@@ -47,7 +49,7 @@ namespace MxNet.Initializers
             else
                 res = v;
 
-            res = Scale * res.Reshape(arr.Shape);
+            res = Scale * res.reshape(arr.shape);
             arr = res;
         }
     }
