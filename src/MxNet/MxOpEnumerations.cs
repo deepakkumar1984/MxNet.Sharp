@@ -398,7 +398,8 @@ namespace MxNet
     {
         Default = 0,
         RowSparse,
-        Csr
+        Csr,
+        Undefined
     }
 
     /// <summary>
