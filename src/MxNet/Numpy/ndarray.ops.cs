@@ -336,6 +336,11 @@ namespace MxNet.Numpy
         {
             return nd_np_ops.transpose(this, axes);
         }
+        
+        public ndarray transpose(Shape axes)
+        {
+            return nd_np_ops.transpose(this, axes.Data.ToArray());
+        }
 
         public ndarray repeat(int repeats, int? axis = null)
         {

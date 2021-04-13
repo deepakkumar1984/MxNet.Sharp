@@ -181,7 +181,7 @@ namespace MxNet.Image
             }
             if (aug_list == null)
             {
-                this.auglist = new Augmenter[] { Img.CreateAugmenter(data_shape) };
+                this.auglist = Img.CreateAugmenter(data_shape);
             }
             else
             {

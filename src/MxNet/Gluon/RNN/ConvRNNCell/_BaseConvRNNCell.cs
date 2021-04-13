@@ -23,7 +23,7 @@ namespace MxNet.Gluon.RNN
         public Shape _input_shape;
         public Shape _state_shape;
         public string _conv_layout;
-        public Activation _activation;
+        public ActivationType _activation;
         public int[] _i2h_kernel;
         public int[] _stride;
         public int[] _i2h_pad;
@@ -34,7 +34,7 @@ namespace MxNet.Gluon.RNN
 
         public _BaseConvRNNCell(Shape input_shape, int hidden_channels, int[] i2h_kernel, int[] h2h_kernel,
                  int[] i2h_pad, int[] i2h_dilate, int[] h2h_dilate, string i2h_weight_initializer, string h2h_weight_initializer,
-                 string i2h_bias_initializer, string h2h_bias_initializer, int dims, string conv_layout, Activation activation)
+                 string i2h_bias_initializer, string h2h_bias_initializer, int dims, string conv_layout, ActivationType activation)
         {
             this._hidden_channels = hidden_channels;
             this._input_shape = input_shape;

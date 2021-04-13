@@ -20,8 +20,8 @@ namespace ImageClassification
             image = image.AsType(DType.Float32) / 255;
             var normalized = Img.ColorNormalize(image, new NDArray(new[] { 0.485f, 0.456f, 0.406f }),
                 new NDArray(new[] { 0.229f, 0.224f, 0.225f }));
-            normalized = normalized.Transpose(new Shape(2, 0, 1));
-            normalized = normalized.ExpandDims(axis: 0);
+            normalized = normalized.transpose(new Shape(2, 0, 1));
+            normalized = normalized.expand_dims(axis: 0);
             var pred = alex_net.Call(normalized);
             NDArray prob = npx.topk(npx.softmax(pred), k: 5);
             var label_index = prob.ArrayData.OfType<float>().ToList();

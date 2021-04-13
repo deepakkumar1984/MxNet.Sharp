@@ -13,13 +13,15 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
+
 namespace MxNet.Image
 {
     public class CastAug : Augmenter
     {
-        public CastAug(DType dtype)
+        public CastAug(DType dtype = null)
         {
-            DataType = dtype;
+            DataType = dtype != null ? dtype : np.Float32;
         }
 
         public DType DataType { get; set; }
