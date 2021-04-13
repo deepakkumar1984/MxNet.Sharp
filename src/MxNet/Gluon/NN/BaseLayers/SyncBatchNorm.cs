@@ -20,25 +20,39 @@ namespace MxNet.Gluon.NN
 {
     public class SyncBatchNorm : _BatchNorm
     {
+        public int? num_devices;
+
         public SyncBatchNorm(int in_channels = 0, int? num_devices = null, float momentum = 0.9f, float epsilon = 1e-5f,
             bool center = true, bool scale = true, bool use_global_stats = false, string beta_initializer = "zeros",
             string gamma_initializer = "ones", string running_mean_initializer = "zeros",
-            string running_variance_initializer = "ones",
-            string prefix = "", ParameterDict @params = null)
+            string running_variance_initializer = "ones")
             : base(1, momentum, epsilon, center, scale, false, use_global_stats, beta_initializer, gamma_initializer,
                 running_mean_initializer, running_variance_initializer, in_channels)
         {
-            throw new NotImplementedException();
+            this.num_devices = num_devices;
         }
 
         internal int GetNumDevices()
         {
-            throw new NotImplementedException();
+            Logger.Warning("Caution using SyncBatchNorm: if not using all the GPUs, please mannually set num_devices");
+            var num_devices = MxUtil.GetGPUCount();
+            num_devices = num_devices > 0 ? num_devices : 1;
+            return num_devices;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var gamma = args.Length > 0 ? args[0] : null;
+            var beta = args.Length > 1 ? args[1] : null;
+            var running_mean = args.Length > 2 ? args[2] : null;
+            var running_var = args.Length > 3 ? args[3] : null;
+
+            if (x.IsNDArray)
+                return nd.Contrib.SyncBatchNorm(x, gamma, beta, running_mean, running_var, "", Epsilon, Momentum, FixGamma,
+                     Use_Global_Stats, false, num_devices.HasValue ? num_devices.Value : 1);
+
+            return sym.Contrib.SyncBatchNorm(x, gamma, beta, running_mean, running_var, "", Epsilon, Momentum, FixGamma,
+                     Use_Global_Stats, false, num_devices.HasValue ? num_devices.Value : 1, "fwd");
         }
     }
 }

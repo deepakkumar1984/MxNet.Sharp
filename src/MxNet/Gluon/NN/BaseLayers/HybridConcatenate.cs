@@ -6,20 +6,32 @@ namespace MxNet.Gluon.NN
 {
     public class HybridConcatenate : HybridSequential
     {
-        public int Axis { get; set; }
+        public int axis { get; set; }
         public HybridConcatenate(int axis = -1)
         {
-            Axis = axis;
+            this.axis = axis;
         }
 
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var @out = new NDArrayOrSymbolList();
+            foreach (var block in this._childrens.Values)
+            {
+                @out.Add(block.Call(x));
+            }
+
+            return F.concatenate(@out, axis: this.axis);
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var @out = new NDArrayOrSymbolList();
+            foreach (var block in this._childrens.Values)
+            {
+                @out.Add(block.Call(x));
+            }
+
+            return F.concatenate(@out, axis: this.axis);
         }
     }
 }

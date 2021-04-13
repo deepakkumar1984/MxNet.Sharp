@@ -85,12 +85,12 @@ namespace MxNet.Gluon.NN
 
         public int[] Adj { get; set; }
 
-        private Shape[] _infer_weight_shape(string op_name, Shape data_shape)
+        internal Shape[] _infer_weight_shape(string op_name, Shape data_shape)
         {
             var conv = sym.Convolution(_Symbol.Var("data", shape: data_shape), null, kernel: new Shape(KernalSize),
-                num_filter: NumFilter,
-                stride: new Shape(Strides), dilate: new Shape(Dialation), pad: new Shape(Padding), no_bias: !UseBias,
-                num_group: NumGroup, bias: null);
+                     num_filter: NumFilter,
+                     stride: new Shape(Strides), dilate: new Shape(Dialation), pad: new Shape(Padding), no_bias: !UseBias,
+                     num_group: NumGroup, bias: null);
 
             return conv.InferShapePartial(new Dictionary<string, Shape>()).Item1;
         }

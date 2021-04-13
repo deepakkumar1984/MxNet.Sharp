@@ -19,14 +19,21 @@ namespace MxNet.Gluon.NN
 {
     public class PixelShuffle2D : HybridBlock
     {
+        public (int, int) factor;
+
         public PixelShuffle2D((int, int) factor)
         {
-            throw new NotImplementedException();
+            this.factor = factor;
         }
 
         public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var (f1, f2) = factor;
+            x = F.reshape(x, new Shape(-2, -6, -1, f1 * f2, -2, -2));
+            x = F.reshape(x, new Shape(-2, -2, -6, f1, f2, -2, -2));
+            x = F.transpose(x, 0, 1, 4, 2, 5, 3);
+            x = F.reshape(x, new Shape(-2, -2, -5, -5));
+            return x;
         }
     }
 }

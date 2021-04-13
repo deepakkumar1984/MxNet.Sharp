@@ -208,7 +208,10 @@ namespace MxNet
             }
             return Sym.Numpy.npx.batch_norm(x, gamma, beta, running_mean, running_var, eps, momentum, fix_gamma, use_global_stats, output_mean_var, axis, cudnn_off, min_calib_range, max_calib_range);
         }
-        public static NDArrayOrSymbol convolution(NDArrayOrSymbol data, NDArrayOrSymbol weight, NDArrayOrSymbol bias, int[] kernel, int[] stride, int[] dilate, int[] pad, int num_filter, int num_group, int workspace, bool no_bias, String cudnn_tune, bool cudnn_off, String layout)
+        public static NDArrayOrSymbol convolution(NDArrayOrSymbol data, NDArrayOrSymbol weight, NDArrayOrSymbol bias = null,
+                        int[] kernel = null, int[] stride = null, int[] dilate = null, int[] pad = null, int num_filter = 1,
+                        int num_group = 1, int workspace = 1024, bool no_bias = false, string cudnn_tune = null, 
+                        bool cudnn_off = false, string layout = null)
         {
             if (data.IsNDArray)
             {
@@ -1542,7 +1545,7 @@ namespace MxNet
             }
             return sym_np_ops.trace(a, offset, axis1, axis2, @out);
         }
-        public static NDArrayOrSymbol transpose(NDArrayOrSymbol a, int[] axes)
+        public static NDArrayOrSymbol transpose(NDArrayOrSymbol a, params int[] axes)
         {
             if (a.IsNDArray)
             {

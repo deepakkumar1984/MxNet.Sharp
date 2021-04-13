@@ -6,15 +6,21 @@ namespace MxNet.Gluon.NN
 {
     public class Concatenate : Sequential
     {
-        public int Axis { get; set; }
+        public int axis { get; set; }
         public Concatenate(int axis = -1)
         {
-            Axis = axis;
+            this.axis = axis;
         }
 
         public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            var @out = new NDArrayOrSymbolList();
+            foreach (var block in this._childrens.Values)
+            {
+                @out.Add(block.Call(input));
+            }
+
+            return F.concatenate(@out, axis: this.axis);
         }
     }
 }

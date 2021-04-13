@@ -16,6 +16,8 @@
 using MxNet.Numpy;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace MxNet.Gluon.Metrics
 {
@@ -73,9 +75,13 @@ namespace MxNet.Gluon.Metrics
             for (var i = 0; i < labels.Length; i++) Update(labels[i], preds[i]);
         }
 
-        public void UpdateDict(NDArrayDict label, NDArrayDict pred)
+        public void UpdateDict(NDArrayDict labels, NDArrayDict preds)
         {
-            throw new NotImplementedException();
+            if (labels.Count != preds.Count) throw new ArgumentException("Labels and Predictions are unequal length");
+            for (int i = 0; i < labels.Count; i++)
+            {
+                Update(labels[labels.Keys[i]], preds[preds.Keys[i]]);
+            }
         }
 
         public virtual void Reset()
@@ -127,7 +133,20 @@ namespace MxNet.Gluon.Metrics
 
         public static implicit operator EvalMetric(string name)
         {
-            throw new NotImplementedException();
+            var assembly = Assembly.GetAssembly(Type.GetType($"MxNet.Gluon.Metrics.EvalMetric"));
+            var types = assembly.GetTypes().Where(t => String.Equals(t.Namespace, "MxNet.Gluon.Metrics", StringComparison.Ordinal)).ToList();
+
+            foreach (var item in types)
+            {
+                var obj = Activator.CreateInstance(item);
+                var evalName = item.GetProperty("Name").GetValue(obj);
+                if(evalName != null && evalName.ToString().ToLower() == name.ToLower())
+                {
+                    return  (EvalMetric)obj;
+                }
+            }
+
+            throw new Exception($"Metric with name '{name}' not found.");
         }
     }
 }

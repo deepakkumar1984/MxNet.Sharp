@@ -12,10 +12,10 @@ namespace BasicExamples
         static void Main(string[] args)
         {
             //Console.WriteLine("Runnin XOR Example......");
-            XORGate.Run();
+            //XORGate.Run();
             //CrashCourse_NN.Run();
             //LogisticRegressionExplained.Run();
-            //var methods = mx.GetAllRegisteredCApiOperators();
+            var methods = mx.GetAllRegisteredOperators();
             var y = np.full(new Shape(3, 3), 0.6);
             var x = np.random.power(y, new Shape(3, 3));
             
