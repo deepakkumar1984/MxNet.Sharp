@@ -13,9 +13,12 @@ namespace MxNet.Gluon.RNN
         {
             get
             {
-                throw new NotImplementedException();
+
+                return GateNames.Length;
             }
         }
+
+        public virtual string[] GateNames { get; }
 
         public int _hidden_channels;
         public int _channel_axis;
@@ -82,23 +85,91 @@ namespace MxNet.Gluon.RNN
 
         public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override StateInfo[] StateInfo(int batch_size = 0)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         private (int, int, Shape, Shape, int[], Shape) DecideShapes()
         {
-            throw new NotImplementedException();
+            List<int> dimensions = new List<int>();
+            var channel_axis = this._conv_layout.IndexOf('C');
+            var input_shape = this._input_shape;
+            var in_channels = input_shape[channel_axis - 1];
+            var hidden_channels = this._hidden_channels;
+            if (channel_axis == 1)
+            {
+                dimensions = input_shape.Data.Skip(1).ToList();
+            }
+            else
+            {
+                dimensions = input_shape.Data.Take(input_shape.Dimension - 1).ToList();
+            }
+
+            var total_out = hidden_channels * this.NumGates;
+            var i2h_param_shape = new Shape(total_out);
+            var h2h_param_shape = new Shape(total_out);
+            var state_shape = new Shape(hidden_channels);
+            var conv_out_size = _get_conv_out_size(dimensions, this._i2h_kernel, this._i2h_pad, this._i2h_dilate);
+            List<int> h2h_pad = new List<int>();
+            for (int i = 0;i < this._h2h_dilate.Length; i++)
+            {
+                var d = this._h2h_dilate[i];
+                var k = this._h2h_kernel[i];
+                h2h_pad.Add(d * (k - 1) / 2);
+            }
+
+            if (channel_axis == 1)
+            {
+                i2h_param_shape.Add(in_channels);
+                i2h_param_shape.Add(this._i2h_kernel);
+
+                h2h_param_shape.Add(hidden_channels);
+                h2h_param_shape.Add(this._h2h_kernel);
+
+                state_shape.Add(conv_out_size);
+            }
+            else
+            {
+                i2h_param_shape.Add(this._i2h_kernel);
+                i2h_param_shape.Add(in_channels);
+
+                h2h_param_shape.Add(this._h2h_kernel);
+                h2h_param_shape.Add(hidden_channels);
+                state_shape.Insert(0, conv_out_size);
+            }
+
+            return (channel_axis, in_channels, i2h_param_shape, h2h_param_shape, h2h_pad.ToArray(), state_shape);
         }
 
-        private NDArrayOrSymbolList[] ConvForward(NDArrayOrSymbol inputs, NDArrayOrSymbolList[] states, NDArrayOrSymbol i2h_weight,
+        public static int[] _get_conv_out_size(List<int> dimensions, int[] kernels, int[] paddings, int[] dilations)
+        {
+            List<int> result = new List<int>();
+            for(int i = 0; i< dimensions.Count; i++)
+            {
+                var x = dimensions[i];
+                var k = kernels[i];
+                var p = paddings[i];
+                var d = dilations[i];
+
+                if (x > 0)
+                    result.Add(Convert.ToInt32(Math.Floor(x + 2d * p - d * (k - 1) - 1) + 1));
+                else
+                    result.Add(0);
+            }
+
+            return result.ToArray();
+        }
+
+        public NDArrayOrSymbolList ConvForward(NDArrayOrSymbol inputs, NDArrayOrSymbolList states, NDArrayOrSymbol i2h_weight,
                                                 NDArrayOrSymbol h2h_weight, NDArrayOrSymbol i2h_bias, NDArrayOrSymbol h2h_bias, string prefix)
         {
-            throw new NotImplementedException();
+            var i2h = F.convolution(data: inputs, num_filter: this._hidden_channels * this.NumGates, kernel: this._i2h_kernel, stride: this._stride, pad: this._i2h_pad, dilate: this._i2h_dilate, weight: i2h_weight, bias: i2h_bias, layout: this._conv_layout);
+            var h2h = F.convolution(data: states[0], num_filter: this._hidden_channels * this.NumGates, kernel: this._h2h_kernel, dilate: this._h2h_dilate, pad: this._h2h_pad, stride: this._stride, weight: h2h_weight, bias: h2h_bias, layout: this._conv_layout);
+            return new NDArrayOrSymbol[] { i2h, h2h };
         }
     }
 }

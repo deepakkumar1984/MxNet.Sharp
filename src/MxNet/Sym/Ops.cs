@@ -8801,14 +8801,14 @@ namespace MxNet
                 .CreateSymbol(symbol_name);
         }
 
-        public static Symbol SliceChannel(Symbol data, int num_outputs, int axis = 1, bool squeeze_axis = false, string symbol_name = "")
+        public static SymbolList SliceChannel(Symbol data, int num_outputs, int axis = 1, bool squeeze_axis = false, string symbol_name = "")
         {
             return new Operator("SliceChannel")
                 .SetParam("num_outputs", num_outputs)
                 .SetParam("axis", axis)
                 .SetParam("squeeze_axis", squeeze_axis)
                 .SetInput("data", data)
-                .CreateSymbol(symbol_name);
+                .CreateSymbol(symbol_name).ToList();
         }
 
         /// <summary>

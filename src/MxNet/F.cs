@@ -192,13 +192,40 @@ namespace MxNet
             }
             return Sym.Numpy.npx.relu(data);
         }
-        public static NDArrayOrSymbol activation(NDArrayOrSymbol data, String act_type)
+        public static NDArrayOrSymbol activation(NDArrayOrSymbol data, string act_type)
         {
             if (data.IsNDArray)
             {
                 return ND.Numpy.npx.activation(data, act_type);
             }
             return Sym.Numpy.npx.activation(data, act_type);
+        }
+
+        public static NDArrayOrSymbol activation(NDArrayOrSymbol data, ActivationType act)
+        {
+            string act_type = "";
+            switch (act)
+            {
+                case ActivationType.Relu:
+                    act_type = "relu";
+                    break;
+                case ActivationType.Sigmoid:
+                    act_type = "sigmoid";
+                    break;
+                case ActivationType.Softrelu:
+                    act_type = "softrelu";
+                    break;
+                case ActivationType.Softsign:
+                    act_type = "softsign";
+                    break;
+                case ActivationType.Tanh:
+                    act_type = "tanh";
+                    break;
+                default:
+                    break;
+            }
+
+            return activation(data, act_type);
         }
         public static NDArrayOrSymbol batch_norm(NDArrayOrSymbol x, NDArrayOrSymbol gamma, NDArrayOrSymbol beta, NDArrayOrSymbol running_mean, NDArrayOrSymbol running_var, float eps, float momentum, bool fix_gamma, bool use_global_stats, bool output_mean_var, int axis, bool cudnn_off, float? min_calib_range, float? max_calib_range)
         {

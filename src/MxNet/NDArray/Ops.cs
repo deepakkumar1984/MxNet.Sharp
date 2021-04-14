@@ -1061,14 +1061,17 @@ namespace MxNet
                 .Invoke();
         }
 
-        public static NDArray SliceChannel(NDArray data, int num_outputs, int axis = 1, bool squeeze_axis = false)
+        public static NDArrayList SliceChannel(NDArray data, int num_outputs, int axis = 1, bool squeeze_axis = false)
         {
-            return new Operator("SliceChannel")
+            NDArrayList ret = new NDArrayList();
+            new Operator("SliceChannel")
                 .SetParam("num_outputs", num_outputs)
                 .SetParam("axis", axis)
                 .SetParam("squeeze_axis", squeeze_axis)
                 .SetInput("data", data)
-                .Invoke();
+                .Invoke(ret);
+
+            return ret;
         }
 
         public static NDArray SoftmaxOutput(NDArray data, NDArray label, float grad_scale = 1f,

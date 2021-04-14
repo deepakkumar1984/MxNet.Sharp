@@ -162,10 +162,38 @@ namespace MxNet
             Data.AddRange(data);
         }
 
+        public void Add(int[] i)
+        {
+            var d = Data.ToList();
+            d.AddRange(i);
+            var v = d.ToArray();
+            Dimension = d.Count;
+            var data = new int[Dimension];
+            Array.Copy(v, data, v.Length);
+            Data.Clear();
+            Data.AddRange(data);
+        }
+
         public void Insert(int index, int s)
         {
             var d = Data.ToList();
             d.Insert(index, s);
+            var v = d.ToArray();
+            Dimension = d.Count;
+            var data = new int[Dimension];
+            Array.Copy(v, data, v.Length);
+            Data.Clear();
+            Data.AddRange(data);
+        }
+
+        public void Insert(int index, int[] s)
+        {
+            var d = Data.ToList();
+            foreach (var item in s)
+            {
+                d.Insert(index, item);
+            }
+            
             var v = d.ToArray();
             Dimension = d.Count;
             var data = new int[Dimension];

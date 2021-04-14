@@ -260,7 +260,6 @@ namespace MxNet.Gluon.RNN
             return (outputs.ToArray(), states);
         }
 
-
         internal _Symbol Activation(_Symbol input, string activation, FuncArgs args = null, string name = "")
         {
             switch (activation.ToLower())
