@@ -43,7 +43,7 @@ namespace MxNet.Gluon.RNN
             _prev_output = null;
         }
 
-        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, NDArrayOrSymbolList args)
+        public override (NDArrayOrSymbol, NDArrayOrSymbolList) HybridForward(NDArrayOrSymbol x, NDArrayOrSymbolList args)
         {
             var (cell, p_outputs, p_states) = (BaseCell, ZoneoutOutputs, ZoneoutStates);
             var @out = cell.Call((x, args));

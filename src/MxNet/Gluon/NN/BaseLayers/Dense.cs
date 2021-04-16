@@ -53,11 +53,7 @@ namespace MxNet.Gluon.NN
         {
             NDArrayOrSymbol output = null;
             var (x, weight, bias) = args;
-            if (x.IsNDArray)
-                output = nd.FullyConnected(x.NdX, weight, bias, Units, !UseBias, Flatten_);
-
-            if (x.IsSymbol)
-                output = sym.FullyConnected(x.SymX, weight, bias, Units, !UseBias, Flatten_);
+            output = F.fully_connected(x, weight, bias, Units, !UseBias, Flatten_);
 
             if (Act != null)
                 output = Act.HybridForward(output);

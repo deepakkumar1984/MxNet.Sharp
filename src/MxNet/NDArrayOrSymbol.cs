@@ -437,7 +437,7 @@ namespace MxNet
             data = new List<NDArrayOrSymbol>();
         }
 
-        public NDArrayOrSymbolList(NDArrayOrSymbolList args)
+        public NDArrayOrSymbolList(NDArrayOrSymbol[] args)
         {
             data = args.ToList();
         }
@@ -460,9 +460,18 @@ namespace MxNet
             }
         }
 
+        public NDArrayOrSymbolList(params Symbol[] args)
+        {
+            data = new List<NDArrayOrSymbol>();
+            foreach (var item in args)
+            {
+                data.Add(item);
+            }
+        }
+
         public NDArrayOrSymbolList(NDArrayOrSymbol x)
         {
-            data = new List<NDArrayOrSymbol> { x };
+            data = new List<NDArrayOrSymbol>() { x };
         }
 
         public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol) args)
@@ -598,11 +607,6 @@ namespace MxNet
             x4 = this.Length > 4 ? this[4] : null;
         }
 
-        public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol[] x)
-        {
-            return new NDArrayOrSymbolList(x);
-        }
-
         public static implicit operator NDArrayOrSymbol[](NDArrayOrSymbolList x)
         {
             return x.ToArray();
@@ -610,7 +614,7 @@ namespace MxNet
 
         public static implicit operator NDArrayOrSymbolList(NDArray x)
         {
-            return x;
+            return new NDArrayOrSymbolList(new NDArrayOrSymbol(x));
         }
 
         public static implicit operator NDArray(NDArrayOrSymbolList x)
@@ -631,17 +635,17 @@ namespace MxNet
 
         public static implicit operator NDArrayOrSymbolList(ndarray x)
         {
-            return x;
+            return new NDArrayOrSymbolList(x);
         }
 
         public static implicit operator NDArrayOrSymbolList(_Symbol x)
         {
-            return x;
+            return new NDArrayOrSymbolList(x);
         }
 
         public static implicit operator NDArrayOrSymbolList(Symbol x)
         {
-            return x;
+            return new NDArrayOrSymbolList(new NDArrayOrSymbol(x));
         }
 
         public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol x)

@@ -34,7 +34,7 @@ namespace MxNet.Gluon.Data
             {
                 var list = new NDArrayList();
                 list.Add(_fn.Call(args).NDArrays);
-                list.Add(args.ToList().ToNDArrays());
+                list.Add(args.ToNDArrays());
                 return new NDArrayOrSymbol(list);
             }
 

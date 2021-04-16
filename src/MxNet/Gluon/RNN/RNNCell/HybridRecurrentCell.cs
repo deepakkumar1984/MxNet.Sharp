@@ -22,7 +22,7 @@ namespace MxNet.Gluon.RNN
             return args;
         }
 
-        public abstract (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x,
+        public abstract (NDArrayOrSymbol, NDArrayOrSymbolList) HybridForward(NDArrayOrSymbol x,
             NDArrayOrSymbolList args);
 
         public override StateInfo[] StateInfo(int batch_size = 0)

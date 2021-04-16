@@ -46,17 +46,27 @@ namespace BasicExamples
                     var batch = train_data.Next();
                     var data = MxNet.Gluon.Utils.SplitAndLoad(batch.Data[0], ctxList);
                     var label = MxNet.Gluon.Utils.SplitAndLoad(batch.Label[0], ctxList);
-                    NDArrayList outputs = null;
+                    NDArrayList outputs = new NDArrayList();
                     using (var ag = Autograd.Record())
                     {
-                        outputs = Enumerable.Zip(data, label, (x, y) =>
+                        for(int i = 0; i< data.Length; i++)
                         {
+                            var x = data[i];
+                            var y = label[i];
                             ndarray z = net.Call(x);
                             ndarray loss = binary_crossentropy.Call((z, y));
                             loss.Backward();
                             lossVal += loss.mean().AsScalar<float>();
-                            return z;
-                        }).ToList();
+                            outputs.Add(z);
+                        }
+                        //outputs = Enumerable.Zip(data, label, (x, y) =>
+                        //{
+                        //    ndarray z = net.Call(x);
+                        //    ndarray loss = binary_crossentropy.Call((z, y));
+                        //    loss.Backward();
+                        //    lossVal += loss.mean().AsScalar<float>();
+                        //    return z;
+                        //}).ToList();
                     }
 
                     metric.Update(label, outputs.ToArray());
