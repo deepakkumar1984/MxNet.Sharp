@@ -26,8 +26,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             _brightness = brightness;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
+            var x = args[0];
             var min_factor = Math.Max(0, 1 - _brightness);
             var max_factor = 1 + _brightness;
 

@@ -79,9 +79,9 @@ namespace BasicExamples
             dense = new Dense(5);
         }
 
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList args)
         {
-            var y = nd.Relu(this.blk.Call(x));
+            var y = nd.Relu(this.blk.Call(args)[0]);
             Console.WriteLine(y);
             return this.dense.Call(y);
         }

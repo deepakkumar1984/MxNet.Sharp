@@ -24,29 +24,67 @@ namespace MxNet
 {
     public class NDArrayOrSymbol
     {
+        public string Name { get; set; }
+
         private readonly NDArrayList ndx;
 
         private readonly SymbolList symx;
 
-        public NDArrayOrSymbol(params ndarray[] x)
+        public NDArrayOrSymbol(ndarray x, string name = "data")
         {
             IsNDArray = true;
             IsSymbol = false;
             ndx = x;
+            Name = name;
         }
 
-        internal NDArrayOrSymbol(params _Symbol[] x)
+        internal NDArrayOrSymbol(_Symbol x, string name = "data")
         {
             IsNDArray = false;
             IsSymbol = true;
             symx = x;
+            Name = name;
         }
 
-        internal NDArrayOrSymbol(params Symbol[] x)
+        public NDArrayOrSymbol(ndarray[] x, string name = "data")
+        {
+            IsNDArray = true;
+            IsSymbol = false;
+            ndx = x;
+            Name = name;
+        }
+
+        internal NDArrayOrSymbol(_Symbol[] x, string name = "data")
         {
             IsNDArray = false;
             IsSymbol = true;
-            symx = x.Select(x => new _Symbol(x.NativePtr)).ToArray();
+            symx = x;
+            Name = name;
+        }
+
+        public NDArrayOrSymbol(NDArrayOrSymbolList x, string name = "data")
+        {
+            IsNDArray = x.IsNDArray;
+            IsSymbol = x.IsSymbol;
+            ndx = x.IsNDArray ? x.NDArrays : null;
+            symx = x.IsSymbol ? x.Symbols : null;
+            Name = name;
+        }
+
+        public NDArrayOrSymbol(ndarray x)
+        {
+            IsNDArray = true;
+            IsSymbol = false;
+            ndx = x;
+            Name = "data";
+        }
+
+        internal NDArrayOrSymbol(_Symbol x)
+        {
+            IsNDArray = false;
+            IsSymbol = true;
+            symx = x;
+            Name = "data";
         }
 
         public bool IsSymbol { get; set; }
@@ -124,11 +162,22 @@ namespace MxNet
             }
         }
 
+        public NDArrayOrSymbolList List
+        {
+            get
+            {
+                if (IsNDArray)
+                    return NdXList;
+
+                return SymXList;
+            }
+        }
+
         public NDArrayOrSymbol Reshape(params int[] shape)
         {
             return F.reshape(this, new Shape(shape));
         }
-        
+
         public static implicit operator NDArrayOrSymbol(ndarray x)
         {
             if (x == null)
@@ -171,38 +220,22 @@ namespace MxNet
             return x.SymX;
         }
 
+        public static implicit operator NDArrayOrSymbol(NDArrayOrSymbolList x)
+        {
+            return x[0];
+        }
+
         public static implicit operator NDArrayOrSymbol(float x)
         {
             ndarray array = new ndarray(new float[] { x });
             return array;
         }
 
-        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1)
-        {
-            x0 = this[0];
-            x1 = this[1];
-        }
-
-        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2)
-        {
-            x0 = this[0];
-            x1 = this[1];
-            x2 = this[2];
-        }
-
-        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2, out NDArrayOrSymbol x3)
-        {
-            x0 = this[0];
-            x1 = this[1];
-            x2 = this[2];
-            x3 = this[3];
-        }
-
         #region Operators
 
         public static NDArrayOrSymbol operator +(NDArrayOrSymbol lhs, NDArrayOrSymbol rhs)
         {
-            if(lhs.IsNDArray)
+            if (lhs.IsNDArray)
                 return nd_np_ops.add(lhs, rhs);
 
             return sym_np_ops.add(lhs, rhs);
@@ -404,7 +437,7 @@ namespace MxNet
             data = new List<NDArrayOrSymbol>();
         }
 
-        public NDArrayOrSymbolList(params NDArrayOrSymbol[] args)
+        public NDArrayOrSymbolList(NDArrayOrSymbolList args)
         {
             data = args.ToList();
         }
@@ -427,9 +460,26 @@ namespace MxNet
             }
         }
 
+        public NDArrayOrSymbolList(NDArrayOrSymbol x)
+        {
+            data = new List<NDArrayOrSymbol> { x };
+        }
+
         public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol) args)
         {
             data = new List<NDArrayOrSymbol> { args.Item1, args.Item2 };
+        }
+
+        public NDArrayOrSymbolList((NDArrayOrSymbolList, NDArrayOrSymbol) args)
+        {
+            data.Add(new NDArrayOrSymbol(args.Item1));
+            data.Add(args.Item2);
+        }
+
+        public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbolList) args)
+        {
+            data = new List<NDArrayOrSymbol> { args.Item1 };
+            data.Add(new NDArrayOrSymbol(args.Item2));
         }
 
         public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol) args)
@@ -438,11 +488,35 @@ namespace MxNet
         }
 
         public NDArrayOrSymbol[] Data => data.ToArray();
-        
+
+        public bool IsSymbol
+        {
+            get
+            {
+                return data[0].IsSymbol;
+            }
+        }
+
+        public bool IsNDArray
+        {
+            get
+            {
+                return data[0].IsNDArray;
+            }
+        }
+
         public NDArrayOrSymbol this[int i]
         {
             get => data[i];
             set => data[i] = value;
+        }
+
+        public NDArrayOrSymbol this[string name]
+        {
+            get
+            {
+                return data.Where(x => x.Name == name).FirstOrDefault();
+            }
         }
 
         public int Length => data.Count;
@@ -457,7 +531,7 @@ namespace MxNet
             return data.GetEnumerator();
         }
 
-        public void Add(params NDArrayOrSymbol[] x)
+        public void Add(NDArrayOrSymbolList x)
         {
             if (x == null)
                 return;
@@ -494,15 +568,80 @@ namespace MxNet
             }
         }
 
-       
+        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1)
+        {
+            x0 = this[0];
+            x1 = this.Length > 2 ? this[1] : null;
+        }
+
+        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2)
+        {
+            x0 = this[0];
+            x1 = this.Length > 2 ? this[1] : null;
+            x2 = this.Length > 2 ? this[2] : null;
+        }
+
+        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2, out NDArrayOrSymbol x3)
+        {
+            x0 = this[0];
+            x1 = this.Length > 2 ? this[1] : null;
+            x2 = this.Length > 2 ? this[2] : null;
+            x3 = this.Length > 3 ? this[3] : null;
+        }
+
+        public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2, out NDArrayOrSymbol x3, out NDArrayOrSymbol x4)
+        {
+            x0 = this[0];
+            x1 = this.Length > 2 ? this[1] : null;
+            x2 = this.Length > 2 ? this[2] : null;
+            x3 = this.Length > 3 ? this[3] : null;
+            x4 = this.Length > 4 ? this[4] : null;
+        }
+
         public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol[] x)
         {
             return new NDArrayOrSymbolList(x);
         }
 
-        public static implicit operator NDArrayOrSymbol[] (NDArrayOrSymbolList x)
+        public static implicit operator NDArrayOrSymbol[](NDArrayOrSymbolList x)
         {
             return x.ToArray();
+        }
+
+        public static implicit operator NDArrayOrSymbolList(NDArray x)
+        {
+            return x;
+        }
+
+        public static implicit operator NDArray(NDArrayOrSymbolList x)
+        {
+            if(x.Length > 0)
+                return x.FirstOrDefault().NdX;
+
+            return null;
+        }
+
+        public static implicit operator ndarray(NDArrayOrSymbolList x)
+        {
+            if (x.Length > 0)
+                return x.FirstOrDefault().NdX;
+
+            return null;
+        }
+
+        public static implicit operator NDArrayOrSymbolList(ndarray x)
+        {
+            return x;
+        }
+
+        public static implicit operator NDArrayOrSymbolList(_Symbol x)
+        {
+            return x;
+        }
+
+        public static implicit operator NDArrayOrSymbolList(Symbol x)
+        {
+            return x;
         }
 
         public static implicit operator NDArrayOrSymbolList(NDArrayOrSymbol x)
@@ -533,6 +672,74 @@ namespace MxNet
         public static implicit operator NDArrayOrSymbolList(_Symbol[] x)
         {
             return new NDArrayOrSymbolList(x);
+        }
+
+        public static implicit operator NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol) x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
+
+        public static implicit operator NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol) x)
+        {
+            return new NDArrayOrSymbolList(x);
+        }
+    }
+
+    public class NDArrayOrSymbolDict : IEnumerable<KeyValuePair<string, NDArrayOrSymbolList>>
+    {
+        private readonly Dictionary<string, NDArrayOrSymbolList> dict = new Dictionary<string, NDArrayOrSymbolList>();
+
+        public NDArrayOrSymbolDict(params string[] names)
+        {
+            foreach (var item in names) Add(item, null);
+        }
+
+        public int Count => dict.Count;
+
+        public string[] Keys => dict.Keys.ToArray();
+
+        public NDArrayOrSymbolList[] Values => dict.Values.ToArray();
+
+        public NDArrayOrSymbolList this[string name]
+        {
+            get
+            {
+                if (!dict.ContainsKey(name))
+                    return null;
+
+                return dict[name];
+            }
+            set => dict[name] = value;
+        }
+
+        public IEnumerator<KeyValuePair<string, NDArrayOrSymbolList>> GetEnumerator()
+        {
+            return dict.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return dict.GetEnumerator();
+        }
+
+        public void Add(string name, NDArrayOrSymbolList value)
+        {
+            dict.Add(name, value);
+        }
+
+        public void Add(NDArrayOrSymbolDict other)
+        {
+            foreach (var item in other) Add(item.Key, item.Value);
+        }
+
+        public bool Contains(string name)
+        {
+            return dict.ContainsKey(name);
+        }
+
+        public void Remove(string name)
+        {
+            dict.Remove(name);
         }
     }
 }

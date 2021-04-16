@@ -30,8 +30,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             _hue = hue;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
+            var x = args[0];
             if (x.IsNDArray)
                 return nd.Image.RandomColorJitter(x, _brightness, _contrast, _saturation, _hue);
 

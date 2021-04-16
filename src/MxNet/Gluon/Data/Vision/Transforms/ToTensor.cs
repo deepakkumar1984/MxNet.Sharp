@@ -17,8 +17,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class ToTensor : HybridBlock
     {
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
+            var x = args[0];
             if (x.IsNDArray)
                 return nd.Image.ToTensor(x);
 

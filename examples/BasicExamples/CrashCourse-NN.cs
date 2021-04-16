@@ -68,7 +68,7 @@ namespace BasicExamples
                     using (Autograd.Record())
                     {
                         output = net.Call(data);
-                        loss = softmax_cross_entropy.Call(output, label);
+                        loss = softmax_cross_entropy.Call((output, label));
                     }
 
                     loss.Backward();

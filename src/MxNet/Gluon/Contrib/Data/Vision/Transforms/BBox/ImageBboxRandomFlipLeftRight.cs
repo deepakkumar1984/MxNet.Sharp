@@ -12,7 +12,7 @@ namespace MxNet.Gluon.Contrib.Data.Vision.Transforms.BBox
             throw new NotImplementedRelease1Exception();
         }
 
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList  args)
         {
             throw new NotImplementedRelease1Exception();
         }

@@ -73,7 +73,7 @@ namespace MNIST
                             var y = label[i];
                             var z = net.Call(x);
                             // Computes softmax cross entropy loss.
-                            loss = softmax_cross_entropy_loss.Call(z, y);
+                            loss = softmax_cross_entropy_loss.Call((z, y));
                             outputs.Add(z);
                         }
 
@@ -148,7 +148,7 @@ namespace MNIST
                             var y = label[i];
 
                             var z = net.Call(x);
-                            NDArray loss = softmax_cross_entropy_loss.Call(z, y);
+                            NDArray loss = softmax_cross_entropy_loss.Call((z, y));
                             loss.Backward();
                             lossVal += loss.Mean();
                             outputs.Add(z);

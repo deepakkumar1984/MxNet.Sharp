@@ -26,8 +26,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             _std = std;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
+            var x = args[0];
             if (x.IsNDArray)
                 return nd.Image.Normalize(x, _mean, _std);
 

@@ -34,9 +34,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             _interpolation = interpolation;
         }
 
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList args)
         {
-            return Img.RandomSizeCrop(x, _size, _scale, _ratio, _interpolation).Item1;
+            return Img.RandomSizeCrop(args[0], _size, _scale, _ratio, _interpolation).Item1;
         }
     }
 }

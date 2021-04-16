@@ -12,23 +12,23 @@ namespace MxNet.Gluon.NN
             this.axis = axis;
         }
 
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList args)
         {
             var @out = new NDArrayOrSymbolList();
             foreach (var block in this._childrens.Values)
             {
-                @out.Add(block.Call(x));
+                @out.Add(block.Call(args));
             }
 
             return F.concatenate(@out, axis: this.axis);
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
             var @out = new NDArrayOrSymbolList();
             foreach (var block in this._childrens.Values)
             {
-                @out.Add(block.Call(x));
+                @out.Add(block.Call(args));
             }
 
             return F.concatenate(@out, axis: this.axis);

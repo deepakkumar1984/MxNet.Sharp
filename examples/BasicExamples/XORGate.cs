@@ -51,8 +51,8 @@ namespace BasicExamples
                     {
                         outputs = Enumerable.Zip(data, label, (x, y) =>
                         {
-                            var z = net.Call(x);
-                            ndarray loss = binary_crossentropy.Call(z, y);
+                            ndarray z = net.Call(x);
+                            ndarray loss = binary_crossentropy.Call((z, y));
                             loss.Backward();
                             lossVal += loss.mean().AsScalar<float>();
                             return z;

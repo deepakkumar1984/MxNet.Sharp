@@ -116,8 +116,8 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                 label.Add(l);
             }
 
-            data = nd.Concat(data);
-            label = nd.Concat(label);
+            data = np.concatenate(data);
+            label = np.concatenate(label);
             this._data = data;
             this._label = label;
         }

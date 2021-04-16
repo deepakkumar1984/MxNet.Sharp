@@ -24,8 +24,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             _alpha = alpha;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
+            var x = args[0];
             if (x.IsNDArray)
                 return nd.Image.RandomLighting(x, _alpha);
 

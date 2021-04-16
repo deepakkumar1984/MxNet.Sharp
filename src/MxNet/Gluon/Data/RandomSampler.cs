@@ -13,6 +13,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 ******************************************************************************/
+using MxNet.Numpy;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,8 +32,8 @@ namespace MxNet.Gluon.Data
 
         public override IEnumerator<int> GetEnumerator()
         {
-            var x = nd.Arange(0, _length).AsType(DType.Int32);
-            x = nd.Shuffle(x);
+            var x = np.arange(0, _length).AsType(DType.Int32);
+            x = np.random.shuffle(x);
             return x.AsArray().Cast<int>().GetEnumerator();
         }
     }

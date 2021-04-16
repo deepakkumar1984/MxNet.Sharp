@@ -29,9 +29,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             _interpolation = interpolation;
         }
 
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList args)
         {
-            return Img.CenterCrop(x, _size, _interpolation).Item1;
+            return Img.CenterCrop(args[0], _size, _interpolation).Item1;
         }
     }
 }

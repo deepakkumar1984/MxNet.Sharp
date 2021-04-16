@@ -30,8 +30,9 @@ namespace MxNet.Gluon.Data.Vision.Transforms
             _interpolation = interpolation;
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
+            var x = args[0];
             if (x.IsNDArray)
                 return nd.Image.Resize(x, new Shape(_size.Item1, _size.Item2), _keep_ratio, (int) _interpolation);
 

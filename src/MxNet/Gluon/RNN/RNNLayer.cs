@@ -49,12 +49,17 @@ namespace MxNet.Gluon.RecurrentNN
             throw new NotImplementedException();
         }
 
+        public override NDArrayOrSymbolList Call(NDArrayOrSymbolList inputs)
+        {
+            throw new NotImplementedException();
+        }
+
         public NDArrayOrSymbol Call(NDArrayOrSymbol inputs, NDArrayOrSymbol[] states, NDArrayOrSymbol sequence_length)
         {
             throw new NotImplementedException();
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
             throw new NotImplementedException();
         }

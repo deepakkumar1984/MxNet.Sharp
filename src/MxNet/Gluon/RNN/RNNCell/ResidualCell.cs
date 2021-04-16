@@ -24,16 +24,15 @@ namespace MxNet.Gluon.RNN
         {
         }
 
-        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x,
-            params NDArrayOrSymbol[] args)
+        public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x, NDArrayOrSymbolList args)
         {
-            var (output, states) = BaseCell.Call(x, args);
+            var (output, states) = BaseCell.Call((x, args));
             if (x.IsNDArray)
                 output = nd.ElemwiseAdd(output, x);
             else
                 output = sym.ElemwiseAdd(output, x, $"t{_counter}_fwd");
 
-            return (output, states);
+            return (output, states.List);
         }
 
         public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs,

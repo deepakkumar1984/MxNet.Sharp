@@ -471,7 +471,7 @@ namespace MxNet.Gluon
                     var g = grads[i];
                     if (g.stype == StorageStype.RowSparse)
                     {
-                        g = nd.ZerosLike(g);
+                        g = np.zeros_like(g);
                     }
                     else
                     {
@@ -501,17 +501,17 @@ namespace MxNet.Gluon
             }
         }
 
-        public virtual NDArrayOrSymbol Call(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public virtual NDArrayOrSymbolList Call(NDArrayOrSymbolList inputs)
         {
-            foreach (var hook in _forward_pre_hooks.Values) hook(this, x);
+            foreach (var hook in _forward_pre_hooks.Values) hook(this, inputs[0]);
 
-            var @out = Forward(x, args);
+            var @out = Forward(inputs);
             foreach (var hook in _forward_hooks.Values) hook(this, @out);
 
             return @out;
         }
 
-        public abstract NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args);
+        public abstract NDArrayOrSymbolList Forward(NDArrayOrSymbolList inputs);
 
         public virtual void RegisterOpHook(Action<string, string, ndarray> callback, bool monitor_all = false)
         {

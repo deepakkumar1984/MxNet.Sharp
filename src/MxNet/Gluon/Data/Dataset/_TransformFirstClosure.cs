@@ -27,23 +27,23 @@ namespace MxNet.Gluon.Data
         {
             _fn = fn;
         }
-      
-        public override NDArrayOrSymbol Call(NDArrayOrSymbol x, NDArrayOrSymbol[] args)
+
+        public override NDArrayOrSymbolList Call(NDArrayOrSymbolList args)
         {
             if (args != null)
             {
                 var list = new NDArrayList();
-                list.Add(_fn.Call(x));
+                list.Add(_fn.Call(args).NDArrays);
                 list.Add(args.ToList().ToNDArrays());
                 return new NDArrayOrSymbol(list);
             }
 
-            return _fn.Call(x, null);
+            return _fn.Call(args);
         }
 
-        public override NDArrayOrSymbol Forward(NDArrayOrSymbol input, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList args)
         {
-            return input;
+            return args;
         }
     }
 }

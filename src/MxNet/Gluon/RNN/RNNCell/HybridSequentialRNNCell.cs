@@ -47,10 +47,12 @@ namespace MxNet.Gluon.RNN
             return RNNCell.CellsBeginState(_childrens.Values.ToArray(), batch_size, func);
         }
 
-        public new (NDArrayOrSymbol, NDArrayOrSymbol[]) Call(NDArrayOrSymbol inputs, params NDArrayOrSymbol[] states)
+        public override NDArrayOrSymbolList Call(NDArrayOrSymbolList args)
         {
             _counter++;
-            var next_states = new List<NDArrayOrSymbol>();
+            var inputs = args[0];
+            NDArrayOrSymbolList states = args[1].List;
+            var next_states = new NDArrayOrSymbolList();
             var p = 0;
             foreach (var cell in _childrens.Values)
             {
@@ -58,13 +60,13 @@ namespace MxNet.Gluon.RNN
                     throw new Exception("BidirectionalCell is not allowed.");
 
                 var n = cell.StateInfo().Length;
-                var state = states.Skip(p).Take(n).ToArray();
+                NDArrayOrSymbolList state = states.Skip(p).Take(n).ToArray();
                 p += n;
-                (inputs, state) = cell.Call(inputs, state);
-                next_states.AddRange(state);
+                (inputs, state) = cell.Call((inputs, state));
+                next_states.Add(state);
             }
 
-            return (inputs, next_states.ToArray());
+            return (inputs, next_states);
         }
 
         public override (NDArrayOrSymbol[], NDArrayOrSymbol[]) Unroll(int length, NDArrayOrSymbol[] inputs,
@@ -95,7 +97,7 @@ namespace MxNet.Gluon.RNN
         }
 
         public override (NDArrayOrSymbol, NDArrayOrSymbol[]) HybridForward(NDArrayOrSymbol x,
-            params NDArrayOrSymbol[] args)
+            NDArrayOrSymbolList args)
         {
             return default;
         }

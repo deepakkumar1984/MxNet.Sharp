@@ -75,7 +75,7 @@ namespace BasicExamples
                 using (var ag = Autograd.Record())
                 {
                     var output = net.Call(data);
-                    loss_result = loss.Call(output, label);
+                    loss_result = loss.Call((output, label));
                     loss_result.Backward();
                 }
                 
@@ -92,7 +92,7 @@ namespace BasicExamples
             foreach (var (val_data, val_ground_truth_class) in val_dataloader)
             {
                 var output = net.Call(val_data);
-                NDArray loss_result = loss.Call(output, val_ground_truth_class);
+                NDArray loss_result = loss.Call((output, val_ground_truth_class));
                 
                 cumulative_val_loss += nd.Sum(loss_result).AsScalar<float>();
 

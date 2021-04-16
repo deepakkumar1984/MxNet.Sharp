@@ -23,9 +23,9 @@ namespace MxNet.Gluon.NN
         {
         }
 
-        public override NDArrayOrSymbol HybridForward(NDArrayOrSymbol x, params NDArrayOrSymbol[] args)
+        public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
-            return x;
+            return args;
         }
     }
 }
