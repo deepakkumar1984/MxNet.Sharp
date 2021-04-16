@@ -553,7 +553,7 @@ namespace MxNet.Gluon
         {
             var ret = new NDArrayOrSymbolList();
             var args_ret = new NDArrayOrSymbolList();
-
+            fmt = fmt == null ? new List<int>() : fmt;
             foreach (var i in fmt)
             {
                 if (i == 0)

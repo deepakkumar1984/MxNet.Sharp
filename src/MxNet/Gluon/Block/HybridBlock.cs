@@ -99,7 +99,7 @@ namespace MxNet.Gluon
             {
                 var inputs = new SymbolList();
                 var (flatten_args, _in_format) = Flatten(args, "input");
-
+                this._in_format = _in_format.ToList();
                 var flatten_inputs = new List<NDArrayOrSymbolList>();
                 var symbol_inputs = new List<_Symbol>();
                 var cnt = 0;
@@ -158,6 +158,7 @@ namespace MxNet.Gluon
             {
                 var inputs = new SymbolList();
                 var (flatten_args, _in_format) = Flatten(args, "input");
+                this._in_format = _in_format.ToList();
                 flatten_args = new NDArrayOrSymbolList((from ele in flatten_args
                                                         select ele != null ? ele.NdX.Detach() : null).ToArray());
                 NDArrayOrSymbolList real_args = (from ele in flatten_args

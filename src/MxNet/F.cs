@@ -471,7 +471,7 @@ namespace MxNet
             }
             return sym_np_ops.append(arr, values, axis);
         }
-        public static NDArrayOrSymbol stack(NDArrayOrSymbolList arrays, int axis, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol stack(NDArrayOrSymbolList arrays, int axis = 0, NDArrayOrSymbol @out = null)
         {
             if (arrays[0].IsNDArray)
 {

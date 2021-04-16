@@ -136,7 +136,7 @@ namespace MxNet.ND.Numpy
 
         public ndarray shuffle(ndarray x)
         {
-            return _api_internal.shuffle(x, x);
+            return _api_internal.shuffle(x);
         }
 
         public ndarray gamma(float shape, float scale = 1, Shape size = null, DType dtype = null, Context ctx = null, ndarray @out = null)
