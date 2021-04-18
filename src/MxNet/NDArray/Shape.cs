@@ -221,6 +221,9 @@ namespace MxNet
 
         public override string ToString()
         {
+            if (Dimension == 1)
+                return $"({Data[0]},)";
+
             return $"({string.Join(",", Enumerable.Range(0, Dimension).Select(i => Data[i].ToString()))})";
         }
 

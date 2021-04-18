@@ -49,17 +49,21 @@ namespace MxNet.Sym.Numpy
                     if (k == "ctx" && value == null)
                         value = Context.CurrentContext;
 
+                    if (k.Contains("weight") || k.Contains("bias"))
+                        if (value == null)
+                            continue;
+
                     if (value == null)
                         value = "None";
 
                     var argType = value.GetType();
-                    if (argType.Name == "ndarray")
+                    if (argType.Name == "_Symbol")
                     {
-                        op.SetInput(k, (ndarray)value);
+                        op.Set((_Symbol)value);
                     }
-                    else if (argType.Name == "NDArrayList")
+                    else if (argType.Name == "SymbolList")
                     {
-                        op.SetInput((NDArrayList)value);
+                        op.SetInput((SymbolList)value);
                     }
                     else
                     {
@@ -73,13 +77,9 @@ namespace MxNet.Sym.Numpy
             }
 
             if (multiple)
-            {
-                NDArrayList list = new NDArrayList();
-                op.Invoke(list);
-                result = list;
-            }
+                result = op.CreateNpSymbol().ToList();
             else
-                result = op.Invoke();
+                result = op.CreateNpSymbol();
 
             return true;
         }

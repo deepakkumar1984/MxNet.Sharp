@@ -343,7 +343,11 @@ namespace MxNet
 
         public Operator SetInput(SymbolList symbols)
         {
-            foreach (var item in symbols) _InputSymbols.Add(item.GetHandle());
+            foreach (var item in symbols)
+            {
+                if (item != null)
+                    _InputSymbols.Add(item.GetHandle());
+            }
 
             return this;
         }

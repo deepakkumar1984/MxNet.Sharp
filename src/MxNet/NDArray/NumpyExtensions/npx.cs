@@ -47,12 +47,12 @@ namespace MxNet.ND.Numpy
 
         public static ndarray embedding(ndarray data, ndarray weight, int input_dim, int output_dim, DType dtype= null, bool sparse_grad= false)
         {
-            return _api_internal.dropout(data: data, weight: weight, input_dim: input_dim, output_dim: output_dim, dtype: dtype, sparse_grad: sparse_grad);
+            return _api_internal.embedding(data: data, weight: weight, input_dim: input_dim, output_dim: output_dim, dtype: dtype, sparse_grad: sparse_grad);
         }
 
         public static ndarray fully_connected(ndarray x, ndarray weight, ndarray bias, int num_hidden, bool no_bias= true, bool flatten= true)
         {
-            return _api_internal.fully_connected(data: x, weight: weight, bias: bias, num_hidden: num_hidden, no_bias: no_bias, flatten: flatten);
+            return _api_internal.fully_connected(x: x, weight: weight, bias: bias, num_hidden: num_hidden, no_bias: no_bias, flatten: flatten);
         }
 
         public static ndarray layer_norm(ndarray data, ndarray gamma, ndarray beta, int axis= -1, float eps= 9.99999975e-06f, bool output_mean_var= false)

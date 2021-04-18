@@ -759,7 +759,7 @@ namespace MxNet.Sym.Numpy
                 attr.Add("__wd_mult__", wd_mult.Value.ToString());
 
             if (dtype != null)
-                attr.Add("__dtype__", dtype.Name);
+                attr.Add("__dtype__", dtype);
 
             if (init != null)
             {

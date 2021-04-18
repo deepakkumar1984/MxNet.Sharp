@@ -222,7 +222,7 @@ namespace MxNet
 
         public static implicit operator NDArrayOrSymbol(NDArrayOrSymbolList x)
         {
-            return x[0];
+            return new NDArrayOrSymbol(x);
         }
 
         public static implicit operator NDArrayOrSymbol(float x)
@@ -476,7 +476,9 @@ namespace MxNet
 
         public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol) args)
         {
-            data = new List<NDArrayOrSymbol> { args.Item1, args.Item2 };
+            data = new List<NDArrayOrSymbol>();
+            data.AddRange(args.Item1.List);
+            data.AddRange(args.Item2.List);
         }
 
         public NDArrayOrSymbolList((NDArrayOrSymbolList, NDArrayOrSymbol) args)
@@ -488,7 +490,40 @@ namespace MxNet
         public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbolList) args)
         {
             data = new List<NDArrayOrSymbol> { args.Item1 };
-            data.Add(new NDArrayOrSymbol(args.Item2));
+            foreach (var item in args.Item2)
+            {
+                data.Add(item);
+            }
+        }
+
+        public NDArrayOrSymbolList((ndarray, ndarray) args)
+        {
+            data.Add(args.Item1);
+            data.Add(args.Item2);
+        }
+
+        public NDArrayOrSymbolList((_Symbol, _Symbol) args)
+        {
+            data.Add(args.Item1);
+            data.Add(args.Item2);
+        }
+
+        public NDArrayOrSymbolList((ndarray, NDArrayList) args)
+        {
+            data.Add(args.Item1);
+            foreach (var item in args.Item2)
+            {
+                data.Add(item);
+            }
+        }
+
+        public NDArrayOrSymbolList((_Symbol, SymbolList) args)
+        {
+            data.Add(args.Item1);
+            foreach (var item in args.Item2)
+            {
+                data.Add(item);
+            }
         }
 
         public NDArrayOrSymbolList((NDArrayOrSymbol, NDArrayOrSymbol, NDArrayOrSymbol) args)
@@ -580,20 +615,20 @@ namespace MxNet
         public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1)
         {
             x0 = this[0];
-            x1 = this.Length > 2 ? this[1] : null;
+            x1 = this.Length > 1 ? this[1] : null;
         }
 
         public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2)
         {
             x0 = this[0];
-            x1 = this.Length > 2 ? this[1] : null;
+            x1 = this.Length > 1 ? this[1] : null;
             x2 = this.Length > 2 ? this[2] : null;
         }
 
         public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2, out NDArrayOrSymbol x3)
         {
             x0 = this[0];
-            x1 = this.Length > 2 ? this[1] : null;
+            x1 = this.Length > 1 ? this[1] : null;
             x2 = this.Length > 2 ? this[2] : null;
             x3 = this.Length > 3 ? this[3] : null;
         }
@@ -601,7 +636,7 @@ namespace MxNet
         public void Deconstruct(out NDArrayOrSymbol x0, out NDArrayOrSymbol x1, out NDArrayOrSymbol x2, out NDArrayOrSymbol x3, out NDArrayOrSymbol x4)
         {
             x0 = this[0];
-            x1 = this.Length > 2 ? this[1] : null;
+            x1 = this.Length > 1 ? this[1] : null;
             x2 = this.Length > 2 ? this[2] : null;
             x3 = this.Length > 3 ? this[3] : null;
             x4 = this.Length > 4 ? this[4] : null;

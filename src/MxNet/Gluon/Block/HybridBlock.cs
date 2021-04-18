@@ -65,8 +65,8 @@ namespace MxNet.Gluon
 
         public HybridBlock() : base()
         {
-            this._v2 = true;
-            this._cached_graph = (null, null);
+            this._v2 = false;
+            this._cached_graph = null;
             this._cached_op = null;
             this._out_format = null;
             this._in_format = null;
@@ -97,7 +97,6 @@ namespace MxNet.Gluon
         {
             if (_cached_graph == null)
             {
-                var inputs = new SymbolList();
                 var (flatten_args, _in_format) = Flatten(args, "input");
                 this._in_format = _in_format.ToList();
                 var flatten_inputs = new List<NDArrayOrSymbolList>();
@@ -140,12 +139,11 @@ namespace MxNet.Gluon
                     var @params = new SymbolDict();
                     foreach (var item in _reg_params) @params[item.Key] = item.Value.Var();
 
-                    foreach (var input in grouped_inputs)
-                        outputs.Add(HybridForward((input, new NDArrayOrSymbol(@params.Values))));
+                    outputs.Add(HybridForward((grouped_inputs, @params.Values.NDArrayOrSymbol)));
                 }
 
                 var (@out, _out_format) = Flatten(outputs, "output");
-                _cached_graph = (inputs, _Symbol.Group(@out.ToSymbols()));
+                _cached_graph = (symbol_inputs, _Symbol.Group(@out.ToSymbols()));
             }
 
             return _cached_graph.Value;
@@ -194,7 +192,7 @@ namespace MxNet.Gluon
                 using(var ag = Autograd.Pause())
                 {
                     DeferredCompute.Context();
-                    @out = base.Call(args);
+                    @out = Call(args);
                 }
 
                 var (flatten_out, out_format) = Flatten(@out, "output");
@@ -646,7 +644,7 @@ namespace MxNet.Gluon
 
                 var collectedValues = CollectParams().Values();
                 for (var i = 0; i < collectedValues.Length; i++)
-                    collectedValues[i]._shape = sdict[collectedValues[i]._var_name];
+                    collectedValues[i]._shape = sdict[collectedValues[i].Name];
             }
             else if (infer_fn == "infer_type")
             {
@@ -666,11 +664,11 @@ namespace MxNet.Gluon
 
                 var collectedValues = CollectParams().Values();
                 for (var i = 0; i < collectedValues.Length; i++)
-                    collectedValues[i].DataType = sdict[collectedValues[i]._var_name];
+                    collectedValues[i].DataType = sdict[collectedValues[i].Name];
             }
         }
 
-        public void InferShape(NDArrayOrSymbolList args)
+        public virtual void InferShape(NDArrayOrSymbolList args)
         {
             if (!this._v2)
             {

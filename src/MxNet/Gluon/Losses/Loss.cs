@@ -29,7 +29,7 @@ namespace MxNet.Gluon.Losses
 
         public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
-            return HybridForward(args[0], args.Length > 2 ? args[1] : null, args.Length > 3 ? args[2] : null);
+            return HybridForward(args[0], args.Length > 1 ? args[1] : null, args.Length > 2 ? args[2] : null);
         }
 
         public virtual NDArrayOrSymbol HybridForward(NDArrayOrSymbol pred, NDArrayOrSymbol label,

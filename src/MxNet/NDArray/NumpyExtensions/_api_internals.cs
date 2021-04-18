@@ -49,6 +49,9 @@ namespace MxNet.ND.Numpy
                     if (k == "ctx" && value == null)
                         value = Context.CurrentContext;
 
+                    if (k.Contains("weight") || k.Contains("bias"))
+                        if (value == null)
+                            continue;
                     if (value == null)
                         value = "None";
 

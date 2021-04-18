@@ -28,7 +28,7 @@ namespace MxNet.Initializers
 
         public override void InitWeight(string name, ref ndarray arr)
         {
-            arr = nd.Random.Uniform(-Scale, Scale, arr.shape);
+            arr = np.random.uniform(-Scale, Scale, arr.shape);
         }
     }
 }

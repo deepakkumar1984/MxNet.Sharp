@@ -287,7 +287,7 @@ namespace MxNet.Gluon
             {
                 if (data == null)
                 {
-                    data = nd.Zeros(Shape, dtype: DataType, ctx: ctx[0]).ToSType(Stype);
+                    data = np.zeros(Shape, dtype: DataType, ctx: ctx[0]).ToSType(Stype);
 
                     if (init == null)
                     {
@@ -535,7 +535,7 @@ namespace MxNet.Gluon
             }
             _var = _Symbol.Var(_var_name, shape: Shape, dtype: DataType, lr_mult: Lr_Mult, wd_mult: Wd_Mult, init: Init,
                 stype: Stype);
-
+            
             return _var;
         }
 
