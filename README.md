@@ -26,8 +26,31 @@ MxNet.Sharp is a CSharp binding coving all the Imperative, Symbolic and Gluon AP
 
 **High Level Arch**
 
-
 ![High Level Arch](https://raw.githubusercontent.com/SciSharp/MxNet.Sharp/master/HLA.PNG)
+
+## A New NumPy Interface for MxNet#
+The MXNet community is pleased to announce a new NumPy interface for MXNet that allows developers to retain the familiar syntax of NumPy, while leveraging performance gains from accelerated computing on GPUs and asynchronous execution on CPUs and GPUs, in addition to automatic differentiation for differentiable NumPy ops through MxNet.Autograd.
+
+The new NumPy interface from MXNet, MxNet.Numpy, is intended to be a drop-in replacement for NumPy, as such mxnet.numpy supports many familiar numpy.ndarray operations necessary for developing machine learning or deep learning models and operations are continually being added. 
+
+## Work List
+- [x] Project prep work for v2
+- [x] Adding numpy ndarray array object and properties
+- [x] Implementing numpy creation function
+- [x] Implementing numpy elementwise
+- [x] Numpy basic indexing
+- [ ] Numpy advance indexing
+- [x] Nummy linear algebra functions
+- [x] Numpy manipulation functions
+- [x] Numpy search and sorting functions
+- [ ] Numpy statistical functions
+- [ ] Gluon updates with numpy ops
+- [x] Implement numpy extension functions for neural network
+- [ ] Gluon probability
+- [ ] Mxnet 2 Onnx and Onnx 2 Mxnet
+- [ ] More examples
+- [ ] Unit testing
+- [x] CI Builds
 
 ## Nuget
 
