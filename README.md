@@ -109,8 +109,8 @@ namespace PerfTest
         {
             /
             DateTime start = DateTime.Now;
-            var x = np.random.uniform(size: new Shape(3000, 3000));
-            var y = np.random.uniform(size: new Shape(3000, 3000));
+            var x = np.random.uniform(size: new Shape(30000, 10000));
+            var y = np.random.uniform(size: new Shape(30000, 10000));
             var d = 0.5f * np.sqrt(x) + np.sin(y) * np.log(x) - np.exp(y);
             npx.waitall();
             Console.WriteLine(d.shape);
@@ -125,8 +125,8 @@ import numpy as np
 import time
 
 start_time = time.time()
-x = np.random.uniform(0, 1, (3000, 1000))
-y = np.random.uniform(0, 1, (3000, 3000))
+x = np.random.uniform(0, 1, (30000, 10000))
+y = np.random.uniform(0, 1, (30000, 10000))
 d = 0.5 * np.sqrt(x) + np.sin(y) * np.log(x) - np.exp(y)
 print(d.shape)
 print("--- %s sec ---" % (time.time() - start_time))
