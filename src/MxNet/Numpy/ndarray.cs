@@ -922,84 +922,72 @@ namespace MxNet.Numpy
 
         public static ndarray operator +(ndarray lhs, ndarray rhs)
         {
-            return nd.BroadcastAdd(lhs, rhs);
+            return np.add(lhs, rhs);
         }
 
         public static ndarray operator +(ndarray lhs, float scalar)
         {
-            return nd.PlusScalar(lhs, scalar);
+            return np.add(lhs, scalar);
         }
 
         public static ndarray operator +(float scalar, ndarray rhs)
         {
-            return nd.PlusScalar(rhs, scalar);
+            return np.add(rhs, scalar);
         }
 
         public static ndarray operator -(ndarray lhs, ndarray rhs)
         {
-            return nd.BroadcastSub(lhs, rhs);
+            return np.subtract(lhs, rhs);
         }
 
         public static ndarray operator -(ndarray lhs, float scalar)
         {
-            return nd.MinusScalar(lhs, scalar);
+            return np.subtract(lhs, scalar);
         }
 
         public static ndarray operator -(float scalar, ndarray rhs)
         {
-            return nd.RminusScalar(rhs, scalar);
+            return np.subtract(rhs, scalar);
         }
 
         public static ndarray operator *(ndarray lhs, ndarray rhs)
         {
-            return nd.BroadcastMul(lhs, rhs);
+            return np.mutiply(lhs, rhs);
         }
 
         public static ndarray operator *(ndarray lhs, float scalar)
         {
-            return nd.MulScalar(lhs, scalar);
+            return np.mutiply(lhs, scalar);
         }
 
         public static ndarray operator *(float scalar, ndarray rhs)
         {
-            return nd.MulScalar(rhs, scalar);
+            return np.mutiply(rhs, scalar);
         }
 
         public static ndarray operator /(ndarray lhs, ndarray rhs)
         {
-            return nd.BroadcastDiv(lhs, rhs);
+            return np.true_divide(lhs, rhs);
         }
 
         public static ndarray operator /(ndarray lhs, float scalar)
         {
-            return nd.DivScalar(lhs, scalar);
+            return np.true_divide(lhs, scalar);
         }
 
         public static ndarray operator /(float scalar, ndarray rhs)
         {
-            return nd.RdivScalar(rhs, scalar);
+            return np.true_divide(rhs, scalar);
         }
 
         public static ndarray operator %(ndarray lhs, float scalar)
         {
-            var ret = new ndarray();
-            using (var op = new Operator("_mod_scalar"))
-            {
-                op.Set(lhs, scalar).Invoke(ret);
-            }
-
-            return ret;
+            return np.mod(lhs, scalar);
         }
 
         public static ndarray operator %(ndarray lhs, ndarray rhs)
         {
-            var ret = new ndarray();
-            using (var op = new Operator("_mod"))
-            {
-                op.Set(lhs, rhs).Invoke(ret);
-            }
-
-            return ret;
+            return np.mod(lhs, rhs);
         }
 
         public static ndarray operator >(ndarray lhs, ndarray rhs)
