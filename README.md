@@ -68,7 +68,6 @@ namespace PerfTest
     {
         static void Main(string[] args)
         {
-            /
             DateTime start = DateTime.Now;
             var x = np.random.uniform(size: new Shape(3000, 3000));
             var y = np.random.uniform(size: new Shape(3000, 3000));
@@ -107,7 +106,6 @@ namespace PerfTest
     {
         static void Main(string[] args)
         {
-            /
             DateTime start = DateTime.Now;
             var x = np.random.uniform(size: new Shape(30000, 10000));
             var y = np.random.uniform(size: new Shape(30000, 10000));
