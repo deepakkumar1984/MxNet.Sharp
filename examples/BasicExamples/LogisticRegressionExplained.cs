@@ -8,6 +8,7 @@ using MxNet.Gluon.Metrics;
 using MxNet.Optimizers;
 using System;
 using System.Linq;
+using MxNet.Numpy;
 
 namespace BasicExamples
 {
@@ -71,16 +72,17 @@ namespace BasicExamples
             float cumulative_train_loss = 0;
             foreach (var (data, label) in train_dataloader)
             {
-                NDArray loss_result = null;
+                ndarray loss_result = null;
                 using (var ag = Autograd.Record())
                 {
                     var output = net.Call(data);
                     loss_result = loss.Call((output, label));
                     loss_result.Backward();
+                    npx.waitall();
                 }
                 
                 trainer.Step(batch_size);
-                cumulative_train_loss += nd.Sum(loss_result).AsScalar<float>();
+                cumulative_train_loss += np.sum(loss_result).AsScalar<float>();
             }
 
             return cumulative_train_loss;
@@ -92,16 +94,16 @@ namespace BasicExamples
             foreach (var (val_data, val_ground_truth_class) in val_dataloader)
             {
                 var output = net.Call(val_data);
-                NDArray loss_result = loss.Call((output, val_ground_truth_class));
+                ndarray loss_result = loss.Call((output, val_ground_truth_class));
                 
-                cumulative_val_loss += nd.Sum(loss_result).AsScalar<float>();
+                cumulative_val_loss += np.sum(loss_result).AsScalar<float>();
 
-                NDArray prediction = net.Call(val_data);
-                prediction = prediction.Sigmoid();
-                var predicted_classes = nd.Ceil(prediction - threshold);
-                accuracy.Update(val_ground_truth_class, predicted_classes.Reshape(-1));
-                prediction = prediction.Reshape(-1);
-                var probabilities = nd.Stack(new NDArrayList(1 - prediction, prediction), 2, axis: 1);
+                ndarray prediction = net.Call(val_data);
+                prediction = npx.sigmoid(prediction);
+                var predicted_classes = np.ceil(prediction - threshold);
+                accuracy.Update(val_ground_truth_class, predicted_classes.ravel());
+                prediction = prediction.ravel();
+                var probabilities = np.stack(new NDArrayList(1 - prediction, prediction), axis: 1);
                 f1.Update(val_ground_truth_class, probabilities);
             }
 
@@ -118,10 +120,10 @@ namespace BasicExamples
         /// <param name="size"></param>
         /// <param name="ctx"></param>
         /// <returns></returns>
-        private static (NDArray, NDArray) GetRandomData(int size, Context ctx)
+        private static (ndarray, ndarray) GetRandomData(int size, Context ctx)
         {
-            var x = nd.Random.Normal(0, 1, shape: new Shape(size, 10), ctx: ctx);
-            var y = x.Sum(axis: 1) > 3;
+            var x = np.random.normal(0, 1, size: new Shape(size, 10), ctx: ctx);
+            var y = x.sum(axis: 1) > 3;
             return (x, y);
         }
     }

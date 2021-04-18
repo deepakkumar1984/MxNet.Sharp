@@ -138,9 +138,9 @@ namespace MxNet.ND.Numpy
             return _api_internal.topk(data: data, axis: axis, k: k, ret_typ: ret_typ, is_ascend: is_ascend, dtype: dtype);
         }
 
-        public static ndarray waitall()
+        public static void waitall()
         {
-            return _api_internal.waitall();
+            ndarray.WaitAll();
         }
 
         public static NDArrayDict load(string file)

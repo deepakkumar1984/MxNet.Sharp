@@ -36,11 +36,11 @@ namespace MxNet.Optimizers
 
         public override NDArrayDict CreateState(int index, ndarray weight)
         {
-            NDArray m = null;
+            ndarray m = null;
             if (momentum != 0)
             {
                 var stype = lazy_update ? weight.stype : StorageStype.Default;
-                m = nd.Zeros(weight.shape, weight.ctx, weight.dtype).ToSType(weight.stype);
+                m = np.zeros(weight.shape, ctx: weight.ctx, dtype: weight.dtype);
             }
 
             return new NDArrayDict {{"mom", m}};

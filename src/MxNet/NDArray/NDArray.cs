@@ -1129,7 +1129,7 @@ namespace MxNet
             _Blob.Dispose();
         }
 
-        public static implicit operator ndarray(NDArray x) => x.AsNumpy();
+        public static implicit operator ndarray(NDArray x) => new ndarray(x.NativePtr);
 
         public static implicit operator NDArray(ndarray x) => new NDArray(x.NativePtr);
 
