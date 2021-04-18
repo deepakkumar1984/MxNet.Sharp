@@ -52,6 +52,91 @@ The new NumPy interface from MXNet, MxNet.Numpy, is intended to be a drop-in rep
 - [ ] Unit testing
 - [x] CI Builds
 
+## MxNet.Numpy Vs NumPy Performance
+
+Lets consider simple test to see the performance difference. I will keep adding more scenarios and with GPU test as well.
+
+### Scenario 1
+```csharp
+using MxNet;
+using MxNet.Numpy;
+using System;
+
+namespace PerfTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /
+            DateTime start = DateTime.Now;
+            var x = np.random.uniform(size: new Shape(3000, 3000));
+            var y = np.random.uniform(size: new Shape(3000, 3000));
+            var d = np.dot(x, y);
+            npx.waitall();
+            Console.WriteLine(d.shape);
+            Console.WriteLine("Duration: " + (DateTime.Now - start).TotalMilliseconds / 1000);
+        }
+    }
+}
+```
+
+```python
+import numpy as np
+import time
+
+start_time = time.time()
+x = np.random.uniform(0, 1, (3000, 1000))
+y = np.random.uniform(0, 1, (3000, 3000))
+d = np.dot(x, y);
+#d = 0.5 * np.sqrt(x) + np.sin(y) * np.log(x) - np.exp(y)
+print(d.shape)
+print("--- %s sec ---" % (time.time() - start_time))
+```
+
+### Scenario 2
+
+```csharp
+using MxNet;
+using MxNet.Numpy;
+using System;
+
+namespace PerfTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            /
+            DateTime start = DateTime.Now;
+            var x = np.random.uniform(size: new Shape(3000, 3000));
+            var y = np.random.uniform(size: new Shape(3000, 3000));
+            var d = 0.5f * np.sqrt(x) + np.sin(y) * np.log(x) - np.exp(y);
+            npx.waitall();
+            Console.WriteLine(d.shape);
+            Console.WriteLine("Duration: " + (DateTime.Now - start).TotalMilliseconds / 1000);
+        }
+    }
+}
+```
+
+```python
+import numpy as np
+import time
+
+start_time = time.time()
+x = np.random.uniform(0, 1, (3000, 1000))
+y = np.random.uniform(0, 1, (3000, 3000))
+d = 0.5 * np.sqrt(x) + np.sin(y) * np.log(x) - np.exp(y)
+print(d.shape)
+print("--- %s sec ---" % (time.time() - start_time))
+```
+
+| Scenario|MxNet CPU|NumPy|
+| --- |--- |---|
+| 1| 1.2247| 145.4460|
+| 2| 24.4994| 14.3616|
+
 ## Nuget
 
 Install the package: Install-Package MxNet.Sharp
