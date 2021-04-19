@@ -156,7 +156,7 @@ namespace MxNet.Gluon.Data
         public static NDArrayList DefaultBatchifyFn(NDArrayList data)
         {
             var shape = data[0].shape.Data.ToList();
-            shape[0] = data.Length;
+            shape[0] = data[0].shape[0];
             var x = np.stack(data);
             x = x.reshape(shape.ToArray());
             return x;

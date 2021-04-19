@@ -38,7 +38,7 @@ namespace MxNet.Gluon.Metrics
             l = l.ravel();
             var p = preds;
             var num_examples = p.shape[0];
-            var prob = p[np.arange(num_examples).Cast(np.Int64), l.Cast(np.Int64)];
+            var prob = p[np.arange(num_examples).astype(np.Int64), l.astype(np.Int64)];
             var nll = (-np.log(prob + eps)).sum().AsScalar<float>();
             sum_metric += nll;
             global_sum_metric += nll;

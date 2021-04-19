@@ -35,7 +35,7 @@ namespace MxNet.Gluon.Metrics
             var label = labels.Ravel();
             preds = preds.Ravel() > Threshold;
 
-            var num_correct = nd.Equal(preds, label).AsType(DType.Float32).Sum();
+            var num_correct = np.equal(preds, label).astype(DType.Float32).sum().asscalar();
 
             sum_metric += num_correct;
             global_sum_metric += num_correct;

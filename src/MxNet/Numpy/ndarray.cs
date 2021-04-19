@@ -598,7 +598,7 @@ namespace MxNet.Numpy
             return (shared_pid, shared_id, shape, dtype);
         }
 
-        public ndarray Cast(DType dtype)
+        public ndarray astype(DType dtype)
         {
             return new Operator("cast")
                 .SetParam("dtype", dtype)
@@ -763,6 +763,11 @@ namespace MxNet.Numpy
         public T AsScalar<T>()
         {
             return (T)Convert.ChangeType(AsArray().GetValue(0), typeof(T));
+        }
+
+        public float asscalar()
+        {
+            return AsScalar<float>();
         }
 
         public static void WaitAll()

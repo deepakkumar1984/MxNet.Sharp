@@ -240,8 +240,8 @@ namespace MxNet.Image
             // Generate a grid centered at the center of the image
             float hscale = (h - 1) / 2;
             float wscale = (w - 1) / 2;
-            var h_matrix = (np.repeat(np.arange(h, ctx: src.ctx).Cast(np.Float32).reshape(h, 1), w, axis: 1) - hscale).expand_dims(axis: 0);
-            var w_matrix = (np.repeat(np.arange(w, ctx: src.ctx).Cast(np.Float32).reshape(1, w), h, axis: 0) - wscale).expand_dims(axis: 0);
+            var h_matrix = (np.repeat(np.arange(h, ctx: src.ctx).astype(np.Float32).reshape(h, 1), w, axis: 1) - hscale).expand_dims(axis: 0);
+            var w_matrix = (np.repeat(np.arange(w, ctx: src.ctx).astype(np.Float32).reshape(1, w), h, axis: 0) - wscale).expand_dims(axis: 0);
             // perform rotation on the grid
             var c_alpha = np.cos(rotation_rad);
             var s_alpha = np.sin(rotation_rad);
@@ -313,8 +313,8 @@ namespace MxNet.Image
             // Generate a grid centered at the center of the image
             float hscale = (h - 1) / 2;
             float wscale = (w - 1) / 2;
-            var h_matrix = (np.repeat(np.arange(h, ctx: src.ctx).Cast(np.Float32).reshape(h, 1), w, axis: 1) - hscale).expand_dims(axis: 0);
-            var w_matrix = (np.repeat(np.arange(w, ctx: src.ctx).Cast(np.Float32).reshape(1, w), h, axis: 0) - wscale).expand_dims(axis: 0);
+            var h_matrix = (np.repeat(np.arange(h, ctx: src.ctx).astype(np.Float32).reshape(h, 1), w, axis: 1) - hscale).expand_dims(axis: 0);
+            var w_matrix = (np.repeat(np.arange(w, ctx: src.ctx).astype(np.Float32).reshape(1, w), h, axis: 0) - wscale).expand_dims(axis: 0);
             // perform rotation on the grid
             var c_alpha = np.cos(rotation_rad);
             var s_alpha = np.sin(rotation_rad);

@@ -83,7 +83,7 @@ namespace MxNet.Gluon
             this.allow_deferred_init = allow_deferred_init;
             grad_req = OpGradReq.Null;
             this._uuid = Guid.NewGuid().ToString();
-            this._var_name = null;
+            this._var_name = name;
             _ctx_map = new Dictionary<int, List<int>>();
         }
 
@@ -292,11 +292,11 @@ namespace MxNet.Gluon
                     if (init == null)
                     {
                         if (default_init != null)
-                            default_init.InitWeight(Name, ref data);
+                            default_init.InitWeight(_var_name, ref data);
                     }
                     else
                     {
-                        init.InitWeight(Name, ref data);
+                        init.InitWeight(_var_name, ref data);
                     }
 
                     InitImpl(data, ctx);
@@ -552,11 +552,11 @@ namespace MxNet.Gluon
             {
                 if (_data != null)
                     for (var i = 0; i < _data.Length; i++)
-                        _data[i] = _data[i].Cast(dtype);
+                        _data[i] = _data[i].astype(dtype);
 
                 if (_grad != null)
                     for (var i = 0; i < _grad.Length; i++)
-                        _data[i] = _data[i].Cast(dtype);
+                        _data[i] = _data[i].astype(dtype);
 
                 Autograd.MarkVariables(this._data, this._grad, this.grad_req);
             }

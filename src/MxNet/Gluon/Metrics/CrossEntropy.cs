@@ -36,7 +36,7 @@ namespace MxNet.Gluon.Metrics
 
             l = l.ravel();
             var p = preds;
-            var prob = p[np.arange(l.shape[0]), l.Cast(np.Int64)];
+            var prob = p[np.arange(l.shape[0]), l.astype(np.Int64)];
             var cross_entropy = np.sum(-np.log(prob + eps)).AsScalar<float>();
             sum_metric += sum_metric;
             global_sum_metric += sum_metric;

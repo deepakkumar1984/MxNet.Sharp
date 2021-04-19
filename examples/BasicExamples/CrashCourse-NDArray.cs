@@ -5,19 +5,20 @@ using MxNet;
 using MxNet.Gluon;
 using MxNet.Gluon.NN;
 using MxNet.Initializers;
+using MxNet.Numpy;
 
 namespace BasicExamples
 {
     public class CrashCourse_NDArray
     {
-        private static NDArray F(NDArray a)
+        private static ndarray F(ndarray a)
         {
-            NDArray c = null;
+            ndarray c = null;
             var b = a * 2;
-            while (b.Norm().AsScalar<float>() < 1000)
+            while (np.linalg.norm(b).asscalar() < 1000)
                 b = b * 2;
 
-            if (b.Sum() >= 0)
+            if (b.sum().asscalar() >= 0)
                 c = b[0];
             else
                 c = b[1];
@@ -27,7 +28,6 @@ namespace BasicExamples
 
         public static void GetStarted()
         {
-            var ctx = mx.Cpu();
             var net = new Sequential();
 
             // Similar to Dense, it is not necessary to specify the input channels
@@ -49,9 +49,9 @@ namespace BasicExamples
 
             net.Initialize();
             // Input shape is (batch_size, color_channels, height, width)
-            var x = nd.Random.Uniform(shape: new Shape(4, 1, 28, 28));
-            NDArray y = net.Call(x);
-            Console.WriteLine(y.Shape);
+            var x = np.random.uniform(size: new Shape(4, 1, 28, 28));
+            ndarray y = net.Call(x);
+            Console.WriteLine(y.shape);
 
             Console.WriteLine(net[0].Params["weight"].Data().shape);
             Console.WriteLine(net[5].Params["bias"].Data().shape);
@@ -81,7 +81,7 @@ namespace BasicExamples
 
         public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList args)
         {
-            var y = nd.Relu(this.blk.Call(args)[0]);
+            var y = npx.relu(this.blk.Call(args)[0]);
             Console.WriteLine(y);
             return this.dense.Call(y);
         }

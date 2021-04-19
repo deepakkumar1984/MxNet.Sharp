@@ -163,7 +163,7 @@ namespace MxNet.Optimizers
                 else
                     Step(index, weight_master_copy, grad32, state.Item1);
 
-                weight_master_copy.Cast(weight.dtype).CopyTo(weight);
+                weight_master_copy.astype(weight.dtype).CopyTo(weight);
             }
             else
             {

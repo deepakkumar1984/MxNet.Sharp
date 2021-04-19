@@ -9,6 +9,7 @@ using MxNet.Gluon.Data.Vision.Transforms;
 using MxNet.Gluon.Losses;
 using MxNet.Gluon.NN;
 using MxNet.Initializers;
+using MxNet.Numpy;
 using MxNet.Optimizers;
 
 namespace BasicExamples
@@ -62,8 +63,8 @@ namespace BasicExamples
 
                 foreach (var (data, label) in train_data)
                 {
-                    NDArray loss = null;
-                    NDArray output = null;
+                    ndarray loss = null;
+                    ndarray output = null;
                     // forward + backward
                     using (Autograd.Record())
                     {
@@ -77,7 +78,7 @@ namespace BasicExamples
                     trainer.Step(batch_size);
 
                     //calculate training metrics
-                    train_loss += loss.Mean();
+                    train_loss += loss.mean().asscalar();
                     train_acc += Acc(output, label);
                 }
 
@@ -96,11 +97,11 @@ namespace BasicExamples
             net.SaveParameters("net.params");
         }
 
-        public static float Acc(NDArray output, NDArray label)
+        public static float Acc(ndarray output, ndarray label)
         {
             // output: (batch, num_output) float32 ndarray
             // label: (batch) int32 ndarray
-            return nd.Equal(output.Argmax(axis: 1), label.AsType(DType.Float32)).Mean();
+            return np.equal(output.argmax(axis: 1), label.astype(DType.Float32)).mean().asscalar();
         }
     }
 }

@@ -71,6 +71,7 @@ namespace BasicExamples
 
                     metric.Update(label, outputs.ToArray());
                     trainer.Step(batch.Data[0].shape[0]);
+                    npx.waitall();
                 }
 
                 var (name, acc) = metric.Get();

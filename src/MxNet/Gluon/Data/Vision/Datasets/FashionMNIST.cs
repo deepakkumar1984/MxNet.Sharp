@@ -78,7 +78,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                     stream.Seek(8, SeekOrigin.Begin);
                     stream.Read(buffer, 0, buffer.Length);
 
-                    _label = new ndarray(buffer.Select(x => (float)x).ToArray(), new Shape(60000));
+                    _label = np.array(buffer);
                 }
             }
 
@@ -92,8 +92,12 @@ namespace MxNet.Gluon.Data.Vision.Datasets
                     var buffer = new byte[stream.Length - 16];
                     stream.Seek(16, SeekOrigin.Begin);
                     stream.Read(buffer, 0, buffer.Length);
-                    var x = np.array(buffer);
-                    _data = new ndarray(buffer.Select(y => (float)y).ToArray(), new Shape(60000, 28, 28, 1)) / 255;
+                    ndarray x = null;
+                    if (_train)
+                        x = np.array(buffer).reshape(60000, 28, 28, 1);
+                    else
+                        x = np.array(buffer).reshape(10000, 28, 28, 1);
+                    _data = x / 255;
                 }
             }
         }
