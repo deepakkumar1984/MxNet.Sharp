@@ -28,12 +28,11 @@ namespace MxNet.Gluon.RecurrentNN
             Initializer i2h_bias_initializer = null, Initializer h2h_bias_initializer = null, int input_size = 0, 
             DType dtype = null) : base(hidden_size, num_layers, layout, dropout, bidirectional, input_size, i2h_weight_initializer, h2h_weight_initializer, i2h_bias_initializer, h2h_bias_initializer, null, null, null, null, null, null, dtype, false)
         {
-            throw new NotImplementedException();
         }
 
         public override StateInfo[] StateInfo(int batch_size = 0)
         {
-            throw new NotImplementedException();
+            return new[] { new StateInfo { Layout = "LNC", Shape = new Shape(this._num_layers * this._dir, batch_size, this._hidden_size), DataType = _dtype } };
         }
     }
 }

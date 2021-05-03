@@ -28,6 +28,7 @@ using size_t = System.UInt64;
 using SymbolHandle = System.IntPtr;
 using CudaModuleHandle = System.IntPtr;
 using CudaKernelHandle = System.IntPtr;
+using CachedOpMonitorCallback = System.IntPtr;
 using uint64_t = System.UInt64;
 using MxNet._ffi;
 
@@ -1327,6 +1328,12 @@ namespace MxNet.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXNetFuncListGlobalNames(out int size, out IntPtr handle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXCachedOpGetOptimizedSymbol(SymbolHandle handle, out SymbolHandle optimizedHandle);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXCachedOpRegisterOpHook(NDArrayHandle handle, CachedOpMonitorCallback callback, bool monitor_all);
 
         #endregion
     }

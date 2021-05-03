@@ -34,12 +34,26 @@ namespace MxNet.Gluon.RecurrentNN
                     h2h_weight_initializer, i2h_bias_initializer, h2h_bias_initializer, "lstm", projection_size, 
                     h2r_weight_initializer, state_clip_min, state_clip_max, state_clip_nan, dtype, false)
         {
-            throw new NotImplementedException();
         }
 
         public override StateInfo[] StateInfo(int batch_size = 0)
         {
-            throw new NotImplementedException();
+            if(_projection_size == null)
+            {
+                return new[] 
+                { 
+                    new StateInfo { Layout = "LNC", Shape = new Shape(this._num_layers * this._dir, batch_size, this._hidden_size), DataType = _dtype },
+                    new StateInfo { Layout = "LNC", Shape = new Shape(this._num_layers * this._dir, batch_size, this._hidden_size), DataType = _dtype }
+                };
+            }
+            else
+            {
+                return new[]
+               {
+                    new StateInfo { Layout = "LNC", Shape = new Shape(this._num_layers * this._dir, batch_size, this._projection_size.Value), DataType = _dtype },
+                    new StateInfo { Layout = "LNC", Shape = new Shape(this._num_layers * this._dir, batch_size, this._hidden_size), DataType = _dtype }
+                };
+            }
         }
     }
 }

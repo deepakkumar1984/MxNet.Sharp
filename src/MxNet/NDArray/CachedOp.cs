@@ -30,6 +30,8 @@ namespace MxNet
     {
         private readonly CachedOpHandle handle;
 
+        private bool _monitor_callback;
+
         public CachedOp(_Symbol sym, IDictionary<string, string> flags = null, bool thread_safe = false)
         {
             handle = IntPtr.Zero;
@@ -41,7 +43,8 @@ namespace MxNet
 
         public _Symbol GetOptimizedSymbol()
         {
-            throw new NotImplementedException();
+            NativeMethods.MXCachedOpGetOptimizedSymbol(handle, out var optimized);
+            return new _Symbol(optimized);
         }
 
         public void Dispose()
@@ -63,7 +66,7 @@ namespace MxNet
 
         public void RegisteropHook(Action<string, string, ndarray> callback, bool monitor_all = false)
         {
-            throw new NotImplementedException();
+            NativeMethods.MXCachedOpRegisterOpHook(this.handle, callback.Method.MethodHandle.Value, monitor_all);
         }
     }
 }

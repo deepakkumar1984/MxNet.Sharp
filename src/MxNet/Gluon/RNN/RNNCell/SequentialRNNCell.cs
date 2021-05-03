@@ -94,9 +94,5 @@ namespace MxNet.Gluon.RNN
             return (inputs, next_states);
         }
 
-        public override NDArrayOrSymbolList Forward(NDArrayOrSymbolList args)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

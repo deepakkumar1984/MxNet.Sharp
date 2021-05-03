@@ -246,7 +246,7 @@ namespace MxNet
             }
             return Sym.Numpy.npx.convolution(data, weight, bias, kernel, stride, dilate, pad, num_filter, num_group, workspace, no_bias, cudnn_tune, cudnn_off, layout);
         }
-        public static NDArrayOrSymbol dropout(NDArrayOrSymbol data, float p, String mode, Shape axes, bool cudnn_off)
+        public static NDArrayOrSymbol dropout(NDArrayOrSymbol data, float p = 0.5f, String mode = "training", Shape axes = null, bool cudnn_off = true)
         {
             if (data.IsNDArray)
             {
@@ -997,7 +997,7 @@ namespace MxNet
             }
             return sym_np_ops.interp(x, xp, fp, left, right, period);
         }
-        public static NDArrayOrSymbol full_like(NDArrayOrSymbol a, float fill_value, DType dtype, String order, Context ctx, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol full_like(NDArrayOrSymbol a, float fill_value, DType dtype = null, string order = "C", Context ctx = null, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -1005,7 +1005,7 @@ namespace MxNet
             }
             return sym_np_ops.full_like(a, fill_value, dtype, order, ctx, @out);
         }
-        public static NDArrayOrSymbol zeros_like(NDArrayOrSymbol a, DType dtype, String order, Context ctx, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol zeros_like(NDArrayOrSymbol a, DType dtype = null, string order = "C", Context ctx = null, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
@@ -1013,7 +1013,7 @@ namespace MxNet
             }
             return sym_np_ops.zeros_like(a, dtype, order, ctx, @out);
         }
-        public static NDArrayOrSymbol ones_like(NDArrayOrSymbol a, DType dtype, String order, Context ctx, NDArrayOrSymbol @out = null)
+        public static NDArrayOrSymbol ones_like(NDArrayOrSymbol a, DType dtype = null, string order = "C", Context ctx = null, NDArrayOrSymbol @out = null)
         {
             if (a.IsNDArray)
             {
