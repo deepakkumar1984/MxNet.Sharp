@@ -13,6 +13,11 @@ namespace MxNet.Sym.Numpy
 
         private static dynamic _api_internal = new _api_internals();
 
+        public static _Symbol slice(_Symbol x, int start, int end)
+        {
+            return _api_internal.slice(x, start, end);
+        }
+
         public static _Symbol zeros(Shape shape, DType dtype = null, string order = "C", Context ctx = null)
         {
             if (shape == null) shape = new Shape();

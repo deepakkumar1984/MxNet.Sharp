@@ -1011,14 +1011,52 @@ namespace MxNet
             return sym.ToList();
         }
 
-        private (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayDict args, string[] arg_names, bool allow_missing)
+        internal (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayDict args, string[] arg_names, bool allow_missing)
         {
-            throw new NotImplementedException();
+            var arg_handles = new List<IntPtr>();
+            var arg_arrays = new NDArrayList();
+            foreach (var name in arg_names)
+            {
+                if (args.Contains(name))
+                {
+                    var narr = args[name];
+
+                    arg_handles.Add(narr.NativePtr);
+                    arg_arrays.Add(narr);
+                }
+                else if (allow_missing)
+                {
+                    arg_handles.Add(IntPtr.Zero);
+                    arg_arrays.Add(null);
+                }
+                else
+                {
+                    throw new Exception(String.Format("key `%s` is missing in `%s`", name, arg_key));
+                }
+            }
+
+            return (arg_handles.ToArray(), arg_arrays);
+        }
+
+        internal (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayList args, string[] arg_names, bool allow_missing)
+        {
+            var arg_handles = new List<IntPtr>();
+            var arg_arrays = new NDArrayList();
+            if (args.Length != arg_names.Length)
+                throw new Exception("Length of args does not match the number of arguments");
+            foreach (var narr in args)
+            {
+                arg_handles.Add(narr.NativePtr);
+                arg_arrays.Add(narr);
+            }
+
+            return (arg_handles.ToArray(), arg_arrays);
         }
 
         public bool HasDynamicShapeOp()
         {
-            throw new NotImplementedException();
+            NativeMethods.MXCheckDynamicShapeOp(this.NativePtr, out var has_dynamic_shape);
+            return has_dynamic_shape;
         }
 
         public virtual Symbol OptimizeFor(

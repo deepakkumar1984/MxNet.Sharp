@@ -1335,6 +1335,8 @@ namespace MxNet.Interop
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXCachedOpRegisterOpHook(NDArrayHandle handle, CachedOpMonitorCallback callback, bool monitor_all);
 
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXCheckDynamicShapeOp(SymbolHandle handle, out bool has_dynamic_shape);
         #endregion
     }
 }

@@ -116,7 +116,7 @@ namespace MxNet.Sym.Numpy
         {
             get
             {
-                throw new NotImplementedException();
+                return sym_np_ops.slice(this, rowBegin, rowEnd);
             }
         }
 
@@ -717,11 +717,6 @@ namespace MxNet.Sym.Numpy
             return this;
         }
 
-        public Executor SimpleBind(Context ctx, Dictionary<string, OpGradReq> grad_req = null, Dictionary<string, DType> type_dict = null, Dictionary<string, StorageStype> stype_dict = null, Dictionary<string, Context> group2ctx = null, string[] shared_arg_names = null, Executor shared_exec = null, NDArrayDict shared_buffer = null, DataDesc[] kwargs = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public string ToJSON(bool remove_amp_cast = true)
         {
             if (remove_amp_cast)
@@ -863,14 +858,52 @@ namespace MxNet.Sym.Numpy
             return sym.ToList();
         }
 
-        private (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayDict args, string[] arg_names, bool allow_missing)
+        internal (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayDict args, string[] arg_names, bool allow_missing)
         {
-            throw new NotImplementedException();
+            var arg_handles = new List<IntPtr>();
+            var arg_arrays = new NDArrayList();
+            foreach (var name in arg_names)
+            {
+                if (args.Contains(name))
+                {
+                    var narr = args[name];
+                   
+                    arg_handles.Add(narr.NativePtr);
+                    arg_arrays.Add(narr);
+                }
+                else if (allow_missing)
+                {
+                    arg_handles.Add(IntPtr.Zero);
+                    arg_arrays.Add(null);
+                }
+                else
+                {
+                    throw new Exception(String.Format("key `%s` is missing in `%s`", name, arg_key));
+                }
+            }
+
+            return (arg_handles.ToArray(), arg_arrays);
+        }
+
+        internal (IntPtr[], NDArrayList) GetNDArrayInputs(string arg_key, NDArrayList args, string[] arg_names, bool allow_missing)
+        {
+            var arg_handles = new List<IntPtr>();
+            var arg_arrays = new NDArrayList();
+            if (args.Length != arg_names.Length)
+                throw new Exception("Length of args does not match the number of arguments");
+            foreach (var narr in args)
+            {
+                arg_handles.Add(narr.NativePtr);
+                arg_arrays.Add(narr);
+            }
+
+            return (arg_handles.ToArray(), arg_arrays);
         }
 
         public bool HasDynamicShapeOp()
         {
-            throw new NotImplementedException();
+            NativeMethods.MXCheckDynamicShapeOp(this.NativePtr, out var has_dynamic_shape);
+            return has_dynamic_shape;
         }
 
         public virtual _Symbol OptimizeFor(
@@ -883,38 +916,38 @@ namespace MxNet.Sym.Numpy
                 Dictionary<string, StorageStype> stype_dict = null,
                 bool skip_infer = false)
         {
-            //IntPtr[] aux_handle;
-            //NDArrayList aux_;
-            //IntPtr[] args_handle;
-            //NDArrayList args_;
+            IntPtr[] aux_handle;
+            NDArrayList aux_ = new NDArrayList(); ;
+            IntPtr[] args_handle;
+            NDArrayList args_;
 
-            //if (args == null || args.Count == 0)
-            //{
-            //    args_ = args.Values.ToArray();
-            //    args_handle = args_.Handles;
-            //}
-            //else
-            //{
-            //    var _tup_1 = this.GetNDArrayInputs("args", args, this.ListArguments().ToArray(), true);
-            //    args_handle = _tup_1.Item1;
-            //    args_ = _tup_1.Item2;
-            //}
+            if (args == null || args.Count == 0)
+            {
+                args_ = args.Values.ToArray();
+                args_handle = args_.Handles;
+            }
+            else
+            {
+                var _tup_1 = this.GetNDArrayInputs("args", args, this.ListArguments().ToArray(), true);
+                args_handle = _tup_1.Item1;
+                args_ = _tup_1.Item2;
+            }
 
-            //if (aux == null || aux.Count == 0)
-            //{
-            //    aux_ = new NDArrayList();
-            //    aux_handle = aux_.Handles;
-            //}
-            //else
-            //{
-            //    var _tup_2 = this.GetNDArrayInputs("aux_states", aux, this.ListAuxiliaryStates().ToArray(), true);
-            //    aux_handle = _tup_2.Item1;
-            //    aux_ = _tup_2.Item2;
-            //}
-            //if (ctx == null)
-            //{
-            //    ctx = Context.CurrentContext;
-            //}
+            if (aux == null || aux.Count == 0)
+            {
+                aux_ = new NDArrayList();
+                aux_handle = aux_.Handles;
+            }
+            else
+            {
+                var _tup_2 = this.GetNDArrayInputs("aux_states", aux, this.ListAuxiliaryStates().ToArray(), true);
+                aux_handle = _tup_2.Item1;
+                aux_ = _tup_2.Item2;
+            }
+            if (ctx == null)
+            {
+                ctx = Context.CurrentContext;
+            }
 
             //unsafe
             //{
