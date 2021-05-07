@@ -232,7 +232,6 @@ namespace MxNet.Sym.Numpy
                     int inShapeSize;
                     int* inShapeNdim;
                     int** inShapeData;
-
                     Logging.CHECK_EQ(NativeMethods.MXSymbolInferShape(NativePtr,
                         (uint)argShapes.Count,
                         keys,
@@ -949,111 +948,70 @@ namespace MxNet.Sym.Numpy
                 ctx = Context.CurrentContext;
             }
 
-            //unsafe
-            //{
-            //    var num_input_shapes = 0;
-            //    char** input_shape_names;
-            //    int** input_shape_data;
-            //    int input_shape_idx;
-            //    if (shape_dict != null)
-            //    {
-            //        input_shape_names = new List<object>();
-            //        input_shape_data = new List<object>();
-            //        input_shape_idx = new List<int> {
-            //            0
-            //        };
-            //        foreach (var _tup_3 in shape_dict.items())
-            //        {
-            //            k = _tup_3.Item1;
-            //            v = _tup_3.Item2;
-            //            if (v is tuple || v is list)
-            //            {
-            //                input_shape_names.append(k);
-            //                input_shape_data.extend(v);
-            //                input_shape_idx.append(input_shape_data.Count);
-            //            }
-            //            else
-            //            {
-            //                throw new ValueError(v.ToString() + " has to be a tuple or list.");
-            //            }
-            //        }
-            //        num_input_shapes = mx_uint(input_shape_names.Count);
-            //        input_shape_names = c_str_array(input_shape_names);
-            //        input_shape_data = c_array_buf(mx_int64, new array("q", input_shape_data));
-            //        input_shape_idx = c_array_buf(mx_uint, new array("i", input_shape_idx));
-            //    }
-            //    // parse input data types dict
-            //    var num_input_types = 0;
-            //    var input_type_names = ctypes.POINTER(ctypes.c_char_p)();
-            //    var input_type_data = ctypes.POINTER(mx_uint)();
-            //    if (type_dict != null)
-            //    {
-            //        input_type_names = new List<object>();
-            //        input_type_data = new List<object>();
-            //        foreach (var _tup_4 in type_dict.items())
-            //        {
-            //            k = _tup_4.Item1;
-            //            v = _tup_4.Item2;
-            //            v = _numpy.dtype(v).type;
-            //            if (_DTYPE_NP_TO_MX.Contains(v))
-            //            {
-            //                input_type_names.append(k);
-            //                input_type_data.append(_DTYPE_NP_TO_MX[v]);
-            //            }
-            //            else
-            //            {
-            //                throw new ValueError(v.ToString() + " is not a MXNet type.");
-            //            }
-            //        }
-            //        num_input_types = mx_uint(input_type_names.Count);
-            //        input_type_names = c_str_array(input_type_names);
-            //        input_type_data = c_array_buf(ctypes.c_int, new array("i", input_type_data));
-            //    }
-            //    // parse input data storage types dict
-            //    var num_input_stypes = 0;
-            //    // provided storage type argument names
-            //    var input_stype_names = ctypes.POINTER(ctypes.c_char_p)();
-            //    var input_stype_data = ctypes.POINTER(mx_uint)();
-            //    if (stype_dict != null)
-            //    {
-            //        input_stype_names = new List<object>();
-            //        input_stype_data = new List<object>();
-            //        foreach (var _tup_5 in stype_dict.items())
-            //        {
-            //            k = _tup_5.Item1;
-            //            v = _tup_5.Item2;
-            //            if (_STORAGE_TYPE_STR_TO_ID.Contains(v))
-            //            {
-            //                input_stype_names.append(k);
-            //                input_stype_data.append(_STORAGE_TYPE_STR_TO_ID[v]);
-            //            }
-            //            else
-            //            {
-            //                throw new ValueError(v.ToString() + " is not a MXNet storage type.");
-            //            }
-            //        }
-            //        num_input_stypes = mx_uint(input_stype_names.Count);
-            //        input_stype_names = c_str_array(input_stype_names);
-            //        input_stype_data = c_array_buf(ctypes.c_int, new array("i", input_stype_data));
-            //    }
+            unsafe
+            {
+                var num_input_shapes = 0;
+                List<string> input_shape_names = new List<string>();
+                List<int[]> input_shape_data = new List<int[]>();
+                List<int> input_shape_idx = new List<int>();
+                if (shape_dict != null)
+                {
+                    foreach (var (k, v) in shape_dict)
+                    {
+                        input_shape_names.Add(k);
+                        input_shape_data.Add(v.Data.ToArray());
+                        input_shape_idx.Add(input_shape_data.Count);
+                    }
 
-            //    var new_args_size = ctypes.c_uint();
-            //    var new_arg_names = ctypes.POINTER(ctypes.c_char_p)();
-            //    var new_args_handle = ctypes.POINTER(NDArrayHandle)();
-            //    var new_aux_size = ctypes.c_uint();
-            //    var new_aux_names = ctypes.POINTER(ctypes.c_char_p)();
-            //    var new_aux_handle = ctypes.POINTER(NDArrayHandle)();
-            //    var key_list = new List<object>();
-            //    var val_list = new List<object>();
-            //    foreach (var _tup_6 in kwargs.items())
-            //    {
-            //        var key = _tup_6.Item1;
-            //        var val = _tup_6.Item2;
-            //        key_list.append(key);
-            //        val_list.append(val.ToString());
-            //    }
-            //    check_call(_LIB.MXOptimizeForBackend(this.handle, c_str(backend), ctypes.c_int(ctx.device_typeid), ctypes.byref(@out), mx_uint(args_.Count), args_handle, mx_uint(aux_.Count), aux_handle, mx_uint(key_list.Count), c_str_array(key_list), c_str_array(val_list), num_input_shapes, input_shape_names, input_shape_data, input_shape_idx, num_input_types, input_type_names, input_type_data, num_input_stypes, input_stype_names, input_stype_data, ctypes.c_bool(skip_infer), ctypes.byref(new_args_size), ctypes.byref(new_args_handle), ctypes.byref(new_arg_names), ctypes.byref(new_aux_size), ctypes.byref(new_aux_handle), ctypes.byref(new_aux_names)));
-            //}
+                    num_input_shapes = input_shape_names.Count;
+                }
+
+                // parse input data types dict
+                var num_input_types = 0;
+                var input_type_names = new List<string>();
+                var input_type_data = new List<string>();
+                
+                if (type_dict != null)
+                {
+                    foreach (var (k, v) in type_dict)
+                    {
+                        input_type_names.Add(k);
+                        input_type_data.Add(v.Name);
+                    }
+                }
+
+                // parse input data storage types dict
+                var num_input_stypes = 0;
+                // provided storage type argument names
+                var input_stype_names = new List<string>();
+                var input_stype_data = new List<int>();
+                if (stype_dict != null)
+                {
+                    foreach (var (k, v) in stype_dict)
+                    {
+                        input_stype_names.Add(k);
+                        input_stype_data.Add((int)v);
+                    }
+                }
+
+                int new_args_size = 0;
+                var new_arg_names = new List<string>();
+                var new_args_handle = new List<IntPtr>();
+                int new_aux_size = 0;
+                var new_aux_names = new List<string>();
+                var new_aux_handle = new IntPtr();
+                var key_list = new List<object>();
+                var val_list = new List<object>();
+                //foreach (var _tup_6 in kwargs.items())
+                //{
+                //    var key = _tup_6.Item1;
+                //    var val = _tup_6.Item2;
+                //    key_list.append(key);
+                //    val_list.append(val.ToString());
+                //}
+
+                //check_call(_LIB.MXOptimizeForBackend(this.handle, c_str(backend), ctypes.c_int(ctx.device_typeid), ctypes.byref(@out), mx_uint(args_.Count), args_handle, mx_uint(aux_.Count), aux_handle, mx_uint(key_list.Count), c_str_array(key_list), c_str_array(val_list), num_input_shapes, input_shape_names, input_shape_data, input_shape_idx, num_input_types, input_type_names, input_type_data, num_input_stypes, input_stype_names, input_stype_data, ctypes.c_bool(skip_infer), ctypes.byref(new_args_size), ctypes.byref(new_args_handle), ctypes.byref(new_arg_names), ctypes.byref(new_aux_size), ctypes.byref(new_aux_handle), ctypes.byref(new_aux_names)));
+            }
             //// parse input data shape dict
 
             //// add new args/aux
