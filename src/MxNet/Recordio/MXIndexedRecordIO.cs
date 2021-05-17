@@ -22,7 +22,6 @@ namespace MxNet.Recordio
 {
     public class MXIndexedRecordIO : MXRecordIO
     {
-        public List<string> Keys { get; private set; }
         public string IdxPath { get; private set; }
         public Dictionary<object, int> Idx { get; private set; }
         public FileStream Fidx { get; private set; }

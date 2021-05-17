@@ -28,7 +28,7 @@ namespace MxNet.Image
             throw new NotImplementedException();
         }
 
-        public static DetAugmenter CreateDetAugmenter(Shape data_shape, int resize = 0, float rand_crop = 0,
+        public static DetAugmenter[] CreateDetAugmenter(Shape data_shape, int resize = 0, float rand_crop = 0,
             float rand_pad = 0, float rand_gray = 0,
             bool rand_mirror = false, NDArray mean = null, NDArray std = null, float brightness = 0,
             float contrast = 0, float saturation = 0, float pca_noise = 0, float hue = 0,

@@ -26,6 +26,7 @@ namespace MxNet.Recordio
     {
         internal RecordIOHandle handle;
 
+        public List<string> Keys { get; internal set; }
         public string Uri { get; private set; }
         public string Flag { get; private set; }
         public int PID { get; private set; }

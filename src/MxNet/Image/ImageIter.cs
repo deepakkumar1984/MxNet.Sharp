@@ -45,7 +45,7 @@ namespace MxNet.Image
 
         public List<string> imgidx;
 
-        public Dictionary<int, (NDArray, string)> imglist;
+        public Dictionary<string, (NDArray, string)> imglist;
 
         public MXIndexedRecordIO imgrec;
 
@@ -109,28 +109,28 @@ namespace MxNet.Image
             {
                 Logger.Info($"{class_name}: loading image list {path_imglist}...");
                 var lines = File.ReadAllLines(path_imglist);
-                this.imglist = new Dictionary<int, (NDArray, string)>();
+                this.imglist = new Dictionary<string, (NDArray, string)>();
                 
                 foreach (var line in lines)
                 {
                     var splitLines = line.Trim().Split('\t');
                     var label = nd.Array(splitLines.Skip(1).Take(splitLines.Length-2).Select(x=>Convert.ToSingle(x)).ToArray()).AsType(dtype);
                     var key = splitLines[0];
-                    this.imglist[Convert.ToInt32(key)] = (label, splitLines.Last());
+                    this.imglist[key] = (label, splitLines.Last());
                     imgkeys.Add(key);
                 }
             }
             else if (imglist != null)
             {
                 Logger.Info(@"{class_name}: loading image list...");
-                this.imglist = new Dictionary<int, (NDArray, string)>();
+                this.imglist = new Dictionary<string, (NDArray, string)>();
                 var index = 1;
                 foreach (var (i, s) in imglist)
                 {
                     var key = index.ToString();
                     index += 1;
                     var label = nd.Array(i).AsType(dtype);
-                    this.imglist[index] = (label, s);
+                    this.imglist[index.ToString()] = (label, s);
                     imgkeys.Add(key);
                 }
             }
@@ -322,12 +322,12 @@ namespace MxNet.Image
                     }
                     else
                     {
-                        return (this.imglist[idx].Item1, img);
+                        return (this.imglist[idx.ToString()].Item1, img);
                     }
                 }
                 else
                 {
-                    var _tup_2 = this.imglist[idx];
+                    var _tup_2 = this.imglist[idx.ToString()];
                     var label = _tup_2.Item1;
                     var fname = _tup_2.Item2;
                     return (label, this.ReadImage(fname));
@@ -371,7 +371,7 @@ namespace MxNet.Image
             }
         }
 
-        public void HardReset()
+        public virtual void HardReset()
         {
             if (this.seq != null && this.shuffle)
             {
