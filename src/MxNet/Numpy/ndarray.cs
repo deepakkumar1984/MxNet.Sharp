@@ -1152,10 +1152,10 @@ namespace MxNet.Numpy
 
         #region Overrides
 
-        public override string ToString()
-        {
-            return dtype.Name + ": " + shape;
-        }
+        //public override string ToString()
+        //{
+        //    return dtype.Name + ": " + shape;
+        //}
 
         protected override void DisposeUnmanaged()
         {
