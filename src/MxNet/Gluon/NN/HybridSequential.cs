@@ -64,6 +64,15 @@ namespace MxNet.Gluon.NN
             }
         }
 
+        public void Add(params Block[] blocks)
+        {
+            foreach (var item in blocks)
+            {
+                _layers.Add(item);
+                RegisterChild(item);
+            }
+        }
+
         public override NDArrayOrSymbolList Call(NDArrayOrSymbolList inputs)
         {
             if (this._active && !this._v2_checked && !DeferredCompute.IsDeferredCompute())

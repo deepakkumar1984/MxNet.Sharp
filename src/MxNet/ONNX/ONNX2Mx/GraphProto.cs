@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MxNet.Gluon;
 using Onnx;
 
-namespace MxNet.Contrib.ONNX.ONNX2Mx
+namespace MxNet.ONNX.ONNX2Mx
 {
     public  class MxGraphProto
     {

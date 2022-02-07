@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Onnx;
     
-namespace MxNet.Contrib.ONNX.Mx2ONNX
+namespace MxNet.ONNX.Mx2ONNX
 {
     public class OpTranslations
     {

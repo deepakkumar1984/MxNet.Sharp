@@ -17,13 +17,33 @@ namespace MxNet.Gluon.Data.Vision.Transforms
 {
     public class RandomFlipLeftRight : HybridBlock
     {
+        private float p;
+
+        public RandomFlipLeftRight(float p)
+        {
+            this.p = p;
+        }
+
         public override NDArrayOrSymbolList HybridForward(NDArrayOrSymbolList args)
         {
-            var x = args[0];
-            if (x.IsNDArray)
-                return nd.Image.RandomFlipLeftRight(x);
+            if (p <= 0)
+                return args;
 
-            return sym.Image.RandomFlipLeftRight(x);
+            var x = args[0];
+            if (p >= 1)
+            {
+                if (x.IsNDArray)
+                    return nd.Image.FlipLeftRight(x);
+
+                return sym.Image.FlipLeftRight(x);
+            }
+            else
+            {
+                if (x.IsNDArray)
+                    return nd.Image.RandomFlipLeftRight(x);
+
+                return sym.Image.RandomFlipLeftRight(x);
+            }
         }
     }
 }

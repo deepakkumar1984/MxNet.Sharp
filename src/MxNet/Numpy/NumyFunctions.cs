@@ -1126,8 +1126,11 @@ namespace MxNet.Numpy
             return nd_np_ops.atleast_3d(arys);
         }
 
-        public static ndarray pad(ndarray x, int[] pad_width= null, string mode= "constant")
+        public static ndarray pad(ndarray x, int[] pad_width= null, string mode= "constant", float? constant_values = null)
         {
+            if(constant_values.HasValue)
+                return nd_np_ops.pad(x, pad_width, mode, constant_values.Value);
+
             return nd_np_ops.pad(x, pad_width, mode);
         }
 

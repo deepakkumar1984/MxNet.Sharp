@@ -1337,6 +1337,12 @@ namespace MxNet.Interop
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
         public static extern int MXCheckDynamicShapeOp(SymbolHandle handle, out bool has_dynamic_shape);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNVTXRangePush(string name, int color);
+
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
+        public static extern int MXNVTXRangePop();
         #endregion
     }
 }

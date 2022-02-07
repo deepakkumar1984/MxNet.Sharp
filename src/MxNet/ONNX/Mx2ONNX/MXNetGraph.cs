@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NumpyDotNet;
 
-namespace MxNet.Contrib.ONNX.Mx2ONNX
+namespace MxNet.ONNX.Mx2ONNX
 {
     public class MXNetGraph
     {

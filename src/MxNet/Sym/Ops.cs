@@ -10752,5 +10752,15 @@ namespace MxNet
                 .SetInput(arrays).SetParam("num_arrays", num_arrays)
                 .CreateSymbol().ToList();
         }
+
+        public static Symbol pad(Symbol x, int[] pad_width = null, string mode = "constant", float? constant_values = null)
+        {
+            return new Operator("pad")
+               .SetParam("pad_width", pad_width)
+               .SetParam("mode", mode)
+               .SetParam("constant_values", constant_values)
+               .SetInput("x", x)
+               .CreateSymbol();
+        }
     }
 }
