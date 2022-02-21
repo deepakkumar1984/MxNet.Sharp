@@ -57,18 +57,20 @@ namespace MxNet.Gluon.Data
         private readonly int _prefetch;
         private bool _thread_pool;
         private readonly WorkerPool _worker_pool;
+        private int _timeout;
 
         public DataLoader(Dataset<(ndarray, ndarray)> dataset, int? batch_size = null, bool shuffle = false,
             Sampler<int> sampler = null,
             string last_batch = null, BatchSampler batch_sampler = null,
             Func<(ndarray, ndarray)[], (ndarray, ndarray)> batchify_fn = null,
             int num_workers = 0, bool pin_memory = false, int pin_device_id = 0, int? prefetch = null,
-            bool thread_pool = false)
+            bool thread_pool = false, int timeout = 120)
         {
             _dataset = dataset;
             _pin_memory = pin_memory;
             _pin_device_id = pin_device_id;
             _thread_pool = thread_pool;
+            _timeout = timeout;
 
             if (batch_sampler == null)
             {

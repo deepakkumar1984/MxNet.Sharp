@@ -32,7 +32,7 @@ namespace MxNet.Gluon.Data.Vision.Datasets
 
         public override int Length => _imgkeys.Count;
 
-        public ImageListDataset(string root = ".", string[] imglist = null, int flag = 1)
+        public ImageListDataset(string root = ".", string imglist = null, int flag = 1)
         {
             //this._root = root;
             //this._flag = flag;
@@ -60,7 +60,38 @@ namespace MxNet.Gluon.Data.Vision.Datasets
             //    this._imgkeys.Add(key);
             //}
 
-            throw new NotImplementedException();
+            throw new NotImplementedRelease1Exception();
+        }
+
+        public ImageListDataset(string root = ".", List<(float[], string)> imglist = null, int flag = 1)
+        {
+            //this._root = root;
+            //this._flag = flag;
+            //this._imglist = new Dictionary<object, object>
+            //{
+            //};
+            //this._imgkeys = new List<string>();
+            //this._handle = null;
+            //var index = 1;
+            //foreach (var img in imglist)
+            //{
+            //    var fname = os.path.join(this._root, img);
+            //    var key = index.ToString();
+            //    index += 1;
+            //    if (img.Length > 2)
+            //    {
+            //        var label = array_fn(img[:: - 1]);
+            //    }
+            //    else
+            //    {
+            //        label = np.array(img[0]);
+            //    }
+
+            //    this._imglist[key] = (label, os.path.join(this._root, img[-1]));
+            //    this._imgkeys.Add(key);
+            //}
+
+            throw new NotImplementedRelease1Exception();
         }
 
     }

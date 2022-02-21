@@ -19,12 +19,12 @@ using System.Linq;
 
 namespace MxNet.Gluon.Data
 {
-    public class FilterSampler : Sampler<int>
+    public class FilterSampler<T> : Sampler<int>
     {
         private Func<int, bool> function;
         private int[] dataset;
 
-        public FilterSampler(Func<int, bool> fn, int[] dataset)
+        public FilterSampler(Func<int, bool> fn, Dataset<T> dataset)
         {
             throw new NotImplementedException();
         }

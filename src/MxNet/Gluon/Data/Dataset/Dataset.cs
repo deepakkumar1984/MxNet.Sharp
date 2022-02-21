@@ -15,6 +15,7 @@
 ******************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MxNet.Gluon.Data
@@ -53,6 +54,40 @@ namespace MxNet.Gluon.Data
         public Dataset<T> TransformFirst(Block fn, bool lazy = true)
         {
             return Transform(new _TransformFirstClosure(fn), lazy);
+        }
+
+        public virtual _SampledDataset<T> Filter(Func<int, bool> fn)
+        {
+            return new _SampledDataset<T>(this, new FilterSampler<T>(fn, this));
+        }
+
+        public virtual _SampledDataset<T> Shard(int num_shards, int index)
+        {
+            Debug.Assert(index < num_shards, $"Shard index of out bound: {index} out of {num_shards}");
+            Debug.Assert(num_shards > 0, "Number of shards must be greater than 0");
+            Debug.Assert(index >= 0, "Index must be non-negative");
+            var length = this.Length;
+            var shard_len = length / num_shards;
+            var rest = length % num_shards;
+            // Compute the start index for this partition
+            var start = shard_len * index + Math.Min(index, rest);
+            // Compute the end index for this partition
+            var end = start + shard_len + ((index < rest) ? 1 : 0);
+            return new _SampledDataset<T>(this, new SequentialSampler(end - start, start));
+        }
+
+        public virtual _SampledDataset<T> Take(int count)
+        {
+            if (count == null || count > this.Length)
+            {
+                count = this.Length;
+            }
+            return new _SampledDataset<T>(this, new SequentialSampler(count));
+        }
+
+        public virtual _SampledDataset<T> Sample(Sampler<int> sampler)
+        {
+            return new _SampledDataset<T>(this, sampler);
         }
     }
 }
