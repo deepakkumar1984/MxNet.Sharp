@@ -70,7 +70,7 @@ MXNet is more than a deep learning project. It is a collection of blue prints an
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.10.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="NumpyDotNet" Version="0.9.75" />
     <PackageReference Include="Onnx.Net" Version="0.3.1" />
     <PackageReference Include="OpenCvSharp4.Windows" Version="4.5.5.20211231" />
