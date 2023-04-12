@@ -10,7 +10,7 @@ namespace MxNet
     {
         public static T asscalar<T>(this ndarray source)
         {
-            return source.ToArray<T>().FirstOrDefault();
+            return source.asscalar<T>();
         }
 
     }
